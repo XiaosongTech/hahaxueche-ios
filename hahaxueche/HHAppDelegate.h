@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  HHAppDelegate.h
 //  hahaxueche
 //
 //  Created by Zixiao Wang on 7/4/15.
@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface HHAppDelegate : UIResponder <UIApplicationDelegate>
+
+@property (strong, nonatomic) UIWindow *window;
 
 
 @end

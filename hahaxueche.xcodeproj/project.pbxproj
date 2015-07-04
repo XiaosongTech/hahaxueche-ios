@@ -8,12 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		5CC3B6011B48268A00D10DFB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6001B48268A00D10DFB /* main.m */; };
-		5CC3B6041B48268A00D10DFB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6031B48268A00D10DFB /* AppDelegate.m */; };
-		5CC3B6071B48268A00D10DFB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6061B48268A00D10DFB /* ViewController.m */; };
-		5CC3B60A1B48268A00D10DFB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5CC3B6081B48268A00D10DFB /* Main.storyboard */; };
+		5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6031B48268A00D10DFB /* HHAppDelegate.m */; };
 		5CC3B60C1B48268A00D10DFB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CC3B60B1B48268A00D10DFB /* Images.xcassets */; };
 		5CC3B60F1B48268A00D10DFB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CC3B60D1B48268A00D10DFB /* LaunchScreen.xib */; };
 		5CC3B61B1B48268A00D10DFB /* hahaxuecheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B61A1B48268A00D10DFB /* hahaxuecheTests.m */; };
+		5CC3B6261B4827C600D10DFB /* HHTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6251B4827C600D10DFB /* HHTestViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,16 +29,15 @@
 		5CC3B5FB1B48268A00D10DFB /* hahaxueche.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hahaxueche.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CC3B5FF1B48268A00D10DFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CC3B6001B48268A00D10DFB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		5CC3B6021B48268A00D10DFB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		5CC3B6031B48268A00D10DFB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		5CC3B6051B48268A00D10DFB /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		5CC3B6061B48268A00D10DFB /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		5CC3B6091B48268A00D10DFB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5CC3B6021B48268A00D10DFB /* HHAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HHAppDelegate.h; sourceTree = "<group>"; };
+		5CC3B6031B48268A00D10DFB /* HHAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HHAppDelegate.m; sourceTree = "<group>"; };
 		5CC3B60B1B48268A00D10DFB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5CC3B60E1B48268A00D10DFB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		5CC3B6141B48268A00D10DFB /* hahaxuecheTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = hahaxuecheTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CC3B6191B48268A00D10DFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CC3B61A1B48268A00D10DFB /* hahaxuecheTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = hahaxuecheTests.m; sourceTree = "<group>"; };
+		5CC3B6241B4827C600D10DFB /* HHTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTestViewController.h; sourceTree = "<group>"; };
+		5CC3B6251B4827C600D10DFB /* HHTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHTestViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,14 +79,13 @@
 		5CC3B5FD1B48268A00D10DFB /* hahaxueche */ = {
 			isa = PBXGroup;
 			children = (
-				5CC3B6021B48268A00D10DFB /* AppDelegate.h */,
-				5CC3B6031B48268A00D10DFB /* AppDelegate.m */,
-				5CC3B6051B48268A00D10DFB /* ViewController.h */,
-				5CC3B6061B48268A00D10DFB /* ViewController.m */,
-				5CC3B6081B48268A00D10DFB /* Main.storyboard */,
+				5CC3B6021B48268A00D10DFB /* HHAppDelegate.h */,
+				5CC3B6031B48268A00D10DFB /* HHAppDelegate.m */,
 				5CC3B60B1B48268A00D10DFB /* Images.xcassets */,
 				5CC3B60D1B48268A00D10DFB /* LaunchScreen.xib */,
 				5CC3B5FE1B48268A00D10DFB /* Supporting Files */,
+				5CC3B6241B4827C600D10DFB /* HHTestViewController.h */,
+				5CC3B6251B4827C600D10DFB /* HHTestViewController.m */,
 			);
 			path = hahaxueche;
 			sourceTree = "<group>";
@@ -163,6 +160,7 @@
 		5CC3B5F31B48268A00D10DFB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = HH;
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = "Zixiao Wang";
 				TargetAttributes = {
@@ -199,7 +197,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CC3B60A1B48268A00D10DFB /* Main.storyboard in Resources */,
 				5CC3B60F1B48268A00D10DFB /* LaunchScreen.xib in Resources */,
 				5CC3B60C1B48268A00D10DFB /* Images.xcassets in Resources */,
 			);
@@ -219,8 +216,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CC3B6071B48268A00D10DFB /* ViewController.m in Sources */,
-				5CC3B6041B48268A00D10DFB /* AppDelegate.m in Sources */,
+				5CC3B6261B4827C600D10DFB /* HHTestViewController.m in Sources */,
+				5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */,
 				5CC3B6011B48268A00D10DFB /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -244,14 +241,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		5CC3B6081B48268A00D10DFB /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5CC3B6091B48268A00D10DFB /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		5CC3B60D1B48268A00D10DFB /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (

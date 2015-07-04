@@ -1,22 +1,28 @@
 //
-//  AppDelegate.m
+//  HHAppDelegate.m
 //  hahaxueche
 //
 //  Created by Zixiao Wang on 7/4/15.
 //  Copyright (c) 2015 Zixiao Wang. All rights reserved.
 //
 
-#import "AppDelegate.h"
+#import "HHAppDelegate.h"
+#import "HHTestViewController.h"
 
-@interface AppDelegate ()
+@interface HHAppDelegate ()
 
 @end
 
-@implementation AppDelegate
+@implementation HHAppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    HHTestViewController *vc = [[HHTestViewController alloc] init];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    [self.window setRootViewController:vc];
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
