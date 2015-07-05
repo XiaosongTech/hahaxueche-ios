@@ -13,14 +13,9 @@
 		<key>5C10F9231B49618300992B63</key>
 		<dict>
 			<key>children</key>
-			<array>
-				<string>5CC3B6241B4827C600D10DFB</string>
-				<string>5CC3B6251B4827C600D10DFB</string>
-			</array>
+			<array/>
 			<key>isa</key>
 			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Views</string>
 			<key>path</key>
 			<string>Views</string>
 			<key>sourceTree</key>
@@ -32,8 +27,6 @@
 			<array/>
 			<key>isa</key>
 			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Models</string>
 			<key>path</key>
 			<string>Models</string>
 			<key>sourceTree</key>
@@ -45,8 +38,6 @@
 			<array/>
 			<key>isa</key>
 			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Services</string>
 			<key>path</key>
 			<string>Services</string>
 			<key>sourceTree</key>
@@ -55,11 +46,12 @@
 		<key>5C10F9261B49631200992B63</key>
 		<dict>
 			<key>children</key>
-			<array/>
+			<array>
+				<string>5CC3B6241B4827C600D10DFB</string>
+				<string>5CC3B6251B4827C600D10DFB</string>
+			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
-			<key>name</key>
-			<string>View Controllers</string>
 			<key>path</key>
 			<string>View Controllers</string>
 			<key>sourceTree</key>
@@ -275,8 +267,6 @@
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Supporting Files</string>
 			<key>path</key>
 			<string>Supporting Files</string>
 			<key>sourceTree</key>
@@ -477,8 +467,6 @@
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Supporting Files</string>
 			<key>path</key>
 			<string>Supporting Files</string>
 			<key>sourceTree</key>
@@ -801,6 +789,8 @@
 			<string>PBXFileReference</string>
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>HHTestViewController.h</string>
 			<key>path</key>
 			<string>HHTestViewController.h</string>
 			<key>sourceTree</key>
@@ -814,6 +804,8 @@
 			<string>PBXFileReference</string>
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>HHTestViewController.m</string>
 			<key>path</key>
 			<string>HHTestViewController.m</string>
 			<key>sourceTree</key>
