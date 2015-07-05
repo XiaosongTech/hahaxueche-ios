@@ -1,0 +1,451 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		18AE4858901ED7D4F95F3272 /* SLPagingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95EFACB36746FD51CA24AFB5 /* SLPagingViewController.m */; };
+		612FF8B5C90CFE2CFBAFF295 /* UIColor+SLAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FB9431396A791C5F03B7EE /* UIColor+SLAddition.m */; };
+		6BADECCEE12AA09C010ECF9C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33FBE85F41E3B8B6772FBD87 /* Foundation.framework */; };
+		913AD4C2E7274192F4F6F93D /* UIScrollView+UpdateContentSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 735F25B58C6AA691FFFCF84C /* UIScrollView+UpdateContentSize.m */; };
+		9F0C16181704D67E15C59A22 /* Pods-SLPagingView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = EA77B9D1ECB76B76C3F6CCCD /* Pods-SLPagingView-dummy.m */; };
+		D467E1437266B5281BC054F5 /* UIColor+SLAddition.h in Headers */ = {isa = PBXBuildFile; fileRef = 42DF049C9BF23ED35C549F3A /* UIColor+SLAddition.h */; };
+		D54FEC696F84523F0EF73932 /* SLPagingViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3873EAF86454539ACF9031 /* SLPagingViewController.h */; };
+		DAA11D8127F9B85283E28F3B /* Pods-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F144079F4662C8AD8CA707BC /* Pods-dummy.m */; };
+		E42B603F06F61825782E68AE /* ShareResources.h in Headers */ = {isa = PBXBuildFile; fileRef = EED4A776C11E0F7F1A02349E /* ShareResources.h */; };
+		EC6F04DE4BD3C64FF5D56EF6 /* UIScrollView+UpdateContentSize.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C6CBAE68B41241A8F646081 /* UIScrollView+UpdateContentSize.h */; };
+		F8BE2D9DD2910BB49D1E01D3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33FBE85F41E3B8B6772FBD87 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0C43D810FD8B9E1FC05B7A18 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6D848DFE1C9D22EC843CA929 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 863801D6B4BD339713B04605;
+			remoteInfo = "Pods-SLPagingView";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		04FB9431396A791C5F03B7EE /* UIColor+SLAddition.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIColor+SLAddition.m"; path = "SLPagingView/Categories/UIColor+SLAddition.m"; sourceTree = "<group>"; };
+		1B0001E6F1A67314E8BD63CF /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.release.xcconfig; sourceTree = "<group>"; };
+		1EE2A878460017999E26AC46 /* libPods-SLPagingView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SLPagingView.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		33FBE85F41E3B8B6772FBD87 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		42DF049C9BF23ED35C549F3A /* UIColor+SLAddition.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIColor+SLAddition.h"; path = "SLPagingView/Categories/UIColor+SLAddition.h"; sourceTree = "<group>"; };
+		5A3873EAF86454539ACF9031 /* SLPagingViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SLPagingViewController.h; path = SLPagingView/SLPagingViewController.h; sourceTree = "<group>"; };
+		6608505B3EB28A65675610A8 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6C6CBAE68B41241A8F646081 /* UIScrollView+UpdateContentSize.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIScrollView+UpdateContentSize.h"; path = "SLPagingView/Categories/UIScrollView+UpdateContentSize.h"; sourceTree = "<group>"; };
+		735F25B58C6AA691FFFCF84C /* UIScrollView+UpdateContentSize.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIScrollView+UpdateContentSize.m"; path = "SLPagingView/Categories/UIScrollView+UpdateContentSize.m"; sourceTree = "<group>"; };
+		7F0510FC5C67991165DC21C3 /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		957D7149CF9058D684EC38BE /* Pods-SLPagingView.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SLPagingView.xcconfig"; sourceTree = "<group>"; };
+		95EFACB36746FD51CA24AFB5 /* SLPagingViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SLPagingViewController.m; path = SLPagingView/SLPagingViewController.m; sourceTree = "<group>"; };
+		AC00D710C9C5AA959857BB13 /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-acknowledgements.plist"; sourceTree = "<group>"; };
+		BAAC38B793ED83F03E1698CB /* Pods-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-environment.h"; sourceTree = "<group>"; };
+		BE959D90192DC31D8186550A /* Pods-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-resources.sh"; sourceTree = "<group>"; };
+		DC8CA744247F374FFB286A96 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.debug.xcconfig; sourceTree = "<group>"; };
+		EA77B9D1ECB76B76C3F6CCCD /* Pods-SLPagingView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SLPagingView-dummy.m"; sourceTree = "<group>"; };
+		EB5E3CA9D6F91AA38388FAE2 /* Pods-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-acknowledgements.markdown"; sourceTree = "<group>"; };
+		EED4A776C11E0F7F1A02349E /* ShareResources.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ShareResources.h; path = SLPagingView/ShareResources.h; sourceTree = "<group>"; };
+		F0BC2EDA39E3AB4EB9C19EF5 /* Pods-SLPagingView-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SLPagingView-prefix.pch"; sourceTree = "<group>"; };
+		F144079F4662C8AD8CA707BC /* Pods-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-dummy.m"; sourceTree = "<group>"; };
+		FF656A13C460BB8309A18C5C /* Pods-SLPagingView-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SLPagingView-Private.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AA74297CFE310E9DA3B81F17 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6BADECCEE12AA09C010ECF9C /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB2DF47D98C6BF599D6720AB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F8BE2D9DD2910BB49D1E01D3 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0144C3301D98AA9FDD5AFEC5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EB5E3CA9D6F91AA38388FAE2 /* Pods-acknowledgements.markdown */,
+				AC00D710C9C5AA959857BB13 /* Pods-acknowledgements.plist */,
+				F144079F4662C8AD8CA707BC /* Pods-dummy.m */,
+				BAAC38B793ED83F03E1698CB /* Pods-environment.h */,
+				BE959D90192DC31D8186550A /* Pods-resources.sh */,
+				DC8CA744247F374FFB286A96 /* Pods.debug.xcconfig */,
+				1B0001E6F1A67314E8BD63CF /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			path = "Target Support Files/Pods";
+			sourceTree = "<group>";
+		};
+		121AADD4D0551FB0ADB28702 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				403E16103A17B2416525E14F /* SLPagingView */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		144D8DA150C107AEE9836513 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				0144C3301D98AA9FDD5AFEC5 /* Pods */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		254D85F98F94BB88A2D2B90E = {
+			isa = PBXGroup;
+			children = (
+				7F0510FC5C67991165DC21C3 /* Podfile */,
+				E1F4DFF928FFED469D1CF0B3 /* Frameworks */,
+				121AADD4D0551FB0ADB28702 /* Pods */,
+				5B8A4AEF8CE57B294E25EA62 /* Products */,
+				144D8DA150C107AEE9836513 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		403E16103A17B2416525E14F /* SLPagingView */ = {
+			isa = PBXGroup;
+			children = (
+				5A3873EAF86454539ACF9031 /* SLPagingViewController.h */,
+				95EFACB36746FD51CA24AFB5 /* SLPagingViewController.m */,
+				EED4A776C11E0F7F1A02349E /* ShareResources.h */,
+				42DF049C9BF23ED35C549F3A /* UIColor+SLAddition.h */,
+				04FB9431396A791C5F03B7EE /* UIColor+SLAddition.m */,
+				6C6CBAE68B41241A8F646081 /* UIScrollView+UpdateContentSize.h */,
+				735F25B58C6AA691FFFCF84C /* UIScrollView+UpdateContentSize.m */,
+				FD0C10AE701D9621035D9921 /* Support Files */,
+			);
+			path = SLPagingView;
+			sourceTree = "<group>";
+		};
+		40756D37D45E3C2BBB1958F2 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				33FBE85F41E3B8B6772FBD87 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		5B8A4AEF8CE57B294E25EA62 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6608505B3EB28A65675610A8 /* libPods.a */,
+				1EE2A878460017999E26AC46 /* libPods-SLPagingView.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E1F4DFF928FFED469D1CF0B3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				40756D37D45E3C2BBB1958F2 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FD0C10AE701D9621035D9921 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				957D7149CF9058D684EC38BE /* Pods-SLPagingView.xcconfig */,
+				FF656A13C460BB8309A18C5C /* Pods-SLPagingView-Private.xcconfig */,
+				EA77B9D1ECB76B76C3F6CCCD /* Pods-SLPagingView-dummy.m */,
+				F0BC2EDA39E3AB4EB9C19EF5 /* Pods-SLPagingView-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-SLPagingView";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		4CE241A9243DDDD11D2F6651 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D54FEC696F84523F0EF73932 /* SLPagingViewController.h in Headers */,
+				E42B603F06F61825782E68AE /* ShareResources.h in Headers */,
+				D467E1437266B5281BC054F5 /* UIColor+SLAddition.h in Headers */,
+				EC6F04DE4BD3C64FF5D56EF6 /* UIScrollView+UpdateContentSize.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		863801D6B4BD339713B04605 /* Pods-SLPagingView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6CD68BAB753234EBF2EAA609 /* Build configuration list for PBXNativeTarget "Pods-SLPagingView" */;
+			buildPhases = (
+				556322241B0C56381EAD9512 /* Sources */,
+				AB2DF47D98C6BF599D6720AB /* Frameworks */,
+				4CE241A9243DDDD11D2F6651 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-SLPagingView";
+			productName = "Pods-SLPagingView";
+			productReference = 1EE2A878460017999E26AC46 /* libPods-SLPagingView.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		A9763F3CE0E73F053D9F4F5C /* Pods */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC3659861C38BBCA3453857D /* Build configuration list for PBXNativeTarget "Pods" */;
+			buildPhases = (
+				E419D7C9C7CF95F746EFA7A4 /* Sources */,
+				AA74297CFE310E9DA3B81F17 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				10E4690D813AE5A10606CC15 /* PBXTargetDependency */,
+			);
+			name = Pods;
+			productName = Pods;
+			productReference = 6608505B3EB28A65675610A8 /* libPods.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6D848DFE1C9D22EC843CA929 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+			};
+			buildConfigurationList = C8A7487A295D762C3DB5AEC1 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 254D85F98F94BB88A2D2B90E;
+			productRefGroup = 5B8A4AEF8CE57B294E25EA62 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A9763F3CE0E73F053D9F4F5C /* Pods */,
+				863801D6B4BD339713B04605 /* Pods-SLPagingView */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		556322241B0C56381EAD9512 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F0C16181704D67E15C59A22 /* Pods-SLPagingView-dummy.m in Sources */,
+				18AE4858901ED7D4F95F3272 /* SLPagingViewController.m in Sources */,
+				612FF8B5C90CFE2CFBAFF295 /* UIColor+SLAddition.m in Sources */,
+				913AD4C2E7274192F4F6F93D /* UIScrollView+UpdateContentSize.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E419D7C9C7CF95F746EFA7A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAA11D8127F9B85283E28F3B /* Pods-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		10E4690D813AE5A10606CC15 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-SLPagingView";
+			target = 863801D6B4BD339713B04605 /* Pods-SLPagingView */;
+			targetProxy = 0C43D810FD8B9E1FC05B7A18 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		09AD4EECAC4503E2DE0EE3A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FF656A13C460BB8309A18C5C /* Pods-SLPagingView-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-SLPagingView/Pods-SLPagingView-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		337AA05B1553071B38B71099 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B0001E6F1A67314E8BD63CF /* Pods.release.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		4CC5121FF60A57DE22F90904 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		68DDA9ED0A462B17D69D0276 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DC8CA744247F374FFB286A96 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		7A7EED7A0DEB48C1158DC489 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FF656A13C460BB8309A18C5C /* Pods-SLPagingView-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-SLPagingView/Pods-SLPagingView-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		A50B964F9FDAB769CDF99020 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6CD68BAB753234EBF2EAA609 /* Build configuration list for PBXNativeTarget "Pods-SLPagingView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7A7EED7A0DEB48C1158DC489 /* Debug */,
+				09AD4EECAC4503E2DE0EE3A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C8A7487A295D762C3DB5AEC1 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4CC5121FF60A57DE22F90904 /* Debug */,
+				A50B964F9FDAB769CDF99020 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EC3659861C38BBCA3453857D /* Build configuration list for PBXNativeTarget "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				68DDA9ED0A462B17D69D0276 /* Debug */,
+				337AA05B1553071B38B71099 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6D848DFE1C9D22EC843CA929 /* Project object */;
+}
