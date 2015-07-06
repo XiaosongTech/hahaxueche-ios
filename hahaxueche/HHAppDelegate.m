@@ -73,34 +73,11 @@
 
     pageViewController.navigationSideItemsStyle = SLNavigationSideItemsStyleOnBounds;
     [pageViewController setNavigationBarColor:[UIColor clearColor]];
-    float minX = 45.0;
+    
+    pageViewController.didChangedPage = ^(NSInteger currenPage) {
 
-    pageViewController.pagingViewMoving = ^(NSArray *subviews){
-        float mid  = [UIScreen mainScreen].bounds.size.width/2 - minX;
-        float midM = [UIScreen mainScreen].bounds.size.width - minX;
-        for(UIImageView *v in subviews){
-            UIColor *c = [UIColor HHOrange];
-            if(v.frame.origin.x > minX
-               && v.frame.origin.x < mid)
-                // Left part
-                c = [UIColor gradient:v.frame.origin.x
-                                  top:minX+1
-                               bottom:mid-1
-                                 init:[UIColor HHOrange]
-                                 goal:[UIColor HHOrange]];
-            else if(v.frame.origin.x > mid
-                    && v.frame.origin.x < midM)
-                // Right part
-                c = [UIColor gradient:v.frame.origin.x
-                                  top:mid+1
-                               bottom:midM-1
-                                 init:[UIColor HHOrange]
-                                 goal:[UIColor HHOrange]];
-            else if(v.frame.origin.x == mid)
-                c = [UIColor HHOrange];
-            v.tintColor= c;
-        }
     };
+    
     HHNavigationController *navVC = [[HHNavigationController alloc] initWithRootViewController:pageViewController];
     [self.window setRootViewController:navVC];
 }

@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5C10F92A1B49E77100992B63 /* HHCoachListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C10F9291B49E77100992B63 /* HHCoachListViewController.m */; };
 		5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */; };
 		5C10F94A1B49F22800992B63 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C10F9481B49F22800992B63 /* profile.png */; };
 		5C10F94B1B49F22800992B63 /* profile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C10F9491B49F22800992B63 /* profile@2x.png */; };
 		5C10F9511B49F45200992B63 /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5C10F9501B49F45200992B63 /* bg.jpg */; };
-		5C10F9541B4A0F3C00992B63 /* HHNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C10F9531B4A0F3C00992B63 /* HHNavigationController.m */; };
+		5C3980701B4AAD450057B049 /* HHCoachListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C39806D1B4AAD450057B049 /* HHCoachListViewController.m */; };
+		5C3980711B4AAD450057B049 /* HHNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C39806F1B4AAD450057B049 /* HHNavigationController.m */; };
+		5C3980731B4AAE280057B049 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C3980721B4AAE280057B049 /* location.png */; };
 		5CC3B6011B48268A00D10DFB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6001B48268A00D10DFB /* main.m */; };
 		5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6031B48268A00D10DFB /* HHAppDelegate.m */; };
 		5CC3B60C1B48268A00D10DFB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CC3B60B1B48268A00D10DFB /* Images.xcassets */; };
@@ -31,15 +32,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5C10F9281B49E77100992B63 /* HHCoachListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHCoachListViewController.h; path = ../../../HHCoachListViewController.h; sourceTree = "<group>"; };
-		5C10F9291B49E77100992B63 /* HHCoachListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHCoachListViewController.m; path = ../../../HHCoachListViewController.m; sourceTree = "<group>"; };
 		5C10F92C1B49E85200992B63 /* UIColor+HHColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HHColor.h"; sourceTree = "<group>"; };
 		5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HHColor.m"; sourceTree = "<group>"; };
 		5C10F9481B49F22800992B63 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
 		5C10F9491B49F22800992B63 /* profile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile@2x.png"; sourceTree = "<group>"; };
 		5C10F9501B49F45200992B63 /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
-		5C10F9521B4A0F3C00992B63 /* HHNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHNavigationController.h; path = ../../../HHNavigationController.h; sourceTree = "<group>"; };
-		5C10F9531B4A0F3C00992B63 /* HHNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHNavigationController.m; path = ../../../HHNavigationController.m; sourceTree = "<group>"; };
+		5C39806C1B4AAD450057B049 /* HHCoachListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHCoachListViewController.h; path = hahaxueche/HHCoachListViewController.h; sourceTree = SOURCE_ROOT; };
+		5C39806D1B4AAD450057B049 /* HHCoachListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHCoachListViewController.m; path = hahaxueche/HHCoachListViewController.m; sourceTree = SOURCE_ROOT; };
+		5C39806E1B4AAD450057B049 /* HHNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHNavigationController.h; path = hahaxueche/HHNavigationController.h; sourceTree = SOURCE_ROOT; };
+		5C39806F1B4AAD450057B049 /* HHNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHNavigationController.m; path = hahaxueche/HHNavigationController.m; sourceTree = SOURCE_ROOT; };
+		5C3980721B4AAE280057B049 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		5CC3B5FB1B48268A00D10DFB /* hahaxueche.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hahaxueche.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CC3B5FF1B48268A00D10DFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CC3B6001B48268A00D10DFB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -97,10 +99,10 @@
 		5C10F9261B49631200992B63 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				5C10F9281B49E77100992B63 /* HHCoachListViewController.h */,
-				5C10F9291B49E77100992B63 /* HHCoachListViewController.m */,
-				5C10F9521B4A0F3C00992B63 /* HHNavigationController.h */,
-				5C10F9531B4A0F3C00992B63 /* HHNavigationController.m */,
+				5C39806C1B4AAD450057B049 /* HHCoachListViewController.h */,
+				5C39806D1B4AAD450057B049 /* HHCoachListViewController.m */,
+				5C39806E1B4AAD450057B049 /* HHNavigationController.h */,
+				5C39806F1B4AAD450057B049 /* HHNavigationController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -108,6 +110,7 @@
 		5C10F9271B49E6F100992B63 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5C3980721B4AAE280057B049 /* location.png */,
 				5C10F9501B49F45200992B63 /* bg.jpg */,
 				5C10F9481B49F22800992B63 /* profile.png */,
 				5C10F9491B49F22800992B63 /* profile@2x.png */,
@@ -297,6 +300,7 @@
 			files = (
 				5CC3B60C1B48268A00D10DFB /* Images.xcassets in Resources */,
 				5C10F94A1B49F22800992B63 /* profile.png in Resources */,
+				5C3980731B4AAE280057B049 /* location.png in Resources */,
 				5C10F9511B49F45200992B63 /* bg.jpg in Resources */,
 				5C10F94B1B49F22800992B63 /* profile@2x.png in Resources */,
 			);
@@ -349,11 +353,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C10F9541B4A0F3C00992B63 /* HHNavigationController.m in Sources */,
+				5C3980711B4AAD450057B049 /* HHNavigationController.m in Sources */,
 				5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */,
 				5CC3B6011B48268A00D10DFB /* main.m in Sources */,
-				5C10F92A1B49E77100992B63 /* HHCoachListViewController.m in Sources */,
 				5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */,
+				5C3980701B4AAD450057B049 /* HHCoachListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

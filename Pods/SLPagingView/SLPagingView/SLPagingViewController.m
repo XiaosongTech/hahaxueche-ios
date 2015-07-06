@@ -12,8 +12,8 @@
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIPageControl *pageControl;
-@property (nonatomic, strong) NSMutableArray *navItemsViews;
 @property (nonatomic, strong) NSMutableArray *controllerReferences;
+@property (nonatomic, strong) NSMutableArray *navItemsViews;
 @property (nonatomic) BOOL needToShowPageControl;
 @property (nonatomic) BOOL isUserInteraction;
 @property (nonatomic) NSInteger indexSelected;
