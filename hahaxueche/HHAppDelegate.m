@@ -12,6 +12,8 @@
 #import "UIColor+HHColor.h"
 #import "UIColor+SLAddition.h"
 #import "HHNavigationController.h"
+#import "UIView+HHRect.h"
+#import "HHBookViewController.h"
 
 @interface HHAppDelegate ()
 
@@ -59,13 +61,20 @@
     UIImage *coachListImage = [UIImage imageNamed:@"profile"];
     
     UIImageView *coachListView = [[UIImageView alloc] initWithImage:coachListImage];
+    coachListView.contentMode = UIViewContentModeScaleAspectFit;
+    
     UIImageView *reservationView = [[UIImageView alloc] initWithImage:coachListImage];
+    reservationView.contentMode = UIViewContentModeScaleAspectFit;
+    
     UIImageView *bookView = [[UIImageView alloc] initWithImage:coachListImage];
+    bookView.contentMode = UIViewContentModeScaleAspectFit;
+    
+
     NSArray *barItems = @[coachListView, reservationView, bookView];
     
     NSArray *controllers = @[
                              [[HHCoachListViewController alloc] init],
-                             [[HHCoachListViewController alloc] init],
+                             [[HHBookViewController alloc] init],
                              [[HHCoachListViewController alloc] init]];
     
     SLPagingViewController *pageViewController  =  [[SLPagingViewController alloc] initWithNavBarItems:barItems controllers:controllers showPageControl:NO];
@@ -73,10 +82,32 @@
 
     pageViewController.navigationSideItemsStyle = SLNavigationSideItemsStyleOnBounds;
     [pageViewController setNavigationBarColor:[UIColor clearColor]];
+    __weak SLPagingViewController *weakVC = pageViewController;
     
-    pageViewController.didChangedPage = ^(NSInteger currenPage) {
-
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.text = @"哈哈学车";
+    titleLabel.font = [UIFont boldSystemFontOfSize:20.0f];
+    [titleLabel sizeToFit];
+    
+    
+    pageViewController.pagingViewMoving = ^(NSArray *subviews) {
+        [titleLabel removeFromSuperview];
     };
+    pageViewController.didChangedPage = ^(NSInteger currentPageIndex) {
+        int i = 0;
+        for(UIImageView *v in barItems) {
+            v.image = coachListImage;
+            if(i == currentPageIndex) {
+                v.image = [UIImage imageNamed:nil];
+                [titleLabel sizeToFit];
+                [weakVC.navigationBarView addSubview:titleLabel];
+                titleLabel.center = weakVC.navigationBarView.center;
+            }
+            i++;
+        }
+    };
+
     
     HHNavigationController *navVC = [[HHNavigationController alloc] initWithRootViewController:pageViewController];
     [self.window setRootViewController:navVC];

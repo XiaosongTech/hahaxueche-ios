@@ -28,6 +28,7 @@ typedef void(^SLPagingViewDidChanged)(NSInteger currentPage);
 
 @interface SLPagingViewController : UIViewController
 
+
 /*
 * The view containing the nav bar menu selection views
 */
