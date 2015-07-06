@@ -7,7 +7,11 @@
 //
 
 #import "HHAppDelegate.h"
-#import "HHTestViewController.h"
+#import "SLPagingViewController.h"
+#import "HHCoachListViewController.h"
+#import "UIColor+HHColor.h"
+#import "UIColor+SLAddition.h"
+#import "HHNavigationController.h"
 
 @interface HHAppDelegate ()
 
@@ -18,11 +22,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    HHTestViewController *vc = [[HHTestViewController alloc] init];
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
-    [self.window setRootViewController:vc];
+    [self initPageViewController];
+    [self.window setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg.jpg"]]];
     [self.window makeKeyAndVisible];
+    [self setWindow:self.window];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent]; 
     return YES;
 }
 
@@ -46,6 +50,59 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+
+- (void)initPageViewController {
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    UIImage *coachListImage = [UIImage imageNamed:@"profile"];
+    
+    UIImageView *coachListView = [[UIImageView alloc] initWithImage:coachListImage];
+    UIImageView *reservationView = [[UIImageView alloc] initWithImage:coachListImage];
+    UIImageView *bookView = [[UIImageView alloc] initWithImage:coachListImage];
+    NSArray *barItems = @[coachListView, reservationView, bookView];
+    
+    NSArray *controllers = @[
+                             [[HHCoachListViewController alloc] init],
+                             [[HHCoachListViewController alloc] init],
+                             [[HHCoachListViewController alloc] init]];
+    
+    SLPagingViewController *pageViewController  =  [[SLPagingViewController alloc] initWithNavBarItems:barItems controllers:controllers showPageControl:NO];
+
+
+    pageViewController.navigationSideItemsStyle = SLNavigationSideItemsStyleOnBounds;
+    [pageViewController setNavigationBarColor:[UIColor clearColor]];
+    float minX = 45.0;
+
+    pageViewController.pagingViewMoving = ^(NSArray *subviews){
+        float mid  = [UIScreen mainScreen].bounds.size.width/2 - minX;
+        float midM = [UIScreen mainScreen].bounds.size.width - minX;
+        for(UIImageView *v in subviews){
+            UIColor *c = [UIColor HHOrange];
+            if(v.frame.origin.x > minX
+               && v.frame.origin.x < mid)
+                // Left part
+                c = [UIColor gradient:v.frame.origin.x
+                                  top:minX+1
+                               bottom:mid-1
+                                 init:[UIColor HHOrange]
+                                 goal:[UIColor HHOrange]];
+            else if(v.frame.origin.x > mid
+                    && v.frame.origin.x < midM)
+                // Right part
+                c = [UIColor gradient:v.frame.origin.x
+                                  top:mid+1
+                               bottom:midM-1
+                                 init:[UIColor HHOrange]
+                                 goal:[UIColor HHOrange]];
+            else if(v.frame.origin.x == mid)
+                c = [UIColor HHOrange];
+            v.tintColor= c;
+        }
+    };
+    HHNavigationController *navVC = [[HHNavigationController alloc] initWithRootViewController:pageViewController];
+    [self.window setRootViewController:navVC];
 }
 
 @end
