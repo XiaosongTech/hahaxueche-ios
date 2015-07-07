@@ -7,13 +7,9 @@
 //
 
 #import "HHAppDelegate.h"
-#import "SLPagingViewController.h"
-#import "HHCoachListViewController.h"
-#import "UIColor+HHColor.h"
-#import "UIColor+SLAddition.h"
+#import "HHRootPagingViewController.h"
 #import "HHNavigationController.h"
-#import "UIView+HHRect.h"
-#import "HHBookViewController.h"
+
 
 @interface HHAppDelegate ()
 
@@ -24,7 +20,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [self initPageViewController];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    HHRootPagingViewController *rootPagingView = [[HHRootPagingViewController alloc] init];
+    HHNavigationController *navVC = [[HHNavigationController alloc] initWithRootViewController:rootPagingView];
+    [self.window setRootViewController:navVC];
     [self.window setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg.jpg"]]];
     [self.window makeKeyAndVisible];
     [self setWindow:self.window];
@@ -54,63 +53,5 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-
-- (void)initPageViewController {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
-    UIImage *coachListImage = [UIImage imageNamed:@"profile"];
-    
-    UIImageView *coachListView = [[UIImageView alloc] initWithImage:coachListImage];
-    coachListView.contentMode = UIViewContentModeScaleAspectFit;
-    
-    UIImageView *reservationView = [[UIImageView alloc] initWithImage:coachListImage];
-    reservationView.contentMode = UIViewContentModeScaleAspectFit;
-    
-    UIImageView *bookView = [[UIImageView alloc] initWithImage:coachListImage];
-    bookView.contentMode = UIViewContentModeScaleAspectFit;
-    
-
-    NSArray *barItems = @[coachListView, reservationView, bookView];
-    
-    NSArray *controllers = @[
-                             [[HHCoachListViewController alloc] init],
-                             [[HHBookViewController alloc] init],
-                             [[HHCoachListViewController alloc] init]];
-    
-    SLPagingViewController *pageViewController  =  [[SLPagingViewController alloc] initWithNavBarItems:barItems controllers:controllers showPageControl:NO];
-
-
-    pageViewController.navigationSideItemsStyle = SLNavigationSideItemsStyleOnBounds;
-    [pageViewController setNavigationBarColor:[UIColor clearColor]];
-    __weak SLPagingViewController *weakVC = pageViewController;
-    
-    UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.textColor = [UIColor whiteColor];
-    titleLabel.text = @"哈哈学车";
-    titleLabel.font = [UIFont boldSystemFontOfSize:20.0f];
-    [titleLabel sizeToFit];
-    
-    
-    pageViewController.pagingViewMoving = ^(NSArray *subviews) {
-        [titleLabel removeFromSuperview];
-    };
-    pageViewController.didChangedPage = ^(NSInteger currentPageIndex) {
-        int i = 0;
-        for(UIImageView *v in barItems) {
-            v.image = coachListImage;
-            if(i == currentPageIndex) {
-                v.image = [UIImage imageNamed:nil];
-                [titleLabel sizeToFit];
-                [weakVC.navigationBarView addSubview:titleLabel];
-                titleLabel.center = weakVC.navigationBarView.center;
-            }
-            i++;
-        }
-    };
-
-    
-    HHNavigationController *navVC = [[HHNavigationController alloc] initWithRootViewController:pageViewController];
-    [self.window setRootViewController:navVC];
-}
 
 @end

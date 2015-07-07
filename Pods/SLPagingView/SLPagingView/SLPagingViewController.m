@@ -347,7 +347,7 @@
     CGFloat distance = (SCREEN_SIZE.width/2) - self.navigationSideItemsStyle;
     CGSize vSize = ([v isKindOfClass:[UILabel class]])? [self getLabelSize:(UILabel*)v] : v.frame.size;
     CGFloat originX = (SCREEN_SIZE.width/2 - vSize.width/2) + self.navItemsViews.count*distance;
-    v.frame = (CGRect){originX, 8, vSize.width, vSize.height};
+    v.frame = (CGRect){originX, 0, vSize.width, vSize.height};
     v.tag = tag;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                           action:@selector(tapOnHeader:)];
