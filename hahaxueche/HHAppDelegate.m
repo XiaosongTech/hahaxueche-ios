@@ -26,12 +26,8 @@
     [self.window setRootViewController:rootVC];
     [self.window setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg.jpg"]]];
     [self.window makeKeyAndVisible];
+    [self setAppearance];
     [self setWindow:self.window];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    [[UITabBar appearance] setTintColor:[UIColor HHOrange]];
-    [[UITabBar appearance] setBarTintColor:[UIColor clearColor]];
-    [[UITabBar appearance] setBackgroundImage:[UIImage new]];
     return YES;
 }
 
@@ -57,5 +53,13 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-
+- (void)setAppearance {
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    [[UITabBar appearance] setTintColor:[UIColor HHOrange]];
+    [[UITabBar appearance] setBarTintColor:[UIColor clearColor]];
+    [[UITabBar appearance] setBackgroundImage:[UIImage new]];
+    [[UITabBar appearance] setTranslucent:YES];
+    [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:10]} forState:UIControlStateNormal];
+}
 @end

@@ -52,7 +52,7 @@
     UITabBarItem *bookItem = [[UITabBarItem alloc] init];
     bookItem.image = [[UIImage imageNamed:@"profile"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     bookItem.selectedImage = [[UIImage imageNamed:@"profile"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    bookItem.title = NSLocalizedString(@"主页", nil);
+    bookItem.title = NSLocalizedString(@"预约时间", nil);
     bookNavVC.tabBarItem = bookItem;
     
     HHMyReservationViewController *myReservationVC = [[HHMyReservationViewController alloc] init];
@@ -60,12 +60,11 @@
     UITabBarItem *myReservationItem = [[UITabBarItem alloc] init];
     myReservationItem.image = [[UIImage imageNamed:@"profile"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     myReservationItem.selectedImage = [[UIImage imageNamed:@"profile"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    myReservationItem.title = NSLocalizedString(@"主页", nil);
+    myReservationItem.title = NSLocalizedString(@"我的预约", nil);
     myReservationNavVC.tabBarItem = myReservationItem;
     
     NSArray *viewControllers = @[HomePageNavVC, coachListeNavVC, bookNavVC, myReservationNavVC];
     self.viewControllers = viewControllers;
-    [[UITabBarItem appearance] setTitleTextAttributes:@{[UIFont boldSystemFontOfSize:10.0f]: NSFontAttributeName} forState:UIControlStateNormal];
 
 }
 

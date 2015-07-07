@@ -21,6 +21,13 @@
 		5C3980951B4C1A180057B049 /* HHHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C3980941B4C1A180057B049 /* HHHomePageViewController.m */; };
 		5C3980981B4C1A2A0057B049 /* HHMyReservationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C3980971B4C1A2A0057B049 /* HHMyReservationViewController.m */; };
 		5C39809B1B4C22610057B049 /* HHBarButtonItemUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C39809A1B4C22610057B049 /* HHBarButtonItemUtility.m */; };
+		5C3980A41B4C3E5E0057B049 /* SourceHanSansSC-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5C39809D1B4C3D7E0057B049 /* SourceHanSansSC-Bold.otf */; };
+		5C3980A51B4C3E5E0057B049 /* SourceHanSansSC-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5C39809E1B4C3D7E0057B049 /* SourceHanSansSC-ExtraLight.otf */; };
+		5C3980A61B4C3E5E0057B049 /* SourceHanSansSC-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5C39809F1B4C3D7E0057B049 /* SourceHanSansSC-Heavy.otf */; };
+		5C3980A71B4C3E5E0057B049 /* SourceHanSansSC-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5C3980A01B4C3D7E0057B049 /* SourceHanSansSC-Light.otf */; };
+		5C3980A81B4C3E5E0057B049 /* SourceHanSansSC-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5C3980A11B4C3D7E0057B049 /* SourceHanSansSC-Medium.otf */; };
+		5C3980A91B4C3E5E0057B049 /* SourceHanSansSC-Normal.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5C3980A21B4C3D7E0057B049 /* SourceHanSansSC-Normal.otf */; };
+		5C3980AA1B4C3E5E0057B049 /* SourceHanSansSC-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5C3980A31B4C3D7E0057B049 /* SourceHanSansSC-Regular.otf */; };
 		5CC3B6011B48268A00D10DFB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6001B48268A00D10DFB /* main.m */; };
 		5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6031B48268A00D10DFB /* HHAppDelegate.m */; };
 		5CC3B60C1B48268A00D10DFB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CC3B60B1B48268A00D10DFB /* Images.xcassets */; };
@@ -63,6 +70,13 @@
 		5C3980971B4C1A2A0057B049 /* HHMyReservationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyReservationViewController.m; sourceTree = "<group>"; };
 		5C3980991B4C22610057B049 /* HHBarButtonItemUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHBarButtonItemUtility.h; sourceTree = "<group>"; };
 		5C39809A1B4C22610057B049 /* HHBarButtonItemUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHBarButtonItemUtility.m; sourceTree = "<group>"; };
+		5C39809D1B4C3D7E0057B049 /* SourceHanSansSC-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSansSC-Bold.otf"; sourceTree = "<group>"; };
+		5C39809E1B4C3D7E0057B049 /* SourceHanSansSC-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSansSC-ExtraLight.otf"; sourceTree = "<group>"; };
+		5C39809F1B4C3D7E0057B049 /* SourceHanSansSC-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSansSC-Heavy.otf"; sourceTree = "<group>"; };
+		5C3980A01B4C3D7E0057B049 /* SourceHanSansSC-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSansSC-Light.otf"; sourceTree = "<group>"; };
+		5C3980A11B4C3D7E0057B049 /* SourceHanSansSC-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSansSC-Medium.otf"; sourceTree = "<group>"; };
+		5C3980A21B4C3D7E0057B049 /* SourceHanSansSC-Normal.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSansSC-Normal.otf"; sourceTree = "<group>"; };
+		5C3980A31B4C3D7E0057B049 /* SourceHanSansSC-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSansSC-Regular.otf"; sourceTree = "<group>"; };
 		5CC3B5FB1B48268A00D10DFB /* hahaxueche.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hahaxueche.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CC3B5FF1B48268A00D10DFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CC3B6001B48268A00D10DFB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -177,6 +191,13 @@
 			name = "Root View Controllers";
 			sourceTree = "<group>";
 		};
+		5C39809C1B4C3D5B0057B049 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
 		5CC3B5F21B48268A00D10DFB = {
 			isa = PBXGroup;
 			children = (
@@ -218,7 +239,15 @@
 		5CC3B5FE1B48268A00D10DFB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5C39809C1B4C3D5B0057B049 /* Fonts */,
 				5CC3B5FF1B48268A00D10DFB /* Info.plist */,
+				5C39809D1B4C3D7E0057B049 /* SourceHanSansSC-Bold.otf */,
+				5C39809E1B4C3D7E0057B049 /* SourceHanSansSC-ExtraLight.otf */,
+				5C39809F1B4C3D7E0057B049 /* SourceHanSansSC-Heavy.otf */,
+				5C3980A01B4C3D7E0057B049 /* SourceHanSansSC-Light.otf */,
+				5C3980A11B4C3D7E0057B049 /* SourceHanSansSC-Medium.otf */,
+				5C3980A21B4C3D7E0057B049 /* SourceHanSansSC-Normal.otf */,
+				5C3980A31B4C3D7E0057B049 /* SourceHanSansSC-Regular.otf */,
 				5CC3B6001B48268A00D10DFB /* main.m */,
 			);
 			path = "Supporting Files";
@@ -341,6 +370,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C3980A41B4C3E5E0057B049 /* SourceHanSansSC-Bold.otf in Resources */,
+				5C3980A51B4C3E5E0057B049 /* SourceHanSansSC-ExtraLight.otf in Resources */,
+				5C3980A61B4C3E5E0057B049 /* SourceHanSansSC-Heavy.otf in Resources */,
+				5C3980A71B4C3E5E0057B049 /* SourceHanSansSC-Light.otf in Resources */,
+				5C3980A81B4C3E5E0057B049 /* SourceHanSansSC-Medium.otf in Resources */,
+				5C3980A91B4C3E5E0057B049 /* SourceHanSansSC-Normal.otf in Resources */,
+				5C3980AA1B4C3E5E0057B049 /* SourceHanSansSC-Regular.otf in Resources */,
 				5C3980821B4AD3B30057B049 /* ms.png in Resources */,
 				5C3980801B4ACFC70057B049 /* location.png in Resources */,
 				5CC3B60C1B48268A00D10DFB /* Images.xcassets in Resources */,
