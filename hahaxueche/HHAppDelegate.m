@@ -7,8 +7,9 @@
 //
 
 #import "HHAppDelegate.h"
-#import "HHRootPagingViewController.h"
 #import "HHNavigationController.h"
+#import "HHRootViewController.h"
+#import "UIColor+HHColor.h"
 
 
 @interface HHAppDelegate ()
@@ -21,13 +22,16 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    HHRootPagingViewController *rootPagingView = [[HHRootPagingViewController alloc] init];
-    HHNavigationController *navVC = [[HHNavigationController alloc] initWithRootViewController:rootPagingView];
-    [self.window setRootViewController:navVC];
+    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+    [self.window setRootViewController:rootVC];
     [self.window setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg.jpg"]]];
     [self.window makeKeyAndVisible];
     [self setWindow:self.window];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent]; 
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    [[UITabBar appearance] setTintColor:[UIColor HHOrange]];
+    [[UITabBar appearance] setBarTintColor:[UIColor clearColor]];
+    [[UITabBar appearance] setBackgroundImage:[UIImage new]];
     return YES;
 }
 

@@ -13,7 +13,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        [self setNavBarTranslucent];
+        [self setupVC];
     }
     return self;
 }
@@ -21,12 +21,12 @@
 - (instancetype)initWithRootViewController:(UIViewController *)rootViewController {
     self = [super initWithRootViewController:rootViewController];
     if (self) {
-        [self setNavBarTranslucent];
+        [self setupVC];
     }
     return self;
 }
 
-- (void)setNavBarTranslucent {
+- (void)setupVC {
     [self.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     self.navigationBar.shadowImage = [UIImage new];
     self.navigationBar.translucent = YES;

@@ -7,310 +7,290 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		18AE4858901ED7D4F95F3272 /* SLPagingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95EFACB36746FD51CA24AFB5 /* SLPagingViewController.m */; };
-		612FF8B5C90CFE2CFBAFF295 /* UIColor+SLAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FB9431396A791C5F03B7EE /* UIColor+SLAddition.m */; };
-		6BADECCEE12AA09C010ECF9C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33FBE85F41E3B8B6772FBD87 /* Foundation.framework */; };
-		913AD4C2E7274192F4F6F93D /* UIScrollView+UpdateContentSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 735F25B58C6AA691FFFCF84C /* UIScrollView+UpdateContentSize.m */; };
-		9F0C16181704D67E15C59A22 /* Pods-SLPagingView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = EA77B9D1ECB76B76C3F6CCCD /* Pods-SLPagingView-dummy.m */; };
-		D467E1437266B5281BC054F5 /* UIColor+SLAddition.h in Headers */ = {isa = PBXBuildFile; fileRef = 42DF049C9BF23ED35C549F3A /* UIColor+SLAddition.h */; };
-		D54FEC696F84523F0EF73932 /* SLPagingViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A3873EAF86454539ACF9031 /* SLPagingViewController.h */; };
-		DAA11D8127F9B85283E28F3B /* Pods-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F144079F4662C8AD8CA707BC /* Pods-dummy.m */; };
-		E42B603F06F61825782E68AE /* ShareResources.h in Headers */ = {isa = PBXBuildFile; fileRef = EED4A776C11E0F7F1A02349E /* ShareResources.h */; };
-		EC6F04DE4BD3C64FF5D56EF6 /* UIScrollView+UpdateContentSize.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C6CBAE68B41241A8F646081 /* UIScrollView+UpdateContentSize.h */; };
-		F8BE2D9DD2910BB49D1E01D3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33FBE85F41E3B8B6772FBD87 /* Foundation.framework */; };
+		0F10C064F042B7BCDD8046CC /* VALSynchronizableValet.m in Sources */ = {isa = PBXBuildFile; fileRef = FB26B564313023B30A66B10C /* VALSynchronizableValet.m */; };
+		2625C7F7A32BA97371299DCF /* VALValet_Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = AE5D88A7A05A2FA234D04CD1 /* VALValet_Protected.h */; };
+		2F6EB221F432A63AD537C952 /* VALSynchronizableValet.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E20CE109A159BB378EB6B91 /* VALSynchronizableValet.h */; };
+		4CD995D768FC7E6BFC69EC19 /* VALValet.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D452D98DB6C2F52042F4FF /* VALValet.m */; };
+		58829D8ED2566986E23E14D0 /* Pods-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 50EED51B2A591D8EB8F586B5 /* Pods-dummy.m */; };
+		5CAA2ED64319695BF9D1C54F /* VALSecureEnclaveValet.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B94A466193F5DCFA9724E4 /* VALSecureEnclaveValet.m */; };
+		5CADF47509B135D842E0D53F /* ValetDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 4E2BCF4F3CA669E28A390C32 /* ValetDefines.h */; };
+		673F76C2B46D8394AA116406 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86B09604771D9FAE61A79AF9 /* Foundation.framework */; };
+		6EA1CE3BF98F9B58D330ECDF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57FDE4CD38B2B439D4FE7D4E /* Security.framework */; };
+		A1F4F1F75DED23DEC5733C23 /* VALSecureEnclaveValet.h in Headers */ = {isa = PBXBuildFile; fileRef = DD2925A5132E84A46C8A88C1 /* VALSecureEnclaveValet.h */; };
+		BED351D622475B78A9B938EC /* Valet.h in Headers */ = {isa = PBXBuildFile; fileRef = CC5D7FCE833683EAACBEBD2F /* Valet.h */; };
+		D2CE876423527534052C1D0C /* Pods-Valet-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DB9D98478C3FE8C3669E10 /* Pods-Valet-dummy.m */; };
+		D7612C9510BDBE5CBE33A508 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86B09604771D9FAE61A79AF9 /* Foundation.framework */; };
+		F3D405FFE3000FC094874ED3 /* VALValet.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CC1047194EC6F2D930A8FF7 /* VALValet.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0C43D810FD8B9E1FC05B7A18 /* PBXContainerItemProxy */ = {
+		77628BB586246B8AC097DB11 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 6D848DFE1C9D22EC843CA929 /* Project object */;
+			containerPortal = 688CE618BE7EAE2EB18C5B4C /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 863801D6B4BD339713B04605;
-			remoteInfo = "Pods-SLPagingView";
+			remoteGlobalIDString = 4FF1313F402A06E4448E7F0D;
+			remoteInfo = "Pods-Valet";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		04FB9431396A791C5F03B7EE /* UIColor+SLAddition.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIColor+SLAddition.m"; path = "SLPagingView/Categories/UIColor+SLAddition.m"; sourceTree = "<group>"; };
-		1B0001E6F1A67314E8BD63CF /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.release.xcconfig; sourceTree = "<group>"; };
-		1EE2A878460017999E26AC46 /* libPods-SLPagingView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SLPagingView.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		33FBE85F41E3B8B6772FBD87 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		42DF049C9BF23ED35C549F3A /* UIColor+SLAddition.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIColor+SLAddition.h"; path = "SLPagingView/Categories/UIColor+SLAddition.h"; sourceTree = "<group>"; };
-		5A3873EAF86454539ACF9031 /* SLPagingViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SLPagingViewController.h; path = SLPagingView/SLPagingViewController.h; sourceTree = "<group>"; };
-		6608505B3EB28A65675610A8 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		6C6CBAE68B41241A8F646081 /* UIScrollView+UpdateContentSize.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIScrollView+UpdateContentSize.h"; path = "SLPagingView/Categories/UIScrollView+UpdateContentSize.h"; sourceTree = "<group>"; };
-		735F25B58C6AA691FFFCF84C /* UIScrollView+UpdateContentSize.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIScrollView+UpdateContentSize.m"; path = "SLPagingView/Categories/UIScrollView+UpdateContentSize.m"; sourceTree = "<group>"; };
-		7F0510FC5C67991165DC21C3 /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		957D7149CF9058D684EC38BE /* Pods-SLPagingView.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SLPagingView.xcconfig"; sourceTree = "<group>"; };
-		95EFACB36746FD51CA24AFB5 /* SLPagingViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SLPagingViewController.m; path = SLPagingView/SLPagingViewController.m; sourceTree = "<group>"; };
-		AC00D710C9C5AA959857BB13 /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-acknowledgements.plist"; sourceTree = "<group>"; };
-		BAAC38B793ED83F03E1698CB /* Pods-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-environment.h"; sourceTree = "<group>"; };
-		BE959D90192DC31D8186550A /* Pods-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-resources.sh"; sourceTree = "<group>"; };
-		DC8CA744247F374FFB286A96 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.debug.xcconfig; sourceTree = "<group>"; };
-		EA77B9D1ECB76B76C3F6CCCD /* Pods-SLPagingView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SLPagingView-dummy.m"; sourceTree = "<group>"; };
-		EB5E3CA9D6F91AA38388FAE2 /* Pods-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-acknowledgements.markdown"; sourceTree = "<group>"; };
-		EED4A776C11E0F7F1A02349E /* ShareResources.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ShareResources.h; path = SLPagingView/ShareResources.h; sourceTree = "<group>"; };
-		F0BC2EDA39E3AB4EB9C19EF5 /* Pods-SLPagingView-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SLPagingView-prefix.pch"; sourceTree = "<group>"; };
-		F144079F4662C8AD8CA707BC /* Pods-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-dummy.m"; sourceTree = "<group>"; };
-		FF656A13C460BB8309A18C5C /* Pods-SLPagingView-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SLPagingView-Private.xcconfig"; sourceTree = "<group>"; };
+		0015BD536B4F7D112614AF76 /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		0712FE6B1B05915DAB47B8DE /* Pods-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-acknowledgements.markdown"; sourceTree = "<group>"; };
+		34B97B5A818559F0E2C70784 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.release.xcconfig; sourceTree = "<group>"; };
+		3CC1047194EC6F2D930A8FF7 /* VALValet.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = VALValet.h; path = Valet/VALValet.h; sourceTree = "<group>"; };
+		3D4770D5EFE4CC639CDAAC45 /* Pods-Valet.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Valet.xcconfig"; sourceTree = "<group>"; };
+		4E2BCF4F3CA669E28A390C32 /* ValetDefines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ValetDefines.h; path = Other/ValetDefines.h; sourceTree = "<group>"; };
+		50EED51B2A591D8EB8F586B5 /* Pods-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-dummy.m"; sourceTree = "<group>"; };
+		57FDE4CD38B2B439D4FE7D4E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
+		669D79526ABF6BD3A398F786 /* Pods-Valet-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Valet-Private.xcconfig"; sourceTree = "<group>"; };
+		7E20CE109A159BB378EB6B91 /* VALSynchronizableValet.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = VALSynchronizableValet.h; path = Valet/VALSynchronizableValet.h; sourceTree = "<group>"; };
+		83DB9D98478C3FE8C3669E10 /* Pods-Valet-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Valet-dummy.m"; sourceTree = "<group>"; };
+		86B09604771D9FAE61A79AF9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		A47E8E1AF2645FC238225228 /* Pods-Valet-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Valet-prefix.pch"; sourceTree = "<group>"; };
+		A592046604436EE6BB2DEA87 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACCE63DC41D53E0C95D8E50F /* Pods-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-resources.sh"; sourceTree = "<group>"; };
+		AE5D88A7A05A2FA234D04CD1 /* VALValet_Protected.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = VALValet_Protected.h; path = Valet/VALValet_Protected.h; sourceTree = "<group>"; };
+		C2B94A466193F5DCFA9724E4 /* VALSecureEnclaveValet.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = VALSecureEnclaveValet.m; path = Valet/VALSecureEnclaveValet.m; sourceTree = "<group>"; };
+		CC5D7FCE833683EAACBEBD2F /* Valet.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Valet.h; path = Valet/Valet.h; sourceTree = "<group>"; };
+		D0D452D98DB6C2F52042F4FF /* VALValet.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = VALValet.m; path = Valet/VALValet.m; sourceTree = "<group>"; };
+		D132221E89C76C43CD1012CE /* libPods-Valet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Valet.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA986A9E3346AE32BE455AC4 /* Pods-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-environment.h"; sourceTree = "<group>"; };
+		DD2925A5132E84A46C8A88C1 /* VALSecureEnclaveValet.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = VALSecureEnclaveValet.h; path = Valet/VALSecureEnclaveValet.h; sourceTree = "<group>"; };
+		F33FA711C7BFC415DC7696E4 /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-acknowledgements.plist"; sourceTree = "<group>"; };
+		F9D511A4F272445C325D1362 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.debug.xcconfig; sourceTree = "<group>"; };
+		FB26B564313023B30A66B10C /* VALSynchronizableValet.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = VALSynchronizableValet.m; path = Valet/VALSynchronizableValet.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		AA74297CFE310E9DA3B81F17 /* Frameworks */ = {
+		48BF8CEDEF67AA680BEC12AB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BADECCEE12AA09C010ECF9C /* Foundation.framework in Frameworks */,
+				673F76C2B46D8394AA116406 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AB2DF47D98C6BF599D6720AB /* Frameworks */ = {
+		88437A82758A9E6DAC7DFC0E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8BE2D9DD2910BB49D1E01D3 /* Foundation.framework in Frameworks */,
+				D7612C9510BDBE5CBE33A508 /* Foundation.framework in Frameworks */,
+				6EA1CE3BF98F9B58D330ECDF /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0144C3301D98AA9FDD5AFEC5 /* Pods */ = {
+		1546BA45918B5E33634F044B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				EB5E3CA9D6F91AA38388FAE2 /* Pods-acknowledgements.markdown */,
-				AC00D710C9C5AA959857BB13 /* Pods-acknowledgements.plist */,
-				F144079F4662C8AD8CA707BC /* Pods-dummy.m */,
-				BAAC38B793ED83F03E1698CB /* Pods-environment.h */,
-				BE959D90192DC31D8186550A /* Pods-resources.sh */,
-				DC8CA744247F374FFB286A96 /* Pods.debug.xcconfig */,
-				1B0001E6F1A67314E8BD63CF /* Pods.release.xcconfig */,
+				4C92D7162BFD45101567BE3D /* Valet */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		4C92D7162BFD45101567BE3D /* Valet */ = {
+			isa = PBXGroup;
+			children = (
+				DD2925A5132E84A46C8A88C1 /* VALSecureEnclaveValet.h */,
+				C2B94A466193F5DCFA9724E4 /* VALSecureEnclaveValet.m */,
+				7E20CE109A159BB378EB6B91 /* VALSynchronizableValet.h */,
+				FB26B564313023B30A66B10C /* VALSynchronizableValet.m */,
+				3CC1047194EC6F2D930A8FF7 /* VALValet.h */,
+				D0D452D98DB6C2F52042F4FF /* VALValet.m */,
+				AE5D88A7A05A2FA234D04CD1 /* VALValet_Protected.h */,
+				CC5D7FCE833683EAACBEBD2F /* Valet.h */,
+				4E2BCF4F3CA669E28A390C32 /* ValetDefines.h */,
+				83E7FBE1D725AF5FCBEE8B5A /* Support Files */,
+			);
+			path = Valet;
+			sourceTree = "<group>";
+		};
+		500D4FB0172C2159979F8D28 = {
+			isa = PBXGroup;
+			children = (
+				0015BD536B4F7D112614AF76 /* Podfile */,
+				DA67B304944A4B44E02B7BCA /* Frameworks */,
+				1546BA45918B5E33634F044B /* Pods */,
+				57E816356E84BED00FAFC4F0 /* Products */,
+				AD99C13F76CAD24D6FB7209F /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		57E816356E84BED00FAFC4F0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A592046604436EE6BB2DEA87 /* libPods.a */,
+				D132221E89C76C43CD1012CE /* libPods-Valet.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		83E7FBE1D725AF5FCBEE8B5A /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				3D4770D5EFE4CC639CDAAC45 /* Pods-Valet.xcconfig */,
+				669D79526ABF6BD3A398F786 /* Pods-Valet-Private.xcconfig */,
+				83DB9D98478C3FE8C3669E10 /* Pods-Valet-dummy.m */,
+				A47E8E1AF2645FC238225228 /* Pods-Valet-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-Valet";
+			sourceTree = "<group>";
+		};
+		A52E0EB4506431430578CCC3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0712FE6B1B05915DAB47B8DE /* Pods-acknowledgements.markdown */,
+				F33FA711C7BFC415DC7696E4 /* Pods-acknowledgements.plist */,
+				50EED51B2A591D8EB8F586B5 /* Pods-dummy.m */,
+				DA986A9E3346AE32BE455AC4 /* Pods-environment.h */,
+				ACCE63DC41D53E0C95D8E50F /* Pods-resources.sh */,
+				F9D511A4F272445C325D1362 /* Pods.debug.xcconfig */,
+				34B97B5A818559F0E2C70784 /* Pods.release.xcconfig */,
 			);
 			name = Pods;
 			path = "Target Support Files/Pods";
 			sourceTree = "<group>";
 		};
-		121AADD4D0551FB0ADB28702 /* Pods */ = {
+		AD99C13F76CAD24D6FB7209F /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				403E16103A17B2416525E14F /* SLPagingView */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		144D8DA150C107AEE9836513 /* Targets Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				0144C3301D98AA9FDD5AFEC5 /* Pods */,
+				A52E0EB4506431430578CCC3 /* Pods */,
 			);
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		254D85F98F94BB88A2D2B90E = {
+		DA67B304944A4B44E02B7BCA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7F0510FC5C67991165DC21C3 /* Podfile */,
-				E1F4DFF928FFED469D1CF0B3 /* Frameworks */,
-				121AADD4D0551FB0ADB28702 /* Pods */,
-				5B8A4AEF8CE57B294E25EA62 /* Products */,
-				144D8DA150C107AEE9836513 /* Targets Support Files */,
-			);
-			sourceTree = "<group>";
-		};
-		403E16103A17B2416525E14F /* SLPagingView */ = {
-			isa = PBXGroup;
-			children = (
-				5A3873EAF86454539ACF9031 /* SLPagingViewController.h */,
-				95EFACB36746FD51CA24AFB5 /* SLPagingViewController.m */,
-				EED4A776C11E0F7F1A02349E /* ShareResources.h */,
-				42DF049C9BF23ED35C549F3A /* UIColor+SLAddition.h */,
-				04FB9431396A791C5F03B7EE /* UIColor+SLAddition.m */,
-				6C6CBAE68B41241A8F646081 /* UIScrollView+UpdateContentSize.h */,
-				735F25B58C6AA691FFFCF84C /* UIScrollView+UpdateContentSize.m */,
-				FD0C10AE701D9621035D9921 /* Support Files */,
-			);
-			path = SLPagingView;
-			sourceTree = "<group>";
-		};
-		40756D37D45E3C2BBB1958F2 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				33FBE85F41E3B8B6772FBD87 /* Foundation.framework */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
-		5B8A4AEF8CE57B294E25EA62 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6608505B3EB28A65675610A8 /* libPods.a */,
-				1EE2A878460017999E26AC46 /* libPods-SLPagingView.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		E1F4DFF928FFED469D1CF0B3 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				40756D37D45E3C2BBB1958F2 /* iOS */,
+				FC509BC3D9313723725CB630 /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		FD0C10AE701D9621035D9921 /* Support Files */ = {
+		FC509BC3D9313723725CB630 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				957D7149CF9058D684EC38BE /* Pods-SLPagingView.xcconfig */,
-				FF656A13C460BB8309A18C5C /* Pods-SLPagingView-Private.xcconfig */,
-				EA77B9D1ECB76B76C3F6CCCD /* Pods-SLPagingView-dummy.m */,
-				F0BC2EDA39E3AB4EB9C19EF5 /* Pods-SLPagingView-prefix.pch */,
+				86B09604771D9FAE61A79AF9 /* Foundation.framework */,
+				57FDE4CD38B2B439D4FE7D4E /* Security.framework */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/Pods-SLPagingView";
+			name = iOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		4CE241A9243DDDD11D2F6651 /* Headers */ = {
+		A5DF005FD1F56A3A83C2AC47 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D54FEC696F84523F0EF73932 /* SLPagingViewController.h in Headers */,
-				E42B603F06F61825782E68AE /* ShareResources.h in Headers */,
-				D467E1437266B5281BC054F5 /* UIColor+SLAddition.h in Headers */,
-				EC6F04DE4BD3C64FF5D56EF6 /* UIScrollView+UpdateContentSize.h in Headers */,
+				A1F4F1F75DED23DEC5733C23 /* VALSecureEnclaveValet.h in Headers */,
+				2F6EB221F432A63AD537C952 /* VALSynchronizableValet.h in Headers */,
+				F3D405FFE3000FC094874ED3 /* VALValet.h in Headers */,
+				2625C7F7A32BA97371299DCF /* VALValet_Protected.h in Headers */,
+				BED351D622475B78A9B938EC /* Valet.h in Headers */,
+				5CADF47509B135D842E0D53F /* ValetDefines.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		863801D6B4BD339713B04605 /* Pods-SLPagingView */ = {
+		4FF1313F402A06E4448E7F0D /* Pods-Valet */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6CD68BAB753234EBF2EAA609 /* Build configuration list for PBXNativeTarget "Pods-SLPagingView" */;
+			buildConfigurationList = 82FFE0A08A3946F78EC87299 /* Build configuration list for PBXNativeTarget "Pods-Valet" */;
 			buildPhases = (
-				556322241B0C56381EAD9512 /* Sources */,
-				AB2DF47D98C6BF599D6720AB /* Frameworks */,
-				4CE241A9243DDDD11D2F6651 /* Headers */,
+				8180AD988D0D1D8415C2822D /* Sources */,
+				88437A82758A9E6DAC7DFC0E /* Frameworks */,
+				A5DF005FD1F56A3A83C2AC47 /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "Pods-SLPagingView";
-			productName = "Pods-SLPagingView";
-			productReference = 1EE2A878460017999E26AC46 /* libPods-SLPagingView.a */;
+			name = "Pods-Valet";
+			productName = "Pods-Valet";
+			productReference = D132221E89C76C43CD1012CE /* libPods-Valet.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		A9763F3CE0E73F053D9F4F5C /* Pods */ = {
+		E41105A098496EA186199F20 /* Pods */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EC3659861C38BBCA3453857D /* Build configuration list for PBXNativeTarget "Pods" */;
+			buildConfigurationList = 7DF5AA03BC5B05C5E8E68A78 /* Build configuration list for PBXNativeTarget "Pods" */;
 			buildPhases = (
-				E419D7C9C7CF95F746EFA7A4 /* Sources */,
-				AA74297CFE310E9DA3B81F17 /* Frameworks */,
+				FA4B8F01E1DB73A0BE8E90C0 /* Sources */,
+				48BF8CEDEF67AA680BEC12AB /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				10E4690D813AE5A10606CC15 /* PBXTargetDependency */,
+				FAF588AA875A97EB0279A8EF /* PBXTargetDependency */,
 			);
 			name = Pods;
 			productName = Pods;
-			productReference = 6608505B3EB28A65675610A8 /* libPods.a */;
+			productReference = A592046604436EE6BB2DEA87 /* libPods.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		6D848DFE1C9D22EC843CA929 /* Project object */ = {
+		688CE618BE7EAE2EB18C5B4C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0510;
 			};
-			buildConfigurationList = C8A7487A295D762C3DB5AEC1 /* Build configuration list for PBXProject "Pods" */;
+			buildConfigurationList = 68328DA0C6117787B3B2BD76 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 254D85F98F94BB88A2D2B90E;
-			productRefGroup = 5B8A4AEF8CE57B294E25EA62 /* Products */;
+			mainGroup = 500D4FB0172C2159979F8D28;
+			productRefGroup = 57E816356E84BED00FAFC4F0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A9763F3CE0E73F053D9F4F5C /* Pods */,
-				863801D6B4BD339713B04605 /* Pods-SLPagingView */,
+				E41105A098496EA186199F20 /* Pods */,
+				4FF1313F402A06E4448E7F0D /* Pods-Valet */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		556322241B0C56381EAD9512 /* Sources */ = {
+		8180AD988D0D1D8415C2822D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F0C16181704D67E15C59A22 /* Pods-SLPagingView-dummy.m in Sources */,
-				18AE4858901ED7D4F95F3272 /* SLPagingViewController.m in Sources */,
-				612FF8B5C90CFE2CFBAFF295 /* UIColor+SLAddition.m in Sources */,
-				913AD4C2E7274192F4F6F93D /* UIScrollView+UpdateContentSize.m in Sources */,
+				D2CE876423527534052C1D0C /* Pods-Valet-dummy.m in Sources */,
+				5CAA2ED64319695BF9D1C54F /* VALSecureEnclaveValet.m in Sources */,
+				0F10C064F042B7BCDD8046CC /* VALSynchronizableValet.m in Sources */,
+				4CD995D768FC7E6BFC69EC19 /* VALValet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E419D7C9C7CF95F746EFA7A4 /* Sources */ = {
+		FA4B8F01E1DB73A0BE8E90C0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAA11D8127F9B85283E28F3B /* Pods-dummy.m in Sources */,
+				58829D8ED2566986E23E14D0 /* Pods-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		10E4690D813AE5A10606CC15 /* PBXTargetDependency */ = {
+		FAF588AA875A97EB0279A8EF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "Pods-SLPagingView";
-			target = 863801D6B4BD339713B04605 /* Pods-SLPagingView */;
-			targetProxy = 0C43D810FD8B9E1FC05B7A18 /* PBXContainerItemProxy */;
+			name = "Pods-Valet";
+			target = 4FF1313F402A06E4448E7F0D /* Pods-Valet */;
+			targetProxy = 77628BB586246B8AC097DB11 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		09AD4EECAC4503E2DE0EE3A6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FF656A13C460BB8309A18C5C /* Pods-SLPagingView-Private.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-SLPagingView/Pods-SLPagingView-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		337AA05B1553071B38B71099 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B0001E6F1A67314E8BD63CF /* Pods.release.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		4CC5121FF60A57DE22F90904 /* Debug */ = {
+		4DE71F1CAA7330ECFB5B16F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -343,19 +323,19 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Debug;
 		};
-		68DDA9ED0A462B17D69D0276 /* Debug */ = {
+		5DB862433449A6532BA5FC10 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DC8CA744247F374FFB286A96 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 34B97B5A818559F0E2C70784 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -363,25 +343,25 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
-		7A7EED7A0DEB48C1158DC489 /* Debug */ = {
+		87DAB358AEE1CE893D0C222E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FF656A13C460BB8309A18C5C /* Pods-SLPagingView-Private.xcconfig */;
+			baseConfigurationReference = 669D79526ABF6BD3A398F786 /* Pods-Valet-Private.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-SLPagingView/Pods-SLPagingView-prefix.pch";
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Valet/Pods-Valet-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
-		A50B964F9FDAB769CDF99020 /* Release */ = {
+		88719889692E9B79AB0527B5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -409,43 +389,76 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SYMROOT = "${SRCROOT}/../build";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
+		A82983AE4E68C70862D85803 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F9D511A4F272445C325D1362 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		C5F63B4B22E28BA31285ECFF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 669D79526ABF6BD3A398F786 /* Pods-Valet-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Valet/Pods-Valet-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6CD68BAB753234EBF2EAA609 /* Build configuration list for PBXNativeTarget "Pods-SLPagingView" */ = {
+		68328DA0C6117787B3B2BD76 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7A7EED7A0DEB48C1158DC489 /* Debug */,
-				09AD4EECAC4503E2DE0EE3A6 /* Release */,
+				4DE71F1CAA7330ECFB5B16F1 /* Debug */,
+				88719889692E9B79AB0527B5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C8A7487A295D762C3DB5AEC1 /* Build configuration list for PBXProject "Pods" */ = {
+		7DF5AA03BC5B05C5E8E68A78 /* Build configuration list for PBXNativeTarget "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4CC5121FF60A57DE22F90904 /* Debug */,
-				A50B964F9FDAB769CDF99020 /* Release */,
+				A82983AE4E68C70862D85803 /* Debug */,
+				5DB862433449A6532BA5FC10 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EC3659861C38BBCA3453857D /* Build configuration list for PBXNativeTarget "Pods" */ = {
+		82FFE0A08A3946F78EC87299 /* Build configuration list for PBXNativeTarget "Pods-Valet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				68DDA9ED0A462B17D69D0276 /* Debug */,
-				337AA05B1553071B38B71099 /* Release */,
+				C5F63B4B22E28BA31285ECFF /* Debug */,
+				87DAB358AEE1CE893D0C222E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 6D848DFE1C9D22EC843CA929 /* Project object */;
+	rootObject = 688CE618BE7EAE2EB18C5B4C /* Project object */;
 }

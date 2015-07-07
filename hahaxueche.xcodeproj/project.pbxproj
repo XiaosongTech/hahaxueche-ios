@@ -16,7 +16,11 @@
 		5C3980801B4ACFC70057B049 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C39807F1B4ACFC70057B049 /* location.png */; };
 		5C3980821B4AD3B30057B049 /* ms.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C3980811B4AD3B30057B049 /* ms.png */; };
 		5C3980851B4AD7DE0057B049 /* HHBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C3980841B4AD7DE0057B049 /* HHBookViewController.m */; };
-		5C3980881B4B87A00057B049 /* HHRootPagingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C3980871B4B87A00057B049 /* HHRootPagingViewController.m */; };
+		5C39808B1B4BFFB20057B049 /* HHAutoLayoutUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C39808A1B4BFFB20057B049 /* HHAutoLayoutUtility.m */; };
+		5C3980911B4C17900057B049 /* HHRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C3980901B4C17900057B049 /* HHRootViewController.m */; };
+		5C3980951B4C1A180057B049 /* HHHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C3980941B4C1A180057B049 /* HHHomePageViewController.m */; };
+		5C3980981B4C1A2A0057B049 /* HHMyReservationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C3980971B4C1A2A0057B049 /* HHMyReservationViewController.m */; };
+		5C39809B1B4C22610057B049 /* HHBarButtonItemUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C39809A1B4C22610057B049 /* HHBarButtonItemUtility.m */; };
 		5CC3B6011B48268A00D10DFB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6001B48268A00D10DFB /* main.m */; };
 		5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6031B48268A00D10DFB /* HHAppDelegate.m */; };
 		5CC3B60C1B48268A00D10DFB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CC3B60B1B48268A00D10DFB /* Images.xcassets */; };
@@ -49,8 +53,16 @@
 		5C3980811B4AD3B30057B049 /* ms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ms.png; sourceTree = "<group>"; };
 		5C3980831B4AD7DE0057B049 /* HHBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHBookViewController.h; sourceTree = "<group>"; };
 		5C3980841B4AD7DE0057B049 /* HHBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHBookViewController.m; sourceTree = "<group>"; };
-		5C3980861B4B87A00057B049 /* HHRootPagingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHRootPagingViewController.h; sourceTree = "<group>"; };
-		5C3980871B4B87A00057B049 /* HHRootPagingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHRootPagingViewController.m; sourceTree = "<group>"; };
+		5C3980891B4BFFB20057B049 /* HHAutoLayoutUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAutoLayoutUtility.h; sourceTree = "<group>"; };
+		5C39808A1B4BFFB20057B049 /* HHAutoLayoutUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHAutoLayoutUtility.m; sourceTree = "<group>"; };
+		5C39808F1B4C17900057B049 /* HHRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHRootViewController.h; sourceTree = "<group>"; };
+		5C3980901B4C17900057B049 /* HHRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHRootViewController.m; sourceTree = "<group>"; };
+		5C3980931B4C1A180057B049 /* HHHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHHomePageViewController.h; sourceTree = "<group>"; };
+		5C3980941B4C1A180057B049 /* HHHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHHomePageViewController.m; sourceTree = "<group>"; };
+		5C3980961B4C1A2A0057B049 /* HHMyReservationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyReservationViewController.h; sourceTree = "<group>"; };
+		5C3980971B4C1A2A0057B049 /* HHMyReservationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyReservationViewController.m; sourceTree = "<group>"; };
+		5C3980991B4C22610057B049 /* HHBarButtonItemUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHBarButtonItemUtility.h; sourceTree = "<group>"; };
+		5C39809A1B4C22610057B049 /* HHBarButtonItemUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHBarButtonItemUtility.m; sourceTree = "<group>"; };
 		5CC3B5FB1B48268A00D10DFB /* hahaxueche.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hahaxueche.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CC3B5FF1B48268A00D10DFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CC3B6001B48268A00D10DFB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -108,14 +120,11 @@
 		5C10F9261B49631200992B63 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				5C39806C1B4AAD450057B049 /* HHCoachListViewController.h */,
-				5C39806D1B4AAD450057B049 /* HHCoachListViewController.m */,
+				5C3980921B4C19A70057B049 /* Root View Controllers */,
 				5C39806E1B4AAD450057B049 /* HHNavigationController.h */,
 				5C39806F1B4AAD450057B049 /* HHNavigationController.m */,
-				5C3980831B4AD7DE0057B049 /* HHBookViewController.h */,
-				5C3980841B4AD7DE0057B049 /* HHBookViewController.m */,
-				5C3980861B4B87A00057B049 /* HHRootPagingViewController.h */,
-				5C3980871B4B87A00057B049 /* HHRootPagingViewController.m */,
+				5C39808F1B4C17900057B049 /* HHRootViewController.h */,
+				5C3980901B4C17900057B049 /* HHRootViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -145,8 +154,27 @@
 			children = (
 				5C3980781B4ACA2B0057B049 /* UIView+HHRect.h */,
 				5C3980791B4ACA2B0057B049 /* UIView+HHRect.m */,
+				5C3980891B4BFFB20057B049 /* HHAutoLayoutUtility.h */,
+				5C39808A1B4BFFB20057B049 /* HHAutoLayoutUtility.m */,
+				5C3980991B4C22610057B049 /* HHBarButtonItemUtility.h */,
+				5C39809A1B4C22610057B049 /* HHBarButtonItemUtility.m */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		5C3980921B4C19A70057B049 /* Root View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5C39806C1B4AAD450057B049 /* HHCoachListViewController.h */,
+				5C39806D1B4AAD450057B049 /* HHCoachListViewController.m */,
+				5C3980831B4AD7DE0057B049 /* HHBookViewController.h */,
+				5C3980841B4AD7DE0057B049 /* HHBookViewController.m */,
+				5C3980931B4C1A180057B049 /* HHHomePageViewController.h */,
+				5C3980941B4C1A180057B049 /* HHHomePageViewController.m */,
+				5C3980961B4C1A2A0057B049 /* HHMyReservationViewController.h */,
+				5C3980971B4C1A2A0057B049 /* HHMyReservationViewController.m */,
+			);
+			name = "Root View Controllers";
 			sourceTree = "<group>";
 		};
 		5CC3B5F21B48268A00D10DFB = {
@@ -368,11 +396,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C3980881B4B87A00057B049 /* HHRootPagingViewController.m in Sources */,
+				5C39808B1B4BFFB20057B049 /* HHAutoLayoutUtility.m in Sources */,
 				5C3980711B4AAD450057B049 /* HHNavigationController.m in Sources */,
 				5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */,
+				5C39809B1B4C22610057B049 /* HHBarButtonItemUtility.m in Sources */,
 				5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */,
+				5C3980951B4C1A180057B049 /* HHHomePageViewController.m in Sources */,
 				5CC3B6011B48268A00D10DFB /* main.m in Sources */,
+				5C3980981B4C1A2A0057B049 /* HHMyReservationViewController.m in Sources */,
+				5C3980911B4C17900057B049 /* HHRootViewController.m in Sources */,
 				5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */,
 				5C3980851B4AD7DE0057B049 /* HHBookViewController.m in Sources */,
 				5C3980701B4AAD450057B049 /* HHCoachListViewController.m in Sources */,
@@ -486,6 +518,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = "hahaxueche/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -498,6 +531,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = "hahaxueche/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

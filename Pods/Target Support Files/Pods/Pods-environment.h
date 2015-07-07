@@ -6,9 +6,9 @@
 // project.
 
 
-// SLPagingView
-#define COCOAPODS_POD_AVAILABLE_SLPagingView
-#define COCOAPODS_VERSION_MAJOR_SLPagingView 0
-#define COCOAPODS_VERSION_MINOR_SLPagingView 0
-#define COCOAPODS_VERSION_PATCH_SLPagingView 5
+// Valet
+#define COCOAPODS_POD_AVAILABLE_Valet
+#define COCOAPODS_VERSION_MAJOR_Valet 1
+#define COCOAPODS_VERSION_MINOR_Valet 3
+#define COCOAPODS_VERSION_PATCH_Valet 0
 
