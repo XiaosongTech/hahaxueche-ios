@@ -59,7 +59,6 @@
     [[UITabBar appearance] setTintColor:[UIColor HHOrange]];
     [[UITabBar appearance] setBarTintColor:[UIColor clearColor]];
     [[UITabBar appearance] setBackgroundImage:[UIImage new]];
-    [[UITabBar appearance] setTranslucent:YES];
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:10]} forState:UIControlStateNormal];
 }
 @end

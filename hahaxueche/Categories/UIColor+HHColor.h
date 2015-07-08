@@ -10,6 +10,8 @@
 
 @interface UIColor (HHColor)
 
++ (UIImage *)imageWithColor:(UIColor *)color;
+
 + (UIColor *)HHOrange;
 + (UIColor *)HHLightOrange;
 
