@@ -17,7 +17,7 @@
         [self setTitle:title forState:UIControlStateNormal];
         self.frame = frame;
         [self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:13];
+        self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Regular" size:13];
         self.backgroundColor = color;
         self.clipsToBounds = YES;
         self.layer.cornerRadius = CGRectGetHeight(frame)/2;

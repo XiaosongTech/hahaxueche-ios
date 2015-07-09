@@ -12,6 +12,8 @@
 #import "HHFloatButton.h"
 #import "UIColor+HHColor.h"
 #import <pop/POP.h>
+#import "HHDropDownButton.h"
+#import "UIView+HHRect.h"
 
 typedef enum : NSUInteger {
     SortOptionSmartSort,
@@ -20,10 +22,19 @@ typedef enum : NSUInteger {
     SortOptionMostRating,
 } SortOption;
 
+typedef enum : NSUInteger {
+    CourseTwo,
+    CourseThree,
+} CourseOption;
+
 #define kSmartSortString @"智能排序"
 #define kBestRatingString @"评价最好"
 #define kMostRatingString @"评价最多"
 #define kLowestPriceString @"价格最低"
+
+#define kCourseTwoString @"科目二"
+#define kCourseThreeString @"科目三"
+
 
 
 @interface HHCoachListViewController ()
@@ -32,6 +43,12 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIView *overlay;
 @property (nonatomic, strong) NSMutableArray *floatButtonsArray;
 @property (nonatomic)         SortOption currentSortOption;
+@property (nonatomic)         CourseOption currentCourseOption;
+@property (nonatomic, strong) HHDropDownButton *firstDropDownButton;
+@property (nonatomic, strong) HHDropDownButton *secondDropDownButton;
+@property (nonatomic, strong) HHFloatButton *firstSortButton;
+@property (nonatomic, strong) HHFloatButton *secondSortButton;
+@property (nonatomic, strong) HHFloatButton *thirdSortButton;
 
 @end
 
@@ -39,51 +56,107 @@ typedef enum : NSUInteger {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"找教练";
     self.view.backgroundColor = [UIColor clearColor];
     [self initSubviews];
 }
 
 -(void)initSubviews {
-    
-    self.overlay = [[UIView alloc] initWithFrame:CGRectZero];
-    self.overlay.translatesAutoresizingMaskIntoConstraints = 0;
-    [self.overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
-    self.overlay.hidden = YES;
-    [self.view addSubview:self.overlay];
-    
+
     [self initFloatButtons];
+    [self initDropdownButtons];
+    [self initTitleView];
     [self autoLayoutSubviews];
 }
+
+- (void)initTitleView {
+    self.currentCourseOption = CourseTwo;
+    NSString *courseSting = nil;
+    switch (self.currentCourseOption) {
+        case CourseTwo: {
+            courseSting = kCourseTwoString;
+        }
+            break;
+            
+        case CourseThree: {
+            courseSting = kCourseThreeString;
+        }
+            
+        default:{
+            courseSting = kCourseTwoString;
+        }
+            break;
+    }
+    
+    UIButton *titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [titleButton setTitle:[NSString stringWithFormat:@"教练 (%@)", courseSting] forState:UIControlStateNormal];
+    titleButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:16];
+    [titleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [titleButton setTitleColor:[UIColor HHOrange] forState:UIControlStateHighlighted];
+    titleButton.backgroundColor = [UIColor clearColor];
+    [titleButton sizeToFit];
+    [titleButton addTarget:self action:@selector(titleViewPressed) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.titleView = titleButton;
+
+}
+
+- (void)titleViewPressed {
+    [self dropDownButtonAnimateDown:self.firstDropDownButton.hidden button:self.firstDropDownButton];
+    [self dropDownButtonAnimateDown:self.secondDropDownButton.hidden button:self.secondDropDownButton];
+}
+
+- (void)initDropdownButtons {
+    self.firstDropDownButton = [self createDropDownButtonWithTitle:kCourseTwoString];
+    self.secondDropDownButton = [self createDropDownButtonWithTitle:kCourseThreeString];
+    
+}
+
+- (HHDropDownButton *)createDropDownButtonWithTitle:(NSString *)title {
+    HHDropDownButton *button = [[HHDropDownButton alloc] initWithTitle:title frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 64.0f)];
+    button.hidden = YES;
+    [button addTarget:self action:@selector(dropDownButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.navigationController.view addSubview:button];
+    return button;
+}
+
+- (void)dropDownButtonPressed:(id)sender {
+    HHDropDownButton *button = sender;
+    if ([button.titleLabel.text isEqualToString:kCourseTwoString]) {
+        self.currentCourseOption = CourseTwo;
+    } else {
+        self.currentCourseOption = CourseThree;
+    }
+    [self dropDownButtonAnimateDown:NO button:self.firstDropDownButton];
+    [self dropDownButtonAnimateDown:NO button:self.secondDropDownButton];
+}
+
 
 - (void)initFloatButtons {
     
     self.currentSortOption = SortOptionSmartSort;
-    HHFloatButton *firstButton = [[HHFloatButton alloc] initWithTitle:kLowestPriceString frame:CGRectMake(CGRectGetWidth(self.view.bounds)-100.0f, CGRectGetHeight(self.view.bounds)-90.0f, 90, 25) backgroundColor:[UIColor whiteColor]];
-    [firstButton addTarget:self action:@selector(floatButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:firstButton];
     
-    HHFloatButton *secondButton = [[HHFloatButton alloc] initWithTitle:kBestRatingString frame:CGRectMake(CGRectGetWidth(self.view.bounds)-100.0f, CGRectGetHeight(self.view.bounds)-90.0f, 90, 25) backgroundColor:[UIColor whiteColor]];
-    [secondButton addTarget:self action:@selector(floatButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:secondButton];
+    self.firstSortButton = [self createFloatButtonWithTitle:kLowestPriceString];
     
-    HHFloatButton *thirdButton = [[HHFloatButton alloc] initWithTitle:kMostRatingString frame:CGRectMake(CGRectGetWidth(self.view.bounds)-100.0f, CGRectGetHeight(self.view.bounds)-90.0f, 90, 25) backgroundColor:[UIColor whiteColor]];
-    [thirdButton addTarget:self action:@selector(floatButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:thirdButton];
+    self.secondSortButton = [self createFloatButtonWithTitle:kBestRatingString];
+    
+    self.thirdSortButton = [self createFloatButtonWithTitle:kMostRatingString];
     
     self.floatSortButton = [[HHFloatButton alloc] initWithTitle:kSmartSortString frame:CGRectMake(CGRectGetWidth(self.view.bounds)-100.0f, CGRectGetHeight(self.view.bounds)-90.0f, 90, 25) backgroundColor:[UIColor HHOrange]];
     [self.view addSubview:self.floatSortButton];
     [self.floatSortButton addTarget:self action:@selector(popupFloatButtons) forControlEvents:UIControlEventTouchUpInside];
     
-    self.floatButtonsArray = [NSMutableArray arrayWithArray:@[self.floatSortButton, firstButton, secondButton, thirdButton]];
+    self.floatButtonsArray = [NSMutableArray arrayWithArray:@[self.floatSortButton, self.firstSortButton, self.secondSortButton, self.thirdSortButton]];
+}
+
+- (HHFloatButton *)createFloatButtonWithTitle:(NSString *)title {
+    HHFloatButton *button = [[HHFloatButton alloc] initWithTitle:title frame:CGRectMake(CGRectGetWidth(self.view.bounds)-100.0f, CGRectGetHeight(self.view.bounds)-90.0f, 90, 25) backgroundColor:[UIColor whiteColor]];
+    [button addTarget:self action:@selector(floatButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:button];
+    return button;
 }
 
 - (void)autoLayoutSubviews {
     NSArray *constraints = @[
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.overlay constant:0],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.overlay constant:0],
-                             [HHAutoLayoutUtility setViewWidth:self.overlay multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.overlay multiplier:1.0f constant:0],
+                             
                              ];
     [self.view addConstraints:constraints];
 }
@@ -118,14 +191,23 @@ typedef enum : NSUInteger {
 }
 
 - (void)popupFloatButtons {
-    if (self.overlay.hidden) {
-        self.overlay.hidden = NO;
-        [self floatButtonAnimateUp:YES];
-    } else {
-        self.overlay.hidden = YES;
+    if (self.overlay) {
+        [self.overlay removeFromSuperview];
+        self.overlay = nil;
         [self floatButtonAnimateUp:NO];
+    } else {
+        self.overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
+        [self.overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
+        UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped)];
+        [self.overlay addGestureRecognizer:recognizer];
+        [self.view insertSubview:self.overlay belowSubview:self.firstSortButton];
+        [self floatButtonAnimateUp:YES];
     
     }
+}
+
+- (void)overlayTapped {
+    [self popupFloatButtons];
 }
 
 - (void)floatButtonAnimateUp:(BOOL)isUp {
@@ -143,10 +225,35 @@ typedef enum : NSUInteger {
         }
         springAnimation.toValue = [NSValue valueWithCGRect:newFrame];
         springAnimation.name = @"floatButtonPopup";
-        springAnimation.delegate=self;
+        springAnimation.delegate = self;
         [button pop_addAnimation:springAnimation forKey:@"floatButtonPopup"];
         i++;
     }
+}
+
+- (void)dropDownButtonAnimateDown:(BOOL)isDown button:(HHDropDownButton *)button {
+    POPSpringAnimation *springAnimation = [POPSpringAnimation animation];
+    springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
+    CGFloat offsetY = 0;
+    if ([button isEqual:self.firstDropDownButton]) {
+        offsetY = 64.0f;
+    } else {
+        offsetY = 64.0f * 2;
+    }
+    CGRect newFrame = button.frame;
+    if (isDown) {
+        newFrame.origin.y = newFrame.origin.y + offsetY;
+        springAnimation.springBounciness = 10.0f;
+    } else {
+        newFrame.origin.y = newFrame.origin.y - offsetY;
+        springAnimation.springBounciness = 0;
+    }
+    springAnimation.toValue = [NSValue valueWithCGRect:newFrame];
+    springAnimation.name = @"floatButtonPopup";
+    springAnimation.delegate = self;
+    [button pop_addAnimation:springAnimation forKey:@"dropDown"];
+    button.hidden = !button.hidden;
+
 }
 
 
