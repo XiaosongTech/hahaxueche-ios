@@ -49,27 +49,15 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) HHFloatButton *firstSortButton;
 @property (nonatomic, strong) HHFloatButton *secondSortButton;
 @property (nonatomic, strong) HHFloatButton *thirdSortButton;
+@property (nonatomic, strong) UIButton *titleButton;
 
 @end
 
 @implementation HHCoachListViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor clearColor];
-    [self initSubviews];
-}
-
--(void)initSubviews {
-
-    [self initFloatButtons];
-    [self initDropdownButtons];
-    [self initTitleView];
-    [self autoLayoutSubviews];
-}
-
-- (void)initTitleView {
-    self.currentCourseOption = CourseTwo;
+- (void)setCurrentCourseOption:(CourseOption)currentCourseOption {
+    _currentCourseOption = currentCourseOption;
+    
     NSString *courseSting = nil;
     switch (self.currentCourseOption) {
         case CourseTwo: {
@@ -80,6 +68,7 @@ typedef enum : NSUInteger {
         case CourseThree: {
             courseSting = kCourseThreeString;
         }
+            break;
             
         default:{
             courseSting = kCourseTwoString;
@@ -87,17 +76,36 @@ typedef enum : NSUInteger {
             break;
     }
     
-    UIButton *titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [titleButton setTitle:[NSString stringWithFormat:@"教练 (%@)", courseSting] forState:UIControlStateNormal];
-    titleButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:16];
-    [titleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [titleButton setTitleColor:[UIColor HHOrange] forState:UIControlStateHighlighted];
-    titleButton.backgroundColor = [UIColor clearColor];
-    [titleButton sizeToFit];
-    [titleButton addTarget:self action:@selector(titleViewPressed) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.titleView = titleButton;
-
+    if (!self.title) {
+        self.titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.titleButton setTitle:[NSString stringWithFormat:@"教练 (%@)", courseSting] forState:UIControlStateNormal];
+        self.titleButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:16];
+        [self.titleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.titleButton setTitleColor:[UIColor HHOrange] forState:UIControlStateHighlighted];
+        self.titleButton.backgroundColor = [UIColor clearColor];
+        [self.titleButton sizeToFit];
+        [self.titleButton addTarget:self action:@selector(titleViewPressed) forControlEvents:UIControlEventTouchUpInside];
+        self.navigationItem.titleView = self.titleButton;
+    } else {
+        [self.titleButton setTitle:[NSString stringWithFormat:@"教练 (%@)", courseSting] forState:UIControlStateNormal];
+    }
+    
 }
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor clearColor];
+    self.currentCourseOption = CourseTwo;
+    [self initSubviews];
+}
+
+-(void)initSubviews {
+
+    [self initFloatButtons];
+    [self initDropdownButtons];
+    [self autoLayoutSubviews];
+}
+
 
 - (void)titleViewPressed {
     [self dropDownButtonAnimateDown:self.firstDropDownButton.hidden button:self.firstDropDownButton];
