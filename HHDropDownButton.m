@@ -21,9 +21,6 @@
         self.frame = frame;
         self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:16];
         self.backgroundColor = [UIColor clearColor];
-        self.layer.borderWidth = 0.5f;
-        self.layer.borderColor = [UIColor colorWithRed:0.28 green:0.27 blue:0.24 alpha:1].CGColor;
-        self.layer.masksToBounds = YES;
     }
     return self;
 }

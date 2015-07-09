@@ -8,7 +8,7 @@
 
 #import "HHCoachListViewController.h"
 #import "HHAutoLayoutUtility.h"
-#import "HHBarButtonItemUtility.h"
+#import "UIBarButtonItem+HHCustomButton.h"
 #import "HHFloatButton.h"
 #import "UIColor+HHColor.h"
 #import <pop/POP.h>
@@ -50,6 +50,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) HHFloatButton *secondSortButton;
 @property (nonatomic, strong) HHFloatButton *thirdSortButton;
 @property (nonatomic, strong) UIButton *titleButton;
+@property (nonatomic)         BOOL isfloatButtonsActive;
+@property (nonatomic)         BOOL isdropDownButtonsActive;
 
 @end
 
@@ -78,7 +80,7 @@ typedef enum : NSUInteger {
     
     if (!self.title) {
         self.titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.titleButton setTitle:[NSString stringWithFormat:@"教练 (%@)", courseSting] forState:UIControlStateNormal];
+        [self.titleButton setTitle:[NSString stringWithFormat:@"教练 (%@) \u25BE", courseSting] forState:UIControlStateNormal];
         self.titleButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:16];
         [self.titleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self.titleButton setTitleColor:[UIColor HHOrange] forState:UIControlStateHighlighted];
@@ -100,16 +102,44 @@ typedef enum : NSUInteger {
 }
 
 -(void)initSubviews {
-
+    
     [self initFloatButtons];
     [self initDropdownButtons];
     [self autoLayoutSubviews];
 }
 
+- (void)cancelButtonPressed {
+    [self dropDownButtonsAnimate];
+}
+
 
 - (void)titleViewPressed {
-    [self dropDownButtonAnimateDown:self.firstDropDownButton.hidden button:self.firstDropDownButton];
-    [self dropDownButtonAnimateDown:self.secondDropDownButton.hidden button:self.secondDropDownButton];
+    [self dropDownButtonsAnimate];
+}
+
+- (void)dropDownButtonsAnimate {
+    if (self.isdropDownButtonsActive) {
+        self.navigationItem.rightBarButtonItem = nil;
+        [self.overlay removeFromSuperview];
+        self.overlay = nil;
+        
+    } else {
+        UIBarButtonItem *cancelButton = [UIBarButtonItem buttonItemWithTitle:@"取消" action:@selector(cancelButtonPressed) target:self];
+        self.navigationItem.rightBarButtonItem = cancelButton;
+        
+        self.overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
+        [self.overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
+        UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayForDropDownTapped)];
+        [self.overlay addGestureRecognizer:recognizer];
+        [self.view insertSubview:self.overlay belowSubview:self.firstDropDownButton];
+    }
+    [self dropDownButtonAnimateDown:!self.isdropDownButtonsActive button:self.firstDropDownButton];
+    [self dropDownButtonAnimateDown:!self.isdropDownButtonsActive button:self.secondDropDownButton];
+    self.isdropDownButtonsActive = !self.isdropDownButtonsActive;
+}
+
+- (void)overlayForDropDownTapped {
+    [self dropDownButtonsAnimate];
 }
 
 - (void)initDropdownButtons {
@@ -133,8 +163,7 @@ typedef enum : NSUInteger {
     } else {
         self.currentCourseOption = CourseThree;
     }
-    [self dropDownButtonAnimateDown:NO button:self.firstDropDownButton];
-    [self dropDownButtonAnimateDown:NO button:self.secondDropDownButton];
+    [self dropDownButtonsAnimate];
 }
 
 
@@ -199,10 +228,11 @@ typedef enum : NSUInteger {
 }
 
 - (void)popupFloatButtons {
-    if (self.overlay) {
+    if (self.isfloatButtonsActive) {
         [self.overlay removeFromSuperview];
         self.overlay = nil;
         [self floatButtonAnimateUp:NO];
+        self.isfloatButtonsActive = NO;
     } else {
         self.overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
         [self.overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
@@ -210,7 +240,7 @@ typedef enum : NSUInteger {
         [self.overlay addGestureRecognizer:recognizer];
         [self.view insertSubview:self.overlay belowSubview:self.firstSortButton];
         [self floatButtonAnimateUp:YES];
-    
+        self.isfloatButtonsActive = YES;
     }
 }
 
@@ -261,7 +291,6 @@ typedef enum : NSUInteger {
     springAnimation.delegate = self;
     [button pop_addAnimation:springAnimation forKey:@"dropDown"];
     button.hidden = !button.hidden;
-
 }
 
 

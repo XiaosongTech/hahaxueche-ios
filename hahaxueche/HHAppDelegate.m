@@ -24,7 +24,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
     [self.window setRootViewController:rootVC];
-    [self.window setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg.jpg"]]];
+    [self.window setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"black_blur.jpg"]]];
     [self.window makeKeyAndVisible];
     [self setAppearance];
     [self setWindow:self.window];
