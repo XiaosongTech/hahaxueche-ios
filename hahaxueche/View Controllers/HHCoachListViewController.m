@@ -14,6 +14,7 @@
 #import <pop/POP.h>
 #import "HHDropDownButton.h"
 #import "UIView+HHRect.h"
+#import "HHSearchBar.h"
 
 typedef enum : NSUInteger {
     SortOptionSmartSort,
@@ -37,7 +38,7 @@ typedef enum : NSUInteger {
 
 
 
-@interface HHCoachListViewController ()
+@interface HHCoachListViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) HHFloatButton *floatSortButton;
 @property (nonatomic, strong) UIView *overlay;
@@ -52,6 +53,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIButton *titleButton;
 @property (nonatomic)         BOOL isfloatButtonsActive;
 @property (nonatomic)         BOOL isdropDownButtonsActive;
+@property (nonatomic, strong) HHSearchBar *searchBar;
+@property (nonatomic, strong) UITableView *tableView;
 
 @end
 
@@ -96,17 +99,40 @@ typedef enum : NSUInteger {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor clearColor];
     self.currentCourseOption = CourseTwo;
     [self initSubviews];
 }
 
 -(void)initSubviews {
-    
+    [self initTableView];
+    [self initSearchBar];
     [self initFloatButtons];
     [self initDropdownButtons];
     [self autoLayoutSubviews];
 }
+
+- (void)initTableView {
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.backgroundColor = [UIColor whiteColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.view addSubview:self.tableView];
+}
+
+- (void)initSearchBar {
+    self.searchBar = [[HHSearchBar alloc] initWithFrame:CGRectZero];
+    self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
+    self.searchBar.placeholder = @"搜索教练";
+    self.searchBar.backgroundColor = [UIColor clearColor];
+    self.searchBar.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:self.searchBar];
+    
+}
+
 
 - (void)cancelButtonPressed {
     [self dropDownButtonsAnimate];
@@ -125,7 +151,7 @@ typedef enum : NSUInteger {
         
     } else {
         UIBarButtonItem *cancelButton = [UIBarButtonItem buttonItemWithTitle:@"取消" action:@selector(cancelButtonPressed) target:self];
-        self.navigationItem.rightBarButtonItem = cancelButton;
+        [self.navigationItem setRightBarButtonItems:@[cancelButton]];
         
         self.overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
         [self.overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
@@ -193,6 +219,16 @@ typedef enum : NSUInteger {
 
 - (void)autoLayoutSubviews {
     NSArray *constraints = @[
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.searchBar constant:CGRectGetHeight(self.navigationController.navigationBar.bounds) + 10.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.searchBar constant:5.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.searchBar multiplier:1.0f constant:-10.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.searchBar multiplier:0 constant:40.0f],
+                             
+                             [HHAutoLayoutUtility verticalNext:self.tableView toView:self.searchBar constant:5.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.tableView constant:5.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:-10.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.tableView constant:-CGRectGetHeight(self.tabBarController.tabBar.bounds)],
+                             
                              
                              ];
     [self.view addConstraints:constraints];
@@ -293,6 +329,20 @@ typedef enum : NSUInteger {
     button.hidden = !button.hidden;
 }
 
+#pragma mark Tableview Delegate & Datasource Methods
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"test"];
+    cell.textLabel.text = @"hello";
+    return cell;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
+    return 1;
+}
 
 @end

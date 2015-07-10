@@ -11,7 +11,7 @@
 @implementation UIBarButtonItem (HHCustomButton)
 
 + (UIBarButtonItem *)buttonItemWithImage:(UIImage *)image action:(SEL)action target:(id)target {
-    CGRect frame = CGRectMake(0, 0, image.size.width, image.size.height);
+    CGRect frame = CGRectMake(0, 0, 30.0f, 30.0f);
     UIButton *button = [[UIButton alloc] initWithFrame:frame];
     [button setBackgroundImage:image forState:UIControlStateNormal];
     [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
