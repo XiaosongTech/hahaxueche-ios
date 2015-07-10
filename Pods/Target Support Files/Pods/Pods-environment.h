@@ -24,6 +24,12 @@
 #define COCOAPODS_VERSION_MINOR_Mantle_extobjc 0
 #define COCOAPODS_VERSION_PATCH_Mantle_extobjc 2
 
+// SDCycleScrollView
+#define COCOAPODS_POD_AVAILABLE_SDCycleScrollView
+#define COCOAPODS_VERSION_MAJOR_SDCycleScrollView 1
+#define COCOAPODS_VERSION_MINOR_SDCycleScrollView 3
+#define COCOAPODS_VERSION_PATCH_SDCycleScrollView 0
+
 // SDWebImage
 #define COCOAPODS_POD_AVAILABLE_SDWebImage
 #define COCOAPODS_VERSION_MAJOR_SDWebImage 3
