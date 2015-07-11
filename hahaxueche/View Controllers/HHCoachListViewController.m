@@ -15,6 +15,7 @@
 #import "HHDropDownButton.h"
 #import "UIView+HHRect.h"
 #import "HHSearchBar.h"
+#import "HHCoachListTableViewCell.h"
 
 
 typedef enum : NSUInteger {
@@ -36,6 +37,8 @@ typedef enum : NSUInteger {
 
 #define kCourseTwoString @"科目二"
 #define kCourseThreeString @"科目三"
+
+#define kCoachListViewCellIdentifier @"coachListViewCellIdentifier"
 
 
 
@@ -139,7 +142,7 @@ typedef enum : NSUInteger {
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.showsVerticalScrollIndicator = NO;
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"test"];
+    [self.tableView registerClass:[HHCoachListTableViewCell class] forCellReuseIdentifier:kCoachListViewCellIdentifier];
     [self.view addSubview:self.tableView];
 }
 
@@ -245,7 +248,7 @@ typedef enum : NSUInteger {
                              [HHAutoLayoutUtility setViewWidth:self.searchBar multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.searchBar multiplier:0 constant:25.0f],
                              
-                             [HHAutoLayoutUtility verticalNext:self.tableView toView:self.searchBar constant:5.0f],
+                             [HHAutoLayoutUtility verticalNext:self.tableView toView:self.searchBar constant:10.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.tableView constant:8.0f],
                              [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:-16.0f],
                              [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.tableView constant:-CGRectGetHeight(self.tabBarController.tabBar.bounds)],
@@ -358,8 +361,7 @@ typedef enum : NSUInteger {
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"test" forIndexPath:indexPath];
-    cell.textLabel.text = @"hello";
+    HHCoachListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCoachListViewCellIdentifier forIndexPath:indexPath];
     return cell;
 }
 
@@ -386,7 +388,7 @@ typedef enum : NSUInteger {
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 80.0f;
+    return 156.0f;
 }
 
 #pragma mark Search Bar Delegate 
