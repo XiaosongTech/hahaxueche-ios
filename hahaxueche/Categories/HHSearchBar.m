@@ -27,19 +27,28 @@
     if(self.searchField) {
         self.searchField.textColor = [UIColor whiteColor];
         self.searchField.tintColor = [UIColor HHOrange];
+        self.searchField.clearButtonMode = UITextFieldViewModeWhileEditing;
         self.searchField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"搜索教练", nil) attributes:@{NSForegroundColorAttributeName: kSearchBarPlaceholderColor, NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:11]}];
         [self.searchField setBackgroundColor:[UIColor darkGrayColor]];
         [self.searchField setBorderStyle:UITextBorderStyleRoundedRect];
         UIImageView *iconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search_icon_sm"]];
         [self.searchField setLeftView:iconImageView];
+        
+        self.searchField.rightViewMode = UITextFieldViewModeWhileEditing;
+        UIButton *clearButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [clearButton sizeToFit];
+        [clearButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
+        [clearButton setTitle:@"取消" forState:UIControlStateNormal];
+        clearButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Normal" size:12];
+        [clearButton addTarget:self action:@selector(cancelSearch) forControlEvents:UIControlEventTouchUpInside];
+        [self.searchField setRightView:clearButton];
       
     }
 }
 
-- (void)cencel {
+- (void)cancelSearch {
     [self resignFirstResponder];
 }
-
 
 
 @end

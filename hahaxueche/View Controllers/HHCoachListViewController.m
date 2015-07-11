@@ -16,6 +16,7 @@
 #import "UIView+HHRect.h"
 #import "HHSearchBar.h"
 
+
 typedef enum : NSUInteger {
     SortOptionSmartSort,
     SortOptionLowestPrice,
@@ -38,7 +39,7 @@ typedef enum : NSUInteger {
 
 
 
-@interface HHCoachListViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface HHCoachListViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, strong) HHFloatButton *floatSortButton;
 @property (nonatomic, strong) UIView *overlay;
@@ -55,6 +56,8 @@ typedef enum : NSUInteger {
 @property (nonatomic)         BOOL isdropDownButtonsActive;
 @property (nonatomic, strong) HHSearchBar *searchBar;
 @property (nonatomic, strong) UITableView *tableView;
+
+@property (assign, nonatomic) CATransform3D initialTransformation;
 
 @end
 
@@ -106,6 +109,7 @@ typedef enum : NSUInteger {
 }
 
 -(void)initSubviews {
+    [self initNavBarItems];
     [self initTableView];
     [self initSearchBar];
     [self initFloatButtons];
@@ -113,13 +117,29 @@ typedef enum : NSUInteger {
     [self autoLayoutSubviews];
 }
 
+- (void)initNavBarItems {
+    UIBarButtonItem *mapItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"map"] action:@selector(mapIconPressed) target:self];
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
+                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                       target:nil action:nil];
+    negativeSpacer.width = -8;//
+    [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, mapItem]];
+
+}
+
+- (void)mapIconPressed {
+    
+}
+
 - (void)initTableView {
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.tableView.backgroundColor = [UIColor whiteColor];
+    self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.showsVerticalScrollIndicator = NO;
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"test"];
     [self.view addSubview:self.tableView];
 }
 
@@ -129,6 +149,7 @@ typedef enum : NSUInteger {
     self.searchBar.placeholder = @"搜索教练";
     self.searchBar.backgroundColor = [UIColor clearColor];
     self.searchBar.translatesAutoresizingMaskIntoConstraints = NO;
+    self.searchBar.delegate = self;
     [self.view addSubview:self.searchBar];
     
 }
@@ -153,7 +174,7 @@ typedef enum : NSUInteger {
         UIBarButtonItem *cancelButton = [UIBarButtonItem buttonItemWithTitle:@"取消" action:@selector(cancelButtonPressed) target:self];
         [self.navigationItem setRightBarButtonItems:@[cancelButton]];
         
-        self.overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
+        self.overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 64, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
         [self.overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
         UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayForDropDownTapped)];
         [self.overlay addGestureRecognizer:recognizer];
@@ -175,10 +196,10 @@ typedef enum : NSUInteger {
 }
 
 - (HHDropDownButton *)createDropDownButtonWithTitle:(NSString *)title {
-    HHDropDownButton *button = [[HHDropDownButton alloc] initWithTitle:title frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 64.0f)];
+    HHDropDownButton *button = [[HHDropDownButton alloc] initWithTitle:title frame:CGRectMake(0, 20.0f, CGRectGetWidth(self.view.bounds), 44.0f)];
     button.hidden = YES;
     [button addTarget:self action:@selector(dropDownButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self.navigationController.view addSubview:button];
+    [self.navigationController.view insertSubview:button belowSubview:self.navigationController.navigationBar];
     return button;
 }
 
@@ -219,14 +240,14 @@ typedef enum : NSUInteger {
 
 - (void)autoLayoutSubviews {
     NSArray *constraints = @[
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.searchBar constant:CGRectGetHeight(self.navigationController.navigationBar.bounds) + 10.0f],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.searchBar constant:5.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.searchBar multiplier:1.0f constant:-10.0f],
-                             [HHAutoLayoutUtility setViewHeight:self.searchBar multiplier:0 constant:40.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.searchBar constant:CGRectGetHeight(self.navigationController.navigationBar.bounds) + 30.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.searchBar constant:0],
+                             [HHAutoLayoutUtility setViewWidth:self.searchBar multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewHeight:self.searchBar multiplier:0 constant:25.0f],
                              
                              [HHAutoLayoutUtility verticalNext:self.tableView toView:self.searchBar constant:5.0f],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.tableView constant:5.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:-10.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.tableView constant:8.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:-16.0f],
                              [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.tableView constant:-CGRectGetHeight(self.tabBarController.tabBar.bounds)],
                              
                              
@@ -310,19 +331,20 @@ typedef enum : NSUInteger {
     springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
     CGFloat offsetY = 0;
     if ([button isEqual:self.firstDropDownButton]) {
-        offsetY = 64.0f;
+        offsetY = CGRectGetHeight(self.navigationController.navigationBar.bounds) + 20.0f;
     } else {
-        offsetY = 64.0f * 2;
+        offsetY = CGRectGetHeight(self.navigationController.navigationBar.bounds) + 20.0f + CGRectGetHeight(button.bounds);
     }
-    CGRect newFrame = button.frame;
+    
+    CGRect toFrame = CGRectZero;
     if (isDown) {
-        newFrame.origin.y = newFrame.origin.y + offsetY;
-        springAnimation.springBounciness = 10.0f;
+        toFrame = CGRectMake(0, offsetY, CGRectGetWidth(self.view.bounds), 44.0f);
     } else {
-        newFrame.origin.y = newFrame.origin.y - offsetY;
-        springAnimation.springBounciness = 0;
+        toFrame = CGRectMake(0, 20.0f, CGRectGetWidth(self.view.bounds), 44.0f);
     }
-    springAnimation.toValue = [NSValue valueWithCGRect:newFrame];
+   
+    springAnimation.springBounciness = 0;
+    springAnimation.toValue = [NSValue valueWithCGRect:toFrame];
     springAnimation.name = @"floatButtonPopup";
     springAnimation.delegate = self;
     [button pop_addAnimation:springAnimation forKey:@"dropDown"];
@@ -332,17 +354,45 @@ typedef enum : NSUInteger {
 #pragma mark Tableview Delegate & Datasource Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return 110;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"test"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"test" forIndexPath:indexPath];
     cell.textLabel.text = @"hello";
     return cell;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
     return 1;
+}
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.searchBar resignFirstResponder];
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    POPSpringAnimation *springAnimation = [POPSpringAnimation animation];
+    springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewScaleXY];    
+    springAnimation.springBounciness = 0;
+    springAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(0, 0)];
+    springAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0f, 1.0f)];
+    springAnimation.name = @"floatButtonPopup";
+    springAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(15, 10)];
+    springAnimation.delegate = self;
+    [cell pop_addAnimation:springAnimation forKey:@"dropDown"];
+
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 80.0f;
+}
+
+#pragma mark Search Bar Delegate 
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    
 }
 
 @end

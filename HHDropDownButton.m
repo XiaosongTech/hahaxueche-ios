@@ -20,7 +20,7 @@
         [self setTitleColor:[UIColor HHOrange] forState:UIControlStateHighlighted];
         self.frame = frame;
         self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:16];
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor colorWithRed:0.25 green:0.25 blue:0.25 alpha:1];
     }
     return self;
 }
