@@ -16,6 +16,7 @@
 #import "UIView+HHRect.h"
 #import "HHSearchBar.h"
 #import "HHCoachListTableViewCell.h"
+#import <MapKit/MapKit.h>
 
 
 typedef enum : NSUInteger {
@@ -42,7 +43,7 @@ typedef enum : NSUInteger {
 
 
 
-@interface HHCoachListViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
+@interface HHCoachListViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, MKMapViewDelegate>
 
 @property (nonatomic, strong) HHFloatButton *floatSortButton;
 @property (nonatomic, strong) UIView *overlay;
@@ -227,7 +228,7 @@ typedef enum : NSUInteger {
     
     self.thirdSortButton = [self createFloatButtonWithTitle:kMostRatingString];
     
-    self.floatSortButton = [[HHFloatButton alloc] initWithTitle:kSmartSortString frame:CGRectMake(CGRectGetWidth(self.view.bounds)-100.0f, CGRectGetHeight(self.view.bounds)-90.0f, 90, 25) backgroundColor:[UIColor HHOrange]];
+    self.floatSortButton = [[HHFloatButton alloc] initWithTitle:kSmartSortString frame:CGRectMake(CGRectGetWidth(self.view.bounds)-110.0f, CGRectGetHeight(self.view.bounds)-100.0f, 100.0f, 30.0f) backgroundColor:[UIColor HHOrange]];
     [self.view addSubview:self.floatSortButton];
     [self.floatSortButton addTarget:self action:@selector(popupFloatButtons) forControlEvents:UIControlEventTouchUpInside];
     
@@ -235,7 +236,7 @@ typedef enum : NSUInteger {
 }
 
 - (HHFloatButton *)createFloatButtonWithTitle:(NSString *)title {
-    HHFloatButton *button = [[HHFloatButton alloc] initWithTitle:title frame:CGRectMake(CGRectGetWidth(self.view.bounds)-100.0f, CGRectGetHeight(self.view.bounds)-90.0f, 90, 25) backgroundColor:[UIColor whiteColor]];
+    HHFloatButton *button = [[HHFloatButton alloc] initWithTitle:title frame:CGRectMake(CGRectGetWidth(self.view.bounds)-110.0f, CGRectGetHeight(self.view.bounds)-100.0f, 100.0f, 30.0f) backgroundColor:[UIColor whiteColor]];
     [button addTarget:self action:@selector(floatButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
     return button;
@@ -362,6 +363,7 @@ typedef enum : NSUInteger {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HHCoachListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCoachListViewCellIdentifier forIndexPath:indexPath];
+
     return cell;
 }
 
@@ -370,9 +372,6 @@ typedef enum : NSUInteger {
 }
 
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self.searchBar resignFirstResponder];
-}
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     POPSpringAnimation *springAnimation = [POPSpringAnimation animation];
@@ -380,15 +379,15 @@ typedef enum : NSUInteger {
     springAnimation.springBounciness = 0;
     springAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(0, 0)];
     springAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0f, 1.0f)];
-    springAnimation.name = @"floatButtonPopup";
+    springAnimation.name = @"scaleCell";
     springAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(15, 10)];
     springAnimation.delegate = self;
-    [cell pop_addAnimation:springAnimation forKey:@"dropDown"];
+    [cell pop_addAnimation:springAnimation forKey:@"scaleCell"];
 
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 156.0f;
+    return 124.0f;
 }
 
 #pragma mark Search Bar Delegate 
