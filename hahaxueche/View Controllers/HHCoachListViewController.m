@@ -9,10 +9,9 @@
 #import "HHCoachListViewController.h"
 #import "HHAutoLayoutUtility.h"
 #import "UIBarButtonItem+HHCustomButton.h"
-#import "HHFloatButton.h"
+#import "HHButton.h"
 #import "UIColor+HHColor.h"
 #import <pop/POP.h>
-#import "HHDropDownButton.h"
 #import "UIView+HHRect.h"
 #import "HHSearchBar.h"
 #import "HHCoachListTableViewCell.h"
@@ -45,16 +44,16 @@ typedef enum : NSUInteger {
 
 @interface HHCoachListViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, MKMapViewDelegate>
 
-@property (nonatomic, strong) HHFloatButton *floatSortButton;
+@property (nonatomic, strong) HHButton *floatSortButton;
 @property (nonatomic, strong) UIView *overlay;
 @property (nonatomic, strong) NSMutableArray *floatButtonsArray;
 @property (nonatomic)         SortOption currentSortOption;
 @property (nonatomic)         CourseOption currentCourseOption;
-@property (nonatomic, strong) HHDropDownButton *firstDropDownButton;
-@property (nonatomic, strong) HHDropDownButton *secondDropDownButton;
-@property (nonatomic, strong) HHFloatButton *firstSortButton;
-@property (nonatomic, strong) HHFloatButton *secondSortButton;
-@property (nonatomic, strong) HHFloatButton *thirdSortButton;
+@property (nonatomic, strong) HHButton *firstDropDownButton;
+@property (nonatomic, strong) HHButton *secondDropDownButton;
+@property (nonatomic, strong) HHButton *firstSortButton;
+@property (nonatomic, strong) HHButton *secondSortButton;
+@property (nonatomic, strong) HHButton *thirdSortButton;
 @property (nonatomic, strong) UIButton *titleButton;
 @property (nonatomic)         BOOL isfloatButtonsActive;
 @property (nonatomic)         BOOL isdropDownButtonsActive;
@@ -175,7 +174,7 @@ typedef enum : NSUInteger {
         self.overlay = nil;
         
     } else {
-        UIBarButtonItem *cancelButton = [UIBarButtonItem buttonItemWithTitle:@"取消" action:@selector(cancelButtonPressed) target:self];
+        UIBarButtonItem *cancelButton = [UIBarButtonItem buttonItemWithTitle:@"取消" action:@selector(cancelButtonPressed) target:self isLeft:NO];
         [self.navigationItem setRightBarButtonItems:@[cancelButton]];
         
         self.overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 64, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
@@ -199,8 +198,8 @@ typedef enum : NSUInteger {
     
 }
 
-- (HHDropDownButton *)createDropDownButtonWithTitle:(NSString *)title {
-    HHDropDownButton *button = [[HHDropDownButton alloc] initWithTitle:title frame:CGRectMake(0, 20.0f, CGRectGetWidth(self.view.bounds), 44.0f)];
+- (HHButton *)createDropDownButtonWithTitle:(NSString *)title {
+    HHButton *button = [[HHButton alloc] initDropDownButtonWithTitle:title frame:CGRectMake(0, 20.0f, CGRectGetWidth(self.view.bounds), 44.0f)];
     button.hidden = YES;
     [button addTarget:self action:@selector(dropDownButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.navigationController.view insertSubview:button belowSubview:self.navigationController.navigationBar];
@@ -208,7 +207,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)dropDownButtonPressed:(id)sender {
-    HHDropDownButton *button = sender;
+    HHButton *button = sender;
     if ([button.titleLabel.text isEqualToString:kCourseTwoString]) {
         self.currentCourseOption = CourseTwo;
     } else {
@@ -228,15 +227,16 @@ typedef enum : NSUInteger {
     
     self.thirdSortButton = [self createFloatButtonWithTitle:kMostRatingString];
     
-    self.floatSortButton = [[HHFloatButton alloc] initWithTitle:kSmartSortString frame:CGRectMake(CGRectGetWidth(self.view.bounds)-110.0f, CGRectGetHeight(self.view.bounds)-100.0f, 100.0f, 30.0f) backgroundColor:[UIColor HHOrange]];
+    self.floatSortButton = [[HHButton alloc] initFloatButtonWithTitle:kSmartSortString frame:CGRectMake(CGRectGetWidth(self.view.bounds)-110.0f, CGRectGetHeight(self.view.bounds)-100.0f, 100.0f, 30.0f) backgroundColor:[UIColor HHOrange]];
     [self.view addSubview:self.floatSortButton];
     [self.floatSortButton addTarget:self action:@selector(popupFloatButtons) forControlEvents:UIControlEventTouchUpInside];
     
     self.floatButtonsArray = [NSMutableArray arrayWithArray:@[self.floatSortButton, self.firstSortButton, self.secondSortButton, self.thirdSortButton]];
 }
 
-- (HHFloatButton *)createFloatButtonWithTitle:(NSString *)title {
-    HHFloatButton *button = [[HHFloatButton alloc] initWithTitle:title frame:CGRectMake(CGRectGetWidth(self.view.bounds)-110.0f, CGRectGetHeight(self.view.bounds)-100.0f, 100.0f, 30.0f) backgroundColor:[UIColor whiteColor]];
+- (HHButton *)createFloatButtonWithTitle:(NSString *)title {
+    HHButton *button = [[HHButton alloc] initFloatButtonWithTitle:title frame:CGRectMake(CGRectGetWidth(self.view.bounds)-110.0f, CGRectGetHeight(self.view.bounds)-100.0f, 100.0f, 30.0f) backgroundColor:[UIColor whiteColor]];
+    
     [button addTarget:self action:@selector(floatButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
     return button;
@@ -260,7 +260,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)floatButtonPressed:(id)sender {
-    HHFloatButton *button = sender;
+    HHButton *button = sender;
     NSString *buttonTitle = button.titleLabel.text;
     [button setTitle:self.floatSortButton.titleLabel.text forState:UIControlStateNormal];
     [self.floatSortButton setTitle:buttonTitle forState:UIControlStateNormal];
@@ -311,7 +311,7 @@ typedef enum : NSUInteger {
 
 - (void)floatButtonAnimateUp:(BOOL)isUp {
     int i =0;
-    for (HHFloatButton *button in self.floatButtonsArray) {
+    for (HHButton *button in self.floatButtonsArray) {
         POPSpringAnimation *springAnimation = [POPSpringAnimation animation];
         springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
         CGRect newFrame = button.frame;
@@ -330,7 +330,7 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)dropDownButtonAnimateDown:(BOOL)isDown button:(HHDropDownButton *)button {
+- (void)dropDownButtonAnimateDown:(BOOL)isDown button:(HHButton *)button {
     POPSpringAnimation *springAnimation = [POPSpringAnimation animation];
     springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
     CGFloat offsetY = 0;

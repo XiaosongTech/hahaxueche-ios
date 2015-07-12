@@ -23,7 +23,6 @@
 		5C3980A81B4C3E5E0057B049 /* SourceHanSansSC-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5C3980A11B4C3D7E0057B049 /* SourceHanSansSC-Medium.otf */; };
 		5C3980A91B4C3E5E0057B049 /* SourceHanSansSC-Normal.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5C3980A21B4C3D7E0057B049 /* SourceHanSansSC-Normal.otf */; };
 		5C3980AA1B4C3E5E0057B049 /* SourceHanSansSC-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5C3980A31B4C3D7E0057B049 /* SourceHanSansSC-Regular.otf */; };
-		5C5314EA1B4E027C007AFA83 /* HHDropDownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5314E91B4E027C007AFA83 /* HHDropDownButton.m */; };
 		5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C54517A1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m */; };
 		5C54517D1B4ED5F40025D19F /* black_blur.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5C54517C1B4ED5F40025D19F /* black_blur.jpg */; };
 		5C5451891B4F5D850025D19F /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C5451831B4F5D850025D19F /* map.png */; };
@@ -35,7 +34,6 @@
 		5C5451911B4F67200025D19F /* HHSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451901B4F67200025D19F /* HHSearchBar.m */; };
 		5C5451951B50B4AD0025D19F /* search_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C5451941B50B4AD0025D19F /* search_icon.png */; };
 		5C5451991B50B5910025D19F /* HHCoachListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451981B50B5910025D19F /* HHCoachListTableViewCell.m */; };
-		5C54519D1B50BE550025D19F /* ava.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C54519C1B50BE550025D19F /* ava.png */; };
 		5C5451A01B5154560025D19F /* HHRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C54519F1B5154560025D19F /* HHRatingView.m */; };
 		5C5451A41B5163F00025D19F /* location_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C5451A31B5163F00025D19F /* location_icon.png */; };
 		5C5451A61B51A7480025D19F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5451A51B51A7480025D19F /* MapKit.framework */; };
@@ -50,7 +48,13 @@
 		5C5451B91B51AC9D0025D19F /* ratingcar_solid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C5451B01B51AC9D0025D19F /* ratingcar_solid@2x.png */; };
 		5C5451BA1B51AC9D0025D19F /* ratingcar_solid@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C5451B11B51AC9D0025D19F /* ratingcar_solid@3x.png */; };
 		5C5451BC1B51E6B60025D19F /* fbAvatar.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5C5451BB1B51E6B60025D19F /* fbAvatar.jpg */; };
-		5C5451BF1B52A2D40025D19F /* HHUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451BE1B52A2D40025D19F /* HHUserService.m */; };
+		5C5451BF1B52A2D40025D19F /* HHUserCoachService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451BE1B52A2D40025D19F /* HHUserCoachService.m */; };
+		5C5451C21B52A48F0025D19F /* HHUserStudentService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451C11B52A48F0025D19F /* HHUserStudentService.m */; };
+		5C5451C61B52A7760025D19F /* HHLoginSignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451C51B52A7760025D19F /* HHLoginSignupViewController.m */; };
+		5C5451CF1B52ADE50025D19F /* HHButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451CE1B52ADE50025D19F /* HHButton.m */; };
+		5C5451D21B52BE1D0025D19F /* UIImage+HHImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451D11B52BE1D0025D19F /* UIImage+HHImage.m */; };
+		5CA5B77A1B52CFF300312674 /* HHMobilePhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B7791B52CFF300312674 /* HHMobilePhoneViewController.m */; };
+		5CA5B77E1B52DF9200312674 /* HHTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B77D1B52DF9200312674 /* HHTextFieldView.m */; };
 		5CB550731B4CC055005DE447 /* calendar_grey@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB5505B1B4CC055005DE447 /* calendar_grey@1x.png */; };
 		5CB550741B4CC055005DE447 /* calendar_grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB5505C1B4CC055005DE447 /* calendar_grey@2x.png */; };
 		5CB550751B4CC055005DE447 /* calendar_grey@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB5505D1B4CC055005DE447 /* calendar_grey@3x.png */; };
@@ -75,8 +79,6 @@
 		5CB550881B4CC055005DE447 /* reservation_selected@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB550701B4CC055005DE447 /* reservation_selected@1x.png */; };
 		5CB550891B4CC055005DE447 /* reservation_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB550711B4CC055005DE447 /* reservation_selected@2x.png */; };
 		5CB5508A1B4CC055005DE447 /* reservation_selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB550721B4CC055005DE447 /* reservation_selected@3x.png */; };
-		5CB5508E1B4CC730005DE447 /* HHFloatButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB5508D1B4CC730005DE447 /* HHFloatButton.m */; };
-		5CB550911B4D5B38005DE447 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB550901B4D5B38005DE447 /* UIImage+ImageEffects.m */; };
 		5CC3B6011B48268A00D10DFB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6001B48268A00D10DFB /* main.m */; };
 		5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6031B48268A00D10DFB /* HHAppDelegate.m */; };
 		5CC3B60C1B48268A00D10DFB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CC3B60B1B48268A00D10DFB /* Images.xcassets */; };
@@ -120,8 +122,6 @@
 		5C3980A11B4C3D7E0057B049 /* SourceHanSansSC-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSansSC-Medium.otf"; sourceTree = "<group>"; };
 		5C3980A21B4C3D7E0057B049 /* SourceHanSansSC-Normal.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSansSC-Normal.otf"; sourceTree = "<group>"; };
 		5C3980A31B4C3D7E0057B049 /* SourceHanSansSC-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSansSC-Regular.otf"; sourceTree = "<group>"; };
-		5C5314E81B4E027C007AFA83 /* HHDropDownButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHDropDownButton.h; sourceTree = SOURCE_ROOT; };
-		5C5314E91B4E027C007AFA83 /* HHDropDownButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHDropDownButton.m; sourceTree = SOURCE_ROOT; };
 		5C5451791B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+HHCustomButton.h"; sourceTree = "<group>"; };
 		5C54517A1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+HHCustomButton.m"; sourceTree = "<group>"; };
 		5C54517C1B4ED5F40025D19F /* black_blur.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = black_blur.jpg; sourceTree = "<group>"; };
@@ -136,7 +136,6 @@
 		5C5451941B50B4AD0025D19F /* search_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_icon.png; sourceTree = "<group>"; };
 		5C5451971B50B5910025D19F /* HHCoachListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachListTableViewCell.h; sourceTree = SOURCE_ROOT; };
 		5C5451981B50B5910025D19F /* HHCoachListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachListTableViewCell.m; sourceTree = SOURCE_ROOT; };
-		5C54519C1B50BE550025D19F /* ava.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ava.png; sourceTree = "<group>"; };
 		5C54519E1B5154560025D19F /* HHRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHRatingView.h; sourceTree = SOURCE_ROOT; };
 		5C54519F1B5154560025D19F /* HHRatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHRatingView.m; sourceTree = SOURCE_ROOT; };
 		5C5451A31B5163F00025D19F /* location_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_icon.png; sourceTree = "<group>"; };
@@ -152,8 +151,20 @@
 		5C5451B01B51AC9D0025D19F /* ratingcar_solid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ratingcar_solid@2x.png"; sourceTree = "<group>"; };
 		5C5451B11B51AC9D0025D19F /* ratingcar_solid@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ratingcar_solid@3x.png"; sourceTree = "<group>"; };
 		5C5451BB1B51E6B60025D19F /* fbAvatar.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fbAvatar.jpg; sourceTree = "<group>"; };
-		5C5451BD1B52A2D40025D19F /* HHUserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHUserService.h; sourceTree = SOURCE_ROOT; };
-		5C5451BE1B52A2D40025D19F /* HHUserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHUserService.m; sourceTree = SOURCE_ROOT; };
+		5C5451BD1B52A2D40025D19F /* HHUserCoachService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHUserCoachService.h; sourceTree = SOURCE_ROOT; };
+		5C5451BE1B52A2D40025D19F /* HHUserCoachService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHUserCoachService.m; sourceTree = SOURCE_ROOT; };
+		5C5451C01B52A48F0025D19F /* HHUserStudentService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHUserStudentService.h; sourceTree = SOURCE_ROOT; };
+		5C5451C11B52A48F0025D19F /* HHUserStudentService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHUserStudentService.m; sourceTree = SOURCE_ROOT; };
+		5C5451C41B52A7760025D19F /* HHLoginSignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHLoginSignupViewController.h; sourceTree = "<group>"; };
+		5C5451C51B52A7760025D19F /* HHLoginSignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHLoginSignupViewController.m; sourceTree = "<group>"; };
+		5C5451CD1B52ADE50025D19F /* HHButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHButton.h; sourceTree = SOURCE_ROOT; };
+		5C5451CE1B52ADE50025D19F /* HHButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHButton.m; sourceTree = SOURCE_ROOT; };
+		5C5451D01B52BE1D0025D19F /* UIImage+HHImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HHImage.h"; sourceTree = "<group>"; };
+		5C5451D11B52BE1D0025D19F /* UIImage+HHImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HHImage.m"; sourceTree = "<group>"; };
+		5CA5B7781B52CFF300312674 /* HHMobilePhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMobilePhoneViewController.h; sourceTree = "<group>"; };
+		5CA5B7791B52CFF300312674 /* HHMobilePhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMobilePhoneViewController.m; sourceTree = "<group>"; };
+		5CA5B77C1B52DF9200312674 /* HHTextFieldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTextFieldView.h; sourceTree = SOURCE_ROOT; };
+		5CA5B77D1B52DF9200312674 /* HHTextFieldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHTextFieldView.m; sourceTree = SOURCE_ROOT; };
 		5CB5505B1B4CC055005DE447 /* calendar_grey@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar_grey@1x.png"; sourceTree = "<group>"; };
 		5CB5505C1B4CC055005DE447 /* calendar_grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar_grey@2x.png"; sourceTree = "<group>"; };
 		5CB5505D1B4CC055005DE447 /* calendar_grey@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar_grey@3x.png"; sourceTree = "<group>"; };
@@ -178,10 +189,6 @@
 		5CB550701B4CC055005DE447 /* reservation_selected@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reservation_selected@1x.png"; sourceTree = "<group>"; };
 		5CB550711B4CC055005DE447 /* reservation_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reservation_selected@2x.png"; sourceTree = "<group>"; };
 		5CB550721B4CC055005DE447 /* reservation_selected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reservation_selected@3x.png"; sourceTree = "<group>"; };
-		5CB5508C1B4CC730005DE447 /* HHFloatButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHFloatButton.h; sourceTree = SOURCE_ROOT; };
-		5CB5508D1B4CC730005DE447 /* HHFloatButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHFloatButton.m; sourceTree = SOURCE_ROOT; };
-		5CB5508F1B4D5B38005DE447 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ImageEffects.h"; path = "../Utilities/UIImage+ImageEffects.h"; sourceTree = "<group>"; };
-		5CB550901B4D5B38005DE447 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ImageEffects.m"; path = "../Utilities/UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		5CC3B5FB1B48268A00D10DFB /* hahaxueche.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hahaxueche.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CC3B5FF1B48268A00D10DFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CC3B6001B48268A00D10DFB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -220,6 +227,7 @@
 		5C10F9231B49618300992B63 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5CA5B77B1B52DF5500312674 /* Login Signup */,
 				5C5451961B50B52D0025D19F /* Coach List Page */,
 				5CB5508B1B4CC718005DE447 /* Buttons */,
 				5C54518F1B4F67200025D19F /* HHSearchBar.h */,
@@ -238,8 +246,10 @@
 		5C10F9251B4962F300992B63 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				5C5451BD1B52A2D40025D19F /* HHUserService.h */,
-				5C5451BE1B52A2D40025D19F /* HHUserService.m */,
+				5C5451BD1B52A2D40025D19F /* HHUserCoachService.h */,
+				5C5451BE1B52A2D40025D19F /* HHUserCoachService.m */,
+				5C5451C01B52A48F0025D19F /* HHUserStudentService.h */,
+				5C5451C11B52A48F0025D19F /* HHUserStudentService.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -247,7 +257,8 @@
 		5C10F9261B49631200992B63 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				5C3980921B4C19A70057B049 /* Root View Controllers */,
+				5C5451C31B52A49F0025D19F /* Login Signup */,
+				5C3980921B4C19A70057B049 /* Root */,
 				5C39806E1B4AAD450057B049 /* HHNavigationController.h */,
 				5C39806F1B4AAD450057B049 /* HHNavigationController.m */,
 				5C39808F1B4C17900057B049 /* HHRootViewController.h */,
@@ -270,7 +281,6 @@
 				5C5451B01B51AC9D0025D19F /* ratingcar_solid@2x.png */,
 				5C5451B11B51AC9D0025D19F /* ratingcar_solid@3x.png */,
 				5C5451A31B5163F00025D19F /* location_icon.png */,
-				5C54519C1B50BE550025D19F /* ava.png */,
 				5C5451941B50B4AD0025D19F /* search_icon.png */,
 				5C5451821B4F5D790025D19F /* Nav Bar */,
 				5C54517C1B4ED5F40025D19F /* black_blur.jpg */,
@@ -282,14 +292,14 @@
 		5C10F92B1B49E7CD00992B63 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				5CB5508F1B4D5B38005DE447 /* UIImage+ImageEffects.h */,
-				5CB550901B4D5B38005DE447 /* UIImage+ImageEffects.m */,
 				5C3980781B4ACA2B0057B049 /* UIView+HHRect.h */,
 				5C3980791B4ACA2B0057B049 /* UIView+HHRect.m */,
 				5C10F92C1B49E85200992B63 /* UIColor+HHColor.h */,
 				5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */,
 				5C5451791B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.h */,
 				5C54517A1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m */,
+				5C5451D01B52BE1D0025D19F /* UIImage+HHImage.h */,
+				5C5451D11B52BE1D0025D19F /* UIImage+HHImage.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -303,7 +313,7 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		5C3980921B4C19A70057B049 /* Root View Controllers */ = {
+		5C3980921B4C19A70057B049 /* Root */ = {
 			isa = PBXGroup;
 			children = (
 				5C39806C1B4AAD450057B049 /* HHCoachListViewController.h */,
@@ -315,7 +325,7 @@
 				5C3980961B4C1A2A0057B049 /* HHMyReservationViewController.h */,
 				5C3980971B4C1A2A0057B049 /* HHMyReservationViewController.m */,
 			);
-			name = "Root View Controllers";
+			name = Root;
 			sourceTree = "<group>";
 		};
 		5C39809C1B4C3D5B0057B049 /* Fonts */ = {
@@ -347,6 +357,26 @@
 				5C54519F1B5154560025D19F /* HHRatingView.m */,
 			);
 			name = "Coach List Page";
+			sourceTree = "<group>";
+		};
+		5C5451C31B52A49F0025D19F /* Login Signup */ = {
+			isa = PBXGroup;
+			children = (
+				5C5451C41B52A7760025D19F /* HHLoginSignupViewController.h */,
+				5C5451C51B52A7760025D19F /* HHLoginSignupViewController.m */,
+				5CA5B7781B52CFF300312674 /* HHMobilePhoneViewController.h */,
+				5CA5B7791B52CFF300312674 /* HHMobilePhoneViewController.m */,
+			);
+			name = "Login Signup";
+			sourceTree = "<group>";
+		};
+		5CA5B77B1B52DF5500312674 /* Login Signup */ = {
+			isa = PBXGroup;
+			children = (
+				5CA5B77C1B52DF9200312674 /* HHTextFieldView.h */,
+				5CA5B77D1B52DF9200312674 /* HHTextFieldView.m */,
+			);
+			name = "Login Signup";
 			sourceTree = "<group>";
 		};
 		5CB5505A1B4CC040005DE447 /* Tab Bar */ = {
@@ -383,10 +413,8 @@
 		5CB5508B1B4CC718005DE447 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
-				5CB5508C1B4CC730005DE447 /* HHFloatButton.h */,
-				5CB5508D1B4CC730005DE447 /* HHFloatButton.m */,
-				5C5314E81B4E027C007AFA83 /* HHDropDownButton.h */,
-				5C5314E91B4E027C007AFA83 /* HHDropDownButton.m */,
+				5C5451CD1B52ADE50025D19F /* HHButton.h */,
+				5C5451CE1B52ADE50025D19F /* HHButton.m */,
 			);
 			name = Buttons;
 			sourceTree = "<group>";
@@ -584,7 +612,6 @@
 				5CB5507A1B4CC055005DE447 /* car_grey@2x.png in Resources */,
 				5CB550811B4CC055005DE447 /* list_grey@3x.png in Resources */,
 				5CB550841B4CC055005DE447 /* list_selected@3x.png in Resources */,
-				5C54519D1B50BE550025D19F /* ava.png in Resources */,
 				5CB550761B4CC055005DE447 /* calendar_selected@1x.png in Resources */,
 				5CB550831B4CC055005DE447 /* list_selected@2x.png in Resources */,
 				5C3980A81B4C3E5E0057B049 /* SourceHanSansSC-Medium.otf in Resources */,
@@ -667,25 +694,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CB5508E1B4CC730005DE447 /* HHFloatButton.m in Sources */,
+				5CA5B77E1B52DF9200312674 /* HHTextFieldView.m in Sources */,
 				5C5451A01B5154560025D19F /* HHRatingView.m in Sources */,
 				5C39808B1B4BFFB20057B049 /* HHAutoLayoutUtility.m in Sources */,
-				5C5314EA1B4E027C007AFA83 /* HHDropDownButton.m in Sources */,
+				5C5451C21B52A48F0025D19F /* HHUserStudentService.m in Sources */,
+				5C5451CF1B52ADE50025D19F /* HHButton.m in Sources */,
 				5C5451911B4F67200025D19F /* HHSearchBar.m in Sources */,
 				5C5451991B50B5910025D19F /* HHCoachListTableViewCell.m in Sources */,
-				5CB550911B4D5B38005DE447 /* UIImage+ImageEffects.m in Sources */,
 				5C3980711B4AAD450057B049 /* HHNavigationController.m in Sources */,
+				5C5451D21B52BE1D0025D19F /* UIImage+HHImage.m in Sources */,
 				5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */,
 				5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */,
 				5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */,
 				5C3980951B4C1A180057B049 /* HHHomePageViewController.m in Sources */,
+				5C5451C61B52A7760025D19F /* HHLoginSignupViewController.m in Sources */,
 				5CC3B6011B48268A00D10DFB /* main.m in Sources */,
 				5C3980981B4C1A2A0057B049 /* HHMyReservationViewController.m in Sources */,
 				5C3980911B4C17900057B049 /* HHRootViewController.m in Sources */,
+				5CA5B77A1B52CFF300312674 /* HHMobilePhoneViewController.m in Sources */,
 				5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */,
 				5C3980851B4AD7DE0057B049 /* HHBookViewController.m in Sources */,
 				5C3980701B4AAD450057B049 /* HHCoachListViewController.m in Sources */,
-				5C5451BF1B52A2D40025D19F /* HHUserService.m in Sources */,
+				5C5451BF1B52A2D40025D19F /* HHUserCoachService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

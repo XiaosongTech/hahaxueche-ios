@@ -10,6 +10,7 @@
 #import "HHNavigationController.h"
 #import "HHRootViewController.h"
 #import "UIColor+HHColor.h"
+#import "HHLoginSignupViewController.h"
 
 
 @interface HHAppDelegate ()
@@ -22,8 +23,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-    [self.window setRootViewController:rootVC];
+//    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+//    [self.window setRootViewController:rootVC];
+    HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
+    HHNavigationController *navVC = [[HHNavigationController alloc] initWithRootViewController:loginSignupVC];
+    [self.window setRootViewController:navVC];
     [self.window setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"black_blur.jpg"]]];
     [self.window makeKeyAndVisible];
     [self setAppearance];

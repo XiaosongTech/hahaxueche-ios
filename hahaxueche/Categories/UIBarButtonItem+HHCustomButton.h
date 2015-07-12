@@ -12,6 +12,6 @@
 
 + (UIBarButtonItem *)buttonItemWithImage:(UIImage *)image action:(SEL)action target:(id)target;
 
-+ (UIBarButtonItem *)buttonItemWithTitle:(NSString *)title action:(SEL)action target:(id)target;
++ (UIBarButtonItem *)buttonItemWithTitle:(NSString *)title action:(SEL)action target:(id)target isLeft:(BOOL)isLeft;
 
 @end

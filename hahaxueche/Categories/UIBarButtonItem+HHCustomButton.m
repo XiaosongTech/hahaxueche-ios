@@ -20,15 +20,19 @@
     return [[UIBarButtonItem alloc] initWithCustomView:button];
 }
 
-+ (UIBarButtonItem *)buttonItemWithTitle:(NSString *)title action:(SEL)action target:(id)target {
++ (UIBarButtonItem *)buttonItemWithTitle:(NSString *)title action:(SEL)action target:(id)target isLeft:(BOOL)isLeft {
     UIButton *button = [[UIButton alloc] init];
     [button setTitle:title forState:UIControlStateNormal];
     button.backgroundColor = [UIColor clearColor];
     [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
     [button sizeToFit];
     button.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Normal" size:13];
-    [button setContentEdgeInsets:UIEdgeInsetsMake(0, 10.0f, 0, -10.0f)];
-    return [[UIBarButtonItem alloc] initWithCustomView:button];;
+    if (isLeft) {
+        [button setContentEdgeInsets:UIEdgeInsetsMake(0, -10.0f, 0, 10.0f)];
+    } else {
+        [button setContentEdgeInsets:UIEdgeInsetsMake(0, 10.0f, 0, -10.0f)];
+    }
+        return [[UIBarButtonItem alloc] initWithCustomView:button];;
 }
 
 
