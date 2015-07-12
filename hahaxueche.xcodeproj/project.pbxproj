@@ -50,6 +50,7 @@
 		5C5451B91B51AC9D0025D19F /* ratingcar_solid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C5451B01B51AC9D0025D19F /* ratingcar_solid@2x.png */; };
 		5C5451BA1B51AC9D0025D19F /* ratingcar_solid@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C5451B11B51AC9D0025D19F /* ratingcar_solid@3x.png */; };
 		5C5451BC1B51E6B60025D19F /* fbAvatar.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5C5451BB1B51E6B60025D19F /* fbAvatar.jpg */; };
+		5C5451BF1B52A2D40025D19F /* HHUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451BE1B52A2D40025D19F /* HHUserService.m */; };
 		5CB550731B4CC055005DE447 /* calendar_grey@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB5505B1B4CC055005DE447 /* calendar_grey@1x.png */; };
 		5CB550741B4CC055005DE447 /* calendar_grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB5505C1B4CC055005DE447 /* calendar_grey@2x.png */; };
 		5CB550751B4CC055005DE447 /* calendar_grey@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB5505D1B4CC055005DE447 /* calendar_grey@3x.png */; };
@@ -151,6 +152,8 @@
 		5C5451B01B51AC9D0025D19F /* ratingcar_solid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ratingcar_solid@2x.png"; sourceTree = "<group>"; };
 		5C5451B11B51AC9D0025D19F /* ratingcar_solid@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ratingcar_solid@3x.png"; sourceTree = "<group>"; };
 		5C5451BB1B51E6B60025D19F /* fbAvatar.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fbAvatar.jpg; sourceTree = "<group>"; };
+		5C5451BD1B52A2D40025D19F /* HHUserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHUserService.h; sourceTree = SOURCE_ROOT; };
+		5C5451BE1B52A2D40025D19F /* HHUserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHUserService.m; sourceTree = SOURCE_ROOT; };
 		5CB5505B1B4CC055005DE447 /* calendar_grey@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar_grey@1x.png"; sourceTree = "<group>"; };
 		5CB5505C1B4CC055005DE447 /* calendar_grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar_grey@2x.png"; sourceTree = "<group>"; };
 		5CB5505D1B4CC055005DE447 /* calendar_grey@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar_grey@3x.png"; sourceTree = "<group>"; };
@@ -235,6 +238,8 @@
 		5C10F9251B4962F300992B63 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				5C5451BD1B52A2D40025D19F /* HHUserService.h */,
+				5C5451BE1B52A2D40025D19F /* HHUserService.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -680,6 +685,7 @@
 				5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */,
 				5C3980851B4AD7DE0057B049 /* HHBookViewController.m in Sources */,
 				5C3980701B4AAD450057B049 /* HHCoachListViewController.m in Sources */,
+				5C5451BF1B52A2D40025D19F /* HHUserService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

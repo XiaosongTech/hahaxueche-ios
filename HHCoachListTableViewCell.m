@@ -85,6 +85,8 @@
     self.courseLabel.layer.masksToBounds = YES;
     self.courseLabel.layer.cornerRadius = 9.0f;
     self.courseLabel.backgroundColor = [UIColor HHOrange];
+    
+    self.ratingLabel = [self createLabelWithTitle:@"84 评价" font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:11] color:[UIColor darkGrayColor]];
 }
 
 - (NSMutableAttributedString *)generateAttributedStringWithString:(NSString *)title font:(UIFont *)font color:(UIColor *)color {
@@ -134,7 +136,10 @@
                              [HHAutoLayoutUtility verticalNext:self.ratingView toView:self.nameLabel constant:6.0f],
                              [HHAutoLayoutUtility horizontalNext:self.ratingView toView:self.avatarView constant:10.0f],
                              [HHAutoLayoutUtility setViewHeight:self.ratingView multiplier:0 constant:15.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.ratingView multiplier:0 constant:110.0f],
                              
+                             [HHAutoLayoutUtility verticalNext:self.ratingLabel toView:self.nameLabel constant:5.0f],
+                             [HHAutoLayoutUtility horizontalNext:self.ratingLabel toView:self.ratingView constant:5.0f],
                              
                              [HHAutoLayoutUtility verticalNext:self.teachedYearLabel toView:self.ratingView constant:6.0f],
                              [HHAutoLayoutUtility horizontalNext:self.teachedYearLabel toView:self.avatarView constant:10.0f],
