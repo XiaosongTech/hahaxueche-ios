@@ -10,6 +10,6 @@
 
 @interface HHMobilePhoneViewController : UIViewController
 
-- (instancetype)initWithNumber:(NSString *)number;
+- (instancetype)initWithTitle:(NSString *)title subTitle:(NSString *)subTitle;
 
 @end

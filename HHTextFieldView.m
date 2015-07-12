@@ -20,7 +20,7 @@
         self.textField.textColor = [UIColor whiteColor];
         self.textField.tintColor = [UIColor HHOrange];
         self.textField.translatesAutoresizingMaskIntoConstraints = NO;
-        self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"手机号码" attributes:@{NSForegroundColorAttributeName: [UIColor colorWithRed:0.52 green:0.45 blue:0.36 alpha:1], NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:15.0f]}];
+        self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder attributes:@{NSForegroundColorAttributeName: [UIColor colorWithRed:0.52 green:0.45 blue:0.36 alpha:1], NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:15.0f]}];
         self.textField.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:self.textField];
         

@@ -8,6 +8,7 @@
 
 #import "HHButton.h"
 #import "UIColor+HHColor.h"
+#import "UIImage+HHImage.h"
 
 
 @implementation HHButton
@@ -56,9 +57,13 @@
         self.layer.borderColor = [UIColor HHOrange].CGColor;
         self.layer.borderWidth = 1.0f;
         self.layer.cornerRadius = 5.0f;
+        [self setBackgroundImage:[UIImage imageWithColor:[UIColor HHOrange]] forState:UIControlStateHighlighted];
+        [self setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
     }
     return self;
 }
+
+
 
 
 @end

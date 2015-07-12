@@ -55,8 +55,6 @@
 - (HHButton *)createBorderButtonWithTitle:(NSString *)title textColor:(UIColor *)textColor font:(UIFont *)font action:(SEL)action {
     HHButton *button = [[HHButton alloc] initThinBorderButtonWithTitle:title textColor:textColor font:font];
     button.translatesAutoresizingMaskIntoConstraints = NO;
-    [button setBackgroundImage:[UIImage imageWithColor:[UIColor HHOrange]] forState:UIControlStateHighlighted];
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
     return button;
@@ -88,7 +86,7 @@
 
 - (void)signup {
     
-    HHMobilePhoneViewController *mobilePhoneVC = [[HHMobilePhoneViewController alloc] initWithNumber:nil];
+    HHMobilePhoneViewController *mobilePhoneVC = [[HHMobilePhoneViewController alloc] initWithTitle:@"请输入您的手机号码" subTitle:@"我们绝不会贩卖，滥用你的手机号码"];
     HHNavigationController *navVC = [[HHNavigationController alloc] initWithRootViewController:mobilePhoneVC];
     navVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentViewController:navVC animated:YES completion:nil];
