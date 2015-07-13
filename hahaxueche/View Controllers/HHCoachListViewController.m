@@ -245,7 +245,7 @@ typedef enum : NSUInteger {
 
 - (void)autoLayoutSubviews {
     NSArray *constraints = @[
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.searchBar constant:10.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.searchBar constant:5.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.searchBar constant:0],
                              [HHAutoLayoutUtility setViewWidth:self.searchBar multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.searchBar multiplier:0 constant:30.0f],
