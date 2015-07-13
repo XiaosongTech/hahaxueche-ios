@@ -16,7 +16,7 @@
 #import "HHButton.h"
 #import "UIView+HHRect.h"
 
-@interface HHMobilePhoneViewController () <UITextFieldDelegate>
+@interface HHMobilePhoneViewController ()
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *subTitleLabel;
@@ -55,7 +55,6 @@
     self.navigationItem.leftBarButtonItem = cancelButton;
     
     self.numberFieldView = [[HHTextFieldView alloc] initWithPlaceholder:@"手机号码"];
-    self.numberFieldView.textField.delegate = self;
     self.numberFieldView.textField.keyboardType = UIKeyboardTypeNumberPad;
     self.numberFieldView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.numberFieldView.textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
@@ -70,7 +69,6 @@
     [self.numberFieldView.textField becomeFirstResponder];
     
     self.verificationCodeFieldView = [[HHTextFieldView alloc] initWithPlaceholder:@"验证码"];
-    self.verificationCodeFieldView.textField.delegate = self;
     self.verificationCodeFieldView.textField.keyboardType = UIKeyboardTypeDefault;
     self.verificationCodeFieldView.translatesAutoresizingMaskIntoConstraints = NO;
     self.verificationCodeFieldView.hidden = YES;

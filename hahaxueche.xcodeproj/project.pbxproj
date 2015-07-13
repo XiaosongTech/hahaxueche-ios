@@ -55,6 +55,10 @@
 		5C5451D21B52BE1D0025D19F /* UIImage+HHImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451D11B52BE1D0025D19F /* UIImage+HHImage.m */; };
 		5CA5B77A1B52CFF300312674 /* HHMobilePhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B7791B52CFF300312674 /* HHMobilePhoneViewController.m */; };
 		5CA5B77E1B52DF9200312674 /* HHTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B77D1B52DF9200312674 /* HHTextFieldView.m */; };
+		5CA5B7811B53298000312674 /* HHProfileSetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B7801B53298000312674 /* HHProfileSetupViewController.m */; };
+		5CA5B7861B533A2200312674 /* austin1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5CA5B7831B533A2200312674 /* austin1.jpg */; };
+		5CA5B7871B533A2200312674 /* austin2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5CA5B7841B533A2200312674 /* austin2.jpg */; };
+		5CA5B7881B533A2200312674 /* austin3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5CA5B7851B533A2200312674 /* austin3.jpg */; };
 		5CB550731B4CC055005DE447 /* calendar_grey@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB5505B1B4CC055005DE447 /* calendar_grey@1x.png */; };
 		5CB550741B4CC055005DE447 /* calendar_grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB5505C1B4CC055005DE447 /* calendar_grey@2x.png */; };
 		5CB550751B4CC055005DE447 /* calendar_grey@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB5505D1B4CC055005DE447 /* calendar_grey@3x.png */; };
@@ -165,6 +169,11 @@
 		5CA5B7791B52CFF300312674 /* HHMobilePhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMobilePhoneViewController.m; sourceTree = "<group>"; };
 		5CA5B77C1B52DF9200312674 /* HHTextFieldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTextFieldView.h; sourceTree = SOURCE_ROOT; };
 		5CA5B77D1B52DF9200312674 /* HHTextFieldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHTextFieldView.m; sourceTree = SOURCE_ROOT; };
+		5CA5B77F1B53298000312674 /* HHProfileSetupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHProfileSetupViewController.h; sourceTree = "<group>"; };
+		5CA5B7801B53298000312674 /* HHProfileSetupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHProfileSetupViewController.m; sourceTree = "<group>"; };
+		5CA5B7831B533A2200312674 /* austin1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = austin1.jpg; sourceTree = "<group>"; };
+		5CA5B7841B533A2200312674 /* austin2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = austin2.jpg; sourceTree = "<group>"; };
+		5CA5B7851B533A2200312674 /* austin3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = austin3.jpg; sourceTree = "<group>"; };
 		5CB5505B1B4CC055005DE447 /* calendar_grey@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar_grey@1x.png"; sourceTree = "<group>"; };
 		5CB5505C1B4CC055005DE447 /* calendar_grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar_grey@2x.png"; sourceTree = "<group>"; };
 		5CB5505D1B4CC055005DE447 /* calendar_grey@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar_grey@3x.png"; sourceTree = "<group>"; };
@@ -270,7 +279,7 @@
 		5C10F9271B49E6F100992B63 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				5C5451BB1B51E6B60025D19F /* fbAvatar.jpg */,
+				5CA5B7821B53399200312674 /* Assests for test */,
 				5C5451A91B51AC9D0025D19F /* ratingcar_half.png */,
 				5C5451AA1B51AC9D0025D19F /* ratingcar_half@2x.png */,
 				5C5451AB1B51AC9D0025D19F /* ratingcar_half@3x.png */,
@@ -366,6 +375,8 @@
 				5C5451C51B52A7760025D19F /* HHLoginSignupViewController.m */,
 				5CA5B7781B52CFF300312674 /* HHMobilePhoneViewController.h */,
 				5CA5B7791B52CFF300312674 /* HHMobilePhoneViewController.m */,
+				5CA5B77F1B53298000312674 /* HHProfileSetupViewController.h */,
+				5CA5B7801B53298000312674 /* HHProfileSetupViewController.m */,
 			);
 			name = "Login Signup";
 			sourceTree = "<group>";
@@ -377,6 +388,17 @@
 				5CA5B77D1B52DF9200312674 /* HHTextFieldView.m */,
 			);
 			name = "Login Signup";
+			sourceTree = "<group>";
+		};
+		5CA5B7821B53399200312674 /* Assests for test */ = {
+			isa = PBXGroup;
+			children = (
+				5CA5B7831B533A2200312674 /* austin1.jpg */,
+				5CA5B7841B533A2200312674 /* austin2.jpg */,
+				5CA5B7851B533A2200312674 /* austin3.jpg */,
+				5C5451BB1B51E6B60025D19F /* fbAvatar.jpg */,
+			);
+			name = "Assests for test";
 			sourceTree = "<group>";
 		};
 		5CB5505A1B4CC040005DE447 /* Tab Bar */ = {
@@ -600,6 +622,7 @@
 				5C3980A51B4C3E5E0057B049 /* SourceHanSansSC-ExtraLight.otf in Resources */,
 				5C5451B71B51AC9D0025D19F /* ratingcar_line@3x.png in Resources */,
 				5CB5508A1B4CC055005DE447 /* reservation_selected@3x.png in Resources */,
+				5CA5B7861B533A2200312674 /* austin1.jpg in Resources */,
 				5CB550751B4CC055005DE447 /* calendar_grey@3x.png in Resources */,
 				5C3980A61B4C3E5E0057B049 /* SourceHanSansSC-Heavy.otf in Resources */,
 				5CB550771B4CC055005DE447 /* calendar_selected@2x.png in Resources */,
@@ -632,8 +655,10 @@
 				5C54518C1B4F5D850025D19F /* search.png in Resources */,
 				5CB5507F1B4CC055005DE447 /* list_grey@1x.png in Resources */,
 				5C54517D1B4ED5F40025D19F /* black_blur.jpg in Resources */,
+				5CA5B7871B533A2200312674 /* austin2.jpg in Resources */,
 				5CB5507D1B4CC055005DE447 /* car_selected@2x.png in Resources */,
 				5C5451891B4F5D850025D19F /* map.png in Resources */,
+				5CA5B7881B533A2200312674 /* austin3.jpg in Resources */,
 				5C5451BC1B51E6B60025D19F /* fbAvatar.jpg in Resources */,
 				5C54518B1B4F5D850025D19F /* map@3x.png in Resources */,
 				5CB550741B4CC055005DE447 /* calendar_grey@2x.png in Resources */,
@@ -715,6 +740,7 @@
 				5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */,
 				5C3980851B4AD7DE0057B049 /* HHBookViewController.m in Sources */,
 				5C3980701B4AAD450057B049 /* HHCoachListViewController.m in Sources */,
+				5CA5B7811B53298000312674 /* HHProfileSetupViewController.m in Sources */,
 				5C5451BF1B52A2D40025D19F /* HHUserCoachService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

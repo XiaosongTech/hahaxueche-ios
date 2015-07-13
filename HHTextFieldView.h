@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HHTextFieldView : UIView
+@interface HHTextFieldView : UIView <UITextFieldDelegate>
 
 @property (nonatomic, strong) UITextField *textField;
 @property (nonatomic, strong) UIView *divideLine;
