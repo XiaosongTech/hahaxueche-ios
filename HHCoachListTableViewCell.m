@@ -10,6 +10,7 @@
 #import "HHAutoLayoutUtility.h"
 #import "UIColor+HHColor.h"
 #import <pop/POP.h>
+#import "UIColor+HHColor.h"
 
 #define kDataViewBackgroundColor [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1]
 #define kAvatarRadius 30.0f
@@ -80,7 +81,7 @@
     [studentAmountString appendAttributedString:[self generateAttributedStringWithString:@"名学员" font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:14] color:[UIColor blackColor]]];
     self.teachedStudentAmount.attributedText = studentAmountString;
     
-    self.courseLabel = [self createLabelWithTitle:@"科目二" font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:11] color:[UIColor blackColor]];
+    self.courseLabel = [self createLabelWithTitle:@"科目二" font:[UIFont fontWithName:@"SourceHanSansSC-Bold" size:11] color:[UIColor whiteColor]];
     self.courseLabel.textAlignment = NSTextAlignmentCenter;
     self.courseLabel.layer.masksToBounds = YES;
     self.courseLabel.layer.cornerRadius = 9.0f;
