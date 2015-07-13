@@ -28,7 +28,7 @@
 //    HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
 //    HHNavigationController *navVC = [[HHNavigationController alloc] initWithRootViewController:loginSignupVC];
 //    [self.window setRootViewController:navVC];
-    [self.window setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"black_blur.jpg"]]];
+    [self.window setBackgroundColor:[UIColor whiteColor]];
     [self.window makeKeyAndVisible];
     [self setAppearance];
     [self setWindow:self.window];
@@ -58,12 +58,12 @@
 }
 
 - (void)setAppearance {
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor],
                                                            NSFontAttributeName: [UIFont fontWithName:@"SourceHanSansSC-Medium" size:16]}];
-    [[UITabBar appearance] setTintColor:[UIColor HHOrange]];
-    [[UITabBar appearance] setBarTintColor:[UIColor clearColor]];
-    [[UITabBar appearance] setBackgroundImage:[UIImage new]];
+    [[UINavigationBar appearance] setBackgroundColor:[UIColor HHOrange]];
+    [[UITabBar appearance] setTintColor:[UIColor blackColor]];
+    [[UITabBar appearance] setBarTintColor:[UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1]];
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:10]} forState:UIControlStateNormal];
 }
 @end

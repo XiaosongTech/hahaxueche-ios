@@ -25,6 +25,7 @@
 
 
 - (void)viewDidLoad {
+    self.title = @"哈哈学车";
     self.imagesArray = @[[UIImage imageNamed:@"austin1.jpg"], [UIImage imageNamed:@"austin2.jpg"], [UIImage imageNamed:@"austin3.jpg"]];
     self.imageGalleryView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectZero imagesGroup:self.imagesArray];
     self.imageGalleryView.translatesAutoresizingMaskIntoConstraints = NO;

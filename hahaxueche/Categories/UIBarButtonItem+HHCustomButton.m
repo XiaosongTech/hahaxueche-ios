@@ -22,6 +22,7 @@
 
 + (UIBarButtonItem *)buttonItemWithTitle:(NSString *)title action:(SEL)action target:(id)target isLeft:(BOOL)isLeft {
     UIButton *button = [[UIButton alloc] init];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [button setTitle:title forState:UIControlStateNormal];
     button.backgroundColor = [UIColor clearColor];
     [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];

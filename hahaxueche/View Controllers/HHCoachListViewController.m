@@ -32,7 +32,7 @@ typedef enum : NSUInteger {
 
 #define kSmartSortString @"智能排序"
 #define kBestRatingString @"评价最好"
-#define kMostRatingString @"评价最多"
+#define kPopularCoach @"人气最旺"
 #define kLowestPriceString @"价格最低"
 
 #define kCourseTwoString @"科目二"
@@ -91,8 +91,7 @@ typedef enum : NSUInteger {
         self.titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.titleButton setTitle:[NSString stringWithFormat:@"教练 (%@) \u25BE", courseSting] forState:UIControlStateNormal];
         self.titleButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:16];
-        [self.titleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self.titleButton setTitleColor:[UIColor HHOrange] forState:UIControlStateHighlighted];
+        [self.titleButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         self.titleButton.backgroundColor = [UIColor clearColor];
         [self.titleButton sizeToFit];
         [self.titleButton addTarget:self action:@selector(titleViewPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -225,7 +224,7 @@ typedef enum : NSUInteger {
     
     self.secondSortButton = [self createFloatButtonWithTitle:kBestRatingString];
     
-    self.thirdSortButton = [self createFloatButtonWithTitle:kMostRatingString];
+    self.thirdSortButton = [self createFloatButtonWithTitle:kPopularCoach];
     
     self.floatSortButton = [[HHButton alloc] initFloatButtonWithTitle:kSmartSortString frame:CGRectMake(CGRectGetWidth(self.view.bounds)-110.0f, CGRectGetHeight(self.view.bounds)-100.0f, 100.0f, 30.0f) backgroundColor:[UIColor HHOrange]];
     [self.view addSubview:self.floatSortButton];
@@ -274,7 +273,7 @@ typedef enum : NSUInteger {
     if ([string isEqualToString:kSmartSortString]) {
         selectedOption = SortOptionSmartSort;
         
-    } else if ([string isEqualToString:kMostRatingString]) {
+    } else if ([string isEqualToString:kPopularCoach]) {
         selectedOption = SortOptionMostRating;
         
     } else if ([string isEqualToString:kLowestPriceString]) {

@@ -33,7 +33,7 @@
     
     self.dataView = [[UIView alloc] initWithFrame:CGRectZero];
     self.dataView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.dataView.backgroundColor = kDataViewBackgroundColor;
+    self.dataView.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1];
     self.dataView.layer.cornerRadius = 5.0f;
     self.dataView.layer.masksToBounds = YES;
     [self.contentView addSubview:self.dataView];
