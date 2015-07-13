@@ -63,6 +63,22 @@
     return self;
 }
 
+- (HHButton *)initSolidButtonWithTitle:(NSString *)title textColor:(UIColor *)textColor font:(UIFont *)font {
+    self = [super init];
+    if (self) {
+        [self setTitle:title forState:UIControlStateNormal];
+        [self setTitleColor:textColor forState:UIControlStateNormal];
+        self.titleLabel.font = font;;
+        self.backgroundColor = [UIColor HHOrange];
+         self.layer.masksToBounds = YES;
+        self.layer.cornerRadius = 5.0f;
+        [self setBackgroundImage:[UIImage imageWithColor:[UIColor HHLightOrange]] forState:UIControlStateHighlighted];
+        [self setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+    }
+    return self;
+
+}
+
 
 
 

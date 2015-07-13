@@ -13,6 +13,12 @@
 // Please contact the author.
 // Version: 3.1.2.6.
 
+// JTSImageViewController
+#define COCOAPODS_POD_AVAILABLE_JTSImageViewController
+#define COCOAPODS_VERSION_MAJOR_JTSImageViewController 1
+#define COCOAPODS_VERSION_MINOR_JTSImageViewController 4
+#define COCOAPODS_VERSION_PATCH_JTSImageViewController 0
+
 // MBProgressHUD
 #define COCOAPODS_POD_AVAILABLE_MBProgressHUD
 #define COCOAPODS_VERSION_MAJOR_MBProgressHUD 0

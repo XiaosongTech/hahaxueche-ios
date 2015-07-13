@@ -53,7 +53,7 @@
     self.addressLabel.userInteractionEnabled = YES;
     self.priceLabel = [self createLabelWithTitle:@"￥1500" font:[UIFont fontWithName:@"SourceHanSansSC-Heavy" size:16] color:[UIColor darkTextColor]];
     
-    self.locationPin = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"location_icon1"]];
+    self.locationPin = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"location_icon"]];
     self.locationPin.translatesAutoresizingMaskIntoConstraints = NO;
     UITapGestureRecognizer *tapPin = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showLocation)];
     [self.locationPin addGestureRecognizer:tapPin];

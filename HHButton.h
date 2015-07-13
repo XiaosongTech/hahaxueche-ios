@@ -13,5 +13,6 @@
 - (HHButton *)initFloatButtonWithTitle:(NSString *)title frame:(CGRect)frame backgroundColor:(UIColor *)color;
 - (HHButton *)initDropDownButtonWithTitle:(NSString *)title frame:(CGRect)frame;
 - (HHButton *)initThinBorderButtonWithTitle:(NSString *)title textColor:(UIColor *)textColor font:(UIFont *)font;
+- (HHButton *)initSolidButtonWithTitle:(NSString *)title textColor:(UIColor *)textColor font:(UIFont *)font;
 
 @end
