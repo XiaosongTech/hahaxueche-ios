@@ -90,12 +90,14 @@ typedef enum : NSUInteger {
     if (!self.title) {
         self.titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.titleButton setTitle:[NSString stringWithFormat:@"教练 (%@) \u25BE", courseSting] forState:UIControlStateNormal];
-        self.titleButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:16];
-        [self.titleButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        self.titleButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:15.0f];
+        [self.titleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         self.titleButton.backgroundColor = [UIColor clearColor];
-        [self.titleButton sizeToFit];
+        //[self.titleButton sizeToFit];
         [self.titleButton addTarget:self action:@selector(titleViewPressed) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.titleView = self.titleButton;
+        [self.titleButton setFrameWithHeight:20.0f];
+        [self.titleButton setFrameWithY:0];
     } else {
         [self.titleButton setTitle:[NSString stringWithFormat:@"教练 (%@)", courseSting] forState:UIControlStateNormal];
     }
@@ -243,12 +245,12 @@ typedef enum : NSUInteger {
 
 - (void)autoLayoutSubviews {
     NSArray *constraints = @[
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.searchBar constant:CGRectGetHeight(self.navigationController.navigationBar.bounds) + 30.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.searchBar constant:10.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.searchBar constant:0],
                              [HHAutoLayoutUtility setViewWidth:self.searchBar multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.searchBar multiplier:0 constant:25.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.searchBar multiplier:0 constant:30.0f],
                              
-                             [HHAutoLayoutUtility verticalNext:self.tableView toView:self.searchBar constant:10.0f],
+                             [HHAutoLayoutUtility verticalNext:self.tableView toView:self.searchBar constant:5.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.tableView constant:8.0f],
                              [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:-16.0f],
                              [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.tableView constant:-CGRectGetHeight(self.tabBarController.tabBar.bounds)],

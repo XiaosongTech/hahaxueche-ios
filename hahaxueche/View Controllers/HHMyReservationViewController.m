@@ -10,4 +10,8 @@
 
 @implementation HHMyReservationViewController
 
+- (void)viewDidLoad {
+    self.title = @"我的预约";
+}
+
 @end

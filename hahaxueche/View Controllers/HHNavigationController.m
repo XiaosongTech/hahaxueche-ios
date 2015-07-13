@@ -28,7 +28,7 @@
 }
 
 - (void)setupVC {
-    self.navigationBar.barTintColor = [UIColor HHOrange];
+    //self.navigationBar.barTintColor = [UIColor colorWithRed:1 green:0.69 blue:0.25 alpha:1];
 }
 
 @end

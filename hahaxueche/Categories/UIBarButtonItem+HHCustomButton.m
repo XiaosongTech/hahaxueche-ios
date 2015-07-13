@@ -22,16 +22,16 @@
 
 + (UIBarButtonItem *)buttonItemWithTitle:(NSString *)title action:(SEL)action target:(id)target isLeft:(BOOL)isLeft {
     UIButton *button = [[UIButton alloc] init];
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button setTitle:title forState:UIControlStateNormal];
     button.backgroundColor = [UIColor clearColor];
     [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
     [button sizeToFit];
     button.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Normal" size:13];
     if (isLeft) {
-        [button setContentEdgeInsets:UIEdgeInsetsMake(0, -10.0f, 0, 10.0f)];
+        [button setContentEdgeInsets:UIEdgeInsetsMake(0, -13.0f, 0, 13.0f)];
     } else {
-        [button setContentEdgeInsets:UIEdgeInsetsMake(0, 10.0f, 0, -10.0f)];
+        [button setContentEdgeInsets:UIEdgeInsetsMake(0, 13.0f, 0, -13.0f)];
     }
         return [[UIBarButtonItem alloc] initWithCustomView:button];;
 }

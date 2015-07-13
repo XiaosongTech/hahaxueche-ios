@@ -9,6 +9,7 @@
 #import "HHButton.h"
 #import "UIColor+HHColor.h"
 #import "UIImage+HHImage.h"
+#import <QuartzCore/QuartzCore.h>
 
 
 @implementation HHButton
@@ -27,7 +28,7 @@
         self.layer.shadowOpacity = 0.8;
         self.layer.shadowRadius = 1.0f;
         self.layer.shadowOffset = CGSizeMake(1.0, 1.0f);
-        self.layer.masksToBounds = YES;
+        self.layer.masksToBounds = NO;
     }
     return self;
 }
@@ -37,11 +38,11 @@
     self = [super init];
     if (self) {
         [self setTitle:title forState:UIControlStateNormal];
-        [self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [self setTitleColor:[UIColor HHOrange] forState:UIControlStateHighlighted];
+        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
         self.frame = frame;
-        self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:16];
-        self.backgroundColor = [UIColor HHLightOrange];
+        self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:15];
+        self.backgroundColor = [UIColor HHOrange];
     }
     return self;
 }

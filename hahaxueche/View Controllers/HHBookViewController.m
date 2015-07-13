@@ -11,7 +11,7 @@
 @implementation HHBookViewController
 
 - (void)viewDidLoad {
-    self.view.backgroundColor = [UIColor clearColor];
+    self.title = @"预约学车时间";
 }
 
 @end

@@ -45,7 +45,7 @@
 
 - (void)autoLayoutSubviews {
     NSArray *constraints = @[
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.imageGalleryView constant:30.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.imageGalleryView constant:0],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.imageGalleryView constant:0],
                              [HHAutoLayoutUtility setViewWidth:self.imageGalleryView multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.imageGalleryView multiplier:0 constant:200.0f],
