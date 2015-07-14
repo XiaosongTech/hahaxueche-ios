@@ -16,6 +16,7 @@
 #import "HHButton.h"
 #import "UIView+HHRect.h"
 #import "HHProfileSetupViewController.h"
+#import "HHRootViewController.h"
 
 @interface HHMobilePhoneViewController ()
 
@@ -175,8 +176,14 @@
 }
 
 - (void)verifySMSCode {
-    HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] init];
-    [self.navigationController pushViewController:profileSetupVC animated:YES];
+    if (self.type == PageTypeSignup) {
+        HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] init];
+        [self.navigationController pushViewController:profileSetupVC animated:YES];
+    } else {
+        HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+        [self presentViewController:rootVC animated:YES completion:nil];
+
+    }
 }
 
 

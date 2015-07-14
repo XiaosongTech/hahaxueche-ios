@@ -18,8 +18,10 @@
 
 // Multiplier should not be 0
 + (NSLayoutConstraint *)setCenterX:(UIView *)view multiplier:(CGFloat)multiplier constant:(CGFloat)constant;
++ (NSLayoutConstraint *)setCenterX:(UIView *)view toView:(UIView *)toView multiplier:(CGFloat)multiplier constant:(CGFloat)constant;
 // Multiplier should not be 0
 + (NSLayoutConstraint *)setCenterY:(UIView *)view multiplier:(CGFloat)multiplier constant:(CGFloat)constant;
++ (NSLayoutConstraint *)setCenterY:(UIView *)view toView:(UIView *)toView multiplier:(CGFloat)multiplier constant:(CGFloat)constant;
 
 + (NSLayoutConstraint *)verticalAlignToSuperViewTop:(UIView *)view constant:(CGFloat)constant;
 + (NSLayoutConstraint *)verticalAlignToSuperViewBottom:(UIView *)view constant:(CGFloat)constant;

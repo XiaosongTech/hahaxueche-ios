@@ -23,10 +23,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-//    [self.window setRootViewController:rootVC];
-    HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
-    [self.window setRootViewController:loginSignupVC];
+    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+    [self.window setRootViewController:rootVC];
+//    HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
+//    [self.window setRootViewController:loginSignupVC];
     [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
     [self.window makeKeyAndVisible];
     [self setAppearance];

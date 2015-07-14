@@ -91,8 +91,7 @@
         self.backgroundColor = [UIColor HHOrange];
          self.layer.masksToBounds = YES;
         self.layer.cornerRadius = 5.0f;
-        [self setBackgroundImage:[UIImage imageWithColor:[UIColor HHOrange]] forState:UIControlStateHighlighted];
-        [self setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+        [self setTitleColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1] forState:UIControlStateHighlighted];
     }
     return self;
 

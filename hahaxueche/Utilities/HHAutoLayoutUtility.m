@@ -156,5 +156,27 @@
     
 }
 
++ (NSLayoutConstraint *)setCenterX:(UIView *)view toView:(UIView *)toView multiplier:(CGFloat)multiplier constant:(CGFloat)constant {
+    return [NSLayoutConstraint
+            constraintWithItem:view
+            attribute:NSLayoutAttributeCenterX
+            relatedBy:NSLayoutRelationEqual
+            toItem:toView
+            attribute:NSLayoutAttributeCenterX
+            multiplier:multiplier
+            constant:constant];
+}
+
++ (NSLayoutConstraint *)setCenterY:(UIView *)view toView:(UIView *)toView multiplier:(CGFloat)multiplier constant:(CGFloat)constant {
+    return [NSLayoutConstraint
+            constraintWithItem:view
+            attribute:NSLayoutAttributeCenterY
+            relatedBy:NSLayoutRelationEqual
+            toItem:toView
+            attribute:NSLayoutAttributeCenterY
+            multiplier:multiplier
+            constant:constant];
+}
+
 
 @end
