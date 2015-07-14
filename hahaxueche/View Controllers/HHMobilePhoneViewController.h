@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum : NSUInteger {
+    PageTypeLogin,
+    PageTypeSignup,
+} PageType;
+
 @interface HHMobilePhoneViewController : UIViewController
 
-- (instancetype)initWithTitle:(NSString *)title subTitle:(NSString *)subTitle;
+- (instancetype)initWithType:(PageType)type;
 
 @end

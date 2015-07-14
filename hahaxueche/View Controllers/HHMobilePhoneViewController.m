@@ -15,6 +15,7 @@
 #import "NBPhoneNumberUtil.h"
 #import "HHButton.h"
 #import "UIView+HHRect.h"
+#import "HHProfileSetupViewController.h"
 
 @interface HHMobilePhoneViewController ()
 
@@ -27,18 +28,25 @@
 @property (nonatomic, strong) HHTextFieldView *verificationCodeFieldView;
 @property (nonatomic, strong) NSString *titleText;
 @property (nonatomic, strong) NSString *subTitleText;
+@property (nonatomic)         PageType type;
 
 
 @end
 
 @implementation HHMobilePhoneViewController
 
-- (instancetype)initWithTitle:(NSString *)title subTitle:(NSString *)subTitle {
+- (instancetype)initWithType:(PageType)type {
     self = [super init];
     if (self) {
         self.numberUtil = [[NBPhoneNumberUtil alloc] init];
-        self.titleText = title;
-        self.subTitleText = subTitle;
+        self.type = type;
+        if(self.type == PageTypeSignup) {
+            self.title = @"1/2";
+            self.titleText = @"请输入您的手机号码";
+            self.subTitleText = @"我们绝不会贩卖，滥用你的个人信息";
+        } else {
+            self.title = @"手机号登陆";
+        }
         self.view.backgroundColor = [UIColor whiteColor];
     }
     return self;
@@ -50,8 +58,11 @@
 }
 
 - (void)initSubviews {
-    self.titleLabel = [self createLabelWithTitle:self.titleText font:[UIFont fontWithName:@"SourceHanSansSC-Bold" size:20.0f] textColor:[UIColor HHOrange]];
-    self.subTitleLabel = [self createLabelWithTitle:self.subTitleText font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:12.0f] textColor:[UIColor darkTextColor]];
+    if (self.type == PageTypeSignup) {
+        self.titleLabel = [self createLabelWithTitle:self.titleText font:[UIFont fontWithName:@"SourceHanSansSC-Bold" size:20.0f] textColor:[UIColor HHOrange]];
+        self.subTitleLabel = [self createLabelWithTitle:self.subTitleText font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:12.0f] textColor:[UIColor darkGrayColor]];
+    }
+    
     UIBarButtonItem *cancelButton = [UIBarButtonItem buttonItemWithTitle:@"取消" action:@selector(cancel) target:self isLeft:YES];
     self.navigationItem.leftBarButtonItem = cancelButton;
     
@@ -97,24 +108,44 @@
 }
 
 - (void)autoLayoutSubviews {
-    NSArray *constraints = @[
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.titleLabel constant:20.0f],
-                             [HHAutoLayoutUtility setCenterX:self.titleLabel multiplier:1.0f constant:0],
-                             
-                             [HHAutoLayoutUtility verticalNext:self.subTitleLabel toView:self.titleLabel constant:5.0f],
-                             [HHAutoLayoutUtility setCenterX:self.subTitleLabel multiplier:1.0f constant:0],
-                             
-                             [HHAutoLayoutUtility verticalNext:self.numberFieldView toView:self.subTitleLabel constant:10.0f],
-                             [HHAutoLayoutUtility setCenterX:self.numberFieldView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewWidth:self.numberFieldView multiplier:1.0f constant:-80.0f],
-                             [HHAutoLayoutUtility setViewHeight:self.numberFieldView multiplier:0 constant:40.0f],
-                             
-                             [HHAutoLayoutUtility verticalNext:self.verificationCodeFieldView toView:self.numberFieldView constant:10.0f],
-                             [HHAutoLayoutUtility setCenterX:self.verificationCodeFieldView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewWidth:self.verificationCodeFieldView multiplier:1.0f constant:-80.0f],
-                             [HHAutoLayoutUtility setViewHeight:self.verificationCodeFieldView multiplier:0 constant:40.0f],
-                             
-                            ];
+    
+    NSArray *constraints = nil;
+    
+    if (self.type == PageTypeSignup) {
+        constraints = @[
+                        [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.titleLabel constant:20.0f],
+                        [HHAutoLayoutUtility setCenterX:self.titleLabel multiplier:1.0f constant:0],
+                        
+                        [HHAutoLayoutUtility verticalNext:self.subTitleLabel toView:self.titleLabel constant:0.0f],
+                        [HHAutoLayoutUtility setCenterX:self.subTitleLabel multiplier:1.0f constant:0],
+                        
+                        [HHAutoLayoutUtility verticalNext:self.numberFieldView toView:self.subTitleLabel constant:10.0f],
+                        [HHAutoLayoutUtility setCenterX:self.numberFieldView multiplier:1.0f constant:0],
+                        [HHAutoLayoutUtility setViewWidth:self.numberFieldView multiplier:1.0f constant:-80.0f],
+                        [HHAutoLayoutUtility setViewHeight:self.numberFieldView multiplier:0 constant:40.0f],
+                        
+                        [HHAutoLayoutUtility verticalNext:self.verificationCodeFieldView toView:self.numberFieldView constant:10.0f],
+                        [HHAutoLayoutUtility setCenterX:self.verificationCodeFieldView multiplier:1.0f constant:0],
+                        [HHAutoLayoutUtility setViewWidth:self.verificationCodeFieldView multiplier:1.0f constant:-80.0f],
+                        [HHAutoLayoutUtility setViewHeight:self.verificationCodeFieldView multiplier:0 constant:40.0f],
+                        
+                        ];
+
+    } else {
+        constraints = @[
+                        [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.numberFieldView constant:20.0f],
+                         [HHAutoLayoutUtility setCenterX:self.numberFieldView multiplier:1.0f constant:0],
+                         [HHAutoLayoutUtility setViewWidth:self.numberFieldView multiplier:1.0f constant:-80.0f],
+                         [HHAutoLayoutUtility setViewHeight:self.numberFieldView multiplier:0 constant:40.0f],
+                         
+                         [HHAutoLayoutUtility verticalNext:self.verificationCodeFieldView toView:self.numberFieldView constant:10.0f],
+                         [HHAutoLayoutUtility setCenterX:self.verificationCodeFieldView multiplier:1.0f constant:0],
+                         [HHAutoLayoutUtility setViewWidth:self.verificationCodeFieldView multiplier:1.0f constant:-80.0f],
+                         [HHAutoLayoutUtility setViewHeight:self.verificationCodeFieldView multiplier:0 constant:40.0f],
+                         
+                         ];
+
+    }
     [self.view addConstraints:constraints];
 }
 
@@ -144,7 +175,8 @@
 }
 
 - (void)verifySMSCode {
-    
+    HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] init];
+    [self.navigationController pushViewController:profileSetupVC animated:YES];
 }
 
 

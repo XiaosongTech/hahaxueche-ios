@@ -86,13 +86,16 @@
 
 - (void)signup {
     
-    HHMobilePhoneViewController *mobilePhoneVC = [[HHMobilePhoneViewController alloc] initWithTitle:@"请输入您的手机号码" subTitle:@"我们绝不会贩卖，滥用你的个人信息"];
+    HHMobilePhoneViewController *mobilePhoneVC = [[HHMobilePhoneViewController alloc] initWithType:PageTypeSignup];
     HHNavigationController *navVC = [[HHNavigationController alloc] initWithRootViewController:mobilePhoneVC];
     [self presentViewController:navVC animated:YES completion:nil];
 }
 
 - (void)login {
-    
+    HHMobilePhoneViewController *mobilePhoneVC = [[HHMobilePhoneViewController alloc] initWithType:PageTypeLogin];
+    HHNavigationController *navVC = [[HHNavigationController alloc] initWithRootViewController:mobilePhoneVC];
+    [self presentViewController:navVC animated:YES completion:nil];
+
 }
 
 //- (void)coachSignup {
