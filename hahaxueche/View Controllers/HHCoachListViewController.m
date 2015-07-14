@@ -250,7 +250,7 @@ typedef enum : NSUInteger {
                              [HHAutoLayoutUtility setViewWidth:self.searchBar multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.searchBar multiplier:0 constant:25.0f],
                              
-                             [HHAutoLayoutUtility verticalNext:self.tableView toView:self.searchBar constant:5.0f],
+                             [HHAutoLayoutUtility verticalNext:self.tableView toView:self.searchBar constant:10.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.tableView constant:8.0f],
                              [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:-16.0f],
                              [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.tableView constant:-CGRectGetHeight(self.tabBarController.tabBar.bounds)],

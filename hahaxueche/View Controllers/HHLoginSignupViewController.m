@@ -26,7 +26,7 @@
 @implementation HHLoginSignupViewController
 
 - (void)viewDidLoad {
-    self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor HHOrange];
     [self initSubviews];
 }
 
@@ -36,9 +36,9 @@
     self.logoView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.logoView];
     
-    self.signupButton = [self createBorderButtonWithTitle:@"新用户注册" textColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:18] action:@selector(signup)];
+    self.signupButton = [self createBorderButtonWithTitle:@"新用户注册" textColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:18] action:@selector(signup)];
     
-    self.loginButton = [self createBorderButtonWithTitle:@"登陆" textColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:18] action:@selector(login)];
+    self.loginButton = [self createBorderButtonWithTitle:@"登陆" textColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:18] action:@selector(login)];
     
 //    self.coachButton = [UIButton buttonWithType:UIButtonTypeCustom];
 //    [self.coachButton setTitle:@"教练注册" forState:UIControlStateNormal];
@@ -53,7 +53,7 @@
 }
 
 - (HHButton *)createBorderButtonWithTitle:(NSString *)title textColor:(UIColor *)textColor font:(UIFont *)font action:(SEL)action {
-    HHButton *button = [[HHButton alloc] initThinBorderButtonWithTitle:title textColor:textColor font:font];
+    HHButton *button = [[HHButton alloc] initOrangeThinBorderButtonWithTitle:title textColor:textColor font:font];
     button.translatesAutoresizingMaskIntoConstraints = NO;
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
@@ -70,12 +70,12 @@
                              
                              [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.signupButton constant:-100.0f],
                              [HHAutoLayoutUtility setCenterX:self.signupButton multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.signupButton multiplier:0 constant:40.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.signupButton multiplier:0 constant:30.0f],
                              [HHAutoLayoutUtility setViewWidth:self.signupButton multiplier:0 constant:CGRectGetWidth(self.view.bounds)-60.0f],
                              
                              [HHAutoLayoutUtility verticalNext:self.loginButton toView:self.signupButton constant:20.0f],
                              [HHAutoLayoutUtility setCenterX:self.loginButton multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.loginButton multiplier:0 constant:40.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.loginButton multiplier:0 constant:30.0f],
                              [HHAutoLayoutUtility setViewWidth:self.loginButton multiplier:0 constant:CGRectGetWidth(self.view.bounds)-60.0f],
                              
 //                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.coachButton constant:-10.0f],
@@ -86,9 +86,8 @@
 
 - (void)signup {
     
-    HHMobilePhoneViewController *mobilePhoneVC = [[HHMobilePhoneViewController alloc] initWithTitle:@"请输入您的手机号码" subTitle:@"我们绝不会贩卖，滥用你的手机号码"];
+    HHMobilePhoneViewController *mobilePhoneVC = [[HHMobilePhoneViewController alloc] initWithTitle:@"请输入您的手机号码" subTitle:@"我们绝不会贩卖，滥用你的个人信息"];
     HHNavigationController *navVC = [[HHNavigationController alloc] initWithRootViewController:mobilePhoneVC];
-    navVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentViewController:navVC animated:YES completion:nil];
 }
 

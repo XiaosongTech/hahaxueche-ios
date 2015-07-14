@@ -47,22 +47,40 @@
     return self;
 }
 
-- (HHButton *)initThinBorderButtonWithTitle:(NSString *)title textColor:(UIColor *)textColor font:(UIFont *)font {
+- (HHButton *)initThinBorderButtonWithTitle:(NSString *)title textColor:(UIColor *)textColor font:(UIFont *)font borderColor:(UIColor *)borderColor backgroundColor:(UIColor *)backgroundColor {
     self = [super init];
     if (self) {
         [self setTitle:title forState:UIControlStateNormal];
         [self setTitleColor:textColor forState:UIControlStateNormal];
         self.titleLabel.font = font;;
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = backgroundColor;
         self.layer.masksToBounds = YES;
-        self.layer.borderColor = [UIColor HHOrange].CGColor;
+        self.layer.borderColor = borderColor.CGColor;
         self.layer.borderWidth = 1.0f;
         self.layer.cornerRadius = 5.0f;
         [self setBackgroundImage:[UIImage imageWithColor:[UIColor HHOrange]] forState:UIControlStateHighlighted];
+        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    }
+    return self;
+}
+
+- (HHButton *)initOrangeThinBorderButtonWithTitle:(NSString *)title textColor:(UIColor *)textColor font:(UIFont *)font {
+    self = [super init];
+    if (self) {
+        [self setTitle:title forState:UIControlStateNormal];
+        [self setTitleColor:textColor forState:UIControlStateNormal];
+        self.titleLabel.font = font;;
+        self.backgroundColor = [UIColor HHOrange];
+        self.layer.masksToBounds = YES;
+        self.layer.borderColor = [UIColor whiteColor].CGColor;
+        self.layer.borderWidth = 1.0f;
+        self.layer.cornerRadius = 5.0f;
+        [self setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
         [self setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
     }
     return self;
 }
+
 
 - (HHButton *)initSolidButtonWithTitle:(NSString *)title textColor:(UIColor *)textColor font:(UIFont *)font {
     self = [super init];

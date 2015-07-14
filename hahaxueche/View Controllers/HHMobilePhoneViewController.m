@@ -39,6 +39,7 @@
         self.numberUtil = [[NBPhoneNumberUtil alloc] init];
         self.titleText = title;
         self.subTitleText = subTitle;
+        self.view.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -50,7 +51,7 @@
 
 - (void)initSubviews {
     self.titleLabel = [self createLabelWithTitle:self.titleText font:[UIFont fontWithName:@"SourceHanSansSC-Bold" size:20.0f] textColor:[UIColor HHOrange]];
-    self.subTitleLabel = [self createLabelWithTitle:self.subTitleText font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:12.0f] textColor:[UIColor lightTextColor]];
+    self.subTitleLabel = [self createLabelWithTitle:self.subTitleText font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:12.0f] textColor:[UIColor darkTextColor]];
     UIBarButtonItem *cancelButton = [UIBarButtonItem buttonItemWithTitle:@"取消" action:@selector(cancel) target:self isLeft:YES];
     self.navigationItem.leftBarButtonItem = cancelButton;
     
@@ -60,7 +61,7 @@
     [self.numberFieldView.textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [self.view addSubview:self.numberFieldView];
     
-    self.sendCodeButton = [[HHButton alloc] initThinBorderButtonWithTitle:@"发送验证码" textColor:[UIColor HHOrange]font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:10.0f]];
+    self.sendCodeButton = [[HHButton alloc] initThinBorderButtonWithTitle:@"发送验证码" textColor:[UIColor HHOrange]font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:10.0f] borderColor:[UIColor HHOrange] backgroundColor:[UIColor whiteColor]];
     [self.sendCodeButton addTarget:self action:@selector(sendSMSCode) forControlEvents:UIControlEventTouchUpInside];
     [self.sendCodeButton setFrameWithSize:CGSizeMake(60.0f, 30.0f)];
     self.sendCodeButton.hidden = YES;
@@ -74,7 +75,7 @@
     self.verificationCodeFieldView.hidden = YES;
     [self.view addSubview:self.verificationCodeFieldView];
     
-    self.verifyCodeButton = [[HHButton alloc] initThinBorderButtonWithTitle:@"确认验证码" textColor:[UIColor HHOrange]font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:10.0f]];
+    self.verifyCodeButton = [[HHButton alloc] initThinBorderButtonWithTitle:@"确认验证码" textColor:[UIColor HHOrange]font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:10.0f] borderColor:[UIColor HHOrange] backgroundColor:[UIColor whiteColor]];
     [self.verifyCodeButton addTarget:self action:@selector(verifySMSCode) forControlEvents:UIControlEventTouchUpInside];
     [self.verifyCodeButton setFrameWithSize:CGSizeMake(60.0f, 30.0f)];
     self.verificationCodeFieldView.textField.rightView = self.verifyCodeButton;
@@ -97,7 +98,7 @@
 
 - (void)autoLayoutSubviews {
     NSArray *constraints = @[
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.titleLabel constant:64.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.titleLabel constant:20.0f],
                              [HHAutoLayoutUtility setCenterX:self.titleLabel multiplier:1.0f constant:0],
                              
                              [HHAutoLayoutUtility verticalNext:self.subTitleLabel toView:self.titleLabel constant:5.0f],
@@ -118,7 +119,7 @@
 }
 
 - (void)cancel {
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (BOOL)isValidMobileNumber:(NSString *)number {

@@ -88,7 +88,7 @@
     self.courseLabel.layer.cornerRadius = 9.0f;
     self.courseLabel.backgroundColor = [UIColor HHOrange];
     
-    self.ratingLabel = [self createLabelWithTitle:@"3.9" font:[UIFont fontWithName:@"SourceHanSansSC-Heavy" size:12] color:[UIColor blackColor]];
+    self.ratingLabel = [self createLabelWithTitle:@"3.9" font:[UIFont fontWithName:@"SourceHanSansSC-Heavy" size:12] color:[UIColor HHOrange]];
 }
 
 - (NSMutableAttributedString *)generateAttributedStringWithString:(NSString *)title font:(UIFont *)font color:(UIColor *)color {

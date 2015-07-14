@@ -27,7 +27,7 @@
     [self.window setRootViewController:rootVC];
 //    HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
 //    HHNavigationController *navVC = [[HHNavigationController alloc] initWithRootViewController:loginSignupVC];
-//    [self.window setRootViewController:navVC];
+//    [self.window setRootViewController:loginSignupVC];
     [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
     [self.window makeKeyAndVisible];
     [self setAppearance];
