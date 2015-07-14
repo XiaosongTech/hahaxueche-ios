@@ -19,8 +19,8 @@
     if (self) {
         [self setTitle:title forState:UIControlStateNormal];
         self.frame = frame;
-        [self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Regular" size:13];
+        [self setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
+        self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Regular" size:14];
         self.backgroundColor = color;
         self.clipsToBounds = YES;
         self.layer.cornerRadius = CGRectGetHeight(frame)/2;
@@ -73,7 +73,7 @@
         self.backgroundColor = [UIColor HHOrange];
          self.layer.masksToBounds = YES;
         self.layer.cornerRadius = 5.0f;
-        [self setBackgroundImage:[UIImage imageWithColor:[UIColor HHLightOrange]] forState:UIControlStateHighlighted];
+        [self setBackgroundImage:[UIImage imageWithColor:[UIColor HHOrange]] forState:UIControlStateHighlighted];
         [self setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
     }
     return self;

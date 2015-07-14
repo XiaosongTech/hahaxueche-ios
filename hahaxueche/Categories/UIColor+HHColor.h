@@ -11,6 +11,5 @@
 @interface UIColor (HHColor)
 
 + (UIColor *)HHOrange;
-+ (UIColor *)HHLightOrange;
 
 @end

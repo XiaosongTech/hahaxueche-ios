@@ -178,7 +178,7 @@ typedef enum : NSUInteger {
         UIBarButtonItem *cancelButton = [UIBarButtonItem buttonItemWithTitle:@"取消" action:@selector(cancelButtonPressed) target:self isLeft:NO];
         [self.navigationItem setRightBarButtonItems:@[cancelButton]];
         
-        self.overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 64, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
+        self.overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
         [self.overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
         UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayForDropDownTapped)];
         [self.overlay addGestureRecognizer:recognizer];
@@ -228,7 +228,7 @@ typedef enum : NSUInteger {
     
     self.thirdSortButton = [self createFloatButtonWithTitle:kPopularCoach];
     
-    self.floatSortButton = [[HHButton alloc] initFloatButtonWithTitle:kSmartSortString frame:CGRectMake(CGRectGetWidth(self.view.bounds)-110.0f, CGRectGetHeight(self.view.bounds)-100.0f, 100.0f, 30.0f) backgroundColor:[UIColor HHOrange]];
+    self.floatSortButton = [[HHButton alloc] initFloatButtonWithTitle:kSmartSortString frame:CGRectMake(CGRectGetWidth(self.view.bounds)-110.0f, CGRectGetHeight(self.view.bounds)-160.0f, 100.0f, 30.0f) backgroundColor:[UIColor HHOrange]];
     [self.view addSubview:self.floatSortButton];
     [self.floatSortButton addTarget:self action:@selector(popupFloatButtons) forControlEvents:UIControlEventTouchUpInside];
     
@@ -236,7 +236,7 @@ typedef enum : NSUInteger {
 }
 
 - (HHButton *)createFloatButtonWithTitle:(NSString *)title {
-    HHButton *button = [[HHButton alloc] initFloatButtonWithTitle:title frame:CGRectMake(CGRectGetWidth(self.view.bounds)-110.0f, CGRectGetHeight(self.view.bounds)-100.0f, 100.0f, 30.0f) backgroundColor:[UIColor whiteColor]];
+    HHButton *button = [[HHButton alloc] initFloatButtonWithTitle:title frame:CGRectMake(CGRectGetWidth(self.view.bounds)-110.0f, CGRectGetHeight(self.view.bounds)-160.0f, 100.0f, 30.0f) backgroundColor:[UIColor whiteColor]];
     
     [button addTarget:self action:@selector(floatButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
@@ -248,7 +248,7 @@ typedef enum : NSUInteger {
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.searchBar constant:5.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.searchBar constant:0],
                              [HHAutoLayoutUtility setViewWidth:self.searchBar multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.searchBar multiplier:0 constant:30.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.searchBar multiplier:0 constant:25.0f],
                              
                              [HHAutoLayoutUtility verticalNext:self.tableView toView:self.searchBar constant:5.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.tableView constant:8.0f],
@@ -317,10 +317,10 @@ typedef enum : NSUInteger {
         springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
         CGRect newFrame = button.frame;
         if (isUp) {
-            newFrame.origin.y = newFrame.origin.y - 50.0f * i;
+            newFrame = CGRectMake(CGRectGetMinX(self.floatSortButton.frame), CGRectGetMinY(self.floatSortButton.frame)-i*50.0f, CGRectGetWidth(self.floatSortButton.frame), CGRectGetHeight(self.floatSortButton.frame));
              springAnimation.springBounciness = 10.0f;
         } else {
-            newFrame.origin.y = newFrame.origin.y + 50.0f * i;
+            newFrame = self.floatSortButton.frame;
              springAnimation.springBounciness = 0;
         }
         springAnimation.toValue = [NSValue valueWithCGRect:newFrame];

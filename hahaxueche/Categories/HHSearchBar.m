@@ -9,6 +9,7 @@
 #import "HHSearchBar.h"
 #import "UIColor+HHColor.h"
 #import "UIView+HHRect.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define kSearchBarPlaceholderColor [UIColor darkGrayColor]
 #define kSearchBarTextfieldBackgroundColor [UIColor whiteColor]
@@ -27,10 +28,10 @@
     
     if(self.searchField) {
         self.searchField.textColor = [UIColor blackColor];
-        self.searchField.tintColor = [UIColor darkGrayColor];
+        self.searchField.tintColor = [UIColor HHOrange];
         self.searchField.clearButtonMode = UITextFieldViewModeWhileEditing;
         self.searchField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"搜索教练", nil) attributes:@{NSForegroundColorAttributeName: kSearchBarPlaceholderColor, NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:11]}];
-        [self.searchField setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
+        [self.searchField setBackgroundColor:[UIColor whiteColor]];
         [self.searchField setBorderStyle:UITextBorderStyleRoundedRect];
         UIImageView *iconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search_icon"]];
         [iconImageView setFrameWithSize:CGSizeMake(15.0f, 15.0f)];
