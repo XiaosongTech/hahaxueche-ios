@@ -70,12 +70,12 @@
                              
                              [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.signupButton constant:-100.0f],
                              [HHAutoLayoutUtility setCenterX:self.signupButton multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.signupButton multiplier:0 constant:30.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.signupButton multiplier:0 constant:45.0f],
                              [HHAutoLayoutUtility setViewWidth:self.signupButton multiplier:0 constant:CGRectGetWidth(self.view.bounds)-60.0f],
                              
                              [HHAutoLayoutUtility verticalNext:self.loginButton toView:self.signupButton constant:20.0f],
                              [HHAutoLayoutUtility setCenterX:self.loginButton multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.loginButton multiplier:0 constant:30.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.loginButton multiplier:0 constant:45.0f],
                              [HHAutoLayoutUtility setViewWidth:self.loginButton multiplier:0 constant:CGRectGetWidth(self.view.bounds)-60.0f],
                              
 //                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.coachButton constant:-10.0f],

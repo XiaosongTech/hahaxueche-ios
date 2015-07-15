@@ -11,7 +11,7 @@
 @implementation HHBookViewController
 
 - (void)viewDidLoad {
-    self.title = @"预约学车时间";
+    self.title = @"预约时间";
 }
 
 @end

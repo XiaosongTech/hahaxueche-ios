@@ -10,7 +10,7 @@
 
 @interface HHButton : UIButton
 
-- (HHButton *)initFloatButtonWithTitle:(NSString *)title frame:(CGRect)frame backgroundColor:(UIColor *)color;
+- (HHButton *)initFloatButtonWithTitle:(NSString *)title frame:(CGRect)frame backgroundColor:(UIColor *)color textColor:(UIColor *)textColor;
 - (HHButton *)initDropDownButtonWithTitle:(NSString *)title frame:(CGRect)frame;
 - (HHButton *)initThinBorderButtonWithTitle:(NSString *)title textColor:(UIColor *)textColor font:(UIFont *)font borderColor:(UIColor *)borderColor backgroundColor:(UIColor *)backgroundColor;
 - (HHButton *)initSolidButtonWithTitle:(NSString *)title textColor:(UIColor *)textColor font:(UIFont *)font;

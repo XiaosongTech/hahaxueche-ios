@@ -148,13 +148,15 @@ typedef enum : NSUInteger {
 }
 
 - (void)initSearchBar {
-    self.searchBar = [[HHSearchBar alloc] initWithFrame:CGRectZero];
+    self.searchBar = [[HHSearchBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 25.0f)];
     self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
     self.searchBar.placeholder = @"搜索教练";
     self.searchBar.backgroundColor = [UIColor clearColor];
-    self.searchBar.translatesAutoresizingMaskIntoConstraints = NO;
     self.searchBar.delegate = self;
-    [self.view addSubview:self.searchBar];
+    UIView *searchBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 30.0f)];
+    searchBarView.backgroundColor = [UIColor clearColor];
+    [searchBarView addSubview:self.searchBar];
+    self.tableView.tableHeaderView = searchBarView;
     
 }
 
@@ -222,21 +224,21 @@ typedef enum : NSUInteger {
     
     self.currentSortOption = SortOptionSmartSort;
     
-    self.firstSortButton = [self createFloatButtonWithTitle:kLowestPriceString];
+    self.firstSortButton = [self createFloatButtonWithTitle:kLowestPriceString textColor:[UIColor darkTextColor]];
     
-    self.secondSortButton = [self createFloatButtonWithTitle:kBestRatingString];
+    self.secondSortButton = [self createFloatButtonWithTitle:kBestRatingString textColor:[UIColor darkTextColor]];
     
-    self.thirdSortButton = [self createFloatButtonWithTitle:kPopularCoach];
+    self.thirdSortButton = [self createFloatButtonWithTitle:kPopularCoach textColor:[UIColor darkTextColor]];
     
-    self.floatSortButton = [[HHButton alloc] initFloatButtonWithTitle:kSmartSortString frame:CGRectMake(CGRectGetWidth(self.view.bounds)-110.0f, CGRectGetHeight(self.view.bounds)-160.0f, 100.0f, 30.0f) backgroundColor:[UIColor HHOrange]];
+    self.floatSortButton = [[HHButton alloc] initFloatButtonWithTitle:kSmartSortString frame:CGRectMake(CGRectGetWidth(self.view.bounds)-110.0f, CGRectGetHeight(self.view.bounds)-160.0f, 100.0f, 30.0f) backgroundColor:[UIColor HHOrange] textColor:[UIColor whiteColor]];
     [self.view addSubview:self.floatSortButton];
     [self.floatSortButton addTarget:self action:@selector(popupFloatButtons) forControlEvents:UIControlEventTouchUpInside];
     
     self.floatButtonsArray = [NSMutableArray arrayWithArray:@[self.floatSortButton, self.firstSortButton, self.secondSortButton, self.thirdSortButton]];
 }
 
-- (HHButton *)createFloatButtonWithTitle:(NSString *)title {
-    HHButton *button = [[HHButton alloc] initFloatButtonWithTitle:title frame:CGRectMake(CGRectGetWidth(self.view.bounds)-110.0f, CGRectGetHeight(self.view.bounds)-160.0f, 100.0f, 30.0f) backgroundColor:[UIColor whiteColor]];
+- (HHButton *)createFloatButtonWithTitle:(NSString *)title textColor:(UIColor *)textColor {
+    HHButton *button = [[HHButton alloc] initFloatButtonWithTitle:title frame:CGRectMake(CGRectGetWidth(self.view.bounds)-110.0f, CGRectGetHeight(self.view.bounds)-160.0f, 100.0f, 30.0f) backgroundColor:[UIColor whiteColor] textColor:textColor];
     
     [button addTarget:self action:@selector(floatButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
@@ -245,14 +247,9 @@ typedef enum : NSUInteger {
 
 - (void)autoLayoutSubviews {
     NSArray *constraints = @[
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.searchBar constant:5.0f],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.searchBar constant:0],
-                             [HHAutoLayoutUtility setViewWidth:self.searchBar multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.searchBar multiplier:0 constant:25.0f],
-                             
-                             [HHAutoLayoutUtility verticalNext:self.tableView toView:self.searchBar constant:5.0f],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.tableView constant:8.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:-16.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.tableView constant:5.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.tableView constant:10.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:-20.0f],
                              [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.tableView constant:-CGRectGetHeight(self.tabBarController.tabBar.bounds)],
                              
                              
@@ -297,7 +294,7 @@ typedef enum : NSUInteger {
         self.isfloatButtonsActive = NO;
     } else {
         self.overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
-        [self.overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
+        [self.overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
         UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped)];
         [self.overlay addGestureRecognizer:recognizer];
         [self.view insertSubview:self.overlay belowSubview:self.firstSortButton];

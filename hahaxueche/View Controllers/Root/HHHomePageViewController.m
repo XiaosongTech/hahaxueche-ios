@@ -26,6 +26,7 @@
 @property (nonatomic, strong) UILabel *stepOneLabel;
 @property (nonatomic, strong) UILabel *stepTwoLabel;
 @property (nonatomic, strong) UILabel *stepThreeLabel;
+@property (nonatomic, strong) UILabel *explanationLabel;
 
 @end
 
@@ -34,6 +35,7 @@
 
 - (void)viewDidLoad {
     self.title = @"哈哈学车";
+    self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBarHidden = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.imagesArray = @[[UIImage imageNamed:@"austin1.jpg"], [UIImage imageNamed:@"austin2.jpg"], [UIImage imageNamed:@"austin3.jpg"]];
@@ -46,7 +48,7 @@
     self.imageGalleryView.delegate = self;
     [self.view addSubview:self.imageGalleryView];
     
-    self.oneClickButton = [[HHButton alloc] initSolidButtonWithTitle:@"一键选教练" textColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansSC-Heavy" size:30]];
+    self.oneClickButton = [[HHButton alloc] initSolidButtonWithTitle:@"一 键 找 教 练" textColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansSC-Heavy" size:30.0f]];
     self.oneClickButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.oneClickButton];
     
@@ -56,9 +58,11 @@
     
     self.stepOneLabel = [self createLabelWithTitle:@"选择教练" textColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:12]];
     
-     self.stepTwoLabel = [self createLabelWithTitle:@"预约练车" textColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:12]];
+    self.stepTwoLabel = [self createLabelWithTitle:@"预约练车" textColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:12]];
     
-     self.stepThreeLabel = [self createLabelWithTitle:@"查看预约" textColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:12]];
+    self.stepThreeLabel = [self createLabelWithTitle:@"查看预约" textColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:12]];
+    
+    self.explanationLabel = [self createLabelWithTitle:@"智能推荐最适合教练" textColor:[UIColor grayColor] font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:14]];
     
     [self autoLayoutSubviews];
 }
@@ -117,6 +121,9 @@
                              
                              [HHAutoLayoutUtility verticalNext:self.stepThreeLabel toView:self.stepThreeButton constant:5.0f],
                              [HHAutoLayoutUtility setCenterX:self.stepThreeLabel toView:self.stepThreeButton multiplier:1.0f constant:0],
+                             
+                             [HHAutoLayoutUtility verticalNext:self.explanationLabel toView:self.oneClickButton constant:5.0f],
+                             [HHAutoLayoutUtility setCenterX:self.explanationLabel multiplier:1.0f constant:0],
 
                             ];
     [self.view addConstraints:constraints];

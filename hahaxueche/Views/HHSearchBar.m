@@ -28,6 +28,7 @@
     
     if(self.searchField) {
         self.searchField.textColor = [UIColor blackColor];
+        self.searchField.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), 25.0f);
         self.searchField.tintColor = [UIColor HHOrange];
         self.searchField.clearButtonMode = UITextFieldViewModeWhileEditing;
         self.searchField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"搜索教练", nil) attributes:@{NSForegroundColorAttributeName: kSearchBarPlaceholderColor, NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:11]}];
@@ -40,7 +41,7 @@
         self.searchField.rightViewMode = UITextFieldViewModeWhileEditing;
         UIButton *clearButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [clearButton sizeToFit];
-        [clearButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
+        [clearButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
         [clearButton setTitle:@"取消" forState:UIControlStateNormal];
         [clearButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         clearButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Normal" size:12];

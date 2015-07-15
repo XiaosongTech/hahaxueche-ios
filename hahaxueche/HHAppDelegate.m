@@ -62,7 +62,7 @@
                                                            NSFontAttributeName: [UIFont fontWithName:@"SourceHanSansSC-Medium" size:15.0f]}];
     [[UINavigationBar appearance] setTranslucent:NO];
     [[UINavigationBar appearance] setBarTintColor:[UIColor HHOrange]];
-    [[UITabBar appearance] setTintColor:[UIColor blackColor]];
+    [[UITabBar appearance] setTintColor:[UIColor HHOrange]];
     [[UITabBar appearance] setBarTintColor:[UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1]];
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:10]} forState:UIControlStateNormal];
 }

@@ -14,13 +14,13 @@
 
 @implementation HHButton
 
-- (HHButton *)initFloatButtonWithTitle:(NSString *)title frame:(CGRect)frame backgroundColor:(UIColor *)color {
+- (HHButton *)initFloatButtonWithTitle:(NSString *)title frame:(CGRect)frame backgroundColor:(UIColor *)color textColor:(UIColor *)textColor {
     self = [super init];
     if (self) {
         [self setTitle:title forState:UIControlStateNormal];
         self.frame = frame;
-        [self setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
-        self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Regular" size:14];
+        [self setTitleColor:textColor forState:UIControlStateNormal];
+        self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:14];
         self.backgroundColor = color;
         self.clipsToBounds = YES;
         self.layer.cornerRadius = CGRectGetHeight(frame)/2;
