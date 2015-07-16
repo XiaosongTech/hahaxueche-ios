@@ -81,6 +81,9 @@
 		5CD4E9741B55B5A6003CF15E /* map@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E9711B55B5A6003CF15E /* map@1x.png */; };
 		5CD4E9751B55B5A6003CF15E /* map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E9721B55B5A6003CF15E /* map@2x.png */; };
 		5CD4E9761B55B5A6003CF15E /* map@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E9731B55B5A6003CF15E /* map@3x.png */; };
+		5CD4E9D11B574785003CF15E /* camera-alt@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E9CE1B574785003CF15E /* camera-alt@1x.png */; };
+		5CD4E9D21B574785003CF15E /* camera-alt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E9CF1B574785003CF15E /* camera-alt@2x.png */; };
+		5CD4E9D31B574785003CF15E /* camera-alt@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E9D01B574785003CF15E /* camera-alt@3x.png */; };
 		D68F0EFAEA66F3DCDFE972F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B0110F2ECD81DF5CD4D72E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -193,6 +196,9 @@
 		5CD4E9711B55B5A6003CF15E /* map@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map@1x.png"; sourceTree = "<group>"; };
 		5CD4E9721B55B5A6003CF15E /* map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map@2x.png"; sourceTree = "<group>"; };
 		5CD4E9731B55B5A6003CF15E /* map@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map@3x.png"; sourceTree = "<group>"; };
+		5CD4E9CE1B574785003CF15E /* camera-alt@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera-alt@1x.png"; sourceTree = "<group>"; };
+		5CD4E9CF1B574785003CF15E /* camera-alt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera-alt@2x.png"; sourceTree = "<group>"; };
+		5CD4E9D01B574785003CF15E /* camera-alt@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera-alt@3x.png"; sourceTree = "<group>"; };
 		D5B0110F2ECD81DF5CD4D72E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8832576172C8DF34558C848 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		EFA148D80F7878EC1B2315C7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -261,6 +267,9 @@
 		5C10F9271B49E6F100992B63 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5CD4E9CE1B574785003CF15E /* camera-alt@1x.png */,
+				5CD4E9CF1B574785003CF15E /* camera-alt@2x.png */,
+				5CD4E9D01B574785003CF15E /* camera-alt@3x.png */,
 				5CA5B7821B53399200312674 /* Assests for test */,
 				5C5451A91B51AC9D0025D19F /* ratingcar_half.png */,
 				5C5451AA1B51AC9D0025D19F /* ratingcar_half@2x.png */,
@@ -598,6 +607,8 @@
 				5C3980A41B4C3E5E0057B049 /* SourceHanSansSC-Bold.otf in Resources */,
 				5C3980A51B4C3E5E0057B049 /* SourceHanSansSC-ExtraLight.otf in Resources */,
 				5CD4E9741B55B5A6003CF15E /* map@1x.png in Resources */,
+				5CD4E9D21B574785003CF15E /* camera-alt@2x.png in Resources */,
+				5CD4E9D31B574785003CF15E /* camera-alt@3x.png in Resources */,
 				5C5451B71B51AC9D0025D19F /* ratingcar_line@3x.png in Resources */,
 				5CA5B7861B533A2200312674 /* austin1.jpg in Resources */,
 				5CB550751B4CC055005DE447 /* calendar_grey@3x.png in Resources */,
@@ -636,6 +647,7 @@
 				5C5451BC1B51E6B60025D19F /* fbAvatar.jpg in Resources */,
 				5CB550741B4CC055005DE447 /* calendar_grey@2x.png in Resources */,
 				5C5451BA1B51AC9D0025D19F /* ratingcar_solid@3x.png in Resources */,
+				5CD4E9D11B574785003CF15E /* camera-alt@1x.png in Resources */,
 				5CD4E9521B558184003CF15E /* list_selected@3x.png in Resources */,
 				5CD4E9681B558431003CF15E /* reservation_grey@1x.png in Resources */,
 				5CD4E94B1B5580DC003CF15E /* reservation_selected@2x.png in Resources */,

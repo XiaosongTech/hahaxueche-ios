@@ -114,7 +114,7 @@
     
     if (self.type == PageTypeSignup) {
         constraints = @[
-                        [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.titleLabel constant:20.0f],
+                        [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.titleLabel constant:5.0f],
                         [HHAutoLayoutUtility setCenterX:self.titleLabel multiplier:1.0f constant:0],
                         
                         [HHAutoLayoutUtility verticalNext:self.subTitleLabel toView:self.titleLabel constant:0.0f],

@@ -41,7 +41,7 @@
                              [HHAutoLayoutUtility setViewWidth:self.textField multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.textField multiplier:1.0f constant:-5.0f],
                              
-                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.divideLine constant:-2.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.divideLine constant:0],
                              [HHAutoLayoutUtility setCenterX:self.divideLine multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewWidth:self.divideLine multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.divideLine multiplier:0 constant:1.0f],

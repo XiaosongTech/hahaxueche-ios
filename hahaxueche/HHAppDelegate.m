@@ -10,7 +10,16 @@
 #import "HHNavigationController.h"
 #import "HHRootViewController.h"
 #import "UIColor+HHColor.h"
-#import "HHLoginSignupViewController.h
+#import "HHLoginSignupViewController.h"
+#import <AVOSCloud/AVOSCloud.h>
+
+
+#define kLeanCloudStagingAppID @"cr9pv6bp9nlr1xrtl36slyxt0hgv6ypifso9aocxwas2fugq"
+#define kLeanCloudStagingAppKey @"2ykqwhzhfrzhjn3o9bj7rizb8qd75ym3f0lez1d8fcxmn2k3"
+
+#define kLeanCloudProductionAppID @"iylpzs1kdohzr04ly3w837schvelubnbpttu48iur1h2wzps"
+#define kLeanCloudProductionAppKey @"w4k4u22ps3cud54ipm2pofbxj93w1qmfo78ks5robp9ct2u2"
+
 
 
 @interface HHAppDelegate ()
@@ -21,23 +30,16 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-#if DEBUG
-
-#else
-   
-#endif
-    
+    [self configureBackend];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-    [self.window setRootViewController:rootVC];
-//    HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
-//    [self.window setRootViewController:loginSignupVC];
+//    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+//    [self.window setRootViewController:rootVC];
+    HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
+    [self.window setRootViewController:loginSignupVC];
     [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
     [self.window makeKeyAndVisible];
     [self setAppearance];
     [self setWindow:self.window];
-// set correct LeanCloud project
     return YES;
 }
 
@@ -73,4 +75,16 @@
     [[UITabBar appearance] setBarTintColor:[UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1]];
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:10]} forState:UIControlStateNormal];
 }
+
+- (void)configureBackend {
+#if DEBUG
+    [AVOSCloud setApplicationId:kLeanCloudStagingAppID
+                      clientKey:kLeanCloudStagingAppKey];
+#else
+    [AVOSCloud setApplicationId:kLeanCloudProductionAppID
+                      clientKey:kLeanCloudProductionAppKey];
+    
+#endif
+}
+
 @end
