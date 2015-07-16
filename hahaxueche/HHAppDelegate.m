@@ -10,7 +10,7 @@
 #import "HHNavigationController.h"
 #import "HHRootViewController.h"
 #import "UIColor+HHColor.h"
-#import "HHLoginSignupViewController.h"
+#import "HHLoginSignupViewController.h
 
 
 @interface HHAppDelegate ()
@@ -21,7 +21,13 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+#if DEBUG
+
+#else
+   
+#endif
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
     [self.window setRootViewController:rootVC];
@@ -31,6 +37,7 @@
     [self.window makeKeyAndVisible];
     [self setAppearance];
     [self setWindow:self.window];
+// set correct LeanCloud project
     return YES;
 }
 
