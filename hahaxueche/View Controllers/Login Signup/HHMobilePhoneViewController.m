@@ -114,7 +114,7 @@
     
     if (self.type == PageTypeSignup) {
         constraints = @[
-                        [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.titleLabel constant:5.0f],
+                        [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.titleLabel constant:10.0f],
                         [HHAutoLayoutUtility setCenterX:self.titleLabel multiplier:1.0f constant:0],
                         
                         [HHAutoLayoutUtility verticalNext:self.subTitleLabel toView:self.titleLabel constant:0.0f],
@@ -125,7 +125,7 @@
                         [HHAutoLayoutUtility setViewWidth:self.numberFieldView multiplier:1.0f constant:-80.0f],
                         [HHAutoLayoutUtility setViewHeight:self.numberFieldView multiplier:0 constant:40.0f],
                         
-                        [HHAutoLayoutUtility verticalNext:self.verificationCodeFieldView toView:self.numberFieldView constant:10.0f],
+                        [HHAutoLayoutUtility verticalNext:self.verificationCodeFieldView toView:self.numberFieldView constant:5.0f],
                         [HHAutoLayoutUtility setCenterX:self.verificationCodeFieldView multiplier:1.0f constant:0],
                         [HHAutoLayoutUtility setViewWidth:self.verificationCodeFieldView multiplier:1.0f constant:-80.0f],
                         [HHAutoLayoutUtility setViewHeight:self.verificationCodeFieldView multiplier:0 constant:40.0f],

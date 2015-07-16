@@ -15,7 +15,7 @@
 #import "HHTextFieldView.h"
 #import "UIView+HHRect.h"
 
-@interface HHProfileSetupViewController ()<UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate>
+@interface HHProfileSetupViewController ()<UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UIActionSheetDelegate>
 
 @property (nonatomic, strong) UIImageView *uploadImageView;
 @property (nonatomic, strong) HHTextFieldView *nameTextView;
@@ -53,7 +53,7 @@
     self.uploadImageView.userInteractionEnabled = YES;
     self.uploadImageView.contentMode = UIViewContentModeCenter;
     self.uploadImageView.image = [UIImage imageNamed:@"camera-alt"];
-    self.uploadImageView.layer.cornerRadius = 30.0f;
+    self.uploadImageView.layer.cornerRadius = 25.0f;
     self.uploadImageView.layer.masksToBounds = YES;
     self.uploadImageView.layer.borderColor = [UIColor HHOrange].CGColor;
     self.uploadImageView.layer.borderWidth = 1.0f;
@@ -84,18 +84,18 @@
     NSArray *constraints = @[
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.uploadImageView constant:10.0f],
                              [HHAutoLayoutUtility setCenterX:self.uploadImageView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewWidth:self.uploadImageView multiplier:0 constant:60.0f],
-                             [HHAutoLayoutUtility setViewHeight:self.uploadImageView multiplier:0 constant:60.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.uploadImageView multiplier:0 constant:50.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.uploadImageView multiplier:0 constant:50.0f],
                              
-                             [HHAutoLayoutUtility verticalNext:self.nameTextView toView:self.uploadImageView constant:5.0f],
+                             [HHAutoLayoutUtility verticalNext:self.nameTextView toView:self.uploadImageView constant:10.0f],
                              [HHAutoLayoutUtility setCenterX:self.nameTextView multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewWidth:self.nameTextView multiplier:1.0f constant:-80.0f],
-                             [HHAutoLayoutUtility setViewHeight:self.nameTextView multiplier:0 constant:30.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.nameTextView multiplier:0 constant:40.0f],
                              
                              [HHAutoLayoutUtility verticalNext:self.cityTextView toView:self.nameTextView constant:10.0f],
                              [HHAutoLayoutUtility setCenterX:self.cityTextView multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewWidth:self.cityTextView multiplier:1.0f constant:-80.0f],
-                             [HHAutoLayoutUtility setViewHeight:self.cityTextView multiplier:0 constant:30.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.cityTextView multiplier:0 constant:40.0f],
                              ];
     [self.view addConstraints:constraints];
 
@@ -111,11 +111,25 @@
 }
 
 - (void)uploadImage {
-    [self.nameTextView resignFirstResponder];
+    [self.nameTextView.textField resignFirstResponder];
     if (self.cityPicker) {
         [self.cityPicker removeFromSuperview];
         self.cityPicker = nil;
     }
+    
+    NSString *actionSheetTitle = @"上传头像";
+    NSString *other1 = @"拍摄";
+    NSString *other2 = @"从相册选择";
+    NSString *cancelTitle = @"取消";
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                  initWithTitle:actionSheetTitle
+                                  delegate:self
+                                  cancelButtonTitle:cancelTitle
+                                  destructiveButtonTitle:nil
+                                  otherButtonTitles:other1, other2, nil];
+    
+    [actionSheet showInView:self.view];
 }
 
 
@@ -157,14 +171,23 @@
     return 1;
 }
 
-// tell the picker the title for a given component
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+-(CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
+    return 44.0f;
+}
 
-    return @"杭州";
+-(UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
+{
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(pickerView.bounds), 44)];
+    label.backgroundColor = [UIColor clearColor];
+    label.textColor = [UIColor HHOrange];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:20.0f];
+    label.text = @"浙江-杭州";
+    return label;
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
-    self.cityTextView.textField.text = @"杭州";
+    self.cityTextView.textField.text = @"浙江-杭州";
 }
 
 
