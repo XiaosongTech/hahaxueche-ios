@@ -62,7 +62,7 @@
     
     self.stepThreeLabel = [self createLabelWithTitle:@"查看预约" textColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:12]];
     
-    self.explanationLabel = [self createLabelWithTitle:@"智能推荐最适合教练" textColor:[UIColor grayColor] font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:14]];
+    self.explanationLabel = [self createLabelWithTitle:@"最快捷! 最智能！" textColor:[UIColor grayColor] font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:14]];
     
     [self autoLayoutSubviews];
 }
@@ -122,7 +122,7 @@
                              [HHAutoLayoutUtility verticalNext:self.stepThreeLabel toView:self.stepThreeButton constant:5.0f],
                              [HHAutoLayoutUtility setCenterX:self.stepThreeLabel toView:self.stepThreeButton multiplier:1.0f constant:0],
                              
-                             [HHAutoLayoutUtility verticalNext:self.explanationLabel toView:self.oneClickButton constant:5.0f],
+                             [HHAutoLayoutUtility verticalNext:self.explanationLabel toView:self.oneClickButton constant:-110.0f],
                              [HHAutoLayoutUtility setCenterX:self.explanationLabel multiplier:1.0f constant:0],
 
                             ];
