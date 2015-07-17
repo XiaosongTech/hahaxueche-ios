@@ -124,13 +124,13 @@
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.nameLabel constant:10.0f],
                              [HHAutoLayoutUtility horizontalNext:self.nameLabel toView:self.avatarView constant:10.0f],
                              
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.locationPin constant:11.0f],
-                             [HHAutoLayoutUtility horizontalNext:self.locationPin toView:self.nameLabel constant:5.0f],
-                             [HHAutoLayoutUtility setViewHeight:self.locationPin multiplier:0 constant:20.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.locationPin multiplier:0 constant:20.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.locationPin constant:13.0f],
+                             [HHAutoLayoutUtility horizontalNext:self.locationPin toView:self.nameLabel constant:8.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.locationPin multiplier:0 constant:17.5f],
+                             [HHAutoLayoutUtility setViewWidth:self.locationPin multiplier:0 constant:11.0f],
                              
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.addressLabel constant:12.0f],
-                             [HHAutoLayoutUtility horizontalNext:self.addressLabel toView:self.locationPin constant:0.],
+                             [HHAutoLayoutUtility horizontalNext:self.addressLabel toView:self.locationPin constant:2.0f],
                              
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.priceLabel constant:9.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.priceLabel constant:-10.0f],

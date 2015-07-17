@@ -15,7 +15,12 @@
 #import "HHTextFieldView.h"
 #import "UIView+HHRect.h"
 
-@interface HHProfileSetupViewController ()<UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UIActionSheetDelegate>
+typedef enum : NSUInteger {
+    ImageOptionTakePhoto,
+    ImageOptionFromAlbum,
+} ImageOption;
+
+@interface HHProfileSetupViewController ()<UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, strong) UIImageView *uploadImageView;
 @property (nonatomic, strong) HHTextFieldView *nameTextView;
@@ -154,7 +159,10 @@
 - (void)selectCity {
     [self.nameTextView.textField resignFirstResponder];
     self.cityTextView.divideLine.backgroundColor = [UIColor HHOrange];
-    self.cityPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.bounds)-200.0f, CGRectGetWidth(self.view.bounds), 200.0f)];
+    if (!self.cityPicker) {
+        self.cityPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.bounds)-200.0f, CGRectGetWidth(self.view.bounds), 200.0f)];
+    }
+    
      self.cityPicker.delegate = self;
      self.cityPicker.showsSelectionIndicator = YES;
     [self.view addSubview: self.cityPicker];
@@ -179,9 +187,9 @@
 {
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(pickerView.bounds), 44)];
     label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UIColor HHOrange];
+    label.textColor = [UIColor darkTextColor];
     label.textAlignment = NSTextAlignmentCenter;
-    label.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:20.0f];
+    label.font = [UIFont fontWithName:@"SourceHanSansSC-Normal" size:20.0f];
     label.text = @"浙江-杭州";
     return label;
 }
@@ -190,5 +198,42 @@
     self.cityTextView.textField.text = @"浙江-杭州";
 }
 
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case ImageOptionTakePhoto:{
+            [self showImagePickerView:UIImagePickerControllerSourceTypeCamera];
+        }
+            break;
+            
+        case ImageOptionFromAlbum:{
+            [self showImagePickerView:UIImagePickerControllerSourceTypePhotoLibrary];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
 
+- (void)showImagePickerView:(UIImagePickerControllerSourceType)sourceType {
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.navigationBar.tintColor = [UIColor whiteColor];
+    picker.navigationItem.title = @"照片";
+    picker.delegate = self;
+    picker.allowsEditing = NO;
+    picker.sourceType = sourceType;
+    [self presentViewController:picker animated:YES completion:NULL];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
+    if(!chosenImage) {
+        chosenImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    }
+    self.uploadImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.uploadImageView.layer.borderWidth = 0;
+    self.uploadImageView.image = chosenImage;
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+    
+}
 @end
