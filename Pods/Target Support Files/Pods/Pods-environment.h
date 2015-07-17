@@ -13,6 +13,12 @@
 // Please contact the author.
 // Version: 3.1.2.6.
 
+// CRToast
+#define COCOAPODS_POD_AVAILABLE_CRToast
+#define COCOAPODS_VERSION_MAJOR_CRToast 0
+#define COCOAPODS_VERSION_MINOR_CRToast 0
+#define COCOAPODS_VERSION_PATCH_CRToast 7
+
 // JTSImageViewController
 #define COCOAPODS_POD_AVAILABLE_JTSImageViewController
 #define COCOAPODS_VERSION_MAJOR_JTSImageViewController 1
