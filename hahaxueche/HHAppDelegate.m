@@ -13,7 +13,6 @@
 #import "HHLoginSignupViewController.h"
 #import <AVOSCloud/AVOSCloud.h>
 
-
 #define kLeanCloudStagingAppID @"cr9pv6bp9nlr1xrtl36slyxt0hgv6ypifso9aocxwas2fugq"
 #define kLeanCloudStagingAppKey @"2ykqwhzhfrzhjn3o9bj7rizb8qd75ym3f0lez1d8fcxmn2k3"
 
@@ -40,6 +39,18 @@
     [self.window makeKeyAndVisible];
     [self setAppearance];
     [self setWindow:self.window];
+    AVUser *testUser = [AVUser user];
+    testUser.username = @"test";
+    testUser.password = @"testpwd";
+   [testUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+       [AVUser logInWithUsernameInBackground:@"test" password:@"testpwd" block:^(AVUser *user, NSError *error) {
+           if (user != nil) {
+               
+           } else {
+           }
+       }];
+
+   }];
     return YES;
 }
 
