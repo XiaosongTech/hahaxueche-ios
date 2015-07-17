@@ -10,6 +10,27 @@
 
 @implementation HHUserService
 
++ (HHUserService *)sharedInstance {
+    static HHUserService *sharedInstance = nil;
+    static dispatch_once_t predicate = 0;
+    
+    dispatch_once(&predicate, ^() {
+        sharedInstance = [[HHUserService alloc] init];
+    });
+    
+    return sharedInstance;
+}
 
++ (void)signupWithUser:(AVUser *)user completion:(HHUserGenericCompletionBlock)completion {
+    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        completion(succeeded, error);
+    }];
+}
+
++ (void)verifyPhoneNumberWith:(NSString *)number completion:(HHUserGenericCompletionBlock)completion {
+    [AVUser verifyMobilePhone:number withBlock:^(BOOL succeeded, NSError *error) {
+        completion(succeeded, error);
+    }];
+}
 
 @end

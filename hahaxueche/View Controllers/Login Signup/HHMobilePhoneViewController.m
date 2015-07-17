@@ -17,6 +17,8 @@
 #import "UIView+HHRect.h"
 #import "HHProfileSetupViewController.h"
 #import "HHRootViewController.h"
+#import <AVOSCloud/AVOSCloud.h>
+#import "HHUserService.h"
 
 @interface HHMobilePhoneViewController ()
 
@@ -30,6 +32,8 @@
 @property (nonatomic, strong) NSString *titleText;
 @property (nonatomic, strong) NSString *subTitleText;
 @property (nonatomic)         PageType type;
+@property (nonatomic, strong) AVUser *user;
+
 
 
 @end
@@ -40,6 +44,7 @@
     self = [super init];
     if (self) {
         self.numberUtil = [[NBPhoneNumberUtil alloc] init];
+        self.user = [AVUser user];
         self.type = type;
         if(self.type == PageTypeSignup) {
             self.title = @"1/2";
@@ -176,6 +181,10 @@
 }
 
 - (void)verifySMSCode {
+    [HHUserService verifyPhoneNumberWith:self.verificationCodeFieldView.textField.text completion:^(BOOL succeeded, NSError *error) {
+        
+    }];
+    
     if (self.type == PageTypeSignup) {
         HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] init];
         [self.navigationController pushViewController:profileSetupVC animated:YES];

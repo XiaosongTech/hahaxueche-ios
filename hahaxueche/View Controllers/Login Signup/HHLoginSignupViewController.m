@@ -39,14 +39,6 @@
     self.signupButton = [self createBorderButtonWithTitle:@"新用户注册" textColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:18] action:@selector(signup)];
     
     self.loginButton = [self createBorderButtonWithTitle:@"登陆" textColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:18] action:@selector(login)];
-    
-//    self.coachButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [self.coachButton setTitle:@"教练注册" forState:UIControlStateNormal];
-//    self.coachButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Normal" size:12];
-//    self.coachButton.translatesAutoresizingMaskIntoConstraints = NO;
-//    [self.coachButton sizeToFit];
-//    [self.coachButton addTarget:self action:@selector(coachSignup) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:self.coachButton];
 
     [self autoLayoutSubviews];
     
@@ -77,9 +69,6 @@
                              [HHAutoLayoutUtility setCenterX:self.loginButton multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.loginButton multiplier:0 constant:45.0f],
                              [HHAutoLayoutUtility setViewWidth:self.loginButton multiplier:0 constant:CGRectGetWidth(self.view.bounds)-60.0f],
-                             
-//                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.coachButton constant:-10.0f],
-//                             [HHAutoLayoutUtility setCenterX:self.coachButton multiplier:1.0f constant:0],
                              ];
     [self.view addConstraints:constraints];
 }
@@ -98,9 +87,6 @@
 
 }
 
-//- (void)coachSignup {
-//    
-//}
 
 
 @end

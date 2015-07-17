@@ -31,26 +31,19 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self configureBackend];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-//    [self.window setRootViewController:rootVC];
-    HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
-    [self.window setRootViewController:loginSignupVC];
+    if ([AVUser currentUser]) {
+        HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+        [self.window setRootViewController:rootVC];
+
+    } else {
+        HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
+        [self.window setRootViewController:loginSignupVC];
+    }
     [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
     [self.window makeKeyAndVisible];
     [self setAppearance];
     [self setWindow:self.window];
-    AVUser *testUser = [AVUser user];
-    testUser.username = @"test";
-    testUser.password = @"testpwd";
-   [testUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-       [AVUser logInWithUsernameInBackground:@"test" password:@"testpwd" block:^(AVUser *user, NSError *error) {
-           if (user != nil) {
-               
-           } else {
-           }
-       }];
-
-   }];
+   
     return YES;
 }
 

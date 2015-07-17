@@ -7,7 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AVOSCloud/AVOSCloud.h>
+
+typedef void (^HHUserGenericCompletionBlock)(BOOL succeeded, NSError *error);
 
 @interface HHUserService : NSObject
+
++ (instancetype)sharedInstance;
+
++ (void)signupWithUser:(AVUser *)user completion:(HHUserGenericCompletionBlock)completion;
+
++ (void)verifyPhoneNumberWith:(NSString *)number completion:(HHUserGenericCompletionBlock)completion;
 
 @end
