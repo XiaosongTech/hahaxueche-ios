@@ -87,6 +87,9 @@
 		5CD4E9DA1B58B3B3003CF15E /* location_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E9D71B58B3B3003CF15E /* location_icon@2x.png */; };
 		5CD4E9DB1B58B3B3003CF15E /* location_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E9D81B58B3B3003CF15E /* location_icon@3x.png */; };
 		5CD4E9DE1B593EA0003CF15E /* HHUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4E9DD1B593EA0003CF15E /* HHUserService.m */; };
+		5CD4E9EA1B597CE2003CF15E /* HHToastUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4E9E91B597CE2003CF15E /* HHToastUtility.m */; };
+		5CD4E9ED1B5984FD003CF15E /* HHLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4E9EC1B5984FD003CF15E /* HHLoadingView.m */; };
+		5CD4E9F01B59CC7B003CF15E /* HHUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4E9EF1B59CC7B003CF15E /* HHUser.m */; };
 		D68F0EFAEA66F3DCDFE972F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B0110F2ECD81DF5CD4D72E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -206,6 +209,12 @@
 		5CD4E9D81B58B3B3003CF15E /* location_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location_icon@3x.png"; sourceTree = "<group>"; };
 		5CD4E9DC1B593EA0003CF15E /* HHUserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHUserService.h; path = hahaxueche/HHUserService.h; sourceTree = SOURCE_ROOT; };
 		5CD4E9DD1B593EA0003CF15E /* HHUserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHUserService.m; path = hahaxueche/HHUserService.m; sourceTree = SOURCE_ROOT; };
+		5CD4E9E81B597CE2003CF15E /* HHToastUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHToastUtility.h; sourceTree = "<group>"; };
+		5CD4E9E91B597CE2003CF15E /* HHToastUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHToastUtility.m; sourceTree = "<group>"; };
+		5CD4E9EB1B5984FD003CF15E /* HHLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHLoadingView.h; path = ../Utilities/HHLoadingView.h; sourceTree = "<group>"; };
+		5CD4E9EC1B5984FD003CF15E /* HHLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHLoadingView.m; path = ../Utilities/HHLoadingView.m; sourceTree = "<group>"; };
+		5CD4E9EE1B59CC7B003CF15E /* HHUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHUser.h; path = hahaxueche/Utilities/HHUser.h; sourceTree = SOURCE_ROOT; };
+		5CD4E9EF1B59CC7B003CF15E /* HHUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHUser.m; path = hahaxueche/Utilities/HHUser.m; sourceTree = SOURCE_ROOT; };
 		D5B0110F2ECD81DF5CD4D72E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8832576172C8DF34558C848 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		EFA148D80F7878EC1B2315C7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -235,6 +244,8 @@
 		5C10F9231B49618300992B63 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5CD4E9EB1B5984FD003CF15E /* HHLoadingView.h */,
+				5CD4E9EC1B5984FD003CF15E /* HHLoadingView.m */,
 				5CA5B77B1B52DF5500312674 /* Login Signup */,
 				5C5451961B50B52D0025D19F /* Coach List Page */,
 				5CB5508B1B4CC718005DE447 /* Buttons */,
@@ -247,6 +258,8 @@
 		5C10F9241B4962EA00992B63 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5CD4E9EE1B59CC7B003CF15E /* HHUser.h */,
+				5CD4E9EF1B59CC7B003CF15E /* HHUser.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -319,6 +332,8 @@
 			children = (
 				5C3980891B4BFFB20057B049 /* HHAutoLayoutUtility.h */,
 				5C39808A1B4BFFB20057B049 /* HHAutoLayoutUtility.m */,
+				5CD4E9E81B597CE2003CF15E /* HHToastUtility.h */,
+				5CD4E9E91B597CE2003CF15E /* HHToastUtility.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -730,11 +745,14 @@
 				5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */,
 				5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */,
 				5C3980951B4C1A180057B049 /* HHHomePageViewController.m in Sources */,
+				5CD4E9EA1B597CE2003CF15E /* HHToastUtility.m in Sources */,
 				5CD4E9DE1B593EA0003CF15E /* HHUserService.m in Sources */,
+				5CD4E9ED1B5984FD003CF15E /* HHLoadingView.m in Sources */,
 				5C5451C61B52A7760025D19F /* HHLoginSignupViewController.m in Sources */,
 				5CC3B6011B48268A00D10DFB /* main.m in Sources */,
 				5C3980981B4C1A2A0057B049 /* HHMyReservationViewController.m in Sources */,
 				5C3980911B4C17900057B049 /* HHRootViewController.m in Sources */,
+				5CD4E9F01B59CC7B003CF15E /* HHUser.m in Sources */,
 				5CA5B77A1B52CFF300312674 /* HHMobilePhoneViewController.m in Sources */,
 				5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */,
 				5C3980851B4AD7DE0057B049 /* HHBookViewController.m in Sources */,

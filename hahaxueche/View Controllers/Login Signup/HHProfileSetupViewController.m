@@ -14,6 +14,7 @@
 #import "UIColor+HHColor.h"
 #import "HHTextFieldView.h"
 #import "UIView+HHRect.h"
+#import "HHToastUtility.h"
 
 typedef enum : NSUInteger {
     ImageOptionTakePhoto,
@@ -26,6 +27,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) HHTextFieldView *nameTextView;
 @property (nonatomic, strong) HHTextFieldView *cityTextView;
 @property (nonatomic, strong) UIPickerView *cityPicker;
+@property (nonatomic, strong) UIImage *selectedImage;
+@property (nonatomic, strong) NSString *selectedCity;
 
 @end
 
@@ -107,6 +110,19 @@ typedef enum : NSUInteger {
 }
 
 - (void)doneButtonPressed {
+    if (!self.selectedImage) {
+        [HHToastUtility showToastWitiTitle:@"请选择头像" isError:YES];
+        return;
+    }
+    if ([self.nameTextView.textField.text isEqualToString: @""]) {
+        [HHToastUtility showToastWitiTitle:@"请填写名字" isError:YES];
+        return;
+    }
+    if (!self.selectedCity) {
+        [HHToastUtility showToastWitiTitle:@"请选择所在城市" isError:YES];
+        return;
+    }
+    
     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
     [self presentViewController:rootVC animated:YES completion:nil];
 }
@@ -196,6 +212,7 @@ typedef enum : NSUInteger {
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
     self.cityTextView.textField.text = @"浙江-杭州";
+    self.selectedCity = self.cityTextView.textField.text;
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -226,13 +243,13 @@ typedef enum : NSUInteger {
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
-    if(!chosenImage) {
-        chosenImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    self.selectedImage = info[UIImagePickerControllerEditedImage];
+    if(!self.selectedImage) {
+        self.selectedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
     self.uploadImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.uploadImageView.layer.borderWidth = 0;
-    self.uploadImageView.image = chosenImage;
+    self.uploadImageView.image = self.selectedImage;
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
 }

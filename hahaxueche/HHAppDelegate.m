@@ -12,6 +12,7 @@
 #import "UIColor+HHColor.h"
 #import "HHLoginSignupViewController.h"
 #import <AVOSCloud/AVOSCloud.h>
+#import "HHUser.h"
 
 #define kLeanCloudStagingAppID @"cr9pv6bp9nlr1xrtl36slyxt0hgv6ypifso9aocxwas2fugq"
 #define kLeanCloudStagingAppKey @"2ykqwhzhfrzhjn3o9bj7rizb8qd75ym3f0lez1d8fcxmn2k3"
@@ -29,9 +30,10 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [HHUser registerSubclass];
     [self configureBackend];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    if ([AVUser currentUser]) {
+    if ([HHUser currentUser]) {
         HHRootViewController *rootVC = [[HHRootViewController alloc] init];
         [self.window setRootViewController:rootVC];
 

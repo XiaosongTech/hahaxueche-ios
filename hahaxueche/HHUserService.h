@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AVOSCloud/AVOSCloud.h>
+#import "HHUser.h"
 
 typedef void (^HHUserGenericCompletionBlock)(BOOL succeeded, NSError *error);
 
@@ -15,8 +16,10 @@ typedef void (^HHUserGenericCompletionBlock)(BOOL succeeded, NSError *error);
 
 + (instancetype)sharedInstance;
 
-+ (void)signupWithUser:(AVUser *)user completion:(HHUserGenericCompletionBlock)completion;
+- (void)requestLoginCodeWithNumber:(NSString *)number completion:(HHUserGenericCompletionBlock)completion;
 
-+ (void)verifyPhoneNumberWith:(NSString *)number completion:(HHUserGenericCompletionBlock)completion;
+- (void)signupWithUser:(HHUser *)user completion:(HHUserGenericCompletionBlock)completion;
+
+- (void)verifyPhoneNumberWith:(NSString *)code completion:(HHUserGenericCompletionBlock)completion;
 
 @end
