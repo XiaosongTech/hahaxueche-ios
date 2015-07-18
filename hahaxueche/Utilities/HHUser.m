@@ -10,8 +10,6 @@
 
 @implementation HHUser
 
--(void)setType:(NSString *)type {
-    self[@"type"] = type;
-}
+@dynamic type;
 
 @end

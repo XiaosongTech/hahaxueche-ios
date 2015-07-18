@@ -13,6 +13,9 @@
 #import "HHLoginSignupViewController.h"
 #import <AVOSCloud/AVOSCloud.h>
 #import "HHUser.h"
+#import "HHStudent.h"
+#import <SMS_SDK/SMS_SDK.h>
+#import "HHCoach.h"
 
 #define kLeanCloudStagingAppID @"cr9pv6bp9nlr1xrtl36slyxt0hgv6ypifso9aocxwas2fugq"
 #define kLeanCloudStagingAppKey @"2ykqwhzhfrzhjn3o9bj7rizb8qd75ym3f0lez1d8fcxmn2k3"
@@ -30,8 +33,9 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [HHUser registerSubclass];
-    [self configureBackend];
+    [self leanCloudRegisterSubclass];
+    [self setupSMSService];
+    [self setupBackend];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     if ([HHUser currentUser]) {
         HHRootViewController *rootVC = [[HHRootViewController alloc] init];
@@ -84,7 +88,18 @@
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:10]} forState:UIControlStateNormal];
 }
 
-- (void)configureBackend {
+- (void)setupSMSService {
+    [SMS_SDK registerApp:@"8e7f80c5c4e6" withSecret:@"1a8ed11da1f399a723950c47b084525e"];
+    [SMS_SDK enableAppContactFriends:NO];
+}
+
+- (void)leanCloudRegisterSubclass {
+    [HHUser registerSubclass];
+    [HHStudent registerSubclass];
+    [HHCoach registerSubclass];
+}
+
+- (void)setupBackend {
 #if DEBUG
     [AVOSCloud setApplicationId:kLeanCloudStagingAppID
                       clientKey:kLeanCloudStagingAppKey];

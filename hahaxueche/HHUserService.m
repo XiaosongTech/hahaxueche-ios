@@ -8,6 +8,8 @@
 
 #import "HHUserService.h"
 
+#define kAreaCode @"86"
+
 @implementation HHUserService
 
 + (HHUserService *)sharedInstance {
@@ -21,30 +23,46 @@
     return sharedInstance;
 }
 
-- (void)requestLoginCodeWithNumber:(NSString *)number completion:(HHUserGenericCompletionBlock)completion {
-    [AVUser requestLoginSmsCode:number withBlock:^(BOOL succeeded, NSError *error) {
-        if (completion) {
-            completion(succeeded, error);
-        }
+- (void)requestCodeWithNumber:(NSString *)number completion:(HHUserGenericCompletionBlock)completion {
+    [SMS_SDK getVerificationCodeBySMSWithPhone:number zone:kAreaCode result:^(SMS_SDKError *error) {
+        completion(error);
     }];
 }
 
 - (void)signupWithUser:(HHUser *)user completion:(HHUserGenericCompletionBlock)completion {
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        self.currentUser = user;
         if (completion) {
-            completion(succeeded, error);
+            completion(error);
         }
     }];
 }
 
 
-- (void)verifyPhoneNumberWith:(NSString *)code completion:(HHUserGenericCompletionBlock)completion {
-    [AVUser verifyMobilePhone:code withBlock:^(BOOL succeeded, NSError *error) {
-        if (completion) {
-            completion(succeeded, error);
-        }
-    }];
+- (void)verifyPhoneNumberWith:(NSString *)code completion:(HHUserCodeVerificationCompletionBlock)completion {
+   [SMS_SDK commitVerifyCode:code result:^(enum SMS_ResponseState state) {
+       if (state == SMS_ResponseStateSuccess) {
+           if (completion) {
+               completion(YES);
+           }
+       } else {
+           if (completion) {
+                completion(NO);
+           }
+       }
+   }];
 
+}
+
+- (void)createStudentWithStudent:(HHStudent *)student completion:(HHUserGenericCompletionBlock)completion {
+    student.studentId = self.currentUser.objectId;
+    [student saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        self.currentStudent = student;
+        if (completion) {
+            completion(error);
+        }
+        
+    }];
 }
 
 @end

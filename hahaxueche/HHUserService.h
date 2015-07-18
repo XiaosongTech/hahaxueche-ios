@@ -9,17 +9,25 @@
 #import <Foundation/Foundation.h>
 #import <AVOSCloud/AVOSCloud.h>
 #import "HHUser.h"
+#import "HHStudent.h"
+#import <SMS_SDK/SMS_SDK.h>
 
-typedef void (^HHUserGenericCompletionBlock)(BOOL succeeded, NSError *error);
+typedef void (^HHUserGenericCompletionBlock)(NSError *error);
+typedef void (^HHUserCodeVerificationCompletionBlock)(BOOL succeed);
 
 @interface HHUserService : NSObject
 
+@property (nonatomic, strong) HHStudent *currentStudent;
+@property (nonatomic, strong) HHUser *currentUser;
+
 + (instancetype)sharedInstance;
 
-- (void)requestLoginCodeWithNumber:(NSString *)number completion:(HHUserGenericCompletionBlock)completion;
+- (void)requestCodeWithNumber:(NSString *)number completion:(HHUserGenericCompletionBlock)completion;
 
 - (void)signupWithUser:(HHUser *)user completion:(HHUserGenericCompletionBlock)completion;
 
-- (void)verifyPhoneNumberWith:(NSString *)code completion:(HHUserGenericCompletionBlock)completion;
+- (void)verifyPhoneNumberWith:(NSString *)code completion:(HHUserCodeVerificationCompletionBlock)completion;
+
+- (void)createStudentWithStudent:(HHStudent *)student completion:(HHUserGenericCompletionBlock)completion;
 
 @end

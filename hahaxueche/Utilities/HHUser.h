@@ -8,7 +8,7 @@
 
 #import <AVOSCloud/AVOSCloud.h>
 
-@interface HHUser : AVUser
+@interface HHUser : AVUser <AVSubclassing>
 
 @property (nonatomic, strong) NSString *type;
 

@@ -15,6 +15,8 @@
 #import "HHTextFieldView.h"
 #import "UIView+HHRect.h"
 #import "HHToastUtility.h"
+#import "HHStudent.h"
+#import "HHUserService.h"
 
 typedef enum : NSUInteger {
     ImageOptionTakePhoto,
@@ -29,6 +31,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIPickerView *cityPicker;
 @property (nonatomic, strong) UIImage *selectedImage;
 @property (nonatomic, strong) NSString *selectedCity;
+@property (nonatomic, strong) HHStudent *student;
 
 @end
 
@@ -122,9 +125,14 @@ typedef enum : NSUInteger {
         [HHToastUtility showToastWitiTitle:@"请选择所在城市" isError:YES];
         return;
     }
-    
-    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-    [self presentViewController:rootVC animated:YES completion:nil];
+    self.student = [HHStudent object];
+    self.student.fullName = self.nameTextView.textField.text;
+    [[HHUserService sharedInstance] createStudentWithStudent:self.student completion:^(NSError *error) {
+        if (!error) {
+            HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+            [self presentViewController:rootVC animated:YES completion:nil];
+        }
+    }];
 }
 
 - (void)cancelButtonPressed {

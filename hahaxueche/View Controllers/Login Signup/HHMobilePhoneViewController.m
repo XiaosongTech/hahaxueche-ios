@@ -22,6 +22,7 @@
 #import "HHToastUtility.h"
 #import "HHLoadingView.h"
 #import "HHUser.h"
+#import <SMS_SDK/SMS_SDK.h>
 
 @interface HHMobilePhoneViewController ()
 
@@ -178,68 +179,62 @@
 }
 
 - (void)sendSMSCode {
-    if (self.type == PageTypeSignup) {
-        self.user = [HHUser user];
-        self.user.username = self.numberFieldView.textField.text;
-        self.user.password = self.numberFieldView.textField.text;
-        self.user.mobilePhoneNumber = self.numberFieldView.textField.text;
-        self.user.type = @"student";
-        [[HHUserService sharedInstance] signupWithUser:self.user completion:^(BOOL succeeded, NSError *error) {
-            if (error) {
-                if (error.code == 214) {
-                    [HHToastUtility showToastWitiTitle:@"手机号已被注册，请登陆！" isError:YES];
-                } else if (error.code == 602) {
-                    [HHToastUtility showToastWitiTitle:@"验证码发送失败， 请检查手机号码！" isError:YES];
-                } else if (error.code == 601) {
-                    [HHToastUtility showToastWitiTitle:@"发送短信过于频繁，请稍后再试！" isError:YES];
-                }
-                [self.user delete];
-            } else {
-                self.verificationCodeFieldView.hidden = NO;
-                [self.verificationCodeFieldView.textField becomeFirstResponder];
-            }
-        }];
-
-    } else {
-        [[HHUserService sharedInstance] requestLoginCodeWithNumber:self.numberFieldView.textField.text completion:^(BOOL succeeded, NSError *error) {
-            if (error) {
-                [HHToastUtility showToastWitiTitle:@"验证码发送失败， 请检查手机号码" isError:YES];
-            } else {
-                self.verificationCodeFieldView.hidden = NO;
-                [self.verificationCodeFieldView.textField becomeFirstResponder];
-            }
-        }];
-
-    }
+//    [[HHUserService sharedInstance] requestCodeWithNumber:self.numberFieldView.textField.text completion:^(NSError *error) {
+//        if (error) {
+//            [HHToastUtility showToastWitiTitle:@"发送失败，请过会重试" isError:YES];
+//        } else {
+//            self.verificationCodeFieldView.hidden = NO;
+//            [self.verificationCodeFieldView.textField becomeFirstResponder];
+//        }
+//
+//    }];
+    self.verificationCodeFieldView.hidden = NO;
+    [self.verificationCodeFieldView.textField becomeFirstResponder];
 }
 
 - (void)verifySMSCode {
     [[HHLoadingView sharedInstance] showLoadingView];
-    [[HHUserService sharedInstance] verifyPhoneNumberWith:self.verificationCodeFieldView.textField.text completion:^(BOOL succeeded, NSError *error) {
+    self.user = [HHUser user];
+    self.user.username = self.numberFieldView.textField.text;
+    self.user.password = self.numberFieldView.textField.text;
+    self.user.mobilePhoneNumber = self.numberFieldView.textField.text;
+    self.user.type = @"student";
+    [[HHUserService sharedInstance] signupWithUser:self.user completion:^(NSError *error) {
         [[HHLoadingView sharedInstance] hideLoadingView];
-        if (error) {
-            [HHToastUtility showToastWitiTitle:@"验证失败!" isError:YES];
-        } else {
-            if (self.type == PageTypeSignup) {
-                HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] init];
-                [self.navigationController pushViewController:profileSetupVC animated:YES];
-            } else {
-                HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-                [self presentViewController:rootVC animated:YES completion:nil];
-                
-            }
-        }
-        if (self.type == PageTypeSignup) {
+        if (!error) {
             HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] init];
             [self.navigationController pushViewController:profileSetupVC animated:YES];
-        } else {
-            HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-            [self presentViewController:rootVC animated:YES completion:nil];
-            
         }
-
+        
     }];
-    
+
+//    [[HHUserService sharedInstance] verifyPhoneNumberWith:self.verificationCodeFieldView.textField.text completion:^(BOOL succeed) {
+//        if (succeed) {
+//            if (self.type == PageTypeSignup) {
+//                self.user = [HHUser user];
+//                self.user.username = self.numberFieldView.textField.text;
+//                self.user.password = self.numberFieldView.textField.text;
+//                self.user.mobilePhoneNumber = self.numberFieldView.textField.text;
+//                self.user.type = @"student";
+//                [[HHUserService sharedInstance] signupWithUser:self.user completion:^(NSError *error) {
+//                    [[HHLoadingView sharedInstance] hideLoadingView];
+//                    if (!error) {
+//                        HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] init];
+//                        [self.navigationController pushViewController:profileSetupVC animated:YES];
+//                    }
+//                    
+//                }];
+//            } else {
+//                [[HHLoadingView sharedInstance] hideLoadingView];
+//                HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+//                [self presentViewController:rootVC animated:YES completion:nil];
+//            }
+//        } else {
+//            [[HHLoadingView sharedInstance] hideLoadingView];
+//            [HHToastUtility showToastWitiTitle:@"验证失败，请核对验证码！" isError:YES];
+//        }
+//
+//    }];
     
 }
 
