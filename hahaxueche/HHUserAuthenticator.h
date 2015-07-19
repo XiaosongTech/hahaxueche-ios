@@ -1,5 +1,5 @@
 //
-//  HHUserService.h
+//  HHUserAuthenticator.h
 //  hahaxueche
 //
 //  Created by Zixiao Wang on 7/17/15.
@@ -14,8 +14,9 @@
 
 typedef void (^HHUserGenericCompletionBlock)(NSError *error);
 typedef void (^HHUserCodeVerificationCompletionBlock)(BOOL succeed);
+typedef void (^HHUserFetchedStudentCompletionBlock)(HHStudent *student);
 
-@interface HHUserService : NSObject
+@interface HHUserAuthenticator : NSObject
 
 @property (nonatomic, strong) HHStudent *currentStudent;
 @property (nonatomic, strong) HHUser *currentUser;
@@ -29,5 +30,11 @@ typedef void (^HHUserCodeVerificationCompletionBlock)(BOOL succeed);
 - (void)verifyPhoneNumberWith:(NSString *)code completion:(HHUserCodeVerificationCompletionBlock)completion;
 
 - (void)createStudentWithStudent:(HHStudent *)student completion:(HHUserGenericCompletionBlock)completion;
+
+- (void)fetchAuthedStudentWithId:(NSString *)studentId completion:(HHUserFetchedStudentCompletionBlock)completion;
+
+- (void)loginWithNumber:(NSString *)number completion:(HHUserGenericCompletionBlock)completion;
+
+- (void)logout;
 
 @end

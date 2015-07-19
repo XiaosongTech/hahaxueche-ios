@@ -12,4 +12,6 @@
 
 + (UIColor *)HHOrange;
 + (UIColor *)HHLightOrange;
++ (UIColor *)HHTransparentWhite;
+
 @end

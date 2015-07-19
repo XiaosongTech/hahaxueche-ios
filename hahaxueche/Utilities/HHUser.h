@@ -8,6 +8,8 @@
 
 #import <AVOSCloud/AVOSCloud.h>
 
+#define kUserTypeKey @"type"
+
 @interface HHUser : AVUser <AVSubclassing>
 
 @property (nonatomic, strong) NSString *type;

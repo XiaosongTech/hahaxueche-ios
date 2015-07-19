@@ -45,7 +45,7 @@
 }
 
 - (HHButton *)createBorderButtonWithTitle:(NSString *)title textColor:(UIColor *)textColor font:(UIFont *)font action:(SEL)action {
-    HHButton *button = [[HHButton alloc] initOrangeThinBorderButtonWithTitle:title textColor:textColor font:font];
+    HHButton *button = [[HHButton alloc] initLoginButtonWithTitle:title textColor:textColor font:font];
     button.translatesAutoresizingMaskIntoConstraints = NO;
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
@@ -60,14 +60,14 @@
                              [HHAutoLayoutUtility setViewHeight:self.logoView multiplier:0 constant:100.0f],
                              [HHAutoLayoutUtility setViewWidth:self.logoView multiplier:0 constant:100.0f],
                              
-                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.signupButton constant:-100.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.signupButton constant:-150.0f],
                              [HHAutoLayoutUtility setCenterX:self.signupButton multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.signupButton multiplier:0 constant:45.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.signupButton multiplier:0 constant:50.0f],
                              [HHAutoLayoutUtility setViewWidth:self.signupButton multiplier:0 constant:CGRectGetWidth(self.view.bounds)-60.0f],
                              
                              [HHAutoLayoutUtility verticalNext:self.loginButton toView:self.signupButton constant:20.0f],
                              [HHAutoLayoutUtility setCenterX:self.loginButton multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.loginButton multiplier:0 constant:45.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.loginButton multiplier:0 constant:50.0f],
                              [HHAutoLayoutUtility setViewWidth:self.loginButton multiplier:0 constant:CGRectGetWidth(self.view.bounds)-60.0f],
                              ];
     [self.view addConstraints:constraints];

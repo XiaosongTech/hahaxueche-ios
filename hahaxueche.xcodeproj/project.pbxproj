@@ -80,13 +80,10 @@
 		5CD4E9741B55B5A6003CF15E /* map@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E9711B55B5A6003CF15E /* map@1x.png */; };
 		5CD4E9751B55B5A6003CF15E /* map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E9721B55B5A6003CF15E /* map@2x.png */; };
 		5CD4E9761B55B5A6003CF15E /* map@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E9731B55B5A6003CF15E /* map@3x.png */; };
-		5CD4E9D11B574785003CF15E /* camera-alt@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E9CE1B574785003CF15E /* camera-alt@1x.png */; };
-		5CD4E9D21B574785003CF15E /* camera-alt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E9CF1B574785003CF15E /* camera-alt@2x.png */; };
-		5CD4E9D31B574785003CF15E /* camera-alt@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E9D01B574785003CF15E /* camera-alt@3x.png */; };
 		5CD4E9D91B58B3B3003CF15E /* location_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E9D61B58B3B3003CF15E /* location_icon.png */; };
 		5CD4E9DA1B58B3B3003CF15E /* location_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E9D71B58B3B3003CF15E /* location_icon@2x.png */; };
 		5CD4E9DB1B58B3B3003CF15E /* location_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E9D81B58B3B3003CF15E /* location_icon@3x.png */; };
-		5CD4E9DE1B593EA0003CF15E /* HHUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4E9DD1B593EA0003CF15E /* HHUserService.m */; };
+		5CD4E9DE1B593EA0003CF15E /* HHUserAuthenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4E9DD1B593EA0003CF15E /* HHUserAuthenticator.m */; };
 		5CD4E9EA1B597CE2003CF15E /* HHToastUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4E9E91B597CE2003CF15E /* HHToastUtility.m */; };
 		5CD4E9ED1B5984FD003CF15E /* HHLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4E9EC1B5984FD003CF15E /* HHLoadingView.m */; };
 		5CD4E9F01B59CC7B003CF15E /* HHUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4E9EF1B59CC7B003CF15E /* HHUser.m */; };
@@ -97,6 +94,9 @@
 		5CD4E9FA1B5AA115003CF15E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD4E9F91B5AA115003CF15E /* MessageUI.framework */; };
 		5CD4E9FD1B5AD565003CF15E /* HHStudent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4E9FC1B5AD565003CF15E /* HHStudent.m */; };
 		5CD4EA001B5AD60F003CF15E /* HHCoach.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4E9FF1B5AD60F003CF15E /* HHCoach.m */; };
+		5CD4EA101B5BEEBF003CF15E /* camera-alt@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4EA0D1B5BEEBF003CF15E /* camera-alt@1x.png */; };
+		5CD4EA111B5BEEBF003CF15E /* camera-alt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4EA0E1B5BEEBF003CF15E /* camera-alt@2x.png */; };
+		5CD4EA121B5BEEBF003CF15E /* camera-alt@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4EA0F1B5BEEBF003CF15E /* camera-alt@3x.png */; };
 		D68F0EFAEA66F3DCDFE972F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B0110F2ECD81DF5CD4D72E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -208,14 +208,11 @@
 		5CD4E9711B55B5A6003CF15E /* map@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map@1x.png"; sourceTree = "<group>"; };
 		5CD4E9721B55B5A6003CF15E /* map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map@2x.png"; sourceTree = "<group>"; };
 		5CD4E9731B55B5A6003CF15E /* map@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map@3x.png"; sourceTree = "<group>"; };
-		5CD4E9CE1B574785003CF15E /* camera-alt@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera-alt@1x.png"; sourceTree = "<group>"; };
-		5CD4E9CF1B574785003CF15E /* camera-alt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera-alt@2x.png"; sourceTree = "<group>"; };
-		5CD4E9D01B574785003CF15E /* camera-alt@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera-alt@3x.png"; sourceTree = "<group>"; };
 		5CD4E9D61B58B3B3003CF15E /* location_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_icon.png; sourceTree = "<group>"; };
 		5CD4E9D71B58B3B3003CF15E /* location_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location_icon@2x.png"; sourceTree = "<group>"; };
 		5CD4E9D81B58B3B3003CF15E /* location_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location_icon@3x.png"; sourceTree = "<group>"; };
-		5CD4E9DC1B593EA0003CF15E /* HHUserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHUserService.h; path = hahaxueche/HHUserService.h; sourceTree = SOURCE_ROOT; };
-		5CD4E9DD1B593EA0003CF15E /* HHUserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHUserService.m; path = hahaxueche/HHUserService.m; sourceTree = SOURCE_ROOT; };
+		5CD4E9DC1B593EA0003CF15E /* HHUserAuthenticator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHUserAuthenticator.h; path = hahaxueche/HHUserAuthenticator.h; sourceTree = SOURCE_ROOT; };
+		5CD4E9DD1B593EA0003CF15E /* HHUserAuthenticator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHUserAuthenticator.m; path = hahaxueche/HHUserAuthenticator.m; sourceTree = SOURCE_ROOT; };
 		5CD4E9E81B597CE2003CF15E /* HHToastUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHToastUtility.h; sourceTree = "<group>"; };
 		5CD4E9E91B597CE2003CF15E /* HHToastUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHToastUtility.m; sourceTree = "<group>"; };
 		5CD4E9EB1B5984FD003CF15E /* HHLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHLoadingView.h; path = ../Utilities/HHLoadingView.h; sourceTree = "<group>"; };
@@ -231,6 +228,9 @@
 		5CD4E9FC1B5AD565003CF15E /* HHStudent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHStudent.m; path = hahaxueche/Utilities/HHStudent.m; sourceTree = SOURCE_ROOT; };
 		5CD4E9FE1B5AD60F003CF15E /* HHCoach.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHCoach.h; path = hahaxueche/Utilities/HHCoach.h; sourceTree = SOURCE_ROOT; };
 		5CD4E9FF1B5AD60F003CF15E /* HHCoach.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHCoach.m; path = hahaxueche/Utilities/HHCoach.m; sourceTree = SOURCE_ROOT; };
+		5CD4EA0D1B5BEEBF003CF15E /* camera-alt@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera-alt@1x.png"; sourceTree = "<group>"; };
+		5CD4EA0E1B5BEEBF003CF15E /* camera-alt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera-alt@2x.png"; sourceTree = "<group>"; };
+		5CD4EA0F1B5BEEBF003CF15E /* camera-alt@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera-alt@3x.png"; sourceTree = "<group>"; };
 		D5B0110F2ECD81DF5CD4D72E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8832576172C8DF34558C848 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		EFA148D80F7878EC1B2315C7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -292,8 +292,8 @@
 		5C10F9251B4962F300992B63 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				5CD4E9DC1B593EA0003CF15E /* HHUserService.h */,
-				5CD4E9DD1B593EA0003CF15E /* HHUserService.m */,
+				5CD4E9DC1B593EA0003CF15E /* HHUserAuthenticator.h */,
+				5CD4E9DD1B593EA0003CF15E /* HHUserAuthenticator.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -314,9 +314,9 @@
 		5C10F9271B49E6F100992B63 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				5CD4E9CE1B574785003CF15E /* camera-alt@1x.png */,
-				5CD4E9CF1B574785003CF15E /* camera-alt@2x.png */,
-				5CD4E9D01B574785003CF15E /* camera-alt@3x.png */,
+				5CD4EA0D1B5BEEBF003CF15E /* camera-alt@1x.png */,
+				5CD4EA0E1B5BEEBF003CF15E /* camera-alt@2x.png */,
+				5CD4EA0F1B5BEEBF003CF15E /* camera-alt@3x.png */,
 				5CA5B7821B53399200312674 /* Assests for test */,
 				5C5451A91B51AC9D0025D19F /* ratingcar_half.png */,
 				5CD4E9D61B58B3B3003CF15E /* location_icon.png */,
@@ -663,8 +663,6 @@
 				5C3980A41B4C3E5E0057B049 /* SourceHanSansSC-Bold.otf in Resources */,
 				5C3980A51B4C3E5E0057B049 /* SourceHanSansSC-ExtraLight.otf in Resources */,
 				5CD4E9741B55B5A6003CF15E /* map@1x.png in Resources */,
-				5CD4E9D21B574785003CF15E /* camera-alt@2x.png in Resources */,
-				5CD4E9D31B574785003CF15E /* camera-alt@3x.png in Resources */,
 				5C5451B71B51AC9D0025D19F /* ratingcar_line@3x.png in Resources */,
 				5CA5B7861B533A2200312674 /* austin1.jpg in Resources */,
 				5CB550751B4CC055005DE447 /* calendar_grey@3x.png in Resources */,
@@ -673,12 +671,14 @@
 				5C3980A61B4C3E5E0057B049 /* SourceHanSansSC-Heavy.otf in Resources */,
 				5CB550731B4CC055005DE447 /* calendar_grey@1x.png in Resources */,
 				5CD4E9621B55837A003CF15E /* calendar_selected@1x.png in Resources */,
+				5CD4EA121B5BEEBF003CF15E /* camera-alt@3x.png in Resources */,
 				5C3980A71B4C3E5E0057B049 /* SourceHanSansSC-Light.otf in Resources */,
 				5CD4E96A1B558431003CF15E /* reservation_grey@3x.png in Resources */,
 				5C5451B41B51AC9D0025D19F /* ratingcar_half@3x.png in Resources */,
 				5CD4E9761B55B5A6003CF15E /* map@3x.png in Resources */,
 				5CD4E94C1B5580DC003CF15E /* reservation_selected@3x.png in Resources */,
 				5CB5507A1B4CC055005DE447 /* car_grey@2x.png in Resources */,
+				5CD4EA111B5BEEBF003CF15E /* camera-alt@2x.png in Resources */,
 				5CB550811B4CC055005DE447 /* list_grey@3x.png in Resources */,
 				5CD4E9DB1B58B3B3003CF15E /* location_icon@3x.png in Resources */,
 				5CD4E9D91B58B3B3003CF15E /* location_icon.png in Resources */,
@@ -687,6 +687,7 @@
 				5CD4E9451B55809B003CF15E /* car_selected@2x.png in Resources */,
 				5CD4E9751B55B5A6003CF15E /* map@2x.png in Resources */,
 				5C5451B81B51AC9D0025D19F /* ratingcar_solid.png in Resources */,
+				5CD4EA101B5BEEBF003CF15E /* camera-alt@1x.png in Resources */,
 				5C3980AA1B4C3E5E0057B049 /* SourceHanSansSC-Regular.otf in Resources */,
 				5CD4E9461B55809B003CF15E /* car_selected@3x.png in Resources */,
 				5C5451B21B51AC9D0025D19F /* ratingcar_half.png in Resources */,
@@ -706,7 +707,6 @@
 				5C5451BC1B51E6B60025D19F /* fbAvatar.jpg in Resources */,
 				5CB550741B4CC055005DE447 /* calendar_grey@2x.png in Resources */,
 				5C5451BA1B51AC9D0025D19F /* ratingcar_solid@3x.png in Resources */,
-				5CD4E9D11B574785003CF15E /* camera-alt@1x.png in Resources */,
 				5CD4E9521B558184003CF15E /* list_selected@3x.png in Resources */,
 				5CD4E9681B558431003CF15E /* reservation_grey@1x.png in Resources */,
 				5CD4E94B1B5580DC003CF15E /* reservation_selected@2x.png in Resources */,
@@ -776,7 +776,7 @@
 				5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */,
 				5C3980951B4C1A180057B049 /* HHHomePageViewController.m in Sources */,
 				5CD4E9EA1B597CE2003CF15E /* HHToastUtility.m in Sources */,
-				5CD4E9DE1B593EA0003CF15E /* HHUserService.m in Sources */,
+				5CD4E9DE1B593EA0003CF15E /* HHUserAuthenticator.m in Sources */,
 				5CD4E9ED1B5984FD003CF15E /* HHLoadingView.m in Sources */,
 				5CD4EA001B5AD60F003CF15E /* HHCoach.m in Sources */,
 				5C5451C61B52A7760025D19F /* HHLoginSignupViewController.m in Sources */,

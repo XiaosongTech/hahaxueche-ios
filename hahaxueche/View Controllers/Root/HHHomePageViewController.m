@@ -42,7 +42,6 @@
     self.imageGalleryView.translatesAutoresizingMaskIntoConstraints = NO;
     self.imageGalleryView.pageControlStyle = SDCycleScrollViewPageContolStyleClassic;
     self.imageGalleryView.backgroundColor = [UIColor clearColor];
-    self.imageGalleryView.dotColor = [UIColor HHOrange];
     self.imageGalleryView.autoScroll = NO;;
     self.imageGalleryView.delegate = self;
     [self.view addSubview:self.imageGalleryView];

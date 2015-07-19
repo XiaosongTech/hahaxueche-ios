@@ -16,7 +16,8 @@
 #import "UIView+HHRect.h"
 #import "HHToastUtility.h"
 #import "HHStudent.h"
-#import "HHUserService.h"
+#import "HHUserAuthenticator.h"
+#import "HHLoadingView.h"
 
 typedef enum : NSUInteger {
     ImageOptionTakePhoto,
@@ -39,7 +40,7 @@ typedef enum : NSUInteger {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor HHOrange];
     self.navigationItem.hidesBackButton = YES;
     UIBarButtonItem *doneButton = [UIBarButtonItem buttonItemWithTitle:@"完成" action:@selector(doneButtonPressed) target:self isLeft:NO];
     self.navigationItem.rightBarButtonItem = doneButton;
@@ -66,7 +67,7 @@ typedef enum : NSUInteger {
     self.uploadImageView.image = [UIImage imageNamed:@"camera-alt"];
     self.uploadImageView.layer.cornerRadius = 25.0f;
     self.uploadImageView.layer.masksToBounds = YES;
-    self.uploadImageView.layer.borderColor = [UIColor HHOrange].CGColor;
+    self.uploadImageView.layer.borderColor = [UIColor HHTransparentWhite].CGColor;
     self.uploadImageView.layer.borderWidth = 1.0f;
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(uploadImage)];
     [self.uploadImageView addGestureRecognizer:tapGesture];
@@ -125,12 +126,30 @@ typedef enum : NSUInteger {
         [HHToastUtility showToastWitiTitle:@"请选择所在城市" isError:YES];
         return;
     }
+    [self.nameTextView.textField resignFirstResponder];
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:@"创建账户..."];
+    NSData *imageData = UIImagePNGRepresentation(self.selectedImage);
+    AVFile *imageFile = [AVFile fileWithData:imageData];
+    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (error) {
+            [HHToastUtility showToastWitiTitle:@"图片上传失败！" isError:YES];
+            [[HHLoadingView sharedInstance] hideLoadingView];
+        } else {
+            self.student.avatarURL = imageFile.url;
+            [self.student saveInBackground];
+        }
+    }];
+    
     self.student = [HHStudent object];
+    self.student.avatarURL = imageFile.url;
     self.student.fullName = self.nameTextView.textField.text;
-    [[HHUserService sharedInstance] createStudentWithStudent:self.student completion:^(NSError *error) {
+    [[HHUserAuthenticator sharedInstance] createStudentWithStudent:self.student completion:^(NSError *error) {
+        [[HHLoadingView sharedInstance] hideLoadingView];
         if (!error) {
             HHRootViewController *rootVC = [[HHRootViewController alloc] init];
             [self presentViewController:rootVC animated:YES completion:nil];
+        } else {
+            [HHToastUtility showToastWitiTitle:@"创建账户失败！" isError:YES];
         }
     }];
 }
@@ -168,8 +187,8 @@ typedef enum : NSUInteger {
             [self.cityPicker removeFromSuperview];
             self.cityPicker = nil;
         }
-        self.cityTextView.divideLine.backgroundColor = [UIColor colorWithRed:0.52 green:0.45 blue:0.36 alpha:1];
-        self.nameTextView.divideLine.backgroundColor = [UIColor HHOrange];
+        self.cityTextView.divideLine.backgroundColor = [UIColor HHTransparentWhite];
+        self.nameTextView.divideLine.backgroundColor = [UIColor whiteColor];
     }
    
     return YES;
@@ -177,12 +196,12 @@ typedef enum : NSUInteger {
 
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    self.nameTextView.divideLine.backgroundColor = [UIColor colorWithRed:0.52 green:0.45 blue:0.36 alpha:1];
+    self.nameTextView.divideLine.backgroundColor = [UIColor HHTransparentWhite];
 }
 
 - (void)selectCity {
     [self.nameTextView.textField resignFirstResponder];
-    self.cityTextView.divideLine.backgroundColor = [UIColor HHOrange];
+    self.cityTextView.divideLine.backgroundColor = [UIColor whiteColor];
     if (!self.cityPicker) {
         self.cityPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.bounds)-200.0f, CGRectGetWidth(self.view.bounds), 200.0f)];
     }
@@ -211,7 +230,7 @@ typedef enum : NSUInteger {
 {
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(pickerView.bounds), 44)];
     label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UIColor darkTextColor];
+    label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.font = [UIFont fontWithName:@"SourceHanSansSC-Normal" size:20.0f];
     label.text = @"浙江-杭州";
@@ -260,5 +279,9 @@ typedef enum : NSUInteger {
     self.uploadImageView.image = self.selectedImage;
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
+}
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 @end

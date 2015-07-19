@@ -17,19 +17,20 @@
     if (self) {
         self.textField = [[UITextField alloc] initWithFrame:CGRectZero];
         self.textField.borderStyle = UITextBorderStyleNone;
-        self.textField.textColor = [UIColor darkTextColor];
-        self.textField.tintColor = [UIColor HHOrange];
+        self.textField.textColor = [UIColor whiteColor];
+        self.textField.tintColor = [UIColor whiteColor];
         self.textField.delegate = self;
         self.textField.translatesAutoresizingMaskIntoConstraints = NO;
-        self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder attributes:@{NSForegroundColorAttributeName: [UIColor lightGrayColor], NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:15.0f]}];
+        self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder attributes:@{NSForegroundColorAttributeName: [UIColor HHTransparentWhite], NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:15.0f]}];
         self.textField.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:self.textField];
         
         self.divideLine = [[UIView alloc] initWithFrame:CGRectZero];
         self.divideLine.translatesAutoresizingMaskIntoConstraints = NO;
-        self.divideLine.backgroundColor = [UIColor colorWithRed:0.52 green:0.45 blue:0.36 alpha:1];
+        self.divideLine.backgroundColor = [UIColor HHTransparentWhite];
         [self addSubview:self.divideLine];
         [self autoLayoutSubviews];
+        self.backgroundColor = [UIColor HHOrange];
     }
     return self;
 }
@@ -52,11 +53,11 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
-    self.divideLine.backgroundColor = [UIColor HHOrange];
+    self.divideLine.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    self.divideLine.backgroundColor = [UIColor colorWithRed:0.52 green:0.45 blue:0.36 alpha:1];
+    self.divideLine.backgroundColor = [UIColor HHTransparentWhite];
 }
 
 

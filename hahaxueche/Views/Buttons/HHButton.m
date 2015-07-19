@@ -97,7 +97,21 @@
 
 }
 
-
+- (HHButton *)initLoginButtonWithTitle:(NSString *)title textColor:(UIColor *)textColor font:(UIFont *)font {
+    self = [super init];
+    if (self) {
+        [self setTitle:title forState:UIControlStateNormal];
+        [self setTitleColor:textColor forState:UIControlStateNormal];
+        self.titleLabel.font = font;;
+        self.backgroundColor = [UIColor HHOrange];
+        self.layer.masksToBounds = YES;
+        self.layer.borderColor = [UIColor whiteColor].CGColor;
+        self.layer.borderWidth = 1.5f;
+        self.layer.cornerRadius = 25.0f;
+        [self setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
+        [self setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+    }
+    return self;}
 
 
 @end

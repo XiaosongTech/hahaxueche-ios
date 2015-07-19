@@ -12,7 +12,10 @@
 
 
 + (instancetype)sharedInstance;
-- (void)showLoadingView;
+- (void)showLoadingViewWithTilte:(NSString *)title;
 - (void)hideLoadingView;
+
+- (void)changeTitle:(NSString *)title;
+
 
 @end

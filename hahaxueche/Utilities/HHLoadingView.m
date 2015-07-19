@@ -28,16 +28,23 @@
     return sharedInstance;
 }
 
-- (void)showLoadingView {
+- (void)showLoadingViewWithTilte:(NSString *)title {
     UIWindow *currentWindow = [[UIApplication sharedApplication] keyWindow];
     self.hud = [[MBProgressHUD alloc] initWithView:currentWindow];
     [currentWindow addSubview:self.hud];
-    self.hud.labelText = @"请稍等";
+    self.hud.labelText = @"请稍等...";
+    if (title) {
+        self.hud.labelText = title;
+    }
     [self.hud show:YES];
 }
 
 - (void)hideLoadingView {
     [self.hud hide:YES];
+}
+
+- (void)changeTitle:(NSString *)title {
+    self.hud.labelText = title;
 }
 
 @end

@@ -9,6 +9,8 @@
 #import <AVOSCloud/AVOSCloud.h>
 #import "HHCoach.h"
 
+#define kStudentIdKey @"studentId"
+
 @interface HHStudent : AVObject <AVSubclassing>
 
 @property (nonatomic, copy) NSString *studentId;
