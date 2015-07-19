@@ -13,6 +13,12 @@
 // Please contact the author.
 // Version: 3.1.2.6.
 
+// AXRatingView
+#define COCOAPODS_POD_AVAILABLE_AXRatingView
+#define COCOAPODS_VERSION_MAJOR_AXRatingView 1
+#define COCOAPODS_VERSION_MINOR_AXRatingView 0
+#define COCOAPODS_VERSION_PATCH_AXRatingView 3
+
 // CRToast
 #define COCOAPODS_POD_AVAILABLE_CRToast
 #define COCOAPODS_VERSION_MAJOR_CRToast 0
