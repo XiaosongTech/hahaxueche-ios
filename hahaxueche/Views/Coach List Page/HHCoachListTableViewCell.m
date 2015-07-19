@@ -135,12 +135,12 @@
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.priceLabel constant:9.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.priceLabel constant:-10.0f],
                              
-                             [HHAutoLayoutUtility verticalNext:self.ratingView toView:self.nameLabel constant:6.0f],
+                             [HHAutoLayoutUtility verticalNext:self.ratingView toView:self.nameLabel constant:3.0f],
                              [HHAutoLayoutUtility horizontalNext:self.ratingView toView:self.avatarView constant:10.0f],
                              [HHAutoLayoutUtility setViewHeight:self.ratingView multiplier:0 constant:15.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.ratingView multiplier:0 constant:110.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.ratingView multiplier:0 constant:100.0f],
                              
-                             [HHAutoLayoutUtility verticalNext:self.ratingLabel toView:self.nameLabel constant:5.0f],
+                             [HHAutoLayoutUtility verticalNext:self.ratingLabel toView:self.nameLabel constant:3.0f],
                              [HHAutoLayoutUtility horizontalNext:self.ratingLabel toView:self.ratingView constant:5.0f],
                              
                              [HHAutoLayoutUtility verticalNext:self.teachedYearLabel toView:self.ratingView constant:6.0f],

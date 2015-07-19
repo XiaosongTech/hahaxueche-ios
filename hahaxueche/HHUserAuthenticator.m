@@ -83,13 +83,17 @@
     }];
 }
 
-- (void)fetchAuthedStudentWithId:(NSString *)studentId completion:(HHUserFetchedStudentCompletionBlock)completion {
+- (void)fetchAuthedStudentWithId:(NSString *)studentId completion:(HHUserGenericCompletionBlock)completion {
     AVQuery *query = [AVQuery queryWithClassName:[HHStudent parseClassName]];
     [query whereKey:kStudentIdKey equalTo:studentId];
-    self.currentStudent = (HHStudent *)[query getFirstObject];
-    if (completion) {
-        completion (self.currentStudent);
-    }
+    [query getFirstObjectInBackgroundWithBlock:^(AVObject *object, NSError *error) {
+        if (!error) {
+            self.currentStudent = (HHStudent *)object;
+        }
+        if (completion) {
+            completion(error);
+        }
+    }];
 }
 
 

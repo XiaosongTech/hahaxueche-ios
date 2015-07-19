@@ -14,7 +14,6 @@
 
 typedef void (^HHUserGenericCompletionBlock)(NSError *error);
 typedef void (^HHUserCodeVerificationCompletionBlock)(BOOL succeed);
-typedef void (^HHUserFetchedStudentCompletionBlock)(HHStudent *student);
 
 @interface HHUserAuthenticator : NSObject
 
@@ -31,7 +30,7 @@ typedef void (^HHUserFetchedStudentCompletionBlock)(HHStudent *student);
 
 - (void)createStudentWithStudent:(HHStudent *)student completion:(HHUserGenericCompletionBlock)completion;
 
-- (void)fetchAuthedStudentWithId:(NSString *)studentId completion:(HHUserFetchedStudentCompletionBlock)completion;
+- (void)fetchAuthedStudentWithId:(NSString *)studentId completion:(HHUserGenericCompletionBlock)completion;
 
 - (void)loginWithNumber:(NSString *)number completion:(HHUserGenericCompletionBlock)completion;
 

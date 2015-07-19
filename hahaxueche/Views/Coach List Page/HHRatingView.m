@@ -25,18 +25,18 @@
         self.interactionEnabled = enabled;
         
         for (int i = 0; i < kCarTotalAmount; i++) {
-            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(i*22.0f, 0, 19.0f, 15.0f)];
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(i*20.0f, 0, 19.0f, 19.0f)];
             imageView.tag = i+1;
             UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(carPressed:)];
             [imageView addGestureRecognizer:recognizer];
             [self.cars addObject:imageView];
             [self addSubview:imageView];
             if (ratingValue - i >= 1 ) {
-                imageView.image = [UIImage imageNamed:@"ratingcar_solid"];
+                imageView.image = [UIImage imageNamed:@"star_solid"];
             } else if (ratingValue - i > 0 && ratingValue - i < 1){
                 imageView.image = [UIImage imageNamed:@"ratingcar_half"];
             } else {
-                imageView.image = [UIImage imageNamed:@"ratingcar_line"];
+                imageView.image = [UIImage imageNamed:@"star_line"];
             }
         }
     
