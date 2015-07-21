@@ -12,6 +12,7 @@
 #import <pop/POP.h>
 #import "UIColor+HHColor.h"
 #import <QuartzCore/QuartzCore.h>
+#import "HHNumberFormatUtility.h"
 
 #define kDataViewBackgroundColor [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1]
 #define kAvatarRadius 30.0f
@@ -40,20 +41,16 @@
     self.dataView.layer.masksToBounds = YES;
     [self.contentView addSubview:self.dataView];
     
-    self.avatarView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    self.avatarView = [[HHAvatarView alloc] initWithImage:nil radius:kAvatarRadius borderColor:[UIColor whiteColor]];
     self.avatarView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.avatarView.layer.cornerRadius = kAvatarRadius;
-    self.avatarView.layer.masksToBounds = YES;
-    self.avatarView.contentMode = UIViewContentModeScaleAspectFit;
-    self.avatarView.image = [UIImage imageNamed:@"fbAvatar.jpg"];
     [self.dataView addSubview:self.avatarView];
     
-    self.nameLabel = [self createLabelWithTitle:@"王子潇" font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:15] color:[UIColor blackColor]];
-    self.addressLabel = [self createLabelWithTitle:@"杭州-下城区" font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:12] color:[UIColor grayColor]];
+    self.nameLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:15] color:[UIColor blackColor]];
+    self.addressLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:12] color:[UIColor grayColor]];
     UITapGestureRecognizer *tapAddress = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showLocation)];
     [self.addressLabel addGestureRecognizer:tapAddress];
     self.addressLabel.userInteractionEnabled = YES;
-    self.priceLabel = [self createLabelWithTitle:@"￥1500" font:[UIFont fontWithName:@"SourceHanSansSC-Heavy" size:16] color:[UIColor darkTextColor]];
+    self.priceLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansSC-Heavy" size:16] color:[UIColor darkTextColor]];
     
     self.locationPin = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"location_icon"]];
     self.locationPin.translatesAutoresizingMaskIntoConstraints = NO;
@@ -62,7 +59,7 @@
     self.locationPin.userInteractionEnabled = YES;
     [self.dataView addSubview:self.locationPin];
     
-    self.ratingView = [[HHRatingView alloc] initWithFloat:4.0f interactionEnabled:NO];
+    self.ratingView = [[HHRatingView alloc] initWithInteractionEnabled:NO];
     self.ratingView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.dataView addSubview:self.ratingView];
     
@@ -71,24 +68,18 @@
     [yearString appendAttributedString:[self generateAttributedStringWithString:@"年教龄" font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:12] color:[UIColor blackColor]]];
     
     
-    self.teachedYearLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:14] color:[UIColor blackColor]];
-    self.teachedYearLabel.attributedText = yearString;
+    self.teachedYearLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:14] color:[UIColor blackColor]];
     
+    self.teachedStudentAmount = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:14] color:[UIColor blackColor]];
     
-    self.teachedStudentAmount = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:14] color:[UIColor blackColor]];
-    
-    NSMutableAttributedString * studentAmountString = [self generateAttributedStringWithString:@"累计" font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:12] color:[UIColor blackColor]];
-    [studentAmountString appendAttributedString:[self generateAttributedStringWithString:@" 88 " font:[UIFont fontWithName:@"SourceHanSansSC-Bold" size:14] color:[UIColor blackColor]]];
-    [studentAmountString appendAttributedString:[self generateAttributedStringWithString:@"名学员" font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:12] color:[UIColor blackColor]]];
-    self.teachedStudentAmount.attributedText = studentAmountString;
-    
-    self.courseLabel = [self createLabelWithTitle:@"科目二" font:[UIFont fontWithName:@"SourceHanSansSC-Bold" size:11] color:[UIColor whiteColor]];
+    self.courseLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansSC-Bold" size:11] color:[UIColor whiteColor]];
     self.courseLabel.textAlignment = NSTextAlignmentCenter;
     self.courseLabel.layer.masksToBounds = YES;
     self.courseLabel.layer.cornerRadius = 9.0f;
+    [self.courseLabel sizeToFit];
     self.courseLabel.backgroundColor = [UIColor HHOrange];
     
-    self.ratingLabel = [self createLabelWithTitle:@"3.9" font:[UIFont fontWithName:@"SourceHanSansSC-Heavy" size:12] color:[UIColor HHOrange]];
+    self.ratingLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansSC-Heavy" size:12] color:[UIColor HHOrange]];
 }
 
 - (NSMutableAttributedString *)generateAttributedStringWithString:(NSString *)title font:(UIFont *)font color:(UIColor *)color {
@@ -98,10 +89,9 @@
     return attributedString;
 }
 
-- (UILabel *)createLabelWithTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color {
+- (UILabel *)createLabelWithFont:(UIFont *)font color:(UIColor *)color {
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
     label.translatesAutoresizingMaskIntoConstraints = NO;
-    label.text = title;
     label.font = font;
     label.textColor = color;
     label.backgroundColor = [UIColor clearColor];
@@ -151,7 +141,6 @@
                              
                              [HHAutoLayoutUtility verticalNext:self.courseLabel toView:self.teachedYearLabel constant:6.0f],
                              [HHAutoLayoutUtility horizontalNext:self.courseLabel toView:self.avatarView constant:10.0f],
-                             [HHAutoLayoutUtility setViewHeight:self.courseLabel multiplier:0 constant:18.0f],
                              [HHAutoLayoutUtility setViewWidth:self.courseLabel multiplier:0 constant:76.0f],
                              ];
     [self.contentView addConstraints:constraints];
@@ -159,6 +148,24 @@
 
 - (void)showLocation {
     
+}
+
+- (void)setupCellWithCoach:(HHCoach *)coach {
+    self.nameLabel.text = coach.fullName;
+    self.priceLabel.text = [[HHNumberFormatUtility moneyFormatter] stringFromNumber:coach.price];
+    NSNumber *aveRating = [NSNumber numberWithFloat:([coach.averageSkillRating floatValue] + [coach.averageServiceRating floatValue])/2];
+    [self.ratingView setupViewWithRating:[aveRating floatValue]];
+    self.ratingLabel.text = [[HHNumberFormatUtility floatFormatter] stringFromNumber:aveRating];;
+    
+    NSMutableAttributedString * yearString = [self generateAttributedStringWithString:coach.experienceYear font:[UIFont fontWithName:@"SourceHanSansSC-Bold" size:14] color:[UIColor blackColor]];
+    [yearString appendAttributedString:[self generateAttributedStringWithString:@"年教龄" font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:12] color:[UIColor blackColor]]];
+    self.teachedYearLabel.attributedText = yearString;
+    
+    NSMutableAttributedString * studentAmountString = [self generateAttributedStringWithString:@"累计" font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:12] color:[UIColor blackColor]];
+    [studentAmountString appendAttributedString:[self generateAttributedStringWithString:@"88" font:[UIFont fontWithName:@"SourceHanSansSC-Bold" size:14] color:[UIColor blackColor]]];
+    [studentAmountString appendAttributedString:[self generateAttributedStringWithString:@"名学员" font:[UIFont fontWithName:@"SourceHanSansSC-Normal" size:12] color:[UIColor blackColor]]];
+    self.teachedStudentAmount.attributedText = studentAmountString;
+    self.courseLabel.text = coach.course;
 }
 
 

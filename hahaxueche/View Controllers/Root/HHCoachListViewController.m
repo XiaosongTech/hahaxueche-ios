@@ -15,7 +15,7 @@
 #import "UIView+HHRect.h"
 #import "HHSearchBar.h"
 #import "HHCoachListTableViewCell.h"
-#import <MapKit/MapKit.h>
+#import "HHCoachService.h"
 
 
 typedef enum : NSUInteger {
@@ -59,6 +59,7 @@ typedef enum : NSUInteger {
 @property (nonatomic)         BOOL isdropDownButtonsActive;
 @property (nonatomic, strong) HHSearchBar *searchBar;
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *coachesArray;
 
 @property (assign, nonatomic) CATransform3D initialTransformation;
 
@@ -93,7 +94,6 @@ typedef enum : NSUInteger {
         self.titleButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:15.0f];
         [self.titleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         self.titleButton.backgroundColor = [UIColor clearColor];
-        //[self.titleButton sizeToFit];
         [self.titleButton addTarget:self action:@selector(titleViewPressed) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.titleView = self.titleButton;
         [self.titleButton setFrameWithHeight:20.0f];
@@ -106,10 +106,34 @@ typedef enum : NSUInteger {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    HHCoach *coach = [[HHCoach alloc] initWithClassName:[HHCoach parseClassName]];
+//    coach.fullName = @"孙晓宇";
+//    coach.des = @"hello";
+//    coach.coachId = @"55ada2f4e4b0a17d557272d1";
+//    coach.experienceYear = @"10";
+//    coach.course = @"科目二";
+//    coach.price = @1500;
+//    coach.coachedStudentAmount = @100;
+//    coach.averageServiceRating = @5.0;
+//    coach.averageSkillRating = @5.0;
+//    coach.totalReviewAmount = @100;
+//    coach.currentStudentAmount = @20;
+//    [coach save];
+    [[HHCoachService sharedInstance] fetchCoachesWithTraningFieldId:nil startIndex:0 completion:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            self.coachesArray = [NSMutableArray arrayWithArray: objects];
+        }
+    }];
+    
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor clearColor];
     self.currentCourseOption = CourseTwo;
     [self initSubviews];
+}
+
+- (void)setCoachesArray:(NSMutableArray *)coachesArray {
+    _coachesArray = coachesArray;
+    [self.tableView reloadData];
 }
 
 -(void)initSubviews {
@@ -356,11 +380,12 @@ typedef enum : NSUInteger {
 #pragma mark Tableview Delegate & Datasource Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 110;
+    return self.coachesArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HHCoachListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCoachListViewCellIdentifier forIndexPath:indexPath];
+    [cell setupCellWithCoach:self.coachesArray[indexPath.row]];
 
     return cell;
 }

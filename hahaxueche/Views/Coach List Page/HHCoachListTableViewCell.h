@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import "HHRatingView.h"
+#import "HHAvatarView.h"
+#import "HHCoach.h"
 
 @interface HHCoachListTableViewCell : UITableViewCell 
 
 @property (nonatomic, strong) UIView *dataView;
-@property (nonatomic, strong) UIImageView *avatarView;
+@property (nonatomic, strong) HHAvatarView *avatarView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *addressLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
@@ -23,5 +25,7 @@
 @property (nonatomic, strong) UILabel *teachedStudentAmount;
 @property (nonatomic, strong) UILabel *courseLabel;
 @property (nonatomic, strong) UILabel *ratingLabel;
+
+- (void)setupCellWithCoach:(HHCoach *)coach;
 
 @end

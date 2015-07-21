@@ -16,6 +16,7 @@
 #import "HHStudent.h"
 #import <SMS_SDK/SMS_SDK.h>
 #import "HHCoach.h"
+#import "HHTrainingField.h"
 
 #define kLeanCloudStagingAppID @"cr9pv6bp9nlr1xrtl36slyxt0hgv6ypifso9aocxwas2fugq"
 #define kLeanCloudStagingAppKey @"2ykqwhzhfrzhjn3o9bj7rizb8qd75ym3f0lez1d8fcxmn2k3"
@@ -49,7 +50,6 @@
     [self.window makeKeyAndVisible];
     [self setAppearance];
     [self setWindow:self.window];
-   
     return YES;
 }
 
@@ -97,6 +97,7 @@
     [HHUser registerSubclass];
     [HHStudent registerSubclass];
     [HHCoach registerSubclass];
+    [HHTrainingField registerSubclass];
 }
 
 - (void)setupBackend {

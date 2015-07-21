@@ -8,6 +8,7 @@
 
 #import <AVOSCloud/AVOSCloud.h>
 #import "HHCoach.h"
+#import "AVObject+Subclass.h"
 
 #define kStudentIdKey @"studentId"
 
@@ -16,7 +17,7 @@
 @property (nonatomic, copy) NSString *studentId;
 @property (nonatomic, copy) NSString *fullName;
 @property (nonatomic, copy) NSString *avatarURL;
-@property (nonatomic, copy) HHCoach *myCoach;
+@property (nonatomic, strong) HHCoach *myCoach;
 @property (nonatomic, copy) NSString *city;
 @property (nonatomic, copy) NSString *province;
 

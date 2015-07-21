@@ -10,9 +10,9 @@
 
 @interface HHRatingView : UIView
 
-@property (nonatomic)   CGFloat ratingValue;
 @property (nonatomic)   BOOL    interactionEnabled;
 
-- (instancetype)initWithFloat:(CGFloat)ratingValue interactionEnabled:(BOOL)enabled;
+- (instancetype)initWithInteractionEnabled:(BOOL)enabled;
+- (void)setupViewWithRating:(CGFloat)ratingValue;
 
 @end

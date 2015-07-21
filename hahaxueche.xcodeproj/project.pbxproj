@@ -94,6 +94,11 @@
 		5CD4EA311B5C05F8003CF15E /* star_line@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4EA2E1B5C05F8003CF15E /* star_line@1x.png */; };
 		5CD4EA321B5C05F8003CF15E /* star_line@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4EA2F1B5C05F8003CF15E /* star_line@3x.png */; };
 		5CD4EA331B5C05F8003CF15E /* star_line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4EA301B5C05F8003CF15E /* star_line@2x.png */; };
+		5CD4EA361B5C2BA0003CF15E /* HHAvatarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA351B5C2BA0003CF15E /* HHAvatarView.m */; };
+		5CD4EA391B5C3584003CF15E /* HHCoachProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA381B5C3584003CF15E /* HHCoachProfileViewController.m */; };
+		5CD4EA3C1B5C8180003CF15E /* HHCoachService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA3B1B5C8180003CF15E /* HHCoachService.m */; };
+		5CD4EA3F1B5D97E1003CF15E /* HHTrainingField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA3E1B5D97E1003CF15E /* HHTrainingField.m */; };
+		5CD4EA421B5DE6BC003CF15E /* HHNumberFormatUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA411B5DE6BC003CF15E /* HHNumberFormatUtility.m */; };
 		D68F0EFAEA66F3DCDFE972F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B0110F2ECD81DF5CD4D72E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -225,6 +230,16 @@
 		5CD4EA2E1B5C05F8003CF15E /* star_line@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star_line@1x.png"; sourceTree = "<group>"; };
 		5CD4EA2F1B5C05F8003CF15E /* star_line@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star_line@3x.png"; sourceTree = "<group>"; };
 		5CD4EA301B5C05F8003CF15E /* star_line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star_line@2x.png"; sourceTree = "<group>"; };
+		5CD4EA341B5C2BA0003CF15E /* HHAvatarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAvatarView.h; sourceTree = "<group>"; };
+		5CD4EA351B5C2BA0003CF15E /* HHAvatarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHAvatarView.m; sourceTree = "<group>"; };
+		5CD4EA371B5C3584003CF15E /* HHCoachProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachProfileViewController.h; sourceTree = "<group>"; };
+		5CD4EA381B5C3584003CF15E /* HHCoachProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachProfileViewController.m; sourceTree = "<group>"; };
+		5CD4EA3A1B5C8180003CF15E /* HHCoachService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHCoachService.h; path = "hahaxueche/View Controllers/HHCoachService.h"; sourceTree = SOURCE_ROOT; };
+		5CD4EA3B1B5C8180003CF15E /* HHCoachService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHCoachService.m; path = "hahaxueche/View Controllers/HHCoachService.m"; sourceTree = SOURCE_ROOT; };
+		5CD4EA3D1B5D97E1003CF15E /* HHTrainingField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHTrainingField.h; path = "hahaxueche/View Controllers/HHTrainingField.h"; sourceTree = SOURCE_ROOT; };
+		5CD4EA3E1B5D97E1003CF15E /* HHTrainingField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHTrainingField.m; path = "hahaxueche/View Controllers/HHTrainingField.m"; sourceTree = SOURCE_ROOT; };
+		5CD4EA401B5DE6BC003CF15E /* HHNumberFormatUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNumberFormatUtility.h; sourceTree = "<group>"; };
+		5CD4EA411B5DE6BC003CF15E /* HHNumberFormatUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNumberFormatUtility.m; sourceTree = "<group>"; };
 		D5B0110F2ECD81DF5CD4D72E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8832576172C8DF34558C848 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		EFA148D80F7878EC1B2315C7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -266,6 +281,8 @@
 				5CB5508B1B4CC718005DE447 /* Buttons */,
 				5C54518F1B4F67200025D19F /* HHSearchBar.h */,
 				5C5451901B4F67200025D19F /* HHSearchBar.m */,
+				5CD4EA341B5C2BA0003CF15E /* HHAvatarView.h */,
+				5CD4EA351B5C2BA0003CF15E /* HHAvatarView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -279,6 +296,8 @@
 				5CD4E9FC1B5AD565003CF15E /* HHStudent.m */,
 				5CD4E9FE1B5AD60F003CF15E /* HHCoach.h */,
 				5CD4E9FF1B5AD60F003CF15E /* HHCoach.m */,
+				5CD4EA3D1B5D97E1003CF15E /* HHTrainingField.h */,
+				5CD4EA3E1B5D97E1003CF15E /* HHTrainingField.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -288,6 +307,8 @@
 			children = (
 				5CD4E9DC1B593EA0003CF15E /* HHUserAuthenticator.h */,
 				5CD4E9DD1B593EA0003CF15E /* HHUserAuthenticator.m */,
+				5CD4EA3A1B5C8180003CF15E /* HHCoachService.h */,
+				5CD4EA3B1B5C8180003CF15E /* HHCoachService.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -301,6 +322,8 @@
 				5C39806F1B4AAD450057B049 /* HHNavigationController.m */,
 				5C39808F1B4C17900057B049 /* HHRootViewController.h */,
 				5C3980901B4C17900057B049 /* HHRootViewController.m */,
+				5CD4EA371B5C3584003CF15E /* HHCoachProfileViewController.h */,
+				5CD4EA381B5C3584003CF15E /* HHCoachProfileViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -350,6 +373,8 @@
 				5C39808A1B4BFFB20057B049 /* HHAutoLayoutUtility.m */,
 				5CD4E9E81B597CE2003CF15E /* HHToastUtility.h */,
 				5CD4E9E91B597CE2003CF15E /* HHToastUtility.m */,
+				5CD4EA401B5DE6BC003CF15E /* HHNumberFormatUtility.h */,
+				5CD4EA411B5DE6BC003CF15E /* HHNumberFormatUtility.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -753,15 +778,19 @@
 			files = (
 				5CA5B77E1B52DF9200312674 /* HHTextFieldView.m in Sources */,
 				5C5451A01B5154560025D19F /* HHRatingView.m in Sources */,
+				5CD4EA3F1B5D97E1003CF15E /* HHTrainingField.m in Sources */,
 				5C39808B1B4BFFB20057B049 /* HHAutoLayoutUtility.m in Sources */,
 				5C5451CF1B52ADE50025D19F /* HHButton.m in Sources */,
+				5CD4EA391B5C3584003CF15E /* HHCoachProfileViewController.m in Sources */,
 				5C5451911B4F67200025D19F /* HHSearchBar.m in Sources */,
 				5C5451991B50B5910025D19F /* HHCoachListTableViewCell.m in Sources */,
+				5CD4EA421B5DE6BC003CF15E /* HHNumberFormatUtility.m in Sources */,
 				5C3980711B4AAD450057B049 /* HHNavigationController.m in Sources */,
 				5C5451D21B52BE1D0025D19F /* UIImage+HHImage.m in Sources */,
 				5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */,
 				5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */,
 				5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */,
+				5CD4EA361B5C2BA0003CF15E /* HHAvatarView.m in Sources */,
 				5C3980951B4C1A180057B049 /* HHHomePageViewController.m in Sources */,
 				5CD4E9EA1B597CE2003CF15E /* HHToastUtility.m in Sources */,
 				5CD4E9DE1B593EA0003CF15E /* HHUserAuthenticator.m in Sources */,
@@ -777,6 +806,7 @@
 				5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */,
 				5C3980851B4AD7DE0057B049 /* HHBookViewController.m in Sources */,
 				5C3980701B4AAD450057B049 /* HHCoachListViewController.m in Sources */,
+				5CD4EA3C1B5C8180003CF15E /* HHCoachService.m in Sources */,
 				5CA5B7811B53298000312674 /* HHProfileSetupViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

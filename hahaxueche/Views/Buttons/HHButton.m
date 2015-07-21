@@ -39,7 +39,7 @@
     if (self) {
         [self setTitle:title forState:UIControlStateNormal];
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+        [self setTitleColor:[UIColor HHTransparentWhite] forState:UIControlStateHighlighted];
         self.frame = frame;
         self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:15];
         self.backgroundColor = [UIColor HHOrange];
