@@ -141,7 +141,6 @@ typedef enum : NSUInteger {
     }];
     
     self.student = [HHStudent object];
-    self.student.avatarURL = imageFile.url;
     self.student.fullName = self.nameTextView.textField.text;
     [[HHUserAuthenticator sharedInstance] createStudentWithStudent:self.student completion:^(NSError *error) {
         [[HHLoadingView sharedInstance] hideLoadingView];

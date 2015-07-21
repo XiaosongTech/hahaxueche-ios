@@ -12,4 +12,8 @@
 
 @dynamic type;
 
++ (NSString *)parseClassName {
+    return @"_User";
+}
+
 @end

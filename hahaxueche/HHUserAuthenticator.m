@@ -7,6 +7,7 @@
 //
 
 #import "HHUserAuthenticator.h"
+#import "HHToastUtility.h"
 
 #define kAreaCode @"86"
 
@@ -23,8 +24,25 @@
     return sharedInstance;
 }
 
-- (void)requestCodeWithNumber:(NSString *)number completion:(HHUserGenericCompletionBlock)completion {
-    [SMS_SDK getVerificationCodeBySMSWithPhone:number zone:kAreaCode result:^(SMS_SDKError *error) {
+- (void)requestCodeWithNumber:(NSString *)number isSignup:(BOOL)isSignup completion:(HHUserGenericCompletionBlock)completion {
+    
+    if (isSignup) {
+        AVQuery *query = [[AVQuery alloc] initWithClassName:[HHUser parseClassName]];
+        [query whereKey:@"username" equalTo:number];
+        if ([query getFirstObject]) {
+            [HHToastUtility showToastWitiTitle:@"手机号已经注册，请直接登陆！" isError:YES];
+            return;
+        }
+    } else {
+        AVQuery *query = [[AVQuery alloc] initWithClassName:[HHUser parseClassName]];
+        [query whereKey:@"username" equalTo:number];
+        if (![query getFirstObject]) {
+            [HHToastUtility showToastWitiTitle:@"新用户，请注册！" isError:YES];
+            return;
+        }
+
+    }
+       [SMS_SDK getVerificationCodeBySMSWithPhone:number zone:kAreaCode result:^(SMS_SDKError *error) {
         completion(error);
     }];
 }
@@ -83,17 +101,24 @@
     }];
 }
 
-- (void)fetchAuthedStudentWithId:(NSString *)studentId completion:(HHUserGenericCompletionBlock)completion {
+- (void)fetchAuthedStudentWithId:(NSString *)studentId completion:(HHStudentCompletionBlock)completion {
     AVQuery *query = [AVQuery queryWithClassName:[HHStudent parseClassName]];
     [query whereKey:kStudentIdKey equalTo:studentId];
     [query getFirstObjectInBackgroundWithBlock:^(AVObject *object, NSError *error) {
+        HHStudent *student = (HHStudent *)object;
         if (!error) {
-            self.currentStudent = (HHStudent *)object;
+            self.currentStudent = student;
         }
         if (completion) {
-            completion(error);
+            completion(student, error);
         }
     }];
+}
+
+- (void)deleteUser {
+    [self.currentUser deleteInBackground];
+    [self.currentStudent deleteInBackground];
+
 }
 
 
