@@ -219,6 +219,9 @@
                                     [HHUserAuthenticator sharedInstance].currentStudent = student;
                                     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
                                     [self presentViewController:rootVC animated:YES completion:nil];
+                                } else if (error.code == 101) {
+                                    HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] initWithUser:[HHUserAuthenticator sharedInstance].currentUser];
+                                    [self.navigationController pushViewController:profileSetupVC animated:YES];
                                 } else {
                                     [HHToastUtility showToastWitiTitle:@"获取用户信息失败" isError:YES];
                                 }

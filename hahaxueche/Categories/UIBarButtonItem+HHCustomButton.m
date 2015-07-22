@@ -11,12 +11,11 @@
 @implementation UIBarButtonItem (HHCustomButton)
 
 + (UIBarButtonItem *)buttonItemWithImage:(UIImage *)image action:(SEL)action target:(id)target {
-    CGRect frame = CGRectMake(0, 0, 30.0f, 30.0f);
-    UIButton *button = [[UIButton alloc] initWithFrame:frame];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectZero];
     [button setBackgroundImage:image forState:UIControlStateNormal];
     [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
     [button setShowsTouchWhenHighlighted:YES];
-    [button setImageEdgeInsets:UIEdgeInsetsMake(0, 10.0f, 0, -10.0f)];
+    [button sizeToFit];
     return [[UIBarButtonItem alloc] initWithCustomView:button];
 }
 

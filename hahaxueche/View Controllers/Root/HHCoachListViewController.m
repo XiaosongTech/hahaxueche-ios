@@ -16,6 +16,8 @@
 #import "HHSearchBar.h"
 #import "HHCoachListTableViewCell.h"
 #import "HHCoachService.h"
+#import "HHCoachProfileViewController.h"
+#import "HHLoadingView.h"
 
 
 typedef enum : NSUInteger {
@@ -106,20 +108,10 @@ typedef enum : NSUInteger {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    HHCoach *coach = [[HHCoach alloc] initWithClassName:[HHCoach parseClassName]];
-//    coach.fullName = @"孙晓宇";
-//    coach.des = @"hello";
-//    coach.coachId = @"55ada2f4e4b0a17d557272d1";
-//    coach.experienceYear = @"10";
-//    coach.course = @"科目二";
-//    coach.price = @1500;
-//    coach.coachedStudentAmount = @100;
-//    coach.averageServiceRating = @5.0;
-//    coach.averageSkillRating = @5.0;
-//    coach.totalReviewAmount = @100;
-//    coach.currentStudentAmount = @20;
-//    [coach save];
-    [[HHCoachService sharedInstance] fetchCoachesWithTraningFieldId:nil startIndex:0 completion:^(NSArray *objects, NSError *error) {
+    self.coachesArray = [NSMutableArray array];
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+    [[HHCoachService sharedInstance] fetchCoachesWithTraningFieldIds:nil startIndex:self.coachesArray.count completion:^(NSArray *objects, NSError *error) {
+        [[HHLoadingView sharedInstance] hideLoadingView];
         if (!error) {
             self.coachesArray = [NSMutableArray arrayWithArray: objects];
         }
@@ -150,7 +142,7 @@ typedef enum : NSUInteger {
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
                                        initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
                                        target:nil action:nil];
-    negativeSpacer.width = -8;//
+    negativeSpacer.width = -8.0f;//
     [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, mapItem]];
 
 }
@@ -397,21 +389,51 @@ typedef enum : NSUInteger {
 
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    POPSpringAnimation *springAnimation = [POPSpringAnimation animation];
-    springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewScaleXY];    
-    springAnimation.springBounciness = 0;
-    springAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(0, 0)];
-    springAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0f, 1.0f)];
-    springAnimation.name = @"scaleCell";
-    springAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(15, 10)];
-    springAnimation.delegate = self;
-    [cell pop_addAnimation:springAnimation forKey:@"scaleCell"];
+//    POPSpringAnimation *springAnimation = [POPSpringAnimation animation];
+//    springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewScaleXY];    
+//    springAnimation.springBounciness = 0;
+//    springAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(0, 0)];
+//    springAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0f, 1.0f)];
+//    springAnimation.name = @"scaleCell";
+//    springAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(15, 10)];
+//    springAnimation.delegate = self;
+//    [cell pop_addAnimation:springAnimation forKey:@"scaleCell"];
+
+//    CATransform3D rotation;
+//    rotation = CATransform3DMakeRotation( (90.0*M_PI)/180, 0.0, 0.7, 0.4);
+//    rotation.m34 = 1.0/ -600;
+//    
+//    
+//    //2. Define the initial state (Before the animation)
+//    cell.layer.shadowColor = [[UIColor blackColor]CGColor];
+//    cell.layer.shadowOffset = CGSizeMake(10, 10);
+//    cell.alpha = 0;
+//    
+//    cell.layer.transform = rotation;
+//    cell.layer.anchorPoint = CGPointMake(0, 0.5);
+//    
+//    
+//    //3. Define the final state (After the animation) and commit the animation
+//    [UIView beginAnimations:@"rotation" context:NULL];
+//    [UIView setAnimationDuration:0.5];
+//    cell.layer.transform = CATransform3DIdentity;
+//    cell.alpha = 1;
+//    cell.layer.shadowOffset = CGSizeMake(0, 0);
+//    [UIView commitAnimations];
+    
 
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 124.0f;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    HHCoachProfileViewController *coachProfiveVC = [[HHCoachProfileViewController alloc] initWithCoach:self.coachesArray[indexPath.row]];
+    [self.navigationController pushViewController:coachProfiveVC animated:YES];
+}
+
+
 
 #pragma mark Search Bar Delegate 
 

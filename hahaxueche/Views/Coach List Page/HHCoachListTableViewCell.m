@@ -13,6 +13,7 @@
 #import "UIColor+HHColor.h"
 #import <QuartzCore/QuartzCore.h>
 #import "HHNumberFormatUtility.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 #define kDataViewBackgroundColor [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1]
 #define kAvatarRadius 30.0f
@@ -151,6 +152,8 @@
 }
 
 - (void)setupCellWithCoach:(HHCoach *)coach {
+    [self.avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:coach.avatarURL]
+                      placeholderImage:nil];
     self.nameLabel.text = coach.fullName;
     self.priceLabel.text = [[HHNumberFormatUtility moneyFormatter] stringFromNumber:coach.price];
     NSNumber *aveRating = [NSNumber numberWithFloat:([coach.averageSkillRating floatValue] + [coach.averageServiceRating floatValue])/2];

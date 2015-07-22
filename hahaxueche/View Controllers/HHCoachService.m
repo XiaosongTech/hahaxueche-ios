@@ -21,12 +21,14 @@
     return sharedInstance;
 }
 
-- (void)fetchCoachesWithTraningFieldId:(NSString *)fieldId startIndex:(NSInteger)startIndex completion:(HHCoachesArrayCompletionBlock)completion {
+- (void)fetchCoachesWithTraningFieldIds:(NSArray *)fieldIds startIndex:(NSInteger)startIndex completion:(HHCoachesArrayCompletionBlock)completion {
     AVQuery *query = [AVQuery queryWithClassName:[HHCoach parseClassName]];
     query.skip = startIndex;
     query.limit = 20;
-    if(fieldId) {
-        [query whereKey:kTrainingFieldIdKey equalTo:fieldId];
+    if(fieldIds) {
+        for (NSString *fieldId in fieldIds) {
+            [query whereKey:kTrainingFieldIdKey equalTo:fieldId];
+        }
     }
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {

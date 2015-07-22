@@ -17,7 +17,7 @@ typedef void (^HHCoachCompletionBlock)(HHCoach *coach, NSError *error);
 
 + (instancetype)sharedInstance;
 
-- (void)fetchCoachesWithTraningFieldId:(NSString *)fieldId startIndex:(NSInteger)startIndex completion:(HHCoachesArrayCompletionBlock)completion;
+- (void)fetchCoachesWithTraningFieldIds:(NSArray *)fieldIds startIndex:(NSInteger)startIndex completion:(HHCoachesArrayCompletionBlock)completion;
 
 - (void)fetchCoachWithId:(NSString *)coachId completion:(HHCoachCompletionBlock)completion;
 

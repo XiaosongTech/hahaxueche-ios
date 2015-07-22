@@ -39,6 +39,7 @@
     [self leanCloudRegisterSubclass];
     [self setupSMSService];
     [self setupBackend];
+    [self setAppearance];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     if ([HHUser currentUser]) {
         [HHUserAuthenticator sharedInstance].currentUser = [HHUser currentUser];
@@ -62,7 +63,7 @@
     } else {
         HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
         [self.window setRootViewController:loginSignupVC];
-        [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
+        [self.window setBackgroundColor:[UIColor HHLightGrayBackgroundColor]];
         [self.window makeKeyAndVisible];
         [self setAppearance];
         [self setWindow:self.window];
