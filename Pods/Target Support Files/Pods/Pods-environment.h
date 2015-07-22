@@ -6,12 +6,6 @@
 // project.
 
 
-// APParallaxHeader
-#define COCOAPODS_POD_AVAILABLE_APParallaxHeader
-#define COCOAPODS_VERSION_MAJOR_APParallaxHeader 0
-#define COCOAPODS_VERSION_MINOR_APParallaxHeader 1
-#define COCOAPODS_VERSION_PATCH_APParallaxHeader 6
-
 // AVOSCloud
 #define COCOAPODS_POD_AVAILABLE_AVOSCloud
 // This library does not follow semantic-versioning,
@@ -37,6 +31,12 @@
 #define COCOAPODS_VERSION_MINOR_MBProgressHUD 9
 #define COCOAPODS_VERSION_PATCH_MBProgressHUD 1
 
+// PureLayout
+#define COCOAPODS_POD_AVAILABLE_PureLayout
+#define COCOAPODS_VERSION_MAJOR_PureLayout 2
+#define COCOAPODS_VERSION_MINOR_PureLayout 0
+#define COCOAPODS_VERSION_PATCH_PureLayout 6
+
 // SDCycleScrollView
 #define COCOAPODS_POD_AVAILABLE_SDCycleScrollView
 #define COCOAPODS_VERSION_MAJOR_SDCycleScrollView 1
@@ -54,6 +54,12 @@
 #define COCOAPODS_VERSION_MAJOR_SDWebImage_Core 3
 #define COCOAPODS_VERSION_MINOR_SDWebImage_Core 7
 #define COCOAPODS_VERSION_PATCH_SDWebImage_Core 2
+
+// VGParallaxHeader
+#define COCOAPODS_POD_AVAILABLE_VGParallaxHeader
+#define COCOAPODS_VERSION_MAJOR_VGParallaxHeader 0
+#define COCOAPODS_VERSION_MINOR_VGParallaxHeader 0
+#define COCOAPODS_VERSION_PATCH_VGParallaxHeader 6
 
 // libPhoneNumber-iOS
 #define COCOAPODS_POD_AVAILABLE_libPhoneNumber_iOS
