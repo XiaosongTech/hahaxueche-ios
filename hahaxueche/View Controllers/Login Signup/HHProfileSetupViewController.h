@@ -11,4 +11,6 @@
 
 @interface HHProfileSetupViewController : UIViewController
 
+- (instancetype)initWithUser:(HHUser *)user;
+
 @end

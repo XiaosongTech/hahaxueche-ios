@@ -17,6 +17,8 @@
 #import <SMS_SDK/SMS_SDK.h>
 #import "HHCoach.h"
 #import "HHTrainingField.h"
+#import "HHUserAuthenticator.h"
+#import "HHProfileSetupViewController.h"
 
 #define kLeanCloudStagingAppID @"cr9pv6bp9nlr1xrtl36slyxt0hgv6ypifso9aocxwas2fugq"
 #define kLeanCloudStagingAppKey @"2ykqwhzhfrzhjn3o9bj7rizb8qd75ym3f0lez1d8fcxmn2k3"
@@ -39,17 +41,32 @@
     [self setupBackend];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     if ([HHUser currentUser]) {
-        HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-        [self.window setRootViewController:rootVC];
+        [HHUserAuthenticator sharedInstance].currentUser = [HHUser currentUser];
+        if ([[HHUserAuthenticator sharedInstance].currentUser.type isEqualToString:kStudentTypeValue]) {
+            [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:[HHUserAuthenticator sharedInstance].currentUser.objectId completion:^(HHStudent *student, NSError *error) {
+                if (!error) {
+                    [HHUserAuthenticator sharedInstance].currentStudent = student;
+                    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+                    [self.window setRootViewController:rootVC];
+                    [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
+                    [self.window makeKeyAndVisible];
+                    [self setAppearance];
+                    [self setWindow:self.window];
+                }
+            }];
 
+        } else {
+            //login with coach
+        }
+        
     } else {
         HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
         [self.window setRootViewController:loginSignupVC];
+        [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
+        [self.window makeKeyAndVisible];
+        [self setAppearance];
+        [self setWindow:self.window];
     }
-    [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
-    [self.window makeKeyAndVisible];
-    [self setAppearance];
-    [self setWindow:self.window];
     return YES;
 }
 

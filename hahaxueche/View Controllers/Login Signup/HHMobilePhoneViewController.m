@@ -24,9 +24,6 @@
 #import "HHUser.h"
 #import <SMS_SDK/SMS_SDK.h>
 
-#define kStudentTypeValue @"student"
-#define kCoachTypeValue @"coach"
-
 @interface HHMobilePhoneViewController ()
 
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -53,7 +50,7 @@
         self.numberUtil = [[NBPhoneNumberUtil alloc] init];
         self.type = type;
         if(self.type == PageTypeSignup) {
-            self.title = @"1/2";
+            self.title = @"手机验证";
             self.titleText = @"请输入您的手机号码";
             self.subTitleText = @"我们绝不会贩卖，滥用你的个人信息";
         } else {
@@ -199,21 +196,6 @@
     [self.numberFieldView.textField resignFirstResponder];
     [self.verificationCodeFieldView.textField resignFirstResponder];
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
-//    self.user = [HHUser user];
-//    self.user.username = self.numberFieldView.textField.text;
-//    self.user.password = self.numberFieldView.textField.text;
-//    self.user.mobilePhoneNumber = self.numberFieldView.textField.text;
-//    self.user.type = @"student";
-//    [[HHUserAuthenticator sharedInstance] signupWithUser:self.user completion:^(NSError *error) {
-//        [[HHLoadingView sharedInstance] hideLoadingView];
-//        if (!error) {
-//            HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] init];
-//            [self.navigationController pushViewController:profileSetupVC animated:YES];
-//        } else {
-//            [HHToastUtility showToastWitiTitle:@"创建账户失败！" isError:YES];
-//        }
-//        
-//    }];
 
     [[HHUserAuthenticator sharedInstance] verifyPhoneNumberWith:self.verificationCodeFieldView.textField.text completion:^(BOOL succeed) {
         if (succeed) {
@@ -223,50 +205,36 @@
                 self.user.password = self.numberFieldView.textField.text;
                 self.user.mobilePhoneNumber = self.numberFieldView.textField.text;
                 self.user.type = kStudentTypeValue;
-                [[HHUserAuthenticator sharedInstance] signupWithUser:self.user completion:^(NSError *error) {
-                    [[HHLoadingView sharedInstance] hideLoadingView];
-                    if (!error) {
-                        HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] init];
-                        [self.navigationController pushViewController:profileSetupVC animated:YES];
-                    } else {
-                        [HHToastUtility showToastWitiTitle:@"创建账户失败！" isError:YES];
-                    }
-                    
-                }];
-            } else {
                 [[HHLoadingView sharedInstance] hideLoadingView];
+                HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] initWithUser:self.user];
+                [self.navigationController pushViewController:profileSetupVC animated:YES];
+                
+            } else if (self.type == PageTypeLogin) {
                 [[HHUserAuthenticator sharedInstance] loginWithNumber:self.numberFieldView.textField.text completion:^(NSError *error) {
                     if (!error) {
-                        if ([[[HHUserAuthenticator sharedInstance] currentUser].type isEqualToString:kStudentTypeValue]) {
-                            //Student login
-                            [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:[HHUserAuthenticator sharedInstance].currentUser.objectId completion:^(HHStudent *student, NSError *error) {
+                        if([[HHUserAuthenticator sharedInstance].currentUser.type isEqualToString:kStudentTypeValue]) {
+                            [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:[HHUserAuthenticator sharedInstance] .currentUser.objectId completion:^(HHStudent *student, NSError *error) {
+                                [[HHLoadingView sharedInstance] hideLoadingView];
                                 if (!error) {
+                                    [HHUserAuthenticator sharedInstance].currentStudent = student;
                                     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
                                     [self presentViewController:rootVC animated:YES completion:nil];
                                 } else {
-                                    if (error.code == 101) {// no results found
-                                        HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] init];
-                                        [self.navigationController pushViewController:profileSetupVC animated:YES];
-                                    } else {
-                                        [HHToastUtility showToastWitiTitle:@"获取账户信息失败！" isError:YES];
-                                    }
+                                    [HHToastUtility showToastWitiTitle:@"获取用户信息失败" isError:YES];
                                 }
                             }];
-
-                        } else if ([[[HHUserAuthenticator sharedInstance] currentUser].type isEqualToString:kCoachTypeValue]) {
-                            //coach login
+                        } else {
+                            //login with coach
                         }
                     } else {
                         [HHToastUtility showToastWitiTitle:@"登陆失败！" isError:YES];
+                        [[HHLoadingView sharedInstance] hideLoadingView];
                     }
                 }];
-                
             }
         } else {
-            [[HHLoadingView sharedInstance] hideLoadingView];
-            [HHToastUtility showToastWitiTitle:@"验证失败，请核对验证码！" isError:YES];
+            [HHToastUtility showToastWitiTitle:@"验证失败！" isError:YES];
         }
-
     }];
     
 }

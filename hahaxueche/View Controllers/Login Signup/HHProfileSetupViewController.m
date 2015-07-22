@@ -33,10 +33,19 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIImage *selectedImage;
 @property (nonatomic, strong) NSString *selectedCity;
 @property (nonatomic, strong) HHStudent *student;
+@property (nonatomic, strong) HHUser *user;
 
 @end
 
 @implementation HHProfileSetupViewController
+
+- (instancetype)initWithUser:(HHUser *)user {
+    self = [super init];
+    if (self) {
+        self.user = user;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -48,7 +57,7 @@ typedef enum : NSUInteger {
      UIBarButtonItem *cancelButton = [UIBarButtonItem buttonItemWithTitle:@"取消" action:@selector(cancelButtonPressed) target:self isLeft:YES];
     self.navigationItem.leftBarButtonItem = cancelButton;
     
-    self.title = @"2/2";
+    self.title = @"个人信息";
     
     [self initSubviews];
 }
@@ -142,11 +151,18 @@ typedef enum : NSUInteger {
     
     self.student = [HHStudent object];
     self.student.fullName = self.nameTextView.textField.text;
-    [[HHUserAuthenticator sharedInstance] createStudentWithStudent:self.student completion:^(NSError *error) {
-        [[HHLoadingView sharedInstance] hideLoadingView];
+    [[HHUserAuthenticator sharedInstance] signupWithUser:self.user completion:^(NSError *error) {
         if (!error) {
-            HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-            [self presentViewController:rootVC animated:YES completion:nil];
+            [[HHUserAuthenticator sharedInstance] createStudentWithStudent:self.student completion:^(NSError *error) {
+                [[HHLoadingView sharedInstance] hideLoadingView];
+                if (!error) {
+                    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+                    [self presentViewController:rootVC animated:YES completion:nil];
+                } else {
+                    [HHToastUtility showToastWitiTitle:@"创建账户失败！" isError:YES];
+                }
+            }];
+
         } else {
             [HHToastUtility showToastWitiTitle:@"创建账户失败！" isError:YES];
         }

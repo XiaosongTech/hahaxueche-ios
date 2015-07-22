@@ -8,6 +8,7 @@
 
 #import "HHUserAuthenticator.h"
 #import "HHToastUtility.h"
+#import "HHLoadingView.h"
 
 #define kAreaCode @"86"
 
@@ -25,25 +26,28 @@
 }
 
 - (void)requestCodeWithNumber:(NSString *)number isSignup:(BOOL)isSignup completion:(HHUserGenericCompletionBlock)completion {
-    
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:@"验证码发送中..."];
     if (isSignup) {
         AVQuery *query = [[AVQuery alloc] initWithClassName:[HHUser parseClassName]];
         [query whereKey:@"username" equalTo:number];
         if ([query getFirstObject]) {
             [HHToastUtility showToastWitiTitle:@"手机号已经注册，请直接登陆！" isError:YES];
+            [[HHLoadingView sharedInstance] hideLoadingView];
             return;
         }
     } else {
         AVQuery *query = [[AVQuery alloc] initWithClassName:[HHUser parseClassName]];
         [query whereKey:@"username" equalTo:number];
         if (![query getFirstObject]) {
-            [HHToastUtility showToastWitiTitle:@"新用户，请注册！" isError:YES];
+            [HHToastUtility showToastWitiTitle:@"新用户，请先注册！" isError:YES];
+            [[HHLoadingView sharedInstance] hideLoadingView];
             return;
         }
 
     }
        [SMS_SDK getVerificationCodeBySMSWithPhone:number zone:kAreaCode result:^(SMS_SDKError *error) {
-        completion(error);
+           [[HHLoadingView sharedInstance] hideLoadingView];
+           completion(error);
     }];
 }
 

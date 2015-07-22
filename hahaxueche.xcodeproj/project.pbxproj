@@ -49,6 +49,7 @@
 		5CB5507F1B4CC055005DE447 /* list_grey@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB550671B4CC055005DE447 /* list_grey@1x.png */; };
 		5CB550801B4CC055005DE447 /* list_grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB550681B4CC055005DE447 /* list_grey@2x.png */; };
 		5CB550811B4CC055005DE447 /* list_grey@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB550691B4CC055005DE447 /* list_grey@3x.png */; };
+		5CBBA95B1B5EFD91009398B8 /* HHCoachProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBBA95A1B5EFD91009398B8 /* HHCoachProfileViewController.m */; };
 		5CC3B6011B48268A00D10DFB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6001B48268A00D10DFB /* main.m */; };
 		5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6031B48268A00D10DFB /* HHAppDelegate.m */; };
 		5CC3B60C1B48268A00D10DFB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CC3B60B1B48268A00D10DFB /* Images.xcassets */; };
@@ -95,7 +96,6 @@
 		5CD4EA321B5C05F8003CF15E /* star_line@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4EA2F1B5C05F8003CF15E /* star_line@3x.png */; };
 		5CD4EA331B5C05F8003CF15E /* star_line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4EA301B5C05F8003CF15E /* star_line@2x.png */; };
 		5CD4EA361B5C2BA0003CF15E /* HHAvatarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA351B5C2BA0003CF15E /* HHAvatarView.m */; };
-		5CD4EA391B5C3584003CF15E /* HHCoachProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA381B5C3584003CF15E /* HHCoachProfileViewController.m */; };
 		5CD4EA3C1B5C8180003CF15E /* HHCoachService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA3B1B5C8180003CF15E /* HHCoachService.m */; };
 		5CD4EA3F1B5D97E1003CF15E /* HHTrainingField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA3E1B5D97E1003CF15E /* HHTrainingField.m */; };
 		5CD4EA421B5DE6BC003CF15E /* HHNumberFormatUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA411B5DE6BC003CF15E /* HHNumberFormatUtility.m */; };
@@ -174,6 +174,8 @@
 		5CB550671B4CC055005DE447 /* list_grey@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "list_grey@1x.png"; sourceTree = "<group>"; };
 		5CB550681B4CC055005DE447 /* list_grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "list_grey@2x.png"; sourceTree = "<group>"; };
 		5CB550691B4CC055005DE447 /* list_grey@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "list_grey@3x.png"; sourceTree = "<group>"; };
+		5CBBA9591B5EFD91009398B8 /* HHCoachProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachProfileViewController.h; sourceTree = "<group>"; };
+		5CBBA95A1B5EFD91009398B8 /* HHCoachProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachProfileViewController.m; sourceTree = "<group>"; };
 		5CC3B5FB1B48268A00D10DFB /* hahaxueche.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hahaxueche.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CC3B5FF1B48268A00D10DFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CC3B6001B48268A00D10DFB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -232,8 +234,6 @@
 		5CD4EA301B5C05F8003CF15E /* star_line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star_line@2x.png"; sourceTree = "<group>"; };
 		5CD4EA341B5C2BA0003CF15E /* HHAvatarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAvatarView.h; sourceTree = "<group>"; };
 		5CD4EA351B5C2BA0003CF15E /* HHAvatarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHAvatarView.m; sourceTree = "<group>"; };
-		5CD4EA371B5C3584003CF15E /* HHCoachProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachProfileViewController.h; sourceTree = "<group>"; };
-		5CD4EA381B5C3584003CF15E /* HHCoachProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachProfileViewController.m; sourceTree = "<group>"; };
 		5CD4EA3A1B5C8180003CF15E /* HHCoachService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHCoachService.h; path = "hahaxueche/View Controllers/HHCoachService.h"; sourceTree = SOURCE_ROOT; };
 		5CD4EA3B1B5C8180003CF15E /* HHCoachService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHCoachService.m; path = "hahaxueche/View Controllers/HHCoachService.m"; sourceTree = SOURCE_ROOT; };
 		5CD4EA3D1B5D97E1003CF15E /* HHTrainingField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHTrainingField.h; path = "hahaxueche/View Controllers/HHTrainingField.h"; sourceTree = SOURCE_ROOT; };
@@ -322,8 +322,8 @@
 				5C39806F1B4AAD450057B049 /* HHNavigationController.m */,
 				5C39808F1B4C17900057B049 /* HHRootViewController.h */,
 				5C3980901B4C17900057B049 /* HHRootViewController.m */,
-				5CD4EA371B5C3584003CF15E /* HHCoachProfileViewController.h */,
-				5CD4EA381B5C3584003CF15E /* HHCoachProfileViewController.m */,
+				5CBBA9591B5EFD91009398B8 /* HHCoachProfileViewController.h */,
+				5CBBA95A1B5EFD91009398B8 /* HHCoachProfileViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -781,7 +781,6 @@
 				5CD4EA3F1B5D97E1003CF15E /* HHTrainingField.m in Sources */,
 				5C39808B1B4BFFB20057B049 /* HHAutoLayoutUtility.m in Sources */,
 				5C5451CF1B52ADE50025D19F /* HHButton.m in Sources */,
-				5CD4EA391B5C3584003CF15E /* HHCoachProfileViewController.m in Sources */,
 				5C5451911B4F67200025D19F /* HHSearchBar.m in Sources */,
 				5C5451991B50B5910025D19F /* HHCoachListTableViewCell.m in Sources */,
 				5CD4EA421B5DE6BC003CF15E /* HHNumberFormatUtility.m in Sources */,
@@ -800,6 +799,7 @@
 				5CC3B6011B48268A00D10DFB /* main.m in Sources */,
 				5C3980981B4C1A2A0057B049 /* HHMyReservationViewController.m in Sources */,
 				5C3980911B4C17900057B049 /* HHRootViewController.m in Sources */,
+				5CBBA95B1B5EFD91009398B8 /* HHCoachProfileViewController.m in Sources */,
 				5CD4E9FD1B5AD565003CF15E /* HHStudent.m in Sources */,
 				5CD4E9F01B59CC7B003CF15E /* HHUser.m in Sources */,
 				5CA5B77A1B52CFF300312674 /* HHMobilePhoneViewController.m in Sources */,

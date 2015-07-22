@@ -10,6 +10,8 @@
 #import "AVObject+Subclass.h"
 
 #define kUserTypeKey @"type"
+#define kStudentTypeValue @"student"
+#define kCoachTypeValue @"coach"
 
 @interface HHUser : AVUser <AVSubclassing>
 
