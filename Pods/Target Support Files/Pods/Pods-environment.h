@@ -6,6 +6,12 @@
 // project.
 
 
+// APParallaxHeader
+#define COCOAPODS_POD_AVAILABLE_APParallaxHeader
+#define COCOAPODS_VERSION_MAJOR_APParallaxHeader 0
+#define COCOAPODS_VERSION_MINOR_APParallaxHeader 1
+#define COCOAPODS_VERSION_PATCH_APParallaxHeader 6
+
 // AVOSCloud
 #define COCOAPODS_POD_AVAILABLE_AVOSCloud
 // This library does not follow semantic-versioning,
@@ -48,12 +54,6 @@
 #define COCOAPODS_VERSION_MAJOR_SDWebImage_Core 3
 #define COCOAPODS_VERSION_MINOR_SDWebImage_Core 7
 #define COCOAPODS_VERSION_PATCH_SDWebImage_Core 2
-
-// Valet
-#define COCOAPODS_POD_AVAILABLE_Valet
-#define COCOAPODS_VERSION_MAJOR_Valet 1
-#define COCOAPODS_VERSION_MINOR_Valet 3
-#define COCOAPODS_VERSION_PATCH_Valet 0
 
 // libPhoneNumber-iOS
 #define COCOAPODS_POD_AVAILABLE_libPhoneNumber_iOS

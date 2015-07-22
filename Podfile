@@ -1,7 +1,6 @@
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '7.0'
 
-pod 'Valet'
 pod 'MBProgressHUD', '~> 0.9.1'
 pod 'pop', '~> 1.0'
 pod 'SDWebImage', '~> 3.7'
@@ -11,3 +10,4 @@ pod 'libPhoneNumber-iOS', '~> 0.8'
 pod 'JTSImageViewController', '~> 1.4'
 pod 'AVOSCloud'
 pod 'CRToast', '~> 0.0.7'
+pod 'APParallaxHeader'
