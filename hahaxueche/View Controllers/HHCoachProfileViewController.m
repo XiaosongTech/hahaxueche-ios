@@ -16,6 +16,7 @@
 #import "JTSImageInfo.h"
 #import "UIScrollView+VGParallaxHeader.h"
 #import "HHCoachDesTableViewCell.h"
+#import "HHCoachDashBoardTableViewCell.h"
 
 typedef enum : NSUInteger {
     CoachProfileCellDes,
@@ -26,6 +27,7 @@ typedef enum : NSUInteger {
 } CoachProfileCell;
 
 #define kDesCellId @"kDesCellId"
+#define kDashBoardCellId @"kDashBoardCellId"
 
 @interface HHCoachProfileViewController ()<UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIScrollViewDelegate>
 
@@ -84,6 +86,7 @@ typedef enum : NSUInteger {
     [self autolayoutSubview];
     
     [self.tableView registerClass:[HHCoachDesTableViewCell class] forCellReuseIdentifier:kDesCellId];
+    [self.tableView registerClass:[HHCoachDashBoardTableViewCell class] forCellReuseIdentifier:kDashBoardCellId];
     
 
     self.imageGalleryView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 150.0f) imageURLStringsGroup:self.coach.images];
@@ -94,7 +97,7 @@ typedef enum : NSUInteger {
     self.imageGalleryView.placeholderImage = [UIImage imageNamed:@"loading"];
     
     [self.tableView setParallaxHeaderView:self.imageGalleryView
-                                      mode:VGParallaxHeaderModeFill // For more modes have a look in UIScrollView+VGParallaxHeader.h
+                                      mode:VGParallaxHeaderModeFill 
                                     height:150.0f];
 }
 
@@ -110,7 +113,7 @@ typedef enum : NSUInteger {
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -121,7 +124,9 @@ typedef enum : NSUInteger {
             return cell;
         }
         case CoachProfileCellDashBoard: {
-            
+            HHCoachDashBoardTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDashBoardCellId forIndexPath:indexPath];
+            [cell setupViewsWithCoach:self.coach];
+            return cell;
         }
         case CoachProfileCellCalendar: {
             
@@ -143,7 +148,7 @@ typedef enum : NSUInteger {
             return self.desCellHeight;
         }
         case CoachProfileCellDashBoard: {
-            
+            return 260.0f;
         }
         case CoachProfileCellCalendar: {
             

@@ -58,6 +58,8 @@
 		5CBBA96D1B5F42DA009398B8 /* left_arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CBBA96A1B5F42DA009398B8 /* left_arrow@3x.png */; };
 		5CBBA96F1B5F4B13009398B8 /* loading.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5CBBA96E1B5F4B13009398B8 /* loading.jpg */; };
 		5CBBA9731B5FE714009398B8 /* HHCoachDesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBBA9721B5FE714009398B8 /* HHCoachDesTableViewCell.m */; };
+		5CBBA9791B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBBA9781B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m */; };
+		5CBBA97C1B604762009398B8 /* HHDashView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBBA97B1B604762009398B8 /* HHDashView.m */; };
 		5CC3B6011B48268A00D10DFB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6001B48268A00D10DFB /* main.m */; };
 		5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6031B48268A00D10DFB /* HHAppDelegate.m */; };
 		5CC3B60C1B48268A00D10DFB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CC3B60B1B48268A00D10DFB /* Images.xcassets */; };
@@ -190,6 +192,10 @@
 		5CBBA96E1B5F4B13009398B8 /* loading.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = loading.jpg; sourceTree = "<group>"; };
 		5CBBA9711B5FE714009398B8 /* HHCoachDesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachDesTableViewCell.h; sourceTree = "<group>"; };
 		5CBBA9721B5FE714009398B8 /* HHCoachDesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachDesTableViewCell.m; sourceTree = "<group>"; };
+		5CBBA9771B6043A9009398B8 /* HHCoachDashBoardTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachDashBoardTableViewCell.h; sourceTree = "<group>"; };
+		5CBBA9781B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachDashBoardTableViewCell.m; sourceTree = "<group>"; };
+		5CBBA97A1B604762009398B8 /* HHDashView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHDashView.h; sourceTree = "<group>"; };
+		5CBBA97B1B604762009398B8 /* HHDashView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHDashView.m; sourceTree = "<group>"; };
 		5CC3B5FB1B48268A00D10DFB /* hahaxueche.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hahaxueche.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CC3B5FF1B48268A00D10DFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CC3B6001B48268A00D10DFB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -516,6 +522,10 @@
 			children = (
 				5CBBA9711B5FE714009398B8 /* HHCoachDesTableViewCell.h */,
 				5CBBA9721B5FE714009398B8 /* HHCoachDesTableViewCell.m */,
+				5CBBA9771B6043A9009398B8 /* HHCoachDashBoardTableViewCell.h */,
+				5CBBA9781B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m */,
+				5CBBA97A1B604762009398B8 /* HHDashView.h */,
+				5CBBA97B1B604762009398B8 /* HHDashView.m */,
 			);
 			name = "Coach Profile Page";
 			sourceTree = "<group>";
@@ -829,7 +839,9 @@
 				5CC3B6011B48268A00D10DFB /* main.m in Sources */,
 				5C3980981B4C1A2A0057B049 /* HHMyReservationViewController.m in Sources */,
 				5C3980911B4C17900057B049 /* HHRootViewController.m in Sources */,
+				5CBBA97C1B604762009398B8 /* HHDashView.m in Sources */,
 				5CBBA95B1B5EFD91009398B8 /* HHCoachProfileViewController.m in Sources */,
+				5CBBA9791B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m in Sources */,
 				5CD4E9FD1B5AD565003CF15E /* HHStudent.m in Sources */,
 				5CD4E9F01B59CC7B003CF15E /* HHUser.m in Sources */,
 				5CA5B77A1B52CFF300312674 /* HHMobilePhoneViewController.m in Sources */,

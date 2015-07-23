@@ -41,33 +41,41 @@
     [self setupBackend];
     [self setAppearance];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    if ([HHUser currentUser]) {
-        [HHUserAuthenticator sharedInstance].currentUser = [HHUser currentUser];
-        if ([[HHUserAuthenticator sharedInstance].currentUser.type isEqualToString:kStudentTypeValue]) {
-            [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:[HHUserAuthenticator sharedInstance].currentUser.objectId completion:^(HHStudent *student, NSError *error) {
-                if (!error) {
-                    [HHUserAuthenticator sharedInstance].currentStudent = student;
-                    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-                    [self.window setRootViewController:rootVC];
-                    [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
-                    [self.window makeKeyAndVisible];
-                    [self setAppearance];
-                    [self setWindow:self.window];
-                }
-            }];
-
-        } else {
-            //login with coach
-        }
-        
-    } else {
-        HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
-        [self.window setRootViewController:loginSignupVC];
-        [self.window setBackgroundColor:[UIColor HHLightGrayBackgroundColor]];
+//    if ([HHUser currentUser]) {
+//        [HHUserAuthenticator sharedInstance].currentUser = [HHUser currentUser];
+//        if ([[HHUserAuthenticator sharedInstance].currentUser.type isEqualToString:kStudentTypeValue]) {
+//            [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:[HHUserAuthenticator sharedInstance].currentUser.objectId completion:^(HHStudent *student, NSError *error) {
+//                if (!error) {
+//                    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+//                    [self.window setRootViewController:rootVC];
+//                    [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
+//                    [self.window makeKeyAndVisible];
+//                    [self setAppearance];
+//                    [self setWindow:self.window];
+//                }
+//            }];
+//
+//        } else {
+//            //login with coach
+//        }
+//        
+//    } else {
+//        HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
+//        [self.window setRootViewController:loginSignupVC];
+//        [self.window setBackgroundColor:[UIColor HHLightGrayBackgroundColor]];
+//        [self.window makeKeyAndVisible];
+//        [self setAppearance];
+//        [self setWindow:self.window];
+//    }
+    [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:@"55aef07ee4b0124627a2cb2f" completion:^(HHStudent *student, NSError *error) {
+        HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+        [self.window setRootViewController:rootVC];
+        [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
         [self.window makeKeyAndVisible];
         [self setAppearance];
-        [self setWindow:self.window];
-    }
+
+    }];
+    
     return YES;
 }
 

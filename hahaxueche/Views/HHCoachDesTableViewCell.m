@@ -19,9 +19,7 @@
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor clearColor];
-        self.userInteractionEnabled = YES;
         [self initSubviews];
-        [self autoLayoutSubviews];
     }
     return self;
 }

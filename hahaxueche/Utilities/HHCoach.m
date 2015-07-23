@@ -17,13 +17,15 @@
 @dynamic experienceYear;
 @dynamic course;
 @dynamic price;
-@dynamic coachedStudentAmount;
+@dynamic passedStudentAmount;
 @dynamic images;
 @dynamic averageServiceRating;
 @dynamic averageSkillRating;
 @dynamic totalReviewAmount;
 @dynamic currentStudentAmount;
 @dynamic trainingFieldId;
+@dynamic phoneNumber;
+@dynamic fullAddress;
 
 + (NSString *)parseClassName {
     return @"Coach";
