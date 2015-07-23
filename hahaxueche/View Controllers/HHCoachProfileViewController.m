@@ -14,7 +14,6 @@
 #import "UIColor+HHColor.h"
 #import "JTSImageViewController.h"
 #import "JTSImageInfo.h"
-#import "UIScrollView+VGParallaxHeader.h"
 #import "HHCoachDesTableViewCell.h"
 #import "HHCoachDashBoardTableViewCell.h"
 
@@ -29,7 +28,7 @@ typedef enum : NSUInteger {
 #define kDesCellId @"kDesCellId"
 #define kDashBoardCellId @"kDashBoardCellId"
 
-@interface HHCoachProfileViewController ()<UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIScrollViewDelegate>
+@interface HHCoachProfileViewController ()<UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) SDCycleScrollView *imageGalleryView;
@@ -95,10 +94,7 @@ typedef enum : NSUInteger {
     self.imageGalleryView.autoScroll = NO;;
     self.imageGalleryView.delegate = self;
     self.imageGalleryView.placeholderImage = [UIImage imageNamed:@"loading"];
-    
-    [self.tableView setParallaxHeaderView:self.imageGalleryView
-                                      mode:VGParallaxHeaderModeFill 
-                                    height:150.0f];
+    self.tableView.tableHeaderView = self.imageGalleryView;
 }
 
 - (void)autolayoutSubview {
@@ -203,11 +199,6 @@ typedef enum : NSUInteger {
                                            backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
     
     [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
-}
-
-#pragma mark - UIScrollView Delegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [scrollView shouldPositionParallaxHeader];
 }
 
 
