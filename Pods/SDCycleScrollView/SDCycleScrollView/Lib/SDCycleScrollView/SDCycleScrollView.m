@@ -398,6 +398,7 @@ NSString * const ID = @"cycleCell";
         image = self.placeholderImage;
     }
     cell.imageView.image = image;
+    cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
     if (_titlesGroup.count) {
         cell.title = _titlesGroup[itemIndex];
     }

@@ -62,6 +62,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) HHSearchBar *searchBar;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *coachesArray;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @property (assign, nonatomic) CATransform3D initialTransformation;
 
@@ -108,24 +109,24 @@ typedef enum : NSUInteger {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    [self fetchDataWithStartIndex:0];
+    self.view.backgroundColor = [UIColor clearColor];
+    self.currentCourseOption = CourseTwo;
+    [self initSubviews];
+}
+
+- (void)fetchDataWithStartIndex:(NSInteger)index {
     self.coachesArray = [NSMutableArray array];
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
     [[HHCoachService sharedInstance] fetchCoachesWithTraningFieldIds:nil startIndex:self.coachesArray.count completion:^(NSArray *objects, NSError *error) {
         [[HHLoadingView sharedInstance] hideLoadingView];
         if (!error) {
             self.coachesArray = [NSMutableArray arrayWithArray: objects];
+            [self.tableView reloadData];
         }
     }];
     
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.view.backgroundColor = [UIColor clearColor];
-    self.currentCourseOption = CourseTwo;
-    [self initSubviews];
-}
-
-- (void)setCoachesArray:(NSMutableArray *)coachesArray {
-    _coachesArray = coachesArray;
-    [self.tableView reloadData];
 }
 
 -(void)initSubviews {
@@ -161,6 +162,22 @@ typedef enum : NSUInteger {
     self.tableView.showsVerticalScrollIndicator = NO;
     [self.tableView registerClass:[HHCoachListTableViewCell class] forCellReuseIdentifier:kCoachListViewCellIdentifier];
     [self.view addSubview:self.tableView];
+    
+    self.refreshControl = [[UIRefreshControl alloc]init];
+    [self.tableView addSubview:self.refreshControl];
+    [self.refreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)refreshData {
+    self.coachesArray = [NSMutableArray array];
+    [[HHCoachService sharedInstance] fetchCoachesWithTraningFieldIds:nil startIndex:self.coachesArray.count completion:^(NSArray *objects, NSError *error) {
+        [self.refreshControl endRefreshing];
+        if (!error) {
+            self.coachesArray = [NSMutableArray arrayWithArray: objects];
+            [self.tableView reloadData];
+        }
+    }];
+
 }
 
 - (void)initSearchBar {
