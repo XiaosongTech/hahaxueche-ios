@@ -38,13 +38,31 @@
     self.passedStudentAmountView = [self createDashViewValueTextColor:[UIColor blackColor] rightLine:YES];
     self.currentStudentAmountView =[self createDashViewValueTextColor:[UIColor blackColor] rightLine:NO];
     self.phoneNumberView =[self createDashViewValueTextColor:kBlueTextColor rightLine:NO];
+    
+    UITapGestureRecognizer *phoneTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(phoneNumberPressed)];
+    [self.phoneNumberView addGestureRecognizer:phoneTap];
+    
     self.addressView =[self createDashViewValueTextColor:kBlueTextColor rightLine:NO];
+    UITapGestureRecognizer *addressTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addressPressed)];
+    [self.addressView addGestureRecognizer:addressTap];
     
     self.firstHorizontalLine = [self createHorizontalLine];
     self.secondHorizontalLine = [self createHorizontalLine];
     self.thirdHorizontalLine = [self createHorizontalLine];
     
     [self autoLayoutSubviews];
+}
+
+- (void)phoneNumberPressed {
+    if (self.phoneTappedCompletion) {
+        self.phoneTappedCompletion(self.phoneNumberView.valueLabel.text);
+    }
+}
+
+- (void)addressPressed {
+    if (self.addressTappedCompletion) {
+        self.addressTappedCompletion(self.addressView.valueLabel.text);
+    }
 }
 
 - (HHDashView *)createDashViewValueTextColor:(UIColor *)valueTextColor rightLine:(BOOL)rightLine {

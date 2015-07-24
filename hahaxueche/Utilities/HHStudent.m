@@ -13,7 +13,7 @@
 @dynamic fullName;
 @dynamic studentId;
 @dynamic avatarURL;
-@dynamic myCoach;
+@dynamic myCoachId;
 @dynamic city;
 @dynamic province;
 

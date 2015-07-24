@@ -10,6 +10,8 @@
 #import "HHDashView.h"
 #import "HHCoach.h"
 
+typedef void (^HHDashViewTappedCompletion)();
+
 @interface HHCoachDashBoardTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) UIView *containerView;
@@ -26,7 +28,8 @@
 @property (nonatomic, strong) UIView *secondHorizontalLine;
 @property (nonatomic, strong) UIView *thirdHorizontalLine;
 
-
+@property (nonatomic, strong) HHDashViewTappedCompletion phoneTappedCompletion;
+@property (nonatomic, strong) HHDashViewTappedCompletion addressTappedCompletion;
 
 - (void)setupViewsWithCoach:(HHCoach *)coach;
 

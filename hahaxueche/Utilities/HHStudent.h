@@ -17,7 +17,7 @@
 @property (nonatomic, copy) NSString *studentId;
 @property (nonatomic, copy) NSString *fullName;
 @property (nonatomic, copy) NSString *avatarURL;
-@property (nonatomic, strong) HHCoach *myCoach;
+@property (nonatomic, copy) NSString *myCoachId;
 @property (nonatomic, copy) NSString *city;
 @property (nonatomic, copy) NSString *province;
 

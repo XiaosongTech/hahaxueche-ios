@@ -9,7 +9,7 @@
 #import "HHToastUtility.h"
 #import "CRToast.h"
 
-#define kGreenColor [UIColor colorWithRed:0.16 green:0.81 blue:0.37 alpha:1]
+#define kGreenColor [UIColor colorWithRed:0.36 green:0.75 blue:0.36 alpha:1]
 #define kRedColor [UIColor colorWithRed:0.93 green:0.25 blue:0.22 alpha:1]
 
 @implementation HHToastUtility

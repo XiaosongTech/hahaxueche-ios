@@ -16,6 +16,8 @@
 #import "JTSImageInfo.h"
 #import "HHCoachDesTableViewCell.h"
 #import "HHCoachDashBoardTableViewCell.h"
+#import "HHUserAuthenticator.h"
+#import "HHToastUtility.h"
 
 typedef enum : NSUInteger {
     CoachProfileCellDes,
@@ -28,11 +30,15 @@ typedef enum : NSUInteger {
 #define kDesCellId @"kDesCellId"
 #define kDashBoardCellId @"kDashBoardCellId"
 
-@interface HHCoachProfileViewController ()<UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate>
+@interface HHCoachProfileViewController ()<UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIActionSheetDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) SDCycleScrollView *imageGalleryView;
 @property (nonatomic)         CGFloat desCellHeight;
+@property (nonatomic, strong) UIActionSheet *phoneSheet;
+@property (nonatomic, strong) UIActionSheet *addressSheet;
+@property (nonatomic, strong) UIButton *payButton;
+@property (nonatomic, strong) UIButton *bookTrialButton;
 
 @end
 
@@ -82,7 +88,6 @@ typedef enum : NSUInteger {
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
-    [self autolayoutSubview];
     
     [self.tableView registerClass:[HHCoachDesTableViewCell class] forCellReuseIdentifier:kDesCellId];
     [self.tableView registerClass:[HHCoachDashBoardTableViewCell class] forCellReuseIdentifier:kDashBoardCellId];
@@ -95,18 +100,77 @@ typedef enum : NSUInteger {
     self.imageGalleryView.delegate = self;
     self.imageGalleryView.placeholderImage = [UIImage imageNamed:@"loading"];
     self.tableView.tableHeaderView = self.imageGalleryView;
+    
+    
+    self.phoneSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                  delegate:self
+                                         cancelButtonTitle:@"取消"
+                                    destructiveButtonTitle:nil
+                                         otherButtonTitles:@"复制手机号", @"拨打号码", nil];
+    
+    self.addressSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                  delegate:self
+                                         cancelButtonTitle:@"取消"
+                                    destructiveButtonTitle:nil
+                                         otherButtonTitles:@"复制地址", @"查看地图", nil];
+    
+    if (![self.coach.coachId isEqualToString:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId]) {
+        self.payButton = [self createButtonWithTitle:@"确认教练并付款" backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:18.0f]];
+        self.bookTrialButton = [self createButtonWithTitle:@"预约试训" backgroundColor:[UIColor HHLightOrange] font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:18.0f]];
+    }
+    
+     [self autolayoutSubview];
+    
 }
 
 - (void)autolayoutSubview {
-    NSArray *constraints = @[
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.tableView constant:0],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.tableView constant:0],
-                             [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.tableView multiplier:1.0f constant:0],
-                             ];
+    NSArray *constraints = nil;
+    
+    if (![self.coach.coachId isEqualToString:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId]) {
+        constraints = @[
+                        [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.tableView constant:0],
+                        [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.tableView constant:0],
+                        [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:0],
+                        [HHAutoLayoutUtility setViewHeight:self.tableView multiplier:1.0f constant:-50.0f],
+                        
+                        [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.bookTrialButton constant:0],
+                        [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.bookTrialButton constant:0],
+                        [HHAutoLayoutUtility setViewWidth:self.bookTrialButton multiplier:0.4f constant:0],
+                        [HHAutoLayoutUtility setViewHeight:self.bookTrialButton multiplier:0 constant:50.0f],
+                        
+                        [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.payButton constant:0],
+                        [HHAutoLayoutUtility horizontalNext:self.payButton toView:self.bookTrialButton constant:0],
+                        [HHAutoLayoutUtility setViewWidth:self.payButton multiplier:0.6f constant:0],
+                        [HHAutoLayoutUtility setViewHeight:self.payButton multiplier:0 constant:50.0f],
+                        ];
+
+    } else {
+        constraints = @[
+                        [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.tableView constant:0],
+                        [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.tableView constant:0],
+                        [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:0],
+                        [HHAutoLayoutUtility setViewHeight:self.tableView multiplier:1.0f constant:-50.0f],
+                        ];
+
+    }
+    
     [self.view addConstraints:constraints];
     
 }
+
+- (UIButton *)createButtonWithTitle:(NSString *)title backgroundColor:(UIColor *)bgColor font:(UIFont *)font {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.translatesAutoresizingMaskIntoConstraints = NO;
+    [button setTitle:title forState:UIControlStateNormal];
+    button.titleLabel.font = font;
+    [button setBackgroundColor:bgColor];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.view addSubview:button];
+    return button;
+}
+
+
+#pragma mark Tableview Delagate & Datasource Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 2;
@@ -122,6 +186,13 @@ typedef enum : NSUInteger {
         case CoachProfileCellDashBoard: {
             HHCoachDashBoardTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDashBoardCellId forIndexPath:indexPath];
             [cell setupViewsWithCoach:self.coach];
+            cell.phoneTappedCompletion = ^() {
+                [self.phoneSheet showInView:self.view];
+            };
+            
+            cell.addressTappedCompletion = ^() {
+                [self.addressSheet showInView:self.view];
+            };
             return cell;
         }
         case CoachProfileCellCalendar: {
@@ -201,5 +272,32 @@ typedef enum : NSUInteger {
     [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
 }
 
+#pragma mark Hide TabBar
+
+- (BOOL)hidesBottomBarWhenPushed {
+    return (self.navigationController.topViewController == self);
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([actionSheet isEqual:self.phoneSheet]) {
+        if (buttonIndex == 0) {
+            UIPasteboard *pb = [UIPasteboard generalPasteboard];
+            [pb setString:self.coach.phoneNumber];
+            [HHToastUtility showToastWitiTitle:@"复制成功！" isError:NO];
+        } else if (buttonIndex == 1) {
+            NSString *callString =[ NSString stringWithFormat:@"telprompt://%@", self.coach.phoneNumber];
+            NSURL *url = [NSURL URLWithString:callString];
+            [[UIApplication sharedApplication] openURL:url];
+        }
+    } else if ([actionSheet isEqual:self.addressSheet]) {
+        if (buttonIndex == 0) {
+            UIPasteboard *pb = [UIPasteboard generalPasteboard];
+            [pb setString:self.coach.fullAddress];
+            [HHToastUtility showToastWitiTitle:@"复制成功！" isError:NO];
+        } else if (buttonIndex == 1) {
+            
+        }
+    }
+}
 
 @end
