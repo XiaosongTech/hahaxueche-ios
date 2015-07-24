@@ -10,6 +10,7 @@
 #import "HHAutoLayoutUtility.h"
 #import "UIColor+HHColor.h"
 #import <MapKit/MapKit.h>
+#import <MapKit/MKAnnotation.h>
 
 #define kFloatButtonHeight 30.0f
 
@@ -20,6 +21,7 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *floatButton;
 @property (nonatomic, strong) MKMapView *mapView;
+@property(nonatomic, strong) CLLocationManager *locationManager;
 
 @end
 
@@ -31,7 +33,20 @@
     self.mapView = [[MKMapView alloc] initWithFrame:CGRectZero];
     self.mapView.translatesAutoresizingMaskIntoConstraints = NO;
     self.mapView.delegate = self;
+    [self.mapView setShowsUserLocation:YES];
+    
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) { // iOS8+
+        // Sending a message to avoid compile time error
+        [[UIApplication sharedApplication] sendAction:@selector(requestWhenInUseAuthorization)
+                                                   to:self.locationManager
+                                                 from:self
+                                             forEvent:nil];
+    }
+    [self.locationManager startUpdatingLocation];
     [self.view addSubview:self.mapView];
+    
     
     self.topBarView = [[UIView alloc] initWithFrame:CGRectZero];
     self.topBarView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -59,7 +74,7 @@
     self.floatButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.floatButton setTitle:@"全选" forState:UIControlStateNormal];
     [self.floatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.floatButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:14];
+    self.floatButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:15];
     self.floatButton.backgroundColor = [UIColor HHOrange];
     self.floatButton.clipsToBounds = YES;
     self.floatButton.layer.cornerRadius = kFloatButtonHeight/2;
@@ -104,5 +119,24 @@
     [self.view addConstraints:constraints];
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:YES];
+    
+    self.locationManager.distanceFilter = kCLDistanceFilterNone;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [self.locationManager startUpdatingLocation];
+    
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(self.mapView.userLocation.coordinate, 800, 800);
+    [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
+    
+}
+
+- (void)doneButtonPressed {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
+
+}
 
 @end
