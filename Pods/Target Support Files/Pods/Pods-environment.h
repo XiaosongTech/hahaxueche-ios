@@ -19,6 +19,12 @@
 #define COCOAPODS_VERSION_MINOR_CRToast 0
 #define COCOAPODS_VERSION_PATCH_CRToast 7
 
+// HMSegmentedControl
+#define COCOAPODS_POD_AVAILABLE_HMSegmentedControl
+#define COCOAPODS_VERSION_MAJOR_HMSegmentedControl 1
+#define COCOAPODS_VERSION_MINOR_HMSegmentedControl 5
+#define COCOAPODS_VERSION_PATCH_HMSegmentedControl 2
+
 // JTSImageViewController
 #define COCOAPODS_POD_AVAILABLE_JTSImageViewController
 #define COCOAPODS_VERSION_MAJOR_JTSImageViewController 1

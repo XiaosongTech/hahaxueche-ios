@@ -1,6 +1,7 @@
 PODS:
   - AVOSCloud (3.1.2.6)
   - CRToast (0.0.7)
+  - HMSegmentedControl (1.5.2)
   - JTSImageViewController (1.4)
   - libPhoneNumber-iOS (0.8.5)
   - MBProgressHUD (0.9.1)
@@ -13,6 +14,7 @@ PODS:
 DEPENDENCIES:
   - AVOSCloud
   - CRToast (~> 0.0.7)
+  - HMSegmentedControl
   - JTSImageViewController (~> 1.4)
   - libPhoneNumber-iOS (~> 0.8)
   - MBProgressHUD (~> 0.9.1)
@@ -23,6 +25,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AVOSCloud: a2fc903a1aee5a346f0fb839f92617378fffd2ed
   CRToast: 99a28f4387def43b439ad88f957ce31357ff7373
+  HMSegmentedControl: 83b9686022d2176fb6457d2bdb61e5d6393fed7d
   JTSImageViewController: 6a367b144e257db02cdfacdba78d684377d3777b
   libPhoneNumber-iOS: b8ccd23576379caca37c7cbdd554addf384459ed
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
