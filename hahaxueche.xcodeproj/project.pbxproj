@@ -40,6 +40,10 @@
 		5CA5B7861B533A2200312674 /* austin1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5CA5B7831B533A2200312674 /* austin1.jpg */; };
 		5CA5B7871B533A2200312674 /* austin2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5CA5B7841B533A2200312674 /* austin2.jpg */; };
 		5CA5B7881B533A2200312674 /* austin3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5CA5B7851B533A2200312674 /* austin3.jpg */; };
+		5CB34EE31B61D6B0007954DF /* trasparent_view@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB34EE01B61D6B0007954DF /* trasparent_view@1x.png */; };
+		5CB34EE41B61D6B0007954DF /* trasparent_view@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB34EE11B61D6B0007954DF /* trasparent_view@2x.png */; };
+		5CB34EE51B61D6B0007954DF /* trasparent_view@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB34EE21B61D6B0007954DF /* trasparent_view@3x.png */; };
+		5CB34EE81B61F4B5007954DF /* HHMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB34EE71B61F4B5007954DF /* HHMapViewController.m */; };
 		5CB550731B4CC055005DE447 /* calendar_grey@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB5505B1B4CC055005DE447 /* calendar_grey@1x.png */; };
 		5CB550741B4CC055005DE447 /* calendar_grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB5505C1B4CC055005DE447 /* calendar_grey@2x.png */; };
 		5CB550751B4CC055005DE447 /* calendar_grey@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB5505D1B4CC055005DE447 /* calendar_grey@3x.png */; };
@@ -172,6 +176,11 @@
 		5CA5B7831B533A2200312674 /* austin1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = austin1.jpg; sourceTree = "<group>"; };
 		5CA5B7841B533A2200312674 /* austin2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = austin2.jpg; sourceTree = "<group>"; };
 		5CA5B7851B533A2200312674 /* austin3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = austin3.jpg; sourceTree = "<group>"; };
+		5CB34EE01B61D6B0007954DF /* trasparent_view@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "trasparent_view@1x.png"; sourceTree = "<group>"; };
+		5CB34EE11B61D6B0007954DF /* trasparent_view@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "trasparent_view@2x.png"; sourceTree = "<group>"; };
+		5CB34EE21B61D6B0007954DF /* trasparent_view@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "trasparent_view@3x.png"; sourceTree = "<group>"; };
+		5CB34EE61B61F4B5007954DF /* HHMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMapViewController.h; sourceTree = "<group>"; };
+		5CB34EE71B61F4B5007954DF /* HHMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMapViewController.m; sourceTree = "<group>"; };
 		5CB5505B1B4CC055005DE447 /* calendar_grey@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar_grey@1x.png"; sourceTree = "<group>"; };
 		5CB5505C1B4CC055005DE447 /* calendar_grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar_grey@2x.png"; sourceTree = "<group>"; };
 		5CB5505D1B4CC055005DE447 /* calendar_grey@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar_grey@3x.png"; sourceTree = "<group>"; };
@@ -342,6 +351,8 @@
 				5C3980901B4C17900057B049 /* HHRootViewController.m */,
 				5CBBA9591B5EFD91009398B8 /* HHCoachProfileViewController.h */,
 				5CBBA95A1B5EFD91009398B8 /* HHCoachProfileViewController.m */,
+				5CB34EE61B61F4B5007954DF /* HHMapViewController.h */,
+				5CB34EE71B61F4B5007954DF /* HHMapViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -349,6 +360,9 @@
 		5C10F9271B49E6F100992B63 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5CB34EE01B61D6B0007954DF /* trasparent_view@1x.png */,
+				5CB34EE11B61D6B0007954DF /* trasparent_view@2x.png */,
+				5CB34EE21B61D6B0007954DF /* trasparent_view@3x.png */,
 				5CD4EA2E1B5C05F8003CF15E /* star_line@1x.png */,
 				5CD4EA2F1B5C05F8003CF15E /* star_line@3x.png */,
 				5CD4EA301B5C05F8003CF15E /* star_line@2x.png */,
@@ -715,6 +729,7 @@
 				5C3980A51B4C3E5E0057B049 /* SourceHanSansSC-ExtraLight.otf in Resources */,
 				5CBBA9661B5F3C1F009398B8 /* map@2x.png in Resources */,
 				5CA5B7861B533A2200312674 /* austin1.jpg in Resources */,
+				5CB34EE31B61D6B0007954DF /* trasparent_view@1x.png in Resources */,
 				5CB550751B4CC055005DE447 /* calendar_grey@3x.png in Resources */,
 				5CD4E9511B558184003CF15E /* list_selected@2x.png in Resources */,
 				5CD4E9641B55837A003CF15E /* calendar_selected@3x.png in Resources */,
@@ -741,6 +756,7 @@
 				5CD4EA321B5C05F8003CF15E /* star_line@3x.png in Resources */,
 				5CD4EA101B5BEEBF003CF15E /* camera-alt@1x.png in Resources */,
 				5C3980AA1B4C3E5E0057B049 /* SourceHanSansSC-Regular.otf in Resources */,
+				5CB34EE41B61D6B0007954DF /* trasparent_view@2x.png in Resources */,
 				5CD4E9461B55809B003CF15E /* car_selected@3x.png in Resources */,
 				5CD4EA2B1B5C04D6003CF15E /* star_solid@1x.png in Resources */,
 				5CB5507B1B4CC055005DE447 /* car_grey@3x.png in Resources */,
@@ -749,6 +765,7 @@
 				5C5451951B50B4AD0025D19F /* search_icon.png in Resources */,
 				5CD4E9441B55809B003CF15E /* car_selected@1x.png in Resources */,
 				5CD4E9DA1B58B3B3003CF15E /* location_icon@2x.png in Resources */,
+				5CB34EE51B61D6B0007954DF /* trasparent_view@3x.png in Resources */,
 				5CC3B60C1B48268A00D10DFB /* Images.xcassets in Resources */,
 				5CB5507F1B4CC055005DE447 /* list_grey@1x.png in Resources */,
 				5CA5B7871B533A2200312674 /* austin2.jpg in Resources */,
@@ -846,6 +863,7 @@
 				5CD4E9F01B59CC7B003CF15E /* HHUser.m in Sources */,
 				5CA5B77A1B52CFF300312674 /* HHMobilePhoneViewController.m in Sources */,
 				5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */,
+				5CB34EE81B61F4B5007954DF /* HHMapViewController.m in Sources */,
 				5C3980851B4AD7DE0057B049 /* HHBookViewController.m in Sources */,
 				5C3980701B4AAD450057B049 /* HHCoachListViewController.m in Sources */,
 				5CD4EA3C1B5C8180003CF15E /* HHCoachService.m in Sources */,

@@ -18,6 +18,7 @@
 #import "HHCoachService.h"
 #import "HHCoachProfileViewController.h"
 #import "HHLoadingView.h"
+#import "HHMapViewController.h"
 
 
 typedef enum : NSUInteger {
@@ -44,7 +45,7 @@ typedef enum : NSUInteger {
 
 
 
-@interface HHCoachListViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, MKMapViewDelegate>
+@interface HHCoachListViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, strong) HHButton *floatSortButton;
 @property (nonatomic, strong) UIView *overlay;
@@ -149,7 +150,8 @@ typedef enum : NSUInteger {
 }
 
 - (void)mapIconPressed {
-    
+    HHMapViewController *mapVC = [[HHMapViewController alloc] init];
+    [self presentViewController:mapVC animated:YES completion:nil];
 }
 
 - (void)initTableView {
