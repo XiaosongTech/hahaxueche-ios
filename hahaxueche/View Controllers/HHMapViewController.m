@@ -47,6 +47,11 @@
     [self.locationManager startUpdatingLocation];
     [self.view addSubview:self.mapView];
     
+    MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
+    point.coordinate = CLLocationCoordinate2DMake(30.310428, -97.744818);
+    point.title = @"Where am I?";
+    point.subtitle = @"I'm here!!!";
+    [self.mapView addAnnotation:point];
     
     self.topBarView = [[UIView alloc] initWithFrame:CGRectZero];
     self.topBarView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -126,7 +131,7 @@
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     [self.locationManager startUpdatingLocation];
     
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(self.mapView.userLocation.coordinate, 800, 800);
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(self.mapView.userLocation.coordinate, 20000, 20000);
     [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
     
 }
@@ -136,7 +141,25 @@
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
+}
 
+-(MKAnnotationView *)mapView:(MKMapView *)mV viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    MKAnnotationView *pinView = nil;
+    if(annotation != self.mapView.userLocation)
+    {
+        static NSString *defaultPinID = @"HHPinID";
+        pinView = (MKAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:defaultPinID];
+        if ( pinView == nil )
+            pinView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:defaultPinID];
+        
+        pinView.canShowCallout = YES;
+        pinView.image = [UIImage imageNamed:@"star_solid"];    //as suggested by Squatch
+    }    
+    return pinView;
+}
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+    view.image = [UIImage imageNamed:@"star_line"];
 }
 
 @end
