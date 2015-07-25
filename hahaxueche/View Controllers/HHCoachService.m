@@ -38,12 +38,23 @@
     }];
 }
 
+
+
 - (void)fetchCoachWithId:(NSString *)coachId completion:(HHCoachCompletionBlock)completion {
     AVQuery *query = [AVQuery queryWithClassName:[HHCoach parseClassName]];
     [query whereKey:kCoachIdKey equalTo:coachId];
     [query getFirstObjectInBackgroundWithBlock:^(AVObject *object, NSError *error) {
         if (completion) {
             completion((HHCoach *)object, error);
+        }
+    }];
+}
+
+- (void)fetchTrainingFieldWithId:(NSString *)fieldId completion:(HHCoachFieldCompletionBlock)completion {
+    AVQuery *query = [AVQuery queryWithClassName:[HHTrainingField parseClassName]];
+    [query getObjectInBackgroundWithId:fieldId block:^(AVObject *object, NSError *error) {
+        if (completion) {
+            completion((HHTrainingField *)object, error);
         }
     }];
 }

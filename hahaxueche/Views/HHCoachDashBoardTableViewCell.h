@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HHDashView.h"
 #import "HHCoach.h"
+#import "HHTrainingField.h"
 
 typedef void (^HHDashViewTappedCompletion)();
 
@@ -31,6 +32,6 @@ typedef void (^HHDashViewTappedCompletion)();
 @property (nonatomic, strong) HHDashViewTappedCompletion phoneTappedCompletion;
 @property (nonatomic, strong) HHDashViewTappedCompletion addressTappedCompletion;
 
-- (void)setupViewsWithCoach:(HHCoach *)coach;
+- (void)setupViewsWithCoach:(HHCoach *)coach trainingFielf:(HHTrainingField *)field;
 
 @end

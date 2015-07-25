@@ -143,7 +143,7 @@
 
 }
 
-- (void)setupViewsWithCoach:(HHCoach *)coach {
+- (void)setupViewsWithCoach:(HHCoach *)coach trainingFielf:(HHTrainingField *)field {
     [self.priceView setupViewWithKey:@"包过价格" value:[[HHNumberFormatUtility moneyFormatter] stringFromNumber:coach.price]];
     [self.courseView setupViewWithKey:@"教授科目" value:coach.course];
     
@@ -155,7 +155,8 @@
     
     [self.phoneNumberView setupViewWithKey:@"手机号" value:coach.phoneNumber];
     
-    [self.addressView setupViewWithKey:@"训练场地址" value:coach.fullAddress];
+    NSString *fullAddress = [NSString stringWithFormat:@"%@%@%@%@", field.province, field.city, field.district, field.address];
+    [self.addressView setupViewWithKey:@"训练场地址" value:fullAddress];
 }
 
 

@@ -29,7 +29,6 @@
 @property (nonatomic, copy) NSNumber *totalReviewAmount;
 @property (nonatomic, copy) NSNumber *currentStudentAmount;
 @property (nonatomic, copy) NSString *trainingFieldId;
-@property (nonatomic, copy) NSString *fullAddress;
 @property (nonatomic, copy) NSString *phoneNumber;
 
 @end

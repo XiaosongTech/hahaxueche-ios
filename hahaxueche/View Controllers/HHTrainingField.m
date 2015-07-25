@@ -16,6 +16,7 @@
 @dynamic city;
 @dynamic latitude;
 @dynamic longitude;
+@dynamic province;
 
 + (NSString *)parseClassName {
     return @"TrainingField";

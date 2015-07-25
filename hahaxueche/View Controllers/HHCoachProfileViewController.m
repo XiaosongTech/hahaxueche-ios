@@ -18,6 +18,8 @@
 #import "HHCoachDashBoardTableViewCell.h"
 #import "HHUserAuthenticator.h"
 #import "HHToastUtility.h"
+#import "HHCoachService.h"
+#import "HHTrainingField.h"
 
 typedef enum : NSUInteger {
     CoachProfileCellDes,
@@ -39,7 +41,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIActionSheet *addressSheet;
 @property (nonatomic, strong) UIButton *payButton;
 @property (nonatomic, strong) UIButton *bookTrialButton;
-
+@property (nonatomic, strong) HHTrainingField *field;
 @end
 
 @implementation HHCoachProfileViewController
@@ -48,7 +50,6 @@ typedef enum : NSUInteger {
     self = [super init];
     if (self) {
         self.coach = coach;
-        self.coach.des = @"欧文（克里斯·帕拉特 Chris Pratt 饰）是一名退役军人以及动物行为专家，在主园区的外围的迅猛龙研究基地进行隐密的工作。欧文多年来训练了一批具侵略性的迅猛龙，和它们建立起主从关系，勉勉强强让它们得以压抑住掠食者的天性、不情愿的听从指示。久而久之。建立起主从关系建立起主从关系建立起主从关系建立起主从关系";
         self.title = self.coach.fullName;
         self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
         UIBarButtonItem *backButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"left_arrow"] action:@selector(backButtonPressed) target:self];
@@ -69,6 +70,11 @@ typedef enum : NSUInteger {
     return self;
 }
 
+- (void)setField:(HHTrainingField *)field {
+    _field = field;
+    [self.tableView reloadData];
+}
+
 - (void)backButtonPressed {
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
@@ -77,6 +83,9 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initSubviews];
+    [[HHCoachService sharedInstance] fetchTrainingFieldWithId:self.coach.trainingFieldId completion:^(HHTrainingField *field, NSError *error) {
+        self.field = field;
+    }];
 }
 
 - (void)initSubviews {
@@ -185,7 +194,7 @@ typedef enum : NSUInteger {
         }
         case CoachProfileCellDashBoard: {
             HHCoachDashBoardTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDashBoardCellId forIndexPath:indexPath];
-            [cell setupViewsWithCoach:self.coach];
+            [cell setupViewsWithCoach:self.coach trainingFielf:self.field];
             cell.phoneTappedCompletion = ^() {
                 [self.phoneSheet showInView:self.view];
             };
@@ -292,7 +301,8 @@ typedef enum : NSUInteger {
     } else if ([actionSheet isEqual:self.addressSheet]) {
         if (buttonIndex == 0) {
             UIPasteboard *pb = [UIPasteboard generalPasteboard];
-            [pb setString:self.coach.fullAddress];
+            NSString *fullAddress = [NSString stringWithFormat:@"%@%@%@%@", self.field.province, self.field.city, self.field.district, self.field.address];
+            [pb setString:fullAddress];
             [HHToastUtility showToastWitiTitle:@"复制成功！" isError:NO];
         } else if (buttonIndex == 1) {
             

@@ -11,11 +11,12 @@
 
 @interface HHTrainingField : AVObject <AVSubclassing>
 
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *address;
-@property (nonatomic, strong) NSString *city;
-@property (nonatomic, strong) NSString *district;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *address;
+@property (nonatomic, copy) NSString *city;
+@property (nonatomic, copy) NSString *district;
 @property (nonatomic, strong) NSNumber *longitude;
 @property (nonatomic, strong) NSNumber *latitude;
+@property (nonatomic, copy) NSString *province;
 
 @end

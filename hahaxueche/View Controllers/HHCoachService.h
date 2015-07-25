@@ -9,9 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <AVOSCloud/AVOSCloud.h>
 #import "HHCoach.h"
+#import "HHTrainingField.h"
 
 typedef void (^HHCoachesArrayCompletionBlock)(NSArray *objects, NSError *error);
 typedef void (^HHCoachCompletionBlock)(HHCoach *coach, NSError *error);
+typedef void (^HHCoachFieldCompletionBlock)(HHTrainingField *field, NSError *error);
 
 @interface HHCoachService : NSObject
 
@@ -21,6 +23,6 @@ typedef void (^HHCoachCompletionBlock)(HHCoach *coach, NSError *error);
 
 - (void)fetchCoachWithId:(NSString *)coachId completion:(HHCoachCompletionBlock)completion;
 
-
+- (void)fetchTrainingFieldWithId:(NSString *)fieldId completion:(HHCoachFieldCompletionBlock)completion;
 
 @end

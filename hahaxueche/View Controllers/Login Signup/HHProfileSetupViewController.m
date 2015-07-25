@@ -31,9 +31,12 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) HHTextFieldView *cityTextView;
 @property (nonatomic, strong) UIPickerView *cityPicker;
 @property (nonatomic, strong) UIImage *selectedImage;
-@property (nonatomic, strong) NSString *selectedCity;
 @property (nonatomic, strong) HHStudent *student;
 @property (nonatomic, strong) HHUser *user;
+@property (nonatomic, strong) NSString *selectedCity;
+@property (nonatomic, strong) NSString *selectedProvince;
+
+
 
 @end
 
@@ -43,6 +46,8 @@ typedef enum : NSUInteger {
     self = [super init];
     if (self) {
         self.user = user;
+        self.selectedCity = @"武汉市";
+        self.selectedProvince = @"湖北省";
     }
     return self;
 }
@@ -58,7 +63,6 @@ typedef enum : NSUInteger {
     self.navigationItem.leftBarButtonItem = cancelButton;
     
     self.title = @"个人信息";
-    
     [self initSubviews];
 }
 
@@ -66,6 +70,7 @@ typedef enum : NSUInteger {
     [self initUploadIamgeView];
     [self initFieldView];
     [self autolayoutSubviews];
+    self.cityTextView.textField.text = @"湖北省-武汉市";
 }
 
 - (void)initUploadIamgeView {
@@ -131,8 +136,8 @@ typedef enum : NSUInteger {
         [HHToastUtility showToastWitiTitle:@"请填写名字" isError:YES];
         return;
     }
-    if (!self.selectedCity) {
-        [HHToastUtility showToastWitiTitle:@"请选择所在城市" isError:YES];
+    if (!self.selectedCity || !self.selectedProvince) {
+        [HHToastUtility showToastWitiTitle:@"请选择所在城市和省份" isError:YES];
         return;
     }
     [self.nameTextView.textField resignFirstResponder];
@@ -151,6 +156,8 @@ typedef enum : NSUInteger {
     
     self.student = [HHStudent object];
     self.student.fullName = self.nameTextView.textField.text;
+    self.student.city = self.selectedCity;
+    self.student.province = self.selectedProvince;
     [[HHUserAuthenticator sharedInstance] signupWithUser:self.user completion:^(NSError *error) {
         if (!error) {
             [[HHUserAuthenticator sharedInstance] createStudentWithStudent:self.student completion:^(NSError *error) {
@@ -228,13 +235,12 @@ typedef enum : NSUInteger {
 
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return 1;
     
-    return 5;
 }
 
-// tell the picker how many components it will have
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 1;
+    return 2;
 }
 
 -(CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
@@ -248,13 +254,16 @@ typedef enum : NSUInteger {
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.font = [UIFont fontWithName:@"SourceHanSansSC-Normal" size:20.0f];
-    label.text = @"浙江-杭州";
+    if (component == 0) {
+        label.text = @"湖北省";
+    } else {
+        label.text = @"武汉市";
+    }
+    
     return label;
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
-    self.cityTextView.textField.text = @"浙江-杭州";
-    self.selectedCity = self.cityTextView.textField.text;
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
