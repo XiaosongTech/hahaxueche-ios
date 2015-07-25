@@ -26,13 +26,8 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>SourceHanSansSC-Regular.otf</string>
-		<string>SourceHanSansSC-Normal.otf</string>
-		<string>SourceHanSansSC-Medium.otf</string>
-		<string>SourceHanSansSC-Light.otf</string>
-		<string>SourceHanSansSC-Heavy.otf</string>
-		<string>SourceHanSansSC-ExtraLight.otf</string>
-		<string>SourceHanSansSC-Bold.otf</string>
+		<string>SourceHanSansCN-Medium.ttf</string>
+		<string>SourceHanSansCN-Normal.ttf</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
@@ -46,7 +41,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string></string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string></string>
 </dict>
 </plist>

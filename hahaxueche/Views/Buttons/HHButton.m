@@ -20,7 +20,7 @@
         [self setTitle:title forState:UIControlStateNormal];
         self.frame = frame;
         [self setTitleColor:textColor forState:UIControlStateNormal];
-        self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:14];
+        self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:14];
         self.backgroundColor = color;
         self.clipsToBounds = YES;
         self.layer.cornerRadius = CGRectGetHeight(frame)/2;
@@ -41,7 +41,7 @@
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self setTitleColor:[UIColor HHTransparentWhite] forState:UIControlStateHighlighted];
         self.frame = frame;
-        self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:15];
+        self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:15];
         self.backgroundColor = [UIColor HHOrange];
     }
     return self;

@@ -46,7 +46,7 @@
     self.imageGalleryView.delegate = self;
     [self.view addSubview:self.imageGalleryView];
     
-    self.oneClickButton = [[HHButton alloc] initSolidButtonWithTitle:@"一 键 找 教 练" textColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansSC-Heavy" size:30.0f]];
+    self.oneClickButton = [[HHButton alloc] initSolidButtonWithTitle:@"一 键 找 教 练" textColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:30.0f]];
     self.oneClickButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.oneClickButton];
     
@@ -54,17 +54,17 @@
     self.stepTwoButton = [self createButtonWithTitle:@"2"];
     self.stepThreeButton = [self createButtonWithTitle:@"3"];
     
-    self.stepOneLabel = [self createLabelWithTitle:@"选择教练" textColor:[UIColor blackColor] font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:12]];
+    self.stepOneLabel = [self createLabelWithTitle:@"选择教练" textColor:[UIColor blackColor] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:12]];
     
-    self.stepTwoLabel = [self createLabelWithTitle:@"预约练车" textColor:[UIColor blackColor] font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:12]];
+    self.stepTwoLabel = [self createLabelWithTitle:@"预约练车" textColor:[UIColor blackColor] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:12]];
     
-    self.stepThreeLabel = [self createLabelWithTitle:@"查看预约" textColor:[UIColor blackColor] font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:12]];
+    self.stepThreeLabel = [self createLabelWithTitle:@"查看预约" textColor:[UIColor blackColor] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:12]];
     
     [self autoLayoutSubviews];
 }
 
 - (HHButton *)createButtonWithTitle:(NSString *)title {
-    HHButton *button = [[HHButton alloc] initThinBorderButtonWithTitle:title textColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansSC-Heavy" size:20.0f] borderColor:[UIColor HHOrange] backgroundColor:[UIColor clearColor]];
+    HHButton *button = [[HHButton alloc] initThinBorderButtonWithTitle:title textColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:20.0f] borderColor:[UIColor HHOrange] backgroundColor:[UIColor clearColor]];
     button.layer.cornerRadius = 20.0f;
     button.translatesAutoresizingMaskIntoConstraints = NO;
     [button addTarget:self action:@selector(stepButtonPressed:) forControlEvents:UIControlEventTouchUpInside];

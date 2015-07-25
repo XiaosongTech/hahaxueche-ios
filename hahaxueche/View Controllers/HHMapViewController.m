@@ -61,7 +61,7 @@
     self.doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.doneButton setBackgroundColor:[UIColor clearColor]];
     [self.doneButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    self.doneButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:14.0f];
+    self.doneButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:14.0f];
     [self.doneButton setTitle:@"完成" forState:UIControlStateNormal];
     self.doneButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.doneButton addTarget:self action:@selector(doneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -71,7 +71,7 @@
     self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.titleLabel.text = @"选择训练场";
     self.titleLabel.textColor = [UIColor blackColor];
-    self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:16.0f];
+    self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:16.0f];
     [self.topBarView addSubview:self.titleLabel];
     
     
@@ -79,7 +79,7 @@
     self.floatButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.floatButton setTitle:@"全选" forState:UIControlStateNormal];
     [self.floatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.floatButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:15];
+    self.floatButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:15];
     self.floatButton.backgroundColor = [UIColor HHOrange];
     self.floatButton.clipsToBounds = YES;
     self.floatButton.layer.cornerRadius = kFloatButtonHeight/2;

@@ -63,9 +63,9 @@ typedef enum : NSUInteger {
         self.desCellHeight = CGRectGetHeight([self.coach.des boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.bounds)-40.0f, 99999.0)
                                                        options:NSStringDrawingUsesLineFragmentOrigin
                                                     attributes:@{
-                                                                 NSFontAttributeName: [UIFont fontWithName:@"SourceHanSansSC-Normal" size:13.0f],
+                                                                 NSFontAttributeName: [UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f],
                                                                  }
-                                                       context:nil]) + 60.0f;
+                                                       context:nil]) + 65.0f;
     }
     return self;
 }
@@ -124,8 +124,8 @@ typedef enum : NSUInteger {
                                          otherButtonTitles:@"复制地址", @"查看地图", nil];
     
     if (![self.coach.coachId isEqualToString:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId]) {
-        self.payButton = [self createButtonWithTitle:@"确认教练并付款" backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:18.0f]];
-        self.bookTrialButton = [self createButtonWithTitle:@"预约试训" backgroundColor:[UIColor HHLightOrange] font:[UIFont fontWithName:@"SourceHanSansSC-Medium" size:18.0f]];
+        self.payButton = [self createButtonWithTitle:@"确认教练并付款" backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f]];
+        self.bookTrialButton = [self createButtonWithTitle:@"预约试训" backgroundColor:[UIColor HHLightOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f]];
     }
     
      [self autolayoutSubview];

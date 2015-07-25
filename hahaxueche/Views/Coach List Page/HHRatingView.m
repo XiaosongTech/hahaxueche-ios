@@ -27,6 +27,7 @@
 }
 
 - (void)setupViewWithRating:(CGFloat)ratingValue {
+    [[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     for (int i = 0; i < kCarTotalAmount; i++) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(i*20.0f, 0, 19.0f, 19.0f)];
         imageView.tag = i+1;

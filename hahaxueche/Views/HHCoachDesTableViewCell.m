@@ -39,14 +39,14 @@
     self.nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.nameLabel.textColor = [UIColor blackColor];
-    self.nameLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:15.0f];
+    self.nameLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f];
     self.nameLabel.textAlignment = NSTextAlignmentCenter;
     self.nameLabel.backgroundColor = [UIColor clearColor];
     [self.containerView addSubview:self.nameLabel];
     
     self.desLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.desLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.desLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Normal" size:13.0f];
+    self.desLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f];
     self.desLabel.backgroundColor = [UIColor clearColor];
     self.desLabel.numberOfLines = 0;
     [self.containerView addSubview:self.desLabel];
@@ -69,7 +69,7 @@
                              [HHAutoLayoutUtility setCenterY:self.nameLabel toView:self.avatarView multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility horizontalNext:self.nameLabel toView:self.avatarView constant:8.0f],
                              
-                             [HHAutoLayoutUtility verticalNext:self.desLabel toView:self.avatarView constant:0],
+                             [HHAutoLayoutUtility verticalNext:self.desLabel toView:self.avatarView constant:1.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.desLabel constant:10.0f],
                              [HHAutoLayoutUtility setViewWidth:self.desLabel multiplier:1.0f constant:-20.0f],
                              [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.desLabel constant:-5.0f],

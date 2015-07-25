@@ -63,6 +63,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) HHSearchBar *searchBar;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *coachesArray;
+@property (nonatomic, strong) NSMutableArray *filteredCoachesArray;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @property (assign, nonatomic) CATransform3D initialTransformation;
@@ -71,31 +72,70 @@ typedef enum : NSUInteger {
 
 @implementation HHCoachListViewController
 
+- (void)setCurrentSortOption:(SortOption)currentSortOption {
+    _currentSortOption = currentSortOption;
+
+    NSMutableArray *sortedArray = nil;
+    
+    switch (self.currentSortOption) {
+        case SortOptionBestRating: {
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"averageRating" ascending:NO];
+            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            sortedArray = [NSMutableArray arrayWithArray:[self.filteredCoachesArray sortedArrayUsingDescriptors:sortDescriptors]];
+        }
+            break;
+            
+        case SortOptionLowestPrice: {
+
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"price" ascending:YES];
+            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            sortedArray = [NSMutableArray arrayWithArray:[self.filteredCoachesArray sortedArrayUsingDescriptors:sortDescriptors]];
+        }
+            break;
+            
+        case SortOptionMostRating: {
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"totalReviewAmount" ascending:NO];
+            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            sortedArray = [NSMutableArray arrayWithArray:[self.filteredCoachesArray sortedArrayUsingDescriptors:sortDescriptors]];
+        }
+            break;
+        case SortOptionSmartSort: {
+            sortedArray = self.filteredCoachesArray;
+        }
+            break;
+            
+        default:
+            break;
+    }
+    self.filteredCoachesArray = sortedArray;
+    [self.tableView reloadData];
+}
+
 - (void)setCurrentCourseOption:(CourseOption)currentCourseOption {
     _currentCourseOption = currentCourseOption;
     
-    NSString *courseSting = nil;
+    NSString *courseString = nil;
     switch (self.currentCourseOption) {
         case CourseTwo: {
-            courseSting = kCourseTwoString;
+            courseString = kCourseTwoString;
         }
             break;
             
         case CourseThree: {
-            courseSting = kCourseThreeString;
+            courseString = kCourseThreeString;
         }
             break;
             
         default:{
-            courseSting = kCourseTwoString;
+            courseString = kCourseTwoString;
         }
             break;
     }
     
     if (!self.title) {
         self.titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.titleButton setTitle:[NSString stringWithFormat:@"教练 (%@) \u25BE", courseSting] forState:UIControlStateNormal];
-        self.titleButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Medium" size:15.0f];
+        [self.titleButton setTitle:[NSString stringWithFormat:@"教练 (%@) \u25BE", courseString] forState:UIControlStateNormal];
+        self.titleButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f];
         [self.titleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         self.titleButton.backgroundColor = [UIColor clearColor];
         [self.titleButton addTarget:self action:@selector(titleViewPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -103,9 +143,12 @@ typedef enum : NSUInteger {
         [self.titleButton setFrameWithHeight:20.0f];
         [self.titleButton setFrameWithY:0];
     } else {
-        [self.titleButton setTitle:[NSString stringWithFormat:@"教练 (%@)", courseSting] forState:UIControlStateNormal];
+        [self.titleButton setTitle:[NSString stringWithFormat:@"教练 (%@)", courseString] forState:UIControlStateNormal];
     }
     
+    self.filteredCoachesArray = [NSMutableArray arrayWithArray: [self.filteredCoachesArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(course == %@)", courseString]]];
+    [self.tableView reloadData];
+
 }
 
 - (void)viewDidLoad {
@@ -124,6 +167,7 @@ typedef enum : NSUInteger {
         [[HHLoadingView sharedInstance] hideLoadingView];
         if (!error) {
             self.coachesArray = [NSMutableArray arrayWithArray: objects];
+            self.filteredCoachesArray = self.coachesArray;
             [self.tableView reloadData];
         }
     }];
@@ -176,6 +220,7 @@ typedef enum : NSUInteger {
         [self.refreshControl endRefreshing];
         if (!error) {
             self.coachesArray = [NSMutableArray arrayWithArray: objects];
+            self.filteredCoachesArray = self.coachesArray;
             [self.tableView reloadData];
         }
     }];
@@ -301,6 +346,7 @@ typedef enum : NSUInteger {
     [self popupFloatButtons];
 }
 
+
 - (SortOption)stringToEnum:(NSString *)string {
     SortOption selectedOption = SortOptionSmartSort;
     
@@ -391,12 +437,12 @@ typedef enum : NSUInteger {
 #pragma mark Tableview Delegate & Datasource Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.coachesArray.count;
+    return self.filteredCoachesArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HHCoachListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCoachListViewCellIdentifier forIndexPath:indexPath];
-    [cell setupCellWithCoach:self.coachesArray[indexPath.row]];
+    [cell setupCellWithCoach:self.filteredCoachesArray[indexPath.row]];
 
     return cell;
 }
@@ -408,43 +454,20 @@ typedef enum : NSUInteger {
 
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-//    POPSpringAnimation *springAnimation = [POPSpringAnimation animation];
-//    springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewScaleXY];    
-//    springAnimation.springBounciness = 0;
-//    springAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(0, 0)];
-//    springAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0f, 1.0f)];
-//    springAnimation.name = @"scaleCell";
-//    springAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(15, 10)];
-//    springAnimation.delegate = self;
-//    [cell pop_addAnimation:springAnimation forKey:@"scaleCell"];
-
-//    CATransform3D rotation;
-//    rotation = CATransform3DMakeRotation( (90.0*M_PI)/180, 0.0, 0.7, 0.4);
-//    rotation.m34 = 1.0/ -600;
-//    
-//    
-//    //2. Define the initial state (Before the animation)
-//    cell.layer.shadowColor = [[UIColor blackColor]CGColor];
-//    cell.layer.shadowOffset = CGSizeMake(10, 10);
-//    cell.alpha = 0;
-//    
-//    cell.layer.transform = rotation;
-//    cell.layer.anchorPoint = CGPointMake(0, 0.5);
-//    
-//    
-//    //3. Define the final state (After the animation) and commit the animation
-//    [UIView beginAnimations:@"rotation" context:NULL];
-//    [UIView setAnimationDuration:0.5];
-//    cell.layer.transform = CATransform3DIdentity;
-//    cell.alpha = 1;
-//    cell.layer.shadowOffset = CGSizeMake(0, 0);
-//    [UIView commitAnimations];
-    
+    POPSpringAnimation *springAnimation = [POPSpringAnimation animation];
+    springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewScaleXY];    
+    springAnimation.springBounciness = 0;
+    springAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(0, 0)];
+    springAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0f, 1.0f)];
+    springAnimation.name = @"scaleCell";
+    springAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(15, 10)];
+    springAnimation.delegate = self;
+    [cell pop_addAnimation:springAnimation forKey:@"scaleCell"];
 
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 124.0f;
+    return 112.0f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -457,7 +480,9 @@ typedef enum : NSUInteger {
 #pragma mark Search Bar Delegate 
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"fullName CONTAINS[cd] %@",searchBar.text];
+    self.filteredCoachesArray = [NSMutableArray arrayWithArray:[self.coachesArray filteredArrayUsingPredicate:predicate]];
+    [self.tableView reloadData];
 }
 
 @end

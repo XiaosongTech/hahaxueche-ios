@@ -253,7 +253,7 @@ typedef enum : NSUInteger {
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
-    label.font = [UIFont fontWithName:@"SourceHanSansSC-Normal" size:20.0f];
+    label.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:20.0f];
     if (component == 0) {
         label.text = @"湖北省";
     } else {

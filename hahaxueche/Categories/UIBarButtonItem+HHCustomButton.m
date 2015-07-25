@@ -26,7 +26,7 @@
     button.backgroundColor = [UIColor clearColor];
     [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
     [button sizeToFit];
-    button.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Normal" size:13];
+    button.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:13];
     if (isLeft) {
         [button setContentEdgeInsets:UIEdgeInsetsMake(0, -13.0f, 0, 13.0f)];
     } else {
