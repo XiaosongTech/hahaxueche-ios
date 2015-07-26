@@ -9,20 +9,19 @@
 #import <Foundation/Foundation.h>
 #import <AVOSCloud/AVOSCloud.h>
 #import "HHCoach.h"
-#import "HHTrainingField.h"
+#import "HHCoachListViewController.h"
 
 typedef void (^HHCoachesArrayCompletionBlock)(NSArray *objects, NSError *error);
 typedef void (^HHCoachCompletionBlock)(HHCoach *coach, NSError *error);
-typedef void (^HHCoachFieldCompletionBlock)(HHTrainingField *field, NSError *error);
 
 @interface HHCoachService : NSObject
 
 + (instancetype)sharedInstance;
 
-- (void)fetchCoachesWithTraningFieldIds:(NSArray *)fieldIds startIndex:(NSInteger)startIndex completion:(HHCoachesArrayCompletionBlock)completion;
+- (void)fetchCoachesWithTraningFields:(NSArray *)fields skip:(NSInteger)skip courseOption:(CourseOption)courseOption sortOption:(SortOption)sortOption completion:(HHCoachesArrayCompletionBlock)completion;
 
 - (void)fetchCoachWithId:(NSString *)coachId completion:(HHCoachCompletionBlock)completion;
 
-- (void)fetchTrainingFieldWithId:(NSString *)fieldId completion:(HHCoachFieldCompletionBlock)completion;
+- (void)fetchCoachesWithQuery:(NSString *)searchQuery skip:(NSInteger)startIndex completion:(HHCoachesArrayCompletionBlock)completion;
 
 @end

@@ -163,8 +163,8 @@
     [yearString appendAttributedString:[self generateAttributedStringWithString:@"年教龄" font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12] color:[UIColor blackColor]]];
     self.teachedYearLabel.attributedText = yearString;
     
-    NSMutableAttributedString * studentAmountString = [self generateAttributedStringWithString:@"累计" font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12] color:[UIColor blackColor]];
-    [studentAmountString appendAttributedString:[self generateAttributedStringWithString:@"88" font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:14] color:[UIColor blackColor]]];
+    NSMutableAttributedString * studentAmountString = [self generateAttributedStringWithString:@"累计通过" font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12] color:[UIColor blackColor]];
+    [studentAmountString appendAttributedString:[self generateAttributedStringWithString:[coach.passedStudentAmount stringValue] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:14] color:[UIColor blackColor]]];
     [studentAmountString appendAttributedString:[self generateAttributedStringWithString:@"名学员" font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12] color:[UIColor blackColor]]];
     self.teachedStudentAmount.attributedText = studentAmountString;
     self.courseLabel.text = coach.course;

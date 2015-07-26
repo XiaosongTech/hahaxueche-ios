@@ -20,6 +20,7 @@
 #import "HHToastUtility.h"
 #import "HHCoachService.h"
 #import "HHTrainingField.h"
+#import "HHTrainingFieldService.h"
 
 typedef enum : NSUInteger {
     CoachProfileCellDes,
@@ -83,9 +84,11 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initSubviews];
-    [[HHCoachService sharedInstance] fetchTrainingFieldWithId:self.coach.trainingFieldId completion:^(HHTrainingField *field, NSError *error) {
+    [[HHTrainingFieldService sharedInstance] fetchTrainingFieldWithId:self.coach.trainingFieldId completion:^(HHTrainingField *field, NSError *error) {
         self.field = field;
     }];
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
+    [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
 }
 
 - (void)initSubviews {

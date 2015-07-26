@@ -27,34 +27,25 @@
     }
     
     if(self.searchField) {
+        self.backgroundColor = [UIColor clearColor];
+
+        self.searchField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         self.searchField.textColor = [UIColor blackColor];
         self.searchField.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), 25.0f);
         self.searchField.tintColor = [UIColor HHOrange];
         self.searchField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        self.searchField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"搜索教练", nil) attributes:@{NSForegroundColorAttributeName: kSearchBarPlaceholderColor, NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:11]}];
+        self.searchField.placeholder = @"搜索教练";
         [self.searchField setBackgroundColor:[UIColor whiteColor]];
         [self.searchField setBorderStyle:UITextBorderStyleRoundedRect];
         UIImageView *iconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search_icon"]];
         [iconImageView setFrameWithSize:CGSizeMake(15.0f, 15.0f)];
         [self.searchField setLeftView:iconImageView];
-        
         self.searchField.rightViewMode = UITextFieldViewModeWhileEditing;
-        UIButton *clearButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [clearButton sizeToFit];
-        [clearButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
-        [clearButton setTitle:@"取消" forState:UIControlStateNormal];
-        [clearButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        clearButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansSC-Normal" size:12];
-        [clearButton addTarget:self action:@selector(cancelSearch) forControlEvents:UIControlEventTouchUpInside];
-        [self.searchField setRightView:clearButton];
-      
+        [self.searchField becomeFirstResponder];
+
     }
 }
 
-- (void)cancelSearch {
-    self.searchField.text = @"";
-    [self resignFirstResponder];
-}
 
 
 @end

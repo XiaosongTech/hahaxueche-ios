@@ -19,19 +19,12 @@
 #import "HHCoachProfileViewController.h"
 #import "HHLoadingView.h"
 #import "HHMapViewController.h"
+#import "HHSearchViewController.h"
+#import "HHNavigationController.h"
+#import "HHTrainingFieldService.h"
 
+typedef void (^HHGenericCompletion)();
 
-typedef enum : NSUInteger {
-    SortOptionSmartSort,
-    SortOptionLowestPrice,
-    SortOptionBestRating,
-    SortOptionMostRating,
-} SortOption;
-
-typedef enum : NSUInteger {
-    CourseTwo,
-    CourseThree,
-} CourseOption;
 
 #define kSmartSortString @"智能排序"
 #define kBestRatingString @"评价最好"
@@ -45,7 +38,7 @@ typedef enum : NSUInteger {
 
 
 
-@interface HHCoachListViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
+@interface HHCoachListViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UISearchDisplayDelegate>
 
 @property (nonatomic, strong) HHButton *floatSortButton;
 @property (nonatomic, strong) UIView *overlay;
@@ -60,11 +53,10 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIButton *titleButton;
 @property (nonatomic)         BOOL isfloatButtonsActive;
 @property (nonatomic)         BOOL isdropDownButtonsActive;
-@property (nonatomic, strong) HHSearchBar *searchBar;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *coachesArray;
-@property (nonatomic, strong) NSMutableArray *filteredCoachesArray;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
+
 
 @property (assign, nonatomic) CATransform3D initialTransformation;
 
@@ -74,46 +66,12 @@ typedef enum : NSUInteger {
 
 - (void)setCurrentSortOption:(SortOption)currentSortOption {
     _currentSortOption = currentSortOption;
-
-    NSMutableArray *sortedArray = nil;
-    
-    switch (self.currentSortOption) {
-        case SortOptionBestRating: {
-            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"averageRating" ascending:NO];
-            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-            sortedArray = [NSMutableArray arrayWithArray:[self.filteredCoachesArray sortedArrayUsingDescriptors:sortDescriptors]];
-        }
-            break;
-            
-        case SortOptionLowestPrice: {
-
-            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"price" ascending:YES];
-            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-            sortedArray = [NSMutableArray arrayWithArray:[self.filteredCoachesArray sortedArrayUsingDescriptors:sortDescriptors]];
-        }
-            break;
-            
-        case SortOptionMostRating: {
-            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"totalReviewAmount" ascending:NO];
-            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-            sortedArray = [NSMutableArray arrayWithArray:[self.filteredCoachesArray sortedArrayUsingDescriptors:sortDescriptors]];
-        }
-            break;
-        case SortOptionSmartSort: {
-            sortedArray = self.filteredCoachesArray;
-        }
-            break;
-            
-        default:
-            break;
-    }
-    self.filteredCoachesArray = sortedArray;
-    [self.tableView reloadData];
+    self.coachesArray = [NSMutableArray array];
 }
 
 - (void)setCurrentCourseOption:(CourseOption)currentCourseOption {
     _currentCourseOption = currentCourseOption;
-    
+     self.coachesArray = [NSMutableArray array];
     NSString *courseString = nil;
     switch (self.currentCourseOption) {
         case CourseTwo: {
@@ -145,30 +103,32 @@ typedef enum : NSUInteger {
     } else {
         [self.titleButton setTitle:[NSString stringWithFormat:@"教练 (%@)", courseString] forState:UIControlStateNormal];
     }
-    
-    self.filteredCoachesArray = [NSMutableArray arrayWithArray: [self.filteredCoachesArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(course == %@)", courseString]]];
-    [self.tableView reloadData];
 
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    [self fetchDataWithStartIndex:0];
     self.view.backgroundColor = [UIColor clearColor];
     self.currentCourseOption = CourseTwo;
+    self.currentSortOption = SortOptionSmartSort;
+     [self fetchDataWithCompletion:nil];
     [self initSubviews];
+    
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
+    [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
 }
 
-- (void)fetchDataWithStartIndex:(NSInteger)index {
-    self.coachesArray = [NSMutableArray array];
+- (void)fetchDataWithCompletion:(HHGenericCompletion)completion {
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
-    [[HHCoachService sharedInstance] fetchCoachesWithTraningFieldIds:nil startIndex:self.coachesArray.count completion:^(NSArray *objects, NSError *error) {
+    [[HHCoachService sharedInstance] fetchCoachesWithTraningFields:[HHTrainingFieldService sharedInstance].selectedFields skip:self.coachesArray.count courseOption:self.currentCourseOption sortOption:self.currentSortOption completion:^(NSArray *objects, NSError *error) {
         [[HHLoadingView sharedInstance] hideLoadingView];
         if (!error) {
             self.coachesArray = [NSMutableArray arrayWithArray: objects];
-            self.filteredCoachesArray = self.coachesArray;
             [self.tableView reloadData];
+            if (completion) {
+                completion();
+            }
         }
     }];
     
@@ -177,7 +137,6 @@ typedef enum : NSUInteger {
 -(void)initSubviews {
     [self initNavBarItems];
     [self initTableView];
-    [self initSearchBar];
     [self initFloatButtons];
     [self initDropdownButtons];
     [self autoLayoutSubviews];
@@ -190,11 +149,28 @@ typedef enum : NSUInteger {
                                        target:nil action:nil];
     negativeSpacer.width = -8.0f;//
     [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, mapItem]];
+    
+    UIBarButtonItem *searchButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"search"] action:@selector(searchIconPressed) target:self];
+    UIBarButtonItem *positiveSpacer = [[UIBarButtonItem alloc]
+                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                       target:nil action:nil];
+    positiveSpacer.width = -8.0f;//
+    [self.navigationItem setRightBarButtonItems:@[positiveSpacer, searchButton]];
+
+}
+
+- (void)searchIconPressed {
+    HHSearchViewController *searchViewController = [[HHSearchViewController alloc] init];
+    [self.navigationController pushViewController:searchViewController animated:NO];
 
 }
 
 - (void)mapIconPressed {
     HHMapViewController *mapVC = [[HHMapViewController alloc] init];
+    mapVC.selectedCompletion = ^(){
+        self.coachesArray = [NSMutableArray array];
+        [self fetchDataWithCompletion:nil];
+    };
     [self presentViewController:mapVC animated:YES completion:nil];
 }
 
@@ -216,28 +192,10 @@ typedef enum : NSUInteger {
 
 - (void)refreshData {
     self.coachesArray = [NSMutableArray array];
-    [[HHCoachService sharedInstance] fetchCoachesWithTraningFieldIds:nil startIndex:self.coachesArray.count completion:^(NSArray *objects, NSError *error) {
+    [self fetchDataWithCompletion:^(){
         [self.refreshControl endRefreshing];
-        if (!error) {
-            self.coachesArray = [NSMutableArray arrayWithArray: objects];
-            self.filteredCoachesArray = self.coachesArray;
-            [self.tableView reloadData];
-        }
     }];
 
-}
-
-- (void)initSearchBar {
-    self.searchBar = [[HHSearchBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 25.0f)];
-    self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
-    self.searchBar.placeholder = @"搜索教练";
-    self.searchBar.backgroundColor = [UIColor clearColor];
-    self.searchBar.delegate = self;
-    UIView *searchBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 30.0f)];
-    searchBarView.backgroundColor = [UIColor clearColor];
-    [searchBarView addSubview:self.searchBar];
-    self.tableView.tableHeaderView = searchBarView;
-    
 }
 
 
@@ -252,7 +210,12 @@ typedef enum : NSUInteger {
 
 - (void)dropDownButtonsAnimate {
     if (self.isdropDownButtonsActive) {
-        self.navigationItem.rightBarButtonItem = nil;
+        UIBarButtonItem *searchButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"search"] action:@selector(searchIconPressed) target:self];
+        UIBarButtonItem *positiveSpacer = [[UIBarButtonItem alloc]
+                                           initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                           target:nil action:nil];
+        positiveSpacer.width = -8.0f;//
+        [self.navigationItem setRightBarButtonItems:@[positiveSpacer, searchButton]];
         [self.overlay removeFromSuperview];
         self.overlay = nil;
         
@@ -296,6 +259,7 @@ typedef enum : NSUInteger {
     } else {
         self.currentCourseOption = CourseThree;
     }
+    [self fetchDataWithCompletion:nil];
     [self dropDownButtonsAnimate];
 }
 
@@ -343,6 +307,7 @@ typedef enum : NSUInteger {
     [button setTitle:self.floatSortButton.titleLabel.text forState:UIControlStateNormal];
     [self.floatSortButton setTitle:buttonTitle forState:UIControlStateNormal];
     self.currentSortOption = [self stringToEnum:buttonTitle];
+    [self fetchDataWithCompletion:nil];
     [self popupFloatButtons];
 }
 
@@ -354,7 +319,7 @@ typedef enum : NSUInteger {
         selectedOption = SortOptionSmartSort;
         
     } else if ([string isEqualToString:kPopularCoach]) {
-        selectedOption = SortOptionMostRating;
+        selectedOption = SortOptionMostPopular;
         
     } else if ([string isEqualToString:kLowestPriceString]) {
         selectedOption = SortOptionLowestPrice;
@@ -437,12 +402,12 @@ typedef enum : NSUInteger {
 #pragma mark Tableview Delegate & Datasource Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.filteredCoachesArray.count;
+    return self.coachesArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HHCoachListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCoachListViewCellIdentifier forIndexPath:indexPath];
-    [cell setupCellWithCoach:self.filteredCoachesArray[indexPath.row]];
+    [cell setupCellWithCoach:self.coachesArray[indexPath.row]];
 
     return cell;
 }
@@ -476,13 +441,5 @@ typedef enum : NSUInteger {
 }
 
 
-
-#pragma mark Search Bar Delegate 
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"fullName CONTAINS[cd] %@",searchBar.text];
-    self.filteredCoachesArray = [NSMutableArray arrayWithArray:[self.coachesArray filteredArrayUsingPredicate:predicate]];
-    [self.tableView reloadData];
-}
 
 @end

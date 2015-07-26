@@ -36,9 +36,9 @@
         [self.cars addObject:imageView];
         [self addSubview:imageView];
         if (ratingValue - i >= 1 ) {
-            imageView.image = [UIImage imageNamed:@"star_solid"];
+            imageView.image = [UIImage imageNamed:@"star"];
         } else if (ratingValue - i > 0 && ratingValue - i < 1){
-            imageView.image = [UIImage imageNamed:@"ratingcar_half"];
+            imageView.image = [UIImage imageNamed:@"star_half"];
         } else {
             imageView.image = [UIImage imageNamed:@"star_line"];
         }

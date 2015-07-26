@@ -7,6 +7,7 @@
 //
 
 #import "HHCoachService.h"
+#import "HHTrainingField.h"
 
 @implementation HHCoachService
 
@@ -21,14 +22,54 @@
     return sharedInstance;
 }
 
-- (void)fetchCoachesWithTraningFieldIds:(NSArray *)fieldIds startIndex:(NSInteger)startIndex completion:(HHCoachesArrayCompletionBlock)completion {
+- (void)fetchCoachesWithTraningFields:(NSArray *)fields skip:(NSInteger)skip courseOption:(CourseOption)courseOption sortOption:(SortOption)sortOption completion:(HHCoachesArrayCompletionBlock)completion {
     AVQuery *query = [AVQuery queryWithClassName:[HHCoach parseClassName]];
-    query.skip = startIndex;
+    query.skip = skip;
     query.limit = 20;
-    if(fieldIds) {
-        for (NSString *fieldId in fieldIds) {
-            [query whereKey:kTrainingFieldIdKey equalTo:fieldId];
+    NSMutableArray *fieldIds = [NSMutableArray array];
+    if(fields) {
+        for (HHTrainingField *field in fields) {
+            [fieldIds addObject:field.objectId];
         }
+        [query whereKey:kTrainingFieldIdKey containedIn:fieldIds];
+    }
+    
+    switch (courseOption) {
+        case CourseThree: {
+            [query whereKey:@"course" equalTo:@"科目三"];
+        }
+            break;
+        case CourseTwo:{
+            [query whereKey:@"course" equalTo:@"科目二"];
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    switch (sortOption) {
+        case SortOptionBestRating: {
+            [query orderByDescending:@"averageRating"];
+        }
+            break;
+            
+        case SortOptionLowestPrice: {
+           [query orderByAscending:@"price"];
+        }
+            break;
+            
+        case SortOptionMostPopular: {
+            [query orderByDescending:@"currentStudentAmount"];
+        }
+            break;
+        case SortOptionSmartSort: {
+            
+        }
+            break;
+            
+        default:
+            break;
     }
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -50,14 +91,21 @@
     }];
 }
 
-- (void)fetchTrainingFieldWithId:(NSString *)fieldId completion:(HHCoachFieldCompletionBlock)completion {
-    AVQuery *query = [AVQuery queryWithClassName:[HHTrainingField parseClassName]];
-    [query getObjectInBackgroundWithId:fieldId block:^(AVObject *object, NSError *error) {
+
+- (void)fetchCoachesWithQuery:(NSString *)searchQuery skip:(NSInteger)skip completion:(HHCoachesArrayCompletionBlock)completion {
+    AVQuery *query = [AVQuery queryWithClassName:[HHCoach parseClassName]];
+    query.limit = 20;
+    query.skip = skip;
+    if (![searchQuery isEqualToString:@""]) {
+        [query whereKey:@"fullName" containsString:searchQuery];
+    }
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (completion) {
-            completion((HHTrainingField *)object, error);
+            completion(objects, error);
         }
     }];
-}
 
+}
 
 @end

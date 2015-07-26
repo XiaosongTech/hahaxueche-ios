@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^HHMapViewCompletion)();
+
 @interface HHMapViewController : UIViewController
+
+@property (nonatomic, strong) HHMapViewCompletion selectedCompletion;
 
 @end

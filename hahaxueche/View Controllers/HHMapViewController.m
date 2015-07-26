@@ -11,6 +11,8 @@
 #import "UIColor+HHColor.h"
 #import <MapKit/MapKit.h>
 #import <MapKit/MKAnnotation.h>
+#import "HHTrainingFieldService.h"
+#import "HHPointAnnotation.h"
 
 #define kFloatButtonHeight 30.0f
 
@@ -21,7 +23,9 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *floatButton;
 @property (nonatomic, strong) MKMapView *mapView;
-@property(nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) NSArray *fields;
+@property (nonatomic, strong) NSMutableArray *selectedField;
 
 @end
 
@@ -29,7 +33,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.selectedField = [HHTrainingFieldService sharedInstance].selectedFields;
+    self.fields = [HHTrainingFieldService sharedInstance].supportedFields;
     self.mapView = [[MKMapView alloc] initWithFrame:CGRectZero];
     self.mapView.translatesAutoresizingMaskIntoConstraints = NO;
     self.mapView.delegate = self;
@@ -47,11 +52,14 @@
     [self.locationManager startUpdatingLocation];
     [self.view addSubview:self.mapView];
     
-    MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
-    point.coordinate = CLLocationCoordinate2DMake(30.310428, -97.744818);
-    point.title = @"Where am I?";
-    point.subtitle = @"I'm here!!!";
-    [self.mapView addAnnotation:point];
+    for (int i = 0; i < self.fields.count; i++) {
+        HHTrainingField *field = self.fields[i];
+        HHPointAnnotation *point = [[HHPointAnnotation alloc] initWithTag:i];
+        point.coordinate = CLLocationCoordinate2DMake([field.longitude doubleValue], [field.latitude doubleValue]);
+        point.title = field.name;
+        point.subtitle = field.address;
+        [self.mapView addAnnotation:point];        
+    }
     
     self.topBarView = [[UIView alloc] initWithFrame:CGRectZero];
     self.topBarView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -137,29 +145,52 @@
 }
 
 - (void)doneButtonPressed {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [HHTrainingFieldService sharedInstance].selectedFields = self.selectedField;
+    [self dismissViewControllerAnimated:YES completion:self.selectedCompletion];
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
 }
 
--(MKAnnotationView *)mapView:(MKMapView *)mV viewForAnnotation:(id <MKAnnotation>)annotation
-{
+-(MKAnnotationView *)mapView:(MKMapView *)mV viewForAnnotation:(id <MKAnnotation>)annotation {
     MKAnnotationView *pinView = nil;
+    HHPointAnnotation *hhAnotation = (HHPointAnnotation *)annotation;
     if(annotation != self.mapView.userLocation)
     {
         static NSString *defaultPinID = @"HHPinID";
         pinView = (MKAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:defaultPinID];
-        if ( pinView == nil )
+        if (!pinView) {
             pinView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:defaultPinID];
-        
+        }
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                              action:@selector(annotationTapped:)];
+        [pinView addGestureRecognizer:tap];
+        if ([self.selectedField containsObject:self.fields[hhAnotation.tag]]){
+            pinView.image = [UIImage imageNamed:@"star"];
+        } else {
+            pinView.image = [UIImage imageNamed:@"star_line"];
+        }
         pinView.canShowCallout = YES;
-        pinView.image = [UIImage imageNamed:@"star_solid"];    //as suggested by Squatch
     }    
     return pinView;
 }
-- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
-    view.image = [UIImage imageNamed:@"star_line"];
+
+
+- (void)annotationTapped:(UITapGestureRecognizer *)tapRecognizer {
+    MKAnnotationView *annotationView = tapRecognizer.view;
+    HHPointAnnotation *annotation = annotationView.annotation;
+    HHTrainingField *field = self.fields[annotation.tag];
+    if ([self.selectedField containsObject:field]) {
+        [self.selectedField removeObject:field];
+        annotationView.image = [UIImage imageNamed:@"star_line"];
+    } else {
+        annotationView.image = [UIImage imageNamed:@"star"];
+        [self.selectedField addObject:field];
+    }
+
 }
+
+
+
 
 @end
