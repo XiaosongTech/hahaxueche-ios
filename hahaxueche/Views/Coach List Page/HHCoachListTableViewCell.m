@@ -119,8 +119,8 @@
                              [HHAutoLayoutUtility setViewHeight:self.locationPin multiplier:0 constant:17.5f],
                              [HHAutoLayoutUtility setViewWidth:self.locationPin multiplier:0 constant:11.0f],
                              
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.addressLabel constant:12.0f],
-                             [HHAutoLayoutUtility horizontalNext:self.addressLabel toView:self.locationPin constant:2.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.addressLabel constant:13.0f],
+                             [HHAutoLayoutUtility horizontalNext:self.addressLabel toView:self.locationPin constant:4.0f],
                              
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.priceLabel constant:11.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.priceLabel constant:-10.0f],
@@ -168,6 +168,10 @@
     [studentAmountString appendAttributedString:[self generateAttributedStringWithString:@"名学员" font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12] color:[UIColor blackColor]]];
     self.teachedStudentAmount.attributedText = studentAmountString;
     self.courseLabel.text = coach.course;
+}
+
+- (void)setupAddressViewWithTitle:(NSString *)title {
+    self.addressLabel.text = title;
 }
 
 

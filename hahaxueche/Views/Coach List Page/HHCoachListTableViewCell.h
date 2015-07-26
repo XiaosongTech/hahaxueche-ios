@@ -27,5 +27,6 @@
 @property (nonatomic, strong) UILabel *ratingLabel;
 
 - (void)setupCellWithCoach:(HHCoach *)coach;
+- (void)setupAddressViewWithTitle:(NSString *)title;
 
 @end

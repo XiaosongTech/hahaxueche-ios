@@ -20,6 +20,7 @@
 
 @property (nonatomic, strong) UIView *topBarView;
 @property (nonatomic, strong) UIButton *doneButton;
+@property (nonatomic, strong) UIButton *cancelButton;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *floatButton;
 @property (nonatomic, strong) MKMapView *mapView;
@@ -33,8 +34,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.selectedField = [HHTrainingFieldService sharedInstance].selectedFields;
-    self.fields = [HHTrainingFieldService sharedInstance].supportedFields;
+    self.selectedField = [[HHTrainingFieldService sharedInstance].selectedFields mutableCopy];
+    self.fields = [[HHTrainingFieldService sharedInstance].supportedFields copy];
     self.mapView = [[MKMapView alloc] initWithFrame:CGRectZero];
     self.mapView.translatesAutoresizingMaskIntoConstraints = NO;
     self.mapView.delegate = self;
@@ -66,14 +67,8 @@
     self.topBarView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"trasparent_view"]];
     [self.mapView addSubview:self.topBarView];
     
-    self.doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.doneButton setBackgroundColor:[UIColor clearColor]];
-    [self.doneButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    self.doneButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:14.0f];
-    [self.doneButton setTitle:@"完成" forState:UIControlStateNormal];
-    self.doneButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.doneButton addTarget:self action:@selector(doneButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    [self.topBarView addSubview:self.doneButton];
+    self.doneButton = [self createTopButtonWithTitle:@"完成" action:@selector(doneButtonPressed)];
+    self.cancelButton = [self createTopButtonWithTitle:@"取消" action:@selector(cancelButtonPressed)];
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -98,9 +93,26 @@
     self.floatButton.layer.masksToBounds = NO;
     [self.floatButton setTitleColor:[UIColor HHLightGrayBackgroundColor] forState:UIControlStateHighlighted];
     self.floatButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.floatButton addTarget:self action:@selector(floatButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [self.mapView addSubview:self.floatButton];
 
     [self autolayoutSubviews];
+}
+
+- (UIButton *)createTopButtonWithTitle:(NSString *)title action:(SEL)action {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setBackgroundColor:[UIColor clearColor]];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:14.0f];
+    [button setTitle:title forState:UIControlStateNormal];
+    button.translatesAutoresizingMaskIntoConstraints = NO;
+    [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+    [self.topBarView addSubview:button];
+    return button;
+}
+
+- (void)floatButtonPressed {
+    [self selectOrDeselectAll];
 }
 
 - (void)autolayoutSubviews {
@@ -117,6 +129,9 @@
                              
                              [HHAutoLayoutUtility setCenterY:self.doneButton multiplier:1.0f constant:12.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.doneButton constant:-8.0f],
+                             
+                             [HHAutoLayoutUtility setCenterY:self.cancelButton multiplier:1.0f constant:12.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.cancelButton constant:8.0f],
                              
                              [HHAutoLayoutUtility setCenterX:self.titleLabel multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setCenterY:self.titleLabel multiplier:1.0f constant:12.0f],
@@ -147,6 +162,9 @@
 - (void)doneButtonPressed {
     [HHTrainingFieldService sharedInstance].selectedFields = self.selectedField;
     [self dismissViewControllerAnimated:YES completion:self.selectedCompletion];
+}
+- (void)cancelButtonPressed {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
@@ -187,7 +205,29 @@
         annotationView.image = [UIImage imageNamed:@"star"];
         [self.selectedField addObject:field];
     }
+}
 
+- (void)selectOrDeselectAll {
+    if ([self.floatButton.titleLabel.text isEqualToString:@"全选"]) {
+        for (HHPointAnnotation *annotation in self.mapView.annotations){
+            MKAnnotationView *annotationView = [self.mapView viewForAnnotation: annotation];
+            if (annotationView){
+                annotationView.image = [UIImage imageNamed:@"star"];
+            }
+            self.selectedField = [NSMutableArray arrayWithArray:self.fields];
+        }
+        [self.floatButton setTitle:@"全不选" forState:UIControlStateNormal];
+    } else {
+        for (HHPointAnnotation *annotation in self.mapView.annotations){
+            MKAnnotationView *annotationView = [self.mapView viewForAnnotation: annotation];
+            if (annotationView){
+                annotationView.image = [UIImage imageNamed:@"star_line"];
+            }
+        }
+        [self.floatButton setTitle:@"全选" forState:UIControlStateNormal];
+        [self.selectedField removeAllObjects];;
+
+    }
 }
 
 

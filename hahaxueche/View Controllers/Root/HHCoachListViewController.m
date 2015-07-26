@@ -407,7 +407,13 @@ typedef void (^HHGenericCompletion)();
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HHCoachListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCoachListViewCellIdentifier forIndexPath:indexPath];
-    [cell setupCellWithCoach:self.coachesArray[indexPath.row]];
+    HHCoach *coach = self.coachesArray[indexPath.row];
+    [cell setupCellWithCoach:coach];
+    [[HHTrainingFieldService sharedInstance] fetchTrainingFieldWithId:coach.trainingFieldId completion:^(HHTrainingField *field, NSError *error) {
+        if (!error) {
+            [cell setupAddressViewWithTitle:field.district];
+        }
+    }];
 
     return cell;
 }
