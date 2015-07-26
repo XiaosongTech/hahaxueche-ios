@@ -170,7 +170,7 @@
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
 }
 
--(MKAnnotationView *)mapView:(MKMapView *)mV viewForAnnotation:(id <MKAnnotation>)annotation {
+-(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     MKAnnotationView *pinView = nil;
     HHPointAnnotation *hhAnotation = (HHPointAnnotation *)annotation;
     if(annotation != self.mapView.userLocation)

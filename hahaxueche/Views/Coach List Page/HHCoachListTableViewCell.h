@@ -12,6 +12,8 @@
 #import "HHAvatarView.h"
 #import "HHCoach.h"
 
+typedef void (^HHAddressTappedBlock)();
+
 @interface HHCoachListTableViewCell : UITableViewCell 
 
 @property (nonatomic, strong) UIView *dataView;
@@ -25,6 +27,7 @@
 @property (nonatomic, strong) UILabel *teachedStudentAmount;
 @property (nonatomic, strong) UILabel *courseLabel;
 @property (nonatomic, strong) UILabel *ratingLabel;
+@property (nonatomic, strong) HHAddressTappedBlock addressBlock;
 
 - (void)setupCellWithCoach:(HHCoach *)coach;
 - (void)setupAddressViewWithTitle:(NSString *)title;

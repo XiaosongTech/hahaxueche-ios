@@ -14,10 +14,16 @@
 #import <QuartzCore/QuartzCore.h>
 #import "HHNumberFormatUtility.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "CMPopTipView.h"
+#import <MapKit/MapKit.h>
+
 
 #define kDataViewBackgroundColor [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1]
 #define kAvatarRadius 30.0f
 
+@interface HHCoachListTableViewCell ()<CMPopTipViewDelegate>
+
+@end
 
 @implementation HHCoachListTableViewCell
 
@@ -148,7 +154,9 @@
 }
 
 - (void)showLocation {
-    
+    if (self.addressBlock) {
+        self.addressBlock();
+    }
 }
 
 - (void)setupCellWithCoach:(HHCoach *)coach {

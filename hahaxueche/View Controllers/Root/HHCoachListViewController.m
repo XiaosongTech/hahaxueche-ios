@@ -22,6 +22,8 @@
 #import "HHSearchViewController.h"
 #import "HHNavigationController.h"
 #import "HHTrainingFieldService.h"
+#import "CMPopTipView.h"
+#import "HHPointAnnotation.h"
 
 typedef void (^HHGenericCompletion)();
 
@@ -38,7 +40,7 @@ typedef void (^HHGenericCompletion)();
 
 
 
-@interface HHCoachListViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UISearchDisplayDelegate>
+@interface HHCoachListViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, CMPopTipViewDelegate, MKMapViewDelegate>
 
 @property (nonatomic, strong) HHButton *floatSortButton;
 @property (nonatomic, strong) UIView *overlay;
@@ -56,7 +58,8 @@ typedef void (^HHGenericCompletion)();
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *coachesArray;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
-
+@property (nonatomic, strong) CMPopTipView *mapTipView;
+@property (nonatomic, strong) MKMapView *mapView;
 
 @property (assign, nonatomic) CATransform3D initialTransformation;
 
@@ -409,13 +412,46 @@ typedef void (^HHGenericCompletion)();
     HHCoachListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCoachListViewCellIdentifier forIndexPath:indexPath];
     HHCoach *coach = self.coachesArray[indexPath.row];
     [cell setupCellWithCoach:coach];
+    
     [[HHTrainingFieldService sharedInstance] fetchTrainingFieldWithId:coach.trainingFieldId completion:^(HHTrainingField *field, NSError *error) {
         if (!error) {
             [cell setupAddressViewWithTitle:field.district];
+            __weak HHCoachListTableViewCell *weakCell = cell;
+            cell.addressBlock = ^(){
+                [self addMapVIewToCell:weakCell field:field];
+            };
         }
     }];
 
     return cell;
+}
+
+- (void)addMapVIewToCell:(HHCoachListTableViewCell *)cell field:(HHTrainingField *)field{
+    if (!self.mapTipView){
+        self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, 200.0f, 100.0f)];
+        self.mapView.delegate = self;
+        HHPointAnnotation *point = [[HHPointAnnotation alloc] init];
+        point.coordinate = CLLocationCoordinate2DMake([field.longitude doubleValue], [field.latitude doubleValue]);
+        point.title = field.name;
+        point.subtitle = field.address;
+        [self.mapView addAnnotation:point];
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2DMake([field.longitude doubleValue], [field.latitude doubleValue]), 2000, 2000);
+        [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
+        
+        self.mapTipView = [[CMPopTipView alloc] initWithCustomView:self.mapView];
+        self.mapTipView.borderColor = [UIColor clearColor];
+        self.mapTipView.has3DStyle = NO;
+        self.mapTipView.backgroundColor = [UIColor HHOrange];
+        self.mapTipView.disableTapToDismiss = YES;
+        self.mapTipView.dismissTapAnywhere = YES;
+        self.mapTipView.delegate = self;
+        [self.mapTipView presentPointingAtView:cell.addressLabel inView:self.view animated:YES];
+    }
+}
+
+- (void)popTipViewWasDismissedByUser:(CMPopTipView *)popTipView {
+   self.mapTipView = nil;
+
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView {
@@ -446,6 +482,18 @@ typedef void (^HHGenericCompletion)();
     [self.navigationController pushViewController:coachProfiveVC animated:YES];
 }
 
+
+-(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+    MKAnnotationView *pinView = nil;
+    static NSString *defaultPinID = @"HHPinID";
+    pinView = (MKAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:defaultPinID];
+    if (!pinView) {
+        pinView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:defaultPinID];
+    }
+    pinView.image = [UIImage imageNamed:@"star"];
+    pinView.canShowCallout = YES;
+    return pinView;
+}
 
 
 @end
