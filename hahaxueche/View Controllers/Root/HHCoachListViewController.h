@@ -18,6 +18,7 @@ typedef enum : NSUInteger {
 typedef enum : NSUInteger {
     CourseTwo,
     CourseThree,
+    CourseAllInOne
 } CourseOption;
 
 @interface HHCoachListViewController : UIViewController

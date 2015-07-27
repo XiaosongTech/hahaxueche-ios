@@ -16,6 +16,6 @@
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *desLabel;
 
-- (void)setupViewWithURL:(NSString *)url name:(NSString *)name des:(NSString *)des;
+- (void)setupViewWithURL:(NSString *)url name:(NSString *)name des:(NSMutableAttributedString *)des;
 
 @end

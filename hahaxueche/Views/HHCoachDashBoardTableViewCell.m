@@ -144,7 +144,7 @@
 }
 
 - (void)setupViewsWithCoach:(HHCoach *)coach trainingFielf:(HHTrainingField *)field {
-    [self.priceView setupViewWithKey:@"包过价格" value:[[HHNumberFormatUtility moneyFormatter] stringFromNumber:coach.price]];
+    [self.priceView setupViewWithKey:@"包干价格" value:[[HHNumberFormatUtility moneyFormatter] stringFromNumber:coach.price]];
     [self.courseView setupViewWithKey:@"教授科目" value:coach.course];
     
     [self.yearView setupViewWithKey:@"教龄" value:[NSString stringWithFormat:@"%@年", coach.experienceYear]];

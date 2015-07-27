@@ -79,10 +79,10 @@
 
 }
 
-- (void)setupViewWithURL:(NSString *)url name:(NSString *)name des:(NSString *)des {
+- (void)setupViewWithURL:(NSString *)url name:(NSString *)name des:(NSMutableAttributedString *)des {
     [self.avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
     self.nameLabel.text = name;
-    self.desLabel.text = des;
+    self.desLabel.attributedText = des;
     
 }
 

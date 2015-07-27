@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */; };
 		5C2DCCE91B6477A1007E8FA7 /* HHPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2DCCE81B6477A1007E8FA7 /* HHPointAnnotation.m */; };
+		5C2DCCFC1B65ACE0007E8FA7 /* car_icon_solid@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2DCCF61B65ACE0007E8FA7 /* car_icon_solid@1x.png */; };
+		5C2DCCFD1B65ACE0007E8FA7 /* car_icon_solid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2DCCF71B65ACE0007E8FA7 /* car_icon_solid@2x.png */; };
+		5C2DCCFE1B65ACE0007E8FA7 /* car_icon_solid@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2DCCF81B65ACE0007E8FA7 /* car_icon_solid@3x.png */; };
+		5C2DCCFF1B65ACE0007E8FA7 /* car_icon@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2DCCF91B65ACE0007E8FA7 /* car_icon@1x.png */; };
+		5C2DCD001B65ACE0007E8FA7 /* car_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2DCCFA1B65ACE0007E8FA7 /* car_icon@2x.png */; };
+		5C2DCD011B65ACE0007E8FA7 /* car_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2DCCFB1B65ACE0007E8FA7 /* car_icon@3x.png */; };
+		5C2DCD041B65CBA0007E8FA7 /* HHLoadingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2DCD031B65CBA0007E8FA7 /* HHLoadingTableViewCell.m */; };
 		5C3980701B4AAD450057B049 /* HHCoachListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C39806D1B4AAD450057B049 /* HHCoachListViewController.m */; };
 		5C3980711B4AAD450057B049 /* HHNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C39806F1B4AAD450057B049 /* HHNavigationController.m */; };
 		5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C3980791B4ACA2B0057B049 /* UIView+HHRect.m */; };
@@ -133,6 +140,14 @@
 		5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HHColor.m"; sourceTree = "<group>"; };
 		5C2DCCE71B6477A1007E8FA7 /* HHPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPointAnnotation.h; sourceTree = "<group>"; };
 		5C2DCCE81B6477A1007E8FA7 /* HHPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPointAnnotation.m; sourceTree = "<group>"; };
+		5C2DCCF61B65ACE0007E8FA7 /* car_icon_solid@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car_icon_solid@1x.png"; sourceTree = "<group>"; };
+		5C2DCCF71B65ACE0007E8FA7 /* car_icon_solid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car_icon_solid@2x.png"; sourceTree = "<group>"; };
+		5C2DCCF81B65ACE0007E8FA7 /* car_icon_solid@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car_icon_solid@3x.png"; sourceTree = "<group>"; };
+		5C2DCCF91B65ACE0007E8FA7 /* car_icon@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car_icon@1x.png"; sourceTree = "<group>"; };
+		5C2DCCFA1B65ACE0007E8FA7 /* car_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car_icon@2x.png"; sourceTree = "<group>"; };
+		5C2DCCFB1B65ACE0007E8FA7 /* car_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car_icon@3x.png"; sourceTree = "<group>"; };
+		5C2DCD021B65CBA0007E8FA7 /* HHLoadingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHLoadingTableViewCell.h; sourceTree = "<group>"; };
+		5C2DCD031B65CBA0007E8FA7 /* HHLoadingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHLoadingTableViewCell.m; sourceTree = "<group>"; };
 		5C39806C1B4AAD450057B049 /* HHCoachListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachListViewController.h; sourceTree = "<group>"; };
 		5C39806D1B4AAD450057B049 /* HHCoachListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachListViewController.m; sourceTree = "<group>"; };
 		5C39806E1B4AAD450057B049 /* HHNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNavigationController.h; sourceTree = "<group>"; };
@@ -378,6 +393,12 @@
 		5C10F9271B49E6F100992B63 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5C2DCCF61B65ACE0007E8FA7 /* car_icon_solid@1x.png */,
+				5C2DCCF71B65ACE0007E8FA7 /* car_icon_solid@2x.png */,
+				5C2DCCF81B65ACE0007E8FA7 /* car_icon_solid@3x.png */,
+				5C2DCCF91B65ACE0007E8FA7 /* car_icon@1x.png */,
+				5C2DCCFA1B65ACE0007E8FA7 /* car_icon@2x.png */,
+				5C2DCCFB1B65ACE0007E8FA7 /* car_icon@3x.png */,
 				5CB34EE01B61D6B0007954DF /* trasparent_view@1x.png */,
 				5CB34EE11B61D6B0007954DF /* trasparent_view@2x.png */,
 				5CB34EE21B61D6B0007954DF /* trasparent_view@3x.png */,
@@ -472,6 +493,8 @@
 				5C54519F1B5154560025D19F /* HHRatingView.m */,
 				5C2DCCE71B6477A1007E8FA7 /* HHPointAnnotation.h */,
 				5C2DCCE81B6477A1007E8FA7 /* HHPointAnnotation.m */,
+				5C2DCD021B65CBA0007E8FA7 /* HHLoadingTableViewCell.h */,
+				5C2DCD031B65CBA0007E8FA7 /* HHLoadingTableViewCell.m */,
 			);
 			path = "Coach List Page";
 			sourceTree = "<group>";
@@ -757,7 +780,9 @@
 				5CD4EA111B5BEEBF003CF15E /* camera-alt@2x.png in Resources */,
 				5CB550811B4CC055005DE447 /* list_grey@3x.png in Resources */,
 				5CD4E9DB1B58B3B3003CF15E /* location_icon@3x.png in Resources */,
+				5C2DCCFC1B65ACE0007E8FA7 /* car_icon_solid@1x.png in Resources */,
 				5CD4E9D91B58B3B3003CF15E /* location_icon.png in Resources */,
+				5C2DCCFE1B65ACE0007E8FA7 /* car_icon_solid@3x.png in Resources */,
 				5CB34EFC1B63DDBA007954DF /* SourceHanSansCN-Medium.ttf in Resources */,
 				5CD4E9451B55809B003CF15E /* car_selected@2x.png in Resources */,
 				5CB34EFD1B63DDBA007954DF /* SourceHanSansCN-Normal.ttf in Resources */,
@@ -777,7 +802,9 @@
 				5CC3B60C1B48268A00D10DFB /* Images.xcassets in Resources */,
 				5CB34F251B643E02007954DF /* star_half@1x.png in Resources */,
 				5CB5507F1B4CC055005DE447 /* list_grey@1x.png in Resources */,
+				5C2DCCFF1B65ACE0007E8FA7 /* car_icon@1x.png in Resources */,
 				5CB34F2A1B643E02007954DF /* star@3x.png in Resources */,
+				5C2DCD011B65ACE0007E8FA7 /* car_icon@3x.png in Resources */,
 				5CA5B7871B533A2200312674 /* austin2.jpg in Resources */,
 				5CA5B7881B533A2200312674 /* austin3.jpg in Resources */,
 				5CB34F131B63EA61007954DF /* search.png in Resources */,
@@ -785,11 +812,13 @@
 				5C5451BC1B51E6B60025D19F /* fbAvatar.jpg in Resources */,
 				5CB550741B4CC055005DE447 /* calendar_grey@2x.png in Resources */,
 				5CB34F0A1B63EA4B007954DF /* left_arrow@1x.png in Resources */,
+				5C2DCCFD1B65ACE0007E8FA7 /* car_icon_solid@2x.png in Resources */,
 				5CB34F0C1B63EA4B007954DF /* left_arrow@3x.png in Resources */,
 				5CBBA96F1B5F4B13009398B8 /* loading.jpg in Resources */,
 				5CB34F151B63EA61007954DF /* search@3x.png in Resources */,
 				5CB34F241B643E02007954DF /* star_line@3x.png in Resources */,
 				5CD4E9521B558184003CF15E /* list_selected@3x.png in Resources */,
+				5C2DCD001B65ACE0007E8FA7 /* car_icon@2x.png in Resources */,
 				5CD4E9681B558431003CF15E /* reservation_grey@1x.png in Resources */,
 				5CB34F0D1B63EA4B007954DF /* map@1x.png in Resources */,
 				5CD4E94B1B5580DC003CF15E /* reservation_selected@2x.png in Resources */,
@@ -851,6 +880,7 @@
 				5CA5B77E1B52DF9200312674 /* HHTextFieldView.m in Sources */,
 				5C5451A01B5154560025D19F /* HHRatingView.m in Sources */,
 				5CB34EEE1B63255D007954DF /* HHCalendarTableViewCell.m in Sources */,
+				5C2DCD041B65CBA0007E8FA7 /* HHLoadingTableViewCell.m in Sources */,
 				5C2DCCE91B6477A1007E8FA7 /* HHPointAnnotation.m in Sources */,
 				5CD4EA3F1B5D97E1003CF15E /* HHTrainingField.m in Sources */,
 				5C39808B1B4BFFB20057B049 /* HHAutoLayoutUtility.m in Sources */,

@@ -24,8 +24,6 @@
 @property (nonatomic, copy) NSNumber *price;
 @property (nonatomic, copy) NSNumber *passedStudentAmount;
 @property (nonatomic, copy) NSArray *images;
-@property (nonatomic, copy) NSNumber *averageServiceRating;
-@property (nonatomic, copy) NSNumber *averageSkillRating;
 @property (nonatomic, copy) NSNumber *averageRating;
 @property (nonatomic, copy) NSNumber *totalReviewAmount;
 @property (nonatomic, copy) NSNumber *currentStudentAmount;

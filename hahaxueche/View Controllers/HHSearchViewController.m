@@ -14,7 +14,10 @@
 #import "HHCoachProfileViewController.h"
 #import "HHCoachService.h"
 #import "HHLoadingView.h"
+#import "HHLoadingTableViewCell.h"
 
+#define kLoadingCellIDentifier @"loadingCellIdentifier"
+#define kCoachCellIdentifier @"CoachListViewCellID"
 
 @interface HHSearchViewController ()
 
@@ -49,7 +52,8 @@
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    [self.tableView registerClass:[HHCoachListTableViewCell class] forCellReuseIdentifier:@"CoachListViewCellID"];
+    [self.tableView registerClass:[HHCoachListTableViewCell class] forCellReuseIdentifier:kCoachCellIdentifier];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kLoadingCellIDentifier];
     [self.view addSubview:self.tableView];
     
     [self autoLayoutSubviews];
@@ -85,10 +89,32 @@
 
 - (void)updateTableViewWithSearchQuery:(NSString *)query skip:(NSInteger)skip {
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
-    [[HHCoachService sharedInstance] fetchCoachesWithQuery:query skip:skip completion:^(NSArray *objects, NSError *error) {
+    [[HHCoachService sharedInstance] fetchCoachesWithQuery:query skip:skip completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
         [[HHLoadingView sharedInstance] hideLoadingView];
         if (!error) {
             self.coachesArray = [NSMutableArray arrayWithArray: objects];
+            if (self.coachesArray.count < totalCount) {
+                [self.coachesArray addObject:kLoadingCellIDentifier];
+            }
+            [self.tableView reloadData];
+        }
+
+    }];
+
+}
+
+- (void)fetchMoreDataWithSearchQuery:(NSString *)query skip:(NSInteger)skip {
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+    [[HHCoachService sharedInstance] fetchCoachesWithQuery:query skip:skip completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
+        [[HHLoadingView sharedInstance] hideLoadingView];
+        if (!error) {
+            if ([[self.coachesArray lastObject] isEqualToString:kLoadingCellIDentifier]) {
+                [self.coachesArray removeObject:kLoadingCellIDentifier];
+            }
+            [self.coachesArray addObjectsFromArray:objects];
+            if (self.coachesArray.count < totalCount) {
+                [self.coachesArray addObject:kLoadingCellIDentifier];
+            }
             [self.tableView reloadData];
         }
     }];
@@ -102,7 +128,11 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    HHCoachListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CoachListViewCellID" forIndexPath:indexPath];
+    if ([self.coachesArray[indexPath.row] isKindOfClass:[NSString class]]) {
+        HHLoadingTableViewCell *loadingCell = [tableView dequeueReusableCellWithIdentifier:kLoadingCellIDentifier forIndexPath:indexPath];
+        return loadingCell;
+    }
+    HHCoachListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCoachCellIdentifier forIndexPath:indexPath];
     [cell setupCellWithCoach:self.coachesArray[indexPath.row]];
     
     return cell;
@@ -114,7 +144,7 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 112.0f;
+    return 90.0f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -122,6 +152,14 @@
     [self.searchBar resignFirstResponder];
     [self.navigationController pushViewController:coachProfiveVC animated:YES];
 }
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.coachesArray[indexPath.row] isKindOfClass:[NSString class]]) {
+        [self fetchMoreDataWithSearchQuery:self.searchBar.text skip:self.coachesArray.count];
+    }
+    
+}
+
 
 #pragma mark Hide TabBar
 

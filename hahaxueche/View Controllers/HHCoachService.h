@@ -11,7 +11,7 @@
 #import "HHCoach.h"
 #import "HHCoachListViewController.h"
 
-typedef void (^HHCoachesArrayCompletionBlock)(NSArray *objects, NSError *error);
+typedef void (^HHCoachesArrayCompletionBlock)(NSArray *objects, NSInteger totalCount, NSError *error);
 typedef void (^HHCoachCompletionBlock)(HHCoach *coach, NSError *error);
 
 @interface HHCoachService : NSObject

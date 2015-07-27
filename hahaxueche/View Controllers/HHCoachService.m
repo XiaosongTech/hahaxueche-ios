@@ -9,6 +9,8 @@
 #import "HHCoachService.h"
 #import "HHTrainingField.h"
 
+#define kCountPerPage 20
+
 @implementation HHCoachService
 
 + (HHCoachService *)sharedInstance {
@@ -25,13 +27,19 @@
 - (void)fetchCoachesWithTraningFields:(NSArray *)fields skip:(NSInteger)skip courseOption:(CourseOption)courseOption sortOption:(SortOption)sortOption completion:(HHCoachesArrayCompletionBlock)completion {
     AVQuery *query = [AVQuery queryWithClassName:[HHCoach parseClassName]];
     query.skip = skip;
-    query.limit = 20;
+    query.limit = kCountPerPage;
     NSMutableArray *fieldIds = [NSMutableArray array];
-    if(fields) {
+    if(fields.count > 0) {
         for (HHTrainingField *field in fields) {
             [fieldIds addObject:field.objectId];
         }
         [query whereKey:kTrainingFieldIdKey containedIn:fieldIds];
+    } else {
+        if (completion) {
+            completion(nil, 0, nil);
+        }
+        return;
+
     }
     
     switch (courseOption) {
@@ -41,6 +49,10 @@
             break;
         case CourseTwo:{
             [query whereKey:@"course" equalTo:@"科目二"];
+        }
+            break;
+        case CourseAllInOne: {
+            [query whereKey:@"course" equalTo:@"全程包干"];
         }
             break;
             
@@ -74,7 +86,7 @@
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (completion) {
-            completion(objects, error);
+            completion(objects, [query countObjects], error);
         }
     }];
 }
@@ -94,7 +106,7 @@
 
 - (void)fetchCoachesWithQuery:(NSString *)searchQuery skip:(NSInteger)skip completion:(HHCoachesArrayCompletionBlock)completion {
     AVQuery *query = [AVQuery queryWithClassName:[HHCoach parseClassName]];
-    query.limit = 20;
+    query.limit = kCountPerPage;
     query.skip = skip;
     if (![searchQuery isEqualToString:@""]) {
         [query whereKey:@"fullName" containsString:searchQuery];
@@ -102,7 +114,7 @@
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (completion) {
-            completion(objects, error);
+            completion(objects, [query countObjects], error);
         }
     }];
 

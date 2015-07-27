@@ -24,6 +24,7 @@
 #import "HHTrainingFieldService.h"
 #import "CMPopTipView.h"
 #import "HHPointAnnotation.h"
+#import "HHLoadingTableViewCell.h"
 
 typedef void (^HHGenericCompletion)();
 
@@ -37,7 +38,7 @@ typedef void (^HHGenericCompletion)();
 #define kCourseThreeString @"科目三"
 
 #define kCoachListViewCellIdentifier @"coachListViewCellIdentifier"
-
+#define kLoadingCellIDentifier @"loadingCellIdentifier"
 
 
 @interface HHCoachListViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, CMPopTipViewDelegate, MKMapViewDelegate>
@@ -71,49 +72,50 @@ typedef void (^HHGenericCompletion)();
     _currentSortOption = currentSortOption;
     self.coachesArray = [NSMutableArray array];
 }
-
-- (void)setCurrentCourseOption:(CourseOption)currentCourseOption {
-    _currentCourseOption = currentCourseOption;
-     self.coachesArray = [NSMutableArray array];
-    NSString *courseString = nil;
-    switch (self.currentCourseOption) {
-        case CourseTwo: {
-            courseString = kCourseTwoString;
-        }
-            break;
-            
-        case CourseThree: {
-            courseString = kCourseThreeString;
-        }
-            break;
-            
-        default:{
-            courseString = kCourseTwoString;
-        }
-            break;
-    }
-    
-    if (!self.title) {
-        self.titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.titleButton setTitle:[NSString stringWithFormat:@"教练 (%@) \u25BE", courseString] forState:UIControlStateNormal];
-        self.titleButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f];
-        [self.titleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        self.titleButton.backgroundColor = [UIColor clearColor];
-        [self.titleButton addTarget:self action:@selector(titleViewPressed) forControlEvents:UIControlEventTouchUpInside];
-        self.navigationItem.titleView = self.titleButton;
-        [self.titleButton setFrameWithHeight:20.0f];
-        [self.titleButton setFrameWithY:0];
-    } else {
-        [self.titleButton setTitle:[NSString stringWithFormat:@"教练 (%@)", courseString] forState:UIControlStateNormal];
-    }
-
-}
+//
+//- (void)setCurrentCourseOption:(CourseOption)currentCourseOption {
+//    _currentCourseOption = currentCourseOption;
+//     self.coachesArray = [NSMutableArray array];
+//    NSString *courseString = nil;
+//    switch (self.currentCourseOption) {
+//        case CourseTwo: {
+//            courseString = kCourseTwoString;
+//        }
+//            break;
+//            
+//        case CourseThree: {
+//            courseString = kCourseThreeString;
+//        }
+//            break;
+//            
+//        default:{
+//            courseString = kCourseTwoString;
+//        }
+//            break;
+//    }
+//    
+//    if (!self.title) {
+//        self.titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [self.titleButton setTitle:[NSString stringWithFormat:@"教练 (%@) \u25BE", courseString] forState:UIControlStateNormal];
+//        self.titleButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f];
+//        [self.titleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//        self.titleButton.backgroundColor = [UIColor clearColor];
+//        [self.titleButton addTarget:self action:@selector(titleViewPressed) forControlEvents:UIControlEventTouchUpInside];
+//        self.navigationItem.titleView = self.titleButton;
+//        [self.titleButton setFrameWithHeight:20.0f];
+//        [self.titleButton setFrameWithY:0];
+//    } else {
+//        [self.titleButton setTitle:[NSString stringWithFormat:@"教练 (%@)", courseString] forState:UIControlStateNormal];
+//    }
+//
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.title = @"教练";
     self.automaticallyAdjustsScrollViewInsets = NO;
+    self.currentCourseOption = CourseAllInOne;
     self.view.backgroundColor = [UIColor clearColor];
-    self.currentCourseOption = CourseTwo;
     self.currentSortOption = SortOptionSmartSort;
      [self fetchDataWithCompletion:nil];
     [self initSubviews];
@@ -124,10 +126,13 @@ typedef void (^HHGenericCompletion)();
 
 - (void)fetchDataWithCompletion:(HHGenericCompletion)completion {
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
-    [[HHCoachService sharedInstance] fetchCoachesWithTraningFields:[HHTrainingFieldService sharedInstance].selectedFields skip:self.coachesArray.count courseOption:self.currentCourseOption sortOption:self.currentSortOption completion:^(NSArray *objects, NSError *error) {
+    [[HHCoachService sharedInstance] fetchCoachesWithTraningFields:[HHTrainingFieldService sharedInstance].selectedFields skip:self.coachesArray.count courseOption:self.currentCourseOption sortOption:self.currentSortOption completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
         [[HHLoadingView sharedInstance] hideLoadingView];
         if (!error) {
             self.coachesArray = [NSMutableArray arrayWithArray: objects];
+            if (self.coachesArray.count < totalCount) {
+                [self.coachesArray addObject:kLoadingCellIDentifier];
+            }
             [self.tableView reloadData];
             if (completion) {
                 completion();
@@ -137,11 +142,32 @@ typedef void (^HHGenericCompletion)();
     
 }
 
+- (void)fetchMoreDataWithCompletion:(HHGenericCompletion)completion {
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+    [[HHCoachService sharedInstance] fetchCoachesWithTraningFields:[HHTrainingFieldService sharedInstance].selectedFields skip:self.coachesArray.count-1 courseOption:self.currentCourseOption sortOption:self.currentSortOption completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
+        [[HHLoadingView sharedInstance] hideLoadingView];
+        if (!error) {
+            if ([[self.coachesArray lastObject] isEqualToString:kLoadingCellIDentifier]) {
+                [self.coachesArray removeObject:kLoadingCellIDentifier];
+            }
+            [self.coachesArray addObjectsFromArray:objects];
+            if (self.coachesArray.count < totalCount) {
+                [self.coachesArray addObject:kLoadingCellIDentifier];
+            }
+            [self.tableView reloadData];
+            if (completion) {
+                completion();
+            }
+        }
+    }];
+
+}
+
 -(void)initSubviews {
     [self initNavBarItems];
     [self initTableView];
     [self initFloatButtons];
-    [self initDropdownButtons];
+    //[self initDropdownButtons];
     [self autoLayoutSubviews];
 }
 
@@ -186,6 +212,7 @@ typedef void (^HHGenericCompletion)();
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.showsVerticalScrollIndicator = NO;
     [self.tableView registerClass:[HHCoachListTableViewCell class] forCellReuseIdentifier:kCoachListViewCellIdentifier];
+    [self.tableView registerClass:[HHLoadingTableViewCell class] forCellReuseIdentifier:kLoadingCellIDentifier];
     [self.view addSubview:self.tableView];
     
     self.refreshControl = [[UIRefreshControl alloc]init];
@@ -202,69 +229,69 @@ typedef void (^HHGenericCompletion)();
 }
 
 
-- (void)cancelButtonPressed {
-    [self dropDownButtonsAnimate];
-}
+//- (void)cancelButtonPressed {
+//    [self dropDownButtonsAnimate];
+//}
+//
+//
+//- (void)titleViewPressed {
+//    [self dropDownButtonsAnimate];
+//}
 
+//- (void)dropDownButtonsAnimate {
+//    if (self.isdropDownButtonsActive) {
+//        UIBarButtonItem *searchButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"search"] action:@selector(searchIconPressed) target:self];
+//        UIBarButtonItem *positiveSpacer = [[UIBarButtonItem alloc]
+//                                           initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+//                                           target:nil action:nil];
+//        positiveSpacer.width = -8.0f;//
+//        [self.navigationItem setRightBarButtonItems:@[positiveSpacer, searchButton]];
+//        [self.overlay removeFromSuperview];
+//        self.overlay = nil;
+//        
+//    } else {
+//        UIBarButtonItem *cancelButton = [UIBarButtonItem buttonItemWithTitle:@"取消" action:@selector(cancelButtonPressed) target:self isLeft:NO];
+//        [self.navigationItem setRightBarButtonItems:@[cancelButton]];
+//        
+//        self.overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
+//        [self.overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
+//        UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayForDropDownTapped)];
+//        [self.overlay addGestureRecognizer:recognizer];
+//        [self.view insertSubview:self.overlay belowSubview:self.firstDropDownButton];
+//    }
+//    [self dropDownButtonAnimateDown:!self.isdropDownButtonsActive button:self.firstDropDownButton];
+//    [self dropDownButtonAnimateDown:!self.isdropDownButtonsActive button:self.secondDropDownButton];
+//    self.isdropDownButtonsActive = !self.isdropDownButtonsActive;
+//}
 
-- (void)titleViewPressed {
-    [self dropDownButtonsAnimate];
-}
+//- (void)overlayForDropDownTapped {
+//    [self dropDownButtonsAnimate];
+//}
 
-- (void)dropDownButtonsAnimate {
-    if (self.isdropDownButtonsActive) {
-        UIBarButtonItem *searchButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"search"] action:@selector(searchIconPressed) target:self];
-        UIBarButtonItem *positiveSpacer = [[UIBarButtonItem alloc]
-                                           initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                           target:nil action:nil];
-        positiveSpacer.width = -8.0f;//
-        [self.navigationItem setRightBarButtonItems:@[positiveSpacer, searchButton]];
-        [self.overlay removeFromSuperview];
-        self.overlay = nil;
-        
-    } else {
-        UIBarButtonItem *cancelButton = [UIBarButtonItem buttonItemWithTitle:@"取消" action:@selector(cancelButtonPressed) target:self isLeft:NO];
-        [self.navigationItem setRightBarButtonItems:@[cancelButton]];
-        
-        self.overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
-        [self.overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
-        UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayForDropDownTapped)];
-        [self.overlay addGestureRecognizer:recognizer];
-        [self.view insertSubview:self.overlay belowSubview:self.firstDropDownButton];
-    }
-    [self dropDownButtonAnimateDown:!self.isdropDownButtonsActive button:self.firstDropDownButton];
-    [self dropDownButtonAnimateDown:!self.isdropDownButtonsActive button:self.secondDropDownButton];
-    self.isdropDownButtonsActive = !self.isdropDownButtonsActive;
-}
+//- (void)initDropdownButtons {
+//    self.firstDropDownButton = [self createDropDownButtonWithTitle:kCourseTwoString];
+//    self.secondDropDownButton = [self createDropDownButtonWithTitle:kCourseThreeString];
+//    
+//}
 
-- (void)overlayForDropDownTapped {
-    [self dropDownButtonsAnimate];
-}
+//- (HHButton *)createDropDownButtonWithTitle:(NSString *)title {
+//    HHButton *button = [[HHButton alloc] initDropDownButtonWithTitle:title frame:CGRectMake(0, 20.0f, CGRectGetWidth(self.view.bounds), 44.0f)];
+//    button.hidden = YES;
+//    [button addTarget:self action:@selector(dropDownButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.navigationController.view insertSubview:button belowSubview:self.navigationController.navigationBar];
+//    return button;
+//}
 
-- (void)initDropdownButtons {
-    self.firstDropDownButton = [self createDropDownButtonWithTitle:kCourseTwoString];
-    self.secondDropDownButton = [self createDropDownButtonWithTitle:kCourseThreeString];
-    
-}
-
-- (HHButton *)createDropDownButtonWithTitle:(NSString *)title {
-    HHButton *button = [[HHButton alloc] initDropDownButtonWithTitle:title frame:CGRectMake(0, 20.0f, CGRectGetWidth(self.view.bounds), 44.0f)];
-    button.hidden = YES;
-    [button addTarget:self action:@selector(dropDownButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self.navigationController.view insertSubview:button belowSubview:self.navigationController.navigationBar];
-    return button;
-}
-
-- (void)dropDownButtonPressed:(id)sender {
-    HHButton *button = sender;
-    if ([button.titleLabel.text isEqualToString:kCourseTwoString]) {
-        self.currentCourseOption = CourseTwo;
-    } else {
-        self.currentCourseOption = CourseThree;
-    }
-    [self fetchDataWithCompletion:nil];
-    [self dropDownButtonsAnimate];
-}
+//- (void)dropDownButtonPressed:(id)sender {
+//    HHButton *button = sender;
+//    if ([button.titleLabel.text isEqualToString:kCourseTwoString]) {
+//        self.currentCourseOption = CourseTwo;
+//    } else {
+//        self.currentCourseOption = CourseThree;
+//    }
+//    [self fetchDataWithCompletion:nil];
+//    [self dropDownButtonsAnimate];
+//}
 
 
 - (void)initFloatButtons {
@@ -310,7 +337,10 @@ typedef void (^HHGenericCompletion)();
     [button setTitle:self.floatSortButton.titleLabel.text forState:UIControlStateNormal];
     [self.floatSortButton setTitle:buttonTitle forState:UIControlStateNormal];
     self.currentSortOption = [self stringToEnum:buttonTitle];
-    [self fetchDataWithCompletion:nil];
+    __weak HHCoachListViewController *weakSelf = self;
+    [self fetchDataWithCompletion:^{
+        weakSelf.tableView.contentOffset = CGPointMake(0, 0 - self.tableView.contentInset.top);
+    }];
     [self popupFloatButtons];
 }
 
@@ -377,30 +407,30 @@ typedef void (^HHGenericCompletion)();
     }
 }
 
-- (void)dropDownButtonAnimateDown:(BOOL)isDown button:(HHButton *)button {
-    POPSpringAnimation *springAnimation = [POPSpringAnimation animation];
-    springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
-    CGFloat offsetY = 0;
-    if ([button isEqual:self.firstDropDownButton]) {
-        offsetY = CGRectGetHeight(self.navigationController.navigationBar.bounds) + 20.0f;
-    } else {
-        offsetY = CGRectGetHeight(self.navigationController.navigationBar.bounds) + 20.0f + CGRectGetHeight(button.bounds);
-    }
-    
-    CGRect toFrame = CGRectZero;
-    if (isDown) {
-        toFrame = CGRectMake(0, offsetY, CGRectGetWidth(self.view.bounds), 44.0f);
-    } else {
-        toFrame = CGRectMake(0, 20.0f, CGRectGetWidth(self.view.bounds), 44.0f);
-    }
-   
-    springAnimation.springBounciness = 0;
-    springAnimation.toValue = [NSValue valueWithCGRect:toFrame];
-    springAnimation.name = @"floatButtonPopup";
-    springAnimation.delegate = self;
-    [button pop_addAnimation:springAnimation forKey:@"dropDown"];
-    button.hidden = !button.hidden;
-}
+//- (void)dropDownButtonAnimateDown:(BOOL)isDown button:(HHButton *)button {
+//    POPSpringAnimation *springAnimation = [POPSpringAnimation animation];
+//    springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
+//    CGFloat offsetY = 0;
+//    if ([button isEqual:self.firstDropDownButton]) {
+//        offsetY = CGRectGetHeight(self.navigationController.navigationBar.bounds) + 20.0f;
+//    } else {
+//        offsetY = CGRectGetHeight(self.navigationController.navigationBar.bounds) + 20.0f + CGRectGetHeight(button.bounds);
+//    }
+//    
+//    CGRect toFrame = CGRectZero;
+//    if (isDown) {
+//        toFrame = CGRectMake(0, offsetY, CGRectGetWidth(self.view.bounds), 44.0f);
+//    } else {
+//        toFrame = CGRectMake(0, 20.0f, CGRectGetWidth(self.view.bounds), 44.0f);
+//    }
+//   
+//    springAnimation.springBounciness = 0;
+//    springAnimation.toValue = [NSValue valueWithCGRect:toFrame];
+//    springAnimation.name = @"floatButtonPopup";
+//    springAnimation.delegate = self;
+//    [button pop_addAnimation:springAnimation forKey:@"dropDown"];
+//    button.hidden = !button.hidden;
+//}
 
 #pragma mark Tableview Delegate & Datasource Methods
 
@@ -409,33 +439,34 @@ typedef void (^HHGenericCompletion)();
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == self.coachesArray.count - 1 && [self.coachesArray[indexPath.row] isKindOfClass:[NSString class]]) {
+        HHLoadingTableViewCell *loadingCell = [tableView dequeueReusableCellWithIdentifier:kLoadingCellIDentifier forIndexPath:indexPath];
+        return loadingCell;
+    }
     HHCoachListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCoachListViewCellIdentifier forIndexPath:indexPath];
     HHCoach *coach = self.coachesArray[indexPath.row];
     [cell setupCellWithCoach:coach];
-    
-    [[HHTrainingFieldService sharedInstance] fetchTrainingFieldWithId:coach.trainingFieldId completion:^(HHTrainingField *field, NSError *error) {
-        if (!error) {
-            [cell setupAddressViewWithTitle:field.district];
-            __weak HHCoachListTableViewCell *weakCell = cell;
-            cell.addressBlock = ^(){
-                [self addMapVIewToCell:weakCell field:field];
-            };
-        }
-    }];
-
+    NSArray *filteredarray = [[HHTrainingFieldService sharedInstance].supportedFields filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(objectId == %@)", coach.trainingFieldId]];
+    HHTrainingField *field = [filteredarray firstObject];
+    [cell setupAddressViewWithTitle:field.district];
+    __weak HHCoachListTableViewCell *weakCell = cell;
+    cell.addressBlock = ^(){
+        [self addMapVIewToCell:weakCell field:field];
+    };
     return cell;
 }
 
+
 - (void)addMapVIewToCell:(HHCoachListTableViewCell *)cell field:(HHTrainingField *)field{
     if (!self.mapTipView){
-        self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, 200.0f, 100.0f)];
+        self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, 200.0f, 180.0f)];
         self.mapView.delegate = self;
         HHPointAnnotation *point = [[HHPointAnnotation alloc] init];
         point.coordinate = CLLocationCoordinate2DMake([field.longitude doubleValue], [field.latitude doubleValue]);
         point.title = field.name;
         point.subtitle = field.address;
         [self.mapView addAnnotation:point];
-        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2DMake([field.longitude doubleValue], [field.latitude doubleValue]), 2000, 2000);
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2DMake([field.longitude doubleValue]+0.005, [field.latitude doubleValue]), 2000, 2000);
         [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
         
         self.mapTipView = [[CMPopTipView alloc] initWithCustomView:self.mapView];
@@ -444,6 +475,10 @@ typedef void (^HHGenericCompletion)();
         self.mapTipView.backgroundColor = [UIColor HHOrange];
         self.mapTipView.disableTapToDismiss = YES;
         self.mapTipView.dismissTapAnywhere = YES;
+        self.mapTipView.sidePadding = 2.0f;
+        self.mapTipView.topMargin = 0;
+        self.mapTipView.pointerSize = 5.0f;
+        self.mapTipView.cornerRadius = 2.0f;
         self.mapTipView.delegate = self;
         [self.mapTipView presentPointingAtView:cell.addressLabel inView:self.view animated:YES];
     }
@@ -461,24 +496,24 @@ typedef void (^HHGenericCompletion)();
 
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    POPSpringAnimation *springAnimation = [POPSpringAnimation animation];
-    springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewScaleXY];    
-    springAnimation.springBounciness = 0;
-    springAnimation.fromValue = [NSValue valueWithCGPoint:CGPointMake(0, 0)];
-    springAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(1.0f, 1.0f)];
-    springAnimation.name = @"scaleCell";
-    springAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(15, 10)];
-    springAnimation.delegate = self;
-    [cell pop_addAnimation:springAnimation forKey:@"scaleCell"];
+    if ([self.coachesArray[indexPath.row] isKindOfClass:[NSString class]]) {
+        [self fetchMoreDataWithCompletion:nil];
+    }
 
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 112.0f;
+    if ([self.coachesArray[indexPath.row] isKindOfClass:[NSString class]]) {
+        return 30.0;
+    }
+    return 90.0f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    HHCoach *coach = self.coachesArray[indexPath.row];
     HHCoachProfileViewController *coachProfiveVC = [[HHCoachProfileViewController alloc] initWithCoach:self.coachesArray[indexPath.row]];
+    NSArray *filteredarray = [[HHTrainingFieldService sharedInstance].supportedFields filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(objectId == %@)", coach.trainingFieldId]];
+    coachProfiveVC.field = [filteredarray firstObject];
     [self.navigationController pushViewController:coachProfiveVC animated:YES];
 }
 
@@ -490,10 +525,16 @@ typedef void (^HHGenericCompletion)();
     if (!pinView) {
         pinView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:defaultPinID];
     }
-    pinView.image = [UIImage imageNamed:@"star"];
+    pinView.image = [UIImage imageNamed:@"car_icon"];
     pinView.canShowCallout = YES;
     return pinView;
 }
 
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views{
+    for (id<MKAnnotation> currentAnnotation in mapView.annotations) {
+        [mapView selectAnnotation:currentAnnotation animated:NO];
+
+    }
+}
 
 @end

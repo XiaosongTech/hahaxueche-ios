@@ -79,12 +79,6 @@
     
     self.teachedStudentAmount = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:14] color:[UIColor blackColor]];
     
-    self.courseLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:11] color:[UIColor whiteColor]];
-    self.courseLabel.textAlignment = NSTextAlignmentCenter;
-    self.courseLabel.layer.masksToBounds = YES;
-    self.courseLabel.layer.cornerRadius = 8.0f;
-    self.courseLabel.backgroundColor = [UIColor HHOrange];
-    
     self.ratingLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:12] color:[UIColor HHOrange]];
 }
 
@@ -134,10 +128,10 @@
                              [HHAutoLayoutUtility verticalNext:self.ratingView toView:self.nameLabel constant:6.0f],
                              [HHAutoLayoutUtility horizontalNext:self.ratingView toView:self.avatarView constant:9.0f],
                              [HHAutoLayoutUtility setViewHeight:self.ratingView multiplier:0 constant:15.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.ratingView multiplier:0 constant:100.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.ratingView multiplier:0 constant:90.0f],
                              
-                             [HHAutoLayoutUtility setCenterY:self.ratingLabel toView:self.ratingView multiplier:1.0f constant:1.0f],
-                             [HHAutoLayoutUtility horizontalNext:self.ratingLabel toView:self.ratingView constant:5.0f],
+                             [HHAutoLayoutUtility setCenterY:self.ratingLabel toView:self.ratingView multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility horizontalNext:self.ratingLabel toView:self.ratingView constant:0],
                              
                              [HHAutoLayoutUtility verticalNext:self.teachedYearLabel toView:self.ratingView constant:8.0f],
                              [HHAutoLayoutUtility horizontalNext:self.teachedYearLabel toView:self.avatarView constant:10.0f],
@@ -145,11 +139,7 @@
                              [HHAutoLayoutUtility setCenterY:self.teachedStudentAmount toView:self.teachedYearLabel multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility horizontalNext:self.teachedStudentAmount toView:self.teachedYearLabel constant:15.0f],
                              
-                             [HHAutoLayoutUtility verticalNext:self.courseLabel toView:self.teachedYearLabel constant:8.0f],
-                             [HHAutoLayoutUtility horizontalNext:self.courseLabel toView:self.avatarView constant:10.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.courseLabel multiplier:0 constant:76.0f],
-                             [HHAutoLayoutUtility setViewHeight:self.courseLabel multiplier:0 constant:16.0f],
-                             ];
+                            ];
     [self.contentView addConstraints:constraints];
 }
 
@@ -175,7 +165,6 @@
     [studentAmountString appendAttributedString:[self generateAttributedStringWithString:[coach.passedStudentAmount stringValue] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:14] color:[UIColor blackColor]]];
     [studentAmountString appendAttributedString:[self generateAttributedStringWithString:@"名学员" font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12] color:[UIColor blackColor]]];
     self.teachedStudentAmount.attributedText = studentAmountString;
-    self.courseLabel.text = coach.course;
 }
 
 - (void)setupAddressViewWithTitle:(NSString *)title {

@@ -19,8 +19,6 @@
 @dynamic price;
 @dynamic passedStudentAmount;
 @dynamic images;
-@dynamic averageServiceRating;
-@dynamic averageSkillRating;
 @dynamic totalReviewAmount;
 @dynamic currentStudentAmount;
 @dynamic trainingFieldId;

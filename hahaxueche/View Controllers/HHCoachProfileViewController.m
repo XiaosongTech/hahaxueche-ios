@@ -19,8 +19,6 @@
 #import "HHUserAuthenticator.h"
 #import "HHToastUtility.h"
 #import "HHCoachService.h"
-#import "HHTrainingField.h"
-#import "HHTrainingFieldService.h"
 
 typedef enum : NSUInteger {
     CoachProfileCellDes,
@@ -42,7 +40,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIActionSheet *addressSheet;
 @property (nonatomic, strong) UIButton *payButton;
 @property (nonatomic, strong) UIButton *bookTrialButton;
-@property (nonatomic, strong) HHTrainingField *field;
+@property (nonatomic, strong) NSMutableAttributedString *coachDes;
+
 @end
 
 @implementation HHCoachProfileViewController
@@ -61,12 +60,13 @@ typedef enum : NSUInteger {
         negativeSpacer.width = -8.0f;//
         [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, backButton]];
         
-        self.desCellHeight = CGRectGetHeight([self.coach.des boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.bounds)-40.0f, 99999.0)
-                                                       options:NSStringDrawingUsesLineFragmentOrigin
-                                                    attributes:@{
-                                                                 NSFontAttributeName: [UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f],
-                                                                 }
-                                                       context:nil]) + 65.0f;
+        self.coachDes = [[NSMutableAttributedString alloc] initWithString:self.coach.des];
+        NSMutableParagraphStyle *paragrahStyle = [[NSMutableParagraphStyle alloc] init];
+        [paragrahStyle setLineSpacing:5.0f];
+        [self.coachDes addAttribute:NSParagraphStyleAttributeName value:paragrahStyle range:NSMakeRange(0, [self.coach.des length])];
+        self.desCellHeight = CGRectGetHeight([self.coachDes boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.bounds)-40.0f, 99999.0)
+                                                                            options:NSStringDrawingUsesLineFragmentOrigin
+                                                                            context:nil]) + 65.0f;
     }
     return self;
 }
@@ -84,9 +84,6 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initSubviews];
-    [[HHTrainingFieldService sharedInstance] fetchTrainingFieldWithId:self.coach.trainingFieldId completion:^(HHTrainingField *field, NSError *error) {
-        self.field = field;
-    }];
     self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
 }
@@ -192,7 +189,7 @@ typedef enum : NSUInteger {
     switch (indexPath.row) {
         case CoachProfileCellDes:{
             HHCoachDesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDesCellId forIndexPath:indexPath];
-            [cell setupViewWithURL:self.coach.avatarURL name:self.coach.fullName des:self.coach.des];
+            [cell setupViewWithURL:self.coach.avatarURL name:self.coach.fullName des:self.coachDes];
             return cell;
         }
         case CoachProfileCellDashBoard: {

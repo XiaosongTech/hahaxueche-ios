@@ -184,9 +184,9 @@
                                                                               action:@selector(annotationTapped:)];
         [pinView addGestureRecognizer:tap];
         if ([self.selectedField containsObject:self.fields[hhAnotation.tag]]){
-            pinView.image = [UIImage imageNamed:@"star"];
+            pinView.image = [UIImage imageNamed:@"car_icon_solid"];
         } else {
-            pinView.image = [UIImage imageNamed:@"star_line"];
+            pinView.image = [UIImage imageNamed:@"car_icon"];
         }
         pinView.canShowCallout = YES;
     }    
@@ -200,9 +200,9 @@
     HHTrainingField *field = self.fields[annotation.tag];
     if ([self.selectedField containsObject:field]) {
         [self.selectedField removeObject:field];
-        annotationView.image = [UIImage imageNamed:@"star_line"];
+        annotationView.image = [UIImage imageNamed:@"car_icon"];
     } else {
-        annotationView.image = [UIImage imageNamed:@"star"];
+        annotationView.image = [UIImage imageNamed:@"car_icon_solid"];
         [self.selectedField addObject:field];
     }
 }
@@ -212,7 +212,7 @@
         for (HHPointAnnotation *annotation in self.mapView.annotations){
             MKAnnotationView *annotationView = [self.mapView viewForAnnotation: annotation];
             if (annotationView){
-                annotationView.image = [UIImage imageNamed:@"star"];
+                annotationView.image = [UIImage imageNamed:@"car_icon_solid"];
             }
             self.selectedField = [NSMutableArray arrayWithArray:self.fields];
         }
@@ -221,7 +221,7 @@
         for (HHPointAnnotation *annotation in self.mapView.annotations){
             MKAnnotationView *annotationView = [self.mapView viewForAnnotation: annotation];
             if (annotationView){
-                annotationView.image = [UIImage imageNamed:@"star_line"];
+                annotationView.image = [UIImage imageNamed:@"car_icon"];
             }
         }
         [self.floatButton setTitle:@"全选" forState:UIControlStateNormal];

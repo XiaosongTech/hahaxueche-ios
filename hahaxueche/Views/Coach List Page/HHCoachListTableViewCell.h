@@ -25,7 +25,6 @@ typedef void (^HHAddressTappedBlock)();
 @property (nonatomic, strong) HHRatingView *ratingView;
 @property (nonatomic, strong) UILabel *teachedYearLabel;
 @property (nonatomic, strong) UILabel *teachedStudentAmount;
-@property (nonatomic, strong) UILabel *courseLabel;
 @property (nonatomic, strong) UILabel *ratingLabel;
 @property (nonatomic, strong) HHAddressTappedBlock addressBlock;
 

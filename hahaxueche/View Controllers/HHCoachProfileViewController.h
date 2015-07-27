@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "HHCoach.h"
+#import "HHTrainingField.h"
 
 @interface HHCoachProfileViewController : UIViewController
 
 @property (nonatomic, strong) HHCoach *coach;
+@property (nonatomic, strong) HHTrainingField *field;
 
 - (instancetype)initWithCoach:(HHCoach *)coach;
+
 
 @end
