@@ -224,7 +224,7 @@ typedef enum : NSUInteger {
             return self.desCellHeight;
         }
         case CoachProfileCellDashBoard: {
-            return 260.0f;
+            return 220.0f;
         }
         case CoachProfileCellCalendar: {
             
