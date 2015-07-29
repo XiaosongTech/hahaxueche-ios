@@ -15,6 +15,7 @@
 #import "HHPointAnnotation.h"
 
 #define kFloatButtonHeight 30.0f
+#define kNearestFieldCount 1
 
 @interface HHMapViewController ()<MKMapViewDelegate, CLLocationManagerDelegate>
 
@@ -25,8 +26,9 @@
 @property (nonatomic, strong) UIButton *floatButton;
 @property (nonatomic, strong) MKMapView *mapView;
 @property (nonatomic, strong) CLLocationManager *locationManager;
-@property (nonatomic, strong) NSArray *fields;
+@property (nonatomic, strong) NSMutableArray *fields;
 @property (nonatomic, strong) NSMutableArray *selectedField;
+@property (nonatomic, strong) NSMutableArray *nearestFields;
 
 @end
 
@@ -34,8 +36,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.selectedField = [[HHTrainingFieldService sharedInstance].selectedFields mutableCopy];
-    self.fields = [[HHTrainingFieldService sharedInstance].supportedFields copy];
+    self.fields = [self sortFieldsByDistance:[[HHTrainingFieldService sharedInstance].supportedFields mutableCopy]];
+    if ([HHTrainingFieldService sharedInstance].nearestFields.count == 0) {
+        self.nearestFields = [NSMutableArray array];
+        NSInteger count = MIN(kNearestFieldCount, self.fields.count);
+        for (int i = 0; i < count; i++){
+            [self.nearestFields addObject:self.fields[i]];
+        }
+        [HHTrainingFieldService sharedInstance].nearestFields = self.nearestFields;
+
+    } else {
+        self.nearestFields = [HHTrainingFieldService sharedInstance].nearestFields;
+    }
+    
+    self.selectedField = [HHTrainingFieldService sharedInstance].selectedFields;
+    
     self.mapView = [[MKMapView alloc] initWithFrame:CGRectZero];
     self.mapView.translatesAutoresizingMaskIntoConstraints = NO;
     self.mapView.delegate = self;
@@ -52,6 +67,7 @@
     }
     [self.locationManager startUpdatingLocation];
     [self.view addSubview:self.mapView];
+    
     
     for (int i = 0; i < self.fields.count; i++) {
         HHTrainingField *field = self.fields[i];
@@ -80,7 +96,12 @@
     
     
     self.floatButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.floatButton setTitle:@"全选" forState:UIControlStateNormal];
+    if (self.selectedField.count == self.fields.count) {
+        [self.floatButton setTitle:@"周边训练场" forState:UIControlStateNormal];
+    } else {
+        [self.floatButton setTitle:@"全选" forState:UIControlStateNormal];
+    }
+    
     [self.floatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.floatButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:15];
     self.floatButton.backgroundColor = [UIColor HHOrange];
@@ -97,6 +118,31 @@
     [self.mapView addSubview:self.floatButton];
 
     [self autolayoutSubviews];
+}
+
+- (NSMutableArray *)sortFieldsByDistance:(NSArray *)array {
+    NSMutableArray *fieldArray = [NSMutableArray array];
+    CLLocation *userLocation = [[CLLocation alloc]
+                                initWithLatitude:self.mapView.userLocation.coordinate.latitude
+                                longitude:self.mapView.userLocation.coordinate.longitude];
+    for (int i = 0; i < array.count; i++) {
+        
+        HHTrainingField *field = array[i];
+        CLLocation *fieldLocation = [[CLLocation alloc]
+                                     initWithLatitude:[field.latitude doubleValue]
+                                     longitude:[field.longitude doubleValue]];
+        CLLocationDistance distance = [userLocation distanceFromLocation:fieldLocation];
+        NSDictionary *dic = @{@"field":field, @"dis":[NSNumber numberWithDouble:distance]};
+        [fieldArray addObject:dic];
+    }
+    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"dis"  ascending:YES];
+    NSMutableArray *dicArray = [NSMutableArray arrayWithArray:[fieldArray sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]]];
+    NSMutableArray *finalArray = [NSMutableArray array];
+    for (int i = 0; i < dicArray.count; i++) {
+        HHTrainingField *field = dicArray[i];
+        [finalArray addObject:field[@"field"]];
+    }
+    return finalArray;
 }
 
 - (UIButton *)createTopButtonWithTitle:(NSString *)title action:(SEL)action {
@@ -183,6 +229,7 @@
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                               action:@selector(annotationTapped:)];
         [pinView addGestureRecognizer:tap];
+        
         if ([self.selectedField containsObject:self.fields[hhAnotation.tag]]){
             pinView.image = [UIImage imageNamed:@"car_icon_solid"];
         } else {
@@ -216,16 +263,20 @@
             }
             self.selectedField = [NSMutableArray arrayWithArray:self.fields];
         }
-        [self.floatButton setTitle:@"全不选" forState:UIControlStateNormal];
+        [self.floatButton setTitle:@"周边训练场" forState:UIControlStateNormal];
+        self.selectedField = self.fields;
     } else {
         for (HHPointAnnotation *annotation in self.mapView.annotations){
             MKAnnotationView *annotationView = [self.mapView viewForAnnotation: annotation];
             if (annotationView){
-                annotationView.image = [UIImage imageNamed:@"car_icon"];
+                if ([self.nearestFields containsObject:self.fields[annotation.tag]]) {
+                    annotationView.image = [UIImage imageNamed:@"car_icon"];
+                }
+                
             }
         }
         [self.floatButton setTitle:@"全选" forState:UIControlStateNormal];
-        [self.selectedField removeAllObjects];;
+        self.selectedField = self.nearestFields;
 
     }
 }

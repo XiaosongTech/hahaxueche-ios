@@ -34,13 +34,7 @@
             [fieldIds addObject:field.objectId];
         }
         [query whereKey:kTrainingFieldIdKey containedIn:fieldIds];
-    } else {
-        if (completion) {
-            completion(nil, 0, nil);
-        }
-        return;
-
-    }
+    } 
     
     switch (courseOption) {
         case CourseThree: {

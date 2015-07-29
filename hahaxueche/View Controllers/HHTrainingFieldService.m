@@ -37,7 +37,7 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             self.supportedFields = objects;
-            self.selectedFields = [NSMutableArray arrayWithArray:self.supportedFields];;
+            self.selectedFields = [NSMutableArray arrayWithArray:self.supportedFields];
         }
         if (competion) {
             competion(objects, error);

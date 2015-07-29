@@ -17,6 +17,7 @@ typedef void (^HHFieldArrayCompletionBlock)(NSArray *fields, NSError *error);
 
 @property (nonatomic, strong) NSArray *supportedFields;
 @property (nonatomic, strong) NSMutableArray *selectedFields;
+@property (nonatomic, strong) NSMutableArray *nearestFields;
 
 + (instancetype)sharedInstance;
 
