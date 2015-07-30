@@ -32,7 +32,7 @@
 - (void)initSubviews {
     self.loadingLabel = [[UILabel alloc] init];
     self.loadingLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.loadingLabel.text = @"正在加载更多教练";
+    self.loadingLabel.text = @"正在加载...";
     self.loadingLabel.textAlignment = NSTextAlignmentCenter;
     self.loadingLabel.backgroundColor = [UIColor whiteColor];
     self.loadingLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:12.0f];
