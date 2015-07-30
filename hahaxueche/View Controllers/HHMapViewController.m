@@ -29,6 +29,7 @@
 @property (nonatomic, strong) NSMutableArray *fields;
 @property (nonatomic, strong) NSMutableArray *selectedField;
 @property (nonatomic, strong) NSMutableArray *nearestFields;
+@property (nonatomic)         BOOL shouldCenterUserLocation;
 
 @end
 
@@ -36,6 +37,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.shouldCenterUserLocation = YES;
     self.fields = [self sortFieldsByDistance:[[HHTrainingFieldService sharedInstance].supportedFields mutableCopy]];
     if ([HHTrainingFieldService sharedInstance].nearestFields.count == 0) {
         self.nearestFields = [NSMutableArray array];
@@ -193,18 +195,6 @@
     [self.view addConstraints:constraints];
 }
 
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:YES];
-    
-    self.locationManager.distanceFilter = kCLDistanceFilterNone;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    [self.locationManager startUpdatingLocation];
-    
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(self.mapView.userLocation.coordinate, 20000, 20000);
-    [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
-    
-}
-
 - (void)doneButtonPressed {
     [HHTrainingFieldService sharedInstance].selectedFields = self.selectedField;
     [self dismissViewControllerAnimated:YES completion:self.selectedCompletion];
@@ -214,6 +204,20 @@
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
+    if (!self.shouldCenterUserLocation) {
+        return;
+    }
+    MKCoordinateRegion region;
+    MKCoordinateSpan span;
+    span.latitudeDelta = 0.05;
+    span.longitudeDelta = 0.05;
+    CLLocationCoordinate2D location;
+    location.latitude = self.mapView.userLocation.coordinate.latitude;
+    location.longitude = self.mapView.userLocation.coordinate.longitude;
+    region.span = span;
+    region.center = location;
+    [self.mapView setRegion:region animated:YES];
+    self.shouldCenterUserLocation = NO;
 }
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
