@@ -9,6 +9,7 @@
 #import "HHCoachDashBoardTableViewCell.h"
 #import "HHAutoLayoutUtility.h"
 #import "HHNumberFormatUtility.h"
+#import "UIColor+HHColor.h"
 
 #define kBlueTextColor [UIColor colorWithRed:0.21 green:0.55 blue:0.93 alpha:1]
 
@@ -75,7 +76,7 @@
 - (UIView *)createHorizontalLine {
     UIView *line = [[UIView alloc] initWithFrame:CGRectZero];
     line.translatesAutoresizingMaskIntoConstraints = NO;
-    line.backgroundColor = kLineColor;
+    line.backgroundColor = [UIColor HHGrayLineColor];
     [self.containerView addSubview:line];
     return line;
 }
@@ -144,19 +145,19 @@
 }
 
 - (void)setupViewsWithCoach:(HHCoach *)coach trainingFielf:(HHTrainingField *)field {
-    [self.priceView setupViewWithKey:@"包干价格" value:[[HHNumberFormatUtility moneyFormatter] stringFromNumber:coach.price]];
-    [self.courseView setupViewWithKey:@"服务项目" value:coach.course];
+    [self.priceView setupViewWithKey:NSLocalizedString(@"包干价格", nil) value:[[HHNumberFormatUtility moneyFormatter] stringFromNumber:coach.price]];
+    [self.courseView setupViewWithKey:NSLocalizedString(@"服务项目", nil) value:coach.course];
     
-    [self.yearView setupViewWithKey:@"教龄" value:[NSString stringWithFormat:@"%@年", coach.experienceYear]];
+    [self.yearView setupViewWithKey:NSLocalizedString(@"教龄", nil) value:[NSString stringWithFormat:NSLocalizedString(@"%@年", nil), coach.experienceYear]];
     
-    [self.passedStudentAmountView setupViewWithKey:@"通过学员数" value:[coach.passedStudentAmount stringValue]];
+    [self.passedStudentAmountView setupViewWithKey:NSLocalizedString(@"通过学员数", nil) value:[coach.passedStudentAmount stringValue]];
     
-    [self.currentStudentAmountView setupViewWithKey:@"当前学员数" value:[coach.currentStudentAmount stringValue]];
+    [self.currentStudentAmountView setupViewWithKey:NSLocalizedString(@"当前学员数", nil) value:[coach.currentStudentAmount stringValue]];
     
-    [self.phoneNumberView setupViewWithKey:@"手机号" value:coach.phoneNumber];
+    [self.phoneNumberView setupViewWithKey:NSLocalizedString(@"手机号", nil) value:coach.phoneNumber];
     
     NSString *fullAddress = [NSString stringWithFormat:@"%@%@%@%@", field.province, field.city, field.district, field.address];
-    [self.addressView setupViewWithKey:@"训练场地址" value:fullAddress];
+    [self.addressView setupViewWithKey:NSLocalizedString(@"训练场地址", nil) value:fullAddress];
 }
 
 

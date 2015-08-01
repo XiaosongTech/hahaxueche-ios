@@ -56,13 +56,13 @@ typedef enum : NSUInteger {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor HHOrange];
     self.navigationItem.hidesBackButton = YES;
-    UIBarButtonItem *doneButton = [UIBarButtonItem buttonItemWithTitle:@"完成" action:@selector(doneButtonPressed) target:self isLeft:NO];
+    UIBarButtonItem *doneButton = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"完成",nil) action:@selector(doneButtonPressed) target:self isLeft:NO];
     self.navigationItem.rightBarButtonItem = doneButton;
     
-     UIBarButtonItem *cancelButton = [UIBarButtonItem buttonItemWithTitle:@"取消" action:@selector(cancelButtonPressed) target:self isLeft:YES];
+     UIBarButtonItem *cancelButton = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"取消",nil) action:@selector(cancelButtonPressed) target:self isLeft:YES];
     self.navigationItem.leftBarButtonItem = cancelButton;
     
-    self.title = @"个人信息";
+    self.title = NSLocalizedString(@"个人信息",nil);
     [self initSubviews];
 }
 
@@ -70,7 +70,7 @@ typedef enum : NSUInteger {
     [self initUploadIamgeView];
     [self initFieldView];
     [self autolayoutSubviews];
-    self.cityTextView.textField.text = @"湖北省-武汉市";
+    self.cityTextView.textField.text = NSLocalizedString(@"湖北省-武汉市",nil);
 }
 
 - (void)initUploadIamgeView {
@@ -90,14 +90,14 @@ typedef enum : NSUInteger {
 }
 
 - (void)initFieldView {
-    self.nameTextView = [[HHTextFieldView alloc] initWithPlaceholder:@"姓名"];
+    self.nameTextView = [[HHTextFieldView alloc] initWithPlaceholder:NSLocalizedString(@"姓名",nil)];
     self.nameTextView.translatesAutoresizingMaskIntoConstraints = NO;
     self.nameTextView.textField.keyboardType = UIKeyboardTypeDefault;
     self.nameTextView.textField.delegate = self;
     [self.nameTextView.textField becomeFirstResponder];
     [self.view addSubview:self.nameTextView];
     
-    self.cityTextView = [[HHTextFieldView alloc] initWithPlaceholder:@"所在城市"];
+    self.cityTextView = [[HHTextFieldView alloc] initWithPlaceholder:NSLocalizedString(@"所在城市",nil)];
     self.cityTextView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.cityTextView.textField setEnabled:NO];
     
@@ -129,24 +129,24 @@ typedef enum : NSUInteger {
 
 - (void)doneButtonPressed {
     if (!self.selectedImage) {
-        [HHToastUtility showToastWitiTitle:@"请选择头像" isError:YES];
+        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"请选择头像",nil) isError:YES];
         return;
     }
     if ([self.nameTextView.textField.text isEqualToString: @""]) {
-        [HHToastUtility showToastWitiTitle:@"请填写名字" isError:YES];
+        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"请填写名字",nil) isError:YES];
         return;
     }
     if (!self.selectedCity || !self.selectedProvince) {
-        [HHToastUtility showToastWitiTitle:@"请选择所在城市和省份" isError:YES];
+        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"请选择所在城市和省份",nil) isError:YES];
         return;
     }
     [self.nameTextView.textField resignFirstResponder];
-    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:@"创建账户..."];
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"创建账户...",nil)];
     NSData *imageData = UIImagePNGRepresentation(self.selectedImage);
     AVFile *imageFile = [AVFile fileWithData:imageData];
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {
-            [HHToastUtility showToastWitiTitle:@"图片上传失败！" isError:YES];
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"图片上传失败！",nil) isError:YES];
             [[HHLoadingView sharedInstance] hideLoadingView];
         } else {
             self.student.avatarURL = imageFile.url;
@@ -166,12 +166,12 @@ typedef enum : NSUInteger {
                     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
                     [self presentViewController:rootVC animated:YES completion:nil];
                 } else {
-                    [HHToastUtility showToastWitiTitle:@"创建账户失败！" isError:YES];
+                    [HHToastUtility showToastWitiTitle:NSLocalizedString(@"创建账户失败！",nil) isError:YES];
                 }
             }];
 
         } else {
-            [HHToastUtility showToastWitiTitle:@"创建账户失败！" isError:YES];
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"创建账户失败！",nil) isError:YES];
         }
     }];
 }
@@ -187,10 +187,10 @@ typedef enum : NSUInteger {
         self.cityPicker = nil;
     }
     
-    NSString *actionSheetTitle = @"上传头像";
-    NSString *other1 = @"拍摄";
-    NSString *other2 = @"从相册选择";
-    NSString *cancelTitle = @"取消";
+    NSString *actionSheetTitle = NSLocalizedString(@"上传头像",nil);
+    NSString *other1 = NSLocalizedString(@"拍摄",nil);
+    NSString *other2 = NSLocalizedString(@"从相册选择",nil);
+    NSString *cancelTitle = NSLocalizedString(@"取消",nil);
     
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
                                   initWithTitle:actionSheetTitle
@@ -286,7 +286,7 @@ typedef enum : NSUInteger {
 - (void)showImagePickerView:(UIImagePickerControllerSourceType)sourceType {
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.navigationBar.tintColor = [UIColor whiteColor];
-    picker.navigationItem.title = @"照片";
+    picker.navigationItem.title = NSLocalizedString(@"头像照片",nil);
     picker.delegate = self;
     picker.allowsEditing = NO;
     picker.sourceType = sourceType;

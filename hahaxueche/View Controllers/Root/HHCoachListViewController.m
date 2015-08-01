@@ -29,13 +29,13 @@
 typedef void (^HHGenericCompletion)();
 
 
-#define kSmartSortString @"智能排序"
-#define kBestRatingString @"评价最好"
-#define kPopularCoach @"人气最旺"
-#define kLowestPriceString @"价格最低"
+#define kSmartSortString NSLocalizedString(@"智能排序",nil)
+#define kBestRatingString NSLocalizedString(@"评价最好", nil)
+#define kPopularCoach NSLocalizedString(@"人气最旺", nil)
+#define kLowestPriceString NSLocalizedString(@"价格最低", nil)
 
-#define kCourseTwoString @"科目二"
-#define kCourseThreeString @"科目三"
+#define kCourseTwoString NSLocalizedString(@"科目二", nil)
+#define kCourseThreeString NSLocalizedString(@"科目三",nil)
 
 #define kCoachListViewCellIdentifier @"coachListViewCellIdentifier"
 #define kLoadingCellIDentifier @"loadingCellIdentifier"

@@ -38,15 +38,15 @@
     
     switch (courseOption) {
         case CourseThree: {
-            [query whereKey:@"course" equalTo:@"科目三"];
+            [query whereKey:@"course" equalTo:NSLocalizedString(@"科目三",nil)];
         }
             break;
         case CourseTwo:{
-            [query whereKey:@"course" equalTo:@"科目二"];
+            [query whereKey:@"course" equalTo:NSLocalizedString(@"科目二",nil)];
         }
             break;
         case CourseAllInOne: {
-            [query whereKey:@"course" equalTo:@"全程包干"];
+            [query whereKey:@"course" equalTo:NSLocalizedString(@"全程包干",nil)];
         }
             break;
             

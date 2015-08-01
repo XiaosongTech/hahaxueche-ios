@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */; };
+		5C11B3961B6D0DBE0014A018 /* HHScheduleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B3951B6D0DBE0014A018 /* HHScheduleTableViewCell.m */; };
 		5C2DCCE91B6477A1007E8FA7 /* HHPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2DCCE81B6477A1007E8FA7 /* HHPointAnnotation.m */; };
 		5C2DCCFC1B65ACE0007E8FA7 /* car_icon_solid@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2DCCF61B65ACE0007E8FA7 /* car_icon_solid@1x.png */; };
 		5C2DCCFD1B65ACE0007E8FA7 /* car_icon_solid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2DCCF71B65ACE0007E8FA7 /* car_icon_solid@2x.png */; };
@@ -45,7 +46,6 @@
 		5CB34EE41B61D6B0007954DF /* trasparent_view@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB34EE11B61D6B0007954DF /* trasparent_view@2x.png */; };
 		5CB34EE51B61D6B0007954DF /* trasparent_view@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB34EE21B61D6B0007954DF /* trasparent_view@3x.png */; };
 		5CB34EE81B61F4B5007954DF /* HHMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB34EE71B61F4B5007954DF /* HHMapViewController.m */; };
-		5CB34EEE1B63255D007954DF /* HHCalendarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB34EED1B63255D007954DF /* HHCalendarTableViewCell.m */; };
 		5CB34EFC1B63DDBA007954DF /* SourceHanSansCN-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5CB34EFA1B63DDBA007954DF /* SourceHanSansCN-Medium.ttf */; };
 		5CB34EFD1B63DDBA007954DF /* SourceHanSansCN-Normal.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5CB34EFB1B63DDBA007954DF /* SourceHanSansCN-Normal.ttf */; };
 		5CB34F0A1B63EA4B007954DF /* left_arrow@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CB34F041B63EA4A007954DF /* left_arrow@1x.png */; };
@@ -138,6 +138,8 @@
 /* Begin PBXFileReference section */
 		5C10F92C1B49E85200992B63 /* UIColor+HHColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HHColor.h"; sourceTree = "<group>"; };
 		5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HHColor.m"; sourceTree = "<group>"; };
+		5C11B3941B6D0DBE0014A018 /* HHScheduleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHScheduleTableViewCell.h; sourceTree = "<group>"; };
+		5C11B3951B6D0DBE0014A018 /* HHScheduleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHScheduleTableViewCell.m; sourceTree = "<group>"; };
 		5C2DCCE71B6477A1007E8FA7 /* HHPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPointAnnotation.h; sourceTree = "<group>"; };
 		5C2DCCE81B6477A1007E8FA7 /* HHPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPointAnnotation.m; sourceTree = "<group>"; };
 		5C2DCCF61B65ACE0007E8FA7 /* car_icon_solid@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car_icon_solid@1x.png"; sourceTree = "<group>"; };
@@ -196,8 +198,6 @@
 		5CB34EE21B61D6B0007954DF /* trasparent_view@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "trasparent_view@3x.png"; sourceTree = "<group>"; };
 		5CB34EE61B61F4B5007954DF /* HHMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMapViewController.h; sourceTree = "<group>"; };
 		5CB34EE71B61F4B5007954DF /* HHMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMapViewController.m; sourceTree = "<group>"; };
-		5CB34EEC1B63255D007954DF /* HHCalendarTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCalendarTableViewCell.h; sourceTree = "<group>"; };
-		5CB34EED1B63255D007954DF /* HHCalendarTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCalendarTableViewCell.m; sourceTree = "<group>"; };
 		5CB34EFA1B63DDBA007954DF /* SourceHanSansCN-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSansCN-Medium.ttf"; sourceTree = "<group>"; };
 		5CB34EFB1B63DDBA007954DF /* SourceHanSansCN-Normal.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSansCN-Normal.ttf"; sourceTree = "<group>"; };
 		5CB34F041B63EA4A007954DF /* left_arrow@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "left_arrow@1x.png"; path = "hahaxueche/Assets/left_arrow@1x.png"; sourceTree = SOURCE_ROOT; };
@@ -582,8 +582,8 @@
 				5CBBA9781B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m */,
 				5CBBA97A1B604762009398B8 /* HHDashView.h */,
 				5CBBA97B1B604762009398B8 /* HHDashView.m */,
-				5CB34EEC1B63255D007954DF /* HHCalendarTableViewCell.h */,
-				5CB34EED1B63255D007954DF /* HHCalendarTableViewCell.m */,
+				5C11B3941B6D0DBE0014A018 /* HHScheduleTableViewCell.h */,
+				5C11B3951B6D0DBE0014A018 /* HHScheduleTableViewCell.m */,
 			);
 			name = "Coach Profile Page";
 			sourceTree = "<group>";
@@ -877,9 +877,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C11B3961B6D0DBE0014A018 /* HHScheduleTableViewCell.m in Sources */,
 				5CA5B77E1B52DF9200312674 /* HHTextFieldView.m in Sources */,
 				5C5451A01B5154560025D19F /* HHRatingView.m in Sources */,
-				5CB34EEE1B63255D007954DF /* HHCalendarTableViewCell.m in Sources */,
 				5C2DCD041B65CBA0007E8FA7 /* HHLoadingTableViewCell.m in Sources */,
 				5C2DCCE91B6477A1007E8FA7 /* HHPointAnnotation.m in Sources */,
 				5CD4EA3F1B5D97E1003CF15E /* HHTrainingField.m in Sources */,

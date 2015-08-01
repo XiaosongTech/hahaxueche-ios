@@ -34,7 +34,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithTitle:@"取消" action:@selector(dismissView) target:self isLeft:NO];
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"取消",nil) action:@selector(dismissView) target:self isLeft:NO];
     self.cancelButton = (UIButton *)self.navigationItem.rightBarButtonItem.customView;
     self.navigationItem.hidesBackButton = YES;
     CGRect searchBarFrame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-60.0f, 25.0f);
@@ -157,8 +157,12 @@
     if ([self.coachesArray[indexPath.row] isKindOfClass:[NSString class]]) {
         [self fetchMoreDataWithSearchQuery:self.searchBar.text skip:self.coachesArray.count];
     }
+    [cell setSeparatorInset:UIEdgeInsetsZero];
+    [cell setPreservesSuperviewLayoutMargins:NO];
+    [cell setLayoutMargins:UIEdgeInsetsZero];
     
 }
+
 
 
 #pragma mark Hide TabBar

@@ -50,11 +50,11 @@
         self.numberUtil = [[NBPhoneNumberUtil alloc] init];
         self.type = type;
         if(self.type == PageTypeSignup) {
-            self.title = @"手机验证";
-            self.titleText = @"请输入您的手机号码";
-            self.subTitleText = @"我们绝不会贩卖，滥用你的个人信息";
+            self.title = NSLocalizedString(@"手机验证",nil);
+            self.titleText = NSLocalizedString(@"请输入您的手机号码",nil);
+            self.subTitleText = NSLocalizedString(@"我们绝不会贩卖，滥用你的个人信息",nil);
         } else {
-            self.title = @"手机号登陆";
+            self.title = NSLocalizedString(@"手机号登陆",nil);
         }
         self.view.backgroundColor = [UIColor HHOrange];
     }
@@ -72,16 +72,16 @@
         self.subTitleLabel = [self createLabelWithTitle:self.subTitleText font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12.0f] textColor:[UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1]];
     }
     
-    UIBarButtonItem *cancelButton = [UIBarButtonItem buttonItemWithTitle:@"取消" action:@selector(cancel) target:self isLeft:YES];
+    UIBarButtonItem *cancelButton = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"取消",nil) action:@selector(cancel) target:self isLeft:YES];
     self.navigationItem.leftBarButtonItem = cancelButton;
     
-    self.numberFieldView = [[HHTextFieldView alloc] initWithPlaceholder:@"手机号码"];
+    self.numberFieldView = [[HHTextFieldView alloc] initWithPlaceholder:NSLocalizedString(@"手机号码",nil)];
     self.numberFieldView.textField.keyboardType = UIKeyboardTypeNumberPad;
     self.numberFieldView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.numberFieldView.textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [self.view addSubview:self.numberFieldView];
     
-    self.sendCodeButton = [[HHButton alloc] initThinBorderButtonWithTitle:@"发送验证码" textColor:[UIColor whiteColor]font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:10.0f] borderColor:[UIColor whiteColor] backgroundColor:[UIColor clearColor]];
+    self.sendCodeButton = [[HHButton alloc] initThinBorderButtonWithTitle:NSLocalizedString(@"发送验证码",nil) textColor:[UIColor whiteColor]font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:10.0f] borderColor:[UIColor whiteColor] backgroundColor:[UIColor clearColor]];
     [self.sendCodeButton addTarget:self action:@selector(sendSMSCode) forControlEvents:UIControlEventTouchUpInside];
     [self.sendCodeButton setFrameWithSize:CGSizeMake(60.0f, 30.0f)];
     self.sendCodeButton.hidden = YES;
@@ -89,12 +89,12 @@
     self.numberFieldView.textField.rightViewMode = UITextFieldViewModeWhileEditing;
     [self.numberFieldView.textField becomeFirstResponder];
     
-    self.verificationCodeFieldView = [[HHTextFieldView alloc] initWithPlaceholder:@"验证码"];
+    self.verificationCodeFieldView = [[HHTextFieldView alloc] initWithPlaceholder:NSLocalizedString(@"验证码",nil)];
     self.verificationCodeFieldView.textField.keyboardType = UIKeyboardTypeDefault;
     self.verificationCodeFieldView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.verificationCodeFieldView];
     
-    self.verifyCodeButton = [[HHButton alloc] initThinBorderButtonWithTitle:@"确认验证码" textColor:[UIColor whiteColor]font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:10.0f] borderColor:[UIColor whiteColor] backgroundColor:[UIColor clearColor]];
+    self.verifyCodeButton = [[HHButton alloc] initThinBorderButtonWithTitle:NSLocalizedString(@"确认验证码",nil) textColor:[UIColor whiteColor]font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:10.0f] borderColor:[UIColor whiteColor] backgroundColor:[UIColor clearColor]];
     [self.verifyCodeButton addTarget:self action:@selector(verifySMSCode) forControlEvents:UIControlEventTouchUpInside];
     [self.verifyCodeButton setFrameWithSize:CGSizeMake(60.0f, 30.0f)];
     self.verificationCodeFieldView.textField.rightView = self.verifyCodeButton;
@@ -184,7 +184,7 @@
     }
     [[HHUserAuthenticator sharedInstance] requestCodeWithNumber:self.numberFieldView.textField.text isSignup:isSignup completion:^(NSError *error) {
         if (error) {
-            [HHToastUtility showToastWitiTitle:@"发送失败，请过会重试" isError:YES];
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"发送失败，请过会重试",nil) isError:YES];
         } else {
             self.verificationCodeFieldView.hidden = NO;
             [self.verificationCodeFieldView.textField becomeFirstResponder];
@@ -223,20 +223,20 @@
                                     HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] initWithUser:[HHUserAuthenticator sharedInstance].currentUser];
                                     [self.navigationController pushViewController:profileSetupVC animated:YES];
                                 } else {
-                                    [HHToastUtility showToastWitiTitle:@"获取用户信息失败" isError:YES];
+                                    [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取用户信息失败",nil) isError:YES];
                                 }
                             }];
                         } else {
                             //login with coach
                         }
                     } else {
-                        [HHToastUtility showToastWitiTitle:@"登陆失败！" isError:YES];
+                        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"登陆失败！",nil) isError:YES];
                         [[HHLoadingView sharedInstance] hideLoadingView];
                     }
                 }];
             }
         } else {
-            [HHToastUtility showToastWitiTitle:@"验证失败！" isError:YES];
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"验证失败！",nil) isError:YES];
         }
     }];
     

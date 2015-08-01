@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#define kLineColor [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1]
 
 @interface HHDashView : UIView
 

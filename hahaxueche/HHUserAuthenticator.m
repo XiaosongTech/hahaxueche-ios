@@ -26,12 +26,12 @@
 }
 
 - (void)requestCodeWithNumber:(NSString *)number isSignup:(BOOL)isSignup completion:(HHUserGenericCompletionBlock)completion {
-    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:@"验证码发送中..."];
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"验证码发送中...",nil)];
     if (isSignup) {
         AVQuery *query = [[AVQuery alloc] initWithClassName:[HHUser parseClassName]];
         [query whereKey:@"username" equalTo:number];
         if ([query getFirstObject]) {
-            [HHToastUtility showToastWitiTitle:@"手机号已经注册，请直接登陆！" isError:YES];
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"手机号已经注册，请直接登陆！",nil) isError:YES];
             [[HHLoadingView sharedInstance] hideLoadingView];
             return;
         }
@@ -39,7 +39,7 @@
         AVQuery *query = [[AVQuery alloc] initWithClassName:[HHUser parseClassName]];
         [query whereKey:@"username" equalTo:number];
         if (![query getFirstObject]) {
-            [HHToastUtility showToastWitiTitle:@"新用户，请先注册！" isError:YES];
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"新用户，请先注册！",nil) isError:YES];
             [[HHLoadingView sharedInstance] hideLoadingView];
             return;
         }

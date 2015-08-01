@@ -8,8 +8,8 @@
 
 #import "HHDashView.h"
 #import "HHAutoLayoutUtility.h"
+#import "UIColor+HHColor.h"
 
-#define kKeyTextColor [UIColor colorWithRed:0.52 green:0.52 blue:0.52 alpha:1]
 
 @implementation HHDashView
 
@@ -17,12 +17,12 @@
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        self.keyLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:12.0f] textColor:kKeyTextColor];
+        self.keyLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:12.0f] textColor:[UIColor HHGrayTextColor]];
         self.valueLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f] textColor:textColor];
         if (rightLine) {
             self.rightLine = [[UIView alloc] initWithFrame:CGRectZero];
             self.rightLine.translatesAutoresizingMaskIntoConstraints = NO;
-            self.rightLine.backgroundColor = kLineColor;
+            self.rightLine.backgroundColor = [UIColor HHGrayLineColor];
             [self addSubview:self.rightLine];
         }
         [self autoLayoutSubviews];

@@ -26,4 +26,12 @@
     return [UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1];
 }
 
++ (UIColor *)HHGrayTextColor {
+    return [UIColor colorWithRed:0.52 green:0.52 blue:0.52 alpha:1];
+}
+
++ (UIColor *)HHGrayLineColor {
+    return [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1];
+}
+
 @end

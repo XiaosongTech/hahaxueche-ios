@@ -11,7 +11,7 @@
 @implementation HHMyReservationViewController
 
 - (void)viewDidLoad {
-    self.title = @"我的预约";
+    self.title = NSLocalizedString(@"我的预约",nil);
 }
 
 @end

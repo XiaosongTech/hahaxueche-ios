@@ -15,7 +15,7 @@
 #import "HHPointAnnotation.h"
 
 #define kFloatButtonHeight 30.0f
-#define kNearestFieldCount 1
+#define kNearestFieldCount 5
 
 @interface HHMapViewController ()<MKMapViewDelegate, CLLocationManagerDelegate>
 
@@ -85,12 +85,12 @@
     self.topBarView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"trasparent_view"]];
     [self.mapView addSubview:self.topBarView];
     
-    self.doneButton = [self createTopButtonWithTitle:@"完成" action:@selector(doneButtonPressed)];
-    self.cancelButton = [self createTopButtonWithTitle:@"取消" action:@selector(cancelButtonPressed)];
+    self.doneButton = [self createTopButtonWithTitle:NSLocalizedString(@"完成",nil) action:@selector(doneButtonPressed)];
+    self.cancelButton = [self createTopButtonWithTitle:NSLocalizedString(@"取消",nil) action:@selector(cancelButtonPressed)];
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.titleLabel.text = @"选择训练场";
+    self.titleLabel.text = NSLocalizedString(@"选择训练场", nil);
     self.titleLabel.textColor = [UIColor blackColor];
     self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:16.0f];
     [self.topBarView addSubview:self.titleLabel];
@@ -99,9 +99,9 @@
     
     self.floatButton = [UIButton buttonWithType:UIButtonTypeCustom];
     if (self.selectedField.count == self.fields.count) {
-        [self.floatButton setTitle:@"周边训练场" forState:UIControlStateNormal];
+        [self.floatButton setTitle:NSLocalizedString(@"周边训练场",nil) forState:UIControlStateNormal];
     } else {
-        [self.floatButton setTitle:@"全选" forState:UIControlStateNormal];
+        [self.floatButton setTitle:NSLocalizedString(@"全选",nil) forState:UIControlStateNormal];
     }
     
     [self.floatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -259,7 +259,7 @@
 }
 
 - (void)selectOrDeselectAll {
-    if ([self.floatButton.titleLabel.text isEqualToString:@"全选"]) {
+    if ([self.floatButton.titleLabel.text isEqualToString:NSLocalizedString(@"全选",nil)]) {
         for (HHPointAnnotation *annotation in self.mapView.annotations){
             MKAnnotationView *annotationView = [self.mapView viewForAnnotation: annotation];
             if (annotationView){
@@ -267,7 +267,7 @@
             }
             self.selectedField = [NSMutableArray arrayWithArray:self.fields];
         }
-        [self.floatButton setTitle:@"周边训练场" forState:UIControlStateNormal];
+        [self.floatButton setTitle:NSLocalizedString(@"周边训练场",nil) forState:UIControlStateNormal];
         self.selectedField = self.fields;
     } else {
         for (HHPointAnnotation *annotation in self.mapView.annotations){
@@ -279,7 +279,7 @@
                 
             }
         }
-        [self.floatButton setTitle:@"全选" forState:UIControlStateNormal];
+        [self.floatButton setTitle:NSLocalizedString(@"全选",nil) forState:UIControlStateNormal];
         self.selectedField = self.nearestFields;
 
     }

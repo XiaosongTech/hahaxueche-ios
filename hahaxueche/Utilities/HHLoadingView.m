@@ -32,7 +32,7 @@
     UIWindow *currentWindow = [[UIApplication sharedApplication] keyWindow];
     self.hud = [[MBProgressHUD alloc] initWithView:currentWindow];
     [currentWindow addSubview:self.hud];
-    self.hud.labelText = @"请稍等...";
+    self.hud.labelText = NSLocalizedString(@"请稍等...",nil);
     if (title) {
         self.hud.labelText = title;
     }

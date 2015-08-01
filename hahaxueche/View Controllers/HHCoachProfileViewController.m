@@ -19,6 +19,7 @@
 #import "HHUserAuthenticator.h"
 #import "HHToastUtility.h"
 #import "HHCoachService.h"
+#import "HHScheduleTableViewCell.h"
 
 typedef enum : NSUInteger {
     CoachProfileCellDes,
@@ -30,6 +31,7 @@ typedef enum : NSUInteger {
 
 #define kDesCellId @"kDesCellId"
 #define kDashBoardCellId @"kDashBoardCellId"
+#define kScheduleCellId @"kScheduleCellId"
 
 @interface HHCoachProfileViewController ()<UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIActionSheetDelegate>
 
@@ -100,7 +102,7 @@ typedef enum : NSUInteger {
     
     [self.tableView registerClass:[HHCoachDesTableViewCell class] forCellReuseIdentifier:kDesCellId];
     [self.tableView registerClass:[HHCoachDashBoardTableViewCell class] forCellReuseIdentifier:kDashBoardCellId];
-    
+    [self.tableView registerClass:[HHScheduleTableViewCell class] forCellReuseIdentifier:kScheduleCellId];
 
     self.imageGalleryView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 150.0f) imageURLStringsGroup:self.coach.images];
     self.imageGalleryView.pageControlStyle = SDCycleScrollViewPageContolStyleClassic;
@@ -113,19 +115,19 @@ typedef enum : NSUInteger {
     
     self.phoneSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                   delegate:self
-                                         cancelButtonTitle:@"取消"
+                                         cancelButtonTitle:NSLocalizedString(@"取消", nil)
                                     destructiveButtonTitle:nil
-                                         otherButtonTitles:@"复制手机号", @"拨打号码", nil];
+                                         otherButtonTitles:NSLocalizedString(@"复制手机号", nil), NSLocalizedString(@"拨打号码", nil), nil];
     
     self.addressSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                   delegate:self
-                                         cancelButtonTitle:@"取消"
+                                         cancelButtonTitle:NSLocalizedString(@"取消", nil)
                                     destructiveButtonTitle:nil
-                                         otherButtonTitles:@"复制地址", @"查看地图", nil];
+                                         otherButtonTitles:NSLocalizedString(@"复制地址", nil), NSLocalizedString(@"查看地图", nil), nil];
     
     if (![self.coach.coachId isEqualToString:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId]) {
-        self.payButton = [self createButtonWithTitle:@"确认教练并付款" backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f]];
-        self.bookTrialButton = [self createButtonWithTitle:@"预约试训" backgroundColor:[UIColor HHLightOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f]];
+        self.payButton = [self createButtonWithTitle:NSLocalizedString(@"确认教练并付款", nil) backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f]];
+        self.bookTrialButton = [self createButtonWithTitle:NSLocalizedString(@"预约试训", nil) backgroundColor:[UIColor HHLightOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f]];
     }
     
      [self autolayoutSubview];
@@ -182,7 +184,7 @@ typedef enum : NSUInteger {
 #pragma mark Tableview Delagate & Datasource Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -205,7 +207,8 @@ typedef enum : NSUInteger {
             return cell;
         }
         case CoachProfileCellCalendar: {
-            
+            HHScheduleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kScheduleCellId forIndexPath:indexPath];
+            return cell;
         }
         case CoachProfileCellReview: {
             
@@ -227,7 +230,7 @@ typedef enum : NSUInteger {
             return 220.0f;
         }
         case CoachProfileCellCalendar: {
-            
+            return 250.0f;
         }
         case CoachProfileCellReview: {
             
@@ -292,7 +295,7 @@ typedef enum : NSUInteger {
         if (buttonIndex == 0) {
             UIPasteboard *pb = [UIPasteboard generalPasteboard];
             [pb setString:self.coach.phoneNumber];
-            [HHToastUtility showToastWitiTitle:@"复制成功！" isError:NO];
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"复制成功！", nil) isError:NO];
         } else if (buttonIndex == 1) {
             NSString *callString =[ NSString stringWithFormat:@"telprompt://%@", self.coach.phoneNumber];
             NSURL *url = [NSURL URLWithString:callString];
@@ -303,7 +306,7 @@ typedef enum : NSUInteger {
             UIPasteboard *pb = [UIPasteboard generalPasteboard];
             NSString *fullAddress = [NSString stringWithFormat:@"%@%@%@%@", self.field.province, self.field.city, self.field.district, self.field.address];
             [pb setString:fullAddress];
-            [HHToastUtility showToastWitiTitle:@"复制成功！" isError:NO];
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"复制成功！",nil) isError:NO];
         } else if (buttonIndex == 1) {
             
         }

@@ -11,7 +11,7 @@
 @implementation HHBookViewController
 
 - (void)viewDidLoad {
-    self.title = @"预约时间";
+    self.title = NSLocalizedString(@"预约时间", nil);
 }
 
 @end
