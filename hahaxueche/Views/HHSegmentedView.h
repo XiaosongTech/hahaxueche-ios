@@ -15,7 +15,8 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) HMSegmentedControl *segmentedControl;
 @property (nonatomic, strong) NSArray *schedules;
+@property (nonatomic, strong) NSArray *groupedSchedules;
 
-- (void)setupViewsWithSchedules:(NSArray *)schedules;
+- (instancetype)initWithSchedules:(NSArray *)schedules;
 
 @end

@@ -20,6 +20,9 @@
 #import "HHUserAuthenticator.h"
 #import "HHProfileSetupViewController.h"
 #import "HHTrainingFieldService.h"
+#import "HHCoachSchedule.h"
+#import "HHScheduleService.h"
+#import "HHCoachSchedule.h"
 
 #define kLeanCloudStagingAppID @"cr9pv6bp9nlr1xrtl36slyxt0hgv6ypifso9aocxwas2fugq"
 #define kLeanCloudStagingAppKey @"2ykqwhzhfrzhjn3o9bj7rizb8qd75ym3f0lez1d8fcxmn2k3"
@@ -68,6 +71,7 @@
 //        [self setAppearance];
 //        [self setWindow:self.window];
 //    }
+    
     [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:@"55aef07ee4b0124627a2cb2f" completion:^(HHStudent *student, NSError *error) {
         HHRootViewController *rootVC = [[HHRootViewController alloc] init];
         [self.window setRootViewController:rootVC];
@@ -128,6 +132,7 @@
     [HHStudent registerSubclass];
     [HHCoach registerSubclass];
     [HHTrainingField registerSubclass];
+    [HHCoachSchedule registerSubclass];
 }
 
 - (void)setupBackend {

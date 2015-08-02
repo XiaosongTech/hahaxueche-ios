@@ -11,6 +11,8 @@
 		5C11B3961B6D0DBE0014A018 /* HHScheduleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B3951B6D0DBE0014A018 /* HHScheduleTableViewCell.m */; };
 		5C11B3991B6D2B3C0014A018 /* HHCoachSchedule.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B3981B6D2B3C0014A018 /* HHCoachSchedule.m */; };
 		5C11B39C1B6D54D30014A018 /* HHSegmentedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B39B1B6D54D30014A018 /* HHSegmentedView.m */; };
+		5C11B39F1B6D9DA20014A018 /* HHScheduleService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B39E1B6D9DA20014A018 /* HHScheduleService.m */; };
+		5C11B3A21B6DA0560014A018 /* HHStudentService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B3A11B6DA0560014A018 /* HHStudentService.m */; };
 		5C2DCCE91B6477A1007E8FA7 /* HHPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2DCCE81B6477A1007E8FA7 /* HHPointAnnotation.m */; };
 		5C2DCCFC1B65ACE0007E8FA7 /* car_icon_solid@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2DCCF61B65ACE0007E8FA7 /* car_icon_solid@1x.png */; };
 		5C2DCCFD1B65ACE0007E8FA7 /* car_icon_solid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2DCCF71B65ACE0007E8FA7 /* car_icon_solid@2x.png */; };
@@ -123,7 +125,7 @@
 		5CD4EA361B5C2BA0003CF15E /* HHAvatarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA351B5C2BA0003CF15E /* HHAvatarView.m */; };
 		5CD4EA3C1B5C8180003CF15E /* HHCoachService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA3B1B5C8180003CF15E /* HHCoachService.m */; };
 		5CD4EA3F1B5D97E1003CF15E /* HHTrainingField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA3E1B5D97E1003CF15E /* HHTrainingField.m */; };
-		5CD4EA421B5DE6BC003CF15E /* HHNumberFormatUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA411B5DE6BC003CF15E /* HHNumberFormatUtility.m */; };
+		5CD4EA421B5DE6BC003CF15E /* HHFormatUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA411B5DE6BC003CF15E /* HHFormatUtility.m */; };
 		D68F0EFAEA66F3DCDFE972F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B0110F2ECD81DF5CD4D72E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -146,6 +148,10 @@
 		5C11B3981B6D2B3C0014A018 /* HHCoachSchedule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHCoachSchedule.m; path = hahaxueche/Views/HHCoachSchedule.m; sourceTree = SOURCE_ROOT; };
 		5C11B39A1B6D54D30014A018 /* HHSegmentedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSegmentedView.h; sourceTree = "<group>"; };
 		5C11B39B1B6D54D30014A018 /* HHSegmentedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSegmentedView.m; sourceTree = "<group>"; };
+		5C11B39D1B6D9DA20014A018 /* HHScheduleService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHScheduleService.h; path = hahaxueche/Views/HHScheduleService.h; sourceTree = SOURCE_ROOT; };
+		5C11B39E1B6D9DA20014A018 /* HHScheduleService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHScheduleService.m; path = hahaxueche/Views/HHScheduleService.m; sourceTree = SOURCE_ROOT; };
+		5C11B3A01B6DA0560014A018 /* HHStudentService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHStudentService.h; path = hahaxueche/Views/HHStudentService.h; sourceTree = SOURCE_ROOT; };
+		5C11B3A11B6DA0560014A018 /* HHStudentService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHStudentService.m; path = hahaxueche/Views/HHStudentService.m; sourceTree = SOURCE_ROOT; };
 		5C2DCCE71B6477A1007E8FA7 /* HHPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPointAnnotation.h; sourceTree = "<group>"; };
 		5C2DCCE81B6477A1007E8FA7 /* HHPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPointAnnotation.m; sourceTree = "<group>"; };
 		5C2DCCF61B65ACE0007E8FA7 /* car_icon_solid@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car_icon_solid@1x.png"; sourceTree = "<group>"; };
@@ -299,8 +305,8 @@
 		5CD4EA3B1B5C8180003CF15E /* HHCoachService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHCoachService.m; path = "hahaxueche/View Controllers/HHCoachService.m"; sourceTree = SOURCE_ROOT; };
 		5CD4EA3D1B5D97E1003CF15E /* HHTrainingField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHTrainingField.h; path = "hahaxueche/View Controllers/HHTrainingField.h"; sourceTree = SOURCE_ROOT; };
 		5CD4EA3E1B5D97E1003CF15E /* HHTrainingField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHTrainingField.m; path = "hahaxueche/View Controllers/HHTrainingField.m"; sourceTree = SOURCE_ROOT; };
-		5CD4EA401B5DE6BC003CF15E /* HHNumberFormatUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNumberFormatUtility.h; sourceTree = "<group>"; };
-		5CD4EA411B5DE6BC003CF15E /* HHNumberFormatUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNumberFormatUtility.m; sourceTree = "<group>"; };
+		5CD4EA401B5DE6BC003CF15E /* HHFormatUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHFormatUtility.h; sourceTree = "<group>"; };
+		5CD4EA411B5DE6BC003CF15E /* HHFormatUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHFormatUtility.m; sourceTree = "<group>"; };
 		D5B0110F2ECD81DF5CD4D72E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8832576172C8DF34558C848 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		EFA148D80F7878EC1B2315C7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -375,6 +381,10 @@
 				5CD4EA3B1B5C8180003CF15E /* HHCoachService.m */,
 				5CB34F2B1B64455A007954DF /* HHTrainingFieldService.h */,
 				5CB34F2C1B64455A007954DF /* HHTrainingFieldService.m */,
+				5C11B39D1B6D9DA20014A018 /* HHScheduleService.h */,
+				5C11B39E1B6D9DA20014A018 /* HHScheduleService.m */,
+				5C11B3A01B6DA0560014A018 /* HHStudentService.h */,
+				5C11B3A11B6DA0560014A018 /* HHStudentService.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -455,8 +465,8 @@
 				5C39808A1B4BFFB20057B049 /* HHAutoLayoutUtility.m */,
 				5CD4E9E81B597CE2003CF15E /* HHToastUtility.h */,
 				5CD4E9E91B597CE2003CF15E /* HHToastUtility.m */,
-				5CD4EA401B5DE6BC003CF15E /* HHNumberFormatUtility.h */,
-				5CD4EA411B5DE6BC003CF15E /* HHNumberFormatUtility.m */,
+				5CD4EA401B5DE6BC003CF15E /* HHFormatUtility.h */,
+				5CD4EA411B5DE6BC003CF15E /* HHFormatUtility.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -897,7 +907,7 @@
 				5C5451CF1B52ADE50025D19F /* HHButton.m in Sources */,
 				5C5451911B4F67200025D19F /* HHSearchBar.m in Sources */,
 				5C5451991B50B5910025D19F /* HHCoachListTableViewCell.m in Sources */,
-				5CD4EA421B5DE6BC003CF15E /* HHNumberFormatUtility.m in Sources */,
+				5CD4EA421B5DE6BC003CF15E /* HHFormatUtility.m in Sources */,
 				5C3980711B4AAD450057B049 /* HHNavigationController.m in Sources */,
 				5C5451D21B52BE1D0025D19F /* UIImage+HHImage.m in Sources */,
 				5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */,
@@ -915,6 +925,7 @@
 				5CC3B6011B48268A00D10DFB /* main.m in Sources */,
 				5C3980981B4C1A2A0057B049 /* HHMyReservationViewController.m in Sources */,
 				5C3980911B4C17900057B049 /* HHRootViewController.m in Sources */,
+				5C11B3A21B6DA0560014A018 /* HHStudentService.m in Sources */,
 				5CBBA97C1B604762009398B8 /* HHDashView.m in Sources */,
 				5CB34F2D1B64455A007954DF /* HHTrainingFieldService.m in Sources */,
 				5CBBA95B1B5EFD91009398B8 /* HHCoachProfileViewController.m in Sources */,
@@ -927,6 +938,7 @@
 				5CB34F181B63F42C007954DF /* HHSearchViewController.m in Sources */,
 				5CB34EE81B61F4B5007954DF /* HHMapViewController.m in Sources */,
 				5C3980851B4AD7DE0057B049 /* HHBookViewController.m in Sources */,
+				5C11B39F1B6D9DA20014A018 /* HHScheduleService.m in Sources */,
 				5C3980701B4AAD450057B049 /* HHCoachListViewController.m in Sources */,
 				5CD4EA3C1B5C8180003CF15E /* HHCoachService.m in Sources */,
 				5CA5B7811B53298000312674 /* HHProfileSetupViewController.m in Sources */,

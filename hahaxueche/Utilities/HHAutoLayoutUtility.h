@@ -27,9 +27,11 @@
 + (NSLayoutConstraint *)verticalAlignToSuperViewBottom:(UIView *)view constant:(CGFloat)constant;
 + (NSLayoutConstraint *)verticalNext:(UIView *)view toView:(UIView *)nextToView constant:(CGFloat)constant;
 + (NSLayoutConstraint *)verticalAlignToViewBottom:(UIView *)view toView:(UIView *)toView constant:(CGFloat)constant;
++ (NSLayoutConstraint *)verticalAlignToSuperViewTop:(UIView *)view multiplier:(CGFloat)multiplier constant:(CGFloat)constant;
 
 + (NSLayoutConstraint *)horizontalNext:(UIView *)view toView:(UIView *)nextToView constant:(CGFloat)constant;
 + (NSLayoutConstraint *)horizontalAlignToSuperViewLeft:(UIView *)view constant:(CGFloat)constant;
 + (NSLayoutConstraint *)horizontalAlignToSuperViewRight:(UIView *)view constant:(CGFloat)constant;
++ (NSLayoutConstraint *)horizontalAlignToSuperViewLeft:(UIView *)view multiplier:(CGFloat)multiplier constant:(CGFloat)constant;
 
 @end

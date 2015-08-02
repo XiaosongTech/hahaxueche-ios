@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UILabel *subtitleLabel;
 @property (nonatomic, strong) UIView *line;
 @property (nonatomic, strong) HHSegmentedView *scheduleView;
+@property (nonatomic, strong) NSArray *schedules;
 
 
 @end

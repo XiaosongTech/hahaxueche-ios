@@ -20,6 +20,7 @@
 #import "HHToastUtility.h"
 #import "HHCoachService.h"
 #import "HHScheduleTableViewCell.h"
+#import "HHScheduleService.h"
 
 typedef enum : NSUInteger {
     CoachProfileCellDes,
@@ -43,6 +44,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIButton *payButton;
 @property (nonatomic, strong) UIButton *bookTrialButton;
 @property (nonatomic, strong) NSMutableAttributedString *coachDes;
+@property (nonatomic, strong) NSArray *schedules;
 
 @end
 
@@ -69,8 +71,19 @@ typedef enum : NSUInteger {
         self.desCellHeight = CGRectGetHeight([self.coachDes boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.bounds)-40.0f, 99999.0)
                                                                             options:NSStringDrawingUsesLineFragmentOrigin
                                                                             context:nil]) + 65.0f;
+        
+        [[HHScheduleService sharedInstance] fetchCoachSchedulesWithCoachId:self.coach.coachId completion:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                self.schedules = objects;
+            }
+        }];
     }
     return self;
+}
+
+- (void)setSchedules:(NSArray *)schedules {
+    _schedules = schedules;
+    [self.tableView reloadData];
 }
 
 - (void)setField:(HHTrainingField *)field {
@@ -208,7 +221,7 @@ typedef enum : NSUInteger {
         }
         case CoachProfileCellCalendar: {
             HHScheduleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kScheduleCellId forIndexPath:indexPath];
-            [cell.scheduleView setupViewsWithSchedules:nil];
+            cell.schedules = self.schedules;
             return cell;
         }
         case CoachProfileCellReview: {

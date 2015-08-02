@@ -12,7 +12,7 @@
 #import <pop/POP.h>
 #import "UIColor+HHColor.h"
 #import <QuartzCore/QuartzCore.h>
-#import "HHNumberFormatUtility.h"
+#import "HHFormatUtility.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "CMPopTipView.h"
 #import <MapKit/MapKit.h>
@@ -153,9 +153,9 @@
     [self.avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:coach.avatarURL]
                       placeholderImage:nil];
     self.nameLabel.text = coach.fullName;
-    self.priceLabel.text = [[HHNumberFormatUtility moneyFormatter] stringFromNumber:coach.price];
+    self.priceLabel.text = [[HHFormatUtility moneyFormatter] stringFromNumber:coach.price];
     [self.ratingView setupViewWithRating:[coach.averageRating floatValue]];
-    self.ratingLabel.text = [[HHNumberFormatUtility floatFormatter] stringFromNumber:coach.averageRating];;
+    self.ratingLabel.text = [[HHFormatUtility floatFormatter] stringFromNumber:coach.averageRating];;
     
     NSMutableAttributedString * yearString = [self generateAttributedStringWithString:coach.experienceYear font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:14] color:[UIColor blackColor]];
     [yearString appendAttributedString:[self generateAttributedStringWithString:NSLocalizedString(@"年教龄", nil) font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12] color:[UIColor blackColor]]];

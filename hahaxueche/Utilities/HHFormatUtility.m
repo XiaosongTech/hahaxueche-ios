@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Zixiao Wang. All rights reserved.
 //
 
-#import "HHNumberFormatUtility.h"
+#import "HHFormatUtility.h"
 
-@implementation HHNumberFormatUtility
+@implementation HHFormatUtility
 
 
 + (NSNumberFormatter *)floatFormatter {
@@ -27,6 +27,22 @@
     [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
     [formatter setMaximumFractionDigits:0];
     formatter.usesGroupingSeparator = NO;
+    return formatter;
+}
+
++ (NSDateFormatter *)dateFormatter {
+    NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.locale = locale;
+    [formatter setDateFormat:@"M月d日"];
+    return formatter;
+}
+
++(NSDateFormatter *)weekDayFormatter {
+    NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.locale = locale;
+    [formatter setDateFormat:@"EEEE"];
     return formatter;
 }
 

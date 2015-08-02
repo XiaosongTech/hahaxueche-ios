@@ -8,10 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-@interface HHNumberFormatUtility : NSObject
+@interface HHFormatUtility : NSObject
 
 + (NSNumberFormatter *)floatFormatter;
 
 + (NSNumberFormatter *)moneyFormatter;
+
++ (NSDateFormatter *)dateFormatter;
+
++ (NSDateFormatter *)weekDayFormatter;
 
 @end

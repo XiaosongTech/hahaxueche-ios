@@ -38,11 +38,15 @@
     self.line.backgroundColor = [UIColor HHLightGrayBackgroundColor];
     [self.containerView addSubview:self.line];
     
-    self.scheduleView = [[HHSegmentedView alloc] initWithFrame:CGRectZero];
+    [self autoLayoutSubviews];
+}
+
+- (void)setSchedules:(NSArray *)schedules {
+    _schedules = schedules;
+    self.scheduleView = [[HHSegmentedView alloc] initWithSchedules:self.schedules];
     self.scheduleView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.containerView addSubview:self.scheduleView];
-    
-    [self autoLayoutSubviews];
+    [self autoLayoutScheduleView];
 }
 
 - (UILabel *)createLabelWithTitle:(NSString *)title font:(UIFont *)font textColor:(UIColor *)textColor {
@@ -54,6 +58,19 @@
     [self.containerView addSubview:label];
     return label;
 }
+
+- (void)autoLayoutScheduleView {
+    NSArray *constraints = @[
+                            [HHAutoLayoutUtility verticalNext:self.scheduleView toView:self.line constant:5.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.scheduleView constant:0],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.scheduleView constant:0],
+                             [HHAutoLayoutUtility setViewWidth:self.scheduleView multiplier:1.0f constant:0]
+                             
+                             ];
+    [self.contentView addConstraints:constraints];
+    
+}
+
 
 - (void)autoLayoutSubviews {
     NSArray *constraints = @[
@@ -72,13 +89,7 @@
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.line constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.line multiplier:0 constant:1.0f],
                              [HHAutoLayoutUtility setViewWidth:self.line multiplier:1.0f constant:0],
-                             
-                             [HHAutoLayoutUtility verticalNext:self.scheduleView toView:self.line constant:5.0f],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.scheduleView constant:0],
-                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.scheduleView constant:0],
-                             [HHAutoLayoutUtility setViewWidth:self.scheduleView multiplier:1.0f constant:0]
-
-                             ];
+                            ];
     [self.contentView addConstraints:constraints];
     
 }

@@ -178,5 +178,27 @@
             constant:constant];
 }
 
++ (NSLayoutConstraint *)horizontalAlignToSuperViewLeft:(UIView *)view multiplier:(CGFloat)multiplier constant:(CGFloat)constant {
+    return [NSLayoutConstraint
+            constraintWithItem:view
+            attribute:NSLayoutAttributeLeading
+            relatedBy:NSLayoutRelationEqual
+            toItem:view.superview
+            attribute:NSLayoutAttributeLeading
+            multiplier:multiplier
+            constant:constant];
+}
+
++ (NSLayoutConstraint *)verticalAlignToSuperViewTop:(UIView *)view multiplier:(CGFloat)multiplier constant:(CGFloat)constant {
+    return [NSLayoutConstraint
+            constraintWithItem:view
+            attribute:NSLayoutAttributeTop
+            relatedBy:NSLayoutRelationEqual
+            toItem:view.superview
+            attribute:NSLayoutAttributeTop
+            multiplier:multiplier
+            constant:constant];
+}
+
 
 @end

@@ -8,7 +8,7 @@
 
 #import "HHCoachDashBoardTableViewCell.h"
 #import "HHAutoLayoutUtility.h"
-#import "HHNumberFormatUtility.h"
+#import "HHFormatUtility.h"
 #import "UIColor+HHColor.h"
 
 #define kBlueTextColor [UIColor colorWithRed:0.21 green:0.55 blue:0.93 alpha:1]
@@ -145,7 +145,7 @@
 }
 
 - (void)setupViewsWithCoach:(HHCoach *)coach trainingFielf:(HHTrainingField *)field {
-    [self.priceView setupViewWithKey:NSLocalizedString(@"包干价格", nil) value:[[HHNumberFormatUtility moneyFormatter] stringFromNumber:coach.price]];
+    [self.priceView setupViewWithKey:NSLocalizedString(@"包干价格", nil) value:[[HHFormatUtility moneyFormatter] stringFromNumber:coach.price]];
     [self.courseView setupViewWithKey:NSLocalizedString(@"服务项目", nil) value:coach.course];
     
     [self.yearView setupViewWithKey:NSLocalizedString(@"教龄", nil) value:[NSString stringWithFormat:NSLocalizedString(@"%@年", nil), coach.experienceYear]];
