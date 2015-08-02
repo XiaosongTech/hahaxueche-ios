@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HHSegmentedView.h"
 
 @interface HHScheduleTableViewCell : UITableViewCell
 
@@ -14,6 +15,7 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *subtitleLabel;
 @property (nonatomic, strong) UIView *line;
+@property (nonatomic, strong) HHSegmentedView *scheduleView;
 
 
 @end

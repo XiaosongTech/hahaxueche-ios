@@ -37,6 +37,11 @@
     self.line.translatesAutoresizingMaskIntoConstraints = NO;
     self.line.backgroundColor = [UIColor HHLightGrayBackgroundColor];
     [self.containerView addSubview:self.line];
+    
+    self.scheduleView = [[HHSegmentedView alloc] initWithFrame:CGRectZero];
+    self.scheduleView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.containerView addSubview:self.scheduleView];
+    
     [self autoLayoutSubviews];
 }
 
@@ -67,6 +72,12 @@
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.line constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.line multiplier:0 constant:1.0f],
                              [HHAutoLayoutUtility setViewWidth:self.line multiplier:1.0f constant:0],
+                             
+                             [HHAutoLayoutUtility verticalNext:self.scheduleView toView:self.line constant:5.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.scheduleView constant:0],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.scheduleView constant:0],
+                             [HHAutoLayoutUtility setViewWidth:self.scheduleView multiplier:1.0f constant:0]
+
                              ];
     [self.contentView addConstraints:constraints];
     

@@ -208,6 +208,7 @@ typedef enum : NSUInteger {
         }
         case CoachProfileCellCalendar: {
             HHScheduleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kScheduleCellId forIndexPath:indexPath];
+            [cell.scheduleView setupViewsWithSchedules:nil];
             return cell;
         }
         case CoachProfileCellReview: {
