@@ -10,6 +10,8 @@
 #import "HHAutoLayoutUtility.h"
 #import "UIColor+HHColor.h"
 #import "HHFormatUtility.h"
+#import "HHReviewView.h"
+
 
 @implementation HHReviewTableViewCell
 
@@ -37,7 +39,7 @@
     self.ratingView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.containerView addSubview:self.ratingView];
     
-    self.ratingLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:12] textColor:[UIColor HHOrange]];
+    self.ratingLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:13] textColor:[UIColor HHOrange]];
     
     self.line = [[UIView alloc] initWithFrame:CGRectZero];
     self.line.translatesAutoresizingMaskIntoConstraints = NO;
@@ -65,7 +67,7 @@
                              [HHAutoLayoutUtility setViewHeight:self.containerView multiplier:1.0f constant:-8.0f],
                              [HHAutoLayoutUtility setViewWidth:self.containerView multiplier:1.0f constant:-20.0f],
                              
-                             [HHAutoLayoutUtility setCenterY:self.titleLabel multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.titleLabel constant:15.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.titleLabel constant:10.0f],
                              
                              [HHAutoLayoutUtility setCenterY:self.ratingView toView:self.titleLabel multiplier:1.0f constant:0],
@@ -76,7 +78,7 @@
                              [HHAutoLayoutUtility setCenterY:self.ratingLabel toView:self.titleLabel multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.ratingLabel constant:-10.0f],
                              
-                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.line constant:0],
+                             [HHAutoLayoutUtility verticalNext:self.line toView:self.titleLabel constant:15.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.line constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.line multiplier:0 constant:1.0f],
                              [HHAutoLayoutUtility setViewWidth:self.line multiplier:1.0f constant:0],
@@ -90,6 +92,44 @@
 - (void)setupRatingView:(NSNumber *)rating {
     [self.ratingView setupViewWithRating:[rating floatValue]];
     self.ratingLabel.text = [[HHFormatUtility floatFormatter] stringFromNumber:rating];
+}
+
+
+- (void)setupReviewViews:(NSArray *)reviews {
+    self.reviews = reviews;
+    NSInteger count = MIN(3, reviews.count);
+    if (count == 0) {
+        return;
+    }
+    NSMutableArray *array = [NSMutableArray array];
+    for (int i = 0; i < count; i++) {
+        HHReviewView *reviewView = [[HHReviewView alloc] initWithReview:[self.reviews firstObject]];
+        reviewView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.containerView addSubview:reviewView];
+        [array addObject:reviewView];
+        
+        if (i == 0) {
+            NSArray *constraints = @[
+                                     [HHAutoLayoutUtility verticalNext:reviewView toView:self.line constant:0],
+                                     [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:reviewView constant:0],
+                                     [HHAutoLayoutUtility setViewHeight:reviewView multiplier:0 constant:120.0f],
+                                     [HHAutoLayoutUtility setViewWidth:reviewView multiplier:1.0f constant:0],
+                                     
+                                     ];
+            [self.contentView addConstraints:constraints];
+        } else {
+            NSArray *constraints = @[
+                                     [HHAutoLayoutUtility verticalNext:reviewView toView:array[i-1] constant:0],
+                                     [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:reviewView constant:0],
+                                     [HHAutoLayoutUtility setViewHeight:reviewView multiplier:0 constant:120.0f],
+                                     [HHAutoLayoutUtility setViewWidth:reviewView multiplier:1.0f constant:0],
+                                     
+                                     ];
+            [self.contentView addConstraints:constraints];
+        }
+        
+    }
+    
 }
 
 @end

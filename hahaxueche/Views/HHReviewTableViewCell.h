@@ -16,8 +16,11 @@
 @property (nonatomic, strong) HHRatingView *ratingView;
 @property (nonatomic, strong) UILabel *ratingLabel;
 @property (nonatomic, strong) UIView *line;
+@property (nonatomic, strong) NSArray *reviews;
 
 - (void)setupRatingView:(NSNumber *)rating;
+- (void)setupReviewViews:(NSArray *)reviews;
+
 
 
 

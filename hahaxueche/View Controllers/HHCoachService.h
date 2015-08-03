@@ -10,6 +10,7 @@
 #import <AVOSCloud/AVOSCloud.h>
 #import "HHCoach.h"
 #import "HHCoachListViewController.h"
+#import "HHReview.h"
 
 typedef void (^HHCoachesArrayCompletionBlock)(NSArray *objects, NSInteger totalCount, NSError *error);
 typedef void (^HHCoachCompletionBlock)(HHCoach *coach, NSError *error);
@@ -23,5 +24,7 @@ typedef void (^HHCoachCompletionBlock)(HHCoach *coach, NSError *error);
 - (void)fetchCoachWithId:(NSString *)coachId completion:(HHCoachCompletionBlock)completion;
 
 - (void)fetchCoachesWithQuery:(NSString *)searchQuery skip:(NSInteger)startIndex completion:(HHCoachesArrayCompletionBlock)completion;
+
+- (void)fetchReviewsForCoach:(NSString *)coachId skip:(NSInteger)skip completion:(HHCoachesArrayCompletionBlock)completion;
 
 @end

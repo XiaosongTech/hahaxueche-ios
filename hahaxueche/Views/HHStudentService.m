@@ -31,4 +31,14 @@
     }];
 }
 
+-(void)fetchStudentsWithId:(NSString *)studentId completion:(HHStudentCompletionBlock)completion {
+    AVQuery *query = [AVQuery queryWithClassName:[HHStudent parseClassName]];
+    [query whereKey:@"studentId" equalTo:studentId];
+    [query getFirstObjectInBackgroundWithBlock:^(AVObject *object, NSError *error) {
+        if (completion) {
+            completion(object, error);
+        }
+    }];
+}
+
 @end

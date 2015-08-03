@@ -48,6 +48,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIButton *bookTrialButton;
 @property (nonatomic, strong) NSMutableAttributedString *coachDes;
 @property (nonatomic, strong) NSArray *schedules;
+@property (nonatomic, strong) NSArray *reviews;
 
 @end
 
@@ -80,18 +81,29 @@ typedef enum : NSUInteger {
                 self.schedules = objects;
             }
         }];
+        
+        [[HHCoachService sharedInstance] fetchReviewsForCoach:self.coach.coachId skip:0 completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
+            if (!error) {
+                self.reviews = objects;
+            }
+        }];
     }
     return self;
 }
 
+- (void)setReviews:(NSArray *)reviews {
+    _reviews = reviews;
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:CoachProfileCellReview inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+}
+
 - (void)setSchedules:(NSArray *)schedules {
     _schedules = schedules;
-    [self.tableView reloadData];
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:CoachProfileCellCalendar inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)setField:(HHTrainingField *)field {
     _field = field;
-    [self.tableView reloadData];
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:CoachProfileCellDashBoard inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)backButtonPressed {
@@ -208,7 +220,7 @@ typedef enum : NSUInteger {
 #pragma mark Tableview Delagate & Datasource Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return CoachProfileCellTotal;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -268,6 +280,7 @@ typedef enum : NSUInteger {
         case CoachProfileCellReview: {
             HHReviewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kReviewCellId forIndexPath:indexPath];
             [cell setupRatingView:self.coach.averageRating];
+            [cell setupReviewViews:self.reviews];
             return cell;
         }
             
@@ -290,7 +303,8 @@ typedef enum : NSUInteger {
             return 250.0f;
         }
         case CoachProfileCellReview: {
-            return 55.0f;
+            NSInteger reviewCount =  MIN(3, self.reviews.count);
+            return 50.0f + reviewCount * 120.0f;
         }
             
         default: {

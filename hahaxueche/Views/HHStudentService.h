@@ -11,12 +11,15 @@
 #import "HHStudent.h"
 
 typedef void (^HHStudentsCompletionBlock)(NSArray *objects, NSError *error);
+typedef void (^HHStudentCompletionBlock)(HHStudent *student, NSError *error);
 
 @interface HHStudentService : NSObject
 
 + (instancetype)sharedInstance;
 
 - (void)fetchStudentsForScheduleWithIds:(NSArray *)studentIds completion:(HHStudentsCompletionBlock)completion;
+
+- (void)fetchStudentsWithId:(NSString *)studentId completion:(HHStudentCompletionBlock)completion;
 
 
 @end

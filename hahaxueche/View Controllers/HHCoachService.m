@@ -114,4 +114,16 @@
 
 }
 
+- (void)fetchReviewsForCoach:(NSString *)coachId skip:(NSInteger)skip completion:(HHCoachesArrayCompletionBlock)completion {
+    AVQuery *query = [AVQuery queryWithClassName:[HHReview parseClassName]];
+    query.limit = kCountPerPage;
+    query.skip = skip;
+    [query whereKey:@"coachId" equalTo:coachId];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (completion) {
+            completion(objects, [query countObjects], error);
+        }
+    }];
+}
+
 @end

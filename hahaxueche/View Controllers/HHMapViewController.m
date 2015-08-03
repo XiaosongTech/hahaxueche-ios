@@ -15,7 +15,7 @@
 #import "HHPointAnnotation.h"
 
 #define kFloatButtonHeight 30.0f
-#define kNearestFieldCount 5
+#define kNearestFieldCount 1
 
 @interface HHMapViewController ()<MKMapViewDelegate, CLLocationManagerDelegate>
 
@@ -223,8 +223,7 @@
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     MKAnnotationView *pinView = nil;
     HHPointAnnotation *hhAnotation = (HHPointAnnotation *)annotation;
-    if(annotation != self.mapView.userLocation)
-    {
+    if(![annotation isEqual:self.mapView.userLocation]) {
         static NSString *defaultPinID = @"HHPinID";
         pinView = (MKAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:defaultPinID];
         if (!pinView) {
@@ -261,6 +260,9 @@
 - (void)selectOrDeselectAll {
     if ([self.floatButton.titleLabel.text isEqualToString:NSLocalizedString(@"全选",nil)]) {
         for (HHPointAnnotation *annotation in self.mapView.annotations){
+            if([annotation isEqual:self.mapView.userLocation]) {
+                break;
+            }
             MKAnnotationView *annotationView = [self.mapView viewForAnnotation: annotation];
             if (annotationView){
                 annotationView.image = [UIImage imageNamed:@"car_icon_solid"];
@@ -272,6 +274,9 @@
     } else {
         for (HHPointAnnotation *annotation in self.mapView.annotations){
             MKAnnotationView *annotationView = [self.mapView viewForAnnotation: annotation];
+            if([annotation isEqual:self.mapView.userLocation]) {
+                break;
+            }
             if (annotationView){
                 if ([self.nearestFields containsObject:self.fields[annotation.tag]]) {
                     annotationView.image = [UIImage imageNamed:@"car_icon_solid"];

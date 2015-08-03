@@ -40,7 +40,7 @@
     self.segmentedControl.backgroundColor = [UIColor clearColor];
     self.segmentedControl.titleTextAttributes = @{
                                                   NSForegroundColorAttributeName: [UIColor HHGrayTextColor],
-                                                  NSFontAttributeName: [UIFont systemFontOfSize:13.0f],
+                                                  NSFontAttributeName: [UIFont systemFontOfSize:12.0f],
                                                   };
     
     self.segmentedControl.selectedTitleTextAttributes = @{NSForegroundColorAttributeName : [UIColor HHOrange]};
@@ -69,7 +69,7 @@
 
 - (void)autoLayoutSubviews {
     NSArray *constraints = @[
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.segmentedControl constant:5.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.segmentedControl constant:0],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.segmentedControl constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.segmentedControl multiplier:0 constant:kSegmentedControlHeight],
                              [HHAutoLayoutUtility setViewWidth:self.segmentedControl multiplier:1.0f constant:0],
