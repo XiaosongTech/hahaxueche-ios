@@ -92,7 +92,7 @@
                              [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.commentLabel constant:-10.0f],
                              
                              [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.line constant:0],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.line constant:0],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.line constant:10.0f],
                              [HHAutoLayoutUtility setViewHeight:self.line multiplier:0 constant:1.0f],
                              [HHAutoLayoutUtility setViewWidth:self.line multiplier:1.0f constant:0],
                              
