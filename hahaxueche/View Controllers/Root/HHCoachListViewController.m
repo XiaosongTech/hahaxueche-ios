@@ -462,11 +462,11 @@ typedef void (^HHGenericCompletion)();
         self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, 200.0f, 180.0f)];
         self.mapView.delegate = self;
         HHPointAnnotation *point = [[HHPointAnnotation alloc] init];
-        point.coordinate = CLLocationCoordinate2DMake([field.longitude doubleValue], [field.latitude doubleValue]);
+        point.coordinate = CLLocationCoordinate2DMake([field.latitude doubleValue], [field.longitude doubleValue]);
         point.title = field.name;
         point.subtitle = field.address;
         [self.mapView addAnnotation:point];
-        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2DMake([field.longitude doubleValue]+0.005, [field.latitude doubleValue]), 2000, 2000);
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2DMake([field.latitude doubleValue]+0.005, [field.longitude doubleValue]), 2000, 2000);
         [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
         
         self.mapTipView = [[CMPopTipView alloc] initWithCustomView:self.mapView];

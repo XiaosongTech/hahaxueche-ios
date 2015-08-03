@@ -11,15 +11,16 @@
 #import "UIColor+HHColor.h"
 #import "HHFormatUtility.h"
 
-#define kSegmentedControlHeight 40.0f
+#define kSegmentedControlHeight 35.0f
 
 @implementation HHSegmentedView
 
-- (instancetype)initWithSchedules:(NSArray *)schedules {
+- (instancetype)initWithSchedules:(NSArray *)schedules block:(AvatarTappedBlock)block {
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         self.schedules = schedules;
+        self.block = block;
         [self initSubviews];
     }
     return self;
@@ -56,7 +57,7 @@
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
     self.scrollView.delegate = self;
     self.scrollView.pagingEnabled = YES;
-    self.scrollView.showsHorizontalScrollIndicator = YES;
+    self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
     self.backgroundColor = [UIColor clearColor];
     self.scrollView.scrollEnabled = YES;
@@ -68,12 +69,12 @@
 
 - (void)autoLayoutSubviews {
     NSArray *constraints = @[
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.segmentedControl constant:0],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.segmentedControl constant:5.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.segmentedControl constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.segmentedControl multiplier:0 constant:kSegmentedControlHeight],
                              [HHAutoLayoutUtility setViewWidth:self.segmentedControl multiplier:1.0f constant:0],
                              
-                             [HHAutoLayoutUtility verticalNext:self.scrollView toView:self.segmentedControl constant:10.0f],
+                             [HHAutoLayoutUtility verticalNext:self.scrollView toView:self.segmentedControl constant:5.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.scrollView constant:10.0f],
                              [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.scrollView constant:-10.0f],
                              [HHAutoLayoutUtility setViewWidth:self.scrollView multiplier:1.0f constant:-20.0f],
@@ -82,7 +83,7 @@
 }
 
 - (void)layoutSubviews {
-    self.scrollView.contentSize = CGSizeMake((CGRectGetWidth(self.bounds)-20.0f) * self.schedules.count, CGRectGetHeight(self.scrollView.bounds)-kSegmentedControlHeight);
+    self.scrollView.contentSize = CGSizeMake((CGRectGetWidth(self.bounds)-20.0f) * self.groupedSchedules.count, CGRectGetHeight(self.scrollView.bounds)-kSegmentedControlHeight);
 }
 
 
@@ -120,15 +121,15 @@
     for (int i = 0; i < self.groupedSchedules.count; i++) {
         NSArray *array = self.groupedSchedules[i];
         for (int j = 0; j < array.count; j++) {
-            UIView *timeSlot = [[UIView alloc] initWithFrame:CGRectZero];
+            HHTimeSlotView *timeSlot = [[HHTimeSlotView alloc] initWithSchedule:array[j]];
             timeSlot.translatesAutoresizingMaskIntoConstraints = NO;
-            timeSlot.backgroundColor = [UIColor redColor];
+            timeSlot.block = self.block;
             [self.scrollView addSubview:timeSlot];
             NSArray *constraints = @[
                                      [HHAutoLayoutUtility setCenterX:timeSlot multiplier:1.0f + 2.0f * i constant:0],
-                                     [HHAutoLayoutUtility setCenterY:timeSlot multiplier:0.5f * (j+1) constant:0],
+                                     [HHAutoLayoutUtility setCenterY:timeSlot multiplier:0.5f + j constant:0],
                                      [HHAutoLayoutUtility setViewHeight:timeSlot multiplier:0.5f constant:-5.0f],
-                                     [HHAutoLayoutUtility setViewWidth:timeSlot multiplier:1.0f constant:-10.0f],
+                                     [HHAutoLayoutUtility setViewWidth:timeSlot multiplier:1.0f constant:-10.],
                                      
                                      ];
             [self addConstraints:constraints];

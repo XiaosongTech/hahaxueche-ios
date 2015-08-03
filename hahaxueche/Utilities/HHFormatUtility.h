@@ -18,4 +18,6 @@
 
 + (NSDateFormatter *)weekDayFormatter;
 
++ (NSDateFormatter *)timeFormatter;
+
 @end

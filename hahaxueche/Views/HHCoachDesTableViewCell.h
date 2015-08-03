@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "HHAvatarView.h"
+#import "HHCoach.h"
+
+typedef void (^CoachTappedBlock)();
 
 @interface HHCoachDesTableViewCell : UITableViewCell
 
@@ -15,6 +18,7 @@
 @property (nonatomic, strong) HHAvatarView *avatarView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *desLabel;
+@property (nonatomic, strong) CoachTappedBlock block;
 
 - (void)setupViewWithURL:(NSString *)url name:(NSString *)name des:(NSMutableAttributedString *)des;
 

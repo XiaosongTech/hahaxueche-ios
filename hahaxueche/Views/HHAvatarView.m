@@ -28,6 +28,7 @@
         self.imageView.image = image;
         [self addSubview:self.imageView];
         [self autolayoutSubviews];
+        
     }
     return self;
 }

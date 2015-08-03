@@ -150,7 +150,7 @@
                                            backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
     
     // Present the view controller.
-    [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
+    [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOffscreen];
 }
 
 

@@ -21,6 +21,8 @@
 #import "HHCoachService.h"
 #import "HHScheduleTableViewCell.h"
 #import "HHScheduleService.h"
+#import "HHRootViewController.h"
+#import "HHReviewTableViewCell.h"
 
 typedef enum : NSUInteger {
     CoachProfileCellDes,
@@ -33,6 +35,7 @@ typedef enum : NSUInteger {
 #define kDesCellId @"kDesCellId"
 #define kDashBoardCellId @"kDashBoardCellId"
 #define kScheduleCellId @"kScheduleCellId"
+#define kReviewCellId @"kReviewCellId"
 
 @interface HHCoachProfileViewController ()<UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIActionSheetDelegate>
 
@@ -116,6 +119,7 @@ typedef enum : NSUInteger {
     [self.tableView registerClass:[HHCoachDesTableViewCell class] forCellReuseIdentifier:kDesCellId];
     [self.tableView registerClass:[HHCoachDashBoardTableViewCell class] forCellReuseIdentifier:kDashBoardCellId];
     [self.tableView registerClass:[HHScheduleTableViewCell class] forCellReuseIdentifier:kScheduleCellId];
+    [self.tableView registerClass:[HHReviewTableViewCell class] forCellReuseIdentifier:kReviewCellId];
 
     self.imageGalleryView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 150.0f) imageURLStringsGroup:self.coach.images];
     self.imageGalleryView.pageControlStyle = SDCycleScrollViewPageContolStyleClassic;
@@ -136,7 +140,14 @@ typedef enum : NSUInteger {
                                                   delegate:self
                                          cancelButtonTitle:NSLocalizedString(@"取消", nil)
                                     destructiveButtonTitle:nil
-                                         otherButtonTitles:NSLocalizedString(@"复制地址", nil), NSLocalizedString(@"查看地图", nil), nil];
+                                         otherButtonTitles:NSLocalizedString(@"复制地址", nil),nil];
+    if ([[UIApplication sharedApplication]canOpenURL:[NSURL URLWithString:@"baidumap://map/"]]) {
+        [self.addressSheet addButtonWithTitle:NSLocalizedString(@"在百度地图中打开", nil)];
+    }
+    
+    if ([[UIApplication sharedApplication]canOpenURL:[NSURL URLWithString:@"iosamap://"]]){
+        [self.addressSheet addButtonWithTitle:NSLocalizedString(@"在高德地图中打开", nil)];
+    }
     
     if (![self.coach.coachId isEqualToString:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId]) {
         self.payButton = [self createButtonWithTitle:NSLocalizedString(@"确认教练并付款", nil) backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f]];
@@ -197,7 +208,7 @@ typedef enum : NSUInteger {
 #pragma mark Tableview Delagate & Datasource Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -205,6 +216,20 @@ typedef enum : NSUInteger {
         case CoachProfileCellDes:{
             HHCoachDesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDesCellId forIndexPath:indexPath];
             [cell setupViewWithURL:self.coach.avatarURL name:self.coach.fullName des:self.coachDes];
+            __weak HHCoachDesTableViewCell *weakCell = cell;
+            cell.block = ^() {
+                JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
+                imageInfo.imageURL = [NSURL URLWithString:self.coach.avatarURL];
+                imageInfo.referenceRect = weakCell.avatarView.frame;
+                imageInfo.referenceView = self.view;
+                JTSImageViewController *imageViewer = [[JTSImageViewController alloc]
+                                                       initWithImageInfo:imageInfo
+                                                       mode:JTSImageViewControllerMode_Image
+                                                       backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
+                
+                [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOffscreen];
+
+            };
             return cell;
         }
         case CoachProfileCellDashBoard: {
@@ -221,11 +246,29 @@ typedef enum : NSUInteger {
         }
         case CoachProfileCellCalendar: {
             HHScheduleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kScheduleCellId forIndexPath:indexPath];
+            cell.coach = self.coach;
+            cell.bookButtonBlock = ^(){
+                [self.tabBarController setSelectedIndex:TabBarItemBookView];
+            };
+            __weak HHScheduleTableViewCell *weakCell = cell;
+            cell.block = ^(HHStudent *student) {
+                JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
+                imageInfo.imageURL = [NSURL URLWithString:student.avatarURL];
+                imageInfo.referenceRect = weakCell.scheduleView.scrollView.frame;
+                imageInfo.referenceView = self.view;
+                JTSImageViewController *imageViewer = [[JTSImageViewController alloc]
+                                                       initWithImageInfo:imageInfo
+                                                       mode:JTSImageViewControllerMode_Image
+                                                       backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
+                [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOffscreen];            };
+
             cell.schedules = self.schedules;
             return cell;
         }
         case CoachProfileCellReview: {
-            
+            HHReviewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kReviewCellId forIndexPath:indexPath];
+            [cell setupRatingView:self.coach.averageRating];
+            return cell;
         }
             
         default: {
@@ -247,7 +290,7 @@ typedef enum : NSUInteger {
             return 250.0f;
         }
         case CoachProfileCellReview: {
-            
+            return 55.0f;
         }
             
         default: {
@@ -295,7 +338,7 @@ typedef enum : NSUInteger {
                                            mode:JTSImageViewControllerMode_Image
                                            backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
     
-    [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
+    [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOffscreen];
 }
 
 #pragma mark Hide TabBar
@@ -316,14 +359,20 @@ typedef enum : NSUInteger {
             [[UIApplication sharedApplication] openURL:url];
         }
     } else if ([actionSheet isEqual:self.addressSheet]) {
-        if (buttonIndex == 0) {
+        if(buttonIndex == 0) {
             UIPasteboard *pb = [UIPasteboard generalPasteboard];
-            NSString *fullAddress = [NSString stringWithFormat:@"%@%@%@%@", self.field.province, self.field.city, self.field.district, self.field.address];
-            [pb setString:fullAddress];
-            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"复制成功！",nil) isError:NO];
-        } else if (buttonIndex == 1) {
-            
+            [pb setString:self.field.address];
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"复制成功！", nil) isError:NO];
+            return;
         }
+        NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
+        NSString *urlString = nil;
+        if([title isEqualToString:NSLocalizedString(@"在百度地图中打开", nil)]) {
+            urlString = [[NSString stringWithFormat:@"baidumap://map/geocoder?location=%f,%f&title=训练场", [self.field.latitude floatValue], [self.field.longitude floatValue]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        } else if ([title isEqualToString:NSLocalizedString(@"在高德地图中打开", nil)]) {
+            urlString = [[NSString stringWithFormat:@"iosamap://viewMap?sourceApplication=hahaxueche&poiname=训练场&lat=%f&lon=%f&dev=1", [self.field.latitude floatValue], [self.field.longitude floatValue]]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        }
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
     }
 }
 

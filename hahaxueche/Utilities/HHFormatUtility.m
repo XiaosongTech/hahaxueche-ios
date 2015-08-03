@@ -38,12 +38,21 @@
     return formatter;
 }
 
-+(NSDateFormatter *)weekDayFormatter {
++ (NSDateFormatter *)weekDayFormatter {
     NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.locale = locale;
     [formatter setDateFormat:@"EEEE"];
     return formatter;
+}
+
++ (NSDateFormatter *)timeFormatter {
+    NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.locale = locale;
+    [formatter setDateFormat:@"HH:mm"];
+    return formatter;
+
 }
 
 @end

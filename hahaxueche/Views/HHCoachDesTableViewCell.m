@@ -34,6 +34,8 @@
     
     self.avatarView = [[HHAvatarView alloc] initWithImage:nil radius:20.0f borderColor:[UIColor whiteColor]];
     self.avatarView.translatesAutoresizingMaskIntoConstraints = NO;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avatarViewTapped)];
+    [self.avatarView addGestureRecognizer:tap];
     [self.containerView addSubview:self.avatarView];
     
     self.nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -84,6 +86,12 @@
     self.nameLabel.text = name;
     self.desLabel.attributedText = des;
     
+}
+
+- (void)avatarViewTapped {
+    if (self.block) {
+        self.block();
+    }
 }
 
 @end

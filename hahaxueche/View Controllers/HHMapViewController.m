@@ -74,7 +74,7 @@
     for (int i = 0; i < self.fields.count; i++) {
         HHTrainingField *field = self.fields[i];
         HHPointAnnotation *point = [[HHPointAnnotation alloc] initWithTag:i];
-        point.coordinate = CLLocationCoordinate2DMake([field.longitude doubleValue], [field.latitude doubleValue]);
+        point.coordinate = CLLocationCoordinate2DMake([field.latitude doubleValue], [field.longitude doubleValue]);
         point.title = field.name;
         point.subtitle = field.address;
         [self.mapView addAnnotation:point];        
@@ -274,6 +274,8 @@
             MKAnnotationView *annotationView = [self.mapView viewForAnnotation: annotation];
             if (annotationView){
                 if ([self.nearestFields containsObject:self.fields[annotation.tag]]) {
+                    annotationView.image = [UIImage imageNamed:@"car_icon_solid"];
+                } else {
                     annotationView.image = [UIImage imageNamed:@"car_icon"];
                 }
                 
