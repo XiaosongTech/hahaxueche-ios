@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "HHRatingView.h"
 
+typedef void (^ReviewTapped)(NSInteger index);
+
 @interface HHReviewTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) UIView *containerView;
@@ -17,6 +19,8 @@
 @property (nonatomic, strong) UILabel *ratingLabel;
 @property (nonatomic, strong) UIView *line;
 @property (nonatomic, strong) NSArray *reviews;
+@property (nonatomic, strong) NSMutableArray *reviewViewsArray;
+@property (nonatomic, strong) ReviewTapped reviewTappedBlock;
 
 - (void)setupRatingView:(NSNumber *)rating;
 - (void)setupReviewViews:(NSArray *)reviews;

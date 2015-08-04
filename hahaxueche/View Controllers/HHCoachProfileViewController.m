@@ -23,6 +23,7 @@
 #import "HHScheduleService.h"
 #import "HHRootViewController.h"
 #import "HHReviewTableViewCell.h"
+#import "HHReviewViewController.h"
 
 typedef enum : NSUInteger {
     CoachProfileCellDes,
@@ -281,6 +282,14 @@ typedef enum : NSUInteger {
             HHReviewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kReviewCellId forIndexPath:indexPath];
             [cell setupRatingView:self.coach.averageRating];
             [cell setupReviewViews:self.reviews];
+            cell.reviewTappedBlock = ^(NSInteger index) {
+                HHReviewViewController *reviewVC = [[HHReviewViewController alloc] init];
+                reviewVC.reviews = [NSMutableArray arrayWithArray:self.reviews];
+                reviewVC.coach = self.coach;
+                reviewVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+                reviewVC.modalPresentationStyle = UIModalPresentationCurrentContext;
+                [self presentViewController:reviewVC animated:YES completion:nil];
+            };
             return cell;
         }
             

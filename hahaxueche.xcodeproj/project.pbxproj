@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C0126F11B70360800780992 /* HHReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C0126F01B70360800780992 /* HHReviewViewController.m */; };
+		5C0126F51B7038FA00780992 /* blur_background@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C0126F21B7038FA00780992 /* blur_background@1x.png */; };
+		5C0126F61B7038FA00780992 /* blur_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C0126F31B7038FA00780992 /* blur_background@2x.png */; };
+		5C0126F71B7038FA00780992 /* blur_background@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C0126F41B7038FA00780992 /* blur_background@3x.png */; };
+		5C0126FA1B7051C000780992 /* HHFullReviewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C0126F91B7051C000780992 /* HHFullReviewTableViewCell.m */; };
 		5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */; };
 		5C11B3961B6D0DBE0014A018 /* HHScheduleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B3951B6D0DBE0014A018 /* HHScheduleTableViewCell.m */; };
 		5C11B3991B6D2B3C0014A018 /* HHCoachSchedule.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B3981B6D2B3C0014A018 /* HHCoachSchedule.m */; };
@@ -150,6 +155,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5C0126EF1B70360800780992 /* HHReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHReviewViewController.h; sourceTree = "<group>"; };
+		5C0126F01B70360800780992 /* HHReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReviewViewController.m; sourceTree = "<group>"; };
+		5C0126F21B7038FA00780992 /* blur_background@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blur_background@1x.png"; sourceTree = "<group>"; };
+		5C0126F31B7038FA00780992 /* blur_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blur_background@2x.png"; sourceTree = "<group>"; };
+		5C0126F41B7038FA00780992 /* blur_background@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blur_background@3x.png"; sourceTree = "<group>"; };
+		5C0126F81B7051C000780992 /* HHFullReviewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHFullReviewTableViewCell.h; sourceTree = "<group>"; };
+		5C0126F91B7051C000780992 /* HHFullReviewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHFullReviewTableViewCell.m; sourceTree = "<group>"; };
 		5C10F92C1B49E85200992B63 /* UIColor+HHColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HHColor.h"; sourceTree = "<group>"; };
 		5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HHColor.m"; sourceTree = "<group>"; };
 		5C11B3941B6D0DBE0014A018 /* HHScheduleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHScheduleTableViewCell.h; sourceTree = "<group>"; };
@@ -375,6 +387,8 @@
 				5C5451901B4F67200025D19F /* HHSearchBar.m */,
 				5CD4EA341B5C2BA0003CF15E /* HHAvatarView.h */,
 				5CD4EA351B5C2BA0003CF15E /* HHAvatarView.m */,
+				5C0126F81B7051C000780992 /* HHFullReviewTableViewCell.h */,
+				5C0126F91B7051C000780992 /* HHFullReviewTableViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -430,6 +444,8 @@
 				5CB34EE71B61F4B5007954DF /* HHMapViewController.m */,
 				5CB34F161B63F42C007954DF /* HHSearchViewController.h */,
 				5CB34F171B63F42C007954DF /* HHSearchViewController.m */,
+				5C0126EF1B70360800780992 /* HHReviewViewController.h */,
+				5C0126F01B70360800780992 /* HHReviewViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -437,6 +453,9 @@
 		5C10F9271B49E6F100992B63 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5C0126F21B7038FA00780992 /* blur_background@1x.png */,
+				5C0126F31B7038FA00780992 /* blur_background@2x.png */,
+				5C0126F41B7038FA00780992 /* blur_background@3x.png */,
 				5C93FA801B6EFB3300D7FC86 /* arrow_right@1x.png */,
 				5C93FA811B6EFB3300D7FC86 /* arrow_right@2x.png */,
 				5C93FA821B6EFB3300D7FC86 /* arrow_right@3x.png */,
@@ -868,6 +887,7 @@
 				5CB34F2A1B643E02007954DF /* star@3x.png in Resources */,
 				5C2DCD011B65ACE0007E8FA7 /* car_icon@3x.png in Resources */,
 				5CA5B7871B533A2200312674 /* austin2.jpg in Resources */,
+				5C0126F61B7038FA00780992 /* blur_background@2x.png in Resources */,
 				5CA5B7881B533A2200312674 /* austin3.jpg in Resources */,
 				5CB34F131B63EA61007954DF /* search.png in Resources */,
 				5CD4E9691B558431003CF15E /* reservation_grey@2x.png in Resources */,
@@ -891,6 +911,8 @@
 				5CB34F271B643E02007954DF /* star_half@3x.png in Resources */,
 				5CB34F281B643E02007954DF /* star@1x.png in Resources */,
 				5C93FA6F1B6E827A00D7FC86 /* x_button@2x.png in Resources */,
+				5C0126F71B7038FA00780992 /* blur_background@3x.png in Resources */,
+				5C0126F51B7038FA00780992 /* blur_background@1x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -969,6 +991,7 @@
 				5CD4EA001B5AD60F003CF15E /* HHCoach.m in Sources */,
 				5C93FA8E1B6FEECC00D7FC86 /* HHReviewView.m in Sources */,
 				5C5451C61B52A7760025D19F /* HHLoginSignupViewController.m in Sources */,
+				5C0126F11B70360800780992 /* HHReviewViewController.m in Sources */,
 				5CC3B6011B48268A00D10DFB /* main.m in Sources */,
 				5C3980981B4C1A2A0057B049 /* HHMyReservationViewController.m in Sources */,
 				5C3980911B4C17900057B049 /* HHRootViewController.m in Sources */,
@@ -982,6 +1005,7 @@
 				5CD4E9F01B59CC7B003CF15E /* HHUser.m in Sources */,
 				5CA5B77A1B52CFF300312674 /* HHMobilePhoneViewController.m in Sources */,
 				5C93FA8B1B6F1DFE00D7FC86 /* HHReviewTableViewCell.m in Sources */,
+				5C0126FA1B7051C000780992 /* HHFullReviewTableViewCell.m in Sources */,
 				5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */,
 				5CB34F181B63F42C007954DF /* HHSearchViewController.m in Sources */,
 				5CB34EE81B61F4B5007954DF /* HHMapViewController.m in Sources */,

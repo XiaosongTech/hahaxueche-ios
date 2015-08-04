@@ -101,13 +101,16 @@
     if (count == 0) {
         return;
     }
-    NSMutableArray *array = [NSMutableArray array];
+    self.reviewViewsArray = [NSMutableArray array];
     for (int i = 0; i < count; i++) {
         HHReviewView *reviewView = [[HHReviewView alloc] initWithReview:[self.reviews firstObject]];
+        reviewView.tag = i;
         reviewView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.containerView addSubview:reviewView];
-        [array addObject:reviewView];
+        [self.reviewViewsArray addObject:reviewView];
         
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(reviewTapped:)];
+        [reviewView addGestureRecognizer:tap];
         if (i == 0) {
             NSArray *constraints = @[
                                      [HHAutoLayoutUtility verticalNext:reviewView toView:self.line constant:0],
@@ -119,7 +122,7 @@
             [self.contentView addConstraints:constraints];
         } else {
             NSArray *constraints = @[
-                                     [HHAutoLayoutUtility verticalNext:reviewView toView:array[i-1] constant:0],
+                                     [HHAutoLayoutUtility verticalNext:reviewView toView:self.reviewViewsArray[i-1] constant:0],
                                      [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:reviewView constant:0],
                                      [HHAutoLayoutUtility setViewHeight:reviewView multiplier:0 constant:120.0f],
                                      [HHAutoLayoutUtility setViewWidth:reviewView multiplier:1.0f constant:0],
@@ -128,6 +131,14 @@
             [self.contentView addConstraints:constraints];
         }
         
+    }
+    
+}
+
+- (void)reviewTapped:(UITapGestureRecognizer *)tapRecognizor {
+    HHReviewView *view = (HHReviewView *)tapRecognizor.view;
+    if (self.reviewTappedBlock) {
+        self.reviewTappedBlock(view.tag);
     }
     
 }
