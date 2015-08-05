@@ -46,6 +46,7 @@
     
     self.arrowImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow_right"]];
     self.arrowImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.arrowImageView.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bookTime)];
     [self.arrowImageView addGestureRecognizer:tap];
     [self.containerView addSubview:self.arrowImageView];

@@ -21,6 +21,7 @@
 @property (nonatomic, strong) UILabel *ratingLabel;
 @property (nonatomic, strong) UILabel *commentLabel;
 @property (nonatomic, strong) UIView *line;
+@property (nonatomic, strong) UILabel *timeLabel;
 
 - (instancetype)initWithReview:(HHReview *)review;
 

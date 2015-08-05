@@ -118,6 +118,7 @@
     AVQuery *query = [AVQuery queryWithClassName:[HHReview parseClassName]];
     query.limit = kCountPerPage;
     query.skip = skip;
+    [query orderByDescending:@"createdAt"];
     [query whereKey:@"coachId" equalTo:coachId];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (completion) {

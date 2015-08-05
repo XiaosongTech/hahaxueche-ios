@@ -12,6 +12,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "HHAutoLayoutUtility.h"
 #import "HHFormatUtility.h"
+#import "NSDate+DateTools.h"
 
 #define kAvatarRadius 20.0f
 
@@ -53,6 +54,8 @@
     self.line.translatesAutoresizingMaskIntoConstraints = NO;
     self.line.backgroundColor = [UIColor HHGrayLineColor];
     [self addSubview:self.line];
+
+    self.timeLabel = [self createLabelWithTitle:[NSDate timeAgoSinceDate:self.review.createdAt] font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12]  textColor:[UIColor blackColor]];
     
     [self autoLayoutSubviews];
     
@@ -86,6 +89,9 @@
                              
                              [HHAutoLayoutUtility setCenterY:self.ratingLabel toView:self.ratingView multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility horizontalNext:self.ratingLabel toView:self.ratingView constant:3.0f],
+                             
+                             [HHAutoLayoutUtility setCenterY:self.timeLabel toView:self.nameLabel multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.timeLabel constant:-10.0f],
                              
                              [HHAutoLayoutUtility verticalNext:self.commentLabel toView:self.avatarView constant:0],
                              [HHAutoLayoutUtility horizontalNext:self.commentLabel toView:self.avatarView constant:5.0f],

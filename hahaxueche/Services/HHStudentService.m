@@ -36,7 +36,8 @@
     [query whereKey:@"studentId" equalTo:studentId];
     [query getFirstObjectInBackgroundWithBlock:^(AVObject *object, NSError *error) {
         if (completion) {
-            completion(object, error);
+            HHStudent *student = (HHStudent *)object;
+            completion(student, error);
         }
     }];
 }

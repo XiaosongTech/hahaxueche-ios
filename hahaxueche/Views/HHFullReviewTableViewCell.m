@@ -12,6 +12,7 @@
 #import "HHStudentService.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "HHFormatUtility.h"
+#import "NSDate+DateTools.h"
 
 #define kAvatarRadius 20.0f
 
@@ -49,6 +50,8 @@
     self.line.backgroundColor = [UIColor HHGrayLineColor];
     [self.contentView addSubview:self.line];
     
+    self.timeLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12] textColor:[UIColor whiteColor]];
+    
     [self autoLayoutSubviews];
     
 }
@@ -82,6 +85,9 @@
                              [HHAutoLayoutUtility setCenterY:self.ratingLabel toView:self.ratingView multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility horizontalNext:self.ratingLabel toView:self.ratingView constant:3.0f],
                              
+                             [HHAutoLayoutUtility setCenterY:self.timeLabel toView:self.nameLabel multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.timeLabel constant:-15.0f],
+                             
                              [HHAutoLayoutUtility verticalNext:self.commentLabel toView:self.avatarView constant:1.0f],
                              [HHAutoLayoutUtility horizontalNext:self.commentLabel toView:self.avatarView constant:5.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.commentLabel constant:-15.0f],
@@ -100,6 +106,8 @@
     [self.ratingView setupViewWithRating:[review.rating floatValue]];
     self.ratingLabel.text = [[HHFormatUtility floatFormatter] stringFromNumber:review.rating];
     self.commentLabel.text = review.comment;
+    self.timeLabel.text = [NSDate timeAgoSinceDate:review.createdAt];
+    
     [[HHStudentService sharedInstance] fetchStudentsWithId:review.studentId completion:^(HHStudent *student, NSError *error) {
         [self.avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:student.avatarURL] placeholderImage:nil];
         self.nameLabel.text = student.fullName;
