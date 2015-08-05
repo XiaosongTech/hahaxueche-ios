@@ -285,6 +285,7 @@ typedef enum : NSUInteger {
             cell.reviewTappedBlock = ^(NSInteger index) {
                 HHReviewViewController *reviewVC = [[HHReviewViewController alloc] init];
                 reviewVC.reviews = [NSMutableArray arrayWithArray:self.reviews];
+                reviewVC.initialIndex = index;
                 reviewVC.coach = self.coach;
                 reviewVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
                 reviewVC.modalPresentationStyle = UIModalPresentationCurrentContext;

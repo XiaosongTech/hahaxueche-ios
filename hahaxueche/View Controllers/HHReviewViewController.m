@@ -10,6 +10,7 @@
 #import "HHAutoLayoutUtility.h"
 #import "UIColor+HHColor.h"
 #import "HHFullReviewTableViewCell.h"
+#import "HHCoachService.h"
 
 #define kReviewCellId @"kReviewCellId"
 
@@ -20,6 +21,7 @@
 @property (nonatomic, strong) UIButton *cancelButton;
 @property (nonatomic, strong) UIImageView *backgroundImageView;
 @property (nonatomic, strong) UIView *line;
+@property (nonatomic)         BOOL shouldFetchMore;
 
 @end
 
@@ -28,6 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
+    self.shouldFetchMore = YES;
     
     self.backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"blur_background"]];
     self.backgroundImageView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -65,7 +68,11 @@
     
     [self autoLayoutSubviews];
     
-    //[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.initialIndex inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.initialIndex inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 - (void)autoLayoutSubviews {
@@ -76,12 +83,12 @@
                              [HHAutoLayoutUtility setViewWidth:self.backgroundImageView multiplier:1.0f constant:0],
                              
                              [HHAutoLayoutUtility setCenterX:self.titleLabel multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.titleLabel constant:50.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.titleLabel constant:40.0f],
                              [HHAutoLayoutUtility setViewWidth:self.titleLabel multiplier:1.0f constant:0],
                              
-                             [HHAutoLayoutUtility setCenterX:self.line multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility verticalNext:self.line toView:self.titleLabel constant:25.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.line multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.line constant:15.0f],
+                             [HHAutoLayoutUtility verticalNext:self.line toView:self.titleLabel constant:20.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.line multiplier:1.0f constant:-30.0f],
                              [HHAutoLayoutUtility setViewHeight:self.line multiplier:0 constant:0.5f],
                              
                              [HHAutoLayoutUtility setCenterX:self.tableView multiplier:1.0f constant:0],
@@ -119,11 +126,31 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     HHReview *review = self.reviews[indexPath.row];
-    CGRect rect = [review.comment boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.bounds)-65.0f, MAXFLOAT)
+    CGRect rect = [review.comment boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.bounds)-70.0f, MAXFLOAT)
                                                                  options:NSStringDrawingUsesLineFragmentOrigin
                                                               attributes:@{ NSFontAttributeName: [UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f]}
                                                                  context:nil];
     return CGRectGetHeight(rect) + 80.0f;
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    NSInteger currentOffset = scrollView.contentOffset.y;
+    NSInteger maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
+    
+    if (maximumOffset - currentOffset <= 0) {
+        if (!self.shouldFetchMore) {
+            return;
+        }
+        [[HHCoachService sharedInstance] fetchReviewsForCoach:self.coach.coachId skip:self.reviews.count completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
+            if (!error) {
+                [self.reviews addObjectsFromArray:objects];
+                if (self.reviews.count == totalCount) {
+                    self.shouldFetchMore = NO;
+                }
+                [self.tableView reloadData];
+            }
+        }];
+    }
 }
 
 @end

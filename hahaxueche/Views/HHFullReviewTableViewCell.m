@@ -67,7 +67,7 @@
 - (void)autoLayoutSubviews {
     NSArray *constraints = @[
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.avatarView constant:20.0f],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.avatarView constant:10.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.avatarView constant:15.0f],
                              [HHAutoLayoutUtility setViewHeight:self.avatarView multiplier:0 constant:kAvatarRadius * 2],
                              [HHAutoLayoutUtility setViewWidth:self.avatarView multiplier:0 constant:kAvatarRadius * 2],
                              
@@ -84,7 +84,7 @@
                              
                              [HHAutoLayoutUtility verticalNext:self.commentLabel toView:self.avatarView constant:1.0f],
                              [HHAutoLayoutUtility horizontalNext:self.commentLabel toView:self.avatarView constant:5.0f],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.commentLabel constant:-10.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.commentLabel constant:-15.0f],
                              
                              [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.line constant:0],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.line constant:15.0f],
