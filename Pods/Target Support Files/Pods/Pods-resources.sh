@@ -52,10 +52,12 @@ install_resource()
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "AVOSCloud/iOS/release-v3.1.2.6/AVOSCloud.framework/AVOSCloud.bundle"
+  install_resource "DateTools/DateTools/DateTools.bundle"
   install_resource "libPhoneNumber-iOS/libPhoneNumber/NBPhoneNumberMetadata.plist"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "AVOSCloud/iOS/release-v3.1.2.6/AVOSCloud.framework/AVOSCloud.bundle"
+  install_resource "DateTools/DateTools/DateTools.bundle"
   install_resource "libPhoneNumber-iOS/libPhoneNumber/NBPhoneNumberMetadata.plist"
 fi
 

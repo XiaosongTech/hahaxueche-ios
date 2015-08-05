@@ -25,6 +25,12 @@
 #define COCOAPODS_VERSION_MINOR_CRToast 0
 #define COCOAPODS_VERSION_PATCH_CRToast 7
 
+// DateTools
+#define COCOAPODS_POD_AVAILABLE_DateTools
+#define COCOAPODS_VERSION_MAJOR_DateTools 1
+#define COCOAPODS_VERSION_MINOR_DateTools 6
+#define COCOAPODS_VERSION_PATCH_DateTools 1
+
 // HMSegmentedControl
 #define COCOAPODS_POD_AVAILABLE_HMSegmentedControl
 #define COCOAPODS_VERSION_MAJOR_HMSegmentedControl 1
