@@ -47,6 +47,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIActionSheet *addressSheet;
 @property (nonatomic, strong) UIButton *payButton;
 @property (nonatomic, strong) UIButton *bookTrialButton;
+@property (nonatomic, strong) UIButton *commentButton;
 @property (nonatomic, strong) NSMutableAttributedString *coachDes;
 @property (nonatomic, strong) NSArray *schedules;
 @property (nonatomic, strong) NSArray *reviews;
@@ -54,6 +55,11 @@ typedef enum : NSUInteger {
 @end
 
 @implementation HHCoachProfileViewController
+
+- (void)dealloc {
+    self.phoneSheet.delegate = nil;
+    self.addressSheet.delegate = nil;
+}
 
 - (instancetype)initWithCoach:(HHCoach *)coach {
     self = [super init];
@@ -163,11 +169,29 @@ typedef enum : NSUInteger {
     }
     
     if (![self.coach.coachId isEqualToString:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId]) {
-        self.payButton = [self createButtonWithTitle:NSLocalizedString(@"确认教练并付款", nil) backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f]];
-        self.bookTrialButton = [self createButtonWithTitle:NSLocalizedString(@"预约试训", nil) backgroundColor:[UIColor HHLightOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f]];
+        self.payButton = [self createButtonWithTitle:NSLocalizedString(@"确认教练并付款", nil) backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f] action:@selector(payCoach)];
+        
+        self.bookTrialButton = [self createButtonWithTitle:NSLocalizedString(@"预约试训", nil) backgroundColor:[UIColor HHLightOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f] action:@selector(callCoach)];
+        
+    } else {
+        self.commentButton = [self createButtonWithTitle:NSLocalizedString(@"评价教练", nil) backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f] action:@selector(commentCoach)];
     }
     
      [self autolayoutSubview];
+    
+}
+
+- (void)payCoach {
+    
+}
+
+- (void)callCoach {
+    NSString *phoneURLString = [NSString stringWithFormat:@"telprompt://%@", self.coach.phoneNumber];
+    NSURL *phoneURL = [NSURL URLWithString:phoneURLString];
+    [[UIApplication sharedApplication] openURL:phoneURL];
+}
+
+- (void)commentCoach {
     
 }
 
@@ -198,6 +222,12 @@ typedef enum : NSUInteger {
                         [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.tableView constant:0],
                         [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:0],
                         [HHAutoLayoutUtility setViewHeight:self.tableView multiplier:1.0f constant:-50.0f],
+                        
+                        
+                        [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.commentButton constant:0],
+                        [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.commentButton constant:0],
+                        [HHAutoLayoutUtility setViewWidth:self.commentButton multiplier:1.0f constant:0],
+                        [HHAutoLayoutUtility setViewHeight:self.commentButton multiplier:0 constant:50.0f],
                         ];
 
     }
@@ -206,13 +236,14 @@ typedef enum : NSUInteger {
     
 }
 
-- (UIButton *)createButtonWithTitle:(NSString *)title backgroundColor:(UIColor *)bgColor font:(UIFont *)font {
+- (UIButton *)createButtonWithTitle:(NSString *)title backgroundColor:(UIColor *)bgColor font:(UIFont *)font action:(SEL)action {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.translatesAutoresizingMaskIntoConstraints = NO;
     [button setTitle:title forState:UIControlStateNormal];
     button.titleLabel.font = font;
     [button setBackgroundColor:bgColor];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
     return button;
 }
@@ -240,7 +271,7 @@ typedef enum : NSUInteger {
                                                        mode:JTSImageViewControllerMode_Image
                                                        backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
                 
-                [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOffscreen];
+                [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
 
             };
             return cell;
