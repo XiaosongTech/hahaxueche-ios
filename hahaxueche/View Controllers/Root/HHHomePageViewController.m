@@ -9,8 +9,6 @@
 #import "HHHomePageViewController.h"
 #import "SDCycleScrollView.h"
 #import "HHAutoLayoutUtility.h"
-#import "JTSImageViewController.h"
-#import "JTSImageInfo.h"
 #import "HHButton.h"
 #import "UIColor+HHColor.h"
 #import "HHRootViewController.h"

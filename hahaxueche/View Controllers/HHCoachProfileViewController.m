@@ -12,8 +12,6 @@
 #import "UIColor+HHColor.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "UIColor+HHColor.h"
-#import "JTSImageViewController.h"
-#import "JTSImageInfo.h"
 #import "HHCoachDesTableViewCell.h"
 #import "HHCoachDashBoardTableViewCell.h"
 #import "HHUserAuthenticator.h"
