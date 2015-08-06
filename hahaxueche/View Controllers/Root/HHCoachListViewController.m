@@ -25,6 +25,7 @@
 #import "CMPopTipView.h"
 #import "HHPointAnnotation.h"
 #import "HHLoadingTableViewCell.h"
+#import "HHToastUtility.h"
 
 typedef void (^HHGenericCompletion)();
 
@@ -137,6 +138,8 @@ typedef void (^HHGenericCompletion)();
             if (completion) {
                 completion();
             }
+        } else {
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取数据时出错！", nil) isError:YES];
         }
     }];
     

@@ -24,6 +24,7 @@
 #import "HHRootViewController.h"
 #import "HHReviewTableViewCell.h"
 #import "HHReviewViewController.h"
+#import "HHFullScreenImageViewController.h"
 
 typedef enum : NSUInteger {
     CoachProfileCellDes,
@@ -59,6 +60,8 @@ typedef enum : NSUInteger {
 - (void)dealloc {
     self.phoneSheet.delegate = nil;
     self.addressSheet.delegate = nil;
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
 }
 
 - (instancetype)initWithCoach:(HHCoach *)coach {
@@ -256,23 +259,14 @@ typedef enum : NSUInteger {
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    __weak HHCoachProfileViewController *weakSelf = self;
     switch (indexPath.row) {
         case CoachProfileCellDes:{
             HHCoachDesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDesCellId forIndexPath:indexPath];
             [cell setupViewWithURL:self.coach.avatarURL name:self.coach.fullName des:self.coachDes];
-            __weak HHCoachDesTableViewCell *weakCell = cell;
             cell.block = ^() {
-                JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
-                imageInfo.imageURL = [NSURL URLWithString:self.coach.avatarURL];
-                imageInfo.referenceRect = weakCell.avatarView.frame;
-                imageInfo.referenceView = self.view;
-                JTSImageViewController *imageViewer = [[JTSImageViewController alloc]
-                                                       initWithImageInfo:imageInfo
-                                                       mode:JTSImageViewControllerMode_Image
-                                                       backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
-                
-                [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
-
+                HHFullScreenImageViewController *imageViewer = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:self.coach.avatarURL] title:self.coach.fullName];
+                [weakSelf presentViewController:imageViewer animated:YES completion:nil];
             };
             return cell;
         }
@@ -294,17 +288,10 @@ typedef enum : NSUInteger {
             cell.bookButtonBlock = ^(){
                 [self.tabBarController setSelectedIndex:TabBarItemBookView];
             };
-            __weak HHScheduleTableViewCell *weakCell = cell;
+            
             cell.block = ^(HHStudent *student) {
-                JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
-                imageInfo.imageURL = [NSURL URLWithString:student.avatarURL];
-                imageInfo.referenceRect = weakCell.scheduleView.scrollView.frame;
-                imageInfo.referenceView = self.view;
-                JTSImageViewController *imageViewer = [[JTSImageViewController alloc]
-                                                       initWithImageInfo:imageInfo
-                                                       mode:JTSImageViewControllerMode_Image
-                                                       backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
-                [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOffscreen];            };
+                HHFullScreenImageViewController *imageViewer = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:student.avatarURL] title:student.fullName];
+                [weakSelf presentViewController:imageViewer animated:YES completion:nil];            };
 
             cell.schedules = self.schedules;
             return cell;
@@ -383,17 +370,9 @@ typedef enum : NSUInteger {
 
 #pragma mark SDCycleScrollViewDelegate Methods
 
-- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
-    JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
-    imageInfo.imageURL = [NSURL URLWithString:self.coach.images[index]];
-    imageInfo.referenceRect = self.imageGalleryView.frame;
-    imageInfo.referenceView = self.imageGalleryView;
-    JTSImageViewController *imageViewer = [[JTSImageViewController alloc]
-                                           initWithImageInfo:imageInfo
-                                           mode:JTSImageViewControllerMode_Image
-                                           backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
-    
-    [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOffscreen];
+- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {    
+    HHFullScreenImageViewController *imageVC = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:self.coach.images[index]] title:nil];
+    [self presentViewController:imageVC animated:YES completion:nil];
 }
 
 #pragma mark Hide TabBar

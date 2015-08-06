@@ -31,6 +31,12 @@
 #define COCOAPODS_VERSION_MINOR_DateTools 6
 #define COCOAPODS_VERSION_PATCH_DateTools 1
 
+// EXPhotoViewer
+#define COCOAPODS_POD_AVAILABLE_EXPhotoViewer
+#define COCOAPODS_VERSION_MAJOR_EXPhotoViewer 1
+#define COCOAPODS_VERSION_MINOR_EXPhotoViewer 1
+#define COCOAPODS_VERSION_PATCH_EXPhotoViewer 2
+
 // HMSegmentedControl
 #define COCOAPODS_POD_AVAILABLE_HMSegmentedControl
 #define COCOAPODS_VERSION_MAJOR_HMSegmentedControl 1

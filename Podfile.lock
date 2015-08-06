@@ -3,6 +3,7 @@ PODS:
   - CMPopTipView (2.2.0)
   - CRToast (0.0.7)
   - DateTools (1.6.1)
+  - EXPhotoViewer (1.1.2)
   - HMSegmentedControl (1.5.2)
   - JTSImageViewController (1.4)
   - libPhoneNumber-iOS (0.8.5)
@@ -18,6 +19,7 @@ DEPENDENCIES:
   - CMPopTipView (~> 2.2)
   - CRToast (~> 0.0.7)
   - DateTools
+  - EXPhotoViewer (~> 1.1)
   - HMSegmentedControl
   - JTSImageViewController (~> 1.4)
   - libPhoneNumber-iOS (~> 0.8)
@@ -31,6 +33,7 @@ SPEC CHECKSUMS:
   CMPopTipView: a0a88404b9f46a5cfc16ce54bdb1b9bf9acb9aff
   CRToast: 99a28f4387def43b439ad88f957ce31357ff7373
   DateTools: 9bcc89e4f2f9004d8a7a2bd1b49269cf78968e65
+  EXPhotoViewer: 01d391c4e5f7d25470d92b26837d40a362714ce0
   HMSegmentedControl: 83b9686022d2176fb6457d2bdb61e5d6393fed7d
   JTSImageViewController: 6a367b144e257db02cdfacdba78d684377d3777b
   libPhoneNumber-iOS: b8ccd23576379caca37c7cbdd554addf384459ed

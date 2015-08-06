@@ -14,6 +14,7 @@
 #import "HHButton.h"
 #import "UIColor+HHColor.h"
 #import "HHRootViewController.h"
+#import "HHFullScreenImageViewController.h"
 
 @interface HHHomePageViewController ()<SDCycleScrollViewDelegate>
 
@@ -138,19 +139,8 @@
 #pragma mark SDCycleScrollViewDelegate Methods
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
-    JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
-    imageInfo.image = self.imagesArray[index];
-    imageInfo.referenceRect = self.imageGalleryView.frame;
-    imageInfo.referenceView = self.imageGalleryView;
-    
-    // Setup view controller
-    JTSImageViewController *imageViewer = [[JTSImageViewController alloc]
-                                           initWithImageInfo:imageInfo
-                                           mode:JTSImageViewControllerMode_Image
-                                           backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
-    
-    // Present the view controller.
-    [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOffscreen];
+    HHFullScreenImageViewController *imageVC = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:self.imagesArray[index]] title:nil];
+    [self presentViewController:imageVC animated:YES completion:nil];
 }
 
 
