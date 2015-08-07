@@ -15,7 +15,7 @@
 #import "HHPointAnnotation.h"
 
 #define kFloatButtonHeight 30.0f
-#define kNearestFieldCount 1
+#define kNearestFieldCount 5
 
 @interface HHMapViewController ()<MKMapViewDelegate, CLLocationManagerDelegate>
 
