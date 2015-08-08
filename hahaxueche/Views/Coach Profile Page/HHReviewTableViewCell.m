@@ -103,7 +103,7 @@
     }
     self.reviewViewsArray = [NSMutableArray array];
     for (int i = 0; i < count; i++) {
-        HHReviewView *reviewView = [[HHReviewView alloc] initWithReview:[self.reviews firstObject]];
+        HHReviewView *reviewView = [[HHReviewView alloc] initWithReview:self.reviews[i]];
         reviewView.tag = i;
         reviewView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.containerView addSubview:reviewView];
