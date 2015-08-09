@@ -283,14 +283,6 @@ typedef enum : NSUInteger {
         case CoachProfileCellCalendar: {
             HHScheduleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kScheduleCellId forIndexPath:indexPath];
             cell.coach = self.coach;
-            cell.bookButtonBlock = ^(){
-                [self.tabBarController setSelectedIndex:TabBarItemBookView];
-            };
-            
-            cell.block = ^(HHStudent *student) {
-                HHFullScreenImageViewController *imageViewer = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:student.avatarURL] title:student.fullName];
-                [weakSelf presentViewController:imageViewer animated:YES completion:nil];            };
-
             cell.schedules = self.schedules;
             return cell;
         }
@@ -326,7 +318,7 @@ typedef enum : NSUInteger {
             return 220.0f;
         }
         case CoachProfileCellCalendar: {
-            return 250.0f;
+            return 60.0f;
         }
         case CoachProfileCellReview: {
             NSInteger reviewCount =  MIN(3, self.reviews.count);

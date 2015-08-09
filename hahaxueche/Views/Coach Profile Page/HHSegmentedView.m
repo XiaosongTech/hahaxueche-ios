@@ -120,19 +120,36 @@
 - (void)setupScrollView {
     for (int i = 0; i < self.groupedSchedules.count; i++) {
         NSArray *array = self.groupedSchedules[i];
+        NSMutableArray *timeSlotViews = [NSMutableArray array];
         for (int j = 0; j < array.count; j++) {
             HHTimeSlotView *timeSlot = [[HHTimeSlotView alloc] initWithSchedule:array[j]];
             timeSlot.translatesAutoresizingMaskIntoConstraints = NO;
             timeSlot.block = self.block;
             [self.scrollView addSubview:timeSlot];
-            NSArray *constraints = @[
-                                     [HHAutoLayoutUtility setCenterX:timeSlot multiplier:1.0f + 2.0f * i constant:0],
-                                     [HHAutoLayoutUtility setCenterY:timeSlot multiplier:0.5f + j constant:0],
-                                     [HHAutoLayoutUtility setViewHeight:timeSlot multiplier:0.5f constant:-5.0f],
-                                     [HHAutoLayoutUtility setViewWidth:timeSlot multiplier:1.0f constant:-10.],
-                                     
-                                     ];
-            [self addConstraints:constraints];
+            [timeSlotViews addObject:timeSlot];
+            CGFloat centerY = (1.0f/array.count) + (j*2.0f/array.count);
+            CGFloat heightMultiplier = MIN(0.5f, 1.0f/array.count);
+            if (j == 0) {
+                NSArray *constraints = @[
+                                         [HHAutoLayoutUtility setCenterX:timeSlot multiplier:1.0f + 2.0f * i constant:0],
+                                         [HHAutoLayoutUtility verticalAlignToSuperViewTop:timeSlot constant:0],
+                                         [HHAutoLayoutUtility setViewHeight:timeSlot multiplier:heightMultiplier constant:-5.0f],
+                                         [HHAutoLayoutUtility setViewWidth:timeSlot multiplier:1.0f constant:-10.0f ],
+                                         
+                                         ];
+                [self addConstraints:constraints];
+            } else {
+                NSArray *constraints = @[
+                                         [HHAutoLayoutUtility setCenterX:timeSlot multiplier:1.0f + 2.0f * i constant:0],
+                                         [HHAutoLayoutUtility verticalNext:timeSlot toView:timeSlotViews[j-1] constant:5.0f],
+                                         [HHAutoLayoutUtility setViewHeight:timeSlot multiplier:heightMultiplier constant:-5.0f],
+                                         [HHAutoLayoutUtility setViewWidth:timeSlot multiplier:1.0f constant:-10.0f ],
+                                         
+                                         ];
+                [self addConstraints:constraints];
+
+            }
+            
         }
         
     }
