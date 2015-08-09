@@ -23,6 +23,8 @@
 #import "HHReviewTableViewCell.h"
 #import "HHReviewViewController.h"
 #import "HHFullScreenImageViewController.h"
+#import "HHTimeSlotsViewController.h"
+#import "HHNavigationController.h"
 
 typedef enum : NSUInteger {
     CoachProfileCellDes,
@@ -318,7 +320,7 @@ typedef enum : NSUInteger {
             return 220.0f;
         }
         case CoachProfileCellCalendar: {
-            return 60.0f;
+            return 50.0f;
         }
         case CoachProfileCellReview: {
             NSInteger reviewCount =  MIN(3, self.reviews.count);
@@ -333,28 +335,10 @@ typedef enum : NSUInteger {
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch (indexPath.row) {
-        case CoachProfileCellDes:{
-        
-        }
-            break;
-        case CoachProfileCellDashBoard: {
-            
-        }
-            break;
-        case CoachProfileCellCalendar: {
-            
-        }
-            break;
-        case CoachProfileCellReview: {
-            
-        }
-            break;
-            
-        default: {
-        }
-            break;
-            
+    if (indexPath.row == CoachProfileCellCalendar) {
+        HHTimeSlotsViewController *vc = [[HHTimeSlotsViewController alloc] init];
+        vc.schedules = self.schedules;
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 

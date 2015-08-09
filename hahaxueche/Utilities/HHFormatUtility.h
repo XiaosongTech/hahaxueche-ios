@@ -20,4 +20,6 @@
 
 + (NSDateFormatter *)timeFormatter;
 
++ (NSDateFormatter *)fullDateFormatter;
+
 @end
