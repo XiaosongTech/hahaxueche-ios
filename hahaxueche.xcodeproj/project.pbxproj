@@ -19,7 +19,6 @@
 		5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */; };
 		5C11B3961B6D0DBE0014A018 /* HHScheduleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B3951B6D0DBE0014A018 /* HHScheduleTableViewCell.m */; };
 		5C11B3991B6D2B3C0014A018 /* HHCoachSchedule.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B3981B6D2B3C0014A018 /* HHCoachSchedule.m */; };
-		5C11B39C1B6D54D30014A018 /* HHSegmentedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B39B1B6D54D30014A018 /* HHSegmentedView.m */; };
 		5C11B39F1B6D9DA20014A018 /* HHScheduleService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B39E1B6D9DA20014A018 /* HHScheduleService.m */; };
 		5C11B3A21B6DA0560014A018 /* HHStudentService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B3A11B6DA0560014A018 /* HHStudentService.m */; };
 		5C11B3A51B6E61FA0014A018 /* HHTimeSlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B3A41B6E61FA0014A018 /* HHTimeSlotView.m */; };
@@ -174,8 +173,6 @@
 		5C11B3951B6D0DBE0014A018 /* HHScheduleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHScheduleTableViewCell.m; sourceTree = "<group>"; };
 		5C11B3971B6D2B3C0014A018 /* HHCoachSchedule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachSchedule.h; sourceTree = "<group>"; };
 		5C11B3981B6D2B3C0014A018 /* HHCoachSchedule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachSchedule.m; sourceTree = "<group>"; };
-		5C11B39A1B6D54D30014A018 /* HHSegmentedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSegmentedView.h; sourceTree = "<group>"; };
-		5C11B39B1B6D54D30014A018 /* HHSegmentedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSegmentedView.m; sourceTree = "<group>"; };
 		5C11B39D1B6D9DA20014A018 /* HHScheduleService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHScheduleService.h; sourceTree = "<group>"; };
 		5C11B39E1B6D9DA20014A018 /* HHScheduleService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHScheduleService.m; sourceTree = "<group>"; };
 		5C11B3A01B6DA0560014A018 /* HHStudentService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHStudentService.h; sourceTree = "<group>"; };
@@ -658,8 +655,6 @@
 				5CBBA97B1B604762009398B8 /* HHDashView.m */,
 				5C11B3941B6D0DBE0014A018 /* HHScheduleTableViewCell.h */,
 				5C11B3951B6D0DBE0014A018 /* HHScheduleTableViewCell.m */,
-				5C11B39A1B6D54D30014A018 /* HHSegmentedView.h */,
-				5C11B39B1B6D54D30014A018 /* HHSegmentedView.m */,
 				5C11B3A31B6E61FA0014A018 /* HHTimeSlotView.h */,
 				5C11B3A41B6E61FA0014A018 /* HHTimeSlotView.m */,
 				5C93FA891B6F1DFE00D7FC86 /* HHReviewTableViewCell.h */,
@@ -987,7 +982,6 @@
 				5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */,
 				5CBBA9731B5FE714009398B8 /* HHCoachDesTableViewCell.m in Sources */,
 				5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */,
-				5C11B39C1B6D54D30014A018 /* HHSegmentedView.m in Sources */,
 				5CD4EA361B5C2BA0003CF15E /* HHAvatarView.m in Sources */,
 				5C3980951B4C1A180057B049 /* HHHomePageViewController.m in Sources */,
 				5CD4E9EA1B597CE2003CF15E /* HHToastUtility.m in Sources */,
