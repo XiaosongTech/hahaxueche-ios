@@ -15,6 +15,9 @@
 #import "HHTimeSlotSectionTitleView.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHToastUtility.h"
+#import "HHStudentService.h"
+#import "HHFullScreenImageViewController.h"
+#import "HHUserAuthenticator.h"
 
 #define kTimeSlotCellIdentifier @"kTimeSlotCellIdentifier"
 
@@ -22,8 +25,14 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *groupedSchedules;
+@property (nonatomic, strong) NSArray *groupedCourseTwoSchedules;
+@property (nonatomic, strong) NSArray *groupedCourseThreSchedules;
 @property (nonatomic, strong) NSArray *sectionTiltes;
 @property (nonatomic, strong) NSMutableArray *selectedSchedules;
+@property (nonatomic, strong) NSMutableDictionary *studentsForSchedules;
+@property (nonatomic, strong) UIButton *confirmButton;
+@property (nonatomic)         BOOL canSelectTime;
+@property (nonatomic, strong) UISegmentedControl *filterSegmentedControl;
 
 @end
 
@@ -36,7 +45,20 @@
 
 - (void)setSchedules:(NSArray *)schedules {
     _schedules = schedules;
-    self.sectionTiltes = [self groupSchedulesTitle];
+    self.sectionTiltes = [self groupSchedulesTitleWithFilter:self.filterSegmentedControl.selectedSegmentIndex];
+}
+
+- (void)setCanSelectTime:(BOOL)canSelectTime {
+    _canSelectTime = canSelectTime;
+    if (self.canSelectTime) {
+        self.confirmButton.enabled = YES;
+        [self.confirmButton setBackgroundColor:[UIColor HHOrange]];
+        
+    } else {
+        self.confirmButton.enabled = NO;
+        [self.confirmButton setBackgroundColor:[UIColor HHLightGrayBackgroundColor]];
+    }
+    
 }
 
 - (void)viewDidLoad {
@@ -45,6 +67,7 @@
     self.title = NSLocalizedString(@"预约时间", nil);
     self.navigationItem.hidesBackButton = YES;
     self.selectedSchedules = [NSMutableArray array];
+    self.studentsForSchedules = [NSMutableDictionary dictionary];
     
     UIBarButtonItem *backButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"left_arrow"] action:@selector(backButtonPressed) target:self];
     self.navigationItem.hidesBackButton = YES;
@@ -53,10 +76,6 @@
                                        target:nil action:nil];
     negativeSpacer.width = -8.0f;//
     [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, backButton]];
-    
-    UIBarButtonItem *confirmButton = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"确认", nil) action:@selector(confirmTime) target:self isLeft:NO];
-    [self.navigationItem setRightBarButtonItem:confirmButton];
-
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero];
     self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -67,7 +86,31 @@
     [self.tableView registerClass:[HHTimeSlotTableViewCell class] forCellReuseIdentifier:kTimeSlotCellIdentifier];
     [self.view addSubview:self.tableView];
     
+    self.confirmButton = [self createButtonWithTitle:NSLocalizedString(@"确认时间(已选中0)", nil) backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f] action:@selector(confirmTime)];
+    
+    if ([self.coach.coachId isEqualToString:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId]) {
+        self.canSelectTime = YES;
+    } else {
+        self.canSelectTime = NO;
+    }
+    
+
+    
+    self.filterSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[NSLocalizedString(@"全部", nil), NSLocalizedString(@"科目二", nil), NSLocalizedString(@"科目三", nil)]];
+    self.filterSegmentedControl.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.filterSegmentedControl addTarget:self action:@selector(valueChanged:) forControlEvents: UIControlEventValueChanged];
+    self.filterSegmentedControl.selectedSegmentIndex = 0;
+    self.filterSegmentedControl.tintColor = [UIColor HHOrange];
+    [self.filterSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:12.0f]} forState:UIControlStateNormal];
+    [self.view addSubview:self.filterSegmentedControl];
+    
     [self autoLayoutSubviews];
+}
+
+-(void)valueChanged:(UISegmentedControl *)control {
+    [self groupSchedulesTitleWithFilter:control.selectedSegmentIndex];
+    [self.selectedSchedules removeAllObjects];
+    [self.tableView reloadData];
 }
 
 - (void)confirmTime {
@@ -75,7 +118,6 @@
         [HHToastUtility showToastWitiTitle:NSLocalizedString(@"请先选中至少一个时间段！", nil) isError:YES];
         return;
     }
-    
 }
 
 - (void)backButtonPressed {
@@ -83,24 +125,52 @@
 }
 
 - (void)autoLayoutSubviews {
+    
+
     NSArray *constraints = @[
-                             [HHAutoLayoutUtility setCenterX:self.tableView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setCenterY:self.tableView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.tableView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setCenterX:self.filterSegmentedControl multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.filterSegmentedControl constant:5.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.filterSegmentedControl multiplier:0 constant:25.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.filterSegmentedControl multiplier:1.0f constant:-20.0f],
                              
-                            ];
+                             
+                             [HHAutoLayoutUtility setCenterX:self.tableView multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility verticalNext:self.tableView toView:self.filterSegmentedControl constant:0],
+                             [HHAutoLayoutUtility setViewHeight:self.tableView multiplier:1.0f constant:-85.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:0],
+                       
+                             [HHAutoLayoutUtility setCenterX:self.confirmButton multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.confirmButton constant:0],
+                             [HHAutoLayoutUtility setViewHeight:self.confirmButton multiplier:0 constant:50.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.confirmButton multiplier:1.0f constant:0],
+                             ];
+
     [self.view addConstraints:constraints];
 }
 
-- (NSArray *)groupSchedulesTitle {
+- (NSArray *)groupSchedulesTitleWithFilter:(TimeSlotFilter)filter {
     NSMutableArray *array = [NSMutableArray array];
-    HHCoachSchedule *firstSchedule = [self.schedules firstObject];
+    NSArray *filteredArray = self.schedules;
+    switch (filter) {
+        case TimeSlotFilterCourseTwo: {
+            filteredArray = [filteredArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(course == %@)", NSLocalizedString(@"科目二", nil)]];
+        }
+            break;
+        case TimeSlotFilterCourseThree: {
+            filteredArray = [filteredArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(course == %@)", NSLocalizedString(@"科目三", nil)]];
+        }
+            break;
+            
+        default:
+            break;
+    }
+
+    HHCoachSchedule *firstSchedule = [filteredArray firstObject];
     NSDate *previousDate = firstSchedule.startDateTime;
     NSMutableArray *currentGroup = [NSMutableArray array];
     [currentGroup addObject:firstSchedule];
-    for (int i = 1; i < self.schedules.count; i++) {
-        HHCoachSchedule *schedule = self.schedules[i];
+    for (int i = 1; i < filteredArray.count; i++) {
+        HHCoachSchedule *schedule = filteredArray[i];
         if ([[[HHFormatUtility dateFormatter] stringFromDate:schedule.startDateTime] isEqualToString:[[HHFormatUtility dateFormatter] stringFromDate:previousDate]]) {
             [currentGroup addObject:schedule];
         } else {
@@ -108,11 +178,12 @@
             currentGroup = [NSMutableArray array];
             [currentGroup addObject:schedule];
         }
-        if (i == self.schedules.count - 1) {
+        if (i == filteredArray.count - 1) {
             [array addObject:currentGroup];
         }
     }
     self.groupedSchedules = array;
+    
     NSMutableArray *titles = [NSMutableArray array];
     for (int i = 0; i < self.groupedSchedules.count; i++) {
         HHCoachSchedule *schedule = [self.groupedSchedules[i] firstObject];
@@ -132,12 +203,44 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HHTimeSlotTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kTimeSlotCellIdentifier forIndexPath:indexPath];
+    HHCoachSchedule *schedule = (HHCoachSchedule *)self.groupedSchedules[indexPath.section][indexPath.row];
+    cell.schedule = schedule;
+    __weak HHTimeSlotsViewController *weakSelf = self;
+    __weak HHTimeSlotTableViewCell *weakCell = cell;
+    cell.block = ^(HHStudent *student) {
+        HHFullScreenImageViewController *vc = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:student.avatarURL] title:student.fullName];
+        [weakSelf.tabBarController presentViewController:vc animated:YES completion:nil];
+    };
+    
+    cell.emptyAvatarblock = ^(void){
+        [weakSelf handleCellSelection:weakCell indexPath:indexPath];
+    };
+    
+    if ([self.selectedSchedules containsObject:schedule]) {
+        cell.selectedIndicatorView.hidden = NO;
+        [cell.containerView bringSubviewToFront:cell.selectedIndicatorView];
+    } else {
+        cell.selectedIndicatorView.hidden = YES;
+    }
+    [cell setupViews];
+    if (self.studentsForSchedules[schedule.objectId]) {
+        cell.students = self.studentsForSchedules[schedule.objectId];
+        [cell setupAvatars];
+    } else {
+        [[HHStudentService sharedInstance] fetchStudentsForScheduleWithIds:schedule.reservedStudents completion:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                weakCell.students = objects;
+                [weakCell setupAvatars];
+                self.studentsForSchedules[schedule.objectId] = objects;
+            }
+        }];
+    }
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 
-    return 30.0f;
+    return 40.0f;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -151,16 +254,70 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 80.0f;
+    return 118.0f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    HHTimeSlotTableViewCell *cell = (HHTimeSlotTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    [self handleCellSelection:cell indexPath:indexPath];
 }
 
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)handleCellSelection:(HHTimeSlotTableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
+    if (!self.canSelectTime) {
+        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"确认教练并付款后才能预约时间!", nil) isError:YES];
+        return;
+    }
+    HHCoachSchedule *schedule = (HHCoachSchedule *)self.groupedSchedules[indexPath.section][indexPath.row];
+    if ([schedule.reservedStudents containsObject:[HHUserAuthenticator sharedInstance].currentStudent.studentId]) {
+        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"已成功预约此时间段, 无需再预约！", nil) isError:YES];
+        return;
+    }
     
+    if (schedule.reservedStudents.count == 4) {
+        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"该时间段人数已满（每个时间段最多4名学员）", nil) isError:YES];
+        return;
+    }
+    
+    if (cell.selectedIndicatorView.hidden) {
+        cell.selectedIndicatorView.hidden = NO;
+        [cell.containerView bringSubviewToFront:cell.selectedIndicatorView];
+        [self.selectedSchedules addObject:schedule];
+        [self changeConfirmButtonTitle];
+        
+    } else {
+        cell.selectedIndicatorView.hidden = YES;
+        [self.selectedSchedules removeObject:schedule];
+        [self changeConfirmButtonTitle];
+    }
+
 }
 
+- (void)changeConfirmButtonTitle {
+    NSString *text = [NSString stringWithFormat:NSLocalizedString(@"确认时间(已选中%ld)", nil), self.selectedSchedules.count];
+    if (self.selectedSchedules.count == 0) {
+        self.confirmButton.enabled = NO;
+    } else {
+        self.confirmButton.enabled = YES;
+    }
+    [self.confirmButton setTitle:text forState:UIControlStateNormal];
+}
+
+- (UIButton *)createButtonWithTitle:(NSString *)title backgroundColor:(UIColor *)bgColor font:(UIFont *)font action:(SEL)action {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.translatesAutoresizingMaskIntoConstraints = NO;
+    [button setTitle:title forState:UIControlStateNormal];
+    button.titleLabel.font = font;
+    [button setBackgroundColor:bgColor];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:button];
+    return button;
+}
+
+#pragma mark Hide TabBar
+
+- (BOOL)hidesBottomBarWhenPushed {
+    return (self.navigationController.topViewController == self);
+}
 
 @end

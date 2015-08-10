@@ -20,6 +20,7 @@
 @property (nonatomic, copy) NSString *myCoachId;
 @property (nonatomic, copy) NSString *city;
 @property (nonatomic, copy) NSString *province;
+@property (nonatomic, copy) NSArray *myReservation;
 
 
 

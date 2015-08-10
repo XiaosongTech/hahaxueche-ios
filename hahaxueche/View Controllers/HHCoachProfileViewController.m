@@ -336,8 +336,12 @@ typedef enum : NSUInteger {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == CoachProfileCellCalendar) {
+        if (!self.schedules.count) {
+            return;
+        }
         HHTimeSlotsViewController *vc = [[HHTimeSlotsViewController alloc] init];
         vc.schedules = self.schedules;
+        vc.coach = self.coach;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

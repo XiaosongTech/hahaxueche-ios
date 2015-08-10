@@ -24,7 +24,6 @@
 		5C11B3991B6D2B3C0014A018 /* HHCoachSchedule.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B3981B6D2B3C0014A018 /* HHCoachSchedule.m */; };
 		5C11B39F1B6D9DA20014A018 /* HHScheduleService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B39E1B6D9DA20014A018 /* HHScheduleService.m */; };
 		5C11B3A21B6DA0560014A018 /* HHStudentService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B3A11B6DA0560014A018 /* HHStudentService.m */; };
-		5C11B3A51B6E61FA0014A018 /* HHTimeSlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B3A41B6E61FA0014A018 /* HHTimeSlotView.m */; };
 		5C2DCCE91B6477A1007E8FA7 /* HHPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2DCCE81B6477A1007E8FA7 /* HHPointAnnotation.m */; };
 		5C2DCCFC1B65ACE0007E8FA7 /* car_icon_solid@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2DCCF61B65ACE0007E8FA7 /* car_icon_solid@1x.png */; };
 		5C2DCCFD1B65ACE0007E8FA7 /* car_icon_solid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2DCCF71B65ACE0007E8FA7 /* car_icon_solid@2x.png */; };
@@ -186,8 +185,6 @@
 		5C11B39E1B6D9DA20014A018 /* HHScheduleService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHScheduleService.m; sourceTree = "<group>"; };
 		5C11B3A01B6DA0560014A018 /* HHStudentService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHStudentService.h; sourceTree = "<group>"; };
 		5C11B3A11B6DA0560014A018 /* HHStudentService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHStudentService.m; sourceTree = "<group>"; };
-		5C11B3A31B6E61FA0014A018 /* HHTimeSlotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTimeSlotView.h; sourceTree = "<group>"; };
-		5C11B3A41B6E61FA0014A018 /* HHTimeSlotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHTimeSlotView.m; sourceTree = "<group>"; };
 		5C2DCCE71B6477A1007E8FA7 /* HHPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPointAnnotation.h; sourceTree = "<group>"; };
 		5C2DCCE81B6477A1007E8FA7 /* HHPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPointAnnotation.m; sourceTree = "<group>"; };
 		5C2DCCF61B65ACE0007E8FA7 /* car_icon_solid@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car_icon_solid@1x.png"; sourceTree = "<group>"; };
@@ -664,8 +661,6 @@
 				5CBBA9781B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m */,
 				5CBBA97A1B604762009398B8 /* HHDashView.h */,
 				5CBBA97B1B604762009398B8 /* HHDashView.m */,
-				5C11B3A31B6E61FA0014A018 /* HHTimeSlotView.h */,
-				5C11B3A41B6E61FA0014A018 /* HHTimeSlotView.m */,
 				5C93FA891B6F1DFE00D7FC86 /* HHReviewTableViewCell.h */,
 				5C93FA8A1B6F1DFE00D7FC86 /* HHReviewTableViewCell.m */,
 				5C93FA8C1B6FEECC00D7FC86 /* HHReviewView.h */,
@@ -986,7 +981,6 @@
 				5C39808B1B4BFFB20057B049 /* HHAutoLayoutUtility.m in Sources */,
 				5C5451CF1B52ADE50025D19F /* HHButton.m in Sources */,
 				5C5451911B4F67200025D19F /* HHSearchBar.m in Sources */,
-				5C11B3A51B6E61FA0014A018 /* HHTimeSlotView.m in Sources */,
 				5C93FA881B6F1CB400D7FC86 /* HHReview.m in Sources */,
 				5C5451991B50B5910025D19F /* HHCoachListTableViewCell.m in Sources */,
 				5CD4EA421B5DE6BC003CF15E /* HHFormatUtility.m in Sources */,

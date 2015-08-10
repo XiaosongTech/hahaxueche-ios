@@ -15,15 +15,17 @@
 - (instancetype)initWithTitle:(NSString *)title {
     self = [super init];
     if (self) {
-        [self setFrameWithHeight:30.0f];
+        [self setFrameWithHeight:40.0f];
         
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.titleLabel.text = title;
         self.titleLabel.textColor = [UIColor HHGrayTextColor];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
-        self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f];
+        self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f];
         [self.titleLabel sizeToFit];
-        [self.titleLabel setFrameWithOrigin:CGPointMake(10.0f, ((CGRectGetHeight(self.bounds) - CGRectGetHeight(self.titleLabel.bounds))/2) + 4.0f)];
+        [self.titleLabel setFrameWithOrigin:CGPointMake(10.0f, 4.0f)];
+        [self.titleLabel setFrameWithHeight:40.0f];
+        self.backgroundColor = [UIColor HHLightGrayBackgroundColor];
         [self addSubview:self.titleLabel];
         
     }

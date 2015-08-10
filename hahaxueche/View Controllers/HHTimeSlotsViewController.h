@@ -7,9 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HHCoach.h"
+
+typedef enum : NSUInteger {
+    TimeSlotFilterAll,
+    TimeSlotFilterCourseTwo,
+    TimeSlotFilterCourseThree,
+} TimeSlotFilter;
 
 @interface HHTimeSlotsViewController : UIViewController
 
 @property (nonatomic, strong) NSArray *schedules;
+@property (nonatomic, strong) HHCoach *coach;
 
 @end

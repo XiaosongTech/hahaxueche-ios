@@ -34,4 +34,8 @@
     return [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1];
 }
 
++ (UIColor *)HHTransparentOrange {
+    return [UIColor colorWithRed:0.88 green:0.48 blue:0.13 alpha:0.8f];
+}
+
 @end

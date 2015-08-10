@@ -16,6 +16,7 @@
 @dynamic myCoachId;
 @dynamic city;
 @dynamic province;
+@dynamic myReservation;
 
 
 + (NSString *)parseClassName {
