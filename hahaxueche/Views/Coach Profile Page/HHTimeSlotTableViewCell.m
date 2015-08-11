@@ -135,6 +135,10 @@
         HHAvatarView *avatarView = self.avatarViews[i];
         [avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:student.avatarURL] placeholderImage:nil];
     }
+    
+    for (int i = self.schedule.reservedStudents.count - 1; i < 4; i++) {
+        //set image to add image
+    }
    
 }
 
