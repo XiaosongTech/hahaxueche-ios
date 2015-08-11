@@ -7,6 +7,7 @@
 //
 
 #import "HHStudentService.h"
+#import "HHUserAuthenticator.h"
 
 @implementation HHStudentService
 
@@ -22,6 +23,9 @@
 }
 
 - (void)fetchStudentsForScheduleWithIds:(NSArray *)studentIds completion:(HHStudentsCompletionBlock)completion {
+    if (!studentIds) {
+        return;
+    }
     AVQuery *query = [AVQuery queryWithClassName:[HHStudent parseClassName]];
     [query whereKey:@"studentId" containedIn:studentIds];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -40,6 +44,10 @@
             completion(student, error);
         }
     }];
+}
+
+- (void)bookTimeSlotsWithSchedules:(NSArray *)schedules student:(HHStudent *)student coachId:(NSString *)coachId completion:(HHStudentBookCompletionBlock)completion {
+ 
 }
 
 @end

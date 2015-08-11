@@ -73,43 +73,6 @@ typedef void (^HHGenericCompletion)();
     _currentSortOption = currentSortOption;
     self.coachesArray = [NSMutableArray array];
 }
-//
-//- (void)setCurrentCourseOption:(CourseOption)currentCourseOption {
-//    _currentCourseOption = currentCourseOption;
-//     self.coachesArray = [NSMutableArray array];
-//    NSString *courseString = nil;
-//    switch (self.currentCourseOption) {
-//        case CourseTwo: {
-//            courseString = kCourseTwoString;
-//        }
-//            break;
-//            
-//        case CourseThree: {
-//            courseString = kCourseThreeString;
-//        }
-//            break;
-//            
-//        default:{
-//            courseString = kCourseTwoString;
-//        }
-//            break;
-//    }
-//    
-//    if (!self.title) {
-//        self.titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [self.titleButton setTitle:[NSString stringWithFormat:@"教练 (%@) \u25BE", courseString] forState:UIControlStateNormal];
-//        self.titleButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f];
-//        [self.titleButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//        self.titleButton.backgroundColor = [UIColor clearColor];
-//        [self.titleButton addTarget:self action:@selector(titleViewPressed) forControlEvents:UIControlEventTouchUpInside];
-//        self.navigationItem.titleView = self.titleButton;
-//        [self.titleButton setFrameWithHeight:20.0f];
-//        [self.titleButton setFrameWithY:0];
-//    } else {
-//        [self.titleButton setTitle:[NSString stringWithFormat:@"教练 (%@)", courseString] forState:UIControlStateNormal];
-//    }
-//
-//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -170,7 +133,6 @@ typedef void (^HHGenericCompletion)();
     [self initNavBarItems];
     [self initTableView];
     [self initFloatButtons];
-    //[self initDropdownButtons];
     [self autoLayoutSubviews];
 }
 
@@ -231,70 +193,6 @@ typedef void (^HHGenericCompletion)();
 
 }
 
-
-//- (void)cancelButtonPressed {
-//    [self dropDownButtonsAnimate];
-//}
-//
-//
-//- (void)titleViewPressed {
-//    [self dropDownButtonsAnimate];
-//}
-
-//- (void)dropDownButtonsAnimate {
-//    if (self.isdropDownButtonsActive) {
-//        UIBarButtonItem *searchButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"search"] action:@selector(searchIconPressed) target:self];
-//        UIBarButtonItem *positiveSpacer = [[UIBarButtonItem alloc]
-//                                           initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-//                                           target:nil action:nil];
-//        positiveSpacer.width = -8.0f;//
-//        [self.navigationItem setRightBarButtonItems:@[positiveSpacer, searchButton]];
-//        [self.overlay removeFromSuperview];
-//        self.overlay = nil;
-//        
-//    } else {
-//        UIBarButtonItem *cancelButton = [UIBarButtonItem buttonItemWithTitle:@"取消" action:@selector(cancelButtonPressed) target:self isLeft:NO];
-//        [self.navigationItem setRightBarButtonItems:@[cancelButton]];
-//        
-//        self.overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
-//        [self.overlay setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
-//        UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayForDropDownTapped)];
-//        [self.overlay addGestureRecognizer:recognizer];
-//        [self.view insertSubview:self.overlay belowSubview:self.firstDropDownButton];
-//    }
-//    [self dropDownButtonAnimateDown:!self.isdropDownButtonsActive button:self.firstDropDownButton];
-//    [self dropDownButtonAnimateDown:!self.isdropDownButtonsActive button:self.secondDropDownButton];
-//    self.isdropDownButtonsActive = !self.isdropDownButtonsActive;
-//}
-
-//- (void)overlayForDropDownTapped {
-//    [self dropDownButtonsAnimate];
-//}
-
-//- (void)initDropdownButtons {
-//    self.firstDropDownButton = [self createDropDownButtonWithTitle:kCourseTwoString];
-//    self.secondDropDownButton = [self createDropDownButtonWithTitle:kCourseThreeString];
-//    
-//}
-
-//- (HHButton *)createDropDownButtonWithTitle:(NSString *)title {
-//    HHButton *button = [[HHButton alloc] initDropDownButtonWithTitle:title frame:CGRectMake(0, 20.0f, CGRectGetWidth(self.view.bounds), 44.0f)];
-//    button.hidden = YES;
-//    [button addTarget:self action:@selector(dropDownButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.navigationController.view insertSubview:button belowSubview:self.navigationController.navigationBar];
-//    return button;
-//}
-
-//- (void)dropDownButtonPressed:(id)sender {
-//    HHButton *button = sender;
-//    if ([button.titleLabel.text isEqualToString:kCourseTwoString]) {
-//        self.currentCourseOption = CourseTwo;
-//    } else {
-//        self.currentCourseOption = CourseThree;
-//    }
-//    [self fetchDataWithCompletion:nil];
-//    [self dropDownButtonsAnimate];
-//}
 
 
 - (void)initFloatButtons {
@@ -409,31 +307,6 @@ typedef void (^HHGenericCompletion)();
         i++;
     }
 }
-
-//- (void)dropDownButtonAnimateDown:(BOOL)isDown button:(HHButton *)button {
-//    POPSpringAnimation *springAnimation = [POPSpringAnimation animation];
-//    springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
-//    CGFloat offsetY = 0;
-//    if ([button isEqual:self.firstDropDownButton]) {
-//        offsetY = CGRectGetHeight(self.navigationController.navigationBar.bounds) + 20.0f;
-//    } else {
-//        offsetY = CGRectGetHeight(self.navigationController.navigationBar.bounds) + 20.0f + CGRectGetHeight(button.bounds);
-//    }
-//    
-//    CGRect toFrame = CGRectZero;
-//    if (isDown) {
-//        toFrame = CGRectMake(0, offsetY, CGRectGetWidth(self.view.bounds), 44.0f);
-//    } else {
-//        toFrame = CGRectMake(0, 20.0f, CGRectGetWidth(self.view.bounds), 44.0f);
-//    }
-//   
-//    springAnimation.springBounciness = 0;
-//    springAnimation.toValue = [NSValue valueWithCGRect:toFrame];
-//    springAnimation.name = @"floatButtonPopup";
-//    springAnimation.delegate = self;
-//    [button pop_addAnimation:springAnimation forKey:@"dropDown"];
-//    button.hidden = !button.hidden;
-//}
 
 #pragma mark Tableview Delegate & Datasource Methods
 

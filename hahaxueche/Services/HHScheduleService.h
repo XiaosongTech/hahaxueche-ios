@@ -16,6 +16,6 @@ typedef void (^HHSchedulesCompletionBlock)(NSArray *objects, NSError *error);
 
 + (instancetype)sharedInstance;
 
-- (void)fetchCoachSchedulesWithCoachId:(NSString *)coachId completion:(HHSchedulesCompletionBlock)completion;
+- (void)fetchCoachSchedulesWithCoachId:(NSString *)coachId skip:(NSInteger)skip completion:(HHSchedulesCompletionBlock)completion;
 
 @end

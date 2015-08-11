@@ -23,5 +23,16 @@
     return @"Student";
 }
 
+- (instancetype)mutableCopyWithZone:(NSZone *)zone {
+    HHStudent *newStudent = [[HHStudent alloc] init];
+    newStudent.fullName = self.fullName;
+    newStudent.studentId = self.studentId;
+    newStudent.avatarURL = self.avatarURL;
+    newStudent.myCoachId = self.myCoachId;
+    newStudent.city = self.city;
+    newStudent.province = self.province;
+    newStudent.myReservation = self.myReservation;
+    return newStudent;
+}
 
 @end

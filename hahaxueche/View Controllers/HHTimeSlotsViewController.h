@@ -17,7 +17,6 @@ typedef enum : NSUInteger {
 
 @interface HHTimeSlotsViewController : UIViewController
 
-@property (nonatomic, strong) NSArray *schedules;
 @property (nonatomic, strong) HHCoach *coach;
 
 @end

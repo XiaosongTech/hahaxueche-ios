@@ -14,7 +14,7 @@
 @property (nonatomic, copy) NSString *coachId;
 @property (nonatomic, strong) NSDate *startDateTime;
 @property (nonatomic, strong) NSDate *endDateTime;
-@property (nonatomic, strong) NSArray *reservedStudents;
+@property (nonatomic, strong) NSMutableArray *reservedStudents;
 @property (nonatomic, copy) NSString *course;
 
 @end

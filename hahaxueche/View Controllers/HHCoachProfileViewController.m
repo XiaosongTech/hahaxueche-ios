@@ -50,7 +50,6 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIButton *bookTrialButton;
 @property (nonatomic, strong) UIButton *commentButton;
 @property (nonatomic, strong) NSMutableAttributedString *coachDes;
-@property (nonatomic, strong) NSArray *schedules;
 @property (nonatomic, strong) NSArray *reviews;
 
 @end
@@ -86,11 +85,6 @@ typedef enum : NSUInteger {
                                                                             options:NSStringDrawingUsesLineFragmentOrigin
                                                                             context:nil]) + 65.0f;
         
-        [[HHScheduleService sharedInstance] fetchCoachSchedulesWithCoachId:self.coach.coachId completion:^(NSArray *objects, NSError *error) {
-            if (!error) {
-                self.schedules = objects;
-            }
-        }];
         
         [[HHCoachService sharedInstance] fetchReviewsForCoach:self.coach.coachId skip:0 completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
             if (!error) {
@@ -104,11 +98,6 @@ typedef enum : NSUInteger {
 - (void)setReviews:(NSArray *)reviews {
     _reviews = reviews;
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:CoachProfileCellReview inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-}
-
-- (void)setSchedules:(NSArray *)schedules {
-    _schedules = schedules;
-    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:CoachProfileCellCalendar inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)setField:(HHTrainingField *)field {
@@ -284,8 +273,6 @@ typedef enum : NSUInteger {
         }
         case CoachProfileCellCalendar: {
             HHScheduleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kScheduleCellId forIndexPath:indexPath];
-            cell.coach = self.coach;
-            cell.schedules = self.schedules;
             return cell;
         }
         case CoachProfileCellReview: {
@@ -336,11 +323,7 @@ typedef enum : NSUInteger {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == CoachProfileCellCalendar) {
-        if (!self.schedules.count) {
-            return;
-        }
         HHTimeSlotsViewController *vc = [[HHTimeSlotsViewController alloc] init];
-        vc.schedules = self.schedules;
         vc.coach = self.coach;
         [self.navigationController pushViewController:vc animated:YES];
     }

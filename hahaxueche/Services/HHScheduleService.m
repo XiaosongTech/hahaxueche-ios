@@ -21,8 +21,10 @@
     return sharedInstance;
 }
 
-- (void)fetchCoachSchedulesWithCoachId:(NSString *)coachId completion:(HHSchedulesCompletionBlock)completion {
+- (void)fetchCoachSchedulesWithCoachId:(NSString *)coachId skip:(NSInteger)skip completion:(HHSchedulesCompletionBlock)completion {
     AVQuery *query = [AVQuery queryWithClassName:[HHCoachSchedule parseClassName]];
+    query.limit = 20;
+    query.skip = skip;
     [query whereKey:@"coachId" equalTo:coachId];
     [query orderByAscending:@"startDateTime"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {

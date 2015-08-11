@@ -14,9 +14,6 @@
 
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UILabel *subtitleLabel;
-@property (nonatomic, strong) NSArray *schedules;
 @property (nonatomic, strong) UIImageView *arrowImageView;
-@property (nonatomic, strong) HHCoach *coach;
 
 @end

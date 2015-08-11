@@ -18,6 +18,9 @@
 #import "HHStudentService.h"
 #import "HHFullScreenImageViewController.h"
 #import "HHUserAuthenticator.h"
+#import "HHStudentService.h"
+#import "HHScheduleService.h"
+#import "HHLoadingView.h"
 
 #define kTimeSlotCellIdentifier @"kTimeSlotCellIdentifier"
 
@@ -25,14 +28,13 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *groupedSchedules;
-@property (nonatomic, strong) NSArray *groupedCourseTwoSchedules;
-@property (nonatomic, strong) NSArray *groupedCourseThreSchedules;
 @property (nonatomic, strong) NSArray *sectionTiltes;
 @property (nonatomic, strong) NSMutableArray *selectedSchedules;
 @property (nonatomic, strong) NSMutableDictionary *studentsForSchedules;
 @property (nonatomic, strong) UIButton *confirmButton;
 @property (nonatomic)         BOOL canSelectTime;
 @property (nonatomic, strong) UISegmentedControl *filterSegmentedControl;
+@property (nonatomic, strong) NSArray *schedules;
 
 @end
 
@@ -46,6 +48,7 @@
 - (void)setSchedules:(NSArray *)schedules {
     _schedules = schedules;
     self.sectionTiltes = [self groupSchedulesTitleWithFilter:self.filterSegmentedControl.selectedSegmentIndex];
+    [self.tableView reloadData];
 }
 
 - (void)setCanSelectTime:(BOOL)canSelectTime {
@@ -60,9 +63,32 @@
     }
     
 }
+- (void)fetchSchedules {
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中...", nil)];
+    [[HHScheduleService sharedInstance] fetchCoachSchedulesWithCoachId:self.coach.coachId skip:self.schedules.count completion:^(NSArray *objects, NSError *error) {
+        [[HHLoadingView sharedInstance] hideLoadingView];
+        if (!error) {
+            self.schedules = objects;
+            for (HHCoachSchedule *schedule in self.schedules) {
+                [[HHStudentService sharedInstance] fetchStudentsForScheduleWithIds:schedule.reservedStudents completion:^(NSArray *objects, NSError *error) {
+                    if (!error) {
+                        self.studentsForSchedules[schedule.objectId] = objects;
+                        [self.tableView reloadData];
+                    }
+                }];
+
+            }
+
+        } else {
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取数据是出错！", nil) isError:YES];
+        }
+    }];
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
     self.title = NSLocalizedString(@"预约时间", nil);
     self.navigationItem.hidesBackButton = YES;
@@ -97,13 +123,14 @@
 
     
     self.filterSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[NSLocalizedString(@"全部", nil), NSLocalizedString(@"科目二", nil), NSLocalizedString(@"科目三", nil)]];
-    self.filterSegmentedControl.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.filterSegmentedControl setFrame:CGRectMake(0, 0, 180.0f, 25.0f)];
     [self.filterSegmentedControl addTarget:self action:@selector(valueChanged:) forControlEvents: UIControlEventValueChanged];
     self.filterSegmentedControl.selectedSegmentIndex = 0;
-    self.filterSegmentedControl.tintColor = [UIColor HHOrange];
-    [self.filterSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:12.0f]} forState:UIControlStateNormal];
-    [self.view addSubview:self.filterSegmentedControl];
+    self.filterSegmentedControl.tintColor = [UIColor whiteColor];
+    [self.filterSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor HHLightGrayBackgroundColor], NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:12.0f]} forState:UIControlStateNormal];
+    self.navigationItem.titleView = self.filterSegmentedControl;
     
+    [self fetchSchedules];
     [self autoLayoutSubviews];
 }
 
@@ -128,15 +155,9 @@
     
 
     NSArray *constraints = @[
-                             [HHAutoLayoutUtility setCenterX:self.filterSegmentedControl multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.filterSegmentedControl constant:5.0f],
-                             [HHAutoLayoutUtility setViewHeight:self.filterSegmentedControl multiplier:0 constant:25.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.filterSegmentedControl multiplier:1.0f constant:-20.0f],
-                             
-                             
                              [HHAutoLayoutUtility setCenterX:self.tableView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility verticalNext:self.tableView toView:self.filterSegmentedControl constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.tableView multiplier:1.0f constant:-85.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.tableView constant:0],
+                             [HHAutoLayoutUtility setViewHeight:self.tableView multiplier:1.0f constant:-50.0f],
                              [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:0],
                        
                              [HHAutoLayoutUtility setCenterX:self.confirmButton multiplier:1.0f constant:0],
@@ -198,7 +219,11 @@
 #pragma -mark TableView Delegate & DataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.groupedSchedules.count;
+    if (self.groupedSchedules.count) {
+        return self.groupedSchedules.count;
+    }
+    return 0;
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -223,18 +248,8 @@
         cell.selectedIndicatorView.hidden = YES;
     }
     [cell setupViews];
-    if (self.studentsForSchedules[schedule.objectId]) {
-        cell.students = self.studentsForSchedules[schedule.objectId];
-        [cell setupAvatars];
-    } else {
-        [[HHStudentService sharedInstance] fetchStudentsForScheduleWithIds:schedule.reservedStudents completion:^(NSArray *objects, NSError *error) {
-            if (!error) {
-                weakCell.students = objects;
-                [weakCell setupAvatars];
-                self.studentsForSchedules[schedule.objectId] = objects;
-            }
-        }];
-    }
+    cell.students = self.studentsForSchedules[schedule.objectId];
+    [cell setupAvatars];
     return cell;
 }
 
@@ -244,8 +259,13 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSArray *schedules = self.groupedSchedules[section];
-    return schedules.count;
+    if (self.groupedSchedules.count) {
+        NSArray *schedules = self.groupedSchedules[section];
+        return schedules.count;
+    } else {
+        return 0;
+    }
+   
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
