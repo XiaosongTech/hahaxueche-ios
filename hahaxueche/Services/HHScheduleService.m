@@ -29,7 +29,7 @@
     [query orderByAscending:@"startDateTime"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (completion) {
-            completion (objects, error);
+            completion (objects, [query countObjects], error);
         }
     }];
 }

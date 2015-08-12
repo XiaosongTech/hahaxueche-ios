@@ -42,13 +42,28 @@
     self.selectedIndicatorView.backgroundColor = [UIColor HHTransparentOrange];
     [self.containerView addSubview:self.selectedIndicatorView];
     
+    self.whiteLine = [[UIView alloc] initWithFrame:CGRectZero];
+    self.whiteLine.translatesAutoresizingMaskIntoConstraints = NO;
+    self.whiteLine.backgroundColor = [UIColor whiteColor];
+    [self.selectedIndicatorView addSubview:self.whiteLine];
+    
+    self.selectedInfoLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f] textColor:[UIColor whiteColor]];
+    self.selectedInfoLabel.numberOfLines = 0;
+    [self.selectedIndicatorView addSubview:self.selectedInfoLabel];
+    
+    self.selectedLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f] textColor:[UIColor whiteColor]];
+    [self.selectedIndicatorView addSubview:self.selectedLabel];
+    
     self.line = [self createLine];
     self.firstVerticalLine = [self createLine];
     self.secondVerticalLine = [self createLine];
     
     self.timeLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f] textColor:[UIColor HHGrayTextColor]];
+    [self.containerView addSubview:self.timeLabel];
     self.courseLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f] textColor:[UIColor HHGrayTextColor]];
+    [self.containerView addSubview:self.courseLabel];
     self.amountLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f] textColor:[UIColor HHGrayTextColor]];
+    [self.containerView addSubview:self.amountLabel];
     
     for (int i = 0; i < 4; i++) {
         HHAvatarView * avatarView = [[HHAvatarView alloc] initWithImage:nil radius:kAvatarRadius borderColor:[UIColor whiteColor]];
@@ -88,7 +103,7 @@
 - (UIView *)createLine {
     UIView *line = [[UIView alloc] initWithFrame:CGRectZero];
     line.translatesAutoresizingMaskIntoConstraints = NO;
-    line.backgroundColor = [UIColor HHGrayLineColor];
+    line.backgroundColor = [UIColor HHLightGrayBackgroundColor];
     [self.containerView addSubview:line];
     return line;
 }
@@ -118,6 +133,11 @@
     
     NSString *amountString = [NSString stringWithFormat:NSLocalizedString(@"已有%ld人", nil), self.schedule.reservedStudents.count];
     self.amountLabel.text = amountString;
+    
+    self.selectedLabel.text = NSLocalizedString(@"已选中", nil);
+    
+    NSString *string = [NSString stringWithFormat:@"%@ %@\n\n %@", [[HHFormatUtility dateFormatter] stringFromDate:self.schedule.startDateTime], timeString, self.schedule.course];
+    self.selectedInfoLabel.text = string;
     
 }
 
@@ -179,6 +199,18 @@
                              [HHAutoLayoutUtility setViewHeight:self.secondVerticalLine multiplier:0 constant:25.0f],
                              [HHAutoLayoutUtility setViewWidth:self.secondVerticalLine multiplier:0 constant:1.0f],
                              
+                             
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.selectedInfoLabel constant:15.0f],
+                             [HHAutoLayoutUtility setCenterX:self.selectedInfoLabel multiplier:1.0f constant:0],
+                             
+                             [HHAutoLayoutUtility verticalNext:self.whiteLine toView:self.selectedInfoLabel constant:10.0f],
+                             [HHAutoLayoutUtility setCenterX:self.whiteLine multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewHeight:self.whiteLine multiplier:0 constant:1.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.whiteLine multiplier:0.8f constant:0],
+                             
+                             [HHAutoLayoutUtility verticalNext:self.selectedLabel toView:self.whiteLine constant:10.0f],
+                             [HHAutoLayoutUtility setCenterX:self.selectedLabel multiplier:1.0f constant:0],
+                             
                              ];
     [self.contentView addConstraints:constraints];
 }
@@ -191,7 +223,6 @@
     label.textColor = textColor;
     label.textAlignment = NSTextAlignmentCenter;
     [label sizeToFit];
-    [self.containerView addSubview:label];
     return label;
 }
 

@@ -10,7 +10,7 @@
 #import <AVOSCloud/AVOSCloud.h>
 #import "HHCoachSchedule.h"
 
-typedef void (^HHSchedulesCompletionBlock)(NSArray *objects, NSError *error);
+typedef void (^HHSchedulesCompletionBlock)(NSArray *objects, NSInteger totalResults, NSError *error);
 
 @interface HHScheduleService : NSObject
 

@@ -24,7 +24,7 @@
 
 #define kTimeSlotCellIdentifier @"kTimeSlotCellIdentifier"
 
-@interface HHTimeSlotsViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface HHTimeSlotsViewController ()<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *groupedSchedules;
@@ -34,7 +34,8 @@
 @property (nonatomic, strong) UIButton *confirmButton;
 @property (nonatomic)         BOOL canSelectTime;
 @property (nonatomic, strong) UISegmentedControl *filterSegmentedControl;
-@property (nonatomic, strong) NSArray *schedules;
+@property (nonatomic, strong) NSMutableArray *schedules;
+@property (nonatomic)         BOOL shouldLoadMore;
 
 @end
 
@@ -45,30 +46,24 @@
     self.tableView.dataSource = nil;
 }
 
-- (void)setSchedules:(NSArray *)schedules {
-    _schedules = schedules;
-    self.sectionTiltes = [self groupSchedulesTitleWithFilter:self.filterSegmentedControl.selectedSegmentIndex];
-    [self.tableView reloadData];
-}
-
 - (void)setCanSelectTime:(BOOL)canSelectTime {
     _canSelectTime = canSelectTime;
-    if (self.canSelectTime) {
-        self.confirmButton.enabled = YES;
-        [self.confirmButton setBackgroundColor:[UIColor HHOrange]];
-        
-    } else {
-        self.confirmButton.enabled = NO;
-        [self.confirmButton setBackgroundColor:[UIColor HHLightGrayBackgroundColor]];
-    }
     
 }
 - (void)fetchSchedules {
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中...", nil)];
-    [[HHScheduleService sharedInstance] fetchCoachSchedulesWithCoachId:self.coach.coachId skip:self.schedules.count completion:^(NSArray *objects, NSError *error) {
+    [[HHScheduleService sharedInstance] fetchCoachSchedulesWithCoachId:self.coach.coachId skip:self.schedules.count completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
         [[HHLoadingView sharedInstance] hideLoadingView];
         if (!error) {
-            self.schedules = objects;
+            [self.schedules removeAllObjects];
+            [self.schedules addObjectsFromArray:objects];
+            if (self.schedules.count >= totalResults) {
+                self.shouldLoadMore = NO;
+            } else {
+                self.shouldLoadMore = YES;
+            }
+            self.sectionTiltes = [self groupSchedulesTitleWithFilter:self.filterSegmentedControl.selectedSegmentIndex];
+            [self.tableView reloadData];
             for (HHCoachSchedule *schedule in self.schedules) {
                 [[HHStudentService sharedInstance] fetchStudentsForScheduleWithIds:schedule.reservedStudents completion:^(NSArray *objects, NSError *error) {
                     if (!error) {
@@ -86,14 +81,44 @@
     
 }
 
+- (void)fetchMoreSchedules {
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中...", nil)];
+    [[HHScheduleService sharedInstance] fetchCoachSchedulesWithCoachId:self.coach.coachId skip:self.schedules.count completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
+        [[HHLoadingView sharedInstance] hideLoadingView];
+        if (!error) {
+            [self.schedules addObjectsFromArray:objects];
+            if (self.schedules.count >= totalResults) {
+                self.shouldLoadMore = NO;
+            } else {
+                self.shouldLoadMore = YES;
+            }
+            self.sectionTiltes = [self groupSchedulesTitleWithFilter:self.filterSegmentedControl.selectedSegmentIndex];
+            [self.tableView reloadData];
+            for (HHCoachSchedule *schedule in self.schedules) {
+                [[HHStudentService sharedInstance] fetchStudentsForScheduleWithIds:schedule.reservedStudents completion:^(NSArray *objects, NSError *error) {
+                    if (!error) {
+                        self.studentsForSchedules[schedule.objectId] = objects;
+                        [self.tableView reloadData];
+                    }
+                }];
+                
+            }
+            
+        } else {
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取数据是出错！", nil) isError:YES];
+        }
+    }];
+
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
     self.title = NSLocalizedString(@"预约时间", nil);
     self.navigationItem.hidesBackButton = YES;
     self.selectedSchedules = [NSMutableArray array];
     self.studentsForSchedules = [NSMutableDictionary dictionary];
+    self.schedules = [NSMutableArray array];
     
     UIBarButtonItem *backButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"left_arrow"] action:@selector(backButtonPressed) target:self];
     self.navigationItem.hidesBackButton = YES;
@@ -112,7 +137,16 @@
     [self.tableView registerClass:[HHTimeSlotTableViewCell class] forCellReuseIdentifier:kTimeSlotCellIdentifier];
     [self.view addSubview:self.tableView];
     
-    self.confirmButton = [self createButtonWithTitle:NSLocalizedString(@"确认时间(已选中0)", nil) backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f] action:@selector(confirmTime)];
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = 3.0f;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+
+    self.confirmButton = [self createButtonWithTitle:nil backgroundColor:[UIColor HHLightGrayBackgroundColor] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f] action:@selector(confirmTime)];
+    [self.confirmButton setAttributedTitle:[self buildConfirmButtonTitle] forState:UIControlStateNormal];
+    self.confirmButton.titleLabel.numberOfLines = 0;
+    self.confirmButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    self.confirmButton.enabled = NO;
     
     if ([self.coach.coachId isEqualToString:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId]) {
         self.canSelectTime = YES;
@@ -123,15 +157,39 @@
 
     
     self.filterSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[NSLocalizedString(@"全部", nil), NSLocalizedString(@"科目二", nil), NSLocalizedString(@"科目三", nil)]];
-    [self.filterSegmentedControl setFrame:CGRectMake(0, 0, 180.0f, 25.0f)];
+    self.filterSegmentedControl.translatesAutoresizingMaskIntoConstraints = NO;
     [self.filterSegmentedControl addTarget:self action:@selector(valueChanged:) forControlEvents: UIControlEventValueChanged];
     self.filterSegmentedControl.selectedSegmentIndex = 0;
-    self.filterSegmentedControl.tintColor = [UIColor whiteColor];
-    [self.filterSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor HHLightGrayBackgroundColor], NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:12.0f]} forState:UIControlStateNormal];
-    self.navigationItem.titleView = self.filterSegmentedControl;
+    self.filterSegmentedControl.tintColor = [UIColor HHOrange];
+    [self.filterSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:13.0f]} forState:UIControlStateNormal];
+    [self.filterSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:13.0f]} forState:UIControlStateSelected];
+    [self.view addSubview:self.filterSegmentedControl];
     
     [self fetchSchedules];
     [self autoLayoutSubviews];
+}
+
+- (NSMutableAttributedString *)buildConfirmButtonTitle {
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = 3.0f;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSMutableAttributedString *attributedString1 = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"点击提交", nil)
+                                                                                          attributes:@{
+                                                                                                       NSForegroundColorAttributeName:[UIColor whiteColor],
+                                                                                                       NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f],
+                                                                                                       NSParagraphStyleAttributeName:paragraphStyle,
+                                                                                                       }];
+    
+    NSMutableAttributedString *attributedString2 = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"\n(%ld个时间被选中)", nil), self.selectedSchedules.count]
+                                                                                          attributes:@{
+                                                                                                       NSForegroundColorAttributeName:[UIColor whiteColor],
+                                                                                                       NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f],
+                                                                                                       NSParagraphStyleAttributeName:paragraphStyle,
+                                                                                                       }];
+
+    [attributedString1 appendAttributedString:attributedString2];
+    return attributedString1;
 }
 
 -(void)valueChanged:(UISegmentedControl *)control {
@@ -155,9 +213,15 @@
     
 
     NSArray *constraints = @[
+                             
+                             [HHAutoLayoutUtility setCenterX:self.filterSegmentedControl multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.filterSegmentedControl constant:10.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.filterSegmentedControl multiplier:0 constant:30.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.filterSegmentedControl multiplier:1.0f constant:-20.0f],
+                             
                              [HHAutoLayoutUtility setCenterX:self.tableView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.tableView constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.tableView multiplier:1.0f constant:-50.0f],
+                             [HHAutoLayoutUtility verticalNext:self.tableView toView:self.filterSegmentedControl constant:0],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.tableView constant:-50.0f],
                              [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:0],
                        
                              [HHAutoLayoutUtility setCenterX:self.confirmButton multiplier:1.0f constant:0],
@@ -298,6 +362,8 @@
         return;
     }
     
+    if (self.selectedSchedules.count > 4)
+    
     if (cell.selectedIndicatorView.hidden) {
         cell.selectedIndicatorView.hidden = NO;
         [cell.containerView bringSubviewToFront:cell.selectedIndicatorView];
@@ -313,13 +379,14 @@
 }
 
 - (void)changeConfirmButtonTitle {
-    NSString *text = [NSString stringWithFormat:NSLocalizedString(@"确认时间(已选中%ld)", nil), self.selectedSchedules.count];
+    [self.confirmButton setAttributedTitle:[self buildConfirmButtonTitle] forState:UIControlStateNormal];
     if (self.selectedSchedules.count == 0) {
         self.confirmButton.enabled = NO;
+        self.confirmButton.backgroundColor = [UIColor HHLightGrayBackgroundColor];
     } else {
         self.confirmButton.enabled = YES;
+        self.confirmButton.backgroundColor = [UIColor HHOrange];
     }
-    [self.confirmButton setTitle:text forState:UIControlStateNormal];
 }
 
 - (UIButton *)createButtonWithTitle:(NSString *)title backgroundColor:(UIColor *)bgColor font:(UIFont *)font action:(SEL)action {
@@ -339,5 +406,18 @@
 - (BOOL)hidesBottomBarWhenPushed {
     return (self.navigationController.topViewController == self);
 }
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    NSInteger currentOffset = scrollView.contentOffset.y;
+    NSInteger maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
+    
+    if (maximumOffset - currentOffset <= 0) {
+        if (!self.shouldLoadMore) {
+            return;
+        }
+        [self fetchMoreSchedules];
+    }
+}
+
 
 @end

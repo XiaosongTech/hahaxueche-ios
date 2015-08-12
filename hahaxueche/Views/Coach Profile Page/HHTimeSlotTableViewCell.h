@@ -33,6 +33,10 @@ typedef void (^EmptyAvatarTappedBlock)();
 @property (nonatomic, strong) UILabel *courseLabel;
 @property (nonatomic, strong) UILabel *amountLabel;
 
+@property (nonatomic, strong) UIView *whiteLine;
+@property (nonatomic, strong) UILabel *selectedLabel;
+
+
 - (void)setupViews;
 - (void)setupAvatars;
 
