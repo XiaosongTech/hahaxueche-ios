@@ -137,8 +137,8 @@
 #pragma mark SDCycleScrollViewDelegate Methods
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
-    HHFullScreenImageViewController *imageVC = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:self.imagesArray[index]] title:nil];
-    [self presentViewController:imageVC animated:YES completion:nil];
+    HHFullScreenImageViewController *imageVC = [[HHFullScreenImageViewController alloc] initWithImageURL:nil title:nil];
+    [self.tabBarController presentViewController:imageVC animated:YES completion:nil];
 }
 
 

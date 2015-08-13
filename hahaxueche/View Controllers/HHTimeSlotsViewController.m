@@ -22,6 +22,8 @@
 #import "HHScheduleService.h"
 #import "HHLoadingView.h"
 #import "HHUserAuthenticator.h"
+#import "UIBarButtonItem+HHCustomButton.h"
+#import "HHRootViewController.h"
 
 #define kTimeSlotCellIdentifier @"kTimeSlotCellIdentifier"
 
@@ -30,9 +32,7 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *groupedSchedules;
 @property (nonatomic, strong) NSArray *sectionTiltes;
-@property (nonatomic, strong) NSMutableArray *selectedSchedules;
 @property (nonatomic, strong) NSMutableDictionary *studentsForSchedules;
-@property (nonatomic, strong) UIButton *confirmButton;
 @property (nonatomic)         BOOL canSelectTime;
 @property (nonatomic, strong) UISegmentedControl *filterSegmentedControl;
 @property (nonatomic, strong) NSMutableArray *schedules;
@@ -48,30 +48,27 @@
     self.tableView.dataSource = nil;
 }
 
-- (void)setCanSelectTime:(BOOL)canSelectTime {
-    _canSelectTime = canSelectTime;
-    
-}
 - (void)fetchSchedules {
+    __weak HHTimeSlotsViewController *weakSelf = self;
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中...", nil)];
     [[HHScheduleService sharedInstance] fetchCoachSchedulesWithCoachId:self.coach.coachId skip:0 completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
         [[HHLoadingView sharedInstance] hideLoadingView];
-        [self.refreshControl endRefreshing];
+        [weakSelf.refreshControl endRefreshing];
         if (!error) {
-            [self.schedules removeAllObjects];
-            [self.schedules addObjectsFromArray:objects];
-            if (self.schedules.count >= totalResults) {
-                self.shouldLoadMore = NO;
+            [weakSelf.schedules removeAllObjects];
+            [weakSelf.schedules addObjectsFromArray:objects];
+            if (weakSelf.schedules.count >= totalResults) {
+                weakSelf.shouldLoadMore = NO;
             } else {
-                self.shouldLoadMore = YES;
+                weakSelf.shouldLoadMore = YES;
             }
-            self.sectionTiltes = [self groupSchedulesTitleWithFilter:self.filterSegmentedControl.selectedSegmentIndex];
-            [self.tableView reloadData];
-            for (HHCoachSchedule *schedule in self.schedules) {
+            weakSelf.sectionTiltes = [weakSelf groupSchedulesTitleWithFilter:weakSelf.filterSegmentedControl.selectedSegmentIndex];
+            [weakSelf.tableView reloadData];
+            for (HHCoachSchedule *schedule in weakSelf.schedules) {
                 [[HHStudentService sharedInstance] fetchStudentsForScheduleWithIds:schedule.reservedStudents completion:^(NSArray *objects, NSError *error) {
                     if (!error) {
-                        self.studentsForSchedules[schedule.objectId] = objects;
-                        [self.tableView reloadData];
+                        weakSelf.studentsForSchedules[schedule.objectId] = objects;
+                        [weakSelf.tableView reloadData];
                     }
                 }];
 
@@ -85,23 +82,24 @@
 }
 
 - (void)fetchMoreSchedules {
+    __weak HHTimeSlotsViewController *weakSelf = self;
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中...", nil)];
     [[HHScheduleService sharedInstance] fetchCoachSchedulesWithCoachId:self.coach.coachId skip:self.schedules.count completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
         [[HHLoadingView sharedInstance] hideLoadingView];
         if (!error) {
-            [self.schedules addObjectsFromArray:objects];
-            if (self.schedules.count >= totalResults) {
-                self.shouldLoadMore = NO;
+            [weakSelf.schedules addObjectsFromArray:objects];
+            if (weakSelf.schedules.count >= totalResults) {
+                weakSelf.shouldLoadMore = NO;
             } else {
-                self.shouldLoadMore = YES;
+                weakSelf.shouldLoadMore = YES;
             }
-            self.sectionTiltes = [self groupSchedulesTitleWithFilter:self.filterSegmentedControl.selectedSegmentIndex];
-            [self.tableView reloadData];
-            for (HHCoachSchedule *schedule in self.schedules) {
+            weakSelf.sectionTiltes = [weakSelf groupSchedulesTitleWithFilter:weakSelf.filterSegmentedControl.selectedSegmentIndex];
+            [weakSelf.tableView reloadData];
+            for (HHCoachSchedule *schedule in weakSelf.schedules) {
                 [[HHStudentService sharedInstance] fetchStudentsForScheduleWithIds:schedule.reservedStudents completion:^(NSArray *objects, NSError *error) {
                     if (!error) {
-                        self.studentsForSchedules[schedule.objectId] = objects;
-                        [self.tableView reloadData];
+                        weakSelf.studentsForSchedules[schedule.objectId] = objects;
+                        [weakSelf.tableView reloadData];
                     }
                 }];
                 
@@ -117,9 +115,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
-    self.title = NSLocalizedString(@"预约时间", nil);
+    self.title = NSLocalizedString(@"查看时间", nil);
     self.navigationItem.hidesBackButton = YES;
-    self.selectedSchedules = [NSMutableArray array];
     self.studentsForSchedules = [NSMutableDictionary dictionary];
     self.schedules = [NSMutableArray array];
     
@@ -131,6 +128,9 @@
     negativeSpacer.width = -8.0f;//
     [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, backButton]];
     
+    UIBarButtonItem *bookBarButton = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"预约", nil) action:@selector(jumpToBookView) target:self isLeft:NO];
+    self.navigationItem.rightBarButtonItem = bookBarButton;
+    
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero];
     self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
     self.tableView.backgroundColor =[UIColor clearColor];
@@ -140,17 +140,6 @@
     [self.tableView registerClass:[HHTimeSlotTableViewCell class] forCellReuseIdentifier:kTimeSlotCellIdentifier];
     [self.view addSubview:self.tableView];
     
-    
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.lineSpacing = 3.0f;
-    paragraphStyle.alignment = NSTextAlignmentCenter;
-
-    self.confirmButton = [self createButtonWithTitle:nil backgroundColor:[UIColor HHLightGrayBackgroundColor] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f] action:@selector(confirmTime)];
-    [self.confirmButton setAttributedTitle:[self buildConfirmButtonTitle] forState:UIControlStateNormal];
-    self.confirmButton.titleLabel.numberOfLines = 0;
-    self.confirmButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    self.confirmButton.enabled = NO;
-    
     if ([self.coach.coachId isEqualToString:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId]) {
         self.canSelectTime = YES;
     } else {
@@ -158,7 +147,6 @@
     }
     
 
-    
     self.filterSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[NSLocalizedString(@"全部", nil), NSLocalizedString(@"科目二", nil), NSLocalizedString(@"科目三", nil)]];
     self.filterSegmentedControl.translatesAutoresizingMaskIntoConstraints = NO;
     [self.filterSegmentedControl addTarget:self action:@selector(valueChanged:) forControlEvents: UIControlEventValueChanged];
@@ -176,58 +164,25 @@
     [self autoLayoutSubviews];
 }
 
+- (void)jumpToBookView {
+    if ([[HHUserAuthenticator sharedInstance].currentStudent.myCoachId isEqualToString:self.coach.coachId]) {
+        HHRootViewController *rootVC = (HHRootViewController *)self.parentViewController.parentViewController;
+        rootVC.selectedIndex = TabBarItemBookView;
+    } else {
+        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"确认教练并付款后，才能预约时间", nil) isError:YES];
+    }
+   
+}
+
 - (void)refreshData {
     [self fetchSchedules];
 }
 
-- (NSMutableAttributedString *)buildConfirmButtonTitle {
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.lineSpacing = 3.0f;
-    paragraphStyle.alignment = NSTextAlignmentCenter;
-    
-    NSMutableAttributedString *attributedString1 = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"点击提交", nil)
-                                                                                          attributes:@{
-                                                                                                       NSForegroundColorAttributeName:[UIColor whiteColor],
-                                                                                                       NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f],
-                                                                                                       NSParagraphStyleAttributeName:paragraphStyle,
-                                                                                                       }];
-    
-    NSMutableAttributedString *attributedString2 = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"\n(%ld个时间被选中)", nil), self.selectedSchedules.count]
-                                                                                          attributes:@{
-                                                                                                       NSForegroundColorAttributeName:[UIColor whiteColor],
-                                                                                                       NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f],
-                                                                                                       NSParagraphStyleAttributeName:paragraphStyle,
-                                                                                                       }];
-
-    [attributedString1 appendAttributedString:attributedString2];
-    return attributedString1;
-}
-
--(void)valueChanged:(UISegmentedControl *)control {
+- (void)valueChanged:(UISegmentedControl *)control {
     [self groupSchedulesTitleWithFilter:control.selectedSegmentIndex];
-    [self.selectedSchedules removeAllObjects];
     [self.tableView reloadData];
 }
 
-- (void)confirmTime {
-    if (self.selectedSchedules.count <= 0) {
-        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"请先选中至少一个时间段！", nil) isError:YES];
-        return;
-    }
-    
-    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:@"请稍后..."];
-    [[HHStudentService sharedInstance] bookTimeSlotsWithSchedules:self.selectedSchedules student:[HHUserAuthenticator sharedInstance].currentStudent coachId:self.coach.coachId completion:^(BOOL succeed, NSInteger succeedCount) {
-        [[HHLoadingView sharedInstance] hideLoadingView];
-        if (succeed) {
-            [HHToastUtility showToastWitiTitle:[NSString stringWithFormat:NSLocalizedString(@"预约成功%ld个时间", nil), succeedCount] isError:NO];
-            [self fetchSchedules];
-            [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:[HHUserAuthenticator sharedInstance].currentStudent.studentId completion:nil];
-        } else {
-            [HHToastUtility showToastWitiTitle:[NSString stringWithFormat:NSLocalizedString(@"预约失败！", nil), succeedCount] isError:YES];
-        }
-        [self.selectedSchedules removeAllObjects];
-    }];
-}
 
 - (void)backButtonPressed {
     [self.navigationController popViewControllerAnimated:YES];
@@ -245,13 +200,9 @@
                              
                              [HHAutoLayoutUtility setCenterX:self.tableView multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility verticalNext:self.tableView toView:self.filterSegmentedControl constant:0],
-                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.tableView constant:-50.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.tableView constant:0],
                              [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:0],
                        
-                             [HHAutoLayoutUtility setCenterX:self.confirmButton multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.confirmButton constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.confirmButton multiplier:0 constant:50.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.confirmButton multiplier:1.0f constant:0],
                              ];
 
     [self.view addConstraints:constraints];
@@ -327,22 +278,10 @@
     HHCoachSchedule *schedule = (HHCoachSchedule *)self.groupedSchedules[indexPath.section][indexPath.row];
     cell.schedule = schedule;
     __weak HHTimeSlotsViewController *weakSelf = self;
-    __weak HHTimeSlotTableViewCell *weakCell = cell;
     cell.block = ^(HHStudent *student) {
         HHFullScreenImageViewController *vc = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:student.avatarURL] title:student.fullName];
         [weakSelf.tabBarController presentViewController:vc animated:YES completion:nil];
     };
-    
-    cell.emptyAvatarblock = ^(void){
-        [weakSelf handleCellSelection:weakCell indexPath:indexPath];
-    };
-    
-    if ([self.selectedSchedules containsObject:schedule]) {
-        cell.selectedIndicatorView.hidden = NO;
-        [cell.containerView bringSubviewToFront:cell.selectedIndicatorView];
-    } else {
-        cell.selectedIndicatorView.hidden = YES;
-    }
     [cell setupViews];
     cell.students = self.studentsForSchedules[schedule.objectId];
     [cell setupAvatars];
@@ -373,56 +312,6 @@
     return 118.0f;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    HHTimeSlotTableViewCell *cell = (HHTimeSlotTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-    [self handleCellSelection:cell indexPath:indexPath];
-}
-
-- (void)handleCellSelection:(HHTimeSlotTableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    if (!self.canSelectTime) {
-        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"确认教练并付款后才能预约时间!", nil) isError:YES];
-        return;
-    }
-    HHCoachSchedule *schedule = (HHCoachSchedule *)self.groupedSchedules[indexPath.section][indexPath.row];
-    if ([schedule.reservedStudents containsObject:[HHUserAuthenticator sharedInstance].currentStudent.studentId]) {
-        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"已成功预约此时间段, 无需再预约！", nil) isError:YES];
-        return;
-    }
-    
-    if (schedule.reservedStudents.count == 4) {
-        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"该时间段人数已满（每个时间段最多4名学员）", nil) isError:YES];
-        return;
-    }
-    
-    if (self.selectedSchedules.count > 5) {
-        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"一次性最多选择5个时间段！", nil) isError:YES];
-        return;
-    }
-    
-    if (cell.selectedIndicatorView.hidden) {
-        cell.selectedIndicatorView.hidden = NO;
-        [cell.containerView bringSubviewToFront:cell.selectedIndicatorView];
-        [self.selectedSchedules addObject:schedule];
-        [self changeConfirmButtonTitle];
-    } else {
-        cell.selectedIndicatorView.hidden = YES;
-        [self.selectedSchedules removeObject:schedule];
-        [self changeConfirmButtonTitle];
-
-    }
-
-}
-
-- (void)changeConfirmButtonTitle {
-    [self.confirmButton setAttributedTitle:[self buildConfirmButtonTitle] forState:UIControlStateNormal];
-    if (self.selectedSchedules.count == 0) {
-        self.confirmButton.enabled = NO;
-        self.confirmButton.backgroundColor = [UIColor HHLightGrayBackgroundColor];
-    } else {
-        self.confirmButton.enabled = YES;
-        self.confirmButton.backgroundColor = [UIColor HHOrange];
-    }
-}
 
 - (UIButton *)createButtonWithTitle:(NSString *)title backgroundColor:(UIColor *)bgColor font:(UIFont *)font action:(SEL)action {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];

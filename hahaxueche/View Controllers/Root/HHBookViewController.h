@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HHTimeSlotsViewController.h"
 
 @interface HHBookViewController : UIViewController
 
