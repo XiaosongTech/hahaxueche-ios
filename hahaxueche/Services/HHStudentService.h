@@ -13,7 +13,7 @@
 
 typedef void (^HHStudentsCompletionBlock)(NSArray *objects, NSError *error);
 typedef void (^HHStudentCompletionBlock)(HHStudent *student, NSError *error);
-typedef void (^HHStudentBookCompletionBlock)(BOOL succeed, NSArray *updatedSchedules, HHStudent *updatedStudent);
+typedef void (^HHStudentBookCompletionBlock)(BOOL succeed, NSInteger succeedCount);
 
 @interface HHStudentService : NSObject
 
@@ -21,7 +21,7 @@ typedef void (^HHStudentBookCompletionBlock)(BOOL succeed, NSArray *updatedSched
 
 - (void)fetchStudentsForScheduleWithIds:(NSArray *)studentIds completion:(HHStudentsCompletionBlock)completion;
 
-- (void)fetchStudentsWithId:(NSString *)studentId completion:(HHStudentCompletionBlock)completion;
+- (void)fetchStudentWithId:(NSString *)studentId completion:(HHStudentCompletionBlock)completion;
 
 - (void)bookTimeSlotsWithSchedules:(NSArray *)schedules student:(HHStudent *)student coachId:(NSString *)coachId completion:(HHStudentBookCompletionBlock)completion;
 

@@ -25,6 +25,7 @@
 
 - (instancetype)mutableCopyWithZone:(NSZone *)zone {
     HHStudent *newStudent = [[HHStudent alloc] init];
+    newStudent.objectId = self.objectId;
     newStudent.fullName = self.fullName;
     newStudent.studentId = self.studentId;
     newStudent.avatarURL = self.avatarURL;

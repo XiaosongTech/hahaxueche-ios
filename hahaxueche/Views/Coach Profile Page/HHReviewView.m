@@ -45,7 +45,7 @@
     self.commentLabel.numberOfLines = 0;
     self.commentLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     
-    [[HHStudentService sharedInstance] fetchStudentsWithId:self.review.studentId completion:^(HHStudent *student, NSError *error) {
+    [[HHStudentService sharedInstance] fetchStudentWithId:self.review.studentId completion:^(HHStudent *student, NSError *error) {
         self.nameLabel.text = student.fullName;
         [self.avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:student.avatarURL] placeholderImage:nil];
     }];

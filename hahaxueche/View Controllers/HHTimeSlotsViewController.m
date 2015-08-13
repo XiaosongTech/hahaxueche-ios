@@ -21,6 +21,7 @@
 #import "HHStudentService.h"
 #import "HHScheduleService.h"
 #import "HHLoadingView.h"
+#import "HHUserAuthenticator.h"
 
 #define kTimeSlotCellIdentifier @"kTimeSlotCellIdentifier"
 
@@ -52,7 +53,7 @@
 }
 - (void)fetchSchedules {
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中...", nil)];
-    [[HHScheduleService sharedInstance] fetchCoachSchedulesWithCoachId:self.coach.coachId skip:self.schedules.count completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
+    [[HHScheduleService sharedInstance] fetchCoachSchedulesWithCoachId:self.coach.coachId skip:0 completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
         [[HHLoadingView sharedInstance] hideLoadingView];
         if (!error) {
             [self.schedules removeAllObjects];
@@ -203,6 +204,19 @@
         [HHToastUtility showToastWitiTitle:NSLocalizedString(@"请先选中至少一个时间段！", nil) isError:YES];
         return;
     }
+    
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:@"请稍后..."];
+    [[HHStudentService sharedInstance] bookTimeSlotsWithSchedules:self.selectedSchedules student:[HHUserAuthenticator sharedInstance].currentStudent coachId:self.coach.coachId completion:^(BOOL succeed, NSInteger succeedCount) {
+        [[HHLoadingView sharedInstance] hideLoadingView];
+        if (succeed) {
+            [HHToastUtility showToastWitiTitle:[NSString stringWithFormat:NSLocalizedString(@"预约成功%ld个时间", nil), succeedCount] isError:NO];
+            [self fetchSchedules];
+            [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:[HHUserAuthenticator sharedInstance].currentStudent.studentId completion:nil];
+        } else {
+            [HHToastUtility showToastWitiTitle:[NSString stringWithFormat:NSLocalizedString(@"预约失败！", nil), succeedCount] isError:YES];
+        }
+        [self.selectedSchedules removeAllObjects];
+    }];
 }
 
 - (void)backButtonPressed {
@@ -250,25 +264,33 @@
             break;
     }
 
+    if (filteredArray.count < 1) {
+        self.groupedSchedules = nil;
+        return nil;
+    }
     HHCoachSchedule *firstSchedule = [filteredArray firstObject];
     NSDate *previousDate = firstSchedule.startDateTime;
     NSMutableArray *currentGroup = [NSMutableArray array];
     [currentGroup addObject:firstSchedule];
-    for (int i = 1; i < filteredArray.count; i++) {
-        HHCoachSchedule *schedule = filteredArray[i];
-        if ([[[HHFormatUtility dateFormatter] stringFromDate:schedule.startDateTime] isEqualToString:[[HHFormatUtility dateFormatter] stringFromDate:previousDate]]) {
-            [currentGroup addObject:schedule];
-        } else {
-            [array addObject:currentGroup];
-            currentGroup = [NSMutableArray array];
-            [currentGroup addObject:schedule];
+    if (filteredArray.count == 1) {
+        self.groupedSchedules = @[currentGroup];
+    } else {
+        for (int i = 1; i < filteredArray.count; i++) {
+            HHCoachSchedule *schedule = filteredArray[i];
+            if ([[[HHFormatUtility dateFormatter] stringFromDate:schedule.startDateTime] isEqualToString:[[HHFormatUtility dateFormatter] stringFromDate:previousDate]]) {
+                [currentGroup addObject:schedule];
+            } else {
+                [array addObject:currentGroup];
+                currentGroup = [NSMutableArray array];
+                [currentGroup addObject:schedule];
+            }
+            if (i == filteredArray.count - 1) {
+                [array addObject:currentGroup];
+            }
         }
-        if (i == filteredArray.count - 1) {
-            [array addObject:currentGroup];
-        }
+        self.groupedSchedules = array;
     }
-    self.groupedSchedules = array;
-    
+
     NSMutableArray *titles = [NSMutableArray array];
     for (int i = 0; i < self.groupedSchedules.count; i++) {
         HHCoachSchedule *schedule = [self.groupedSchedules[i] firstObject];
@@ -362,18 +384,21 @@
         return;
     }
     
-    if (self.selectedSchedules.count > 4)
+    if (self.selectedSchedules.count > 5) {
+        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"一次性最多选择5个时间段！", nil) isError:YES];
+        return;
+    }
     
     if (cell.selectedIndicatorView.hidden) {
         cell.selectedIndicatorView.hidden = NO;
         [cell.containerView bringSubviewToFront:cell.selectedIndicatorView];
         [self.selectedSchedules addObject:schedule];
         [self changeConfirmButtonTitle];
-        
     } else {
         cell.selectedIndicatorView.hidden = YES;
         [self.selectedSchedules removeObject:schedule];
         [self changeConfirmButtonTitle];
+
     }
 
 }

@@ -142,12 +142,9 @@
 }
 
 - (void)setupAvatars {
-    if (![self.students count]) {
-        for (int i = 0; i < 4; i++) {
-            HHAvatarView *avatarView = self.avatarViews[i];
-            avatarView.imageView.image = nil;
-        }
-        return;
+    for (int i = 0; i < 4; i++) {
+        HHAvatarView *avatarView = self.avatarViews[i];
+        avatarView.imageView.image = nil;
     }
     
     for (int i = 0; i < self.schedule.reservedStudents.count; i++) {

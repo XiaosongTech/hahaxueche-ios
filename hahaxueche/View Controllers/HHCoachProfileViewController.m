@@ -61,6 +61,7 @@ typedef enum : NSUInteger {
     self.addressSheet.delegate = nil;
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
+    self.imageGalleryView.delegate = nil;
 }
 
 - (instancetype)initWithCoach:(HHCoach *)coach {
@@ -85,10 +86,10 @@ typedef enum : NSUInteger {
                                                                             options:NSStringDrawingUsesLineFragmentOrigin
                                                                             context:nil]) + 65.0f;
         
-        
+        __weak HHCoachProfileViewController *weakSelf = self;
         [[HHCoachService sharedInstance] fetchReviewsForCoach:self.coach.coachId skip:0 completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
             if (!error) {
-                self.reviews = objects;
+                weakSelf.reviews = objects;
             }
         }];
     }
@@ -106,7 +107,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)backButtonPressed {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
@@ -254,7 +255,7 @@ typedef enum : NSUInteger {
             HHCoachDesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDesCellId forIndexPath:indexPath];
             [cell setupViewWithURL:self.coach.avatarURL name:self.coach.fullName des:self.coachDes];
             cell.block = ^() {
-                HHFullScreenImageViewController *imageViewer = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:self.coach.avatarURL] title:self.coach.fullName];
+                HHFullScreenImageViewController *imageViewer = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:weakSelf.coach.avatarURL] title:weakSelf.coach.fullName];
                 [weakSelf presentViewController:imageViewer animated:YES completion:nil];
             };
             return cell;
@@ -263,11 +264,11 @@ typedef enum : NSUInteger {
             HHCoachDashBoardTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDashBoardCellId forIndexPath:indexPath];
             [cell setupViewsWithCoach:self.coach trainingFielf:self.field];
             cell.phoneTappedCompletion = ^() {
-                [self.phoneSheet showInView:self.view];
+                [weakSelf.phoneSheet showInView:weakSelf.view];
             };
             
             cell.addressTappedCompletion = ^() {
-                [self.addressSheet showInView:self.view];
+                [weakSelf.addressSheet showInView:weakSelf.view];
             };
             return cell;
         }
@@ -281,12 +282,12 @@ typedef enum : NSUInteger {
             [cell setupReviewViews:self.reviews];
             cell.reviewTappedBlock = ^(NSInteger index) {
                 HHReviewViewController *reviewVC = [[HHReviewViewController alloc] init];
-                reviewVC.reviews = [NSMutableArray arrayWithArray:self.reviews];
+                reviewVC.reviews = [NSMutableArray arrayWithArray:weakSelf.reviews];
                 reviewVC.initialIndex = index;
-                reviewVC.coach = self.coach;
+                reviewVC.coach = weakSelf.coach;
                 reviewVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
                 reviewVC.modalPresentationStyle = UIModalPresentationCurrentContext;
-                [self presentViewController:reviewVC animated:YES completion:nil];
+                [weakSelf presentViewController:reviewVC animated:YES completion:nil];
             };
             return cell;
         }

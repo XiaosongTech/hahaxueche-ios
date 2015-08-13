@@ -108,7 +108,7 @@
     self.commentLabel.text = review.comment;
     self.timeLabel.text = [NSDate timeAgoSinceDate:review.createdAt];
     
-    [[HHStudentService sharedInstance] fetchStudentsWithId:review.studentId completion:^(HHStudent *student, NSError *error) {
+    [[HHStudentService sharedInstance] fetchStudentWithId:review.studentId completion:^(HHStudent *student, NSError *error) {
         [self.avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:student.avatarURL] placeholderImage:nil];
         self.nameLabel.text = student.fullName;
     }];
