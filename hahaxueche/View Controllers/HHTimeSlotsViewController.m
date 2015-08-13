@@ -37,6 +37,7 @@
 @property (nonatomic, strong) UISegmentedControl *filterSegmentedControl;
 @property (nonatomic, strong) NSMutableArray *schedules;
 @property (nonatomic)         BOOL shouldLoadMore;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -55,6 +56,7 @@
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中...", nil)];
     [[HHScheduleService sharedInstance] fetchCoachSchedulesWithCoachId:self.coach.coachId skip:0 completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
         [[HHLoadingView sharedInstance] hideLoadingView];
+        [self.refreshControl endRefreshing];
         if (!error) {
             [self.schedules removeAllObjects];
             [self.schedules addObjectsFromArray:objects];
@@ -166,8 +168,16 @@
     [self.filterSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:13.0f]} forState:UIControlStateSelected];
     [self.view addSubview:self.filterSegmentedControl];
     
+    self.refreshControl = [[UIRefreshControl alloc]init];
+    [self.tableView addSubview:self.refreshControl];
+    [self.refreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
+    
     [self fetchSchedules];
     [self autoLayoutSubviews];
+}
+
+- (void)refreshData {
+    [self fetchSchedules];
 }
 
 - (NSMutableAttributedString *)buildConfirmButtonTitle {
@@ -431,6 +441,9 @@
 - (BOOL)hidesBottomBarWhenPushed {
     return (self.navigationController.topViewController == self);
 }
+
+
+#pragma mark ScrollView Delegate
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     NSInteger currentOffset = scrollView.contentOffset.y;
