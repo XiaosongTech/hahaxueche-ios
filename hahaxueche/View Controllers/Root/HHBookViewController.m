@@ -19,6 +19,10 @@
 #import "HHTimeSlotSectionTitleView.h"
 #import "HHFullScreenImageViewController.h"
 #import "UIBarButtonItem+HHCustomButton.h"
+#import "HHAvatarView.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "HHCoachService.h"
+#import "HHCoachProfileViewController.h"
 
 
 #define kTimeSlotCellIdentifier @"kTimeSlotCellIdentifier"
@@ -34,6 +38,7 @@
 @property (nonatomic, strong) NSMutableArray *schedules;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) UIBarButtonItem *confirmBarButtonItem;
+@property (nonatomic, strong) HHCoach *myCoach;
 
 @property (nonatomic)         BOOL shouldLoadMore;
 @property (nonatomic)         BOOL hasCoach;
@@ -89,6 +94,22 @@
     if (self.hasCoach) {
         self.confirmBarButtonItem = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"确认", nil) action:@selector(confirmTimes) target:self isLeft:NO];
         self.navigationItem.rightBarButtonItem = self.confirmBarButtonItem;
+        HHAvatarView *myCoachAvatar = [[HHAvatarView alloc] initWithImage:nil radius:15.0f borderColor:[UIColor whiteColor]];
+        [myCoachAvatar setFrame:CGRectMake(0, 0, 30.0f, 30.0f)];
+        [[HHCoachService sharedInstance] fetchCoachWithId:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId completion:^(HHCoach *coach, NSError *error) {
+            self.myCoach = coach;
+            [myCoachAvatar.imageView sd_setImageWithURL:[NSURL URLWithString:self.myCoach.avatarURL] placeholderImage:nil];
+        }];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToMyCoachProfileView)];
+        [myCoachAvatar addGestureRecognizer:tap];
+        
+        UIBarButtonItem *coachBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:myCoachAvatar];
+        UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
+                                           initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                           target:nil action:nil];
+        negativeSpacer.width = -8.0f;
+        
+        [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, coachBarButtonItem]];
         [self fetchSchedules];
     } else {
         
@@ -96,6 +117,14 @@
     
     [self autoLayoutSubviews];
 
+}
+
+- (void)jumpToMyCoachProfileView {
+    if (self.myCoach) {
+         HHCoachProfileViewController *myCoachVC = [[HHCoachProfileViewController alloc] initWithCoach:self.myCoach];
+        [self.navigationController pushViewController:myCoachVC animated:YES];
+    }
+   
 }
 
 - (void)confirmTimes {
@@ -167,8 +196,8 @@
             } else {
                 weakSelf.shouldLoadMore = YES;
             }
+            self.studentsForSchedules = [NSMutableDictionary dictionary];
             weakSelf.sectionTiltes = [weakSelf groupSchedulesTitleWithFilter:weakSelf.filterSegmentedControl.selectedSegmentIndex];
-            [weakSelf.tableView reloadData];
             for (HHCoachSchedule *schedule in weakSelf.schedules) {
                 [[HHStudentService sharedInstance] fetchStudentsForScheduleWithIds:schedule.reservedStudents completion:^(NSArray *objects, NSError *error) {
                     if (!error) {
@@ -200,7 +229,6 @@
                 weakSelf.shouldLoadMore = YES;
             }
             weakSelf.sectionTiltes = [weakSelf groupSchedulesTitleWithFilter:weakSelf.filterSegmentedControl.selectedSegmentIndex];
-            [weakSelf.tableView reloadData];
             for (HHCoachSchedule *schedule in weakSelf.schedules) {
                 [[HHStudentService sharedInstance] fetchStudentsForScheduleWithIds:schedule.reservedStudents completion:^(NSArray *objects, NSError *error) {
                     if (!error) {
@@ -304,6 +332,7 @@
         cell.selectedIndicatorView.hidden = YES;
     }
     [cell setupViews];
+    
     cell.students = self.studentsForSchedules[schedule.objectId];
     [cell setupAvatars];
     return cell;

@@ -147,10 +147,13 @@
         avatarView.imageView.image = nil;
     }
     
-    for (int i = 0; i < self.schedule.reservedStudents.count; i++) {
-        HHStudent *student = self.students[i];
-        HHAvatarView *avatarView = self.avatarViews[i];
-        [avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:student.avatarURL] placeholderImage:nil];
+    if ([self.students count]) {
+        for (int i = 0; i < self.schedule.reservedStudents.count; i++) {
+            HHStudent *student = self.students[i];
+            HHAvatarView *avatarView = self.avatarViews[i];
+            [avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:student.avatarURL] placeholderImage:nil];
+        }
+
     }
     
     for (int i = self.schedule.reservedStudents.count - 1; i < 4; i++) {

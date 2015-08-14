@@ -128,7 +128,7 @@
     negativeSpacer.width = -8.0f;//
     [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, backButton]];
     
-    UIBarButtonItem *bookBarButton = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"预约", nil) action:@selector(jumpToBookView) target:self isLeft:NO];
+    UIBarButtonItem *bookBarButton = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"去预约", nil) action:@selector(jumpToBookView) target:self isLeft:NO];
     self.navigationItem.rightBarButtonItem = bookBarButton;
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero];
