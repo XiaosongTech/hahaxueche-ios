@@ -12,6 +12,7 @@
 #import "HHCoachListViewController.h"
 #import "HHBookViewController.h"
 #import "HHMyReservationViewController.h"
+#import "HHMyProfileViewController.h"
 
 @interface HHRootViewController ()
 
@@ -63,7 +64,15 @@
     myReservationItem.title = NSLocalizedString(@"我的预约", nil);
     myReservationNavVC.tabBarItem = myReservationItem;
     
-    NSArray *viewControllers = @[HomePageNavVC, coachListeNavVC, bookNavVC, myReservationNavVC];
+    HHMyProfileViewController *myProfileVC = [[HHMyProfileViewController alloc] init];
+    HHNavigationController *myProfileNavVC = [[HHNavigationController alloc] initWithRootViewController:myProfileVC];
+    UITabBarItem *myProfileItem = [[UITabBarItem alloc] init];
+    myProfileItem.image = [[UIImage imageNamed:@"profile_gray"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    myProfileItem.selectedImage = [[UIImage imageNamed:@"profile_selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    myProfileItem.title = NSLocalizedString(@"我的页面", nil);
+    myProfileNavVC.tabBarItem = myProfileItem;
+    
+    NSArray *viewControllers = @[HomePageNavVC, coachListeNavVC, bookNavVC, myReservationNavVC, myProfileNavVC];
     self.viewControllers = viewControllers;
 
 }

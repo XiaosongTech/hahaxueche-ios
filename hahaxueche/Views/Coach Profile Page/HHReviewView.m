@@ -47,7 +47,9 @@
     
     [[HHStudentService sharedInstance] fetchStudentWithId:self.review.studentId completion:^(HHStudent *student, NSError *error) {
         self.nameLabel.text = student.fullName;
-        [self.avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:student.avatarURL] placeholderImage:nil];
+        AVFile *file = [AVFile fileWithURL:student.avatarURL];
+        NSString *thumbnailString = [file getThumbnailURLWithScaleToFit:YES width:kAvatarRadius * 4 height:kAvatarRadius * 4 quality:100 format:@"png"];
+        [self.avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:thumbnailString] placeholderImage:nil];
     }];
     
     self.line = [[UIView alloc] initWithFrame:CGRectZero];

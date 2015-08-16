@@ -95,7 +95,7 @@ typedef void (^HHGenericCompletion)();
         [[HHLoadingView sharedInstance] hideLoadingView];
         if (!error) {
             [self.coachesArray removeAllObjects];
-            self.coachesArray = [NSMutableArray arrayWithArray: objects];
+            [self.coachesArray addObjectsFromArray:objects];
             if (self.coachesArray.count < totalCount) {
                 [self.coachesArray addObject:kLoadingCellIDentifier];
             }
@@ -396,6 +396,9 @@ typedef void (^HHGenericCompletion)();
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.coachesArray.count < 1) {
+        return 0;
+    }
     if ([self.coachesArray[indexPath.row] isKindOfClass:[NSString class]]) {
         return 30.0;
     }
