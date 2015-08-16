@@ -150,8 +150,10 @@
 }
 
 - (void)setupCellWithCoach:(HHCoach *)coach {
-    [self.avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:coach.avatarURL]
-                      placeholderImage:nil];
+    AVFile *file = [AVFile fileWithURL:coach.avatarURL];
+    NSString *thumbnailString = [file getThumbnailURLWithScaleToFit:YES width:kAvatarRadius * 4 height:kAvatarRadius * 4 quality:100 format:@"png"];
+    [self.avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:thumbnailString] placeholderImage:nil];
+    
     self.nameLabel.text = coach.fullName;
     self.priceLabel.text = [[HHFormatUtility moneyFormatter] stringFromNumber:coach.price];
     [self.ratingView setupViewWithRating:[coach.averageRating floatValue]];

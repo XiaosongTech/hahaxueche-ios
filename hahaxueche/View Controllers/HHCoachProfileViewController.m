@@ -253,7 +253,9 @@ typedef enum : NSUInteger {
     switch (indexPath.row) {
         case CoachProfileCellDes:{
             HHCoachDesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDesCellId forIndexPath:indexPath];
-            [cell setupViewWithURL:self.coach.avatarURL name:self.coach.fullName des:self.coachDes];
+            AVFile *file = [AVFile fileWithURL:self.coach.avatarURL];
+            NSString *thumbnailString = [file getThumbnailURLWithScaleToFit:YES width:80.0f height:80.0f quality:100 format:@"png"];
+            [cell setupViewWithURL:thumbnailString name:self.coach.fullName des:self.coachDes];
             cell.block = ^() {
                 HHFullScreenImageViewController *imageViewer = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:weakSelf.coach.avatarURL] title:weakSelf.coach.fullName];
                 [weakSelf presentViewController:imageViewer animated:YES completion:nil];
