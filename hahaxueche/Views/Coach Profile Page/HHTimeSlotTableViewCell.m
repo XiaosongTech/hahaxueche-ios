@@ -144,7 +144,7 @@
 - (void)setupAvatars {
     for (int i = 0; i < 4; i++) {
         HHAvatarView *avatarView = self.avatarViews[i];
-        avatarView.imageView.image = nil;
+        avatarView.imageView.image = [UIImage imageNamed:@"ic_st_add"];
     }
     
     if ([self.students count]) {
@@ -155,11 +155,6 @@
         }
 
     }
-    
-    for (int i = self.schedule.reservedStudents.count - 1; i < 4; i++) {
-        //set image to add image
-    }
-   
 }
 
 

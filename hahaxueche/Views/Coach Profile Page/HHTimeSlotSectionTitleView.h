@@ -11,7 +11,7 @@
 @interface HHTimeSlotSectionTitleView : UIView
 
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UIImage *imageView;
+@property (nonatomic, strong) UIImageView *imageView;
 
 - (instancetype)initWithTitle:(NSString *)title;
 

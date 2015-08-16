@@ -51,6 +51,12 @@
 		5C5451C61B52A7760025D19F /* HHLoginSignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451C51B52A7760025D19F /* HHLoginSignupViewController.m */; };
 		5C5451CF1B52ADE50025D19F /* HHButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451CE1B52ADE50025D19F /* HHButton.m */; };
 		5C5451D21B52BE1D0025D19F /* UIImage+HHImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451D11B52BE1D0025D19F /* UIImage+HHImage.m */; };
+		5C69C7B51B7F7E9A00FDE709 /* ic_st_add@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C69C7AF1B7F7E9A00FDE709 /* ic_st_add@1x.png */; };
+		5C69C7B61B7F7E9A00FDE709 /* ic_st_add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C69C7B01B7F7E9A00FDE709 /* ic_st_add@2x.png */; };
+		5C69C7B71B7F7E9A00FDE709 /* ic_st_add@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C69C7B11B7F7E9A00FDE709 /* ic_st_add@3x.png */; };
+		5C69C7B81B7F7E9A00FDE709 /* ic_time_title_left@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C69C7B21B7F7E9A00FDE709 /* ic_time_title_left@1x.png */; };
+		5C69C7B91B7F7E9A00FDE709 /* ic_time_title_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C69C7B31B7F7E9A00FDE709 /* ic_time_title_left@2x.png */; };
+		5C69C7BA1B7F7E9A00FDE709 /* ic_time_title_left@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C69C7B41B7F7E9A00FDE709 /* ic_time_title_left@3x.png */; };
 		5C93FA6E1B6E827A00D7FC86 /* x_button@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C93FA6B1B6E827A00D7FC86 /* x_button@1x.png */; };
 		5C93FA6F1B6E827A00D7FC86 /* x_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C93FA6C1B6E827A00D7FC86 /* x_button@2x.png */; };
 		5C93FA701B6E827A00D7FC86 /* x_button@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C93FA6D1B6E827A00D7FC86 /* x_button@3x.png */; };
@@ -229,6 +235,12 @@
 		5C5451CE1B52ADE50025D19F /* HHButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHButton.m; sourceTree = "<group>"; };
 		5C5451D01B52BE1D0025D19F /* UIImage+HHImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HHImage.h"; sourceTree = "<group>"; };
 		5C5451D11B52BE1D0025D19F /* UIImage+HHImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HHImage.m"; sourceTree = "<group>"; };
+		5C69C7AF1B7F7E9A00FDE709 /* ic_st_add@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_st_add@1x.png"; sourceTree = "<group>"; };
+		5C69C7B01B7F7E9A00FDE709 /* ic_st_add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_st_add@2x.png"; sourceTree = "<group>"; };
+		5C69C7B11B7F7E9A00FDE709 /* ic_st_add@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_st_add@3x.png"; sourceTree = "<group>"; };
+		5C69C7B21B7F7E9A00FDE709 /* ic_time_title_left@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_time_title_left@1x.png"; sourceTree = "<group>"; };
+		5C69C7B31B7F7E9A00FDE709 /* ic_time_title_left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_time_title_left@2x.png"; sourceTree = "<group>"; };
+		5C69C7B41B7F7E9A00FDE709 /* ic_time_title_left@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_time_title_left@3x.png"; sourceTree = "<group>"; };
 		5C93FA6B1B6E827A00D7FC86 /* x_button@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "x_button@1x.png"; sourceTree = "<group>"; };
 		5C93FA6C1B6E827A00D7FC86 /* x_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "x_button@2x.png"; sourceTree = "<group>"; };
 		5C93FA6D1B6E827A00D7FC86 /* x_button@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "x_button@3x.png"; sourceTree = "<group>"; };
@@ -463,6 +475,12 @@
 		5C10F9271B49E6F100992B63 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5C69C7AF1B7F7E9A00FDE709 /* ic_st_add@1x.png */,
+				5C69C7B01B7F7E9A00FDE709 /* ic_st_add@2x.png */,
+				5C69C7B11B7F7E9A00FDE709 /* ic_st_add@3x.png */,
+				5C69C7B21B7F7E9A00FDE709 /* ic_time_title_left@1x.png */,
+				5C69C7B31B7F7E9A00FDE709 /* ic_time_title_left@2x.png */,
+				5C69C7B41B7F7E9A00FDE709 /* ic_time_title_left@3x.png */,
 				5C01270A1B71AF7000780992 /* arrow_right@1x.png */,
 				5C01270B1B71AF7000780992 /* arrow_right@2x.png */,
 				5C01270C1B71AF7000780992 /* arrow_right@3x.png */,
@@ -857,6 +875,7 @@
 				5CD4E9511B558184003CF15E /* list_selected@2x.png in Resources */,
 				5CD4E9641B55837A003CF15E /* calendar_selected@3x.png in Resources */,
 				5CB550731B4CC055005DE447 /* calendar_grey@1x.png in Resources */,
+				5C69C7B81B7F7E9A00FDE709 /* ic_time_title_left@1x.png in Resources */,
 				5CB34F0B1B63EA4B007954DF /* left_arrow@2x.png in Resources */,
 				5CD4E9621B55837A003CF15E /* calendar_selected@1x.png in Resources */,
 				5CD4EA121B5BEEBF003CF15E /* camera-alt@3x.png in Resources */,
@@ -877,6 +896,7 @@
 				5CD4EA101B5BEEBF003CF15E /* camera-alt@1x.png in Resources */,
 				5CB34EE41B61D6B0007954DF /* trasparent_view@2x.png in Resources */,
 				5CD4E9461B55809B003CF15E /* car_selected@3x.png in Resources */,
+				5C69C7BA1B7F7E9A00FDE709 /* ic_time_title_left@3x.png in Resources */,
 				5CB5507B1B4CC055005DE447 /* car_grey@3x.png in Resources */,
 				5CB34F0E1B63EA4B007954DF /* map@2x.png in Resources */,
 				5C93FA701B6E827A00D7FC86 /* x_button@3x.png in Resources */,
@@ -892,17 +912,21 @@
 				5CB34F251B643E02007954DF /* star_half@1x.png in Resources */,
 				5C93FA6E1B6E827A00D7FC86 /* x_button@1x.png in Resources */,
 				5CB5507F1B4CC055005DE447 /* list_grey@1x.png in Resources */,
+				5C69C7B71B7F7E9A00FDE709 /* ic_st_add@3x.png in Resources */,
 				5C2DCCFF1B65ACE0007E8FA7 /* car_icon@1x.png in Resources */,
 				5CB34F2A1B643E02007954DF /* star@3x.png in Resources */,
 				5C2DCD011B65ACE0007E8FA7 /* car_icon@3x.png in Resources */,
 				5CA5B7871B533A2200312674 /* austin2.jpg in Resources */,
 				5C0126F61B7038FA00780992 /* blur_background@2x.png in Resources */,
 				5CA5B7881B533A2200312674 /* austin3.jpg in Resources */,
+				5C69C7B51B7F7E9A00FDE709 /* ic_st_add@1x.png in Resources */,
 				5CB34F131B63EA61007954DF /* search.png in Resources */,
 				5CD4E9691B558431003CF15E /* reservation_grey@2x.png in Resources */,
 				5C5451BC1B51E6B60025D19F /* fbAvatar.jpg in Resources */,
+				5C69C7B61B7F7E9A00FDE709 /* ic_st_add@2x.png in Resources */,
 				5CB550741B4CC055005DE447 /* calendar_grey@2x.png in Resources */,
 				5CB34F0A1B63EA4B007954DF /* left_arrow@1x.png in Resources */,
+				5C69C7B91B7F7E9A00FDE709 /* ic_time_title_left@2x.png in Resources */,
 				5C2DCCFD1B65ACE0007E8FA7 /* car_icon_solid@2x.png in Resources */,
 				5CB34F0C1B63EA4B007954DF /* left_arrow@3x.png in Resources */,
 				5CBBA96F1B5F4B13009398B8 /* loading.jpg in Resources */,

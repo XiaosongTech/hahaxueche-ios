@@ -21,12 +21,16 @@
         self.titleLabel.text = title;
         self.titleLabel.textColor = [UIColor HHGrayTextColor];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
-        self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f];
+        self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:16.0f];
         [self.titleLabel sizeToFit];
         [self.titleLabel setFrameWithOrigin:CGPointMake(10.0f, 4.0f)];
         [self.titleLabel setFrameWithHeight:40.0f];
         self.backgroundColor = [UIColor HHLightGrayBackgroundColor];
         [self addSubview:self.titleLabel];
+        
+        self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_time_title_left"]];
+        [self.imageView setFrame:CGRectMake(0, 15.0f, 5.0f, 18.0f)];
+        [self addSubview:self.imageView];
         
     }
     return self;

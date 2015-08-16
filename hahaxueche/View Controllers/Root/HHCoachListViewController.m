@@ -62,6 +62,7 @@ typedef void (^HHGenericCompletion)();
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) CMPopTipView *mapTipView;
 @property (nonatomic, strong) MKMapView *mapView;
+@property (nonatomic)         BOOL isFetchingMoreCoaches;
 
 @property (assign, nonatomic) CATransform3D initialTransformation;
 
@@ -93,6 +94,7 @@ typedef void (^HHGenericCompletion)();
     [[HHCoachService sharedInstance] fetchCoachesWithTraningFields:[HHTrainingFieldService sharedInstance].selectedFields skip:self.coachesArray.count courseOption:self.currentCourseOption sortOption:self.currentSortOption completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
         [[HHLoadingView sharedInstance] hideLoadingView];
         if (!error) {
+            [self.coachesArray removeAllObjects];
             self.coachesArray = [NSMutableArray arrayWithArray: objects];
             if (self.coachesArray.count < totalCount) {
                 [self.coachesArray addObject:kLoadingCellIDentifier];
@@ -109,9 +111,8 @@ typedef void (^HHGenericCompletion)();
 }
 
 - (void)fetchMoreDataWithCompletion:(HHGenericCompletion)completion {
-    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
     [[HHCoachService sharedInstance] fetchCoachesWithTraningFields:[HHTrainingFieldService sharedInstance].selectedFields skip:self.coachesArray.count-1 courseOption:self.currentCourseOption sortOption:self.currentSortOption completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
-        [[HHLoadingView sharedInstance] hideLoadingView];
+        self.isFetchingMoreCoaches = NO;
         if (!error) {
             if ([[self.coachesArray lastObject] isEqualToString:kLoadingCellIDentifier]) {
                 [self.coachesArray removeObject:kLoadingCellIDentifier];
@@ -373,9 +374,25 @@ typedef void (^HHGenericCompletion)();
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.coachesArray[indexPath.row] isKindOfClass:[NSString class]]) {
-        [self fetchMoreDataWithCompletion:nil];
+        if (!self.isFetchingMoreCoaches) {
+            self.isFetchingMoreCoaches = YES;
+            [self fetchMoreDataWithCompletion:nil];
+            return;
+        }
     }
+    POPSpringAnimation *springAnimation = [POPSpringAnimation animation];
+    springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
+    CGRect fromRect = [tableView rectForRowAtIndexPath:indexPath];
+    fromRect.origin = CGPointMake(0, CGRectGetMinY(fromRect) - CGRectGetHeight(fromRect));
+    springAnimation.fromValue = [NSValue valueWithCGRect:fromRect];
+    springAnimation.toValue = [NSValue valueWithCGRect:[tableView rectForRowAtIndexPath:indexPath]];
+    springAnimation.name = @"slideInCellFromTop";
+    springAnimation.delegate = self;
+    springAnimation.springSpeed = 0.8f;
+    springAnimation.springBounciness = 0.5f;
+    [cell pop_addAnimation:springAnimation forKey:@"slideInCellFromTop"];
 
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
