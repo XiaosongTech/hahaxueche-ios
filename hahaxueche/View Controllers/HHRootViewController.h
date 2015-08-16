@@ -13,6 +13,7 @@ typedef enum : NSUInteger {
     TabBarItemCoachListView,
     TabBarItemBookView,
     TabBarItemMyReservationView,
+    TabBarItemMyProfileView,
 } TabBarItem;
 
 @interface HHRootViewController : UITabBarController <UITabBarControllerDelegate>
