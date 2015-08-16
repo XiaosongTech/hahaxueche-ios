@@ -1,10 +1,36 @@
 PODS:
-  - SLPagingView (0.0.5)
+  - AVOSCloud (3.1.2.6)
+  - CMPopTipView (2.2.0)
+  - CRToast (0.0.7)
+  - DateTools (1.6.1)
+  - libPhoneNumber-iOS (0.8.5)
+  - MBProgressHUD (0.9.1)
+  - pop (1.0.7)
+  - SDCycleScrollView (1.3)
+  - SDWebImage (3.7.2):
+    - SDWebImage/Core (= 3.7.2)
+  - SDWebImage/Core (3.7.2)
 
 DEPENDENCIES:
-  - SLPagingView
+  - AVOSCloud
+  - CMPopTipView (~> 2.2)
+  - CRToast (~> 0.0.7)
+  - DateTools
+  - libPhoneNumber-iOS (~> 0.8)
+  - MBProgressHUD (~> 0.9.1)
+  - pop (~> 1.0)
+  - SDCycleScrollView (~> 1.3)
+  - SDWebImage (~> 3.7)
 
 SPEC CHECKSUMS:
-  SLPagingView: ba9bb6102cb318ce56f23d0a7e49a46ddcdad7e3
+  AVOSCloud: a2fc903a1aee5a346f0fb839f92617378fffd2ed
+  CMPopTipView: a0a88404b9f46a5cfc16ce54bdb1b9bf9acb9aff
+  CRToast: 99a28f4387def43b439ad88f957ce31357ff7373
+  DateTools: 9bcc89e4f2f9004d8a7a2bd1b49269cf78968e65
+  libPhoneNumber-iOS: b8ccd23576379caca37c7cbdd554addf384459ed
+  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
+  SDCycleScrollView: 90e43636fcc8e6a7f74e8b64d87418a8e96549b4
+  SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
 
 COCOAPODS: 0.36.3
