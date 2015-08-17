@@ -13,7 +13,7 @@
 #import "HHFormatUtility.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
-#define kAvatarRadius 25.0f
+#define kAvatarRadius 20.0f
 
 @implementation HHTimeSlotTableViewCell
 
@@ -58,11 +58,11 @@
     self.firstVerticalLine = [self createLine];
     self.secondVerticalLine = [self createLine];
     
-    self.timeLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f] textColor:[UIColor HHGrayTextColor]];
+    self.timeLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:15.0f] textColor:[UIColor HHGrayTextColor]];
     [self.containerView addSubview:self.timeLabel];
-    self.courseLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f] textColor:[UIColor HHGrayTextColor]];
+    self.courseLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:15.0f] textColor:[UIColor HHGrayTextColor]];
     [self.containerView addSubview:self.courseLabel];
-    self.amountLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f] textColor:[UIColor HHGrayTextColor]];
+    self.amountLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:15.0f] textColor:[UIColor HHGrayTextColor]];
     [self.containerView addSubview:self.amountLabel];
     
     for (int i = 0; i < 4; i++) {

@@ -17,5 +17,6 @@
 + (UIColor *)HHLightGrayBackgroundColor;
 + (UIColor *)HHGrayTextColor;
 + (UIColor *)HHGrayLineColor;
++ (UIColor *)HHClickableBlue;
 
 @end

@@ -11,8 +11,6 @@
 #import "HHFormatUtility.h"
 #import "UIColor+HHColor.h"
 
-#define kBlueTextColor [UIColor colorWithRed:0.21 green:0.55 blue:0.93 alpha:1]
-
 @implementation HHCoachDashBoardTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -38,12 +36,12 @@
     self.yearView = [self createDashViewValueTextColor:[UIColor blackColor] rightLine:NO];
     self.passedStudentAmountView = [self createDashViewValueTextColor:[UIColor blackColor] rightLine:YES];
     self.currentStudentAmountView =[self createDashViewValueTextColor:[UIColor blackColor] rightLine:NO];
-    self.phoneNumberView =[self createDashViewValueTextColor:kBlueTextColor rightLine:NO];
+    self.phoneNumberView =[self createDashViewValueTextColor:[UIColor HHClickableBlue] rightLine:NO];
     
     UITapGestureRecognizer *phoneTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(phoneNumberPressed)];
     [self.phoneNumberView addGestureRecognizer:phoneTap];
     
-    self.addressView =[self createDashViewValueTextColor:kBlueTextColor rightLine:NO];
+    self.addressView =[self createDashViewValueTextColor:[UIColor HHClickableBlue] rightLine:NO];
     UITapGestureRecognizer *addressTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addressPressed)];
     [self.addressView addGestureRecognizer:addressTap];
     

@@ -7,6 +7,7 @@
 //
 
 #import "HHScheduleService.h"
+#import "HHUserAuthenticator.h"
 
 @implementation HHScheduleService
 
@@ -32,6 +33,20 @@
             completion (objects, [query countObjects], error);
         }
     }];
+}
+
+- (void)fetchAuthedStudentReservationsWithSkip:(NSInteger)skip completion:(HHSchedulesCompletionBlock)completion {
+    AVQuery *query = [AVQuery queryWithClassName:[HHCoachSchedule parseClassName]];
+    query.limit = 20;
+    query.skip = skip;
+    [query whereKey:@"objectId" containedIn:[HHUserAuthenticator sharedInstance].currentStudent.myReservation];
+    [query orderByAscending:@"startDateTime"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (completion) {
+            completion (objects, [query countObjects], error);
+        }
+    }];
+    
 }
 
 

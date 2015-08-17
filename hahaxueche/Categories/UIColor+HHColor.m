@@ -38,4 +38,7 @@
     return [UIColor colorWithRed:0.88 green:0.48 blue:0.13 alpha:0.8f];
 }
 
++ (UIColor *)HHClickableBlue {
+    return [UIColor colorWithRed:0.21 green:0.55 blue:0.93 alpha:1];
+}
 @end

@@ -187,9 +187,10 @@ typedef void (^HHGenericCompletion)();
 }
 
 - (void)refreshData {
+    __weak HHCoachListViewController *weakSelf = self;
     self.coachesArray = [NSMutableArray array];
     [self fetchDataWithCompletion:^(){
-        [self.refreshControl endRefreshing];
+        [weakSelf.refreshControl endRefreshing];
     }];
 
 }

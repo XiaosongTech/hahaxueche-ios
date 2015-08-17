@@ -23,6 +23,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "HHCoachService.h"
 #import "HHCoachProfileViewController.h"
+#import <pop/POP.h>
 
 
 #define kTimeSlotCellIdentifier @"kTimeSlotCellIdentifier"
@@ -62,7 +63,8 @@
     self.studentsForSchedules = [NSMutableDictionary dictionary];
     self.schedules = [NSMutableArray array];
     
-    if ([[HHUserAuthenticator sharedInstance].currentStudent.myCoachId length] > 0) {
+    if ([HHUserAuthenticator sharedInstance].myCoach) {
+        self.myCoach = [HHUserAuthenticator sharedInstance].myCoach;
         self.hasCoach = YES;
     } else {
         self.hasCoach = NO;
@@ -96,10 +98,7 @@
         self.navigationItem.rightBarButtonItem = self.confirmBarButtonItem;
         HHAvatarView *myCoachAvatar = [[HHAvatarView alloc] initWithImage:nil radius:15.0f borderColor:[UIColor whiteColor]];
         [myCoachAvatar setFrame:CGRectMake(0, 0, 30.0f, 30.0f)];
-        [[HHCoachService sharedInstance] fetchCoachWithId:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId completion:^(HHCoach *coach, NSError *error) {
-            self.myCoach = coach;
-            [myCoachAvatar.imageView sd_setImageWithURL:[NSURL URLWithString:self.myCoach.avatarURL] placeholderImage:nil];
-        }];
+        [myCoachAvatar.imageView sd_setImageWithURL:[NSURL URLWithString:self.myCoach.avatarURL] placeholderImage:nil];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToMyCoachProfileView)];
         [myCoachAvatar addGestureRecognizer:tap];
         
@@ -189,6 +188,7 @@
         [[HHLoadingView sharedInstance] hideLoadingView];
         [weakSelf.refreshControl endRefreshing];
         if (!error) {
+            [weakSelf.studentsForSchedules removeAllObjects];
             [weakSelf.schedules removeAllObjects];
             [weakSelf.schedules addObjectsFromArray:objects];
             if (weakSelf.schedules.count >= totalResults) {
@@ -196,18 +196,9 @@
             } else {
                 weakSelf.shouldLoadMore = YES;
             }
-            self.studentsForSchedules = [NSMutableDictionary dictionary];
+            weakSelf.studentsForSchedules = [NSMutableDictionary dictionary];
             weakSelf.sectionTiltes = [weakSelf groupSchedulesTitleWithFilter:weakSelf.filterSegmentedControl.selectedSegmentIndex];
-            for (HHCoachSchedule *schedule in weakSelf.schedules) {
-                [[HHStudentService sharedInstance] fetchStudentsForScheduleWithIds:schedule.reservedStudents completion:^(NSArray *objects, NSError *error) {
-                    if (!error) {
-                        weakSelf.studentsForSchedules[schedule.objectId] = objects;
-                        [weakSelf.tableView reloadData];
-                    }
-                }];
-                
-            }
-            
+            [weakSelf.tableView reloadData];
         } else {
             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取数据是出错！", nil) isError:YES];
         }
@@ -333,6 +324,19 @@
     }
     [cell setupViews];
     
+    if (self.studentsForSchedules[schedule.objectId]) {
+        cell.students = self.studentsForSchedules[schedule.objectId];
+        [cell setupAvatars];
+    } else {
+        [[HHStudentService sharedInstance] fetchStudentsForScheduleWithIds:schedule.reservedStudents completion:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                weakSelf.studentsForSchedules[schedule.objectId] = objects;
+                weakCell.students = objects;
+                [weakCell setupAvatars];
+            }
+            
+        }];
+    }
     cell.students = self.studentsForSchedules[schedule.objectId];
     [cell setupAvatars];
     return cell;
@@ -353,13 +357,31 @@
     
 }
 
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    POPSpringAnimation *springAnimation = [POPSpringAnimation animation];
+    springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
+    CGRect fromRect = [tableView rectForRowAtIndexPath:indexPath];
+    fromRect.origin = CGPointMake(0, CGRectGetMinY(fromRect) - CGRectGetHeight(fromRect));
+    springAnimation.fromValue = [NSValue valueWithCGRect:fromRect];
+    springAnimation.toValue = [NSValue valueWithCGRect:[tableView rectForRowAtIndexPath:indexPath]];
+    springAnimation.name = @"slideInCellFromTop";
+    springAnimation.delegate = self;
+    springAnimation.springSpeed = 0.8f;
+    springAnimation.springBounciness = 0.5f;
+    [cell pop_addAnimation:springAnimation forKey:@"slideInCellFromTop"];
+    
+    
+}
+
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     HHTimeSlotSectionTitleView *view = [[HHTimeSlotSectionTitleView alloc] initWithTitle:self.sectionTiltes[section]];
     return view;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 118.0f;
+    return 108.0f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
