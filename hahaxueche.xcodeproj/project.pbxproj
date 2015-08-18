@@ -65,6 +65,7 @@
 		5C69C7D41B80432500FDE709 /* profile_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C69C7CE1B80432500FDE709 /* profile_selected@2x.png */; };
 		5C69C7D51B80432500FDE709 /* profile_selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C69C7CF1B80432500FDE709 /* profile_selected@3x.png */; };
 		5C69C7DD1B81015400FDE709 /* HHMyReservationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C69C7DC1B81015400FDE709 /* HHMyReservationTableViewCell.m */; };
+		5C84E5C71B83F8EE00E70AD3 /* ParallaxHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C84E5C41B83F8EE00E70AD3 /* ParallaxHeaderView.m */; };
 		5C93FA6E1B6E827A00D7FC86 /* x_button@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C93FA6B1B6E827A00D7FC86 /* x_button@1x.png */; };
 		5C93FA6F1B6E827A00D7FC86 /* x_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C93FA6C1B6E827A00D7FC86 /* x_button@2x.png */; };
 		5C93FA701B6E827A00D7FC86 /* x_button@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C93FA6D1B6E827A00D7FC86 /* x_button@3x.png */; };
@@ -259,6 +260,8 @@
 		5C69C7CF1B80432500FDE709 /* profile_selected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile_selected@3x.png"; sourceTree = "<group>"; };
 		5C69C7DB1B81015400FDE709 /* HHMyReservationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyReservationTableViewCell.h; sourceTree = "<group>"; };
 		5C69C7DC1B81015400FDE709 /* HHMyReservationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyReservationTableViewCell.m; sourceTree = "<group>"; };
+		5C84E5C31B83F8EE00E70AD3 /* ParallaxHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParallaxHeaderView.h; sourceTree = "<group>"; };
+		5C84E5C41B83F8EE00E70AD3 /* ParallaxHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParallaxHeaderView.m; sourceTree = "<group>"; };
 		5C93FA6B1B6E827A00D7FC86 /* x_button@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "x_button@1x.png"; sourceTree = "<group>"; };
 		5C93FA6C1B6E827A00D7FC86 /* x_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "x_button@2x.png"; sourceTree = "<group>"; };
 		5C93FA6D1B6E827A00D7FC86 /* x_button@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "x_button@3x.png"; sourceTree = "<group>"; };
@@ -631,6 +634,15 @@
 			path = "Login Signup";
 			sourceTree = "<group>";
 		};
+		5C84E5C21B83F8D800E70AD3 /* Third Party Libs */ = {
+			isa = PBXGroup;
+			children = (
+				5C84E5C31B83F8EE00E70AD3 /* ParallaxHeaderView.h */,
+				5C84E5C41B83F8EE00E70AD3 /* ParallaxHeaderView.m */,
+			);
+			name = "Third Party Libs";
+			sourceTree = "<group>";
+		};
 		5CA5B77B1B52DF5500312674 /* Login Signup */ = {
 			isa = PBXGroup;
 			children = (
@@ -744,6 +756,7 @@
 		5CC3B5FD1B48268A00D10DFB /* hahaxueche */ = {
 			isa = PBXGroup;
 			children = (
+				5C84E5C21B83F8D800E70AD3 /* Third Party Libs */,
 				5C10F94C1B49F2DE00992B63 /* Utilities */,
 				5C10F92B1B49E7CD00992B63 /* Categories */,
 				5C10F9271B49E6F100992B63 /* Assets */,
@@ -1063,6 +1076,7 @@
 				5CC3B6011B48268A00D10DFB /* main.m in Sources */,
 				5C3980981B4C1A2A0057B049 /* HHMyReservationViewController.m in Sources */,
 				5C3980911B4C17900057B049 /* HHRootViewController.m in Sources */,
+				5C84E5C71B83F8EE00E70AD3 /* ParallaxHeaderView.m in Sources */,
 				5C11B3A21B6DA0560014A018 /* HHStudentService.m in Sources */,
 				5CBBA97C1B604762009398B8 /* HHDashView.m in Sources */,
 				5C0127331B77A4B600780992 /* HHTimeSlotSectionTitleView.m in Sources */,

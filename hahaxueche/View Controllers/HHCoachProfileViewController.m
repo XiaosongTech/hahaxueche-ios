@@ -25,6 +25,7 @@
 #import "HHFullScreenImageViewController.h"
 #import "HHTimeSlotsViewController.h"
 #import "HHNavigationController.h"
+#import "ParallaxHeaderView.h"
 
 typedef enum : NSUInteger {
     CoachProfileCellDes,
@@ -39,7 +40,7 @@ typedef enum : NSUInteger {
 #define kScheduleCellId @"kScheduleCellId"
 #define kReviewCellId @"kReviewCellId"
 
-@interface HHCoachProfileViewController ()<UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIActionSheetDelegate>
+@interface HHCoachProfileViewController ()<UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIActionSheetDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) SDCycleScrollView *imageGalleryView;
@@ -139,7 +140,9 @@ typedef enum : NSUInteger {
     self.imageGalleryView.autoScroll = NO;;
     self.imageGalleryView.delegate = self;
     self.imageGalleryView.placeholderImage = [UIImage imageNamed:@"loading"];
-    self.tableView.tableHeaderView = self.imageGalleryView;
+    
+    ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithSubView:self.imageGalleryView];
+    self.tableView.tableHeaderView = headerView;
     
     
     self.phoneSheet = [[UIActionSheet alloc] initWithTitle:nil
@@ -371,6 +374,15 @@ typedef enum : NSUInteger {
             urlString = [[NSString stringWithFormat:@"iosamap://viewMap?sourceApplication=hahaxueche&poiname=训练场&lat=%f&lon=%f&dev=1", [self.field.latitude floatValue], [self.field.longitude floatValue]]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         }
         [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
+    }
+}
+
+#pragma -mark UISCrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView == self.tableView) {
+        [(ParallaxHeaderView *)self.tableView.tableHeaderView layoutHeaderViewForScrollViewOffset:scrollView.contentOffset];
     }
 }
 
