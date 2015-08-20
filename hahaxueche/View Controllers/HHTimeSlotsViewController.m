@@ -248,7 +248,7 @@
     for (int i = 0; i < self.groupedSchedules.count; i++) {
         HHCoachSchedule *schedule = [self.groupedSchedules[i] firstObject];
         NSString *date = [[HHFormatUtility fullDateFormatter] stringFromDate:schedule.startDateTime];
-        NSString *title = [NSString stringWithFormat:@"%@\n%@", date, [[HHFormatUtility weekDayFormatter] stringFromDate:schedule.startDateTime]];
+        NSString *title = [NSString stringWithFormat:@"%@ (%@)", date, [[HHFormatUtility weekDayFormatter] stringFromDate:schedule.startDateTime]];
         [titles addObject:title];
     }
     return titles;

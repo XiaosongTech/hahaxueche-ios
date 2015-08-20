@@ -55,7 +55,7 @@
         NSArray *constraints;
         if (i == 0) {
             constraints = @[
-                            [HHAutoLayoutUtility verticalAlignToSuperViewBottom:avatarView constant:-10.0f],
+                            [HHAutoLayoutUtility verticalAlignToSuperViewBottom:avatarView constant:-5.0f],
                             [HHAutoLayoutUtility setCenterX:avatarView multiplier:0.25f constant:0],
                             [HHAutoLayoutUtility setViewHeight:avatarView multiplier:0 constant:kAvatarRadius*2],
                             [HHAutoLayoutUtility setViewWidth:avatarView multiplier:0 constant:kAvatarRadius*2]
@@ -76,13 +76,6 @@
 
 }
 
-
-//-(void)addressButtonTapped {
-//    if (self.addressButtonBlock) {
-//        self.addressButtonBlock();
-//    }
-//}
-
 - (void)coachNameButtonTapped {
     if (self.nameButtonBlock) {
         self.nameButtonBlock();
@@ -96,7 +89,7 @@
                              [HHAutoLayoutUtility setViewHeight:self.containerView multiplier:1.0f constant:-8.0f],
                              [HHAutoLayoutUtility setViewWidth:self.containerView multiplier:1.0f constant:-20.0f],
                              
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.timeLabel constant:15],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.timeLabel constant:5.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.timeLabel constant:15.0f],
                              
                              [HHAutoLayoutUtility setCenterY:self.coachNameButton toView:self.timeLabel multiplier:1.0f constant:0],

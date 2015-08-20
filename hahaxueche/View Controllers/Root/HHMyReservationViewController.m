@@ -34,7 +34,6 @@ typedef void (^HHGenericCompletion)();
 @property (nonatomic, strong) NSMutableDictionary *studentsForReservation;
 
 @property (nonatomic, strong) HHTrainingField *trainingField;
-//@property (nonatomic, strong) UIActionSheet *addressActionSheet;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic)         BOOL shouldLoadMore;
 
@@ -47,7 +46,6 @@ typedef void (^HHGenericCompletion)();
 - (void)dealloc {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
-//    self.addressActionSheet.delegate = nil;
 }
 
 - (void)viewDidLoad {
@@ -62,20 +60,7 @@ typedef void (^HHGenericCompletion)();
         }
     }];
     [self fetchReservationsWithCompletion:nil];
-    
-//    self.addressActionSheet = [[UIActionSheet alloc] initWithTitle:nil
-//                                                    delegate:self
-//                                           cancelButtonTitle:NSLocalizedString(@"取消", nil)
-//                                      destructiveButtonTitle:nil
-//                                           otherButtonTitles:NSLocalizedString(@"复制地址", nil),nil];
-//    if ([[UIApplication sharedApplication]canOpenURL:[NSURL URLWithString:@"baidumap://map/"]]) {
-//        [self.addressActionSheet addButtonWithTitle:NSLocalizedString(@"在百度地图中打开", nil)];
-//    }
-//    
-//    if ([[UIApplication sharedApplication]canOpenURL:[NSURL URLWithString:@"iosamap://"]]){
-//        [self.addressActionSheet addButtonWithTitle:NSLocalizedString(@"在高德地图中打开", nil)];
-//    }
-    
+
     self.refreshControl = [[UIRefreshControl alloc]init];
     [self.tableView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
@@ -198,7 +183,7 @@ typedef void (^HHGenericCompletion)();
     for (int i = 0; i < self.groupedReservations.count; i++) {
         HHCoachSchedule *schedule = [self.groupedReservations[i] firstObject];
         NSString *date = [[HHFormatUtility fullDateFormatter] stringFromDate:schedule.startDateTime];
-        NSString *title = [NSString stringWithFormat:@"%@\n%@", date, [[HHFormatUtility weekDayFormatter] stringFromDate:schedule.startDateTime]];
+        NSString *title = [NSString stringWithFormat:@"%@ (%@)", date, [[HHFormatUtility weekDayFormatter] stringFromDate:schedule.startDateTime]];
         [titles addObject:title];
     }
     return titles;
@@ -247,10 +232,6 @@ typedef void (^HHGenericCompletion)();
         }];
     }
     
-//    cell.addressButtonBlock = ^(){
-//        [weakSelf.addressActionSheet showInView:weakSelf.view];
-//    };
-    
     cell.nameButtonBlock = ^(){
         HHCoachProfileViewController *coachProfileVC =  [[HHCoachProfileViewController alloc] initWithCoach:[HHUserAuthenticator sharedInstance].myCoach];
         [weakSelf.navigationController pushViewController:coachProfileVC animated:YES];
@@ -276,27 +257,9 @@ typedef void (^HHGenericCompletion)();
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100.0f;
+    return 90.0f;
 }
 
-
-
-//- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-//    if(buttonIndex == 0) {
-//        UIPasteboard *pb = [UIPasteboard generalPasteboard];
-//        [pb setString:self.trainingField.address];
-//        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"复制成功！", nil) isError:NO];
-//        return;
-//    }
-//    NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
-//    NSString *urlString = nil;
-//    if([title isEqualToString:NSLocalizedString(@"在百度地图中打开", nil)]) {
-//        urlString = [[NSString stringWithFormat:@"baidumap://map/geocoder?location=%f,%f&title=训练场", [self.trainingField.latitude floatValue], [self.trainingField.longitude floatValue]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//    } else if ([title isEqualToString:NSLocalizedString(@"在高德地图中打开", nil)]) {
-//        urlString = [[NSString stringWithFormat:@"iosamap://viewMap?sourceApplication=hahaxueche&poiname=训练场&lat=%f&lon=%f&dev=1", [self.trainingField.latitude floatValue], [self.trainingField.longitude floatValue]]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//    }
-//    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
-//}
 
 #pragma mark ScrollView Delegate
 
