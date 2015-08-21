@@ -26,7 +26,7 @@ typedef void (^HHGenericCompletion)();
 
 #define kReservationCellId @"kReservationCellId"
 
-@interface HHMyReservationViewController()<UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIScrollViewDelegate>
+@interface HHMyReservationViewController()<UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *reservations;
@@ -36,6 +36,9 @@ typedef void (^HHGenericCompletion)();
 @property (nonatomic, strong) HHTrainingField *trainingField;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic)         BOOL shouldLoadMore;
+@property (nonatomic)         BOOL isFetching;
+@property (nonatomic, strong) UIActionSheet *showCancelActionSheet;
+@property (nonatomic, strong) NSIndexPath *cancelCellIndexPath;
 
 
 @end
@@ -46,6 +49,8 @@ typedef void (^HHGenericCompletion)();
 - (void)dealloc {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
+    self.showCancelActionSheet.delegate = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad {
@@ -63,7 +68,44 @@ typedef void (^HHGenericCompletion)();
     self.refreshControl = [[UIRefreshControl alloc]init];
     [self.tableView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateData) name:@"bookSucceed" object:nil];
     
+    self.showCancelActionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                  delegate:self
+                                         cancelButtonTitle:NSLocalizedString(@"取消", nil)
+                                    destructiveButtonTitle:nil
+                                         otherButtonTitles:NSLocalizedString(@"取消预约", nil), nil];
+    
+}
+
+-(void)updateData {
+    if (self.isFetching) {
+        return;
+    }
+    __weak HHMyReservationViewController *weakSelf = self;
+    self.isFetching = YES;
+    [[HHUserAuthenticator sharedInstance] fetchAuthedStudentAgainWithCompletion:^(HHStudent *student, NSError *error) {
+        if (!error) {
+            [[HHScheduleService sharedInstance] fetchAuthedStudentReservationsWithSkip:0 completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
+                weakSelf.isFetching = NO;
+                if (!error) {
+                    [weakSelf.reservations removeAllObjects];
+                    [weakSelf.reservations addObjectsFromArray:objects];
+                    weakSelf.sectionTitles = [weakSelf groupReservations];
+                    [weakSelf.tableView reloadData];
+                    if (weakSelf.reservations.count >= totalResults) {
+                        weakSelf.shouldLoadMore = NO;
+                    } else {
+                        weakSelf.shouldLoadMore = YES;
+                    }
+                } else {
+                    [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取数据时出错！", nil) isError:YES];
+                }
+            }];
+            
+        }
+    }];
+
 }
 
 - (void)refreshData {
@@ -74,26 +116,36 @@ typedef void (^HHGenericCompletion)();
 }
 
 - (void)fetchReservationsWithCompletion:(HHGenericCompletion)completion {
+    if (self.isFetching) {
+        return;
+    }
     __weak HHMyReservationViewController *weakSelf = self;
+    self.isFetching = YES;
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
-    [[HHScheduleService sharedInstance] fetchAuthedStudentReservationsWithSkip:0 completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
-        [[HHLoadingView sharedInstance] hideLoadingView];
-        [self.refreshControl endRefreshing];
+    [[HHUserAuthenticator sharedInstance] fetchAuthedStudentAgainWithCompletion:^(HHStudent *student, NSError *error) {
         if (!error) {
-            [weakSelf.reservations removeAllObjects];
-            [weakSelf.reservations addObjectsFromArray:objects];
-            weakSelf.sectionTitles = [weakSelf groupReservations];
-            [weakSelf.tableView reloadData];
-            if (weakSelf.reservations.count >= totalResults) {
-                weakSelf.shouldLoadMore = NO;
-            } else {
-                weakSelf.shouldLoadMore = YES;
-            }
-        } else {
-            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取数据时出错！", nil) isError:YES];
+            [[HHScheduleService sharedInstance] fetchAuthedStudentReservationsWithSkip:0 completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
+                [[HHLoadingView sharedInstance] hideLoadingView];
+                [self.refreshControl endRefreshing];
+                weakSelf.isFetching = NO;
+                if (!error) {
+                    [weakSelf.reservations removeAllObjects];
+                    [weakSelf.reservations addObjectsFromArray:objects];
+                    weakSelf.sectionTitles = [weakSelf groupReservations];
+                    [weakSelf.tableView reloadData];
+                    if (weakSelf.reservations.count >= totalResults) {
+                        weakSelf.shouldLoadMore = NO;
+                    } else {
+                        weakSelf.shouldLoadMore = YES;
+                    }
+                } else {
+                    [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取数据时出错！", nil) isError:YES];
+                }
+            }];
+
         }
     }];
-
+   
 }
 
 - (void)fetchMoreReservations {
@@ -127,7 +179,24 @@ typedef void (^HHGenericCompletion)();
     [self.tableView registerClass:[HHMyReservationTableViewCell class] forCellReuseIdentifier:kReservationCellId];
     [self.view addSubview:self.tableView];
     
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]
+                                          initWithTarget:self action:@selector(showCancel:)];
+    longPress.minimumPressDuration = 0.6;
+    longPress.delegate = self;
+    [self.tableView addGestureRecognizer:longPress];
+    
     [self autolayoutSubview];
+}
+
+-(void)showCancel:(UILongPressGestureRecognizer *)gestureRecognizer {
+    CGPoint point = [gestureRecognizer locationInView:self.tableView];
+    
+    self.cancelCellIndexPath = [self.tableView indexPathForRowAtPoint:point];
+    if (!self.cancelCellIndexPath) {
+        return;
+    } else if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        [self.showCancelActionSheet showInView:self.view];
+    }
 }
 
 - (void)autolayoutSubview {
@@ -266,4 +335,11 @@ typedef void (^HHGenericCompletion)();
     }
 }
 
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([actionSheet isEqual:self.showCancelActionSheet]) {
+        if (buttonIndex == 0) {
+            
+        }
+    }
+}
 @end

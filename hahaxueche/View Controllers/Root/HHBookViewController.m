@@ -52,6 +52,7 @@
 -(void)dealloc {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad {
@@ -136,7 +137,7 @@
         if (succeed) {
             [HHToastUtility showToastWitiTitle:[NSString stringWithFormat:NSLocalizedString(@"预约成功%ld个时间", nil), succeedCount] isError:NO];
             [self fetchSchedules];
-            [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:[HHUserAuthenticator sharedInstance].currentStudent.studentId completion:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"bookSucceed" object:self];
         } else {
             [HHToastUtility showToastWitiTitle:[NSString stringWithFormat:NSLocalizedString(@"预约失败！", nil), succeedCount] isError:YES];
         }

@@ -126,6 +126,11 @@
     }];
 }
 
+
+- (void)fetchAuthedStudentAgainWithCompletion:(HHStudentCompletionBlock)completion {
+    [self fetchAuthedStudentWithId:self.currentStudent.studentId completion:completion];
+}
+
 - (void)deleteUser {
     [self.currentUser deleteInBackground];
     [self.currentStudent deleteInBackground];

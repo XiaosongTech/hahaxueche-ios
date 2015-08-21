@@ -34,6 +34,7 @@
 }
 
 - (void)bookTimeSlotsWithSchedules:(NSArray *)schedules student:(HHStudent *)student coachId:(NSString *)coachId completion:(HHStudentBookCompletionBlock)completion {
+    
     HHStudent *copiedStudent = [student mutableCopy];
     NSArray *copiedSchedules = [NSArray arrayWithArray:schedules];
     int i = 0;
@@ -52,7 +53,7 @@
                 [newArray addObject:schedule.objectId];
                 copiedStudent.myReservation = newArray;
             } else {
-                NSArray *reservations = @[schedule.objectId];
+                NSMutableArray *reservations = [NSMutableArray arrayWithObject:schedule.objectId];
                 copiedStudent.myReservation = reservations;
             }
             i++;

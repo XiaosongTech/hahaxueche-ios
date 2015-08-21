@@ -35,6 +35,9 @@ typedef void (^HHStudentCompletionBlock)(HHStudent *student, NSError *error);
 
 - (void)fetchAuthedStudentWithId:(NSString *)studentId completion:(HHStudentCompletionBlock)completion;
 
+- (void)fetchAuthedStudentAgainWithCompletion:(HHStudentCompletionBlock)completion;
+
+
 - (void)loginWithNumber:(NSString *)number completion:(HHUserGenericCompletionBlock)completion;
 
 - (void)deleteUser;
