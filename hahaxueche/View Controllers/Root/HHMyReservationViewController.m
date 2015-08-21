@@ -19,7 +19,8 @@
 #import "HHTrainingField.h"
 #import <pop/POP.h>
 #import "HHCoachProfileViewController.h"
-#import "HHStudentService.h"
+#import "HHScheduleService.h"
+#import "HHFullScreenImageViewController.h"
 
 typedef void (^HHGenericCompletion)();
 
@@ -31,7 +32,6 @@ typedef void (^HHGenericCompletion)();
 @property (nonatomic, strong) NSMutableArray *reservations;
 @property (nonatomic, strong) NSArray *groupedReservations;
 @property (nonatomic, strong) NSArray *sectionTitles;
-@property (nonatomic, strong) NSMutableDictionary *studentsForReservation;
 
 @property (nonatomic, strong) HHTrainingField *trainingField;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
@@ -52,7 +52,6 @@ typedef void (^HHGenericCompletion)();
     self.title = NSLocalizedString(@"我的预约",nil);
     self.shouldLoadMore = YES;
     self.reservations = [NSMutableArray array];
-    self.studentsForReservation = [NSMutableDictionary dictionary];
     [self initSubviews];
     [[HHTrainingFieldService sharedInstance] fetchTrainingFieldWithId:[HHUserAuthenticator sharedInstance].myCoach.trainingFieldId completion:^(HHTrainingField *field, NSError *error) {
         if (!error) {
@@ -77,48 +76,43 @@ typedef void (^HHGenericCompletion)();
 - (void)fetchReservationsWithCompletion:(HHGenericCompletion)completion {
     __weak HHMyReservationViewController *weakSelf = self;
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
-    [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:[HHUserAuthenticator sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
-        [[HHScheduleService sharedInstance] fetchAuthedStudentReservationsWithSkip:0 completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
-            [[HHLoadingView sharedInstance] hideLoadingView];
-            if (completion) {
-                completion();
-            }
-            if (!error) {
-                [weakSelf.studentsForReservation removeAllObjects];
-                [weakSelf.reservations removeAllObjects];
-                [weakSelf.reservations addObjectsFromArray:objects];
-                weakSelf.sectionTitles = [weakSelf groupReservations];
-                [weakSelf.tableView reloadData];
-                if (weakSelf.reservations.count >= totalResults) {
-                    weakSelf.shouldLoadMore = NO;
-                } else {
-                    weakSelf.shouldLoadMore = YES;
-                }
+    [[HHScheduleService sharedInstance] fetchAuthedStudentReservationsWithSkip:0 completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
+        [[HHLoadingView sharedInstance] hideLoadingView];
+        [self.refreshControl endRefreshing];
+        if (!error) {
+            [weakSelf.reservations removeAllObjects];
+            [weakSelf.reservations addObjectsFromArray:objects];
+            weakSelf.sectionTitles = [weakSelf groupReservations];
+            [weakSelf.tableView reloadData];
+            if (weakSelf.reservations.count >= totalResults) {
+                weakSelf.shouldLoadMore = NO;
             } else {
-                [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取数据时出错！", nil) isError:YES];
+                weakSelf.shouldLoadMore = YES;
             }
-        }];
+        } else {
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取数据时出错！", nil) isError:YES];
+        }
     }];
+
 }
 
 - (void)fetchMoreReservations {
     __weak HHMyReservationViewController *weakSelf = self;
-    [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:[HHUserAuthenticator sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
-        [[HHScheduleService sharedInstance] fetchAuthedStudentReservationsWithSkip:self.reservations.count completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
-            if (!error) {
-                [weakSelf.reservations addObjectsFromArray:objects];
-                weakSelf.sectionTitles = [weakSelf groupReservations];
-                [weakSelf.tableView reloadData];
-                if (weakSelf.reservations.count >= totalResults) {
-                    weakSelf.shouldLoadMore = NO;
-                } else {
-                    weakSelf.shouldLoadMore = YES;
-                }
+    [[HHScheduleService sharedInstance] fetchAuthedStudentReservationsWithSkip:self.reservations.count completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
+        if (!error) {
+            [weakSelf.reservations addObjectsFromArray:objects];
+            weakSelf.sectionTitles = [weakSelf groupReservations];
+            [weakSelf.tableView reloadData];
+            if (weakSelf.reservations.count >= totalResults) {
+                weakSelf.shouldLoadMore = NO;
             } else {
-                [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取数据时出错！", nil) isError:YES];
+                weakSelf.shouldLoadMore = YES;
             }
-        }];
+        } else {
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取数据时出错！", nil) isError:YES];
+        }
     }];
+
 
 }
 
@@ -221,16 +215,13 @@ typedef void (^HHGenericCompletion)();
     HHMyReservationTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kReservationCellId forIndexPath:indexPath];
     HHCoachSchedule *reservation = self.groupedReservations[indexPath.section][indexPath.row];
     cell.reservation = reservation;
-    if (self.studentsForReservation[reservation.objectId]) {
-        cell.students = self.studentsForReservation[reservation.objectId];
-        [cell setupViews];
-    } else {
-        [[HHStudentService sharedInstance] fetchStudentsForScheduleWithIds:reservation.reservedStudents completion:^(NSArray *objects, NSError *error) {
-            weakSelf.studentsForReservation[reservation.objectId] = objects;
-            cell.students = objects;
-            [cell setupViews];
-        }];
-    }
+    cell.students = [NSMutableArray arrayWithArray:reservation.fullStudents];;
+    [cell setupViews];
+    
+    cell.avatarActionBlock = ^(HHStudent *student){
+        HHFullScreenImageViewController *vc = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:student.avatarURL] title:student.fullName];
+        [weakSelf.tabBarController presentViewController:vc animated:YES completion:nil];
+    };
     
     cell.nameButtonBlock = ^(){
         HHCoachProfileViewController *coachProfileVC =  [[HHCoachProfileViewController alloc] initWithCoach:[HHUserAuthenticator sharedInstance].myCoach];

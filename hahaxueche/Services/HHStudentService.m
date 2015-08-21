@@ -22,19 +22,6 @@
     return sharedInstance;
 }
 
-- (void)fetchStudentsForScheduleWithIds:(NSArray *)studentIds completion:(HHStudentsCompletionBlock)completion {
-    if (!studentIds) {
-        return;
-    }
-    AVQuery *query = [AVQuery queryWithClassName:[HHStudent parseClassName]];
-    [query whereKey:@"studentId" containedIn:studentIds];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (completion) {
-            completion(objects, error);
-        }
-    }];
-}
-
 -(void)fetchStudentWithId:(NSString *)studentId completion:(HHStudentCompletionBlock)completion {
     AVQuery *query = [AVQuery queryWithClassName:[HHStudent parseClassName]];
     [query whereKey:@"studentId" equalTo:studentId];

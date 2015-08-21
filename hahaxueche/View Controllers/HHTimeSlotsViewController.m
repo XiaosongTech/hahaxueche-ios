@@ -32,7 +32,6 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *groupedSchedules;
 @property (nonatomic, strong) NSArray *sectionTiltes;
-@property (nonatomic, strong) NSMutableDictionary *studentsForSchedules;
 @property (nonatomic)         BOOL canSelectTime;
 @property (nonatomic, strong) UISegmentedControl *filterSegmentedControl;
 @property (nonatomic, strong) NSMutableArray *schedules;
@@ -55,7 +54,6 @@
         [[HHLoadingView sharedInstance] hideLoadingView];
         [weakSelf.refreshControl endRefreshing];
         if (!error) {
-            [weakSelf.studentsForSchedules removeAllObjects];
             [weakSelf.schedules removeAllObjects];
             [weakSelf.schedules addObjectsFromArray:objects];
             if (weakSelf.schedules.count >= totalResults) {
@@ -87,15 +85,6 @@
             }
             weakSelf.sectionTiltes = [weakSelf groupSchedulesTitleWithFilter:weakSelf.filterSegmentedControl.selectedSegmentIndex];
             [weakSelf.tableView reloadData];
-            for (HHCoachSchedule *schedule in weakSelf.schedules) {
-                [[HHStudentService sharedInstance] fetchStudentsForScheduleWithIds:schedule.reservedStudents completion:^(NSArray *objects, NSError *error) {
-                    if (!error) {
-                        weakSelf.studentsForSchedules[schedule.objectId] = objects;
-                        [weakSelf.tableView reloadData];
-                    }
-                }];
-                
-            }
             
         } else {
             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取数据是出错！", nil) isError:YES];
@@ -109,7 +98,6 @@
     self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
     self.title = NSLocalizedString(@"查看时间", nil);
     self.navigationItem.hidesBackButton = YES;
-    self.studentsForSchedules = [NSMutableDictionary dictionary];
     self.schedules = [NSMutableArray array];
     
     UIBarButtonItem *backButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"left_arrow"] action:@selector(backButtonPressed) target:self];
@@ -270,25 +258,13 @@
     HHCoachSchedule *schedule = (HHCoachSchedule *)self.groupedSchedules[indexPath.section][indexPath.row];
     cell.schedule = schedule;
     __weak HHTimeSlotsViewController *weakSelf = self;
-    __weak HHTimeSlotTableViewCell *weakCell = cell;
     cell.block = ^(HHStudent *student) {
         HHFullScreenImageViewController *vc = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:student.avatarURL] title:student.fullName];
         [weakSelf.tabBarController presentViewController:vc animated:YES completion:nil];
     };
+    cell.students = schedule.fullStudents;
     [cell setupViews];
-    if (self.studentsForSchedules[schedule.objectId]) {
-        cell.students = self.studentsForSchedules[schedule.objectId];
-        [cell setupAvatars];
-    } else {
-        [[HHStudentService sharedInstance] fetchStudentsForScheduleWithIds:schedule.reservedStudents completion:^(NSArray *objects, NSError *error) {
-            if (!error) {
-                weakSelf.studentsForSchedules[schedule.objectId] = objects;
-                weakCell.students = objects;
-                [weakCell setupAvatars];
-            }
-            
-        }];
-    }
+    [cell setupAvatars];
 
     return cell;
 }

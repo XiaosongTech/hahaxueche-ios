@@ -16,5 +16,6 @@
 @property (nonatomic, strong) NSDate *endDateTime;
 @property (nonatomic, copy) NSArray *reservedStudents;
 @property (nonatomic, copy) NSString *course;
+@property (nonatomic, copy) NSArray *fullStudents;
 
 @end

@@ -34,7 +34,6 @@
 @property (nonatomic, strong) NSArray *groupedSchedules;
 @property (nonatomic, strong) NSArray *sectionTiltes;
 @property (nonatomic, strong) NSMutableArray *selectedSchedules;
-@property (nonatomic, strong) NSMutableDictionary *studentsForSchedules;
 @property (nonatomic, strong) UISegmentedControl *filterSegmentedControl;
 @property (nonatomic, strong) NSMutableArray *schedules;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
@@ -60,7 +59,6 @@
     self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
     self.navigationItem.hidesBackButton = YES;
     self.selectedSchedules = [NSMutableArray array];
-    self.studentsForSchedules = [NSMutableDictionary dictionary];
     self.schedules = [NSMutableArray array];
     
     if ([HHUserAuthenticator sharedInstance].myCoach) {
@@ -188,7 +186,6 @@
         [[HHLoadingView sharedInstance] hideLoadingView];
         [weakSelf.refreshControl endRefreshing];
         if (!error) {
-            [weakSelf.studentsForSchedules removeAllObjects];
             [weakSelf.schedules removeAllObjects];
             [weakSelf.schedules addObjectsFromArray:objects];
             if (weakSelf.schedules.count >= totalResults) {
@@ -196,7 +193,6 @@
             } else {
                 weakSelf.shouldLoadMore = YES;
             }
-            weakSelf.studentsForSchedules = [NSMutableDictionary dictionary];
             weakSelf.sectionTiltes = [weakSelf groupSchedulesTitleWithFilter:weakSelf.filterSegmentedControl.selectedSegmentIndex];
             [weakSelf.tableView reloadData];
         } else {
@@ -220,15 +216,7 @@
                 weakSelf.shouldLoadMore = YES;
             }
             weakSelf.sectionTiltes = [weakSelf groupSchedulesTitleWithFilter:weakSelf.filterSegmentedControl.selectedSegmentIndex];
-            for (HHCoachSchedule *schedule in weakSelf.schedules) {
-                [[HHStudentService sharedInstance] fetchStudentsForScheduleWithIds:schedule.reservedStudents completion:^(NSArray *objects, NSError *error) {
-                    if (!error) {
-                        weakSelf.studentsForSchedules[schedule.objectId] = objects;
-                        [weakSelf.tableView reloadData];
-                    }
-                }];
-                
-            }
+            [weakSelf.tableView reloadData];
             
         } else {
             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取数据是出错！", nil) isError:YES];
@@ -322,22 +310,8 @@
     } else {
         cell.selectedIndicatorView.hidden = YES;
     }
+    cell.students = schedule.fullStudents;
     [cell setupViews];
-    
-    if (self.studentsForSchedules[schedule.objectId]) {
-        cell.students = self.studentsForSchedules[schedule.objectId];
-        [cell setupAvatars];
-    } else {
-        [[HHStudentService sharedInstance] fetchStudentsForScheduleWithIds:schedule.reservedStudents completion:^(NSArray *objects, NSError *error) {
-            if (!error) {
-                weakSelf.studentsForSchedules[schedule.objectId] = objects;
-                weakCell.students = objects;
-                [weakCell setupAvatars];
-            }
-            
-        }];
-    }
-    cell.students = self.studentsForSchedules[schedule.objectId];
     [cell setupAvatars];
     return cell;
 }

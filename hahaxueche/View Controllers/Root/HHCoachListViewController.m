@@ -241,6 +241,7 @@ typedef void (^HHGenericCompletion)();
     [self.floatSortButton setTitle:buttonTitle forState:UIControlStateNormal];
     self.currentSortOption = [self stringToEnum:buttonTitle];
     __weak HHCoachListViewController *weakSelf = self;
+    [self.coachesArray removeAllObjects];
     [self fetchDataWithCompletion:^{
         weakSelf.tableView.contentOffset = CGPointMake(0, 0 - self.tableView.contentInset.top);
     }];
