@@ -408,10 +408,7 @@ typedef void (^HHGenericCompletion)();
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    HHCoach *coach = self.coachesArray[indexPath.row];
     HHCoachProfileViewController *coachProfiveVC = [[HHCoachProfileViewController alloc] initWithCoach:self.coachesArray[indexPath.row]];
-    NSArray *filteredarray = [[HHTrainingFieldService sharedInstance].supportedFields filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(objectId == %@)", coach.trainingFieldId]];
-    coachProfiveVC.field = [filteredarray firstObject];
     [self.navigationController pushViewController:coachProfiveVC animated:YES];
 }
 

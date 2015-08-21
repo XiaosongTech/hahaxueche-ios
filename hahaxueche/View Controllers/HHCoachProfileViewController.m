@@ -26,6 +26,7 @@
 #import "HHTimeSlotsViewController.h"
 #import "HHNavigationController.h"
 #import "ParallaxHeaderView.h"
+#import "HHTrainingFieldService.h"
 
 typedef enum : NSUInteger {
     CoachProfileCellDes,
@@ -93,6 +94,9 @@ typedef enum : NSUInteger {
                 weakSelf.reviews = objects;
             }
         }];
+        
+        NSArray *filteredarray = [[HHTrainingFieldService sharedInstance].supportedFields filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(objectId == %@)", self.coach.trainingFieldId]];
+        self.field = [filteredarray firstObject];
     }
     return self;
 }
@@ -100,11 +104,6 @@ typedef enum : NSUInteger {
 - (void)setReviews:(NSArray *)reviews {
     _reviews = reviews;
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:CoachProfileCellReview inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-}
-
-- (void)setField:(HHTrainingField *)field {
-    _field = field;
-    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:CoachProfileCellDashBoard inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)backButtonPressed {

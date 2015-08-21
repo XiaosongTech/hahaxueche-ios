@@ -176,9 +176,9 @@
                              [HHAutoLayoutUtility setViewWidth:self.selectedIndicatorView multiplier:1.0f constant:0],
                              
                              [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.line constant:-40.0f],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.line constant:0],
+                             [HHAutoLayoutUtility setCenterX:self.line multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.line multiplier:0 constant:1.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.line multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewWidth:self.line multiplier:1.0f constant:-20.0f],
                              
                              [HHAutoLayoutUtility setCenterY:self.timeLabel multiplier:2.0f constant:-20.0f],
                              [HHAutoLayoutUtility setCenterX:self.timeLabel multiplier:0.4f constant:0],

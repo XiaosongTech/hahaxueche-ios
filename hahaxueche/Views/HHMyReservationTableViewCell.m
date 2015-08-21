@@ -108,9 +108,9 @@
                              [HHAutoLayoutUtility setViewWidth:self.containerView multiplier:1.0f constant:-20.0f],
                              
                              [HHAutoLayoutUtility setCenterY:self.line multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.line constant:0],
+                             [HHAutoLayoutUtility setCenterX:self.line multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.line multiplier:0 constant:1.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.line multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewWidth:self.line multiplier:1.0f constant:-20.0f],
                              
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.coachNameButton constant:8.0f],
                              [HHAutoLayoutUtility setCenterX:self.coachNameButton multiplier:1.0f/3.0f constant:0],
