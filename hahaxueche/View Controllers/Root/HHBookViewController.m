@@ -113,8 +113,14 @@
         
     }
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateData) name:@"cancelSucceed" object:nil];
+    
     [self autoLayoutSubviews];
 
+}
+
+-(void)updateData {
+    [self fetchSchedules];
 }
 
 - (void)jumpToMyCoachProfileView {

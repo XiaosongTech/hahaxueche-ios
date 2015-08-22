@@ -21,6 +21,9 @@
 #import "HHCoachProfileViewController.h"
 #import "HHScheduleService.h"
 #import "HHFullScreenImageViewController.h"
+#import "KLCPopup.h"
+#import "UIColor+HHColor.h"
+#import "HHStudentService.h"
 
 typedef void (^HHGenericCompletion)();
 
@@ -39,6 +42,7 @@ typedef void (^HHGenericCompletion)();
 @property (nonatomic)         BOOL isFetching;
 @property (nonatomic, strong) UIActionSheet *showCancelActionSheet;
 @property (nonatomic, strong) NSIndexPath *cancelCellIndexPath;
+@property (nonatomic, strong) KLCPopup *popupView;
 
 
 @end
@@ -91,7 +95,7 @@ typedef void (^HHGenericCompletion)();
                 if (!error) {
                     [weakSelf.reservations removeAllObjects];
                     [weakSelf.reservations addObjectsFromArray:objects];
-                    weakSelf.sectionTitles = [weakSelf groupReservations];
+                    weakSelf.sectionTitles = [weakSelf groupReservationsTitles];
                     [weakSelf.tableView reloadData];
                     if (weakSelf.reservations.count >= totalResults) {
                         weakSelf.shouldLoadMore = NO;
@@ -129,9 +133,8 @@ typedef void (^HHGenericCompletion)();
                 [self.refreshControl endRefreshing];
                 weakSelf.isFetching = NO;
                 if (!error) {
-                    [weakSelf.reservations removeAllObjects];
-                    [weakSelf.reservations addObjectsFromArray:objects];
-                    weakSelf.sectionTitles = [weakSelf groupReservations];
+                    weakSelf.reservations = [NSMutableArray arrayWithArray:objects];
+                    weakSelf.sectionTitles = [weakSelf groupReservationsTitles];
                     [weakSelf.tableView reloadData];
                     if (weakSelf.reservations.count >= totalResults) {
                         weakSelf.shouldLoadMore = NO;
@@ -153,7 +156,7 @@ typedef void (^HHGenericCompletion)();
     [[HHScheduleService sharedInstance] fetchAuthedStudentReservationsWithSkip:self.reservations.count completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
         if (!error) {
             [weakSelf.reservations addObjectsFromArray:objects];
-            weakSelf.sectionTitles = [weakSelf groupReservations];
+            weakSelf.sectionTitles = [weakSelf groupReservationsTitles];
             [weakSelf.tableView reloadData];
             if (weakSelf.reservations.count >= totalResults) {
                 weakSelf.shouldLoadMore = NO;
@@ -211,7 +214,7 @@ typedef void (^HHGenericCompletion)();
     
 }
 
-- (NSArray *)groupReservations {
+- (NSArray *)groupReservationsTitles {
     NSMutableArray *array = [NSMutableArray array];
     NSArray *filteredArray = self.reservations;
 
@@ -338,8 +341,103 @@ typedef void (^HHGenericCompletion)();
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([actionSheet isEqual:self.showCancelActionSheet]) {
         if (buttonIndex == 0) {
-            
+            self.popupView = [KLCPopup popupWithContentView:[self createPopupContentView]];
+            [self.popupView show];
         }
     }
 }
+
+- (UIView *)createPopupContentView {
+    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 60.0f, 290.0f)];
+    contentView.backgroundColor = [UIColor whiteColor];
+    
+    UILabel *titleLabel = [self createLableWithText:NSLocalizedString(@"您确定取消以下预约？", nil) font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:14.0f] textColor:[UIColor blackColor]];
+    
+    HHCoachSchedule *schedule = self.groupedReservations[self.cancelCellIndexPath.section][self.cancelCellIndexPath.row];
+    NSString *subtitile = [NSString stringWithFormat:@"%@(%@)\n%@ 到 %@", [[HHFormatUtility fullDateFormatter] stringFromDate:schedule.startDateTime], [[HHFormatUtility weekDayFormatter] stringFromDate:schedule.startDateTime], [[HHFormatUtility timeFormatter] stringFromDate:schedule.startDateTime], [[HHFormatUtility timeFormatter] stringFromDate:schedule.endDateTime]];
+    UILabel *subtitleLabel = [self createLableWithText:subtitile font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:16.0f] textColor:[UIColor blackColor]];
+    subtitleLabel.numberOfLines = 0;
+    UIButton *confirmCancelButton = [self createButtonWithText:NSLocalizedString(@"确认取消", nil) textColor:[UIColor whiteColor] bgColor:[UIColor colorWithRed:0.99 green:0.68 blue:0.25 alpha:1] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:16.0f] action:@selector(cancelAppointment)];
+    
+    UIButton *dismissButton = [self createButtonWithText:NSLocalizedString(@"返回", nil) textColor:[UIColor whiteColor] bgColor:[UIColor colorWithRed:0.28 green:0.75 blue:0.9 alpha:1] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:16.0f] action:@selector(dismissPopupView)];
+    
+    UILabel *explanationLabel = [self createLableWithText:NSLocalizedString(@"如确认取消，您将无法在此时间段练车。", nil) font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f] textColor:[UIColor HHGrayTextColor]];
+    
+    
+    [contentView addSubview:titleLabel];
+    [contentView addSubview:subtitleLabel];
+    [contentView addSubview:confirmCancelButton];
+    [contentView addSubview:dismissButton];
+    [contentView addSubview:explanationLabel];
+    
+    NSArray *constraints = @[
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:titleLabel constant:30.0f],
+                             [HHAutoLayoutUtility setCenterX:titleLabel multiplier:1.0f constant:0],
+
+                             [HHAutoLayoutUtility verticalNext:subtitleLabel toView:titleLabel constant:20.0f],
+                             [HHAutoLayoutUtility setCenterX:subtitleLabel multiplier:1.0f constant:0],
+                             
+                             [HHAutoLayoutUtility verticalNext:confirmCancelButton toView:subtitleLabel constant:30.0f],
+                             [HHAutoLayoutUtility setCenterX:confirmCancelButton multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewHeight:confirmCancelButton multiplier:0 constant:40.0f],
+                             [HHAutoLayoutUtility setViewWidth:confirmCancelButton multiplier:1.0f constant:-40.0f],
+                             
+                             [HHAutoLayoutUtility verticalNext:dismissButton toView:confirmCancelButton constant:15.0f],
+                             [HHAutoLayoutUtility setCenterX:dismissButton multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewHeight:dismissButton multiplier:0 constant:40.0f],
+                             [HHAutoLayoutUtility setViewWidth:dismissButton multiplier:1.0f constant:-40.0f],
+                             
+                             [HHAutoLayoutUtility verticalNext:explanationLabel toView:dismissButton constant:30.0f],
+                             [HHAutoLayoutUtility setCenterX:explanationLabel multiplier:1.0f constant:0],
+                             
+                             ];
+
+    [contentView addConstraints:constraints];
+    return contentView;
+}
+
+- (void)cancelAppointment {
+    [self.popupView dismiss:YES];
+    __weak HHMyReservationViewController *weakSelf = self;
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"取消中...", nil)];
+    [[HHStudentService sharedInstance] cancelAppointmentWithSchedule:self.groupedReservations[self.cancelCellIndexPath.section][self.cancelCellIndexPath.row] completion:^(BOOL succeed, NSError *error) {
+        [[HHLoadingView sharedInstance] hideLoadingView];
+        if (succeed) {
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"取消成功", nil) isError:NO];
+            [weakSelf.reservations removeObject:self.groupedReservations[self.cancelCellIndexPath.section][self.cancelCellIndexPath.row]];
+            weakSelf.sectionTitles = [self groupReservationsTitles];
+            [weakSelf.tableView reloadData];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"cancelSucceed" object:self];
+        } else {
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"取消失败", nil) isError:YES];
+        }
+    }];
+}
+
+- (void)dismissPopupView {
+    [self.popupView dismiss:YES];
+}
+
+-(UILabel *)createLableWithText:(NSString *)text font:(UIFont *)font textColor:(UIColor *)textColor {
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.translatesAutoresizingMaskIntoConstraints = NO;
+    label.text = text;
+    label.font = font;
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = textColor;
+    [label sizeToFit];
+    return label;
+}
+
+-(UIButton *)createButtonWithText:(NSString *)text textColor:(UIColor *)textColor bgColor:(UIColor *)bgColor font:(UIFont *)font action:(SEL)action {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.translatesAutoresizingMaskIntoConstraints = NO;
+    button.backgroundColor = bgColor;
+    button.titleLabel.font = font;
+    [button setTitle:text forState:UIControlStateNormal];
+    [button setTitleColor:textColor forState:UIControlStateNormal];
+    [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+    return button;
+}
+
 @end
