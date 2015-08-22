@@ -72,6 +72,7 @@
 		5C93FA881B6F1CB400D7FC86 /* HHReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C93FA871B6F1CB400D7FC86 /* HHReview.m */; };
 		5C93FA8B1B6F1DFE00D7FC86 /* HHReviewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C93FA8A1B6F1DFE00D7FC86 /* HHReviewTableViewCell.m */; };
 		5C93FA8E1B6FEECC00D7FC86 /* HHReviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C93FA8D1B6FEECC00D7FC86 /* HHReviewView.m */; };
+		5C98B3771B891C63000D6032 /* HHScrollImageGallery.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C98B3761B891C63000D6032 /* HHScrollImageGallery.m */; };
 		5CA5B77A1B52CFF300312674 /* HHMobilePhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B7791B52CFF300312674 /* HHMobilePhoneViewController.m */; };
 		5CA5B77E1B52DF9200312674 /* HHTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B77D1B52DF9200312674 /* HHTextFieldView.m */; };
 		5CA5B7811B53298000312674 /* HHProfileSetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B7801B53298000312674 /* HHProfileSetupViewController.m */; };
@@ -271,6 +272,8 @@
 		5C93FA8A1B6F1DFE00D7FC86 /* HHReviewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReviewTableViewCell.m; sourceTree = "<group>"; };
 		5C93FA8C1B6FEECC00D7FC86 /* HHReviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHReviewView.h; sourceTree = "<group>"; };
 		5C93FA8D1B6FEECC00D7FC86 /* HHReviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReviewView.m; sourceTree = "<group>"; };
+		5C98B3751B891C63000D6032 /* HHScrollImageGallery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHScrollImageGallery.h; sourceTree = "<group>"; };
+		5C98B3761B891C63000D6032 /* HHScrollImageGallery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHScrollImageGallery.m; sourceTree = "<group>"; };
 		5CA5B7781B52CFF300312674 /* HHMobilePhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMobilePhoneViewController.h; sourceTree = "<group>"; };
 		5CA5B7791B52CFF300312674 /* HHMobilePhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMobilePhoneViewController.m; sourceTree = "<group>"; };
 		5CA5B77C1B52DF9200312674 /* HHTextFieldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTextFieldView.h; sourceTree = "<group>"; };
@@ -430,6 +433,8 @@
 				5C0126F91B7051C000780992 /* HHFullReviewTableViewCell.m */,
 				5C69C7DB1B81015400FDE709 /* HHMyReservationTableViewCell.h */,
 				5C69C7DC1B81015400FDE709 /* HHMyReservationTableViewCell.m */,
+				5C98B3751B891C63000D6032 /* HHScrollImageGallery.h */,
+				5C98B3761B891C63000D6032 /* HHScrollImageGallery.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1085,6 +1090,7 @@
 				5CBBA95B1B5EFD91009398B8 /* HHCoachProfileViewController.m in Sources */,
 				5CBBA9791B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m in Sources */,
 				5C69C7DD1B81015400FDE709 /* HHMyReservationTableViewCell.m in Sources */,
+				5C98B3771B891C63000D6032 /* HHScrollImageGallery.m in Sources */,
 				5C11B3991B6D2B3C0014A018 /* HHCoachSchedule.m in Sources */,
 				5CD4E9FD1B5AD565003CF15E /* HHStudent.m in Sources */,
 				5CD4E9F01B59CC7B003CF15E /* HHUser.m in Sources */,

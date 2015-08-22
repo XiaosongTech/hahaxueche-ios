@@ -8,7 +8,6 @@
 
 #import "HHCoachProfileViewController.h"
 #import "HHAutoLayoutUtility.h"
-#import "SDCycleScrollView.h"
 #import "UIColor+HHColor.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "UIColor+HHColor.h"
@@ -27,6 +26,7 @@
 #import "HHNavigationController.h"
 #import "ParallaxHeaderView.h"
 #import "HHTrainingFieldService.h"
+#import "HHScrollImageGallery.h"
 
 typedef enum : NSUInteger {
     CoachProfileCellDes,
@@ -41,10 +41,10 @@ typedef enum : NSUInteger {
 #define kScheduleCellId @"kScheduleCellId"
 #define kReviewCellId @"kReviewCellId"
 
-@interface HHCoachProfileViewController ()<UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIActionSheetDelegate, UIScrollViewDelegate>
+@interface HHCoachProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) SDCycleScrollView *imageGalleryView;
+@property (nonatomic, strong) HHScrollImageGallery *imageGalleryView;
 @property (nonatomic)         CGFloat desCellHeight;
 @property (nonatomic, strong) UIActionSheet *phoneSheet;
 @property (nonatomic, strong) UIActionSheet *addressSheet;
@@ -63,7 +63,6 @@ typedef enum : NSUInteger {
     self.addressSheet.delegate = nil;
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
-    self.imageGalleryView.delegate = nil;
 }
 
 - (instancetype)initWithCoach:(HHCoach *)coach {
@@ -133,13 +132,8 @@ typedef enum : NSUInteger {
     [self.tableView registerClass:[HHScheduleTableViewCell class] forCellReuseIdentifier:kScheduleCellId];
     [self.tableView registerClass:[HHReviewTableViewCell class] forCellReuseIdentifier:kReviewCellId];
 
-    self.imageGalleryView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 150.0f) imageURLStringsGroup:self.coach.images];
-    self.imageGalleryView.pageControlStyle = SDCycleScrollViewPageContolStyleClassic;
-    self.imageGalleryView.backgroundColor = [UIColor clearColor];
-    self.imageGalleryView.autoScroll = NO;;
-    self.imageGalleryView.delegate = self;
-    self.imageGalleryView.placeholderImage = [UIImage imageNamed:@"loading"];
-    
+    self.imageGalleryView = [[HHScrollImageGallery alloc] initWithURLStrings:self.coach.images];
+    self.imageGalleryView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 150.0f);
     ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithSubView:self.imageGalleryView];
     self.tableView.tableHeaderView = headerView;
     
@@ -334,12 +328,6 @@ typedef enum : NSUInteger {
     }
 }
 
-#pragma mark SDCycleScrollViewDelegate Methods
-
-- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {    
-    HHFullScreenImageViewController *imageVC = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:self.coach.images[index]] title:nil];
-    [self presentViewController:imageVC animated:YES completion:nil];
-}
 
 #pragma mark Hide TabBar
 
