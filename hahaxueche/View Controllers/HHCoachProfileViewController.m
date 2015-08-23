@@ -41,7 +41,7 @@ typedef enum : NSUInteger {
 #define kScheduleCellId @"kScheduleCellId"
 #define kReviewCellId @"kReviewCellId"
 
-@interface HHCoachProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIScrollViewDelegate>
+@interface HHCoachProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIScrollViewDelegate, HHScrollImageGalleryDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) HHScrollImageGallery *imageGalleryView;
@@ -63,6 +63,7 @@ typedef enum : NSUInteger {
     self.addressSheet.delegate = nil;
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
+    self.imageGalleryView.delegate = nil;
 }
 
 - (instancetype)initWithCoach:(HHCoach *)coach {
@@ -134,6 +135,7 @@ typedef enum : NSUInteger {
 
     self.imageGalleryView = [[HHScrollImageGallery alloc] initWithURLStrings:self.coach.images];
     self.imageGalleryView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 150.0f);
+    self.imageGalleryView.delegate = self;
     ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithSubView:self.imageGalleryView];
     self.tableView.tableHeaderView = headerView;
     
@@ -366,11 +368,17 @@ typedef enum : NSUInteger {
 
 #pragma -mark UISCrollViewDelegate
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView == self.tableView) {
         [(ParallaxHeaderView *)self.tableView.tableHeaderView layoutHeaderViewForScrollViewOffset:scrollView.contentOffset];
     }
+}
+
+#pragma -mark HHScrollImageGallery Delegate
+
+- (void)showFullImageView:(NSInteger)index {
+    HHFullScreenImageViewController *fullImageVC = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:self.coach.images[index] ] title:nil];
+    [self.tabBarController presentViewController:fullImageVC animated:YES completion:nil];
 }
 
 @end

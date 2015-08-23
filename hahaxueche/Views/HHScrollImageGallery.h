@@ -8,11 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HHScrollImageGallery : UIView
+@protocol HHScrollImageGalleryDelegate <NSObject>
+
+@required
+-(void)showFullImageView:(NSInteger)index;
+
+@end
+
+@interface HHScrollImageGallery : UIView <UIScrollViewDelegate>
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NSMutableArray *imageViews;
 @property (nonatomic, strong) NSArray *URLStrings;
+@property (nonatomic, strong) UIPageControl *pageControl;
+@property (nonatomic, weak)   id<HHScrollImageGalleryDelegate> delegate;
 
 - (instancetype)initWithURLStrings:(NSArray *)URLStrings;
 

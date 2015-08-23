@@ -8,6 +8,7 @@
 
 #import "HHScrollImageGallery.h"
 #import "HHAutoLayoutUtility.h"
+#import "UIColor+HHColor.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
 @implementation HHScrollImageGallery
@@ -21,10 +22,29 @@
         self.scrollView.bounces = NO;
         self.scrollView.pagingEnabled = YES;
         self.scrollView.showsHorizontalScrollIndicator = NO;
+        self.scrollView.delegate = self;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showFullImageView)];
+        [self.scrollView addGestureRecognizer:tap];
         [self addSubview:self.scrollView];
         [self addImageViews];
+        
+        self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectZero];
+        self.pageControl.numberOfPages = self.URLStrings.count;
+        [self.pageControl addTarget:self action:@selector(changePage) forControlEvents:UIControlEventValueChanged];
+        self.pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
+        self.pageControl.currentPageIndicatorTintColor = [UIColor HHOrange];
+        [self addSubview:self.pageControl];
     }
     return self;
+}
+
+-(void)showFullImageView {
+    [self.delegate showFullImageView:self.pageControl.currentPage];
+}
+
+- (void)changePage {
+    CGFloat x = self.pageControl.currentPage * CGRectGetWidth(self.scrollView.bounds);
+    [self.scrollView setContentOffset:CGPointMake(x, 0) animated:YES];
 }
 
 -(void)addImageViews {
@@ -46,6 +66,13 @@
         [imageView layoutIfNeeded];
     }
     self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.scrollView.bounds) * self.URLStrings.count, CGRectGetHeight(self.scrollView.bounds));
+    
+    self.pageControl.frame = CGRectMake(0, CGRectGetHeight(self.bounds) - 25.0f, CGRectGetWidth(self.bounds), 25.0f);
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    NSInteger pageNumber = roundf(self.scrollView.contentOffset.x / CGRectGetWidth(self.scrollView.bounds));
+    self.pageControl.currentPage = pageNumber;
 }
 
 @end

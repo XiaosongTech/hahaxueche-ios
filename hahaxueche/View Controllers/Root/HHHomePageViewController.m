@@ -14,7 +14,7 @@
 #import "HHFullScreenImageViewController.h"
 #import "HHScrollImageGallery.h"
 
-@interface HHHomePageViewController ()
+@interface HHHomePageViewController () <HHScrollImageGalleryDelegate>
 
 @property (nonatomic, strong) HHScrollImageGallery *imageGalleryView;
 @property (nonatomic, strong) NSArray *imagesArray;
@@ -30,14 +30,18 @@
 
 @implementation HHHomePageViewController
 
+-(void)dealloc {
+    self.imageGalleryView.delegate = nil;
+}
 
 - (void)viewDidLoad {
     self.title = NSLocalizedString(@"哈哈学车",nil);
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBarHidden = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.imagesArray = @[[UIImage imageNamed:@"austin1.jpg"], [UIImage imageNamed:@"austin2.jpg"], [UIImage imageNamed:@"austin3.jpg"]];
-    self.imageGalleryView = [[HHScrollImageGallery alloc] initWithURLStrings:@[@"http://ac-cr9pv6bp.clouddn.com/wiB2E9Rplx5UDHpH8gYJFYC", @"http://ac-cr9pv6bp.clouddn.com/wiB2E9Rplx5UDHpH8gYJFYC"]];
+    self.imagesArray = @[@"http://ac-cr9pv6bp.clouddn.com/wiB2E9Rplx5UDHpH8gYJFYC", @"http://ac-cr9pv6bp.clouddn.com/wiB2E9Rplx5UDHpH8gYJFYC"];
+    self.imageGalleryView = [[HHScrollImageGallery alloc] initWithURLStrings:self.imagesArray];
+    self.imageGalleryView.delegate = self;
     self.imageGalleryView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 200.0f);
     [self.view addSubview:self.imageGalleryView];
     
@@ -81,11 +85,7 @@
 
 - (void)autoLayoutSubviews {
     NSArray *constraints = @[
-//                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.imageGalleryView constant:0],
-//                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.imageGalleryView constant:0],
-//                             [HHAutoLayoutUtility setViewWidth:self.imageGalleryView multiplier:1.0f constant:0],
-//                             [HHAutoLayoutUtility setViewHeight:self.imageGalleryView multiplier:2/5.0f constant:0],
-                             
+                            
                              [HHAutoLayoutUtility setCenterY:self.oneClickButton multiplier:1.1f constant:0],
                              [HHAutoLayoutUtility setCenterX:self.oneClickButton multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewWidth:self.oneClickButton multiplier:1.0f constant:-40.0f],
@@ -129,6 +129,11 @@
     }
 }
 
+#pragma -mark HHScrollImageGallery Delegate
 
+- (void)showFullImageView:(NSInteger)index {
+    HHFullScreenImageViewController *fullImageVC = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:self.imagesArray[index] ] title:nil];
+    [self.tabBarController presentViewController:fullImageVC animated:YES completion:nil];
+}
 
 @end
