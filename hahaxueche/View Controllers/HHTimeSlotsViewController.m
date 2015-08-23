@@ -294,20 +294,11 @@
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    POPSpringAnimation *springAnimation = [POPSpringAnimation animation];
-    springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
-    CGRect fromRect = [tableView rectForRowAtIndexPath:indexPath];
-    fromRect.origin = CGPointMake(0, CGRectGetMinY(fromRect) - CGRectGetHeight(fromRect));
-    springAnimation.fromValue = [NSValue valueWithCGRect:fromRect];
-    springAnimation.toValue = [NSValue valueWithCGRect:[tableView rectForRowAtIndexPath:indexPath]];
-    springAnimation.name = @"slideInCellFromTop";
-    springAnimation.delegate = self;
-    springAnimation.springSpeed = 0.8f;
-    springAnimation.springBounciness = 0.5f;
-    [cell pop_addAnimation:springAnimation forKey:@"slideInCellFromTop"];
-    
-    
+    POPSpringAnimation *scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
+    scaleAnimation.fromValue = [NSValue valueWithCGSize:CGSizeMake(0.8f, 0.8f)];
+    scaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.0f, 1.0f)];
+    scaleAnimation.springBounciness = 15.f;
+    [cell.layer pop_addAnimation:scaleAnimation forKey:@"scaleAnimation"];
 }
 
 
