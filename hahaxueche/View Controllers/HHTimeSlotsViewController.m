@@ -25,6 +25,8 @@
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHRootViewController.h"
 #import <pop/POP.h>
+#import "HHCoachListViewController.h"
+
 #define kTimeSlotCellIdentifier @"kTimeSlotCellIdentifier"
 
 @interface HHTimeSlotsViewController ()<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
@@ -47,12 +49,12 @@
     self.tableView.dataSource = nil;
 }
 
-- (void)fetchSchedules {
+- (void)fetchSchedulesWithCompletion:(HHGenericCompletion)completion {
     __weak HHTimeSlotsViewController *weakSelf = self;
-    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中...", nil)];
     [[HHScheduleService sharedInstance] fetchCoachSchedulesWithCoachId:self.coach.coachId skip:0 completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
-        [[HHLoadingView sharedInstance] hideLoadingView];
-        [weakSelf.refreshControl endRefreshing];
+        if (completion) {
+            completion();
+        }
         if (!error) {
             [weakSelf.schedules removeAllObjects];
             [weakSelf.schedules addObjectsFromArray:objects];
@@ -73,9 +75,7 @@
 
 - (void)fetchMoreSchedules {
     __weak HHTimeSlotsViewController *weakSelf = self;
-    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中...", nil)];
     [[HHScheduleService sharedInstance] fetchCoachSchedulesWithCoachId:self.coach.coachId skip:self.schedules.count completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
-        [[HHLoadingView sharedInstance] hideLoadingView];
         if (!error) {
             [weakSelf.schedules addObjectsFromArray:objects];
             if (weakSelf.schedules.count >= totalResults) {
@@ -140,7 +140,10 @@
     [self.tableView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
     
-    [self fetchSchedules];
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+    [self fetchSchedulesWithCompletion:^{
+         [[HHLoadingView sharedInstance] hideLoadingView];
+    }];
     [self autoLayoutSubviews];
 }
 
@@ -155,7 +158,10 @@
 }
 
 - (void)refreshData {
-    [self fetchSchedules];
+    __weak HHTimeSlotsViewController *weakSelf = self;
+    [self fetchSchedulesWithCompletion:^{
+        [weakSelf.refreshControl endRefreshing];
+    }];
 }
 
 - (void)valueChanged:(UISegmentedControl *)control {

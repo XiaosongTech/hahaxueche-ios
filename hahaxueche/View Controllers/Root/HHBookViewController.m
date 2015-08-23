@@ -24,6 +24,7 @@
 #import "HHCoachService.h"
 #import "HHCoachProfileViewController.h"
 #import <pop/POP.h>
+#import "HHCoachListViewController.h"
 
 
 #define kTimeSlotCellIdentifier @"kTimeSlotCellIdentifier"
@@ -108,7 +109,10 @@
         negativeSpacer.width = -8.0f;
         
         [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, coachBarButtonItem]];
-        [self fetchSchedules];
+        [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+        [self fetchSchedulesWithCompletion:^{
+            [[HHLoadingView sharedInstance] hideLoadingView];
+        }];
     } else {
         
     }
@@ -120,7 +124,7 @@
 }
 
 -(void)updateData {
-    [self fetchSchedules];
+    [self fetchSchedulesWithCompletion:nil];
 }
 
 - (void)jumpToMyCoachProfileView {
@@ -142,7 +146,7 @@
         [[HHLoadingView sharedInstance] hideLoadingView];
         if (succeed) {
             [HHToastUtility showToastWitiTitle:[NSString stringWithFormat:NSLocalizedString(@"预约成功%ld个时间", nil), succeedCount] isError:NO];
-            [self fetchSchedules];
+            [self fetchSchedulesWithCompletion:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"bookSucceed" object:self];
         } else {
             [HHToastUtility showToastWitiTitle:[NSString stringWithFormat:NSLocalizedString(@"预约失败！", nil), succeedCount] isError:YES];
@@ -183,15 +187,18 @@
 }
 
 - (void)refreshData {
-    [self fetchSchedules];
+    __weak HHBookViewController *weakSelf = self;
+    [self fetchSchedulesWithCompletion:^{
+        [weakSelf.refreshControl endRefreshing];
+    }];
 }
 
-- (void)fetchSchedules {
+- (void)fetchSchedulesWithCompletion:(HHGenericCompletion)completion {
     __weak HHBookViewController *weakSelf = self;
-    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中...", nil)];
     [[HHScheduleService sharedInstance] fetchCoachSchedulesWithCoachId:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId skip:0 completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
-        [[HHLoadingView sharedInstance] hideLoadingView];
-        [weakSelf.refreshControl endRefreshing];
+        if (completion) {
+            completion();
+        }
         if (!error) {
             [weakSelf.schedules removeAllObjects];
             [weakSelf.schedules addObjectsFromArray:objects];

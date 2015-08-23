@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^HHGenericCompletion)();
+
 typedef enum : NSUInteger {
     SortOptionSmartSort,
     SortOptionLowestPrice,

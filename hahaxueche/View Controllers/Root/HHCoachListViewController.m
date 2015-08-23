@@ -27,8 +27,6 @@
 #import "HHLoadingTableViewCell.h"
 #import "HHToastUtility.h"
 
-typedef void (^HHGenericCompletion)();
-
 
 #define kSmartSortString NSLocalizedString(@"智能排序",nil)
 #define kBestRatingString NSLocalizedString(@"评价最好", nil)
@@ -63,6 +61,7 @@ typedef void (^HHGenericCompletion)();
 @property (nonatomic, strong) CMPopTipView *mapTipView;
 @property (nonatomic, strong) MKMapView *mapView;
 @property (nonatomic)         BOOL isFetchingMoreCoaches;
+@property (nonatomic)         BOOL isFetchingCoaches;
 
 @property (assign, nonatomic) CATransform3D initialTransformation;
 
@@ -82,7 +81,10 @@ typedef void (^HHGenericCompletion)();
     self.currentCourseOption = CourseAllInOne;
     self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
     self.currentSortOption = SortOptionSmartSort;
-     [self fetchDataWithCompletion:nil];
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+    [self fetchDataWithCompletion:^{
+        [[HHLoadingView sharedInstance] hideLoadingView];
+    }];
     [self initSubviews];
     
     self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
@@ -90,9 +92,12 @@ typedef void (^HHGenericCompletion)();
 }
 
 - (void)fetchDataWithCompletion:(HHGenericCompletion)completion {
-    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+    if (self.isFetchingCoaches) {
+        return;
+    }
+    self.isFetchingCoaches = YES;
     [[HHCoachService sharedInstance] fetchCoachesWithTraningFields:[HHTrainingFieldService sharedInstance].selectedFields skip:self.coachesArray.count courseOption:self.currentCourseOption sortOption:self.currentSortOption completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
-        [[HHLoadingView sharedInstance] hideLoadingView];
+        self.isFetchingCoaches = NO;
         if (!error) {
             [self.coachesArray removeAllObjects];
             [self.coachesArray addObjectsFromArray:objects];

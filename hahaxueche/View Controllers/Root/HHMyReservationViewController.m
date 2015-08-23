@@ -68,7 +68,10 @@ typedef void (^HHGenericCompletion)();
             self.trainingField = field;
         }
     }];
-    [self fetchReservationsWithCompletion:nil];
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+    [self fetchReservationsWithCompletion:^{
+        [[HHLoadingView sharedInstance] hideLoadingView];
+    }];
 
     self.refreshControl = [[UIRefreshControl alloc]init];
     [self.tableView addSubview:self.refreshControl];
@@ -84,33 +87,7 @@ typedef void (^HHGenericCompletion)();
 }
 
 -(void)updateData {
-    if (self.isFetching) {
-        return;
-    }
-    __weak HHMyReservationViewController *weakSelf = self;
-    self.isFetching = YES;
-    [[HHUserAuthenticator sharedInstance] fetchAuthedStudentAgainWithCompletion:^(HHStudent *student, NSError *error) {
-        if (!error) {
-            [[HHScheduleService sharedInstance] fetchAuthedStudentReservationsWithSkip:0 completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
-                weakSelf.isFetching = NO;
-                if (!error) {
-                    [weakSelf.reservations removeAllObjects];
-                    [weakSelf.reservations addObjectsFromArray:objects];
-                    weakSelf.sectionTitles = [weakSelf groupReservationsTitles];
-                    [weakSelf.tableView reloadData];
-                    if (weakSelf.reservations.count >= totalResults) {
-                        weakSelf.shouldLoadMore = NO;
-                    } else {
-                        weakSelf.shouldLoadMore = YES;
-                    }
-                } else {
-                    [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取数据时出错！", nil) isError:YES];
-                }
-            }];
-            
-        }
-    }];
-
+    [self fetchReservationsWithCompletion:nil];
 }
 
 - (void)refreshData {
@@ -126,13 +103,13 @@ typedef void (^HHGenericCompletion)();
     }
     __weak HHMyReservationViewController *weakSelf = self;
     self.isFetching = YES;
-    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
     [[HHUserAuthenticator sharedInstance] fetchAuthedStudentAgainWithCompletion:^(HHStudent *student, NSError *error) {
         if (!error) {
             [[HHScheduleService sharedInstance] fetchAuthedStudentReservationsWithSkip:0 completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
-                [[HHLoadingView sharedInstance] hideLoadingView];
-                [self.refreshControl endRefreshing];
                 weakSelf.isFetching = NO;
+                if (completion) {
+                    completion();
+                }
                 if (!error) {
                     weakSelf.reservations = [NSMutableArray arrayWithArray:objects];
                     weakSelf.sectionTitles = [weakSelf groupReservationsTitles];
