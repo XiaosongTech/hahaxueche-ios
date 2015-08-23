@@ -80,7 +80,7 @@ typedef void (^HHGenericCompletion)();
     self.navigationItem.title = @"教练";
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.currentCourseOption = CourseAllInOne;
-    self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
     self.currentSortOption = SortOptionSmartSort;
      [self fetchDataWithCompletion:nil];
     [self initSubviews];

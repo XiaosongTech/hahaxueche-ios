@@ -36,7 +36,7 @@
 
 - (void)viewDidLoad {
     self.title = NSLocalizedString(@"哈哈学车",nil);
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
     self.navigationController.navigationBarHidden = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.imagesArray = @[@"http://ac-cr9pv6bp.clouddn.com/wiB2E9Rplx5UDHpH8gYJFYC", @"http://ac-cr9pv6bp.clouddn.com/wiB2E9Rplx5UDHpH8gYJFYC"];

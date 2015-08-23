@@ -60,6 +60,7 @@ typedef void (^HHGenericCompletion)();
 - (void)viewDidLoad {
     self.title = NSLocalizedString(@"我的预约",nil);
     self.shouldLoadMore = YES;
+    self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
     self.reservations = [NSMutableArray array];
     [self initSubviews];
     [[HHTrainingFieldService sharedInstance] fetchTrainingFieldWithId:[HHUserAuthenticator sharedInstance].myCoach.trainingFieldId completion:^(HHTrainingField *field, NSError *error) {

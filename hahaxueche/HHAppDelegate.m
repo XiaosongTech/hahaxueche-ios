@@ -119,7 +119,7 @@
     [[UINavigationBar appearance] setTranslucent:NO];
     [[UINavigationBar appearance] setBarTintColor:[UIColor HHOrange]];
     [[UITabBar appearance] setTintColor:[UIColor HHOrange]];
-    [[UITabBar appearance] setBarTintColor:[UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1]];
+    [[UITabBar appearance] setBarTintColor:[UIColor HHLightGrayBackgroundColor]];
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:10]} forState:UIControlStateNormal];
 }
 

@@ -23,7 +23,7 @@
 }
 
 + (UIColor *)HHLightGrayBackgroundColor {
-    return [UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1];
+    return [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1];
 }
 
 + (UIColor *)HHGrayTextColor {
