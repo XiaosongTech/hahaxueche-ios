@@ -7,16 +7,16 @@
 //
 
 #import "HHHomePageViewController.h"
-#import "SDCycleScrollView.h"
 #import "HHAutoLayoutUtility.h"
 #import "HHButton.h"
 #import "UIColor+HHColor.h"
 #import "HHRootViewController.h"
 #import "HHFullScreenImageViewController.h"
+#import "HHScrollImageGallery.h"
 
-@interface HHHomePageViewController ()<SDCycleScrollViewDelegate>
+@interface HHHomePageViewController ()
 
-@property (nonatomic, strong) SDCycleScrollView *imageGalleryView;
+@property (nonatomic, strong) HHScrollImageGallery *imageGalleryView;
 @property (nonatomic, strong) NSArray *imagesArray;
 @property (nonatomic, strong) HHButton *oneClickButton;
 @property (nonatomic, strong) HHButton *stepOneButton;
@@ -37,12 +37,8 @@
     self.navigationController.navigationBarHidden = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.imagesArray = @[[UIImage imageNamed:@"austin1.jpg"], [UIImage imageNamed:@"austin2.jpg"], [UIImage imageNamed:@"austin3.jpg"]];
-    self.imageGalleryView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectZero imagesGroup:self.imagesArray];
-    self.imageGalleryView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.imageGalleryView.pageControlStyle = SDCycleScrollViewPageContolStyleClassic;
-    self.imageGalleryView.backgroundColor = [UIColor clearColor];
-    self.imageGalleryView.autoScroll = NO;;
-    self.imageGalleryView.delegate = self;
+    self.imageGalleryView = [[HHScrollImageGallery alloc] initWithURLStrings:@[@"http://ac-cr9pv6bp.clouddn.com/wiB2E9Rplx5UDHpH8gYJFYC", @"http://ac-cr9pv6bp.clouddn.com/wiB2E9Rplx5UDHpH8gYJFYC"]];
+    self.imageGalleryView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 200.0f);
     [self.view addSubview:self.imageGalleryView];
     
     self.oneClickButton = [[HHButton alloc] initSolidButtonWithTitle:NSLocalizedString(@"一 键 找 教 练",nil) textColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:30.0f]];
@@ -85,10 +81,10 @@
 
 - (void)autoLayoutSubviews {
     NSArray *constraints = @[
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.imageGalleryView constant:0],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.imageGalleryView constant:0],
-                             [HHAutoLayoutUtility setViewWidth:self.imageGalleryView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.imageGalleryView multiplier:2/5.0f constant:0],
+//                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.imageGalleryView constant:0],
+//                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.imageGalleryView constant:0],
+//                             [HHAutoLayoutUtility setViewWidth:self.imageGalleryView multiplier:1.0f constant:0],
+//                             [HHAutoLayoutUtility setViewHeight:self.imageGalleryView multiplier:2/5.0f constant:0],
                              
                              [HHAutoLayoutUtility setCenterY:self.oneClickButton multiplier:1.1f constant:0],
                              [HHAutoLayoutUtility setCenterX:self.oneClickButton multiplier:1.0f constant:0],
@@ -133,13 +129,6 @@
     }
 }
 
-
-#pragma mark SDCycleScrollViewDelegate Methods
-
-- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
-    HHFullScreenImageViewController *imageVC = [[HHFullScreenImageViewController alloc] initWithImageURL:nil title:nil];
-    [self.tabBarController presentViewController:imageVC animated:YES completion:nil];
-}
 
 
 @end
