@@ -328,7 +328,7 @@ typedef void (^HHGenericCompletion)();
     NSString *subtitile = [NSString stringWithFormat:@"%@(%@)\n%@ 到 %@", [[HHFormatUtility fullDateFormatter] stringFromDate:schedule.startDateTime], [[HHFormatUtility weekDayFormatter] stringFromDate:schedule.startDateTime], [[HHFormatUtility timeFormatter] stringFromDate:schedule.startDateTime], [[HHFormatUtility timeFormatter] stringFromDate:schedule.endDateTime]];
     UILabel *subtitleLabel = [self createLableWithText:subtitile font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:16.0f] textColor:[UIColor blackColor]];
     subtitleLabel.numberOfLines = 0;
-    UIButton *confirmCancelButton = [self createButtonWithText:NSLocalizedString(@"确认取消", nil) textColor:[UIColor whiteColor] bgColor:[UIColor colorWithRed:0.99 green:0.68 blue:0.25 alpha:1] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:16.0f] action:@selector(cancelAppointment)];
+    UIButton *confirmCancelButton = [self createButtonWithText:NSLocalizedString(@"确认取消", nil) textColor:[UIColor whiteColor] bgColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:16.0f] action:@selector(cancelAppointment)];
     
     UIButton *dismissButton = [self createButtonWithText:NSLocalizedString(@"返回", nil) textColor:[UIColor whiteColor] bgColor:[UIColor colorWithRed:0.28 green:0.75 blue:0.9 alpha:1] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:16.0f] action:@selector(dismissPopupView)];
     
