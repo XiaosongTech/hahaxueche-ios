@@ -27,8 +27,6 @@
 #import "HHLoadingTableViewCell.h"
 #import "HHToastUtility.h"
 
-typedef void (^HHGenericCompletion)();
-
 
 #define kSmartSortString NSLocalizedString(@"智能排序",nil)
 #define kBestRatingString NSLocalizedString(@"评价最好", nil)
@@ -63,6 +61,7 @@ typedef void (^HHGenericCompletion)();
 @property (nonatomic, strong) CMPopTipView *mapTipView;
 @property (nonatomic, strong) MKMapView *mapView;
 @property (nonatomic)         BOOL isFetchingMoreCoaches;
+@property (nonatomic)         BOOL isFetchingCoaches;
 
 @property (assign, nonatomic) CATransform3D initialTransformation;
 
@@ -80,9 +79,12 @@ typedef void (^HHGenericCompletion)();
     self.navigationItem.title = @"教练";
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.currentCourseOption = CourseAllInOne;
-    self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
     self.currentSortOption = SortOptionSmartSort;
-     [self fetchDataWithCompletion:nil];
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+    [self fetchDataWithCompletion:^{
+        [[HHLoadingView sharedInstance] hideLoadingView];
+    }];
     [self initSubviews];
     
     self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
@@ -90,16 +92,22 @@ typedef void (^HHGenericCompletion)();
 }
 
 - (void)fetchDataWithCompletion:(HHGenericCompletion)completion {
-    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+    if (self.isFetchingCoaches) {
+        return;
+    }
+    self.isFetchingCoaches = YES;
     [[HHCoachService sharedInstance] fetchCoachesWithTraningFields:[HHTrainingFieldService sharedInstance].selectedFields skip:self.coachesArray.count courseOption:self.currentCourseOption sortOption:self.currentSortOption completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
-        [[HHLoadingView sharedInstance] hideLoadingView];
+        self.isFetchingCoaches = NO;
         if (!error) {
             [self.coachesArray removeAllObjects];
             [self.coachesArray addObjectsFromArray:objects];
             if (self.coachesArray.count < totalCount) {
                 [self.coachesArray addObject:kLoadingCellIDentifier];
             }
-            [self.tableView reloadData];
+            if ([self.coachesArray count]) {
+                [self.tableView reloadData];
+            }
+            
             if (completion) {
                 completion();
             }
@@ -187,9 +195,10 @@ typedef void (^HHGenericCompletion)();
 }
 
 - (void)refreshData {
+    __weak HHCoachListViewController *weakSelf = self;
     self.coachesArray = [NSMutableArray array];
     [self fetchDataWithCompletion:^(){
-        [self.refreshControl endRefreshing];
+        [weakSelf.refreshControl endRefreshing];
     }];
 
 }
@@ -240,6 +249,7 @@ typedef void (^HHGenericCompletion)();
     [self.floatSortButton setTitle:buttonTitle forState:UIControlStateNormal];
     self.currentSortOption = [self stringToEnum:buttonTitle];
     __weak HHCoachListViewController *weakSelf = self;
+    [self.coachesArray removeAllObjects];
     [self fetchDataWithCompletion:^{
         weakSelf.tableView.contentOffset = CGPointMake(0, 0 - self.tableView.contentInset.top);
     }];
@@ -380,19 +390,13 @@ typedef void (^HHGenericCompletion)();
             return;
         }
     }
-    POPSpringAnimation *springAnimation = [POPSpringAnimation animation];
-    springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
-    CGRect fromRect = [tableView rectForRowAtIndexPath:indexPath];
-    fromRect.origin = CGPointMake(0, CGRectGetMinY(fromRect) - CGRectGetHeight(fromRect));
-    springAnimation.fromValue = [NSValue valueWithCGRect:fromRect];
-    springAnimation.toValue = [NSValue valueWithCGRect:[tableView rectForRowAtIndexPath:indexPath]];
-    springAnimation.name = @"slideInCellFromTop";
-    springAnimation.delegate = self;
-    springAnimation.springSpeed = 0.8f;
-    springAnimation.springBounciness = 0.5f;
-    [cell pop_addAnimation:springAnimation forKey:@"slideInCellFromTop"];
-
     
+    POPSpringAnimation *scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
+    scaleAnimation.fromValue = [NSValue valueWithCGSize:CGSizeMake(0.8f, 0.8f)];
+    scaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.0f, 1.0f)];
+    scaleAnimation.springBounciness = 15.f;
+    [cell.layer pop_addAnimation:scaleAnimation forKey:@"scaleAnimation"];
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -406,10 +410,7 @@ typedef void (^HHGenericCompletion)();
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    HHCoach *coach = self.coachesArray[indexPath.row];
     HHCoachProfileViewController *coachProfiveVC = [[HHCoachProfileViewController alloc] initWithCoach:self.coachesArray[indexPath.row]];
-    NSArray *filteredarray = [[HHTrainingFieldService sharedInstance].supportedFields filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(objectId == %@)", coach.trainingFieldId]];
-    coachProfiveVC.field = [filteredarray firstObject];
     [self.navigationController pushViewController:coachProfiveVC animated:YES];
 }
 

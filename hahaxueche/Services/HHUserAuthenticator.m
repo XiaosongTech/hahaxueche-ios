@@ -9,6 +9,7 @@
 #import "HHUserAuthenticator.h"
 #import "HHToastUtility.h"
 #import "HHLoadingView.h"
+#import "HHCoachService.h"
 
 #define kAreaCode @"86"
 
@@ -112,11 +113,22 @@
         HHStudent *student = (HHStudent *)object;
         if (!error) {
             self.currentStudent = student;
+            [[HHCoachService sharedInstance] fetchCoachWithId:self.currentStudent.myCoachId completion:^(HHCoach *coach, NSError *error) {
+                if (!error) {
+                    self.myCoach = coach;
+                    if (completion) {
+                        completion(student, error);
+                    }
+                }
+            }];
         }
-        if (completion) {
-            completion(student, error);
-        }
+        
     }];
+}
+
+
+- (void)fetchAuthedStudentAgainWithCompletion:(HHStudentCompletionBlock)completion {
+    [self fetchAuthedStudentWithId:self.currentStudent.studentId completion:completion];
 }
 
 - (void)deleteUser {

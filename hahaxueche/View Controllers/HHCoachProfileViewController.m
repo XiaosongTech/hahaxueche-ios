@@ -8,7 +8,6 @@
 
 #import "HHCoachProfileViewController.h"
 #import "HHAutoLayoutUtility.h"
-#import "SDCycleScrollView.h"
 #import "UIColor+HHColor.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "UIColor+HHColor.h"
@@ -25,6 +24,9 @@
 #import "HHFullScreenImageViewController.h"
 #import "HHTimeSlotsViewController.h"
 #import "HHNavigationController.h"
+#import "ParallaxHeaderView.h"
+#import "HHTrainingFieldService.h"
+#import "HHScrollImageGallery.h"
 
 typedef enum : NSUInteger {
     CoachProfileCellDes,
@@ -39,10 +41,10 @@ typedef enum : NSUInteger {
 #define kScheduleCellId @"kScheduleCellId"
 #define kReviewCellId @"kReviewCellId"
 
-@interface HHCoachProfileViewController ()<UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIActionSheetDelegate>
+@interface HHCoachProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIScrollViewDelegate, HHScrollImageGalleryDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) SDCycleScrollView *imageGalleryView;
+@property (nonatomic, strong) HHScrollImageGallery *imageGalleryView;
 @property (nonatomic)         CGFloat desCellHeight;
 @property (nonatomic, strong) UIActionSheet *phoneSheet;
 @property (nonatomic, strong) UIActionSheet *addressSheet;
@@ -92,6 +94,9 @@ typedef enum : NSUInteger {
                 weakSelf.reviews = objects;
             }
         }];
+        
+        NSArray *filteredarray = [[HHTrainingFieldService sharedInstance].supportedFields filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(objectId == %@)", self.coach.trainingFieldId]];
+        self.field = [filteredarray firstObject];
     }
     return self;
 }
@@ -99,11 +104,6 @@ typedef enum : NSUInteger {
 - (void)setReviews:(NSArray *)reviews {
     _reviews = reviews;
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:CoachProfileCellReview inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-}
-
-- (void)setField:(HHTrainingField *)field {
-    _field = field;
-    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:CoachProfileCellDashBoard inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)backButtonPressed {
@@ -133,13 +133,11 @@ typedef enum : NSUInteger {
     [self.tableView registerClass:[HHScheduleTableViewCell class] forCellReuseIdentifier:kScheduleCellId];
     [self.tableView registerClass:[HHReviewTableViewCell class] forCellReuseIdentifier:kReviewCellId];
 
-    self.imageGalleryView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 150.0f) imageURLStringsGroup:self.coach.images];
-    self.imageGalleryView.pageControlStyle = SDCycleScrollViewPageContolStyleClassic;
-    self.imageGalleryView.backgroundColor = [UIColor clearColor];
-    self.imageGalleryView.autoScroll = NO;;
+    self.imageGalleryView = [[HHScrollImageGallery alloc] initWithURLStrings:self.coach.images];
+    self.imageGalleryView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 150.0f);
     self.imageGalleryView.delegate = self;
-    self.imageGalleryView.placeholderImage = [UIImage imageNamed:@"loading"];
-    self.tableView.tableHeaderView = self.imageGalleryView;
+    ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithSubView:self.imageGalleryView];
+    self.tableView.tableHeaderView = headerView;
     
     
     self.phoneSheet = [[UIActionSheet alloc] initWithTitle:nil
@@ -332,12 +330,6 @@ typedef enum : NSUInteger {
     }
 }
 
-#pragma mark SDCycleScrollViewDelegate Methods
-
-- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {    
-    HHFullScreenImageViewController *imageVC = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:self.coach.images[index]] title:nil];
-    [self presentViewController:imageVC animated:YES completion:nil];
-}
 
 #pragma mark Hide TabBar
 
@@ -372,6 +364,21 @@ typedef enum : NSUInteger {
         }
         [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
     }
+}
+
+#pragma -mark UISCrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView == self.tableView) {
+        [(ParallaxHeaderView *)self.tableView.tableHeaderView layoutHeaderViewForScrollViewOffset:scrollView.contentOffset];
+    }
+}
+
+#pragma -mark HHScrollImageGallery Delegate
+
+- (void)showFullImageView:(NSInteger)index {
+    HHFullScreenImageViewController *fullImageVC = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:self.coach.images[index] ] title:nil];
+    [self.tabBarController presentViewController:fullImageVC animated:YES completion:nil];
 }
 
 @end

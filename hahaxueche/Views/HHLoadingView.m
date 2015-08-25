@@ -8,6 +8,7 @@
 
 #import "HHLoadingView.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "UIColor+HHColor.h"
 
 @interface HHLoadingView()
 
@@ -31,8 +32,10 @@
 - (void)showLoadingViewWithTilte:(NSString *)title {
     UIWindow *currentWindow = [[UIApplication sharedApplication] keyWindow];
     self.hud = [[MBProgressHUD alloc] initWithView:currentWindow];
+    self.hud.color = [UIColor HHTransparentOrange];
+    self.hud.labelFont = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:15];
     [currentWindow addSubview:self.hud];
-    self.hud.labelText = NSLocalizedString(@"请稍等...",nil);
+    self.hud.labelText = NSLocalizedString(@"加载中",nil);
     if (title) {
         self.hud.labelText = title;
     }

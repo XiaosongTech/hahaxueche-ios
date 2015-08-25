@@ -23,6 +23,8 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "HHCoachService.h"
 #import "HHCoachProfileViewController.h"
+#import <pop/POP.h>
+#import "HHCoachListViewController.h"
 
 
 #define kTimeSlotCellIdentifier @"kTimeSlotCellIdentifier"
@@ -33,7 +35,6 @@
 @property (nonatomic, strong) NSArray *groupedSchedules;
 @property (nonatomic, strong) NSArray *sectionTiltes;
 @property (nonatomic, strong) NSMutableArray *selectedSchedules;
-@property (nonatomic, strong) NSMutableDictionary *studentsForSchedules;
 @property (nonatomic, strong) UISegmentedControl *filterSegmentedControl;
 @property (nonatomic, strong) NSMutableArray *schedules;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
@@ -52,6 +53,7 @@
 -(void)dealloc {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad {
@@ -59,10 +61,10 @@
     self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
     self.navigationItem.hidesBackButton = YES;
     self.selectedSchedules = [NSMutableArray array];
-    self.studentsForSchedules = [NSMutableDictionary dictionary];
     self.schedules = [NSMutableArray array];
     
-    if ([[HHUserAuthenticator sharedInstance].currentStudent.myCoachId length] > 0) {
+    if ([HHUserAuthenticator sharedInstance].myCoach) {
+        self.myCoach = [HHUserAuthenticator sharedInstance].myCoach;
         self.hasCoach = YES;
     } else {
         self.hasCoach = NO;
@@ -96,10 +98,7 @@
         self.navigationItem.rightBarButtonItem = self.confirmBarButtonItem;
         HHAvatarView *myCoachAvatar = [[HHAvatarView alloc] initWithImage:nil radius:15.0f borderColor:[UIColor whiteColor]];
         [myCoachAvatar setFrame:CGRectMake(0, 0, 30.0f, 30.0f)];
-        [[HHCoachService sharedInstance] fetchCoachWithId:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId completion:^(HHCoach *coach, NSError *error) {
-            self.myCoach = coach;
-            [myCoachAvatar.imageView sd_setImageWithURL:[NSURL URLWithString:self.myCoach.avatarURL] placeholderImage:nil];
-        }];
+        [myCoachAvatar.imageView sd_setImageWithURL:[NSURL URLWithString:self.myCoach.avatarURL] placeholderImage:nil];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToMyCoachProfileView)];
         [myCoachAvatar addGestureRecognizer:tap];
         
@@ -110,13 +109,22 @@
         negativeSpacer.width = -8.0f;
         
         [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, coachBarButtonItem]];
-        [self fetchSchedules];
+        [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+        [self fetchSchedulesWithCompletion:^{
+            [[HHLoadingView sharedInstance] hideLoadingView];
+        }];
     } else {
         
     }
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateData) name:@"cancelSucceed" object:nil];
+    
     [self autoLayoutSubviews];
 
+}
+
+-(void)updateData {
+    [self fetchSchedulesWithCompletion:nil];
 }
 
 - (void)jumpToMyCoachProfileView {
@@ -138,8 +146,8 @@
         [[HHLoadingView sharedInstance] hideLoadingView];
         if (succeed) {
             [HHToastUtility showToastWitiTitle:[NSString stringWithFormat:NSLocalizedString(@"预约成功%ld个时间", nil), succeedCount] isError:NO];
-            [self fetchSchedules];
-            [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:[HHUserAuthenticator sharedInstance].currentStudent.studentId completion:nil];
+            [self fetchSchedulesWithCompletion:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"bookSucceed" object:self];
         } else {
             [HHToastUtility showToastWitiTitle:[NSString stringWithFormat:NSLocalizedString(@"预约失败！", nil), succeedCount] isError:YES];
         }
@@ -179,15 +187,18 @@
 }
 
 - (void)refreshData {
-    [self fetchSchedules];
+    __weak HHBookViewController *weakSelf = self;
+    [self fetchSchedulesWithCompletion:^{
+        [weakSelf.refreshControl endRefreshing];
+    }];
 }
 
-- (void)fetchSchedules {
+- (void)fetchSchedulesWithCompletion:(HHGenericCompletion)completion {
     __weak HHBookViewController *weakSelf = self;
-    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中...", nil)];
     [[HHScheduleService sharedInstance] fetchCoachSchedulesWithCoachId:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId skip:0 completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
-        [[HHLoadingView sharedInstance] hideLoadingView];
-        [weakSelf.refreshControl endRefreshing];
+        if (completion) {
+            completion();
+        }
         if (!error) {
             [weakSelf.schedules removeAllObjects];
             [weakSelf.schedules addObjectsFromArray:objects];
@@ -196,18 +207,8 @@
             } else {
                 weakSelf.shouldLoadMore = YES;
             }
-            self.studentsForSchedules = [NSMutableDictionary dictionary];
             weakSelf.sectionTiltes = [weakSelf groupSchedulesTitleWithFilter:weakSelf.filterSegmentedControl.selectedSegmentIndex];
-            for (HHCoachSchedule *schedule in weakSelf.schedules) {
-                [[HHStudentService sharedInstance] fetchStudentsForScheduleWithIds:schedule.reservedStudents completion:^(NSArray *objects, NSError *error) {
-                    if (!error) {
-                        weakSelf.studentsForSchedules[schedule.objectId] = objects;
-                        [weakSelf.tableView reloadData];
-                    }
-                }];
-                
-            }
-            
+            [weakSelf.tableView reloadData];
         } else {
             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取数据是出错！", nil) isError:YES];
         }
@@ -229,15 +230,7 @@
                 weakSelf.shouldLoadMore = YES;
             }
             weakSelf.sectionTiltes = [weakSelf groupSchedulesTitleWithFilter:weakSelf.filterSegmentedControl.selectedSegmentIndex];
-            for (HHCoachSchedule *schedule in weakSelf.schedules) {
-                [[HHStudentService sharedInstance] fetchStudentsForScheduleWithIds:schedule.reservedStudents completion:^(NSArray *objects, NSError *error) {
-                    if (!error) {
-                        weakSelf.studentsForSchedules[schedule.objectId] = objects;
-                        [weakSelf.tableView reloadData];
-                    }
-                }];
-                
-            }
+            [weakSelf.tableView reloadData];
             
         } else {
             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取数据是出错！", nil) isError:YES];
@@ -294,7 +287,7 @@
     for (int i = 0; i < self.groupedSchedules.count; i++) {
         HHCoachSchedule *schedule = [self.groupedSchedules[i] firstObject];
         NSString *date = [[HHFormatUtility fullDateFormatter] stringFromDate:schedule.startDateTime];
-        NSString *title = [NSString stringWithFormat:@"%@\n%@", date, [[HHFormatUtility weekDayFormatter] stringFromDate:schedule.startDateTime]];
+        NSString *title = [NSString stringWithFormat:@"%@ (%@)", date, [[HHFormatUtility weekDayFormatter] stringFromDate:schedule.startDateTime]];
         [titles addObject:title];
     }
     return titles;
@@ -331,9 +324,8 @@
     } else {
         cell.selectedIndicatorView.hidden = YES;
     }
+    cell.students = schedule.fullStudents;
     [cell setupViews];
-    
-    cell.students = self.studentsForSchedules[schedule.objectId];
     [cell setupAvatars];
     return cell;
 }
@@ -353,13 +345,24 @@
     
 }
 
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    POPSpringAnimation *scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
+    scaleAnimation.fromValue = [NSValue valueWithCGSize:CGSizeMake(0.8f, 0.8f)];
+    scaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.0f, 1.0f)];
+    scaleAnimation.springBounciness = 15.f;
+    [cell.layer pop_addAnimation:scaleAnimation forKey:@"scaleAnimation"];
+    
+}
+
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     HHTimeSlotSectionTitleView *view = [[HHTimeSlotSectionTitleView alloc] initWithTitle:self.sectionTiltes[section]];
     return view;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 118.0f;
+    return 108.0f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

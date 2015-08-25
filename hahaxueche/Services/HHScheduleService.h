@@ -18,4 +18,6 @@ typedef void (^HHSchedulesCompletionBlock)(NSArray *objects, NSInteger totalResu
 
 - (void)fetchCoachSchedulesWithCoachId:(NSString *)coachId skip:(NSInteger)skip completion:(HHSchedulesCompletionBlock)completion;
 
+- (void)fetchAuthedStudentReservationsWithSkip:(NSInteger)skip completion:(HHSchedulesCompletionBlock)completion;
+
 @end

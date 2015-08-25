@@ -13,7 +13,9 @@
 #import "HHFormatUtility.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
-#define kAvatarRadius 25.0f
+#define kCellTextColor [UIColor colorWithRed:0.38 green:0.38 blue:0.38 alpha:1]
+
+#define kAvatarRadius 20.0f
 
 @implementation HHTimeSlotTableViewCell
 
@@ -58,11 +60,11 @@
     self.firstVerticalLine = [self createLine];
     self.secondVerticalLine = [self createLine];
     
-    self.timeLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f] textColor:[UIColor HHGrayTextColor]];
+    self.timeLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f] textColor:kCellTextColor];
     [self.containerView addSubview:self.timeLabel];
-    self.courseLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f] textColor:[UIColor HHGrayTextColor]];
+    self.courseLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f] textColor:kCellTextColor];
     [self.containerView addSubview:self.courseLabel];
-    self.amountLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f] textColor:[UIColor HHGrayTextColor]];
+    self.amountLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f] textColor:kCellTextColor];
     [self.containerView addSubview:self.amountLabel];
     
     for (int i = 0; i < 4; i++) {
@@ -73,6 +75,7 @@
         [avatarView addGestureRecognizer:tap];
         avatarView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.containerView addSubview:avatarView];
+        avatarView.imageView.image = [UIImage imageNamed:@"ic_st_add"];
         [self.avatarViews addObject:avatarView];
         
         NSArray *constraints;
@@ -147,7 +150,7 @@
         avatarView.imageView.image = [UIImage imageNamed:@"ic_st_add"];
     }
     
-    if ([self.students count]) {
+    if ([self.schedule.reservedStudents count]) {
         for (int i = 0; i < self.schedule.reservedStudents.count; i++) {
             HHStudent *student = self.students[i];
             HHAvatarView *avatarView = self.avatarViews[i];
@@ -173,9 +176,9 @@
                              [HHAutoLayoutUtility setViewWidth:self.selectedIndicatorView multiplier:1.0f constant:0],
                              
                              [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.line constant:-40.0f],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.line constant:0],
+                             [HHAutoLayoutUtility setCenterX:self.line multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.line multiplier:0 constant:1.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.line multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewWidth:self.line multiplier:1.0f constant:-20.0f],
                              
                              [HHAutoLayoutUtility setCenterY:self.timeLabel multiplier:2.0f constant:-20.0f],
                              [HHAutoLayoutUtility setCenterX:self.timeLabel multiplier:0.4f constant:0],

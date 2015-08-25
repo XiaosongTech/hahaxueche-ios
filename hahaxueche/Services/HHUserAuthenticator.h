@@ -10,6 +10,7 @@
 #import <AVOSCloud/AVOSCloud.h>
 #import "HHUser.h"
 #import "HHStudent.h"
+#import "HHCoach.h"
 #import <SMS_SDK/SMS_SDK.h>
 
 typedef void (^HHUserGenericCompletionBlock)(NSError *error);
@@ -20,6 +21,7 @@ typedef void (^HHStudentCompletionBlock)(HHStudent *student, NSError *error);
 
 @property (nonatomic, strong) HHStudent *currentStudent;
 @property (nonatomic, strong) HHUser *currentUser;
+@property (nonatomic, strong) HHCoach *myCoach;
 
 + (instancetype)sharedInstance;
 
@@ -32,6 +34,9 @@ typedef void (^HHStudentCompletionBlock)(HHStudent *student, NSError *error);
 - (void)createStudentWithStudent:(HHStudent *)student completion:(HHUserGenericCompletionBlock)completion;
 
 - (void)fetchAuthedStudentWithId:(NSString *)studentId completion:(HHStudentCompletionBlock)completion;
+
+- (void)fetchAuthedStudentAgainWithCompletion:(HHStudentCompletionBlock)completion;
+
 
 - (void)loginWithNumber:(NSString *)number completion:(HHUserGenericCompletionBlock)completion;
 

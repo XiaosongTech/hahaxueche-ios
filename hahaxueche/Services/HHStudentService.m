@@ -22,19 +22,6 @@
     return sharedInstance;
 }
 
-- (void)fetchStudentsForScheduleWithIds:(NSArray *)studentIds completion:(HHStudentsCompletionBlock)completion {
-    if (!studentIds) {
-        return;
-    }
-    AVQuery *query = [AVQuery queryWithClassName:[HHStudent parseClassName]];
-    [query whereKey:@"studentId" containedIn:studentIds];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (completion) {
-            completion(objects, error);
-        }
-    }];
-}
-
 -(void)fetchStudentWithId:(NSString *)studentId completion:(HHStudentCompletionBlock)completion {
     AVQuery *query = [AVQuery queryWithClassName:[HHStudent parseClassName]];
     [query whereKey:@"studentId" equalTo:studentId];
@@ -47,6 +34,7 @@
 }
 
 - (void)bookTimeSlotsWithSchedules:(NSArray *)schedules student:(HHStudent *)student coachId:(NSString *)coachId completion:(HHStudentBookCompletionBlock)completion {
+    
     HHStudent *copiedStudent = [student mutableCopy];
     NSArray *copiedSchedules = [NSArray arrayWithArray:schedules];
     int i = 0;
@@ -65,7 +53,7 @@
                 [newArray addObject:schedule.objectId];
                 copiedStudent.myReservation = newArray;
             } else {
-                NSArray *reservations = @[schedule.objectId];
+                NSMutableArray *reservations = [NSMutableArray arrayWithObject:schedule.objectId];
                 copiedStudent.myReservation = reservations;
             }
             i++;
@@ -88,6 +76,44 @@
             }
         }
     }];
+}
+
+- (void)cancelAppointmentWithSchedule:(HHCoachSchedule *)schedule completion:(HHStudentCancelAppointmentCompletionBlock)completion {
+    NSMutableArray *copiedReservations = [[HHUserAuthenticator sharedInstance].currentStudent.myReservation mutableCopy];
+    HHStudent *copiedStudent = [[HHUserAuthenticator sharedInstance].currentStudent mutableCopy];
+    HHCoachSchedule *copiedSchedule = [schedule mutableCopy];
+    
+    NSMutableArray *reservedStudents = [NSMutableArray arrayWithArray:copiedSchedule.reservedStudents];
+    for (NSString *studentId in reservedStudents) {
+        if ([studentId isEqualToString:copiedStudent.studentId]) {
+            [reservedStudents removeObject:studentId];
+            break;
+        }
+    }
+    copiedSchedule.reservedStudents = reservedStudents;
+    if ([copiedSchedule save]) {
+        if ([copiedReservations count]) {
+            for (NSString *scheduleId in copiedReservations) {
+                if ([scheduleId isEqualToString:schedule.objectId]) {
+                    [copiedReservations removeObject:scheduleId];
+                    break;
+                }
+            }
+            copiedStudent.myReservation = copiedReservations;
+            [copiedStudent saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (succeeded) {
+                    [HHUserAuthenticator sharedInstance].currentStudent = copiedStudent;
+                }
+                if (completion) {
+                    completion(succeeded, error);
+                }
+            }];
+        }
+    } else {
+        if (completion) {
+            completion(NO, nil);
+        }
+    }
 }
 
 @end

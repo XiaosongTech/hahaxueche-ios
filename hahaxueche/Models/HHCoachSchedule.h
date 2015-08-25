@@ -9,12 +9,13 @@
 #import <AVOSCloud/AVOSCloud.h>
 #import "AVObject+Subclass.h"
 
-@interface HHCoachSchedule : AVObject<AVSubclassing>
+@interface HHCoachSchedule : AVObject<AVSubclassing, NSCopying>
 
 @property (nonatomic, copy) NSString *coachId;
 @property (nonatomic, strong) NSDate *startDateTime;
 @property (nonatomic, strong) NSDate *endDateTime;
 @property (nonatomic, copy) NSArray *reservedStudents;
 @property (nonatomic, copy) NSString *course;
+@property (nonatomic, copy) NSArray *fullStudents;
 
 @end
