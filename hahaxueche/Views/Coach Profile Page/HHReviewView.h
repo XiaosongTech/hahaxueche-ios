@@ -10,14 +10,14 @@
 #import "HHReview.h"
 #import "HHStudent.h"
 #import "HHAvatarView.h"
-#import "HHRatingView.h"
+#import "HHStarRatingView.h"
 
 @interface HHReviewView : UIView
 
 @property (nonatomic, strong) HHReview *review;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) HHAvatarView *avatarView;
-@property (nonatomic, strong) HHRatingView *ratingView;
+@property (nonatomic, strong) HHStarRatingView *ratingView;
 @property (nonatomic, strong) UILabel *ratingLabel;
 @property (nonatomic, strong) UILabel *commentLabel;
 @property (nonatomic, strong) UIView *line;

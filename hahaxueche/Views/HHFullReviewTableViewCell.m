@@ -37,7 +37,7 @@
     self.nameLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15] textColor:[UIColor whiteColor]];
     self.ratingLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:13] textColor:[UIColor HHOrange]];
     
-    self.ratingView = [[HHRatingView alloc] initWithInteractionEnabled:NO];
+    self.ratingView = [[HHStarRatingView alloc] initWithFrame:CGRectZero rating:0];
     self.ratingView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.ratingView];
     
@@ -83,7 +83,7 @@
                              [HHAutoLayoutUtility setViewWidth:self.ratingView multiplier:0 constant:90.0f],
                              
                              [HHAutoLayoutUtility setCenterY:self.ratingLabel toView:self.ratingView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility horizontalNext:self.ratingLabel toView:self.ratingView constant:3.0f],
+                             [HHAutoLayoutUtility horizontalNext:self.ratingLabel toView:self.ratingView constant:5.0f],
                              
                              [HHAutoLayoutUtility setCenterY:self.timeLabel toView:self.nameLabel multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.timeLabel constant:-15.0f],
@@ -103,7 +103,7 @@
 }
 
 - (void)setupViews:(HHReview *)review {
-    [self.ratingView setupViewWithRating:[review.rating floatValue]];
+    self.ratingView.value = [review.rating floatValue];
     self.ratingLabel.text = [[HHFormatUtility floatFormatter] stringFromNumber:review.rating];
     self.commentLabel.text = review.comment;
     self.timeLabel.text = [NSDate timeAgoSinceDate:review.createdAt];

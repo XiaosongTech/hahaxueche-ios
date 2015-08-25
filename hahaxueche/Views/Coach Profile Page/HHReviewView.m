@@ -36,9 +36,8 @@
     self.nameLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15] textColor:[UIColor blackColor]];
     self.ratingLabel = [self createLabelWithTitle:[[HHFormatUtility floatFormatter] stringFromNumber:self.review.rating] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:13] textColor:[UIColor HHOrange]];
     
-    self.ratingView = [[HHRatingView alloc] initWithInteractionEnabled:NO];
+    self.ratingView = [[HHStarRatingView alloc] initWithFrame:CGRectZero rating:[self.review.rating floatValue]];
     self.ratingView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.ratingView setupViewWithRating:[self.review.rating floatValue]];
     [self addSubview:self.ratingView];
     
     self.commentLabel = [self createLabelWithTitle:self.review.comment font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13] textColor:[UIColor blackColor]];
@@ -90,7 +89,7 @@
                              [HHAutoLayoutUtility setViewWidth:self.ratingView multiplier:0 constant:90.0f],
                              
                              [HHAutoLayoutUtility setCenterY:self.ratingLabel toView:self.ratingView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility horizontalNext:self.ratingLabel toView:self.ratingView constant:3.0f],
+                             [HHAutoLayoutUtility horizontalNext:self.ratingLabel toView:self.ratingView constant:5.0f],
                              
                              [HHAutoLayoutUtility setCenterY:self.timeLabel toView:self.nameLabel multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.timeLabel constant:-10.0f],

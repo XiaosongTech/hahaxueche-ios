@@ -55,6 +55,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSMutableAttributedString *coachDes;
 @property (nonatomic, strong) NSArray *reviews;
 @property (nonatomic, strong) KLCPopup *commentPopupView;
+@property (nonatomic, strong) HHStarRatingView *ratingView;
 
 @end
 
@@ -236,19 +237,19 @@ typedef enum : NSUInteger {
     [confirmButton setTitleColor:[UIColor HHBlueButtonColor] forState:UIControlStateNormal];
     [commentView addSubview:confirmButton];
     
-    HHRatingView *ratingView = [[HHRatingView alloc] initWithInteractionEnabled:YES];
-    ratingView.translatesAutoresizingMaskIntoConstraints = NO;
-    [ratingView setupViewWithRating:0];
-    [commentView addSubview:ratingView];
+    self.ratingView = [[HHStarRatingView alloc] initWithFrame:CGRectZero rating:0];
+    self.ratingView.userInteractionEnabled = YES;
+    self.ratingView.translatesAutoresizingMaskIntoConstraints = NO;
+    [commentView addSubview:self.ratingView];
     
     NSArray *constraints = @[
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:titleLabel constant:15.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:titleLabel constant:15.0f],
                              
-                             [HHAutoLayoutUtility setCenterY:ratingView toView:titleLabel multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewRight:ratingView constant:-10.0f],
-                             [HHAutoLayoutUtility setViewHeight:ratingView multiplier:0 constant:15.0f],
-                             [HHAutoLayoutUtility setViewWidth:ratingView multiplier:0 constant:90.0f],
+                             [HHAutoLayoutUtility setCenterY:self.ratingView toView:titleLabel multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.ratingView constant:-10.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.ratingView multiplier:0 constant:45.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.ratingView multiplier:0 constant:110.0f],
 
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:line constant:45.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:line constant:0],

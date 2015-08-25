@@ -35,7 +35,7 @@
     
     self.titleLabel = [self createLabelWithTitle:NSLocalizedString(@"学员评价",nil) font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f] textColor:[UIColor HHGrayTextColor]];
     
-    self.ratingView = [[HHRatingView alloc] initWithInteractionEnabled:NO];
+    self.ratingView = [[HHStarRatingView alloc] initWithFrame:CGRectZero rating:0];
     self.ratingView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.containerView addSubview:self.ratingView];
     
@@ -71,7 +71,7 @@
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.titleLabel constant:10.0f],
                              
                              [HHAutoLayoutUtility setCenterY:self.ratingView toView:self.titleLabel multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.ratingView constant:-25.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.ratingView constant:-35.0f],
                              [HHAutoLayoutUtility setViewHeight:self.ratingView multiplier:0 constant:15.0f],
                              [HHAutoLayoutUtility setViewWidth:self.ratingView multiplier:0 constant:90.0f],
                              
@@ -90,7 +90,7 @@
 }
 
 - (void)setupRatingView:(NSNumber *)rating {
-    [self.ratingView setupViewWithRating:[rating floatValue]];
+    self.ratingView.value = [rating floatValue];
     self.ratingLabel.text = [[HHFormatUtility floatFormatter] stringFromNumber:rating];
 }
 
