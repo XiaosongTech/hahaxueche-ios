@@ -56,6 +56,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSArray *reviews;
 @property (nonatomic, strong) KLCPopup *commentPopupView;
 @property (nonatomic, strong) HHStarRatingView *ratingView;
+@property (nonatomic, strong) UILabel *placeholderLabel;
 
 @end
 
@@ -207,7 +208,6 @@ typedef enum : NSUInteger {
     [titleLabel sizeToFit];
     [commentView addSubview:titleLabel];
     
-    
     UIView *line = [[UIView alloc] initWithFrame:CGRectZero];
     line.translatesAutoresizingMaskIntoConstraints = NO;
     line.backgroundColor = [UIColor HHGrayLineColor];
@@ -227,7 +227,18 @@ typedef enum : NSUInteger {
     commentTextView.translatesAutoresizingMaskIntoConstraints = NO;
     commentTextView.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f];
     commentTextView.showsHorizontalScrollIndicator = NO;
+    commentTextView.delegate = self;
     [commentView addSubview:commentTextView];
+    
+    self.placeholderLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.placeholderLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    self.placeholderLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f];
+    self.placeholderLabel.textColor = [UIColor lightGrayColor];
+    self.placeholderLabel.text = NSLocalizedString(@"牢骚或表扬，大胆说出来吧！", nil);
+    self.placeholderLabel.textAlignment = NSTextAlignmentLeft;
+    [self.placeholderLabel sizeToFit];
+    [commentTextView addSubview:self.placeholderLabel];
+
     
     UIButton *dismissButton = [self createButtonWithTitle:NSLocalizedString(@"取消返回", nil) backgroundColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:15.0f] action:@selector(dismissCommentPopupView)];
     [dismissButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
@@ -267,17 +278,26 @@ typedef enum : NSUInteger {
                              [HHAutoLayoutUtility setViewWidth:line2 multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewHeight:line2 multiplier:0 constant:1.0f],
                              
-                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:dismissButton constant:-10.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:dismissButton constant:0],
                              [HHAutoLayoutUtility setCenterX:dismissButton multiplier:0.5f constant:0],
+                             [HHAutoLayoutUtility setViewWidth:dismissButton multiplier:0.5f constant:-1.0f],
+                             [HHAutoLayoutUtility setViewHeight:dismissButton multiplier:0 constant:45.0f],
                              
-                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:confirmButton constant:-10.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:confirmButton constant:0],
                              [HHAutoLayoutUtility setCenterX:confirmButton multiplier:1.5f constant:0],
+                             [HHAutoLayoutUtility setViewWidth:confirmButton multiplier:0.5f constant:-1.0f],
+                             [HHAutoLayoutUtility setViewHeight:confirmButton multiplier:0 constant:45.0f],
+
+                             
                              
                              [HHAutoLayoutUtility setCenterY:verticalLine multiplier:2.0f constant:-45.0f/2.0f],
                              [HHAutoLayoutUtility setCenterX:verticalLine multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewWidth:verticalLine multiplier:0 constant:1.0f],
                              [HHAutoLayoutUtility setViewHeight:verticalLine multiplier:0 constant:30.0f],
-
+                             
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.placeholderLabel constant:10.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.placeholderLabel constant:6.0f],
+                            
                              ];
         
     
@@ -487,6 +507,16 @@ typedef enum : NSUInteger {
 - (void)showFullImageView:(NSInteger)index {
     HHFullScreenImageViewController *fullImageVC = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:self.coach.images[index] ] title:nil];
     [self.tabBarController presentViewController:fullImageVC animated:YES completion:nil];
+}
+
+#pragma -mark TextView Delegate
+
+- (void)textViewDidChange:(UITextView *)textView {
+    if ([textView.text isEqualToString:@""]) {
+        self.placeholderLabel.hidden = NO;
+    } else {
+        self.placeholderLabel.hidden = YES;
+    }
 }
 
 @end
