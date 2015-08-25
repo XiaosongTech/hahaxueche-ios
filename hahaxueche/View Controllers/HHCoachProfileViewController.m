@@ -236,9 +236,19 @@ typedef enum : NSUInteger {
     [confirmButton setTitleColor:[UIColor HHBlueButtonColor] forState:UIControlStateNormal];
     [commentView addSubview:confirmButton];
     
+    HHRatingView *ratingView = [[HHRatingView alloc] initWithInteractionEnabled:YES];
+    ratingView.translatesAutoresizingMaskIntoConstraints = NO;
+    [ratingView setupViewWithRating:0];
+    [commentView addSubview:ratingView];
+    
     NSArray *constraints = @[
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:titleLabel constant:15.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:titleLabel constant:15.0f],
+                             
+                             [HHAutoLayoutUtility setCenterY:ratingView toView:titleLabel multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewRight:ratingView constant:-10.0f],
+                             [HHAutoLayoutUtility setViewHeight:ratingView multiplier:0 constant:15.0f],
+                             [HHAutoLayoutUtility setViewWidth:ratingView multiplier:0 constant:90.0f],
 
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:line constant:45.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:line constant:0],
