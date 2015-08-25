@@ -27,6 +27,7 @@
 #import "ParallaxHeaderView.h"
 #import "HHTrainingFieldService.h"
 #import "HHScrollImageGallery.h"
+#import "KLCPopup.h"
 
 typedef enum : NSUInteger {
     CoachProfileCellDes,
@@ -41,7 +42,7 @@ typedef enum : NSUInteger {
 #define kScheduleCellId @"kScheduleCellId"
 #define kReviewCellId @"kReviewCellId"
 
-@interface HHCoachProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIScrollViewDelegate, HHScrollImageGalleryDelegate>
+@interface HHCoachProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIScrollViewDelegate, HHScrollImageGalleryDelegate, UITextViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) HHScrollImageGallery *imageGalleryView;
@@ -53,6 +54,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIButton *commentButton;
 @property (nonatomic, strong) NSMutableAttributedString *coachDes;
 @property (nonatomic, strong) NSArray *reviews;
+@property (nonatomic, strong) KLCPopup *commentPopupView;
 
 @end
 
@@ -161,11 +163,14 @@ typedef enum : NSUInteger {
     
     if (![self.coach.coachId isEqualToString:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId]) {
         self.payButton = [self createButtonWithTitle:NSLocalizedString(@"确认教练并付款", nil) backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f] action:@selector(payCoach)];
+        [self.view addSubview:self.payButton];
         
         self.bookTrialButton = [self createButtonWithTitle:NSLocalizedString(@"预约试训", nil) backgroundColor:[UIColor HHLightOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f] action:@selector(callCoach)];
+        [self.view addSubview:self.bookTrialButton];
         
     } else {
         self.commentButton = [self createButtonWithTitle:NSLocalizedString(@"评价教练", nil) backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f] action:@selector(commentCoach)];
+        [self.view addSubview:self.commentButton];
     }
     
      [self autolayoutSubview];
@@ -183,6 +188,98 @@ typedef enum : NSUInteger {
 }
 
 - (void)commentCoach {
+    [self showCommentPopupView];
+}
+
+- (void)showCommentPopupView {
+    
+    UIView *commentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, CGRectGetHeight(self.view.bounds) * 3.0f/7.0f)];
+    commentView.backgroundColor = [UIColor whiteColor];
+    self.commentPopupView = [KLCPopup popupWithContentView:commentView];
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:16.0f];
+    titleLabel.textColor = [UIColor blackColor];
+    titleLabel.text = NSLocalizedString(@"给教练打分", nil);
+    titleLabel.textAlignment = NSTextAlignmentLeft;
+    [titleLabel sizeToFit];
+    [commentView addSubview:titleLabel];
+    
+    
+    UIView *line = [[UIView alloc] initWithFrame:CGRectZero];
+    line.translatesAutoresizingMaskIntoConstraints = NO;
+    line.backgroundColor = [UIColor HHGrayLineColor];
+    [commentView addSubview:line];
+    
+    UIView *line2 = [[UIView alloc] initWithFrame:CGRectZero];
+    line2.translatesAutoresizingMaskIntoConstraints = NO;
+    line2.backgroundColor = [UIColor HHGrayLineColor];
+    [commentView addSubview:line2];
+    
+    UIView *verticalLine = [[UIView alloc] initWithFrame:CGRectZero];
+    verticalLine.translatesAutoresizingMaskIntoConstraints = NO;
+    verticalLine.backgroundColor = [UIColor HHGrayLineColor];
+    [commentView addSubview:verticalLine];
+    
+    UITextView *commentTextView = [[UITextView alloc] initWithFrame:CGRectZero];
+    commentTextView.translatesAutoresizingMaskIntoConstraints = NO;
+    commentTextView.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f];
+    commentTextView.showsHorizontalScrollIndicator = NO;
+    [commentView addSubview:commentTextView];
+    
+    UIButton *dismissButton = [self createButtonWithTitle:NSLocalizedString(@"取消返回", nil) backgroundColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:15.0f] action:@selector(dismissCommentPopupView)];
+    [dismissButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
+    [commentView addSubview:dismissButton];
+    
+    UIButton *confirmButton = [self createButtonWithTitle:NSLocalizedString(@"确认评价", nil) backgroundColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:15.0f] action:@selector(confirmButtonTapped)];
+    [confirmButton setTitleColor:[UIColor HHBlueButtonColor] forState:UIControlStateNormal];
+    [commentView addSubview:confirmButton];
+    
+    NSArray *constraints = @[
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:titleLabel constant:15.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:titleLabel constant:15.0f],
+
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:line constant:45.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:line constant:0],
+                             [HHAutoLayoutUtility setViewWidth:line multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewHeight:line multiplier:0 constant:1.0f],
+                             
+                             
+                             [HHAutoLayoutUtility verticalNext:commentTextView toView:line constant:0],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:commentTextView constant:10.0f],
+                             [HHAutoLayoutUtility setViewWidth:commentTextView multiplier:1.0f constant:-30.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:commentTextView constant:-46.0f],
+                             
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:line2 constant:-45.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:line2 constant:0],
+                             [HHAutoLayoutUtility setViewWidth:line2 multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewHeight:line2 multiplier:0 constant:1.0f],
+                             
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:dismissButton constant:-10.0f],
+                             [HHAutoLayoutUtility setCenterX:dismissButton multiplier:0.5f constant:0],
+                             
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:confirmButton constant:-10.0f],
+                             [HHAutoLayoutUtility setCenterX:confirmButton multiplier:1.5f constant:0],
+                             
+                             [HHAutoLayoutUtility setCenterY:verticalLine multiplier:2.0f constant:-45.0f/2.0f],
+                             [HHAutoLayoutUtility setCenterX:verticalLine multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewWidth:verticalLine multiplier:0 constant:1.0f],
+                             [HHAutoLayoutUtility setViewHeight:verticalLine multiplier:0 constant:30.0f],
+
+                             ];
+        
+    
+    [commentView addConstraints:constraints];
+    [commentTextView becomeFirstResponder];
+    [self.commentPopupView showWithLayout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+}
+
+- (void)dismissCommentPopupView {
+    [self.commentPopupView dismiss:YES];
+}
+
+- (void)confirmButtonTapped {
     
 }
 
@@ -225,6 +322,7 @@ typedef enum : NSUInteger {
     
     [self.view addConstraints:constraints];
     
+    
 }
 
 - (UIButton *)createButtonWithTitle:(NSString *)title backgroundColor:(UIColor *)bgColor font:(UIFont *)font action:(SEL)action {
@@ -235,7 +333,6 @@ typedef enum : NSUInteger {
     [button setBackgroundColor:bgColor];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:button];
     return button;
 }
 
