@@ -11,6 +11,7 @@
 #import "HHCoachSchedule.h"
 
 typedef void (^HHSchedulesCompletionBlock)(NSArray *objects, NSInteger totalResults, NSError *error);
+typedef void (^HHCancelScheduleCompletionBlock)(BOOL succeed, NSError *error);
 
 @interface HHScheduleService : NSObject
 
@@ -19,5 +20,8 @@ typedef void (^HHSchedulesCompletionBlock)(NSArray *objects, NSInteger totalResu
 - (void)fetchCoachSchedulesWithCoachId:(NSString *)coachId skip:(NSInteger)skip completion:(HHSchedulesCompletionBlock)completion;
 
 - (void)fetchAuthedStudentReservationsWithSkip:(NSInteger)skip completion:(HHSchedulesCompletionBlock)completion;
+
+
+- (void)cancelAppointmentWithSchedule:(HHCoachSchedule *)schedule completion:(HHCancelScheduleCompletionBlock)completion;
 
 @end

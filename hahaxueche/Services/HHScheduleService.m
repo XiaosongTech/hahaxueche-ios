@@ -86,5 +86,44 @@
     
 }
 
+- (void)cancelAppointmentWithSchedule:(HHCoachSchedule *)schedule completion:(HHCancelScheduleCompletionBlock)completion {
+    NSMutableArray *copiedReservations = [[HHUserAuthenticator sharedInstance].currentStudent.myReservation mutableCopy];
+    HHStudent *copiedStudent = [[HHUserAuthenticator sharedInstance].currentStudent mutableCopy];
+    HHCoachSchedule *copiedSchedule = [schedule mutableCopy];
+    
+    NSMutableArray *reservedStudents = [NSMutableArray arrayWithArray:copiedSchedule.reservedStudents];
+    for (NSString *studentId in reservedStudents) {
+        if ([studentId isEqualToString:copiedStudent.studentId]) {
+            [reservedStudents removeObject:studentId];
+            break;
+        }
+    }
+    copiedSchedule.reservedStudents = reservedStudents;
+    if ([copiedSchedule save]) {
+        if ([copiedReservations count]) {
+            for (NSString *scheduleId in copiedReservations) {
+                if ([scheduleId isEqualToString:schedule.objectId]) {
+                    [copiedReservations removeObject:scheduleId];
+                    break;
+                }
+            }
+            copiedStudent.myReservation = copiedReservations;
+            [copiedStudent saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (succeeded) {
+                    [HHUserAuthenticator sharedInstance].currentStudent = copiedStudent;
+                }
+                if (completion) {
+                    completion(succeeded, error);
+                }
+            }];
+        }
+    } else {
+        if (completion) {
+            completion(NO, nil);
+        }
+    }
+}
+
+
 
 @end

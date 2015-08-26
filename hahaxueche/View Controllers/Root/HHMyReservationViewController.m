@@ -371,7 +371,7 @@ typedef void (^HHGenericCompletion)();
     [self.popupView dismiss:YES];
     __weak HHMyReservationViewController *weakSelf = self;
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"取消中...", nil)];
-    [[HHStudentService sharedInstance] cancelAppointmentWithSchedule:self.groupedReservations[self.cancelCellIndexPath.section][self.cancelCellIndexPath.row] completion:^(BOOL succeed, NSError *error) {
+    [[HHScheduleService sharedInstance] cancelAppointmentWithSchedule:self.groupedReservations[self.cancelCellIndexPath.section][self.cancelCellIndexPath.row] completion:^(BOOL succeed, NSError *error) {
         [[HHLoadingView sharedInstance] hideLoadingView];
         if (succeed) {
             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"取消成功", nil) isError:NO];
