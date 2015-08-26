@@ -11,6 +11,7 @@
 #import "UIColor+HHColor.h"
 #import "HHFullReviewTableViewCell.h"
 #import "HHCoachService.h"
+#import "HHReviewService.h"
 
 #define kReviewCellId @"kReviewCellId"
 
@@ -126,7 +127,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     HHReview *review = self.reviews[indexPath.row];
-    CGRect rect = [review.comment boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.bounds)-70.0f, MAXFLOAT)
+    CGRect rect = [review.comment boundingRectWithSize:CGSizeMake(CGRectGetWidth([[UIScreen mainScreen] bounds])-75.0f, MAXFLOAT)
                                                                  options:NSStringDrawingUsesLineFragmentOrigin
                                                               attributes:@{ NSFontAttributeName: [UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f]}
                                                                  context:nil];
@@ -141,7 +142,7 @@
         if (!self.shouldFetchMore) {
             return;
         }
-        [[HHCoachService sharedInstance] fetchReviewsForCoach:self.coach.coachId skip:self.reviews.count completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
+        [[HHReviewService sharedInstance] fetchReviewsForCoach:self.coach.coachId skip:self.reviews.count completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
             if (!error) {
                 [self.reviews addObjectsFromArray:objects];
                 if (self.reviews.count == totalCount) {

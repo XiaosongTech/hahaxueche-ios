@@ -28,6 +28,8 @@
 #import "HHTrainingFieldService.h"
 #import "HHScrollImageGallery.h"
 #import "KLCPopup.h"
+#import "HHReviewService.h"
+#import "HHLoadingView.h"
 
 typedef enum : NSUInteger {
     CoachProfileCellDes,
@@ -54,9 +56,11 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIButton *commentButton;
 @property (nonatomic, strong) NSMutableAttributedString *coachDes;
 @property (nonatomic, strong) NSArray *reviews;
-@property (nonatomic, strong) KLCPopup *commentPopupView;
+@property (nonatomic, strong) KLCPopup *reviewPopupView;
 @property (nonatomic, strong) HHStarRatingView *ratingView;
 @property (nonatomic, strong) UILabel *placeholderLabel;
+@property (nonatomic, strong) UITextView *reviewTextView;
+
 
 @end
 
@@ -93,7 +97,7 @@ typedef enum : NSUInteger {
                                                                             context:nil]) + 65.0f;
         
         __weak HHCoachProfileViewController *weakSelf = self;
-        [[HHCoachService sharedInstance] fetchReviewsForCoach:self.coach.coachId skip:0 completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
+        [[HHReviewService sharedInstance] fetchReviewsForCoach:self.coach.coachId skip:0 completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
             if (!error) {
                 weakSelf.reviews = objects;
             }
@@ -190,14 +194,14 @@ typedef enum : NSUInteger {
 }
 
 - (void)commentCoach {
-    [self showCommentPopupView];
+    [self showReviewPopupView];
 }
 
-- (void)showCommentPopupView {
+- (void)showReviewPopupView {
     
-    UIView *commentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, CGRectGetHeight(self.view.bounds) * 3.0f/7.0f)];
-    commentView.backgroundColor = [UIColor whiteColor];
-    self.commentPopupView = [KLCPopup popupWithContentView:commentView];
+    UIView *reviewView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, CGRectGetHeight(self.view.bounds) * 3.0f/7.0f)];
+    reviewView.backgroundColor = [UIColor whiteColor];
+    self.reviewPopupView = [KLCPopup popupWithContentView:reviewView];
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -206,29 +210,29 @@ typedef enum : NSUInteger {
     titleLabel.text = NSLocalizedString(@"给教练打分", nil);
     titleLabel.textAlignment = NSTextAlignmentLeft;
     [titleLabel sizeToFit];
-    [commentView addSubview:titleLabel];
+    [reviewView addSubview:titleLabel];
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectZero];
     line.translatesAutoresizingMaskIntoConstraints = NO;
     line.backgroundColor = [UIColor HHGrayLineColor];
-    [commentView addSubview:line];
+    [reviewView addSubview:line];
     
     UIView *line2 = [[UIView alloc] initWithFrame:CGRectZero];
     line2.translatesAutoresizingMaskIntoConstraints = NO;
     line2.backgroundColor = [UIColor HHGrayLineColor];
-    [commentView addSubview:line2];
+    [reviewView addSubview:line2];
     
     UIView *verticalLine = [[UIView alloc] initWithFrame:CGRectZero];
     verticalLine.translatesAutoresizingMaskIntoConstraints = NO;
     verticalLine.backgroundColor = [UIColor HHGrayLineColor];
-    [commentView addSubview:verticalLine];
+    [reviewView addSubview:verticalLine];
     
-    UITextView *commentTextView = [[UITextView alloc] initWithFrame:CGRectZero];
-    commentTextView.translatesAutoresizingMaskIntoConstraints = NO;
-    commentTextView.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f];
-    commentTextView.showsHorizontalScrollIndicator = NO;
-    commentTextView.delegate = self;
-    [commentView addSubview:commentTextView];
+    self.reviewTextView = [[UITextView alloc] initWithFrame:CGRectZero];
+    self.reviewTextView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.reviewTextView.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f];
+    self.reviewTextView.showsHorizontalScrollIndicator = NO;
+    self.reviewTextView.delegate = self;
+    [reviewView addSubview:self.reviewTextView];
     
     self.placeholderLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.placeholderLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -237,21 +241,21 @@ typedef enum : NSUInteger {
     self.placeholderLabel.text = NSLocalizedString(@"牢骚或表扬，大胆说出来吧！", nil);
     self.placeholderLabel.textAlignment = NSTextAlignmentLeft;
     [self.placeholderLabel sizeToFit];
-    [commentTextView addSubview:self.placeholderLabel];
+    [self.reviewTextView addSubview:self.placeholderLabel];
 
     
     UIButton *dismissButton = [self createButtonWithTitle:NSLocalizedString(@"取消返回", nil) backgroundColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:15.0f] action:@selector(dismissCommentPopupView)];
     [dismissButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
-    [commentView addSubview:dismissButton];
+    [reviewView addSubview:dismissButton];
     
     UIButton *confirmButton = [self createButtonWithTitle:NSLocalizedString(@"确认评价", nil) backgroundColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:15.0f] action:@selector(confirmButtonTapped)];
     [confirmButton setTitleColor:[UIColor HHBlueButtonColor] forState:UIControlStateNormal];
-    [commentView addSubview:confirmButton];
+    [reviewView addSubview:confirmButton];
     
     self.ratingView = [[HHStarRatingView alloc] initWithFrame:CGRectZero rating:0];
     self.ratingView.userInteractionEnabled = YES;
     self.ratingView.translatesAutoresizingMaskIntoConstraints = NO;
-    [commentView addSubview:self.ratingView];
+    [reviewView addSubview:self.ratingView];
     
     NSArray *constraints = @[
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:titleLabel constant:15.0f],
@@ -268,10 +272,10 @@ typedef enum : NSUInteger {
                              [HHAutoLayoutUtility setViewHeight:line multiplier:0 constant:1.0f],
                              
                              
-                             [HHAutoLayoutUtility verticalNext:commentTextView toView:line constant:0],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:commentTextView constant:10.0f],
-                             [HHAutoLayoutUtility setViewWidth:commentTextView multiplier:1.0f constant:-30.0f],
-                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:commentTextView constant:-46.0f],
+                             [HHAutoLayoutUtility verticalNext:self.reviewTextView toView:line constant:0],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.reviewTextView constant:10.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.reviewTextView multiplier:1.0f constant:-30.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.reviewTextView constant:-46.0f],
                              
                              [HHAutoLayoutUtility verticalAlignToSuperViewBottom:line2 constant:-45.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:line2 constant:0],
@@ -301,17 +305,37 @@ typedef enum : NSUInteger {
                              ];
         
     
-    [commentView addConstraints:constraints];
-    [commentTextView becomeFirstResponder];
-    [self.commentPopupView showWithLayout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+    [reviewView addConstraints:constraints];
+    [self.reviewTextView becomeFirstResponder];
+    [self.reviewPopupView showWithLayout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
 }
 
 - (void)dismissCommentPopupView {
-    [self.commentPopupView dismiss:YES];
+    [self.reviewPopupView dismiss:YES];
 }
 
 - (void)confirmButtonTapped {
-    
+    [self.reviewPopupView dismiss:YES];
+    __weak HHCoachProfileViewController *weakSelf = self;
+    HHReview *newReview = [[HHReview alloc] initWithClassName:@"Review"];
+    newReview.studentId = [HHUserAuthenticator sharedInstance].currentStudent.studentId;
+    newReview.coachId = self.coach.coachId;
+    newReview.rating = [NSNumber numberWithFloat:self.ratingView.value];
+    newReview.comment = self.reviewTextView.text;
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"提交中", nil)];
+    [[HHReviewService sharedInstance] submitReview:newReview completion:^(HHCoach *coach, NSError *error) {
+        [[HHLoadingView sharedInstance] hideLoadingView];
+        if (!error) {
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"评价成功！", nil) isError:NO];
+            weakSelf.coach = coach;
+            [weakSelf.tableView reloadData];
+            NSMutableArray *updatedReviews = [NSMutableArray arrayWithArray:weakSelf.reviews];
+            [updatedReviews insertObject:newReview atIndex:0];
+            weakSelf.reviews = updatedReviews;
+        } else {
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"提交数据出错！", nil) isError:YES];
+        }
+    }];
 }
 
 - (void)autolayoutSubview {

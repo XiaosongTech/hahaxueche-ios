@@ -103,11 +103,16 @@
     }
     self.reviewViewsArray = [NSMutableArray array];
     for (int i = 0; i < count; i++) {
-        HHReviewView *reviewView = [[HHReviewView alloc] initWithReview:self.reviews[i]];
+        HHReview *review = self.reviews[i];
+        HHReviewView *reviewView = [[HHReviewView alloc] initWithReview:review];
         reviewView.tag = i;
         reviewView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.containerView addSubview:reviewView];
         [self.reviewViewsArray addObject:reviewView];
+        
+        NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:review.comment];
+        [attrString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:13] range:NSMakeRange(0, review.comment.length)];
+        CGFloat viewHeight = CGRectGetHeight([attrString boundingRectWithSize:CGSizeMake(CGRectGetWidth([[UIScreen mainScreen] bounds])-75.0f, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin context:nil]) + 70.0f;
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(reviewTapped:)];
         [reviewView addGestureRecognizer:tap];
@@ -115,7 +120,7 @@
             NSArray *constraints = @[
                                      [HHAutoLayoutUtility verticalNext:reviewView toView:self.line constant:0],
                                      [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:reviewView constant:0],
-                                     [HHAutoLayoutUtility setViewHeight:reviewView multiplier:0 constant:120.0f],
+                                     [HHAutoLayoutUtility setViewHeight:reviewView multiplier:0 constant:viewHeight],
                                      [HHAutoLayoutUtility setViewWidth:reviewView multiplier:1.0f constant:0],
                                      
                                      ];
@@ -124,7 +129,7 @@
             NSArray *constraints = @[
                                      [HHAutoLayoutUtility verticalNext:reviewView toView:self.reviewViewsArray[i-1] constant:0],
                                      [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:reviewView constant:0],
-                                     [HHAutoLayoutUtility setViewHeight:reviewView multiplier:0 constant:120.0f],
+                                     [HHAutoLayoutUtility setViewHeight:reviewView multiplier:0 constant:viewHeight],
                                      [HHAutoLayoutUtility setViewWidth:reviewView multiplier:1.0f constant:0],
                                      
                                      ];

@@ -82,6 +82,7 @@
 		5C98B3911B8CBE05000D6032 /* star_half@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C98B38B1B8CBE05000D6032 /* star_half@1x.png */; };
 		5C98B3921B8CBE05000D6032 /* star_half@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C98B38C1B8CBE05000D6032 /* star_half@2x.png */; };
 		5C98B3931B8CBE05000D6032 /* star_half@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C98B38D1B8CBE05000D6032 /* star_half@3x.png */; };
+		5C98B3991B8D2AF6000D6032 /* HHReviewService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C98B3981B8D2AF6000D6032 /* HHReviewService.m */; };
 		5CA5B77A1B52CFF300312674 /* HHMobilePhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B7791B52CFF300312674 /* HHMobilePhoneViewController.m */; };
 		5CA5B77E1B52DF9200312674 /* HHTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B77D1B52DF9200312674 /* HHTextFieldView.m */; };
 		5CA5B7811B53298000312674 /* HHProfileSetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B7801B53298000312674 /* HHProfileSetupViewController.m */; };
@@ -283,6 +284,8 @@
 		5C98B38B1B8CBE05000D6032 /* star_half@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star_half@1x.png"; sourceTree = "<group>"; };
 		5C98B38C1B8CBE05000D6032 /* star_half@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star_half@2x.png"; sourceTree = "<group>"; };
 		5C98B38D1B8CBE05000D6032 /* star_half@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star_half@3x.png"; sourceTree = "<group>"; };
+		5C98B3971B8D2AF6000D6032 /* HHReviewService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHReviewService.h; sourceTree = "<group>"; };
+		5C98B3981B8D2AF6000D6032 /* HHReviewService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReviewService.m; sourceTree = "<group>"; };
 		5CA5B7781B52CFF300312674 /* HHMobilePhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMobilePhoneViewController.h; sourceTree = "<group>"; };
 		5CA5B7791B52CFF300312674 /* HHMobilePhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMobilePhoneViewController.m; sourceTree = "<group>"; };
 		5CA5B77C1B52DF9200312674 /* HHTextFieldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTextFieldView.h; sourceTree = "<group>"; };
@@ -473,6 +476,8 @@
 				5C11B39E1B6D9DA20014A018 /* HHScheduleService.m */,
 				5C11B3A01B6DA0560014A018 /* HHStudentService.h */,
 				5C11B3A11B6DA0560014A018 /* HHStudentService.m */,
+				5C98B3971B8D2AF6000D6032 /* HHReviewService.h */,
+				5C98B3981B8D2AF6000D6032 /* HHReviewService.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1106,6 +1111,7 @@
 				5CA5B7811B53298000312674 /* HHProfileSetupViewController.m in Sources */,
 				5C98B3861B8CB5F2000D6032 /* HHStarRatingView.m in Sources */,
 				5C0127301B779F7100780992 /* HHTimeSlotTableViewCell.m in Sources */,
+				5C98B3991B8D2AF6000D6032 /* HHReviewService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

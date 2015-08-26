@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HHStarRatingView.h"
+#import <Foundation/Foundation.h>
 
 typedef void (^ReviewTapped)(NSInteger index);
 

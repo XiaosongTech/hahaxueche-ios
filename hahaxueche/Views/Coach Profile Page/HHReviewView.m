@@ -94,9 +94,8 @@
                              [HHAutoLayoutUtility setCenterY:self.timeLabel toView:self.nameLabel multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.timeLabel constant:-10.0f],
                              
-                             [HHAutoLayoutUtility verticalNext:self.commentLabel toView:self.avatarView constant:0],
+                             [HHAutoLayoutUtility verticalNext:self.commentLabel toView:self.avatarView constant:5.0f],
                              [HHAutoLayoutUtility horizontalNext:self.commentLabel toView:self.avatarView constant:5.0f],
-                             [HHAutoLayoutUtility setViewHeight:self.commentLabel multiplier:0 constant:60.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.commentLabel constant:-10.0f],
                              
                              [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.line constant:0],
