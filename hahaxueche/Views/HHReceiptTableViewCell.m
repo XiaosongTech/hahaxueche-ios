@@ -10,6 +10,8 @@
 #import "HHAutoLayoutUtility.h"
 #import "HHUserAuthenticator.h"
 #import "UIColor+HHColor.h"
+#import "HHReceiptItemView.h"
+#import "HHFormatUtility.h"
 
 #define kAvatarRadius 15.0f
 #define kCellTextColor [UIColor colorWithRed:0.38 green:0.38 blue:0.38 alpha:1]
@@ -21,12 +23,60 @@
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor clearColor];
-        self.userInteractionEnabled = YES;
         [self initSubviews];
        
     }
     return self;
 }
+
+- (void)setTransaction:(HHTransaction *)transaction {
+    _transaction = transaction;
+    [self setupReceiptItems];
+    
+}
+
+- (void)setupReceiptItems {
+
+    HHReceiptItemView *dateTimeView = [[HHReceiptItemView alloc] initWithFrame:CGRectZero keyTitle:NSLocalizedString(@"下单时间", nil) value:[[HHFormatUtility fullDateFormatter] stringFromDate:self.transaction.createdAt]];
+    dateTimeView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.containerView addSubview:dateTimeView];
+    
+    HHReceiptItemView *receiptNoView = [[HHReceiptItemView alloc] initWithFrame:CGRectZero keyTitle:NSLocalizedString(@"收据编号", nil) value:self.transaction.objectId];
+    receiptNoView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.containerView addSubview:receiptNoView];
+    
+    HHReceiptItemView *paymentMethodView = [[HHReceiptItemView alloc] initWithFrame:CGRectZero keyTitle:NSLocalizedString(@"付款方式", nil) value:self.transaction.paymentMethod];
+    paymentMethodView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.containerView addSubview:paymentMethodView];
+    
+    HHReceiptItemView *priceView = [[HHReceiptItemView alloc] initWithFrame:CGRectZero keyTitle:NSLocalizedString(@"金额", nil) value:[[HHFormatUtility moneyFormatter] stringFromNumber:self.transaction.paidPrice]];
+    priceView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.containerView addSubview:priceView];
+    
+    NSArray *constraints = @[
+                             [HHAutoLayoutUtility verticalNext:dateTimeView toView:self.firstLine constant:10.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:dateTimeView constant:10.0f],
+                             [HHAutoLayoutUtility setViewHeight:dateTimeView multiplier:0 constant:20.0f],
+                             [HHAutoLayoutUtility setViewWidth:dateTimeView multiplier:1.0f constant:-20.0f],
+                             
+                             [HHAutoLayoutUtility verticalNext:receiptNoView toView:dateTimeView constant:10.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:receiptNoView constant:10.0f],
+                             [HHAutoLayoutUtility setViewHeight:receiptNoView multiplier:0 constant:20.0f],
+                             [HHAutoLayoutUtility setViewWidth:receiptNoView multiplier:1.0f constant:-20.0f],
+                             
+                             [HHAutoLayoutUtility verticalNext:paymentMethodView toView:receiptNoView constant:10.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:paymentMethodView constant:10.0f],
+                             [HHAutoLayoutUtility setViewHeight:paymentMethodView multiplier:0 constant:20.0f],
+                             [HHAutoLayoutUtility setViewWidth:paymentMethodView multiplier:1.0f constant:-20.0f],
+                             
+                             [HHAutoLayoutUtility verticalNext:priceView toView:paymentMethodView constant:10.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:priceView constant:10.0f],
+                             [HHAutoLayoutUtility setViewHeight:priceView multiplier:0 constant:20.0f],
+                             [HHAutoLayoutUtility setViewWidth:priceView multiplier:1.0f constant:-20.0f],
+                             ];
+    [self.containerView addConstraints:constraints];
+}
+
 
 - (void)initSubviews {
     self.containerView = [[UIView alloc] initWithFrame:CGRectZero];

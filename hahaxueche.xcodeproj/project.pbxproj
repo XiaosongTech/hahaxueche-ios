@@ -84,6 +84,9 @@
 		5C98B3931B8CBE05000D6032 /* star_half@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C98B38D1B8CBE05000D6032 /* star_half@3x.png */; };
 		5C98B3991B8D2AF6000D6032 /* HHReviewService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C98B3981B8D2AF6000D6032 /* HHReviewService.m */; };
 		5C98B3A31B8EB39B000D6032 /* HHReceiptTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C98B3A21B8EB39B000D6032 /* HHReceiptTableViewCell.m */; };
+		5C98B3A61B8F4C2F000D6032 /* HHReceiptItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C98B3A51B8F4C2F000D6032 /* HHReceiptItemView.m */; };
+		5C98B3A91B8F4EC4000D6032 /* HHTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C98B3A81B8F4EC4000D6032 /* HHTransaction.m */; };
+		5C98B3AC1B8F5060000D6032 /* HHPaymentTransactionService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C98B3AB1B8F5060000D6032 /* HHPaymentTransactionService.m */; };
 		5CA5B77A1B52CFF300312674 /* HHMobilePhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B7791B52CFF300312674 /* HHMobilePhoneViewController.m */; };
 		5CA5B77E1B52DF9200312674 /* HHTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B77D1B52DF9200312674 /* HHTextFieldView.m */; };
 		5CA5B7811B53298000312674 /* HHProfileSetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B7801B53298000312674 /* HHProfileSetupViewController.m */; };
@@ -289,6 +292,12 @@
 		5C98B3981B8D2AF6000D6032 /* HHReviewService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReviewService.m; sourceTree = "<group>"; };
 		5C98B3A11B8EB39B000D6032 /* HHReceiptTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHReceiptTableViewCell.h; sourceTree = "<group>"; };
 		5C98B3A21B8EB39B000D6032 /* HHReceiptTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReceiptTableViewCell.m; sourceTree = "<group>"; };
+		5C98B3A41B8F4C2F000D6032 /* HHReceiptItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHReceiptItemView.h; sourceTree = "<group>"; };
+		5C98B3A51B8F4C2F000D6032 /* HHReceiptItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReceiptItemView.m; sourceTree = "<group>"; };
+		5C98B3A71B8F4EC4000D6032 /* HHTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTransaction.h; sourceTree = "<group>"; };
+		5C98B3A81B8F4EC4000D6032 /* HHTransaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHTransaction.m; sourceTree = "<group>"; };
+		5C98B3AA1B8F5060000D6032 /* HHPaymentTransactionService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPaymentTransactionService.h; sourceTree = "<group>"; };
+		5C98B3AB1B8F5060000D6032 /* HHPaymentTransactionService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPaymentTransactionService.m; sourceTree = "<group>"; };
 		5CA5B7781B52CFF300312674 /* HHMobilePhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMobilePhoneViewController.h; sourceTree = "<group>"; };
 		5CA5B7791B52CFF300312674 /* HHMobilePhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMobilePhoneViewController.m; sourceTree = "<group>"; };
 		5CA5B77C1B52DF9200312674 /* HHTextFieldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTextFieldView.h; sourceTree = "<group>"; };
@@ -445,6 +454,8 @@
 				5C98B3851B8CB5F2000D6032 /* HHStarRatingView.m */,
 				5C98B3A11B8EB39B000D6032 /* HHReceiptTableViewCell.h */,
 				5C98B3A21B8EB39B000D6032 /* HHReceiptTableViewCell.m */,
+				5C98B3A41B8F4C2F000D6032 /* HHReceiptItemView.h */,
+				5C98B3A51B8F4C2F000D6032 /* HHReceiptItemView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -464,6 +475,8 @@
 				5C11B3981B6D2B3C0014A018 /* HHCoachSchedule.m */,
 				5C93FA861B6F1CB400D7FC86 /* HHReview.h */,
 				5C93FA871B6F1CB400D7FC86 /* HHReview.m */,
+				5C98B3A71B8F4EC4000D6032 /* HHTransaction.h */,
+				5C98B3A81B8F4EC4000D6032 /* HHTransaction.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -483,6 +496,8 @@
 				5C11B3A11B6DA0560014A018 /* HHStudentService.m */,
 				5C98B3971B8D2AF6000D6032 /* HHReviewService.h */,
 				5C98B3981B8D2AF6000D6032 /* HHReviewService.m */,
+				5C98B3AA1B8F5060000D6032 /* HHPaymentTransactionService.h */,
+				5C98B3AB1B8F5060000D6032 /* HHPaymentTransactionService.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1063,6 +1078,7 @@
 				5C2DCD041B65CBA0007E8FA7 /* HHLoadingTableViewCell.m in Sources */,
 				5C2DCCE91B6477A1007E8FA7 /* HHPointAnnotation.m in Sources */,
 				5C98B3A31B8EB39B000D6032 /* HHReceiptTableViewCell.m in Sources */,
+				5C98B3A61B8F4C2F000D6032 /* HHReceiptItemView.m in Sources */,
 				5CD4EA3F1B5D97E1003CF15E /* HHTrainingField.m in Sources */,
 				5C39808B1B4BFFB20057B049 /* HHAutoLayoutUtility.m in Sources */,
 				5C5451CF1B52ADE50025D19F /* HHButton.m in Sources */,
@@ -1110,8 +1126,10 @@
 				5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */,
 				5CB34F181B63F42C007954DF /* HHSearchViewController.m in Sources */,
 				5CB34EE81B61F4B5007954DF /* HHMapViewController.m in Sources */,
+				5C98B3A91B8F4EC4000D6032 /* HHTransaction.m in Sources */,
 				5C3980851B4AD7DE0057B049 /* HHBookViewController.m in Sources */,
 				5C11B39F1B6D9DA20014A018 /* HHScheduleService.m in Sources */,
+				5C98B3AC1B8F5060000D6032 /* HHPaymentTransactionService.m in Sources */,
 				5C3980701B4AAD450057B049 /* HHCoachListViewController.m in Sources */,
 				5CD4EA3C1B5C8180003CF15E /* HHCoachService.m in Sources */,
 				5CA5B7811B53298000312674 /* HHProfileSetupViewController.m in Sources */,

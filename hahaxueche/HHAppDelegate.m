@@ -24,6 +24,7 @@
 #import "HHScheduleService.h"
 #import "HHCoachSchedule.h"
 #import "HHReview.h"
+#import "HHTransaction.h"
 
 #define kLeanCloudStagingAppID @"cr9pv6bp9nlr1xrtl36slyxt0hgv6ypifso9aocxwas2fugq"
 #define kLeanCloudStagingAppKey @"2ykqwhzhfrzhjn3o9bj7rizb8qd75ym3f0lez1d8fcxmn2k3"
@@ -135,6 +136,7 @@
     [HHTrainingField registerSubclass];
     [HHCoachSchedule registerSubclass];
     [HHReview registerSubclass];
+    [HHTransaction registerSubclass];
 }
 
 - (void)setupBackend {

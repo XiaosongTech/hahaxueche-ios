@@ -14,6 +14,10 @@
 #import "HHReceiptTableViewCell.h"
 #import "HHCoachProfileViewController.h"
 #import "HHUserAuthenticator.h"
+#import "HHTransaction.h"
+#import "HHPaymentTransactionService.h"
+#import "HHLoadingView.h"
+#import "HHToastUtility.h"
 
 #define kCellId @"HHReceiptTableViewCellId"
 
@@ -21,6 +25,7 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UILabel *explanationLabel;
+@property (nonatomic, strong) NSArray *transactionArray;
 
 @end
 
@@ -65,6 +70,17 @@
     
     self.tableView.tableFooterView = footerView;
     
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中", nil)];
+    [[HHPaymentTransactionService sharedInstance] fetchTransactionWithCompletion:^(NSArray *objects, NSError *error) {
+        [[HHLoadingView sharedInstance] hideLoadingView];
+        if (!error) {
+            self.transactionArray = objects;
+            [self.tableView reloadData];
+        } else {
+            [HHToastUtility showToastWitiTitle:@"加载时出错！" isError:YES];
+        }
+    }];
+    
     [self autolayoutSubview];
     
 }
@@ -92,12 +108,13 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return self.transactionArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     __weak HHMyProfileViewController *weakSelf = self;
     HHReceiptTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
+    cell.transaction = self.transactionArray[indexPath.row];
     cell.nameButtonActionBlock = ^(){
         HHCoachProfileViewController *coachProfileVC = [[HHCoachProfileViewController alloc] initWithCoach:[HHUserAuthenticator sharedInstance].myCoach];
         [weakSelf.navigationController pushViewController:coachProfileVC animated:YES];
