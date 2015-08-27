@@ -83,6 +83,7 @@
 		5C98B3921B8CBE05000D6032 /* star_half@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C98B38C1B8CBE05000D6032 /* star_half@2x.png */; };
 		5C98B3931B8CBE05000D6032 /* star_half@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C98B38D1B8CBE05000D6032 /* star_half@3x.png */; };
 		5C98B3991B8D2AF6000D6032 /* HHReviewService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C98B3981B8D2AF6000D6032 /* HHReviewService.m */; };
+		5C98B3A31B8EB39B000D6032 /* HHReceiptTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C98B3A21B8EB39B000D6032 /* HHReceiptTableViewCell.m */; };
 		5CA5B77A1B52CFF300312674 /* HHMobilePhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B7791B52CFF300312674 /* HHMobilePhoneViewController.m */; };
 		5CA5B77E1B52DF9200312674 /* HHTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B77D1B52DF9200312674 /* HHTextFieldView.m */; };
 		5CA5B7811B53298000312674 /* HHProfileSetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B7801B53298000312674 /* HHProfileSetupViewController.m */; };
@@ -286,6 +287,8 @@
 		5C98B38D1B8CBE05000D6032 /* star_half@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star_half@3x.png"; sourceTree = "<group>"; };
 		5C98B3971B8D2AF6000D6032 /* HHReviewService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHReviewService.h; sourceTree = "<group>"; };
 		5C98B3981B8D2AF6000D6032 /* HHReviewService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReviewService.m; sourceTree = "<group>"; };
+		5C98B3A11B8EB39B000D6032 /* HHReceiptTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHReceiptTableViewCell.h; sourceTree = "<group>"; };
+		5C98B3A21B8EB39B000D6032 /* HHReceiptTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReceiptTableViewCell.m; sourceTree = "<group>"; };
 		5CA5B7781B52CFF300312674 /* HHMobilePhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMobilePhoneViewController.h; sourceTree = "<group>"; };
 		5CA5B7791B52CFF300312674 /* HHMobilePhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMobilePhoneViewController.m; sourceTree = "<group>"; };
 		5CA5B77C1B52DF9200312674 /* HHTextFieldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTextFieldView.h; sourceTree = "<group>"; };
@@ -440,6 +443,8 @@
 				5C98B3761B891C63000D6032 /* HHScrollImageGallery.m */,
 				5C98B3841B8CB5F2000D6032 /* HHStarRatingView.h */,
 				5C98B3851B8CB5F2000D6032 /* HHStarRatingView.m */,
+				5C98B3A11B8EB39B000D6032 /* HHReceiptTableViewCell.h */,
+				5C98B3A21B8EB39B000D6032 /* HHReceiptTableViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1057,6 +1062,7 @@
 				5CA5B77E1B52DF9200312674 /* HHTextFieldView.m in Sources */,
 				5C2DCD041B65CBA0007E8FA7 /* HHLoadingTableViewCell.m in Sources */,
 				5C2DCCE91B6477A1007E8FA7 /* HHPointAnnotation.m in Sources */,
+				5C98B3A31B8EB39B000D6032 /* HHReceiptTableViewCell.m in Sources */,
 				5CD4EA3F1B5D97E1003CF15E /* HHTrainingField.m in Sources */,
 				5C39808B1B4BFFB20057B049 /* HHAutoLayoutUtility.m in Sources */,
 				5C5451CF1B52ADE50025D19F /* HHButton.m in Sources */,

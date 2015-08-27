@@ -30,7 +30,7 @@
 }
 
 - (void)initSuviews {
-    self.avatarView = [[HHAvatarView alloc] initWithImage:nil radius:kAvatarRadius borderColor:[UIColor whiteColor]];
+    self.avatarView = [[HHAvatarView alloc] initWithImageURL:nil radius:kAvatarRadius borderColor:[UIColor whiteColor]];
     self.avatarView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.avatarView];
     

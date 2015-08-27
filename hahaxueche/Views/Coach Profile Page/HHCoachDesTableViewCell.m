@@ -32,7 +32,7 @@
     self.containerView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:self.containerView];
     
-    self.avatarView = [[HHAvatarView alloc] initWithImage:nil radius:20.0f borderColor:[UIColor whiteColor]];
+    self.avatarView = [[HHAvatarView alloc] initWithImageURL:nil radius:20.0f borderColor:[UIColor whiteColor]];
     self.avatarView.translatesAutoresizingMaskIntoConstraints = NO;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avatarViewTapped)];
     [self.avatarView addGestureRecognizer:tap];

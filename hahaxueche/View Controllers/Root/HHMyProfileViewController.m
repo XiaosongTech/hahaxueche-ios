@@ -7,17 +7,112 @@
 //
 
 #import "HHMyProfileViewController.h"
+#import "HHAutoLayoutUtility.h"
+#import "UIColor+HHColor.h"
+#import "HHTimeSlotSectionTitleView.h"
+#import "UIView+HHRect.h"
+#import "HHReceiptTableViewCell.h"
+#import "HHCoachProfileViewController.h"
+#import "HHUserAuthenticator.h"
 
-@interface HHMyProfileViewController ()
+#define kCellId @"HHReceiptTableViewCellId"
+
+@interface HHMyProfileViewController ()<UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UILabel *explanationLabel;
 
 @end
 
 @implementation HHMyProfileViewController
 
+-(void)dealloc {
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = NSLocalizedString(@"我的页面", nil);
+    [self initSubviews];
+    
+    
 }
+
+- (void)initSubviews {
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero];
+    self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor = [UIColor HHLightGrayBackgroundColor];
+    [self.tableView registerClass:[HHReceiptTableViewCell class] forCellReuseIdentifier:kCellId];
+    self.tableView.bounces = NO;
+    [self.view addSubview:self.tableView];
+    
+    
+    
+    self.explanationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 60.0f)];
+    self.explanationLabel.backgroundColor = [UIColor clearColor];
+    self.explanationLabel.text = NSLocalizedString(@"注：学员支付的学费将由平台保管，每个阶段结束后，学员可以根据情况，点此阶段的付款按钮，点击后，平台将该阶段对应的金额转给教练，然后进入下一阶段。每个阶段到金额会在点击付款后的第一个周二转到教练账户", nil);
+    self.explanationLabel.textColor = [UIColor HHGrayTextColor];
+    self.explanationLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:12.0f];
+    self.explanationLabel.numberOfLines = 0;
+    
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(10.0f, 5.0f, CGRectGetWidth(self.view.bounds)-20.0f, 60.0f)];
+    footerView.backgroundColor = [UIColor clearColor];
+    [footerView addSubview:self.explanationLabel];
+    
+    self.tableView.tableFooterView = footerView;
+    
+    [self autolayoutSubview];
+    
+}
+
+- (void)autolayoutSubview {
+    NSArray *constraints = @[
+                             [HHAutoLayoutUtility setCenterX:self.tableView multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setCenterY:self.tableView multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewHeight:self.tableView multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:0],
+                             
+                             ];
+    [self.view addConstraints:constraints];
+}
+
+#pragma mark Tableview Delagate & Datasource Methods
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    HHTimeSlotSectionTitleView *view = [[HHTimeSlotSectionTitleView alloc] initWithTitle:NSLocalizedString(@"教练纪录", ni)];
+    return view;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    __weak HHMyProfileViewController *weakSelf = self;
+    HHReceiptTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
+    cell.nameButtonActionBlock = ^(){
+        HHCoachProfileViewController *coachProfileVC = [[HHCoachProfileViewController alloc] initWithCoach:[HHUserAuthenticator sharedInstance].myCoach];
+        [weakSelf.navigationController pushViewController:coachProfileVC animated:YES];
+    };
+    return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 200.0f;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 40.0f;
+}
+
 
 
 

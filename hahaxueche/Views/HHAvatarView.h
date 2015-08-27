@@ -13,6 +13,6 @@
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic)         CGFloat radius;
 
-- (instancetype)initWithImage:(UIImage *)image radius:(CGFloat)radius borderColor:(UIColor *)borderColor;
+- (instancetype)initWithImageURL:(NSString *)imageURL radius:(CGFloat)radius borderColor:(UIColor *)borderColor;
 
 @end

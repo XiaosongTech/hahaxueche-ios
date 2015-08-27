@@ -48,7 +48,7 @@
     self.dataView.layer.masksToBounds = YES;
     [self.contentView addSubview:self.dataView];
     
-    self.avatarView = [[HHAvatarView alloc] initWithImage:nil radius:kAvatarRadius borderColor:[UIColor whiteColor]];
+    self.avatarView = [[HHAvatarView alloc] initWithImageURL:nil radius:kAvatarRadius borderColor:[UIColor whiteColor]];
     self.avatarView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.dataView addSubview:self.avatarView];
     
