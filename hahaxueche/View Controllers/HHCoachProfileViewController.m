@@ -464,7 +464,15 @@ typedef enum : NSUInteger {
         }
         case CoachProfileCellReview: {
             NSInteger reviewCount =  MIN(3, self.reviews.count);
-            return 50.0f + reviewCount * 120.0f;
+            CGFloat totalHeight = 0;
+            for (int i = 0; i < reviewCount; i++) {
+                HHReview *review = self.reviews[i];
+                NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:review.comment];
+                [attrString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:13] range:NSMakeRange(0, review.comment.length)];
+                CGFloat viewHeight = CGRectGetHeight([attrString boundingRectWithSize:CGSizeMake(CGRectGetWidth([[UIScreen mainScreen] bounds])-75.0f, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin context:nil]) + 70.0f;
+                totalHeight = totalHeight + viewHeight;
+            }
+            return 50.0f + totalHeight;
         }
             
         default: {
