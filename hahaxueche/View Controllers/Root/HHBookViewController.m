@@ -143,12 +143,14 @@
     
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:@"请稍后..."];
     [[HHStudentService sharedInstance] bookTimeSlotsWithSchedules:self.selectedSchedules student:[HHUserAuthenticator sharedInstance].currentStudent coachId:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId completion:^(BOOL succeed, NSInteger succeedCount) {
-        [[HHLoadingView sharedInstance] hideLoadingView];
         if (succeed) {
             [HHToastUtility showToastWitiTitle:[NSString stringWithFormat:NSLocalizedString(@"预约成功%ld个时间", nil), succeedCount] isError:NO];
-            [self fetchSchedulesWithCompletion:nil];
+            [self fetchSchedulesWithCompletion:^{
+                [[HHLoadingView sharedInstance] hideLoadingView];
+            }];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"bookSucceed" object:self];
         } else {
+            [[HHLoadingView sharedInstance] hideLoadingView];
             [HHToastUtility showToastWitiTitle:[NSString stringWithFormat:NSLocalizedString(@"预约失败！", nil), succeedCount] isError:YES];
         }
         [self.selectedSchedules removeAllObjects];
