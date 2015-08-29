@@ -33,4 +33,14 @@
     }];
 }
 
+- (void)fetchPaymentStatusWithTransactionId:(NSString *)transactionId completion:(HHPaymentStatusGenericCompletionBlock)completion {
+    AVQuery *query = [AVQuery queryWithClassName:[HHPaymentStatus parseClassName]];
+    [query whereKey:@"transactionId" equalTo:transactionId];
+    [query getFirstObjectInBackgroundWithBlock:^(AVObject *object, NSError *error) {
+        if (completion) {
+            completion((HHPaymentStatus *)object, error);
+        }
+    }];
+}
+
 @end

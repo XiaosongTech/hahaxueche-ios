@@ -87,6 +87,17 @@
 		5C98B3A61B8F4C2F000D6032 /* HHReceiptItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C98B3A51B8F4C2F000D6032 /* HHReceiptItemView.m */; };
 		5C98B3A91B8F4EC4000D6032 /* HHTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C98B3A81B8F4EC4000D6032 /* HHTransaction.m */; };
 		5C98B3AC1B8F5060000D6032 /* HHPaymentTransactionService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C98B3AB1B8F5060000D6032 /* HHPaymentTransactionService.m */; };
+		5C98B3B21B913BC6000D6032 /* HHPaymentStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C98B3B11B913BC6000D6032 /* HHPaymentStatus.m */; };
+		5C98B3B61B914300000D6032 /* HHPaymentStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C98B3B51B914300000D6032 /* HHPaymentStatusView.m */; };
+		5C98B3BD1B92008E000D6032 /* greenCheck@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C98B3B71B92008E000D6032 /* greenCheck@1x.png */; };
+		5C98B3BE1B92008E000D6032 /* greenCheck@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C98B3B81B92008E000D6032 /* greenCheck@2x.png */; };
+		5C98B3BF1B92008E000D6032 /* greenCheck@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C98B3B91B92008E000D6032 /* greenCheck@3x.png */; };
+		5C98B3C01B92008E000D6032 /* needPay@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C98B3BA1B92008E000D6032 /* needPay@1x.png */; };
+		5C98B3C11B92008E000D6032 /* needPay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C98B3BB1B92008E000D6032 /* needPay@2x.png */; };
+		5C98B3C21B92008E000D6032 /* needPay@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C98B3BC1B92008E000D6032 /* needPay@3x.png */; };
+		5C98B3C61B9200D5000D6032 /* info@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C98B3C31B9200D5000D6032 /* info@1x.png */; };
+		5C98B3C71B9200D5000D6032 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C98B3C41B9200D5000D6032 /* info@2x.png */; };
+		5C98B3C81B9200D5000D6032 /* info@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C98B3C51B9200D5000D6032 /* info@3x.png */; };
 		5CA5B77A1B52CFF300312674 /* HHMobilePhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B7791B52CFF300312674 /* HHMobilePhoneViewController.m */; };
 		5CA5B77E1B52DF9200312674 /* HHTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B77D1B52DF9200312674 /* HHTextFieldView.m */; };
 		5CA5B7811B53298000312674 /* HHProfileSetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5B7801B53298000312674 /* HHProfileSetupViewController.m */; };
@@ -298,6 +309,19 @@
 		5C98B3A81B8F4EC4000D6032 /* HHTransaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHTransaction.m; sourceTree = "<group>"; };
 		5C98B3AA1B8F5060000D6032 /* HHPaymentTransactionService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPaymentTransactionService.h; sourceTree = "<group>"; };
 		5C98B3AB1B8F5060000D6032 /* HHPaymentTransactionService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPaymentTransactionService.m; sourceTree = "<group>"; };
+		5C98B3B01B913BC6000D6032 /* HHPaymentStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPaymentStatus.h; sourceTree = "<group>"; };
+		5C98B3B11B913BC6000D6032 /* HHPaymentStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPaymentStatus.m; sourceTree = "<group>"; };
+		5C98B3B41B914300000D6032 /* HHPaymentStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPaymentStatusView.h; sourceTree = "<group>"; };
+		5C98B3B51B914300000D6032 /* HHPaymentStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPaymentStatusView.m; sourceTree = "<group>"; };
+		5C98B3B71B92008E000D6032 /* greenCheck@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenCheck@1x.png"; sourceTree = "<group>"; };
+		5C98B3B81B92008E000D6032 /* greenCheck@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenCheck@2x.png"; sourceTree = "<group>"; };
+		5C98B3B91B92008E000D6032 /* greenCheck@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenCheck@3x.png"; sourceTree = "<group>"; };
+		5C98B3BA1B92008E000D6032 /* needPay@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "needPay@1x.png"; sourceTree = "<group>"; };
+		5C98B3BB1B92008E000D6032 /* needPay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "needPay@2x.png"; sourceTree = "<group>"; };
+		5C98B3BC1B92008E000D6032 /* needPay@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "needPay@3x.png"; sourceTree = "<group>"; };
+		5C98B3C31B9200D5000D6032 /* info@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@1x.png"; sourceTree = "<group>"; };
+		5C98B3C41B9200D5000D6032 /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = "<group>"; };
+		5C98B3C51B9200D5000D6032 /* info@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@3x.png"; sourceTree = "<group>"; };
 		5CA5B7781B52CFF300312674 /* HHMobilePhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMobilePhoneViewController.h; sourceTree = "<group>"; };
 		5CA5B7791B52CFF300312674 /* HHMobilePhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMobilePhoneViewController.m; sourceTree = "<group>"; };
 		5CA5B77C1B52DF9200312674 /* HHTextFieldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTextFieldView.h; sourceTree = "<group>"; };
@@ -434,6 +458,7 @@
 		5C10F9231B49618300992B63 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5C98B3B31B9142B9000D6032 /* My Profile Page */,
 				5CBBA9701B5FE6B2009398B8 /* Coach Profile Page */,
 				5CD4E9EB1B5984FD003CF15E /* HHLoadingView.h */,
 				5CD4E9EC1B5984FD003CF15E /* HHLoadingView.m */,
@@ -452,10 +477,6 @@
 				5C98B3761B891C63000D6032 /* HHScrollImageGallery.m */,
 				5C98B3841B8CB5F2000D6032 /* HHStarRatingView.h */,
 				5C98B3851B8CB5F2000D6032 /* HHStarRatingView.m */,
-				5C98B3A11B8EB39B000D6032 /* HHReceiptTableViewCell.h */,
-				5C98B3A21B8EB39B000D6032 /* HHReceiptTableViewCell.m */,
-				5C98B3A41B8F4C2F000D6032 /* HHReceiptItemView.h */,
-				5C98B3A51B8F4C2F000D6032 /* HHReceiptItemView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -477,6 +498,8 @@
 				5C93FA871B6F1CB400D7FC86 /* HHReview.m */,
 				5C98B3A71B8F4EC4000D6032 /* HHTransaction.h */,
 				5C98B3A81B8F4EC4000D6032 /* HHTransaction.m */,
+				5C98B3B01B913BC6000D6032 /* HHPaymentStatus.h */,
+				5C98B3B11B913BC6000D6032 /* HHPaymentStatus.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -530,6 +553,15 @@
 		5C10F9271B49E6F100992B63 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5C98B3C31B9200D5000D6032 /* info@1x.png */,
+				5C98B3C41B9200D5000D6032 /* info@2x.png */,
+				5C98B3C51B9200D5000D6032 /* info@3x.png */,
+				5C98B3B71B92008E000D6032 /* greenCheck@1x.png */,
+				5C98B3B81B92008E000D6032 /* greenCheck@2x.png */,
+				5C98B3B91B92008E000D6032 /* greenCheck@3x.png */,
+				5C98B3BA1B92008E000D6032 /* needPay@1x.png */,
+				5C98B3BB1B92008E000D6032 /* needPay@2x.png */,
+				5C98B3BC1B92008E000D6032 /* needPay@3x.png */,
 				5C98B3881B8CBE05000D6032 /* star_empt@1x.png */,
 				5C98B3891B8CBE05000D6032 /* star_empty@2x.png */,
 				5C98B38A1B8CBE05000D6032 /* star_empty@3x.png */,
@@ -671,6 +703,19 @@
 				5C84E5C41B83F8EE00E70AD3 /* ParallaxHeaderView.m */,
 			);
 			name = "Third Party Libs";
+			sourceTree = "<group>";
+		};
+		5C98B3B31B9142B9000D6032 /* My Profile Page */ = {
+			isa = PBXGroup;
+			children = (
+				5C98B3A11B8EB39B000D6032 /* HHReceiptTableViewCell.h */,
+				5C98B3A21B8EB39B000D6032 /* HHReceiptTableViewCell.m */,
+				5C98B3A41B8F4C2F000D6032 /* HHReceiptItemView.h */,
+				5C98B3A51B8F4C2F000D6032 /* HHReceiptItemView.m */,
+				5C98B3B41B914300000D6032 /* HHPaymentStatusView.h */,
+				5C98B3B51B914300000D6032 /* HHPaymentStatusView.m */,
+			);
+			name = "My Profile Page";
 			sourceTree = "<group>";
 		};
 		5CA5B77B1B52DF5500312674 /* Login Signup */ = {
@@ -937,9 +982,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C98B3BF1B92008E000D6032 /* greenCheck@3x.png in Resources */,
 				5CD4E9501B558184003CF15E /* list_selected@1x.png in Resources */,
 				5CD4E94A1B5580DC003CF15E /* reservation_selected@1x.png in Resources */,
 				5CA5B7861B533A2200312674 /* austin1.jpg in Resources */,
+				5C98B3BE1B92008E000D6032 /* greenCheck@2x.png in Resources */,
 				5CB34F0F1B63EA4B007954DF /* map@3x.png in Resources */,
 				5C69C7D11B80432500FDE709 /* profile_gray@2x.png in Resources */,
 				5CB34EE31B61D6B0007954DF /* trasparent_view@1x.png in Resources */,
@@ -956,6 +1003,7 @@
 				5C98B3811B8CAD44000D6032 /* star_full@1x.png in Resources */,
 				5CB5507A1B4CC055005DE447 /* car_grey@2x.png in Resources */,
 				5CD4EA111B5BEEBF003CF15E /* camera-alt@2x.png in Resources */,
+				5C98B3C81B9200D5000D6032 /* info@3x.png in Resources */,
 				5CB550811B4CC055005DE447 /* list_grey@3x.png in Resources */,
 				5CD4E9DB1B58B3B3003CF15E /* location_icon@3x.png in Resources */,
 				5C2DCCFC1B65ACE0007E8FA7 /* car_icon_solid@1x.png in Resources */,
@@ -964,11 +1012,15 @@
 				5C2DCCFE1B65ACE0007E8FA7 /* car_icon_solid@3x.png in Resources */,
 				5CB34EFC1B63DDBA007954DF /* SourceHanSansCN-Medium.ttf in Resources */,
 				5CD4E9451B55809B003CF15E /* car_selected@2x.png in Resources */,
+				5C98B3C21B92008E000D6032 /* needPay@3x.png in Resources */,
 				5CB34EFD1B63DDBA007954DF /* SourceHanSansCN-Normal.ttf in Resources */,
 				5CB34F141B63EA61007954DF /* search@2x.png in Resources */,
 				5CD4EA101B5BEEBF003CF15E /* camera-alt@1x.png in Resources */,
 				5CB34EE41B61D6B0007954DF /* trasparent_view@2x.png in Resources */,
+				5C98B3C11B92008E000D6032 /* needPay@2x.png in Resources */,
+				5C98B3C61B9200D5000D6032 /* info@1x.png in Resources */,
 				5CD4E9461B55809B003CF15E /* car_selected@3x.png in Resources */,
+				5C98B3C01B92008E000D6032 /* needPay@1x.png in Resources */,
 				5C69C7BA1B7F7E9A00FDE709 /* ic_time_title_left@3x.png in Resources */,
 				5CB5507B1B4CC055005DE447 /* car_grey@3x.png in Resources */,
 				5CB34F0E1B63EA4B007954DF /* map@2x.png in Resources */,
@@ -997,6 +1049,7 @@
 				5CB34F131B63EA61007954DF /* search.png in Resources */,
 				5CD4E9691B558431003CF15E /* reservation_grey@2x.png in Resources */,
 				5C5451BC1B51E6B60025D19F /* fbAvatar.jpg in Resources */,
+				5C98B3BD1B92008E000D6032 /* greenCheck@1x.png in Resources */,
 				5C69C7B61B7F7E9A00FDE709 /* ic_st_add@2x.png in Resources */,
 				5CB550741B4CC055005DE447 /* calendar_grey@2x.png in Resources */,
 				5C69C7D21B80432500FDE709 /* profile_gray@3x.png in Resources */,
@@ -1012,6 +1065,7 @@
 				5CB34F151B63EA61007954DF /* search@3x.png in Resources */,
 				5CD4E9521B558184003CF15E /* list_selected@3x.png in Resources */,
 				5C98B3931B8CBE05000D6032 /* star_half@3x.png in Resources */,
+				5C98B3C71B9200D5000D6032 /* info@2x.png in Resources */,
 				5C2DCD001B65ACE0007E8FA7 /* car_icon@2x.png in Resources */,
 				5CD4E9681B558431003CF15E /* reservation_grey@1x.png in Resources */,
 				5C98B38F1B8CBE05000D6032 /* star_empty@2x.png in Resources */,
@@ -1130,10 +1184,12 @@
 				5C3980851B4AD7DE0057B049 /* HHBookViewController.m in Sources */,
 				5C11B39F1B6D9DA20014A018 /* HHScheduleService.m in Sources */,
 				5C98B3AC1B8F5060000D6032 /* HHPaymentTransactionService.m in Sources */,
+				5C98B3B21B913BC6000D6032 /* HHPaymentStatus.m in Sources */,
 				5C3980701B4AAD450057B049 /* HHCoachListViewController.m in Sources */,
 				5CD4EA3C1B5C8180003CF15E /* HHCoachService.m in Sources */,
 				5CA5B7811B53298000312674 /* HHProfileSetupViewController.m in Sources */,
 				5C98B3861B8CB5F2000D6032 /* HHStarRatingView.m in Sources */,
+				5C98B3B61B914300000D6032 /* HHPaymentStatusView.m in Sources */,
 				5C0127301B779F7100780992 /* HHTimeSlotTableViewCell.m in Sources */,
 				5C98B3991B8D2AF6000D6032 /* HHReviewService.m in Sources */,
 			);

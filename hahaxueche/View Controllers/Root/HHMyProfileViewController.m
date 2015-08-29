@@ -18,6 +18,7 @@
 #import "HHPaymentTransactionService.h"
 #import "HHLoadingView.h"
 #import "HHToastUtility.h"
+#import "HHPaymentStatus.h"
 
 #define kCellId @"HHReceiptTableViewCellId"
 
@@ -26,6 +27,7 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UILabel *explanationLabel;
 @property (nonatomic, strong) NSArray *transactionArray;
+@property (nonatomic, strong) HHPaymentStatus *paymentStatus;
 
 @end
 
@@ -69,13 +71,23 @@
     [footerView addSubview:self.explanationLabel];
     
     self.tableView.tableFooterView = footerView;
-    
+    __weak HHMyProfileViewController *weakSelf = self;
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中", nil)];
     [[HHPaymentTransactionService sharedInstance] fetchTransactionWithCompletion:^(NSArray *objects, NSError *error) {
         [[HHLoadingView sharedInstance] hideLoadingView];
         if (!error) {
-            self.transactionArray = objects;
-            [self.tableView reloadData];
+            weakSelf.transactionArray = objects;
+            if ([weakSelf.transactionArray count]) {
+                HHTransaction *transaction = [weakSelf.transactionArray firstObject];
+                [[HHPaymentTransactionService sharedInstance] fetchPaymentStatusWithTransactionId:transaction.objectId completion:^(HHPaymentStatus *paymentStatus, NSError *error) {
+                    if (!error) {
+                        weakSelf.paymentStatus = paymentStatus;
+                        [weakSelf.tableView reloadData];
+                    }
+                }];
+            }
+            
+            
         } else {
             [HHToastUtility showToastWitiTitle:@"加载时出错！" isError:YES];
         }
@@ -119,11 +131,13 @@
         HHCoachProfileViewController *coachProfileVC = [[HHCoachProfileViewController alloc] initWithCoach:[HHUserAuthenticator sharedInstance].myCoach];
         [weakSelf.navigationController pushViewController:coachProfileVC animated:YES];
     };
+    
+    cell.paymentStatus = self.paymentStatus;
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 200.0f;
+    return 400.0f;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

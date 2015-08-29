@@ -9,13 +9,17 @@
 #import <Foundation/Foundation.h>
 #import <AVOSCloud/AVOSCloud.h>
 #import "HHTransaction.h"
+#import "HHPaymentStatus.h"
 
 typedef void (^HHTransactionGenericCompletionBlock)(NSArray *objects, NSError *error);
+typedef void (^HHPaymentStatusGenericCompletionBlock)(HHPaymentStatus *paymentStatus, NSError *error);
 
 @interface HHPaymentTransactionService : NSObject
 
 + (instancetype)sharedInstance;
 
 - (void)fetchTransactionWithCompletion:(HHTransactionGenericCompletionBlock)completion;
+
+- (void)fetchPaymentStatusWithTransactionId:(NSString *)transactionId completion:(HHPaymentStatusGenericCompletionBlock)completion;
 
 @end

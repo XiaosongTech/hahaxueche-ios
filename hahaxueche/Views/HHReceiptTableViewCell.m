@@ -12,6 +12,7 @@
 #import "UIColor+HHColor.h"
 #import "HHReceiptItemView.h"
 #import "HHFormatUtility.h"
+#import "HHPaymentStatusView.h"
 
 #define kAvatarRadius 15.0f
 #define kCellTextColor [UIColor colorWithRed:0.38 green:0.38 blue:0.38 alpha:1]
@@ -23,6 +24,7 @@
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor clearColor];
+        self.paymentStatusViewArray = [NSMutableArray array];
         [self initSubviews];
        
     }
@@ -33,6 +35,54 @@
     _transaction = transaction;
     [self setupReceiptItems];
     
+}
+
+- (void)setPaymentStatus:(HHPaymentStatus *)paymentStatus {
+    _paymentStatus = paymentStatus;
+    [self setupPaymentStatusView];
+}
+
+- (void)setupPaymentStatusView {
+    for (int i = 1; i < 6; i++) {
+        NSNumber *amount;
+        if (i == 1) {
+            amount = self.paymentStatus.stageOneAmount;
+        } else if (i == 2) {
+            amount = self.paymentStatus.stageTwoAmount;
+        } else if (i == 3) {
+            amount = self.paymentStatus.stageThreeAmount;
+        } else if (i == 4) {
+            amount = self.paymentStatus.stageFourAmount;
+        } else {
+            amount = self.paymentStatus.stageFiveAmount;
+        }
+        HHPaymentStatusView *view = [[HHPaymentStatusView alloc] initWithAmount:amount currentStage:[self.paymentStatus.currentStage integerValue] stage:i];
+        view.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.containerView addSubview:view];
+        [self.paymentStatusViewArray addObject:view];
+        
+        if (i == 1) {
+            NSArray *constraints = @[
+                                     [HHAutoLayoutUtility verticalNext:view toView:self.secondLine constant:10.0f],
+                                     [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:view constant:0],
+                                     [HHAutoLayoutUtility setViewHeight:view multiplier:0 constant:30.0f],
+                                     [HHAutoLayoutUtility setViewWidth:view multiplier:1.0f constant:0],
+                                     
+                                     ];
+            [self.containerView addConstraints:constraints];
+        } else {
+            NSArray *constraints = @[
+                                     [HHAutoLayoutUtility verticalNext:view toView:self.paymentStatusViewArray[i-2] constant:0],
+                                     [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:view constant:0],
+                                     [HHAutoLayoutUtility setViewHeight:view multiplier:0 constant:40.0f],
+                                     [HHAutoLayoutUtility setViewWidth:view multiplier:1.0f constant:0],
+                                     
+                                     ];
+            [self.containerView addConstraints:constraints];
+        }
+        
+
+    }
 }
 
 - (void)setupReceiptItems {
@@ -143,6 +193,11 @@
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.firstLine constant:10.0f],
                              [HHAutoLayoutUtility setViewHeight:self.firstLine multiplier:0 constant:1.0f],
                              [HHAutoLayoutUtility setViewWidth:self.firstLine multiplier:1.0f constant:-20.0f],
+                             
+                             [HHAutoLayoutUtility verticalNext:self.secondLine toView:self.firstLine constant:120.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.secondLine constant:10.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.secondLine multiplier:0 constant:1.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.secondLine multiplier:1.0f constant:-20.0f],
                              
                              ];
     [self.contentView addConstraints:constraints];
