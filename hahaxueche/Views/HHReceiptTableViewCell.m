@@ -12,7 +12,6 @@
 #import "UIColor+HHColor.h"
 #import "HHReceiptItemView.h"
 #import "HHFormatUtility.h"
-#import "HHPaymentStatusView.h"
 
 #define kAvatarRadius 15.0f
 #define kCellTextColor [UIColor colorWithRed:0.38 green:0.38 blue:0.38 alpha:1]
@@ -58,6 +57,7 @@
         }
         HHPaymentStatusView *view = [[HHPaymentStatusView alloc] initWithAmount:amount currentStage:[self.paymentStatus.currentStage integerValue] stage:i];
         view.translatesAutoresizingMaskIntoConstraints = NO;
+        view.payBlock = self.payBlock;
         [self.containerView addSubview:view];
         [self.paymentStatusViewArray addObject:view];
         

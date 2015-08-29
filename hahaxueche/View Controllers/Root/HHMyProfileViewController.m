@@ -54,7 +54,6 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = [UIColor HHLightGrayBackgroundColor];
     [self.tableView registerClass:[HHReceiptTableViewCell class] forCellReuseIdentifier:kCellId];
-    self.tableView.bounces = NO;
     [self.view addSubview:self.tableView];
     
     
@@ -74,12 +73,12 @@
     __weak HHMyProfileViewController *weakSelf = self;
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中", nil)];
     [[HHPaymentTransactionService sharedInstance] fetchTransactionWithCompletion:^(NSArray *objects, NSError *error) {
-        [[HHLoadingView sharedInstance] hideLoadingView];
         if (!error) {
             weakSelf.transactionArray = objects;
             if ([weakSelf.transactionArray count]) {
                 HHTransaction *transaction = [weakSelf.transactionArray firstObject];
                 [[HHPaymentTransactionService sharedInstance] fetchPaymentStatusWithTransactionId:transaction.objectId completion:^(HHPaymentStatus *paymentStatus, NSError *error) {
+                    [[HHLoadingView sharedInstance] hideLoadingView];
                     if (!error) {
                         weakSelf.paymentStatus = paymentStatus;
                         [weakSelf.tableView reloadData];
@@ -89,6 +88,7 @@
             
             
         } else {
+            [[HHLoadingView sharedInstance] hideLoadingView];
             [HHToastUtility showToastWitiTitle:@"加载时出错！" isError:YES];
         }
     }];
@@ -132,12 +132,16 @@
         [weakSelf.navigationController pushViewController:coachProfileVC animated:YES];
     };
     
+    cell.payBlock = ^(){
+        
+    };
+    
     cell.paymentStatus = self.paymentStatus;
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 400.0f;
+    return 380.0f;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

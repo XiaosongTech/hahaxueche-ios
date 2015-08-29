@@ -10,6 +10,7 @@
 #import "HHAvatarView.h"
 #import "HHTransaction.h"
 #import "HHPaymentStatus.h"
+#import "HHPaymentStatusView.h"
 
 typedef void (^HHReceiptCellGenericActionBlock)();
 
@@ -23,6 +24,7 @@ typedef void (^HHReceiptCellGenericActionBlock)();
 @property (nonatomic, strong) HHReceiptCellGenericActionBlock nameButtonActionBlock;
 @property (nonatomic, strong) HHTransaction *transaction;
 @property (nonatomic, strong) HHPaymentStatus *paymentStatus;
+@property (nonatomic, strong) HHPaymentStatusViewPayBlock payBlock;
 
 @property (nonatomic, strong) NSMutableArray *paymentStatusViewArray;
 

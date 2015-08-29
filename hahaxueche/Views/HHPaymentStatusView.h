@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CMPopTipView.h"
 
 typedef NS_ENUM(NSInteger, PaymentStage) {
     StageDummy,
@@ -17,7 +18,10 @@ typedef NS_ENUM(NSInteger, PaymentStage) {
     StageFive,
 };
 
-@interface HHPaymentStatusView : UIView
+typedef void (^HHPaymentStatusViewPayBlock)();
+
+
+@interface HHPaymentStatusView : UIView <CMPopTipViewDelegate>
 
 @property (nonatomic, strong) NSNumber *amount;
 @property (nonatomic) PaymentStage stage;
@@ -27,6 +31,8 @@ typedef NS_ENUM(NSInteger, PaymentStage) {
 @property (nonatomic, strong) UILabel *amountLabel;
 @property (nonatomic, strong) UIButton *payButton;
 @property (nonatomic, strong) UIImageView *infoImageView;
+@property (nonatomic, strong) HHPaymentStatusViewPayBlock payBlock;
+
 
 
 - (instancetype)initWithAmount:(NSNumber *)amount currentStage:(PaymentStage)currentStage stage:(PaymentStage)stage;

@@ -13,6 +13,7 @@
 
 #define kNumberLabelRadius 10.0f
 #define kDarkGrayTextColor [UIColor colorWithRed:0.37 green:0.36 blue:0.38 alpha:1]
+#define kGreenColor [UIColor colorWithRed:0.39 green:0.75 blue:0.01 alpha:1]
 
 @implementation HHPaymentStatusView
 
@@ -96,6 +97,7 @@
     self.infoImageView.translatesAutoresizingMaskIntoConstraints = NO;
     self.infoImageView.image = [UIImage imageNamed:@"info"];
     self.infoImageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.infoImageView.userInteractionEnabled = YES;
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showToolTip)];
     [self.infoImageView addGestureRecognizer:tapGesture];
     [self addSubview:self.infoImageView];
@@ -160,11 +162,71 @@
 }
 
 - (void)payButtonTapped {
-    
+    if (self.payBlock) {
+        self.payBlock();
+    }
 }
 
 - (void)showToolTip {
+    NSString *title;
+    NSString *message;
+    UIColor *titleColor;
     
+    if (self.currentStage > self.stage) {
+        titleColor = kGreenColor;
+        title = NSLocalizedString(@"已付款", nil);
+    } else {
+        titleColor = kDarkGrayTextColor;
+        title = NSLocalizedString(@"未付款", nil);
+    }
+
+    
+    switch (self.stage) {
+        case StageOne: {
+            message = [NSString stringWithFormat: NSLocalizedString(@"\n第一阶段：确认付款后，我们会将%@自动打给教练账户。\n", nil), [[HHFormatUtility moneyFormatter] stringFromNumber:self.amount]];
+        } break;
+        case StageTwo: {
+            message = [NSString stringWithFormat: NSLocalizedString(@"\n第二阶段：确认需要预约科目一考试后，点击付款按钮后，我们会将%@转到教练账户。\n", nil), [[HHFormatUtility moneyFormatter] stringFromNumber:self.amount]];
+        } break;
+        case StageThree: {
+            message = [NSString stringWithFormat: NSLocalizedString(@"\n第三阶段：确认通过科目二后，点击付款按钮，我们会将%@转到教练账户。\n", nil), [[HHFormatUtility moneyFormatter] stringFromNumber:self.amount]];
+        } break;
+        case StageFour: {
+            message = [NSString stringWithFormat: NSLocalizedString(@"\n第四阶段：确认通过科目二后，点击付款按钮，我们会将%@转到教练账户。\n", nil), [[HHFormatUtility moneyFormatter] stringFromNumber:self.amount]];
+        } break;
+        case StageFive: {
+            message = [NSString stringWithFormat: NSLocalizedString(@"\n第五阶段：确认通过科目四并且拿到驾驶证后，点击付款按钮，我们会将剩下的所有金额（%@）转到教练账户。\n", nil), [[HHFormatUtility moneyFormatter] stringFromNumber:self.amount]];
+        } break;
+            
+        default:
+            break;
+    }
+    
+    CMPopTipView *view = [[CMPopTipView alloc] initWithTitle:title message:message];
+    view.textAlignment = NSTextAlignmentLeft;
+    view.titleColor = titleColor;
+    view.titleFont = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:14.0f];
+    view.textFont = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:12.0f];
+    view.textColor = [UIColor HHGrayTextColor];
+    view.preferredPointDirection = PointDirectionAny;
+    view.borderColor = [UIColor HHOrange];
+    view.borderWidth = 1.0f;
+    view.has3DStyle = NO;
+    view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
+    view.disableTapToDismiss = YES;
+    view.dismissTapAnywhere = YES;
+    view.sidePadding = 5.0f;
+    view.topMargin = 5.0f;
+    view.pointerSize = 5.0f;
+    view.cornerRadius = 5.0f;
+    view.delegate = self;
+    view.hasShadow = NO;
+    view.hasGradientBackground = NO;
+    [view presentPointingAtView:self.infoImageView inView:self.superview animated:YES];
+}
+
+- (void)popTipViewWasDismissedByUser:(CMPopTipView *)popTipView {
+    popTipView = nil;
 }
 
 @end
