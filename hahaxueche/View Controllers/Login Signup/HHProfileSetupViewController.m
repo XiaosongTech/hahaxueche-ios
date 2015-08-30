@@ -86,7 +86,7 @@ typedef enum : NSUInteger {
     [self.uploadImageView addGestureRecognizer:tapGesture];
     if ([HHUserAuthenticator sharedInstance].currentStudent) {
         AVFile *file = [AVFile fileWithURL:[HHUserAuthenticator sharedInstance].currentStudent.avatarURL];
-        NSString *thumbnailString = [file getThumbnailURLWithScaleToFit:YES width:100.0f height:100.0f quality:100 format:@"png"];
+        NSString *thumbnailString = [file getThumbnailURLWithScaleToFit:YES width:200.0f height:200.0f quality:100 format:@"png"];
         [self.uploadImageView sd_setImageWithURL:[NSURL URLWithString:thumbnailString] placeholderImage:nil];
     }
     [self.view addSubview:self.uploadImageView];
