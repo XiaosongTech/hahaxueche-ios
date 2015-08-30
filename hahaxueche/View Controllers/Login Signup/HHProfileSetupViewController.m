@@ -35,6 +35,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) HHUser *user;
 @property (nonatomic, strong) NSString *selectedCity;
 @property (nonatomic, strong) NSString *selectedProvince;
+@property (nonatomic, strong) UIImage *originalImage;
 
 
 
@@ -138,7 +139,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)doneButtonPressed {
-    if (!self.uploadImageView.image) {
+    if (!self.originalImage && ![HHUserAuthenticator sharedInstance].currentStudent.avatarURL) {
         [HHToastUtility showToastWitiTitle:NSLocalizedString(@"请选择头像",nil) isError:YES];
         return;
     }
@@ -153,7 +154,7 @@ typedef enum : NSUInteger {
     [self.nameTextView.textField resignFirstResponder];
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中",nil)];
     
-    AVFile *imageFile = [AVFile fileWithData:UIImagePNGRepresentation([self normalizedImage:self.uploadImageView.image] )];
+    AVFile *imageFile = [AVFile fileWithData:UIImagePNGRepresentation([self normalizedImage:self.originalImage] )];
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {
             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"图片上传失败！",nil) isError:YES];
@@ -328,10 +329,11 @@ typedef enum : NSUInteger {
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    self.uploadImageView.image = info[UIImagePickerControllerEditedImage];
-    if(!self.uploadImageView.image) {
-        self.uploadImageView.image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    self.originalImage = info[UIImagePickerControllerEditedImage];
+    if(!self.originalImage) {
+        self.originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
+    self.uploadImageView.image = self.originalImage;
     self.uploadImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.uploadImageView.layer.borderWidth = 0;
     [picker dismissViewControllerAnimated:YES completion:NULL];
