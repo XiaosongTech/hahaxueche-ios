@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HHRatingView.h"
+#import "HHStarRatingView.h"
+#import <Foundation/Foundation.h>
 
 typedef void (^ReviewTapped)(NSInteger index);
 
@@ -15,7 +16,7 @@ typedef void (^ReviewTapped)(NSInteger index);
 
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) HHRatingView *ratingView;
+@property (nonatomic, strong) HHStarRatingView *ratingView;
 @property (nonatomic, strong) UILabel *ratingLabel;
 @property (nonatomic, strong) UIView *line;
 @property (nonatomic, strong) NSArray *reviews;

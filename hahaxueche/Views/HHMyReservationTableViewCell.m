@@ -51,7 +51,7 @@
     
     
     for (int i = 0; i < 4; i++) {
-        HHAvatarView * avatarView = [[HHAvatarView alloc] initWithImage:nil radius:kAvatarRadius borderColor:[UIColor whiteColor]];
+        HHAvatarView * avatarView = [[HHAvatarView alloc] initWithImageURL:nil radius:kAvatarRadius borderColor:[UIColor whiteColor]];
         avatarView.tag = i;
         avatarView.userInteractionEnabled = YES;
         avatarView.translatesAutoresizingMaskIntoConstraints = NO;

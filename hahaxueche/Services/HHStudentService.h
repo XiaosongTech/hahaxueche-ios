@@ -13,7 +13,6 @@
 
 typedef void (^HHStudentCompletionBlock)(HHStudent *student, NSError *error);
 typedef void (^HHStudentBookCompletionBlock)(BOOL succeed, NSInteger succeedCount);
-typedef void (^HHStudentCancelAppointmentCompletionBlock)(BOOL succeed, NSError *error);
 
 @interface HHStudentService : NSObject
 
@@ -23,7 +22,6 @@ typedef void (^HHStudentCancelAppointmentCompletionBlock)(BOOL succeed, NSError 
 
 - (void)bookTimeSlotsWithSchedules:(NSArray *)schedules student:(HHStudent *)student coachId:(NSString *)coachId completion:(HHStudentBookCompletionBlock)completion;
 
-- (void)cancelAppointmentWithSchedule:(HHCoachSchedule *)schedule completion:(HHStudentCancelAppointmentCompletionBlock)completion;
 
 
 @end

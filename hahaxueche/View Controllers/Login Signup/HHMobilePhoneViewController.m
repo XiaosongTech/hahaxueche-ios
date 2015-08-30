@@ -237,6 +237,7 @@
             }
         } else {
             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"验证失败！",nil) isError:YES];
+            [[HHLoadingView sharedInstance] hideLoadingView];
         }
     }];
     

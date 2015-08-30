@@ -96,7 +96,7 @@
     if (self.hasCoach) {
         self.confirmBarButtonItem = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"确认", nil) action:@selector(confirmTimes) target:self isLeft:NO];
         self.navigationItem.rightBarButtonItem = self.confirmBarButtonItem;
-        HHAvatarView *myCoachAvatar = [[HHAvatarView alloc] initWithImage:nil radius:15.0f borderColor:[UIColor whiteColor]];
+        HHAvatarView *myCoachAvatar = [[HHAvatarView alloc] initWithImageURL:nil radius:15.0f borderColor:[UIColor whiteColor]];
         [myCoachAvatar setFrame:CGRectMake(0, 0, 30.0f, 30.0f)];
         [myCoachAvatar.imageView sd_setImageWithURL:[NSURL URLWithString:self.myCoach.avatarURL] placeholderImage:nil];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToMyCoachProfileView)];
@@ -143,12 +143,14 @@
     
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:@"请稍后..."];
     [[HHStudentService sharedInstance] bookTimeSlotsWithSchedules:self.selectedSchedules student:[HHUserAuthenticator sharedInstance].currentStudent coachId:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId completion:^(BOOL succeed, NSInteger succeedCount) {
-        [[HHLoadingView sharedInstance] hideLoadingView];
         if (succeed) {
             [HHToastUtility showToastWitiTitle:[NSString stringWithFormat:NSLocalizedString(@"预约成功%ld个时间", nil), succeedCount] isError:NO];
-            [self fetchSchedulesWithCompletion:nil];
+            [self fetchSchedulesWithCompletion:^{
+                [[HHLoadingView sharedInstance] hideLoadingView];
+            }];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"bookSucceed" object:self];
         } else {
+            [[HHLoadingView sharedInstance] hideLoadingView];
             [HHToastUtility showToastWitiTitle:[NSString stringWithFormat:NSLocalizedString(@"预约失败！", nil), succeedCount] isError:YES];
         }
         [self.selectedSchedules removeAllObjects];
@@ -331,7 +333,6 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    
     return 40.0f;
 }
 

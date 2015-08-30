@@ -8,12 +8,13 @@
 
 #import "HHAvatarView.h"
 #import "HHAutoLayoutUtility.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 #define kBorderWidth 1.0f
 
 @implementation HHAvatarView
 
-- (instancetype)initWithImage:(UIImage *)image radius:(CGFloat)radius borderColor:(UIColor *)borderColor {
+- (instancetype)initWithImageURL:(NSString *)imageURL radius:(CGFloat)radius borderColor:(UIColor *)borderColor {
     self = [super init];
     if (self) {
         self.backgroundColor = borderColor;
@@ -25,7 +26,7 @@
         self.layer.cornerRadius = radius;
         self.imageView.layer.cornerRadius = radius-kBorderWidth;
         self.imageView.clipsToBounds = YES;
-        self.imageView.image = image;
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:nil];;
         [self addSubview:self.imageView];
         [self autolayoutSubviews];
         

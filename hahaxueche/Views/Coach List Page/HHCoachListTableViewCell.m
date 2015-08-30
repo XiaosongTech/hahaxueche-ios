@@ -48,7 +48,7 @@
     self.dataView.layer.masksToBounds = YES;
     [self.contentView addSubview:self.dataView];
     
-    self.avatarView = [[HHAvatarView alloc] initWithImage:nil radius:kAvatarRadius borderColor:[UIColor whiteColor]];
+    self.avatarView = [[HHAvatarView alloc] initWithImageURL:nil radius:kAvatarRadius borderColor:[UIColor whiteColor]];
     self.avatarView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.dataView addSubview:self.avatarView];
     
@@ -66,7 +66,7 @@
     self.locationPin.userInteractionEnabled = YES;
     [self.dataView addSubview:self.locationPin];
     
-    self.ratingView = [[HHRatingView alloc] initWithInteractionEnabled:NO];
+    self.ratingView = [[HHStarRatingView alloc] initWithFrame:CGRectZero rating:0];
     self.ratingView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.dataView addSubview:self.ratingView];
     
@@ -131,7 +131,7 @@
                              [HHAutoLayoutUtility setViewWidth:self.ratingView multiplier:0 constant:90.0f],
                              
                              [HHAutoLayoutUtility setCenterY:self.ratingLabel toView:self.ratingView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility horizontalNext:self.ratingLabel toView:self.ratingView constant:0],
+                             [HHAutoLayoutUtility horizontalNext:self.ratingLabel toView:self.ratingView constant:5.0f],
                              
                              [HHAutoLayoutUtility verticalNext:self.teachedYearLabel toView:self.ratingView constant:8.0f],
                              [HHAutoLayoutUtility horizontalNext:self.teachedYearLabel toView:self.avatarView constant:10.0f],
@@ -156,7 +156,7 @@
     
     self.nameLabel.text = coach.fullName;
     self.priceLabel.text = [[HHFormatUtility moneyFormatter] stringFromNumber:coach.price];
-    [self.ratingView setupViewWithRating:[coach.averageRating floatValue]];
+    self.ratingView.value =[coach.averageRating floatValue];
     self.ratingLabel.text = [[HHFormatUtility floatFormatter] stringFromNumber:coach.averageRating];;
     
     NSMutableAttributedString * yearString = [self generateAttributedStringWithString:coach.experienceYear font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:14] color:[UIColor blackColor]];

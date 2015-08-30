@@ -18,6 +18,7 @@
 #import "HHStudent.h"
 #import "HHUserAuthenticator.h"
 #import "HHLoadingView.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 typedef enum : NSUInteger {
     ImageOptionTakePhoto,
@@ -30,11 +31,11 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) HHTextFieldView *nameTextView;
 @property (nonatomic, strong) HHTextFieldView *cityTextView;
 @property (nonatomic, strong) UIPickerView *cityPicker;
-@property (nonatomic, strong) UIImage *selectedImage;
 @property (nonatomic, strong) HHStudent *student;
 @property (nonatomic, strong) HHUser *user;
 @property (nonatomic, strong) NSString *selectedCity;
 @property (nonatomic, strong) NSString *selectedProvince;
+@property (nonatomic, strong) UIImage *originalImage;
 
 
 
@@ -77,14 +78,17 @@ typedef enum : NSUInteger {
     self.uploadImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.uploadImageView.translatesAutoresizingMaskIntoConstraints = NO;
     self.uploadImageView.userInteractionEnabled = YES;
-    self.uploadImageView.contentMode = UIViewContentModeCenter;
+    self.uploadImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.uploadImageView.image = [UIImage imageNamed:@"camera-alt"];
     self.uploadImageView.layer.cornerRadius = 25.0f;
     self.uploadImageView.layer.masksToBounds = YES;
-    self.uploadImageView.layer.borderColor = [UIColor HHTransparentWhite].CGColor;
-    self.uploadImageView.layer.borderWidth = 1.0f;
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(uploadImage)];
     [self.uploadImageView addGestureRecognizer:tapGesture];
+    if ([HHUserAuthenticator sharedInstance].currentStudent) {
+        AVFile *file = [AVFile fileWithURL:[HHUserAuthenticator sharedInstance].currentStudent.avatarURL];
+        NSString *thumbnailString = [file getThumbnailURLWithScaleToFit:YES width:100.0f height:100.0f quality:100 format:@"png"];
+        [self.uploadImageView sd_setImageWithURL:[NSURL URLWithString:thumbnailString] placeholderImage:nil];
+    }
     [self.view addSubview:self.uploadImageView];
 
 }
@@ -94,7 +98,7 @@ typedef enum : NSUInteger {
     self.nameTextView.translatesAutoresizingMaskIntoConstraints = NO;
     self.nameTextView.textField.keyboardType = UIKeyboardTypeDefault;
     self.nameTextView.textField.delegate = self;
-    [self.nameTextView.textField becomeFirstResponder];
+    
     [self.view addSubview:self.nameTextView];
     
     self.cityTextView = [[HHTextFieldView alloc] initWithPlaceholder:NSLocalizedString(@"所在城市",nil)];
@@ -104,6 +108,13 @@ typedef enum : NSUInteger {
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectCity)];
     [self.cityTextView addGestureRecognizer:tapGesture];
     [self.view addSubview:self.cityTextView];
+    
+    if ([HHUserAuthenticator sharedInstance].currentStudent) {
+        self.nameTextView.textField.text = [HHUserAuthenticator sharedInstance].currentStudent.fullName;
+        self.selectedCity = [HHUserAuthenticator sharedInstance].currentStudent.city;
+        self.selectedProvince = [HHUserAuthenticator sharedInstance].currentStudent.province;
+        self.cityTextView.textField.text = self.cityTextView.textField.text = [NSString stringWithFormat: NSLocalizedString(@"%@-%@",nil), self.selectedProvince, self.selectedCity];
+    }
 }
 
 - (void)autolayoutSubviews {
@@ -128,7 +139,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)doneButtonPressed {
-    if (!self.selectedImage) {
+    if (!self.originalImage && ![HHUserAuthenticator sharedInstance].currentStudent.avatarURL) {
         [HHToastUtility showToastWitiTitle:NSLocalizedString(@"请选择头像",nil) isError:YES];
         return;
     }
@@ -141,39 +152,63 @@ typedef enum : NSUInteger {
         return;
     }
     [self.nameTextView.textField resignFirstResponder];
-    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"创建账户...",nil)];
-    NSData *imageData = UIImagePNGRepresentation(self.selectedImage);
-    AVFile *imageFile = [AVFile fileWithData:imageData];
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中",nil)];
+    
+    AVFile *imageFile = [AVFile fileWithData:UIImagePNGRepresentation([self normalizedImage:self.originalImage] )];
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {
             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"图片上传失败！",nil) isError:YES];
             [[HHLoadingView sharedInstance] hideLoadingView];
         } else {
             self.student.avatarURL = imageFile.url;
-            [self.student saveInBackground];
+            [self.student saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (!error) {
+                    [[HHUserAuthenticator sharedInstance] fetchAuthedStudentAgainWithCompletion:nil];
+                }
+            }];
         }
     }];
     
-    self.student = [HHStudent object];
-    self.student.fullName = self.nameTextView.textField.text;
-    self.student.city = self.selectedCity;
-    self.student.province = self.selectedProvince;
-    [[HHUserAuthenticator sharedInstance] signupWithUser:self.user completion:^(NSError *error) {
-        if (!error) {
-            [[HHUserAuthenticator sharedInstance] createStudentWithStudent:self.student completion:^(NSError *error) {
-                [[HHLoadingView sharedInstance] hideLoadingView];
-                if (!error) {
-                    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-                    [self presentViewController:rootVC animated:YES completion:nil];
-                } else {
-                    [HHToastUtility showToastWitiTitle:NSLocalizedString(@"创建账户失败！",nil) isError:YES];
-                }
-            }];
+    if ([HHUserAuthenticator sharedInstance].currentStudent) {
+        self.student = [[HHUserAuthenticator sharedInstance].currentStudent mutableCopy];
+        self.student.fullName = self.nameTextView.textField.text;
+        self.student.city = self.selectedCity;
+        self.student.province = self.selectedProvince;
+        [self.student saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            [[HHLoadingView sharedInstance] hideLoadingView];
+            if (!error) {
+                [HHToastUtility showToastWitiTitle:@"更新成功！" isError:NO];
+                [self dismissViewControllerAnimated:YES completion:nil];
+               
+            } else {
+                [HHToastUtility showToastWitiTitle:@"更新失败！" isError:YES];
+            }
+        }];
+        
+    } else {
+        self.student = [HHStudent object];
+        self.student.fullName = self.nameTextView.textField.text;
+        self.student.city = self.selectedCity;
+        self.student.province = self.selectedProvince;
+        [[HHUserAuthenticator sharedInstance] signupWithUser:self.user completion:^(NSError *error) {
+            if (!error) {
+                [[HHUserAuthenticator sharedInstance] createStudentWithStudent:self.student completion:^(NSError *error) {
+                    [[HHLoadingView sharedInstance] hideLoadingView];
+                    if (!error) {
+                        HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+                        [self presentViewController:rootVC animated:YES completion:nil];
+                    } else {
+                        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"创建账户失败！",nil) isError:YES];
+                    }
+                }];
+                
+            } else {
+                [HHToastUtility showToastWitiTitle:NSLocalizedString(@"创建账户失败！",nil) isError:YES];
+            }
+        }];
 
-        } else {
-            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"创建账户失败！",nil) isError:YES];
-        }
-    }];
+    }
+   
 }
 
 - (void)cancelButtonPressed {
@@ -294,13 +329,13 @@ typedef enum : NSUInteger {
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    self.selectedImage = info[UIImagePickerControllerEditedImage];
-    if(!self.selectedImage) {
-        self.selectedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    self.originalImage = info[UIImagePickerControllerEditedImage];
+    if(!self.originalImage) {
+        self.originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
+    self.uploadImageView.image = self.originalImage;
     self.uploadImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.uploadImageView.layer.borderWidth = 0;
-    self.uploadImageView.image = self.selectedImage;
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
 }
@@ -308,4 +343,16 @@ typedef enum : NSUInteger {
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
+
+- (UIImage *)normalizedImage:(UIImage *)image {
+    if (image == UIImageOrientationUp) {
+        return image;
+    }
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
+    [image drawInRect:(CGRect){0, 0, image.size}];
+    UIImage *normalizedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return normalizedImage;
+}
+
 @end

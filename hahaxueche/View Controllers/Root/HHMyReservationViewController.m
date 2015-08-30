@@ -330,7 +330,7 @@ typedef void (^HHGenericCompletion)();
     subtitleLabel.numberOfLines = 0;
     UIButton *confirmCancelButton = [self createButtonWithText:NSLocalizedString(@"确认取消", nil) textColor:[UIColor whiteColor] bgColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:16.0f] action:@selector(cancelAppointment)];
     
-    UIButton *dismissButton = [self createButtonWithText:NSLocalizedString(@"返回", nil) textColor:[UIColor whiteColor] bgColor:[UIColor colorWithRed:0.28 green:0.75 blue:0.9 alpha:1] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:16.0f] action:@selector(dismissPopupView)];
+    UIButton *dismissButton = [self createButtonWithText:NSLocalizedString(@"返回", nil) textColor:[UIColor whiteColor] bgColor:[UIColor HHBlueButtonColor] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:16.0f] action:@selector(dismissPopupView)];
     
     UILabel *explanationLabel = [self createLableWithText:NSLocalizedString(@"如确认取消，您将无法在此时间段练车。", nil) font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f] textColor:[UIColor HHGrayTextColor]];
     
@@ -371,7 +371,7 @@ typedef void (^HHGenericCompletion)();
     [self.popupView dismiss:YES];
     __weak HHMyReservationViewController *weakSelf = self;
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"取消中...", nil)];
-    [[HHStudentService sharedInstance] cancelAppointmentWithSchedule:self.groupedReservations[self.cancelCellIndexPath.section][self.cancelCellIndexPath.row] completion:^(BOOL succeed, NSError *error) {
+    [[HHScheduleService sharedInstance] cancelAppointmentWithSchedule:self.groupedReservations[self.cancelCellIndexPath.section][self.cancelCellIndexPath.row] completion:^(BOOL succeed, NSError *error) {
         [[HHLoadingView sharedInstance] hideLoadingView];
         if (succeed) {
             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"取消成功", nil) isError:NO];

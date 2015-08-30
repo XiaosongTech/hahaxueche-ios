@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-#import "HHRatingView.h"
+#import "HHStarRatingView.h"
 #import "HHAvatarView.h"
 #import "HHCoach.h"
 
@@ -22,7 +22,7 @@ typedef void (^HHAddressTappedBlock)();
 @property (nonatomic, strong) UILabel *addressLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
 @property (nonatomic, strong) UIImageView *locationPin;
-@property (nonatomic, strong) HHRatingView *ratingView;
+@property (nonatomic, strong) HHStarRatingView *ratingView;
 @property (nonatomic, strong) UILabel *teachedYearLabel;
 @property (nonatomic, strong) UILabel *teachedStudentAmount;
 @property (nonatomic, strong) UILabel *ratingLabel;
