@@ -19,15 +19,20 @@
 #import "HHLoadingView.h"
 #import "HHToastUtility.h"
 #import "HHPaymentStatus.h"
+#import "UIBarButtonItem+HHCustomButton.h"
+#import "HHLoginSignupViewController.h"
+#import "HHProfileSetupViewController.h"
 
 #define kCellId @"HHReceiptTableViewCellId"
 
-@interface HHMyProfileViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface HHMyProfileViewController ()<UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UILabel *explanationLabel;
 @property (nonatomic, strong) NSArray *transactionArray;
 @property (nonatomic, strong) HHPaymentStatus *paymentStatus;
+@property (nonatomic, strong) UIBarButtonItem *settings;
+@property (nonatomic, strong) UIActionSheet *settingsActionSheet;
 
 @end
 
@@ -36,6 +41,7 @@
 -(void)dealloc {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
+    self.settingsActionSheet.delegate = nil;
 }
 
 - (void)viewDidLoad {
@@ -56,7 +62,8 @@
     [self.tableView registerClass:[HHReceiptTableViewCell class] forCellReuseIdentifier:kCellId];
     [self.view addSubview:self.tableView];
     
-    
+    self.settings = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"设置", nil) action:@selector(settingsTapped) target:self isLeft:NO];
+    self.navigationItem.rightBarButtonItem = self.settings;
     
     self.explanationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 60.0f)];
     self.explanationLabel.backgroundColor = [UIColor clearColor];
@@ -146,6 +153,31 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 40.0f;
+}
+
+- (void)settingsTapped {
+    self.settingsActionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:NSLocalizedString(@"返回", nil)
+                                             destructiveButtonTitle:nil
+                                                  otherButtonTitles:NSLocalizedString(@"更改个人信息", nil), NSLocalizedString(@"查看条款和协议", nil), NSLocalizedString(@"退出当前账号", nil), nil];
+    [self.settingsActionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([actionSheet isEqual:self.settingsActionSheet]) {
+        if (buttonIndex == 0) {
+            HHProfileSetupViewController *setupVC = [[HHProfileSetupViewController alloc] init];
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:setupVC];
+            [self presentViewController:navVC animated:YES completion:nil];
+        } else if (buttonIndex == 1) {
+            
+        } else if (buttonIndex == 2) {
+            [HHUser logOut];
+            HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
+            [self presentViewController:loginSignupVC animated:YES completion:nil];
+        }
+    }
 }
 
 

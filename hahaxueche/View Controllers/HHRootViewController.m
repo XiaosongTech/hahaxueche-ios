@@ -13,6 +13,8 @@
 #import "HHBookViewController.h"
 #import "HHMyReservationViewController.h"
 #import "HHMyProfileViewController.h"
+#import "HHTrainingFieldService.h"
+#import "HHUserAuthenticator.h"
 
 @interface HHRootViewController ()
 
@@ -25,6 +27,7 @@
     if (self) {
         self.delegate = self;
         self.view.backgroundColor = [UIColor clearColor];
+        [[HHTrainingFieldService sharedInstance] fetchTrainingFieldsForCity:[HHUserAuthenticator sharedInstance].currentStudent.city completion:nil];
         [self initViewControllers];
     }
     return self;
