@@ -226,6 +226,7 @@ typedef enum : NSUInteger {
     __weak HHCoachProfileViewController *weakSelf = self;
     NSInteger newAmount = [self.coach.currentStudentAmount integerValue] + 1;
     self.coach.currentStudentAmount = [NSNumber numberWithInteger:newAmount];
+    [self.tableView reloadData];
     [self.coach saveInBackground];
     
     [HHUserAuthenticator sharedInstance].currentStudent.myCoachId = self.coach.coachId;

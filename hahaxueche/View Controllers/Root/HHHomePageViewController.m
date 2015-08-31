@@ -13,6 +13,11 @@
 #import "HHRootViewController.h"
 #import "HHFullScreenImageViewController.h"
 #import "HHScrollImageGallery.h"
+#import "HHTrainingFieldService.h"
+#import "HHCoachProfileViewController.h"
+#import "HHCoachService.h"
+#import "HHLoadingView.h"
+#import "HHToastUtility.h"
 
 @interface HHHomePageViewController () <HHScrollImageGalleryDelegate>
 
@@ -37,7 +42,6 @@
 - (void)viewDidLoad {
     self.title = NSLocalizedString(@"哈哈学车",nil);
     self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
-    self.navigationController.navigationBarHidden = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.imagesArray = @[@"http://ac-cr9pv6bp.clouddn.com/wiB2E9Rplx5UDHpH8gYJFYC", @"http://ac-cr9pv6bp.clouddn.com/wiB2E9Rplx5UDHpH8gYJFYC"];
     self.imageGalleryView = [[HHScrollImageGallery alloc] initWithURLStrings:self.imagesArray];
@@ -46,6 +50,7 @@
     [self.view addSubview:self.imageGalleryView];
     
     self.oneClickButton = [[HHButton alloc] initSolidButtonWithTitle:NSLocalizedString(@"一 键 找 教 练",nil) textColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:30.0f]];
+    [self.oneClickButton addTarget:self action:@selector(findCoach) forControlEvents:UIControlEventTouchUpInside];
     self.oneClickButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.oneClickButton];
     
@@ -127,6 +132,22 @@
     } else if ([button isEqual:self.stepThreeButton]) {
         [rootVC setSelectedIndex:TabBarItemMyReservationView];
     }
+}
+
+- (void)findCoach {
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:@"寻找教练中"];
+    [[HHCoachService sharedInstance] recommendCoachWithCompletion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
+        [[HHLoadingView sharedInstance] hideLoadingView];
+        if ([objects count]) {
+            int randomIndex = arc4random() % objects.count;
+            HHCoach *recommendCoach = objects[randomIndex];
+            HHCoachProfileViewController *coachVC = [[HHCoachProfileViewController alloc] initWithCoach:recommendCoach];
+            [self.navigationController pushViewController:coachVC animated:YES];
+        } else {
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"抱歉，没有找到合适到教练", nil) isError:YES];
+        }
+       
+    }];
 }
 
 #pragma -mark HHScrollImageGallery Delegate
