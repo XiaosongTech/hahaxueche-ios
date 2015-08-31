@@ -173,10 +173,8 @@
         transfer.transferStatus = @"pending";
         [transfer saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (!error) {
-                if ([weakSelf.paymentStatus.currentStage integerValue] != 5) {
-                    weakSelf.paymentStatus.currentStage = @([weakSelf.paymentStatus.currentStage integerValue] + 1);
-                    [weakSelf.paymentStatus saveInBackground];
-                }
+                weakSelf.paymentStatus.currentStage = @([weakSelf.paymentStatus.currentStage integerValue] + 1);
+                [weakSelf.paymentStatus saveInBackground];
                 [weakSelf.tableView reloadData];
                 [HHToastUtility showToastWitiTitle:NSLocalizedString(@"付款成功！", nil) isError:NO];
             }
