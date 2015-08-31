@@ -26,6 +26,9 @@
 #import "HHReview.h"
 #import "HHTransaction.h"
 #import "HHPaymentStatus.h"
+#import <AlipaySDK/AlipaySDK.h>
+#import "HHToastUtility.h"
+#import "HHTransfer.h"
 
 #define kLeanCloudStagingAppID @"cr9pv6bp9nlr1xrtl36slyxt0hgv6ypifso9aocxwas2fugq"
 #define kLeanCloudStagingAppKey @"2ykqwhzhfrzhjn3o9bj7rizb8qd75ym3f0lez1d8fcxmn2k3"
@@ -48,42 +51,42 @@
     [self setupBackend];
     [self setAppearance];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    if ([HHUser currentUser]) {
-        [HHUserAuthenticator sharedInstance].currentUser = [HHUser currentUser];
-        if ([[HHUserAuthenticator sharedInstance].currentUser.type isEqualToString:kStudentTypeValue]) {
-            [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:[HHUserAuthenticator sharedInstance].currentUser.objectId completion:^(HHStudent *student, NSError *error) {
-                if (!error) {
-                    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-                    [self.window setRootViewController:rootVC];
-                    [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
-                    [self.window makeKeyAndVisible];
-                    [self setAppearance];
-                    [self setWindow:self.window];
-                }
-            }];
-
-        } else {
-            //login with coach
-        }
-        
-    } else {
-        HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
-        [self.window setRootViewController:loginSignupVC];
-        [self.window setBackgroundColor:[UIColor HHLightGrayBackgroundColor]];
-        [self.window makeKeyAndVisible];
-        [self setAppearance];
-        [self setWindow:self.window];
-    }
-    
-//    [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:@"55aef07ee4b0124627a2cb2f" completion:^(HHStudent *student, NSError *error) {
-//        HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-//        [self.window setRootViewController:rootVC];
-//        [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
+//    if ([HHUser currentUser]) {
+//        [HHUserAuthenticator sharedInstance].currentUser = [HHUser currentUser];
+//        if ([[HHUserAuthenticator sharedInstance].currentUser.type isEqualToString:kStudentTypeValue]) {
+//            [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:[HHUserAuthenticator sharedInstance].currentUser.objectId completion:^(HHStudent *student, NSError *error) {
+//                if (!error) {
+//                    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+//                    [self.window setRootViewController:rootVC];
+//                    [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
+//                    [self.window makeKeyAndVisible];
+//                    [self setAppearance];
+//                    [self setWindow:self.window];
+//                }
+//            }];
+//
+//        } else {
+//            //login with coach
+//        }
+//        
+//    } else {
+//        HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
+//        [self.window setRootViewController:loginSignupVC];
+//        [self.window setBackgroundColor:[UIColor HHLightGrayBackgroundColor]];
 //        [self.window makeKeyAndVisible];
 //        [self setAppearance];
-//
-//        
-//    }];
+//        [self setWindow:self.window];
+//    }
+    
+    [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:@"55aef07ee4b0124627a2cb2f" completion:^(HHStudent *student, NSError *error) {
+        HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+        [self.window setRootViewController:rootVC];
+        [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
+        [self.window makeKeyAndVisible];
+        [self setAppearance];
+
+        
+    }];
     
     return YES;
    
@@ -138,6 +141,7 @@
     [HHReview registerSubclass];
     [HHTransaction registerSubclass];
     [HHPaymentStatus registerSubclass];
+    [HHTransfer registerSubclass];
 }
 
 - (void)setupBackend {
@@ -149,6 +153,23 @@
                       clientKey:kLeanCloudProductionAppKey];
     
 #endif
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    if ([url.host isEqualToString:@"safepay"]) {
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url
+                                                  standbyCallback:^(NSDictionary *resultDic) {
+                                                      
+                                                      if ([resultDic[@"resultStatus"] isEqualToString:@"9000"]) {
+                                                          [HHToastUtility showToastWitiTitle:NSLocalizedString(@"支付成功！", nil) isError:NO];
+                                                      } else {
+                                                          [HHToastUtility showToastWitiTitle:NSLocalizedString(@"支付失败！", nil) isError:YES];
+                                                      }
+                                                      
+                                                  }]; }
+    
+    return YES;
 }
 
 @end

@@ -22,6 +22,7 @@
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHLoginSignupViewController.h"
 #import "HHProfileSetupViewController.h"
+#import "HHTransfer.h"
 
 #define kCellId @"HHReceiptTableViewCellId"
 
@@ -133,13 +134,53 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     __weak HHMyProfileViewController *weakSelf = self;
     HHReceiptTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
-    cell.transaction = self.transactionArray[indexPath.row];
+    HHTransaction *transaction = self.transactionArray[indexPath.row];
+    cell.transaction = transaction;
     cell.nameButtonActionBlock = ^(){
         HHCoachProfileViewController *coachProfileVC = [[HHCoachProfileViewController alloc] initWithCoach:[HHUserAuthenticator sharedInstance].myCoach];
         [weakSelf.navigationController pushViewController:coachProfileVC animated:YES];
     };
-    
     cell.payBlock = ^(){
+       
+        HHTransfer *transfer = [HHTransfer objectWithClassName:[HHTransfer parseClassName]];
+        transfer.coachId = [HHUserAuthenticator sharedInstance].myCoach.coachId;
+        transfer.studentId = [HHUserAuthenticator sharedInstance].currentStudent.studentId;
+        transfer.transactionId = transaction.objectId;
+        transfer.stage = weakSelf.paymentStatus.currentStage;
+        switch ([weakSelf.paymentStatus.currentStage integerValue]) {
+            case 1:{
+                transfer.amount = weakSelf.paymentStatus.stageOneAmount;
+            } break;
+            case 2:{
+                transfer.amount = weakSelf.paymentStatus.stageTwoAmount;
+            } break;
+            case 3:{
+                transfer.amount = weakSelf.paymentStatus.stageThreeAmount;
+            } break;
+            case 4:{
+                transfer.amount = weakSelf.paymentStatus.stageFourAmount;
+            } break;
+            case 5:{
+                transfer.amount = weakSelf.paymentStatus.stageFiveAmount;
+            } break;
+                
+            default:{
+                transfer.amount = weakSelf.paymentStatus.stageOneAmount;
+            } break;
+        }
+        transfer.payeeAccount = [HHUserAuthenticator sharedInstance].myCoach.alipayAccount;
+        transfer.payeeAccountType = NSLocalizedString(@"支付宝", nil);
+        transfer.transferStatus = @"pending";
+        [transfer saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (!error) {
+                if ([weakSelf.paymentStatus.currentStage integerValue] != 5) {
+                    weakSelf.paymentStatus.currentStage = @([weakSelf.paymentStatus.currentStage integerValue] + 1);
+                    [weakSelf.paymentStatus saveInBackground];
+                }
+                [weakSelf.tableView reloadData];
+                [HHToastUtility showToastWitiTitle:NSLocalizedString(@"付款成功！", nil) isError:NO];
+            }
+        }];
         
     };
     

@@ -52,6 +52,10 @@
 		5C4DA4621B93ADDA0098A93E /* openssl_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4DA4581B93ADDA0098A93E /* openssl_wrapper.m */; };
 		5C4DA4631B93ADDA0098A93E /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4DA45A1B93ADDA0098A93E /* RSADataSigner.m */; };
 		5C4DA4641B93ADDA0098A93E /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4DA45C1B93ADDA0098A93E /* RSADataVerifier.m */; };
+		5C4DA4671B93B11C0098A93E /* HHAlipayService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4DA4661B93B11C0098A93E /* HHAlipayService.m */; };
+		5C4DA46A1B93B1380098A93E /* HHAlipayOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4DA4691B93B1380098A93E /* HHAlipayOrder.m */; };
+		5C4DA46D1B93B6340098A93E /* APAuthV2Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4DA46C1B93B6340098A93E /* APAuthV2Info.m */; };
+		5C4DA4701B9401220098A93E /* HHTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4DA46F1B9401220098A93E /* HHTransfer.m */; };
 		5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C54517A1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m */; };
 		5C5451911B4F67200025D19F /* HHSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451901B4F67200025D19F /* HHSearchBar.m */; };
 		5C5451951B50B4AD0025D19F /* search_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C5451941B50B4AD0025D19F /* search_icon.png */; };
@@ -351,6 +355,14 @@
 		5C4DA45A1B93ADDA0098A93E /* RSADataSigner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataSigner.m; sourceTree = "<group>"; };
 		5C4DA45B1B93ADDA0098A93E /* RSADataVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSADataVerifier.h; sourceTree = "<group>"; };
 		5C4DA45C1B93ADDA0098A93E /* RSADataVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataVerifier.m; sourceTree = "<group>"; };
+		5C4DA4651B93B11C0098A93E /* HHAlipayService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAlipayService.h; sourceTree = "<group>"; };
+		5C4DA4661B93B11C0098A93E /* HHAlipayService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHAlipayService.m; sourceTree = "<group>"; };
+		5C4DA4681B93B1380098A93E /* HHAlipayOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAlipayOrder.h; sourceTree = "<group>"; };
+		5C4DA4691B93B1380098A93E /* HHAlipayOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHAlipayOrder.m; sourceTree = "<group>"; };
+		5C4DA46B1B93B6340098A93E /* APAuthV2Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APAuthV2Info.h; sourceTree = "<group>"; };
+		5C4DA46C1B93B6340098A93E /* APAuthV2Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APAuthV2Info.m; sourceTree = "<group>"; };
+		5C4DA46E1B9401220098A93E /* HHTransfer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTransfer.h; sourceTree = "<group>"; };
+		5C4DA46F1B9401220098A93E /* HHTransfer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHTransfer.m; sourceTree = "<group>"; };
 		5C5451791B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+HHCustomButton.h"; sourceTree = "<group>"; };
 		5C54517A1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+HHCustomButton.m"; sourceTree = "<group>"; };
 		5C54518F1B4F67200025D19F /* HHSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSearchBar.h; sourceTree = "<group>"; };
@@ -611,6 +623,10 @@
 				5C98B3A81B8F4EC4000D6032 /* HHTransaction.m */,
 				5C98B3B01B913BC6000D6032 /* HHPaymentStatus.h */,
 				5C98B3B11B913BC6000D6032 /* HHPaymentStatus.m */,
+				5C4DA4681B93B1380098A93E /* HHAlipayOrder.h */,
+				5C4DA4691B93B1380098A93E /* HHAlipayOrder.m */,
+				5C4DA46E1B9401220098A93E /* HHTransfer.h */,
+				5C4DA46F1B9401220098A93E /* HHTransfer.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -632,6 +648,8 @@
 				5C98B3981B8D2AF6000D6032 /* HHReviewService.m */,
 				5C98B3AA1B8F5060000D6032 /* HHPaymentTransactionService.h */,
 				5C98B3AB1B8F5060000D6032 /* HHPaymentTransactionService.m */,
+				5C4DA4651B93B11C0098A93E /* HHAlipayService.h */,
+				5C4DA4661B93B11C0098A93E /* HHAlipayService.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -768,6 +786,8 @@
 		5C4DA3F61B93AD7C0098A93E /* Alipay */ = {
 			isa = PBXGroup;
 			children = (
+				5C4DA46B1B93B6340098A93E /* APAuthV2Info.h */,
+				5C4DA46C1B93B6340098A93E /* APAuthV2Info.m */,
 				5C4DA4001B93ADB30098A93E /* utli */,
 				5C4DA3FF1B93ADA80098A93E /* openssl */,
 				5C4DA3FB1B93ADA30098A93E /* libcrypto.a */,
@@ -1379,6 +1399,7 @@
 				5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */,
 				5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */,
 				5CBBA9731B5FE714009398B8 /* HHCoachDesTableViewCell.m in Sources */,
+				5C4DA46D1B93B6340098A93E /* APAuthV2Info.m in Sources */,
 				5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */,
 				5CD4EA361B5C2BA0003CF15E /* HHAvatarView.m in Sources */,
 				5C3980951B4C1A180057B049 /* HHHomePageViewController.m in Sources */,
@@ -1403,6 +1424,7 @@
 				5C4DA4641B93ADDA0098A93E /* RSADataVerifier.m in Sources */,
 				5CB34F2D1B64455A007954DF /* HHTrainingFieldService.m in Sources */,
 				5C0127121B72F62000780992 /* HHFullScreenImageViewController.m in Sources */,
+				5C4DA4701B9401220098A93E /* HHTransfer.m in Sources */,
 				5CBBA95B1B5EFD91009398B8 /* HHCoachProfileViewController.m in Sources */,
 				5CBBA9791B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m in Sources */,
 				5C69C7DD1B81015400FDE709 /* HHMyReservationTableViewCell.m in Sources */,
@@ -1411,6 +1433,7 @@
 				5C11B3991B6D2B3C0014A018 /* HHCoachSchedule.m in Sources */,
 				5CD4E9FD1B5AD565003CF15E /* HHStudent.m in Sources */,
 				5C4DA4631B93ADDA0098A93E /* RSADataSigner.m in Sources */,
+				5C4DA4671B93B11C0098A93E /* HHAlipayService.m in Sources */,
 				5C4DA45D1B93ADDA0098A93E /* base64.m in Sources */,
 				5CD4E9F01B59CC7B003CF15E /* HHUser.m in Sources */,
 				5CA5B77A1B52CFF300312674 /* HHMobilePhoneViewController.m in Sources */,
@@ -1425,6 +1448,7 @@
 				5C4DA4601B93ADDA0098A93E /* MD5DataSigner.m in Sources */,
 				5C98B3AC1B8F5060000D6032 /* HHPaymentTransactionService.m in Sources */,
 				5C98B3B21B913BC6000D6032 /* HHPaymentStatus.m in Sources */,
+				5C4DA46A1B93B1380098A93E /* HHAlipayOrder.m in Sources */,
 				5C3980701B4AAD450057B049 /* HHCoachListViewController.m in Sources */,
 				5CD4EA3C1B5C8180003CF15E /* HHCoachService.m in Sources */,
 				5CA5B7811B53298000312674 /* HHProfileSetupViewController.m in Sources */,

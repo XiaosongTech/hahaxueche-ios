@@ -10,9 +10,9 @@
 
 @interface HHTransaction : AVObject<AVSubclassing>
 
-@property (nonatomic, copy, readonly) NSString *studentId;
-@property (nonatomic, copy, readonly) NSString *coachId;
-@property (nonatomic, strong, readonly) NSNumber *paidPrice;
-@property (nonatomic, copy, readonly) NSString *paymentMethod;
+@property (nonatomic, copy) NSString *studentId;
+@property (nonatomic, copy) NSString *coachId;
+@property (nonatomic, strong) NSNumber *paidPrice;
+@property (nonatomic, copy) NSString *paymentMethod;
 
 @end

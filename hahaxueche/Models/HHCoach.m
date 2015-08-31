@@ -24,6 +24,7 @@
 @dynamic trainingFieldId;
 @dynamic phoneNumber;
 @dynamic averageRating;
+@dynamic alipayAccount;
 
 + (NSString *)parseClassName {
     return @"Coach";

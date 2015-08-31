@@ -162,9 +162,10 @@
 }
 
 - (void)payButtonTapped {
-    if (self.payBlock) {
-        self.payBlock();
-    }
+    
+    self.alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"确认付款？", nil) message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"取消付款", nil) otherButtonTitles:NSLocalizedString(@"确认付款", nil), nil];
+    [self.alertView show];
+    
 }
 
 - (void)showToolTip {
@@ -227,6 +228,14 @@
 
 - (void)popTipViewWasDismissedByUser:(CMPopTipView *)popTipView {
     popTipView = nil;
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        if (self.payBlock) {
+            self.payBlock();
+        }
+    }
 }
 
 @end
