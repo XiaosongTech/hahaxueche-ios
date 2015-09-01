@@ -57,7 +57,8 @@
     UITapGestureRecognizer *tapAddress = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showLocation)];
     [self.addressLabel addGestureRecognizer:tapAddress];
     self.addressLabel.userInteractionEnabled = YES;
-    self.priceLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:16] color:[UIColor darkTextColor]];
+    self.priceLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:12] color:[UIColor darkTextColor]];
+    self.actualPriceLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:16] color:[UIColor HHOrange]];
     
     self.locationPin = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"location_icon"]];
     self.locationPin.translatesAutoresizingMaskIntoConstraints = NO;
@@ -122,7 +123,9 @@
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.addressLabel constant:13.0f],
                              [HHAutoLayoutUtility horizontalNext:self.addressLabel toView:self.locationPin constant:4.0f],
                              
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.priceLabel constant:11.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.actualPriceLabel constant:11.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.actualPriceLabel constant:-10.0f],
+                             [HHAutoLayoutUtility verticalNext:self.priceLabel toView:self.actualPriceLabel constant:3.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.priceLabel constant:-10.0f],
                              
                              [HHAutoLayoutUtility verticalNext:self.ratingView toView:self.nameLabel constant:6.0f],
@@ -155,7 +158,10 @@
     [self.avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:thumbnailString] placeholderImage:nil];
     
     self.nameLabel.text = coach.fullName;
-    self.priceLabel.text = [[HHFormatUtility moneyFormatter] stringFromNumber:coach.price];
+    NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString:[[HHFormatUtility moneyFormatter] stringFromNumber:coach.price]];
+    [attributeString addAttributes:@{NSStrikethroughStyleAttributeName:@(1), NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:12], NSForegroundColorAttributeName:[UIColor darkTextColor]} range:NSMakeRange(0, [attributeString length])];
+    self.priceLabel.attributedText = attributeString;;
+    self.actualPriceLabel.text = [[HHFormatUtility moneyFormatter] stringFromNumber:coach.actualPrice];
     self.ratingView.value =[coach.averageRating floatValue];
     self.ratingLabel.text = [[HHFormatUtility floatFormatter] stringFromNumber:coach.averageRating];;
     

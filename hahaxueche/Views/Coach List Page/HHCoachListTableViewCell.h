@@ -21,6 +21,7 @@ typedef void (^HHAddressTappedBlock)();
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *addressLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
+@property (nonatomic, strong) UILabel *actualPriceLabel;
 @property (nonatomic, strong) UIImageView *locationPin;
 @property (nonatomic, strong) HHStarRatingView *ratingView;
 @property (nonatomic, strong) UILabel *teachedYearLabel;

@@ -25,6 +25,7 @@
 @dynamic phoneNumber;
 @dynamic averageRating;
 @dynamic alipayAccount;
+@dynamic actualPrice;
 
 + (NSString *)parseClassName {
     return @"Coach";

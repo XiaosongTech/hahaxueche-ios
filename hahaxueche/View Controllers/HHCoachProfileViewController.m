@@ -202,13 +202,13 @@ typedef enum : NSUInteger {
     HHTransaction *transaction = [HHTransaction objectWithClassName:[HHTransaction parseClassName]];
     transaction.studentId = [HHUserAuthenticator sharedInstance].currentStudent.studentId;
     transaction.coachId = self.coach.coachId;
-    transaction.paidPrice = self.coach.price;
+    transaction.paidPrice = self.coach.actualPrice;
     transaction.paymentMethod = NSLocalizedString(@"支付宝", nil);
     
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中", nil)];
     
     [transaction save];
-    HHAlipayOrder *order = [[HHAlipayOrder alloc] initWithOrderNumber:transaction.objectId amount:self.coach.price];
+    HHAlipayOrder *order = [[HHAlipayOrder alloc] initWithOrderNumber:transaction.objectId amount:self.coach.actualPrice];
     [[HHAlipayService sharedInstance] payByAlipayWith:order completion:^(NSDictionary *dictionary) {
         [[HHLoadingView sharedInstance] hideLoadingView];
         if ([dictionary[@"resultStatus"] isEqualToString:@"9000"]) {

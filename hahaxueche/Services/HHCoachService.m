@@ -63,7 +63,7 @@
             break;
             
         case SortOptionLowestPrice: {
-           [query orderByAscending:@"price"];
+           [query orderByAscending:@"actualPrice"];
         }
             break;
             

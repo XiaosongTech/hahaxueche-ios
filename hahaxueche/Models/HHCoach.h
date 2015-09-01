@@ -22,6 +22,7 @@
 @property (nonatomic, copy) NSString *experienceYear;
 @property (nonatomic, copy) NSString *course;
 @property (nonatomic, copy) NSNumber *price;
+@property (nonatomic, copy) NSNumber *actualPrice;
 @property (nonatomic, copy) NSNumber *passedStudentAmount;
 @property (nonatomic, copy) NSArray *images;
 @property (nonatomic, copy) NSNumber *averageRating;
