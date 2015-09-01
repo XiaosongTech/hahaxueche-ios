@@ -46,7 +46,7 @@
     self.imagesArray = @[@"http://ac-cr9pv6bp.clouddn.com/wiB2E9Rplx5UDHpH8gYJFYC", @"http://ac-cr9pv6bp.clouddn.com/wiB2E9Rplx5UDHpH8gYJFYC"];
     self.imageGalleryView = [[HHScrollImageGallery alloc] initWithURLStrings:self.imagesArray];
     self.imageGalleryView.delegate = self;
-    self.imageGalleryView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 200.0f);
+    self.imageGalleryView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds) * 0.35);
     [self.view addSubview:self.imageGalleryView];
     
     self.oneClickButton = [[HHButton alloc] initSolidButtonWithTitle:NSLocalizedString(@"一 键 找 教 练",nil) textColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:30.0f]];
