@@ -52,7 +52,7 @@
         if(self.type == PageTypeSignup) {
             self.title = NSLocalizedString(@"手机验证",nil);
             self.titleText = NSLocalizedString(@"请输入您的手机号码",nil);
-            self.subTitleText = NSLocalizedString(@"我们绝不会贩卖，滥用你的个人信息",nil);
+            self.subTitleText = NSLocalizedString(@"我们会保护好你的个人信息",nil);
         } else {
             self.title = NSLocalizedString(@"手机号登陆",nil);
         }
@@ -69,7 +69,7 @@
 - (void)initSubviews {
     if (self.type == PageTypeSignup) {
         self.titleLabel = [self createLabelWithTitle:self.titleText font:[UIFont fontWithName:@"STHeitiSC-Medium" size:20.0f] textColor:[UIColor whiteColor]];
-        self.subTitleLabel = [self createLabelWithTitle:self.subTitleText font:[UIFont fontWithName:@"STHeitiSC-Light" size:12.0f] textColor:[UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1]];
+        self.subTitleLabel = [self createLabelWithTitle:self.subTitleText font:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f] textColor:[UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1]];
     }
     
     UIBarButtonItem *cancelButton = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"取消",nil) action:@selector(cancel) target:self isLeft:YES];
@@ -124,7 +124,7 @@
                         [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.titleLabel constant:10.0f],
                         [HHAutoLayoutUtility setCenterX:self.titleLabel multiplier:1.0f constant:0],
                         
-                        [HHAutoLayoutUtility verticalNext:self.subTitleLabel toView:self.titleLabel constant:0.0f],
+                        [HHAutoLayoutUtility verticalNext:self.subTitleLabel toView:self.titleLabel constant:5.0f],
                         [HHAutoLayoutUtility setCenterX:self.subTitleLabel multiplier:1.0f constant:0],
                         
                         [HHAutoLayoutUtility verticalNext:self.numberFieldView toView:self.subTitleLabel constant:10.0f],
