@@ -38,12 +38,12 @@
     self.containerView.layer.masksToBounds = YES;
     [self.contentView addSubview:self.containerView];
     
-    self.timeLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f] textColor:kCellTextColor];
+    self.timeLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f] textColor:kCellTextColor];
     
-    self.coachNameButton = [self createButtonWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f] textColor:[UIColor HHClickableBlue] action:@selector(coachNameButtonTapped)];
+    self.coachNameButton = [self createButtonWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f] textColor:[UIColor HHClickableBlue] action:@selector(coachNameButtonTapped)];
 
-    self.courseLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f] textColor:kCellTextColor];
-    self.studentsLabel = [self createLabelWithTitle:NSLocalizedString(@"同车学员:", nil) font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:11.0f] textColor:kCellTextColor];
+    self.courseLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f] textColor:kCellTextColor];
+    self.studentsLabel = [self createLabelWithTitle:NSLocalizedString(@"同车学员:", nil) font:[UIFont fontWithName:@"STHeitiSC-Light" size:11.0f] textColor:kCellTextColor];
 
     self.line = [self createLine];
     self.firstVerticalLine = [self createLine];
@@ -171,13 +171,13 @@
     NSString *nameString = [NSString stringWithFormat:@"%@ 教练", [HHUserAuthenticator sharedInstance].myCoach.fullName];
     NSMutableAttributedString *attrNameString = [[NSMutableAttributedString alloc] initWithString:nameString];
     [attrNameString addAttributes:@{
-                                    NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:15.0f],
+                                    NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Light" size:15.0f],
                                     NSForegroundColorAttributeName:[UIColor HHClickableBlue],
                                     }
                             range:NSMakeRange(0, nameString.length - 2)];
     
     [attrNameString addAttributes:@{
-                                    NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f],
+                                    NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f],
                                     NSForegroundColorAttributeName:kCellTextColor,
                                     }
                             range:NSMakeRange(nameString.length - 2, 2)];

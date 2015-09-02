@@ -17,8 +17,8 @@
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        self.keyLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:12.0f] textColor:[UIColor HHGrayTextColor]];
-        self.valueLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f] textColor:textColor];
+        self.keyLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Medium" size:12.0f] textColor:[UIColor HHGrayTextColor]];
+        self.valueLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f] textColor:textColor];
         if (rightLine) {
             self.rightLine = [[UIView alloc] initWithFrame:CGRectZero];
             self.rightLine.translatesAutoresizingMaskIntoConstraints = NO;

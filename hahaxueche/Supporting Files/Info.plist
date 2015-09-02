@@ -40,10 +40,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UIAppFonts</key>
-	<array>
-		<string>SourceHanSansCN-Medium.ttf</string>
-		<string>SourceHanSansCN-Normal.ttf</string>
-	</array>
+	<array/>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

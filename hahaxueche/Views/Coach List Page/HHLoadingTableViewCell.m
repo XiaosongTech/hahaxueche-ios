@@ -35,7 +35,7 @@
     self.loadingLabel.text = NSLocalizedString(@"正在加载...",nil);
     self.loadingLabel.textAlignment = NSTextAlignmentCenter;
     self.loadingLabel.backgroundColor = [UIColor whiteColor];
-    self.loadingLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:12.0f];
+    self.loadingLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12.0f];
     self.loadingLabel.textColor = [UIColor lightGrayColor];
     self.loadingLabel.layer.cornerRadius = 5.0f;
     self.loadingLabel.layer.masksToBounds = YES;

@@ -32,46 +32,46 @@
 
 - (void)initSubviews {
     if (self.currentStage > self.stage) {
-        self.numberLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f]
+        self.numberLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]
                                            textColor:[UIColor HHGrayTextColor]
                                                 text:[NSString stringWithFormat:@"%ld", (long)self.stage]
                                      backgroundColor:[UIColor clearColor]];
         
         self.numberLabel.layer.cornerRadius = kNumberLabelRadius;
         
-        self.amountLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f]
+        self.amountLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]
                                            textColor:[UIColor HHGrayTextColor]
                                                 text:[[HHFormatUtility moneyFormatter] stringFromNumber:self.amount]
                                      backgroundColor:[UIColor whiteColor]];
         
         self.payButton = [self createButtonWithTitle:NSLocalizedString(@"已付款", nil)
                                      backgroundColor:[UIColor whiteColor]
-                                                font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f]
+                                                font:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]
                                               action:@selector(payButtonTapped)
                                            textColor:[UIColor HHGrayTextColor]];
         self.payButton.enabled = NO;
         
     } else if (self.currentStage == self.stage) {
-        self.numberLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f]
+        self.numberLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]
                                            textColor:[UIColor whiteColor]
                                                 text:[NSString stringWithFormat:@"%ld", (long)self.stage]
                                      backgroundColor:[UIColor HHOrange]];
         self.numberLabel.layer.cornerRadius = kNumberLabelRadius;
         
-        self.amountLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f]
+        self.amountLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]
                                            textColor:[UIColor HHOrange]
                                                 text:[[HHFormatUtility moneyFormatter] stringFromNumber:self.amount]
                                      backgroundColor:[UIColor whiteColor]];
         
         self.payButton = [self createButtonWithTitle:NSLocalizedString(@"付款", nil)
                                      backgroundColor:[UIColor HHOrange]
-                                                font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f]
+                                                font:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]
                                               action:@selector(payButtonTapped)
                                            textColor:[UIColor whiteColor]];
         self.payButton.enabled = YES;
         
     } else {
-        self.numberLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f]
+        self.numberLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]
                                            textColor:kDarkGrayTextColor
                                                 text:[NSString stringWithFormat:@"%ld", (long)self.stage]
                                      backgroundColor:[UIColor whiteColor]];
@@ -81,14 +81,14 @@
         self.numberLabel.layer.borderColor = [UIColor HHGrayTextColor].CGColor;
         
         
-        self.amountLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f]
+        self.amountLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]
                                            textColor:kDarkGrayTextColor
                                                 text:[[HHFormatUtility moneyFormatter] stringFromNumber:self.amount]
                                      backgroundColor:[UIColor whiteColor]];
         
         self.payButton = [self createButtonWithTitle:NSLocalizedString(@"待付款", nil)
                                      backgroundColor:[UIColor whiteColor]
-                                                font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f]
+                                                font:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]
                                               action:@selector(payButtonTapped)
                                            textColor:kDarkGrayTextColor];
         self.payButton.enabled = NO;
@@ -206,8 +206,8 @@
     CMPopTipView *view = [[CMPopTipView alloc] initWithTitle:title message:message];
     view.textAlignment = NSTextAlignmentLeft;
     view.titleColor = titleColor;
-    view.titleFont = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:14.0f];
-    view.textFont = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:12.0f];
+    view.titleFont = [UIFont fontWithName:@"STHeitiSC-Light" size:14.0f];
+    view.textFont = [UIFont fontWithName:@"STHeitiSC-Light" size:12.0f];
     view.textColor = [UIColor HHGrayTextColor];
     view.preferredPointDirection = PointDirectionAny;
     view.borderColor = [UIColor HHOrange];

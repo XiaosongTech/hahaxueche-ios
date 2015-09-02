@@ -21,7 +21,7 @@
         self.titleLabel.text = title;
         self.titleLabel.textColor = [UIColor colorWithRed:0.243 green:0.243 blue:0.243 alpha:1];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
-        self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:14.0f];
+        self.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:14.0f];
         [self.titleLabel sizeToFit];
         [self.titleLabel setFrameWithOrigin:CGPointMake(10.0f, 4.0f)];
         [self.titleLabel setFrameWithHeight:40.0f];

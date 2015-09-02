@@ -41,14 +41,14 @@
     self.nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.nameLabel.textColor = [UIColor blackColor];
-    self.nameLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f];
+    self.nameLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f];
     self.nameLabel.textAlignment = NSTextAlignmentCenter;
     self.nameLabel.backgroundColor = [UIColor clearColor];
     [self.containerView addSubview:self.nameLabel];
     
     self.desLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.desLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.desLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f];
+    self.desLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:13.0f];
     self.desLabel.backgroundColor = [UIColor clearColor];
     self.desLabel.numberOfLines = 0;
     [self.containerView addSubview:self.desLabel];

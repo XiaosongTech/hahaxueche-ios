@@ -32,7 +32,7 @@
 - (void)showLoadingViewWithTilte:(NSString *)title {
     UIWindow *currentWindow = [[UIApplication sharedApplication] keyWindow];
     self.hud = [[MBProgressHUD alloc] initWithView:currentWindow];
-    self.hud.labelFont = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:15];
+    self.hud.labelFont = [UIFont fontWithName:@"STHeitiSC-Light" size:15];
     [currentWindow addSubview:self.hud];
     self.hud.labelText = NSLocalizedString(@"加载中",nil);
     if (title) {

@@ -34,14 +34,14 @@
     self.avatarView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.avatarView];
     
-    self.nameLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15] textColor:[UIColor whiteColor]];
-    self.ratingLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:13] textColor:[UIColor HHOrange]];
+    self.nameLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Medium" size:15] textColor:[UIColor whiteColor]];
+    self.ratingLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Medium" size:13] textColor:[UIColor HHOrange]];
     
     self.ratingView = [[HHStarRatingView alloc] initWithFrame:CGRectZero rating:0];
     self.ratingView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.ratingView];
     
-    self.commentLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13] textColor:[UIColor whiteColor]];
+    self.commentLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Light" size:13] textColor:[UIColor whiteColor]];
     self.commentLabel.numberOfLines = 0;
     
     
@@ -50,7 +50,7 @@
     self.line.backgroundColor = [UIColor HHGrayLineColor];
     [self.contentView addSubview:self.line];
     
-    self.timeLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12] textColor:[UIColor whiteColor]];
+    self.timeLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Light" size:12] textColor:[UIColor whiteColor]];
     
     [self autoLayoutSubviews];
     

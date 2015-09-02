@@ -171,13 +171,13 @@
     NSString *nameString = [NSString stringWithFormat:@"%@ 教练", [HHUserAuthenticator sharedInstance].myCoach.fullName];
     NSMutableAttributedString *attrNameString = [[NSMutableAttributedString alloc] initWithString:nameString];
     [attrNameString addAttributes:@{
-                                    NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:15.0f],
+                                    NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Light" size:15.0f],
                                     NSForegroundColorAttributeName:[UIColor HHClickableBlue],
                                     }
                             range:NSMakeRange(0, nameString.length - 2)];
     
     [attrNameString addAttributes:@{
-                                    NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f],
+                                    NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f],
                                     NSForegroundColorAttributeName:kCellTextColor,
                                     }
                             range:NSMakeRange(nameString.length - 2, 2)];

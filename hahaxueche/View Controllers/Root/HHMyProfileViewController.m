@@ -70,7 +70,7 @@
     self.explanationLabel.backgroundColor = [UIColor clearColor];
     self.explanationLabel.text = NSLocalizedString(@"注：学员支付的学费将由平台保管，每个阶段结束后，学员可以根据情况，点此阶段的付款按钮，点击后，平台将该阶段对应的金额转给教练，然后进入下一阶段。每个阶段到金额会在点击付款后的第一个周二转到教练账户", nil);
     self.explanationLabel.textColor = [UIColor HHGrayTextColor];
-    self.explanationLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:12.0f];
+    self.explanationLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:12.0f];
     self.explanationLabel.numberOfLines = 0;
     
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(10.0f, 5.0f, CGRectGetWidth(self.view.bounds)-20.0f, 60.0f)];

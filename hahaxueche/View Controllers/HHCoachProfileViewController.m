@@ -173,13 +173,13 @@ typedef enum : NSUInteger {
         [self.addressSheet addButtonWithTitle:NSLocalizedString(@"在高德地图中打开", nil)];
     }
     
-    self.payButton = [self createButtonWithTitle:NSLocalizedString(@"确认教练并付款", nil) backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f] action:@selector(payCoach)];
+    self.payButton = [self createButtonWithTitle:NSLocalizedString(@"确认教练并付款", nil) backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f] action:@selector(payCoach)];
     [self.view addSubview:self.payButton];
     
-    self.bookTrialButton = [self createButtonWithTitle:NSLocalizedString(@"预约试训", nil) backgroundColor:[UIColor HHLightOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f] action:@selector(callCoach)];
+    self.bookTrialButton = [self createButtonWithTitle:NSLocalizedString(@"预约试训", nil) backgroundColor:[UIColor HHLightOrange] font:[UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f] action:@selector(callCoach)];
     [self.view addSubview:self.bookTrialButton];
     
-    self.commentButton = [self createButtonWithTitle:NSLocalizedString(@"评价教练", nil) backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f] action:@selector(commentCoach)];
+    self.commentButton = [self createButtonWithTitle:NSLocalizedString(@"评价教练", nil) backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f] action:@selector(commentCoach)];
     [self.view addSubview:self.commentButton];
 
 
@@ -282,7 +282,7 @@ typedef enum : NSUInteger {
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:16.0f];
+    titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:16.0f];
     titleLabel.textColor = [UIColor blackColor];
     titleLabel.text = NSLocalizedString(@"给教练打分", nil);
     titleLabel.textAlignment = NSTextAlignmentLeft;
@@ -306,14 +306,14 @@ typedef enum : NSUInteger {
     
     self.reviewTextView = [[UITextView alloc] initWithFrame:CGRectZero];
     self.reviewTextView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.reviewTextView.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f];
+    self.reviewTextView.font = [UIFont fontWithName:@"STHeitiSC-Light" size:13.0f];
     self.reviewTextView.showsHorizontalScrollIndicator = NO;
     self.reviewTextView.delegate = self;
     [reviewView addSubview:self.reviewTextView];
     
     self.placeholderLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.placeholderLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.placeholderLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f];
+    self.placeholderLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:13.0f];
     self.placeholderLabel.textColor = [UIColor lightGrayColor];
     self.placeholderLabel.text = NSLocalizedString(@"牢骚或表扬，大胆说出来吧！", nil);
     self.placeholderLabel.textAlignment = NSTextAlignmentLeft;
@@ -321,11 +321,11 @@ typedef enum : NSUInteger {
     [self.reviewTextView addSubview:self.placeholderLabel];
 
     
-    UIButton *dismissButton = [self createButtonWithTitle:NSLocalizedString(@"取消返回", nil) backgroundColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:15.0f] action:@selector(dismissCommentPopupView)];
+    UIButton *dismissButton = [self createButtonWithTitle:NSLocalizedString(@"取消返回", nil) backgroundColor:[UIColor whiteColor] font:[UIFont fontWithName:@"STHeitiSC-Light" size:15.0f] action:@selector(dismissCommentPopupView)];
     [dismissButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
     [reviewView addSubview:dismissButton];
     
-    UIButton *confirmButton = [self createButtonWithTitle:NSLocalizedString(@"确认评价", nil) backgroundColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:15.0f] action:@selector(confirmButtonTapped)];
+    UIButton *confirmButton = [self createButtonWithTitle:NSLocalizedString(@"确认评价", nil) backgroundColor:[UIColor whiteColor] font:[UIFont fontWithName:@"STHeitiSC-Light" size:15.0f] action:@selector(confirmButtonTapped)];
     [confirmButton setTitleColor:[UIColor HHBlueButtonColor] forState:UIControlStateNormal];
     [reviewView addSubview:confirmButton];
     
@@ -535,7 +535,7 @@ typedef enum : NSUInteger {
             for (int i = 0; i < reviewCount; i++) {
                 HHReview *review = self.reviews[i];
                 NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:review.comment];
-                [attrString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:13] range:NSMakeRange(0, review.comment.length)];
+                [attrString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"STHeitiSC-Medium" size:13] range:NSMakeRange(0, review.comment.length)];
                 CGFloat viewHeight = CGRectGetHeight([attrString boundingRectWithSize:CGSizeMake(CGRectGetWidth([[UIScreen mainScreen] bounds])-75.0f, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin context:nil]) + 70.0f;
                 totalHeight = totalHeight + viewHeight;
             }

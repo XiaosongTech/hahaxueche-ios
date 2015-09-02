@@ -117,14 +117,14 @@
 - (void)setAppearance {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],
-                                                           NSFontAttributeName: [UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f]}];
+                                                           NSFontAttributeName: [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f]}];
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],
-                                                           NSFontAttributeName: [UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f]} forState:UIControlStateNormal];
+                                                           NSFontAttributeName: [UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]} forState:UIControlStateNormal];
     [[UINavigationBar appearance] setTranslucent:NO];
     [[UINavigationBar appearance] setBarTintColor:[UIColor HHOrange]];
     [[UITabBar appearance] setTintColor:[UIColor HHOrange]];
     [[UITabBar appearance] setBarTintColor:[UIColor HHLightGrayBackgroundColor]];
-    [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:10]} forState:UIControlStateNormal];
+    [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Medium" size:10]} forState:UIControlStateNormal];
 }
 
 - (void)setupSMSService {

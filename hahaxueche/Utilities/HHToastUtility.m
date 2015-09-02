@@ -24,7 +24,7 @@
                               kCRToastNotificationTypeKey: @(CRToastTypeNavigationBar),
                               kCRToastNotificationPresentationTypeKey:@(CRToastPresentationTypeCover),
                               kCRToastTextKey: title,
-                              kCRToastFontKey: [UIFont fontWithName:@"SourceHanSansCN-Medium" size:13.0f],
+                              kCRToastFontKey: [UIFont fontWithName:@"STHeitiSC-Medium" size:13.0f],
                               kCRToastTextAlignmentKey: @(NSTextAlignmentCenter),
                               kCRToastBackgroundColorKey: backgroundColor,
                               kCRToastAnimationInTypeKey: @(CRToastAnimationTypeSpring),
