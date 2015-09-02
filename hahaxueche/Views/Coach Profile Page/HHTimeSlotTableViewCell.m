@@ -49,22 +49,22 @@
     self.whiteLine.backgroundColor = [UIColor whiteColor];
     [self.selectedIndicatorView addSubview:self.whiteLine];
     
-    self.selectedInfoLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f] textColor:[UIColor whiteColor]];
+    self.selectedInfoLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f] textColor:[UIColor whiteColor]];
     self.selectedInfoLabel.numberOfLines = 0;
     [self.selectedIndicatorView addSubview:self.selectedInfoLabel];
     
-    self.selectedLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f] textColor:[UIColor whiteColor]];
+    self.selectedLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f] textColor:[UIColor whiteColor]];
     [self.selectedIndicatorView addSubview:self.selectedLabel];
     
     self.line = [self createLine];
     self.firstVerticalLine = [self createLine];
     self.secondVerticalLine = [self createLine];
     
-    self.timeLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f] textColor:kCellTextColor];
+    self.timeLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f] textColor:kCellTextColor];
     [self.containerView addSubview:self.timeLabel];
-    self.courseLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f] textColor:kCellTextColor];
+    self.courseLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f] textColor:kCellTextColor];
     [self.containerView addSubview:self.courseLabel];
-    self.amountLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f] textColor:kCellTextColor];
+    self.amountLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f] textColor:kCellTextColor];
     [self.containerView addSubview:self.amountLabel];
     
     for (int i = 0; i < 4; i++) {

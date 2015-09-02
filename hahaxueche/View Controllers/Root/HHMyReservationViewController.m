@@ -322,17 +322,17 @@ typedef void (^HHGenericCompletion)();
     UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 60.0f, 290.0f)];
     contentView.backgroundColor = [UIColor whiteColor];
     
-    UILabel *titleLabel = [self createLableWithText:NSLocalizedString(@"您确定取消以下预约？", nil) font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:14.0f] textColor:[UIColor blackColor]];
+    UILabel *titleLabel = [self createLableWithText:NSLocalizedString(@"您确定取消以下预约？", nil) font:[UIFont fontWithName:@"STHeitiSC-Light" size:14.0f] textColor:[UIColor blackColor]];
     
     HHCoachSchedule *schedule = self.groupedReservations[self.cancelCellIndexPath.section][self.cancelCellIndexPath.row];
     NSString *subtitile = [NSString stringWithFormat:@"%@(%@)\n%@ 到 %@", [[HHFormatUtility fullDateFormatter] stringFromDate:schedule.startDateTime], [[HHFormatUtility weekDayFormatter] stringFromDate:schedule.startDateTime], [[HHFormatUtility timeFormatter] stringFromDate:schedule.startDateTime], [[HHFormatUtility timeFormatter] stringFromDate:schedule.endDateTime]];
-    UILabel *subtitleLabel = [self createLableWithText:subtitile font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:16.0f] textColor:[UIColor blackColor]];
+    UILabel *subtitleLabel = [self createLableWithText:subtitile font:[UIFont fontWithName:@"STHeitiSC-Light" size:16.0f] textColor:[UIColor blackColor]];
     subtitleLabel.numberOfLines = 0;
-    UIButton *confirmCancelButton = [self createButtonWithText:NSLocalizedString(@"确认取消", nil) textColor:[UIColor whiteColor] bgColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:16.0f] action:@selector(cancelAppointment)];
+    UIButton *confirmCancelButton = [self createButtonWithText:NSLocalizedString(@"确认取消", nil) textColor:[UIColor whiteColor] bgColor:[UIColor HHOrange] font:[UIFont fontWithName:@"STHeitiSC-Medium" size:16.0f] action:@selector(cancelAppointment)];
     
-    UIButton *dismissButton = [self createButtonWithText:NSLocalizedString(@"返回", nil) textColor:[UIColor whiteColor] bgColor:[UIColor HHBlueButtonColor] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:16.0f] action:@selector(dismissPopupView)];
+    UIButton *dismissButton = [self createButtonWithText:NSLocalizedString(@"返回", nil) textColor:[UIColor whiteColor] bgColor:[UIColor HHBlueButtonColor] font:[UIFont fontWithName:@"STHeitiSC-Medium" size:16.0f] action:@selector(dismissPopupView)];
     
-    UILabel *explanationLabel = [self createLableWithText:NSLocalizedString(@"如确认取消，您将无法在此时间段练车。", nil) font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f] textColor:[UIColor HHGrayTextColor]];
+    UILabel *explanationLabel = [self createLableWithText:NSLocalizedString(@"如确认取消，您将无法在此时间段练车。", nil) font:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f] textColor:[UIColor HHGrayTextColor]];
     
     
     [contentView addSubview:titleLabel];

@@ -16,8 +16,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        self.keyLabel = [self createLabelWithTitle:keyTitle font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12.0f] textColor:[UIColor HHGrayTextColor]];
-        self.valueLabel = [self createLabelWithTitle:value font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12.0f] textColor:[UIColor HHGrayTextColor]];
+        self.keyLabel = [self createLabelWithTitle:keyTitle font:[UIFont fontWithName:@"STHeitiSC-Light" size:12.0f] textColor:[UIColor HHGrayTextColor]];
+        self.valueLabel = [self createLabelWithTitle:value font:[UIFont fontWithName:@"STHeitiSC-Light" size:12.0f] textColor:[UIColor HHGrayTextColor]];
         [self autoLayoutSubviews];
     }
     return self;

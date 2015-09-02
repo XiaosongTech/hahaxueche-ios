@@ -30,7 +30,7 @@
     self.containerView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:self.containerView];
     
-    self.titleLabel = [self createLabelWithTitle:NSLocalizedString(@"查看教练练车时间",nil) font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f] textColor:[UIColor HHGrayTextColor]];
+    self.titleLabel = [self createLabelWithTitle:NSLocalizedString(@"查看教练练车时间",nil) font:[UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f] textColor:[UIColor HHGrayTextColor]];
     
     self.arrowImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow_right"]];
     self.arrowImageView.translatesAutoresizingMaskIntoConstraints = NO;

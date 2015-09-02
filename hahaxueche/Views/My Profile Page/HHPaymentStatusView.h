@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger, PaymentStage) {
 typedef void (^HHPaymentStatusViewPayBlock)();
 
 
-@interface HHPaymentStatusView : UIView <CMPopTipViewDelegate>
+@interface HHPaymentStatusView : UIView <CMPopTipViewDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSNumber *amount;
 @property (nonatomic) PaymentStage stage;
@@ -32,6 +32,8 @@ typedef void (^HHPaymentStatusViewPayBlock)();
 @property (nonatomic, strong) UIButton *payButton;
 @property (nonatomic, strong) UIImageView *infoImageView;
 @property (nonatomic, strong) HHPaymentStatusViewPayBlock payBlock;
+@property (nonatomic, strong) UIAlertView *alertView;
+
 
 
 

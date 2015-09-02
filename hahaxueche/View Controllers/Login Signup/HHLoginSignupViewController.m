@@ -36,9 +36,9 @@
     self.logoView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.logoView];
     
-    self.signupButton = [self createBorderButtonWithTitle:NSLocalizedString(@"新用户注册",nil) textColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:18] action:@selector(signup)];
+    self.signupButton = [self createBorderButtonWithTitle:NSLocalizedString(@"新用户注册",nil) textColor:[UIColor whiteColor] font:[UIFont fontWithName:@"STHeitiSC-Light" size:18] action:@selector(signup)];
     
-    self.loginButton = [self createBorderButtonWithTitle:NSLocalizedString(@"登陆",nil) textColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:18] action:@selector(login)];
+    self.loginButton = [self createBorderButtonWithTitle:NSLocalizedString(@"登陆",nil) textColor:[UIColor whiteColor] font:[UIFont fontWithName:@"STHeitiSC-Light" size:18] action:@selector(login)];
 
     [self autoLayoutSubviews];
     

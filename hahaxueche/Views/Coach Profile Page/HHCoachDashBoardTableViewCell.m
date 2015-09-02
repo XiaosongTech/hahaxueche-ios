@@ -143,7 +143,7 @@
 }
 
 - (void)setupViewsWithCoach:(HHCoach *)coach trainingFielf:(HHTrainingField *)field {
-    [self.priceView setupViewWithKey:NSLocalizedString(@"包干价格", nil) value:[[HHFormatUtility moneyFormatter] stringFromNumber:coach.price]];
+    [self.priceView setupViewWithKey:NSLocalizedString(@"包干价格", nil) value:[[HHFormatUtility moneyFormatter] stringFromNumber:coach.actualPrice]];
     [self.courseView setupViewWithKey:NSLocalizedString(@"服务项目", nil) value:coach.course];
     
     [self.yearView setupViewWithKey:NSLocalizedString(@"教龄", nil) value:[NSString stringWithFormat:NSLocalizedString(@"%@年", nil), coach.experienceYear]];

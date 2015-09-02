@@ -113,12 +113,12 @@
         HHStudent *student = (HHStudent *)object;
         if (!error) {
             self.currentStudent = student;
+            if (completion) {
+                completion(student, error);
+            }
             [[HHCoachService sharedInstance] fetchCoachWithId:self.currentStudent.myCoachId completion:^(HHCoach *coach, NSError *error) {
                 if (!error) {
                     self.myCoach = coach;
-                    if (completion) {
-                        completion(student, error);
-                    }
                 }
             }];
         }

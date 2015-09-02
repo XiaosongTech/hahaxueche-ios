@@ -68,8 +68,8 @@
 
 - (void)initSubviews {
     if (self.type == PageTypeSignup) {
-        self.titleLabel = [self createLabelWithTitle:self.titleText font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:20.0f] textColor:[UIColor whiteColor]];
-        self.subTitleLabel = [self createLabelWithTitle:self.subTitleText font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12.0f] textColor:[UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1]];
+        self.titleLabel = [self createLabelWithTitle:self.titleText font:[UIFont fontWithName:@"STHeitiSC-Medium" size:20.0f] textColor:[UIColor whiteColor]];
+        self.subTitleLabel = [self createLabelWithTitle:self.subTitleText font:[UIFont fontWithName:@"STHeitiSC-Light" size:12.0f] textColor:[UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1]];
     }
     
     UIBarButtonItem *cancelButton = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"取消",nil) action:@selector(cancel) target:self isLeft:YES];
@@ -81,7 +81,7 @@
     [self.numberFieldView.textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [self.view addSubview:self.numberFieldView];
     
-    self.sendCodeButton = [[HHButton alloc] initThinBorderButtonWithTitle:NSLocalizedString(@"发送验证码",nil) textColor:[UIColor whiteColor]font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:10.0f] borderColor:[UIColor whiteColor] backgroundColor:[UIColor clearColor]];
+    self.sendCodeButton = [[HHButton alloc] initThinBorderButtonWithTitle:NSLocalizedString(@"发送验证码",nil) textColor:[UIColor whiteColor]font:[UIFont fontWithName:@"STHeitiSC-Medium" size:10.0f] borderColor:[UIColor whiteColor] backgroundColor:[UIColor clearColor]];
     [self.sendCodeButton addTarget:self action:@selector(sendSMSCode) forControlEvents:UIControlEventTouchUpInside];
     [self.sendCodeButton setFrameWithSize:CGSizeMake(60.0f, 30.0f)];
     self.sendCodeButton.hidden = YES;
@@ -94,7 +94,7 @@
     self.verificationCodeFieldView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.verificationCodeFieldView];
     
-    self.verifyCodeButton = [[HHButton alloc] initThinBorderButtonWithTitle:NSLocalizedString(@"确认验证码",nil) textColor:[UIColor whiteColor]font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:10.0f] borderColor:[UIColor whiteColor] backgroundColor:[UIColor clearColor]];
+    self.verifyCodeButton = [[HHButton alloc] initThinBorderButtonWithTitle:NSLocalizedString(@"确认验证码",nil) textColor:[UIColor whiteColor]font:[UIFont fontWithName:@"STHeitiSC-Medium" size:10.0f] borderColor:[UIColor whiteColor] backgroundColor:[UIColor clearColor]];
     [self.verifyCodeButton addTarget:self action:@selector(verifySMSCode) forControlEvents:UIControlEventTouchUpInside];
     [self.verifyCodeButton setFrameWithSize:CGSizeMake(60.0f, 30.0f)];
     self.verificationCodeFieldView.textField.rightView = self.verifyCodeButton;

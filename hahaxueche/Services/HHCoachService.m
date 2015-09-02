@@ -8,6 +8,8 @@
 
 #import "HHCoachService.h"
 #import "HHTrainingField.h"
+#import "HHUserAuthenticator.h"
+#import "HHTrainingFieldService.h"
 
 #define kCountPerPage 20
 
@@ -61,7 +63,7 @@
             break;
             
         case SortOptionLowestPrice: {
-           [query orderByAscending:@"price"];
+           [query orderByAscending:@"actualPrice"];
         }
             break;
             
@@ -109,6 +111,23 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (completion) {
             completion(objects, [query countObjects], error);
+        }
+    }];
+
+}
+
+- (void)recommendCoachWithCompletion:(HHCoachesArrayCompletionBlock)completion {
+    AVQuery *query = [AVQuery queryWithClassName:[HHCoach parseClassName]];
+    query.limit = 5;
+    NSMutableArray *fieldIdArray = [NSMutableArray array];
+    for (HHTrainingField *field in [HHTrainingFieldService sharedInstance].supportedFields) {
+        [fieldIdArray addObject:field.objectId];
+    }
+    [query whereKey:@"trainingFieldId" containedIn:fieldIdArray];
+    [query orderByAscending:@"currentStudentAmount"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (completion){
+            completion (objects, 5, error);
         }
     }];
 

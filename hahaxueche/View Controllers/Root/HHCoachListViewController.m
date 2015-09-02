@@ -250,7 +250,9 @@
     self.currentSortOption = [self stringToEnum:buttonTitle];
     __weak HHCoachListViewController *weakSelf = self;
     [self.coachesArray removeAllObjects];
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中", nil)];
     [self fetchDataWithCompletion:^{
+        [[HHLoadingView sharedInstance] hideLoadingView];
         weakSelf.tableView.contentOffset = CGPointMake(0, 0 - self.tableView.contentInset.top);
     }];
     [self popupFloatButtons];

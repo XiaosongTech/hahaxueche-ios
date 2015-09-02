@@ -84,8 +84,8 @@
     [self.filterSegmentedControl addTarget:self action:@selector(valueChanged:) forControlEvents: UIControlEventValueChanged];
     self.filterSegmentedControl.selectedSegmentIndex = 0;
     self.filterSegmentedControl.tintColor = [UIColor HHOrange];
-    [self.filterSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:13.0f]} forState:UIControlStateNormal];
-    [self.filterSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:13.0f]} forState:UIControlStateSelected];
+    [self.filterSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Medium" size:13.0f]} forState:UIControlStateNormal];
+    [self.filterSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Medium" size:13.0f]} forState:UIControlStateSelected];
     [self.view addSubview:self.filterSegmentedControl];
     
     self.refreshControl = [[UIRefreshControl alloc]init];

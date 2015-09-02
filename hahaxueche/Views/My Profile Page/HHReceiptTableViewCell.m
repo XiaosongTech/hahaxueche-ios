@@ -10,7 +10,6 @@
 #import "HHAutoLayoutUtility.h"
 #import "HHUserAuthenticator.h"
 #import "UIColor+HHColor.h"
-#import "HHReceiptItemView.h"
 #import "HHFormatUtility.h"
 
 #define kAvatarRadius 15.0f
@@ -86,43 +85,68 @@
 }
 
 - (void)setupReceiptItems {
+    if (self.dateTimeView) {
+        self.dateTimeView.keyLabel.text = NSLocalizedString(@"下单时间", nil);
+        self.dateTimeView.valueLabel.text = [[HHFormatUtility fullDateFormatter] stringFromDate:self.transaction.createdAt];
+    } else {
+        self.dateTimeView = [[HHReceiptItemView alloc] initWithFrame:CGRectZero keyTitle:NSLocalizedString(@"下单时间", nil) value:[[HHFormatUtility fullDateFormatter] stringFromDate:self.transaction.createdAt]];
+        self.dateTimeView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.containerView addSubview:self.dateTimeView];
 
-    HHReceiptItemView *dateTimeView = [[HHReceiptItemView alloc] initWithFrame:CGRectZero keyTitle:NSLocalizedString(@"下单时间", nil) value:[[HHFormatUtility fullDateFormatter] stringFromDate:self.transaction.createdAt]];
-    dateTimeView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.containerView addSubview:dateTimeView];
+    }
     
-    HHReceiptItemView *receiptNoView = [[HHReceiptItemView alloc] initWithFrame:CGRectZero keyTitle:NSLocalizedString(@"收据编号", nil) value:self.transaction.objectId];
-    receiptNoView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.containerView addSubview:receiptNoView];
+    if (self.receiptNoView) {
+        self.receiptNoView.keyLabel.text = NSLocalizedString(@"收据编号", nil);
+        self.receiptNoView.valueLabel.text = self.transaction.objectId;
+
+    } else {
+        self.receiptNoView = [[HHReceiptItemView alloc] initWithFrame:CGRectZero keyTitle:NSLocalizedString(@"收据编号", nil) value:self.transaction.objectId];
+        self.receiptNoView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.containerView addSubview:self.receiptNoView];
+
+    }
     
-    HHReceiptItemView *paymentMethodView = [[HHReceiptItemView alloc] initWithFrame:CGRectZero keyTitle:NSLocalizedString(@"付款方式", nil) value:self.transaction.paymentMethod];
-    paymentMethodView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.containerView addSubview:paymentMethodView];
+    if (self.paymentMethodView) {
+        self.paymentMethodView.keyLabel.text = NSLocalizedString(@"付款方式", nil);
+        self.paymentMethodView.valueLabel.text = self.transaction.paymentMethod;
+    } else {
+        self.paymentMethodView = [[HHReceiptItemView alloc] initWithFrame:CGRectZero keyTitle:NSLocalizedString(@"付款方式", nil) value:self.transaction.paymentMethod];
+        self.paymentMethodView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.containerView addSubview:self.paymentMethodView];
+
+    }
     
-    HHReceiptItemView *priceView = [[HHReceiptItemView alloc] initWithFrame:CGRectZero keyTitle:NSLocalizedString(@"金额", nil) value:[[HHFormatUtility moneyFormatter] stringFromNumber:self.transaction.paidPrice]];
-    priceView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.containerView addSubview:priceView];
+    if (self.priceView) {
+        self.priceView.keyLabel.text = NSLocalizedString(@"金额", nil);
+        self.priceView.valueLabel.text = [[HHFormatUtility moneyFormatter] stringFromNumber:self.transaction.paidPrice];
+    } else {
+        self.priceView = [[HHReceiptItemView alloc] initWithFrame:CGRectZero keyTitle:NSLocalizedString(@"金额", nil) value:[[HHFormatUtility moneyFormatter] stringFromNumber:self.transaction.paidPrice]];
+        self.priceView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.containerView addSubview:self.priceView];
+    }
+    
+    
     
     NSArray *constraints = @[
-                             [HHAutoLayoutUtility verticalNext:dateTimeView toView:self.firstLine constant:10.0f],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:dateTimeView constant:10.0f],
-                             [HHAutoLayoutUtility setViewHeight:dateTimeView multiplier:0 constant:20.0f],
-                             [HHAutoLayoutUtility setViewWidth:dateTimeView multiplier:1.0f constant:-20.0f],
+                             [HHAutoLayoutUtility verticalNext:self.dateTimeView toView:self.firstLine constant:10.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.dateTimeView constant:10.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.dateTimeView multiplier:0 constant:20.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.dateTimeView multiplier:1.0f constant:-20.0f],
                              
-                             [HHAutoLayoutUtility verticalNext:receiptNoView toView:dateTimeView constant:10.0f],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:receiptNoView constant:10.0f],
-                             [HHAutoLayoutUtility setViewHeight:receiptNoView multiplier:0 constant:20.0f],
-                             [HHAutoLayoutUtility setViewWidth:receiptNoView multiplier:1.0f constant:-20.0f],
+                             [HHAutoLayoutUtility verticalNext:self.receiptNoView toView:self.dateTimeView constant:10.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.receiptNoView constant:10.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.receiptNoView multiplier:0 constant:20.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.receiptNoView multiplier:1.0f constant:-20.0f],
                              
-                             [HHAutoLayoutUtility verticalNext:paymentMethodView toView:receiptNoView constant:10.0f],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:paymentMethodView constant:10.0f],
-                             [HHAutoLayoutUtility setViewHeight:paymentMethodView multiplier:0 constant:20.0f],
-                             [HHAutoLayoutUtility setViewWidth:paymentMethodView multiplier:1.0f constant:-20.0f],
+                             [HHAutoLayoutUtility verticalNext:self.paymentMethodView toView:self.receiptNoView constant:10.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.paymentMethodView constant:10.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.paymentMethodView multiplier:0 constant:20.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.paymentMethodView multiplier:1.0f constant:-20.0f],
                              
-                             [HHAutoLayoutUtility verticalNext:priceView toView:paymentMethodView constant:10.0f],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:priceView constant:10.0f],
-                             [HHAutoLayoutUtility setViewHeight:priceView multiplier:0 constant:20.0f],
-                             [HHAutoLayoutUtility setViewWidth:priceView multiplier:1.0f constant:-20.0f],
+                             [HHAutoLayoutUtility verticalNext:self.priceView toView:self.paymentMethodView constant:10.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.priceView constant:10.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.priceView multiplier:0 constant:20.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.priceView multiplier:1.0f constant:-20.0f],
                              ];
     [self.containerView addConstraints:constraints];
 }
@@ -147,13 +171,13 @@
     NSString *nameString = [NSString stringWithFormat:@"%@ 教练", [HHUserAuthenticator sharedInstance].myCoach.fullName];
     NSMutableAttributedString *attrNameString = [[NSMutableAttributedString alloc] initWithString:nameString];
     [attrNameString addAttributes:@{
-                                    NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:15.0f],
+                                    NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Light" size:15.0f],
                                     NSForegroundColorAttributeName:[UIColor HHClickableBlue],
                                     }
                             range:NSMakeRange(0, nameString.length - 2)];
     
     [attrNameString addAttributes:@{
-                                    NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f],
+                                    NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f],
                                     NSForegroundColorAttributeName:kCellTextColor,
                                     }
                             range:NSMakeRange(nameString.length - 2, 2)];

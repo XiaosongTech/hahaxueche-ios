@@ -52,12 +52,13 @@
     self.avatarView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.dataView addSubview:self.avatarView];
     
-    self.nameLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15] color:[UIColor blackColor]];
-    self.addressLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12] color:[UIColor grayColor]];
+    self.nameLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Medium" size:15] color:[UIColor blackColor]];
+    self.addressLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Light" size:12] color:[UIColor grayColor]];
     UITapGestureRecognizer *tapAddress = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showLocation)];
     [self.addressLabel addGestureRecognizer:tapAddress];
     self.addressLabel.userInteractionEnabled = YES;
-    self.priceLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:16] color:[UIColor darkTextColor]];
+    self.priceLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Medium" size:12] color:[UIColor darkTextColor]];
+    self.actualPriceLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Medium" size:16] color:[UIColor HHOrange]];
     
     self.locationPin = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"location_icon"]];
     self.locationPin.translatesAutoresizingMaskIntoConstraints = NO;
@@ -70,16 +71,16 @@
     self.ratingView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.dataView addSubview:self.ratingView];
     
-    NSMutableAttributedString * yearString = [self generateAttributedStringWithString:@"10 " font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:14] color:[UIColor blackColor]];
+    NSMutableAttributedString * yearString = [self generateAttributedStringWithString:@"10 " font:[UIFont fontWithName:@"STHeitiSC-Medium" size:14] color:[UIColor blackColor]];
     
-    [yearString appendAttributedString:[self generateAttributedStringWithString:NSLocalizedString(@"年教龄", nil) font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12] color:[UIColor blackColor]]];
+    [yearString appendAttributedString:[self generateAttributedStringWithString:NSLocalizedString(@"年教龄", nil) font:[UIFont fontWithName:@"STHeitiSC-Light" size:12] color:[UIColor blackColor]]];
     
     
-    self.teachedYearLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:14] color:[UIColor blackColor]];
+    self.teachedYearLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Light" size:14] color:[UIColor blackColor]];
     
-    self.teachedStudentAmount = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:14] color:[UIColor blackColor]];
+    self.teachedStudentAmount = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Light" size:14] color:[UIColor blackColor]];
     
-    self.ratingLabel = [self createLabelWithFont:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:12] color:[UIColor HHOrange]];
+    self.ratingLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Medium" size:12] color:[UIColor HHOrange]];
 }
 
 - (NSMutableAttributedString *)generateAttributedStringWithString:(NSString *)title font:(UIFont *)font color:(UIColor *)color {
@@ -122,7 +123,9 @@
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.addressLabel constant:13.0f],
                              [HHAutoLayoutUtility horizontalNext:self.addressLabel toView:self.locationPin constant:4.0f],
                              
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.priceLabel constant:11.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.actualPriceLabel constant:11.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.actualPriceLabel constant:-10.0f],
+                             [HHAutoLayoutUtility verticalNext:self.priceLabel toView:self.actualPriceLabel constant:3.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.priceLabel constant:-10.0f],
                              
                              [HHAutoLayoutUtility verticalNext:self.ratingView toView:self.nameLabel constant:6.0f],
@@ -155,17 +158,20 @@
     [self.avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:thumbnailString] placeholderImage:nil];
     
     self.nameLabel.text = coach.fullName;
-    self.priceLabel.text = [[HHFormatUtility moneyFormatter] stringFromNumber:coach.price];
+    NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString:[[HHFormatUtility moneyFormatter] stringFromNumber:coach.price]];
+    [attributeString addAttributes:@{NSStrikethroughStyleAttributeName:@(1), NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Medium" size:12], NSForegroundColorAttributeName:[UIColor darkTextColor]} range:NSMakeRange(0, [attributeString length])];
+    self.priceLabel.attributedText = attributeString;;
+    self.actualPriceLabel.text = [[HHFormatUtility moneyFormatter] stringFromNumber:coach.actualPrice];
     self.ratingView.value =[coach.averageRating floatValue];
     self.ratingLabel.text = [[HHFormatUtility floatFormatter] stringFromNumber:coach.averageRating];;
     
-    NSMutableAttributedString * yearString = [self generateAttributedStringWithString:coach.experienceYear font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:14] color:[UIColor blackColor]];
-    [yearString appendAttributedString:[self generateAttributedStringWithString:NSLocalizedString(@"年教龄", nil) font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12] color:[UIColor blackColor]]];
+    NSMutableAttributedString * yearString = [self generateAttributedStringWithString:coach.experienceYear font:[UIFont fontWithName:@"STHeitiSC-Medium" size:14] color:[UIColor blackColor]];
+    [yearString appendAttributedString:[self generateAttributedStringWithString:NSLocalizedString(@"年教龄", nil) font:[UIFont fontWithName:@"STHeitiSC-Light" size:12] color:[UIColor blackColor]]];
     self.teachedYearLabel.attributedText = yearString;
     
-    NSMutableAttributedString * studentAmountString = [self generateAttributedStringWithString:NSLocalizedString(@"累计通过", nil) font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12] color:[UIColor blackColor]];
-    [studentAmountString appendAttributedString:[self generateAttributedStringWithString:[coach.passedStudentAmount stringValue] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:14] color:[UIColor blackColor]]];
-    [studentAmountString appendAttributedString:[self generateAttributedStringWithString:NSLocalizedString(@"名学员",nil) font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12] color:[UIColor blackColor]]];
+    NSMutableAttributedString * studentAmountString = [self generateAttributedStringWithString:NSLocalizedString(@"累计通过", nil) font:[UIFont fontWithName:@"STHeitiSC-Light" size:12] color:[UIColor blackColor]];
+    [studentAmountString appendAttributedString:[self generateAttributedStringWithString:[coach.passedStudentAmount stringValue] font:[UIFont fontWithName:@"STHeitiSC-Medium" size:14] color:[UIColor blackColor]]];
+    [studentAmountString appendAttributedString:[self generateAttributedStringWithString:NSLocalizedString(@"名学员",nil) font:[UIFont fontWithName:@"STHeitiSC-Light" size:12] color:[UIColor blackColor]]];
     self.teachedStudentAmount.attributedText = studentAmountString;
 }
 

@@ -33,13 +33,13 @@
     self.containerView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:self.containerView];
     
-    self.titleLabel = [self createLabelWithTitle:NSLocalizedString(@"学员评价",nil) font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f] textColor:[UIColor HHGrayTextColor]];
+    self.titleLabel = [self createLabelWithTitle:NSLocalizedString(@"学员评价",nil) font:[UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f] textColor:[UIColor HHGrayTextColor]];
     
     self.ratingView = [[HHStarRatingView alloc] initWithFrame:CGRectZero rating:0];
     self.ratingView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.containerView addSubview:self.ratingView];
     
-    self.ratingLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:13] textColor:[UIColor HHOrange]];
+    self.ratingLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Medium" size:13] textColor:[UIColor HHOrange]];
     
     self.line = [[UIView alloc] initWithFrame:CGRectZero];
     self.line.translatesAutoresizingMaskIntoConstraints = NO;
@@ -111,7 +111,7 @@
         [self.reviewViewsArray addObject:reviewView];
         
         NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:review.comment];
-        [attrString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:13] range:NSMakeRange(0, review.comment.length)];
+        [attrString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"STHeitiSC-Medium" size:13] range:NSMakeRange(0, review.comment.length)];
         CGFloat viewHeight = CGRectGetHeight([attrString boundingRectWithSize:CGSizeMake(CGRectGetWidth([[UIScreen mainScreen] bounds])-75.0f, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin context:nil]) + 70.0f;
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(reviewTapped:)];

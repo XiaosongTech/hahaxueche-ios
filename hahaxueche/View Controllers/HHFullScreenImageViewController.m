@@ -66,7 +66,7 @@
     self.label.translatesAutoresizingMaskIntoConstraints = NO;
     self.label.backgroundColor = [UIColor clearColor];
     self.label.textAlignment = NSTextAlignmentCenter;
-    self.label.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f];
+    self.label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f];
     self.label.textColor = [UIColor whiteColor];
     [self.view addSubview:self.label];
     

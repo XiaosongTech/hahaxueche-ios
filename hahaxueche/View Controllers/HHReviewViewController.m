@@ -40,7 +40,7 @@
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.titleLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%@个学员评价", nil), [self.coach.totalReviewAmount stringValue]];
-    self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:15.0f];
+    self.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f];
     self.titleLabel.textColor = [UIColor whiteColor];
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.titleLabel sizeToFit];
@@ -129,7 +129,7 @@
     HHReview *review = self.reviews[indexPath.row];
     CGRect rect = [review.comment boundingRectWithSize:CGSizeMake(CGRectGetWidth([[UIScreen mainScreen] bounds])-75.0f, MAXFLOAT)
                                                                  options:NSStringDrawingUsesLineFragmentOrigin
-                                                              attributes:@{ NSFontAttributeName: [UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f]}
+                                                              attributes:@{ NSFontAttributeName: [UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]}
                                                                  context:nil];
     return CGRectGetHeight(rect) + 80.0f;
 }

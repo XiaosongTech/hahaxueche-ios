@@ -21,7 +21,7 @@
         self.textField.tintColor = [UIColor whiteColor];
         self.textField.delegate = self;
         self.textField.translatesAutoresizingMaskIntoConstraints = NO;
-        self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder attributes:@{NSForegroundColorAttributeName: [UIColor HHTransparentWhite], NSFontAttributeName:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:15.0f]}];
+        self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder attributes:@{NSForegroundColorAttributeName: [UIColor HHTransparentWhite], NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Light" size:15.0f]}];
         self.textField.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:self.textField];
         

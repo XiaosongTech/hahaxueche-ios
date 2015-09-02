@@ -92,7 +92,7 @@
     self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.titleLabel.text = NSLocalizedString(@"选择训练场", nil);
     self.titleLabel.textColor = [UIColor blackColor];
-    self.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:16.0f];
+    self.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16.0f];
     [self.topBarView addSubview:self.titleLabel];
     
     
@@ -105,7 +105,7 @@
     }
     
     [self.floatButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.floatButton.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:15];
+    self.floatButton.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15];
     self.floatButton.backgroundColor = [UIColor HHOrange];
     self.floatButton.clipsToBounds = YES;
     self.floatButton.layer.cornerRadius = kFloatButtonHeight/2;
@@ -151,7 +151,7 @@
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setBackgroundColor:[UIColor clearColor]];
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Medium" size:14.0f];
+    button.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:14.0f];
     [button setTitle:title forState:UIControlStateNormal];
     button.translatesAutoresizingMaskIntoConstraints = NO;
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];

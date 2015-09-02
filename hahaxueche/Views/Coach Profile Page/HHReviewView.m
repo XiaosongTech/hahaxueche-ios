@@ -33,14 +33,14 @@
     self.avatarView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.avatarView];
     
-    self.nameLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:15] textColor:[UIColor blackColor]];
-    self.ratingLabel = [self createLabelWithTitle:[[HHFormatUtility floatFormatter] stringFromNumber:self.review.rating] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:13] textColor:[UIColor HHOrange]];
+    self.nameLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Medium" size:15] textColor:[UIColor blackColor]];
+    self.ratingLabel = [self createLabelWithTitle:[[HHFormatUtility floatFormatter] stringFromNumber:self.review.rating] font:[UIFont fontWithName:@"STHeitiSC-Medium" size:13] textColor:[UIColor HHOrange]];
     
     self.ratingView = [[HHStarRatingView alloc] initWithFrame:CGRectZero rating:[self.review.rating floatValue]];
     self.ratingView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.ratingView];
     
-    self.commentLabel = [self createLabelWithTitle:self.review.comment font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:13] textColor:[UIColor blackColor]];
+    self.commentLabel = [self createLabelWithTitle:self.review.comment font:[UIFont fontWithName:@"STHeitiSC-Light" size:13] textColor:[UIColor blackColor]];
     self.commentLabel.numberOfLines = 0;
     self.commentLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     
@@ -56,7 +56,7 @@
     self.line.backgroundColor = [UIColor HHGrayLineColor];
     [self addSubview:self.line];
 
-    self.timeLabel = [self createLabelWithTitle:[NSDate timeAgoSinceDate:self.review.createdAt] font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:12]  textColor:[UIColor blackColor]];
+    self.timeLabel = [self createLabelWithTitle:[NSDate timeAgoSinceDate:self.review.createdAt] font:[UIFont fontWithName:@"STHeitiSC-Light" size:12]  textColor:[UIColor blackColor]];
     
     [self autoLayoutSubviews];
     

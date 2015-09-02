@@ -25,4 +25,6 @@ typedef void (^HHCoachCompletionBlock)(HHCoach *coach, NSError *error);
 
 - (void)fetchCoachesWithQuery:(NSString *)searchQuery skip:(NSInteger)startIndex completion:(HHCoachesArrayCompletionBlock)completion;
 
+- (void)recommendCoachWithCompletion:(HHCoachesArrayCompletionBlock)completion;
+
 @end

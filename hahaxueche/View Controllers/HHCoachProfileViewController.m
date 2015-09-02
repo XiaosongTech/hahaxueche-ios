@@ -30,6 +30,12 @@
 #import "KLCPopup.h"
 #import "HHReviewService.h"
 #import "HHLoadingView.h"
+#import "HHAlipayOrder.h"
+#import "HHAlipayService.h"
+#import "HHTransaction.h"
+#import "HHPaymentStatus.h"
+#import "HHTransfer.h"
+
 
 typedef enum : NSUInteger {
     CoachProfileCellDes,
@@ -167,16 +173,25 @@ typedef enum : NSUInteger {
         [self.addressSheet addButtonWithTitle:NSLocalizedString(@"在高德地图中打开", nil)];
     }
     
+    self.payButton = [self createButtonWithTitle:NSLocalizedString(@"确认教练并付款", nil) backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f] action:@selector(payCoach)];
+    [self.view addSubview:self.payButton];
+    
+    self.bookTrialButton = [self createButtonWithTitle:NSLocalizedString(@"预约试训", nil) backgroundColor:[UIColor HHLightOrange] font:[UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f] action:@selector(callCoach)];
+    [self.view addSubview:self.bookTrialButton];
+    
+    self.commentButton = [self createButtonWithTitle:NSLocalizedString(@"评价教练", nil) backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f] action:@selector(commentCoach)];
+    [self.view addSubview:self.commentButton];
+
+
     if (![self.coach.coachId isEqualToString:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId]) {
-        self.payButton = [self createButtonWithTitle:NSLocalizedString(@"确认教练并付款", nil) backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f] action:@selector(payCoach)];
-        [self.view addSubview:self.payButton];
-        
-        self.bookTrialButton = [self createButtonWithTitle:NSLocalizedString(@"预约试训", nil) backgroundColor:[UIColor HHLightOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f] action:@selector(callCoach)];
-        [self.view addSubview:self.bookTrialButton];
-        
-    } else {
-        self.commentButton = [self createButtonWithTitle:NSLocalizedString(@"评价教练", nil) backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:18.0f] action:@selector(commentCoach)];
-        [self.view addSubview:self.commentButton];
+        self.payButton.hidden = NO;
+        self.bookTrialButton.hidden = NO;
+        self.commentButton.hidden = YES;
+    }
+    else {
+        self.payButton.hidden = YES;
+        self.bookTrialButton.hidden = YES;
+        self.commentButton.hidden = NO;
     }
     
      [self autolayoutSubview];
@@ -184,7 +199,69 @@ typedef enum : NSUInteger {
 }
 
 - (void)payCoach {
+    HHTransaction *transaction = [HHTransaction objectWithClassName:[HHTransaction parseClassName]];
+    transaction.studentId = [HHUserAuthenticator sharedInstance].currentStudent.studentId;
+    transaction.coachId = self.coach.coachId;
+    transaction.paidPrice = self.coach.actualPrice;
+    transaction.paymentMethod = NSLocalizedString(@"支付宝", nil);
     
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中", nil)];
+    
+    [transaction save];
+    HHAlipayOrder *order = [[HHAlipayOrder alloc] initWithOrderNumber:transaction.objectId amount:self.coach.actualPrice];
+    [[HHAlipayService sharedInstance] payByAlipayWith:order completion:^(NSDictionary *dictionary) {
+        [[HHLoadingView sharedInstance] hideLoadingView];
+        if ([dictionary[@"resultStatus"] isEqualToString:@"9000"]) {
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"支付成功！", nil) isError:NO];
+            [self transactionSucceed:transaction];
+        } else {
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"支付失败！", nil) isError:YES];
+            [transaction delete];
+        }
+    }];
+}
+
+- (void)transactionSucceed:(HHTransaction *)transaction {
+    
+    __weak HHCoachProfileViewController *weakSelf = self;
+    NSInteger newAmount = [self.coach.currentStudentAmount integerValue] + 1;
+    self.coach.currentStudentAmount = [NSNumber numberWithInteger:newAmount];
+    [self.tableView reloadData];
+    [self.coach saveInBackground];
+    
+    [HHUserAuthenticator sharedInstance].currentStudent.myCoachId = self.coach.coachId;
+    [[HHUserAuthenticator sharedInstance].currentStudent saveInBackground];
+    [HHUserAuthenticator sharedInstance].myCoach = self.coach;
+
+    
+    HHPaymentStatus *paymentStatus = [HHPaymentStatus objectWithClassName:[HHPaymentStatus parseClassName]];
+    paymentStatus.transactionId = transaction.objectId;
+    paymentStatus.stageOneAmount = @(550);
+    paymentStatus.stageTwoAmount = @(350);
+    paymentStatus.stageThreeAmount = @(([transaction.paidPrice floatValue] - 900) * 0.6);
+    paymentStatus.stageFourAmount = @(([transaction.paidPrice floatValue] - 900) * 0.3);
+    paymentStatus.stageFiveAmount = @(([transaction.paidPrice floatValue] - 900) * 0.1);
+    paymentStatus.currentStage = @(2);
+    
+    HHTransfer *firstTransfer = [HHTransfer objectWithClassName:[HHTransfer parseClassName]];
+    firstTransfer.studentId = [HHUserAuthenticator sharedInstance].currentStudent.studentId;
+    firstTransfer.coachId = self.coach.coachId;
+    firstTransfer.transactionId = transaction.objectId;
+    firstTransfer.stage = @(1);
+    firstTransfer.amount = paymentStatus.stageOneAmount;
+    firstTransfer.payeeAccount = self.coach.alipayAccount;
+    firstTransfer.payeeAccountType = NSLocalizedString(@"支付宝", nil);
+    firstTransfer.transferStatus = @"pending";
+    [firstTransfer saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            [paymentStatus saveInBackground];
+            weakSelf.payButton.hidden = YES;
+            weakSelf.bookTrialButton.hidden = YES;
+            weakSelf.commentButton.hidden = NO;
+        }
+    }];
+    
+
 }
 
 - (void)callCoach {
@@ -205,7 +282,7 @@ typedef enum : NSUInteger {
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    titleLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:16.0f];
+    titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:16.0f];
     titleLabel.textColor = [UIColor blackColor];
     titleLabel.text = NSLocalizedString(@"给教练打分", nil);
     titleLabel.textAlignment = NSTextAlignmentLeft;
@@ -229,14 +306,14 @@ typedef enum : NSUInteger {
     
     self.reviewTextView = [[UITextView alloc] initWithFrame:CGRectZero];
     self.reviewTextView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.reviewTextView.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f];
+    self.reviewTextView.font = [UIFont fontWithName:@"STHeitiSC-Light" size:13.0f];
     self.reviewTextView.showsHorizontalScrollIndicator = NO;
     self.reviewTextView.delegate = self;
     [reviewView addSubview:self.reviewTextView];
     
     self.placeholderLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.placeholderLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.placeholderLabel.font = [UIFont fontWithName:@"SourceHanSansCN-Normal" size:13.0f];
+    self.placeholderLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:13.0f];
     self.placeholderLabel.textColor = [UIColor lightGrayColor];
     self.placeholderLabel.text = NSLocalizedString(@"牢骚或表扬，大胆说出来吧！", nil);
     self.placeholderLabel.textAlignment = NSTextAlignmentLeft;
@@ -244,11 +321,11 @@ typedef enum : NSUInteger {
     [self.reviewTextView addSubview:self.placeholderLabel];
 
     
-    UIButton *dismissButton = [self createButtonWithTitle:NSLocalizedString(@"取消返回", nil) backgroundColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:15.0f] action:@selector(dismissCommentPopupView)];
+    UIButton *dismissButton = [self createButtonWithTitle:NSLocalizedString(@"取消返回", nil) backgroundColor:[UIColor whiteColor] font:[UIFont fontWithName:@"STHeitiSC-Light" size:15.0f] action:@selector(dismissCommentPopupView)];
     [dismissButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
     [reviewView addSubview:dismissButton];
     
-    UIButton *confirmButton = [self createButtonWithTitle:NSLocalizedString(@"确认评价", nil) backgroundColor:[UIColor whiteColor] font:[UIFont fontWithName:@"SourceHanSansCN-Normal" size:15.0f] action:@selector(confirmButtonTapped)];
+    UIButton *confirmButton = [self createButtonWithTitle:NSLocalizedString(@"确认评价", nil) backgroundColor:[UIColor whiteColor] font:[UIFont fontWithName:@"STHeitiSC-Light" size:15.0f] action:@selector(confirmButtonTapped)];
     [confirmButton setTitleColor:[UIColor HHBlueButtonColor] forState:UIControlStateNormal];
     [reviewView addSubview:confirmButton];
     
@@ -339,10 +416,8 @@ typedef enum : NSUInteger {
 }
 
 - (void)autolayoutSubview {
-    NSArray *constraints = nil;
-    
-    if (![self.coach.coachId isEqualToString:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId]) {
-        constraints = @[
+   
+    NSArray *constraints = @[
                         [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.tableView constant:0],
                         [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.tableView constant:0],
                         [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:0],
@@ -357,23 +432,15 @@ typedef enum : NSUInteger {
                         [HHAutoLayoutUtility horizontalNext:self.payButton toView:self.bookTrialButton constant:0],
                         [HHAutoLayoutUtility setViewWidth:self.payButton multiplier:0.6f constant:0],
                         [HHAutoLayoutUtility setViewHeight:self.payButton multiplier:0 constant:50.0f],
-                        ];
-
-    } else {
-        constraints = @[
-                        [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.tableView constant:0],
-                        [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.tableView constant:0],
-                        [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:0],
-                        [HHAutoLayoutUtility setViewHeight:self.tableView multiplier:1.0f constant:-50.0f],
-                        
                         
                         [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.commentButton constant:0],
                         [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.commentButton constant:0],
                         [HHAutoLayoutUtility setViewWidth:self.commentButton multiplier:1.0f constant:0],
                         [HHAutoLayoutUtility setViewHeight:self.commentButton multiplier:0 constant:50.0f],
+
                         ];
 
-    }
+    
     
     [self.view addConstraints:constraints];
     
@@ -468,7 +535,7 @@ typedef enum : NSUInteger {
             for (int i = 0; i < reviewCount; i++) {
                 HHReview *review = self.reviews[i];
                 NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:review.comment];
-                [attrString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"SourceHanSansCN-Medium" size:13] range:NSMakeRange(0, review.comment.length)];
+                [attrString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"STHeitiSC-Medium" size:13] range:NSMakeRange(0, review.comment.length)];
                 CGFloat viewHeight = CGRectGetHeight([attrString boundingRectWithSize:CGSizeMake(CGRectGetWidth([[UIScreen mainScreen] bounds])-75.0f, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin context:nil]) + 70.0f;
                 totalHeight = totalHeight + viewHeight;
             }
