@@ -18,13 +18,14 @@
 @implementation HHPaymentStatusView
 
 
-- (instancetype)initWithAmount:(NSNumber *)amount currentStage:(PaymentStage)currentStage stage:(PaymentStage)stage {
+- (instancetype)initWithAmount:(NSNumber *)amount currentStage:(PaymentStage)currentStage stage:(PaymentStage)stage paidDate:(NSString *)paidDate {
     self = [super init];
     if (self) {
         self.amount = amount;
         self.stage = stage;
         self.currentStage = currentStage;
         self.backgroundColor = [UIColor whiteColor];
+        self.paidDate = paidDate;
         [self initSubviews];
     }
     return self;
@@ -175,7 +176,7 @@
     
     if (self.currentStage > self.stage) {
         titleColor = kGreenColor;
-        title = NSLocalizedString(@"已付款", nil);
+        title = [NSString stringWithFormat:NSLocalizedString(@"%@  已付款", nil), self.paidDate];
     } else {
         titleColor = kDarkGrayTextColor;
         title = NSLocalizedString(@"未付款", nil);

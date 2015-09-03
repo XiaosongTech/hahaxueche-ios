@@ -26,7 +26,7 @@
 
 #define kCellId @"HHReceiptTableViewCellId"
 
-@interface HHMyProfileViewController ()<UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate>
+@interface HHMyProfileViewController ()<UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UILabel *explanationLabel;
@@ -34,6 +34,7 @@
 @property (nonatomic, strong) HHPaymentStatus *paymentStatus;
 @property (nonatomic, strong) UIBarButtonItem *settings;
 @property (nonatomic, strong) UIActionSheet *settingsActionSheet;
+@property (nonatomic, strong) UIAlertView *alertView;
 
 @end
 
@@ -43,6 +44,7 @@
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
     self.settingsActionSheet.delegate = nil;
+    self.alertView.delegate = nil;
 }
 
 - (void)viewDidLoad {
@@ -212,13 +214,21 @@
         } else if (buttonIndex == 1) {
             
         } else if (buttonIndex == 2) {
+            self.alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"确定要退出？", nil) message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"取消退出", nil) otherButtonTitles:NSLocalizedString(@"确定退出", nil), nil];
+            [self.alertView show];
+        }
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([alertView isEqual:self.alertView]) {
+        if (buttonIndex == 1) {
             [HHUser logOut];
             HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
             [self presentViewController:loginSignupVC animated:YES completion:nil];
         }
     }
 }
-
 
 
 

@@ -10,6 +10,7 @@
 #import <AVOSCloud/AVOSCloud.h>
 #import "HHTransaction.h"
 #import "HHPaymentStatus.h"
+#import "HHTransfer.h"
 
 typedef void (^HHTransactionGenericCompletionBlock)(NSArray *objects, NSError *error);
 typedef void (^HHPaymentStatusGenericCompletionBlock)(HHPaymentStatus *paymentStatus, NSError *error);
@@ -21,5 +22,7 @@ typedef void (^HHPaymentStatusGenericCompletionBlock)(HHPaymentStatus *paymentSt
 - (void)fetchTransactionWithCompletion:(HHTransactionGenericCompletionBlock)completion;
 
 - (void)fetchPaymentStatusWithTransactionId:(NSString *)transactionId completion:(HHPaymentStatusGenericCompletionBlock)completion;
+
+- (void)fetchTransferWithTransactionId:(NSString *)transactionId completion:(HHTransactionGenericCompletionBlock)completion;
 
 @end

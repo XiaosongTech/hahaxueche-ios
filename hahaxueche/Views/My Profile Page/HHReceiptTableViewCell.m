@@ -11,6 +11,7 @@
 #import "HHUserAuthenticator.h"
 #import "UIColor+HHColor.h"
 #import "HHFormatUtility.h"
+#import "HHPaymentTransactionService.h"
 
 #define kAvatarRadius 15.0f
 #define kCellTextColor [UIColor colorWithRed:0.38 green:0.38 blue:0.38 alpha:1]
@@ -41,7 +42,23 @@
 }
 
 - (void)setupPaymentStatusView {
+    [[HHPaymentTransactionService sharedInstance] fetchTransferWithTransactionId:self.transaction.objectId completion:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            [self createPaymentStatusViewWithTransfers:objects];
+        }
+    }];
+
+}
+
+- (void)createPaymentStatusViewWithTransfers:(NSArray *)transfers {
     for (int i = 1; i < 6; i++) {
+        NSString *paidDate;
+        for (HHTransfer *transfer in transfers) {
+            if ([transfer.stage integerValue] == i) {
+                paidDate = [[HHFormatUtility fullDateFormatter] stringFromDate:transfer.createdAt];
+                break;
+            }
+        }
         NSNumber *amount;
         if (i == 1) {
             amount = self.paymentStatus.stageOneAmount;
@@ -54,7 +71,7 @@
         } else {
             amount = self.paymentStatus.stageFiveAmount;
         }
-        HHPaymentStatusView *view = [[HHPaymentStatusView alloc] initWithAmount:amount currentStage:[self.paymentStatus.currentStage integerValue] stage:i];
+        HHPaymentStatusView *view = [[HHPaymentStatusView alloc] initWithAmount:amount currentStage:[self.paymentStatus.currentStage integerValue] stage:i paidDate:paidDate];
         view.translatesAutoresizingMaskIntoConstraints = NO;
         view.payBlock = self.payBlock;
         [self.containerView addSubview:view];
@@ -80,7 +97,6 @@
             [self.containerView addConstraints:constraints];
         }
         
-
     }
 }
 
