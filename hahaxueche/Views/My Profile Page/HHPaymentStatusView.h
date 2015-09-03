@@ -33,10 +33,11 @@ typedef void (^HHPaymentStatusViewPayBlock)();
 @property (nonatomic, strong) UIImageView *infoImageView;
 @property (nonatomic, strong) HHPaymentStatusViewPayBlock payBlock;
 @property (nonatomic, strong) UIAlertView *alertView;
+@property (nonatomic, strong) NSString *paidDate;
 
 
 
 
-- (instancetype)initWithAmount:(NSNumber *)amount currentStage:(PaymentStage)currentStage stage:(PaymentStage)stage;
+- (instancetype)initWithAmount:(NSNumber *)amount currentStage:(PaymentStage)currentStage stage:(PaymentStage)stage paidDate:(NSString *)paidDate;
 
 @end

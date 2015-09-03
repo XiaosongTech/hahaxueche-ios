@@ -43,4 +43,14 @@
     }];
 }
 
+- (void)fetchTransferWithTransactionId:(NSString *)transactionId completion:(HHTransactionGenericCompletionBlock)completion {
+    AVQuery *query = [AVQuery queryWithClassName:[HHTransfer parseClassName]];
+    [query whereKey:@"transactionId" equalTo:transactionId];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (completion) {
+            completion(objects, error);
+        }
+    }];
+}
+
 @end
