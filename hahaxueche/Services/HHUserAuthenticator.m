@@ -113,14 +113,14 @@
         HHStudent *student = (HHStudent *)object;
         if (!error) {
             self.currentStudent = student;
-            if (completion) {
-                completion(student, error);
-            }
             [[HHCoachService sharedInstance] fetchCoachWithId:self.currentStudent.myCoachId completion:^(HHCoach *coach, NSError *error) {
                 if (!error) {
                     self.myCoach = coach;
                 }
             }];
+        }
+        if (completion) {
+            completion(student, error);
         }
         
     }];
@@ -129,6 +129,23 @@
 
 - (void)fetchAuthedStudentAgainWithCompletion:(HHStudentCompletionBlock)completion {
     [self fetchAuthedStudentWithId:self.currentStudent.studentId completion:completion];
+}
+
+
+- (void)fetchAuthedCoachWithId:(NSString *)coachId completion:(HHCoachCompletionBlock)completion {
+    AVQuery *query = [AVQuery queryWithClassName:[HHCoach parseClassName]];
+    [query whereKey:@"coachId" equalTo:coachId];
+    [query getFirstObjectInBackgroundWithBlock:^(AVObject *object, NSError *error) {
+        HHCoach *coach = (HHCoach *)object;
+        if (!error) {
+            self.currentCoach = coach;
+        }
+        if (completion) {
+            completion(coach, error);
+        }
+        
+    }];
+
 }
 
 - (void)deleteUser {

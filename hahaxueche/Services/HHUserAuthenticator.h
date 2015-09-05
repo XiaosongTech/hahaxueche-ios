@@ -16,12 +16,14 @@
 typedef void (^HHUserGenericCompletionBlock)(NSError *error);
 typedef void (^HHUserCodeVerificationCompletionBlock)(BOOL succeed);
 typedef void (^HHStudentCompletionBlock)(HHStudent *student, NSError *error);
+typedef void (^HHCoachCompletionBlock)(HHCoach *coach, NSError *error);
 
 @interface HHUserAuthenticator : NSObject
 
 @property (nonatomic, strong) HHStudent *currentStudent;
 @property (nonatomic, strong) HHUser *currentUser;
 @property (nonatomic, strong) HHCoach *myCoach;
+@property (nonatomic, strong) HHCoach *currentCoach;
 
 + (instancetype)sharedInstance;
 
@@ -37,6 +39,7 @@ typedef void (^HHStudentCompletionBlock)(HHStudent *student, NSError *error);
 
 - (void)fetchAuthedStudentAgainWithCompletion:(HHStudentCompletionBlock)completion;
 
+- (void)fetchAuthedCoachWithId:(NSString *)coachId completion:(HHCoachCompletionBlock)completion;
 
 - (void)loginWithNumber:(NSString *)number completion:(HHUserGenericCompletionBlock)completion;
 
