@@ -17,17 +17,19 @@
 #import "HHLoadingView.h"
 #import "HHFormatUtility.h"
 #import <NSDate+DateTools.h>
+#import "ActionSheetPicker.h"
 
 #define kCellId  @"AddTimeCellId"
 
-@interface HHCoachAddTimeViewController () <UIActionSheetDelegate>
+@interface HHCoachAddTimeViewController ()
 
 @property (nonatomic, strong) HHScheduleCellView *dateView;
 @property (nonatomic, strong) HHScheduleCellView *startTimeView;
 @property (nonatomic, strong) HHScheduleCellView *endTimeView;
 @property (nonatomic, strong) HHScheduleCellView *courseView;
 @property (nonatomic, strong) HHCoachSchedule *schedule;
-@property (nonatomic, strong) UIDatePicker *datePicker;
+@property (nonatomic, strong) ActionSheetDatePicker *datePicker;
+@property (nonatomic, strong) ActionSheetStringPicker *coursePicker;
 @property (nonatomic, strong) NSDate *date;
 @property (nonatomic, strong) NSDate *startTime;
 @property (nonatomic, strong) NSDate *endTime;
@@ -114,91 +116,142 @@
 }
 
 - (void)confirmTime {
-//    if (!self.date || !self.startTime || !self.endTime || !self.course) {
-//        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"请务必填写所有4项信息", nil) isError:YES];
-//        return;
-//    }
-//    
-//    if ([self.endTime hoursFrom:self.startTime] < 1.0f) {
-//        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"开始时间必须小于结束时间，并且训练时候不得小于1小时！", nil) isError:YES];
-//        return;
-//    }
-//    self.schedule.coachId = [HHUserAuthenticator sharedInstance].currentCoach.coachId;
-//    self.schedule.startDateTime = [self combineDate:self.date withTime:self.startTime];
-//    self.schedule.endDateTime = [self combineDate:self.date withTime:self.endTime];
+    if (!self.date || !self.startTime || !self.endTime || !self.course) {
+        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"请务必填写所有4项信息", nil) isError:YES];
+        return;
+    }
+    
+    if ([self.endTime hoursFrom:self.startTime] < 1.0f) {
+        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"开始时间必须小于结束时间，训练时候不得小于1小时！", nil) timeInterval:@(5) isError:YES];
+        return;
+    }
+
 }
 
 - (void)cellTapped:(UITapGestureRecognizer *)tapRecognizer {
+    __weak HHCoachAddTimeViewController *weakSelf = self;
+    NSDate *prefillDate;
     UIView *view = tapRecognizer.view;
     if ([view isEqual:self.dateView]) {
-        if (self.datePicker) {
-            [self.datePicker removeFromSuperview];
-            self.datePicker = nil;
+        if (self.date) {
+            prefillDate = self.date;
+        } else {
+            prefillDate = [NSDate date];
         }
-        self.datePicker = [self createDatePickerWithAction:@selector(dateChanged) isDateMode:YES];
-        self.datePicker.minimumDate = [NSDate date];
-        
+      [self showDatePickerWithDoneButtonAction:^(ActionSheetDatePicker *picker, id selectedDate, id origin) {
+        weakSelf.dateView.subTitleLabel.textColor = [UIColor blackColor];
+          weakSelf.dateView.subTitleLabel.text = [[HHFormatUtility dateFormatter] stringFromDate:selectedDate];
+          weakSelf.date = selectedDate;
+      }
+                                   prefillDate:prefillDate
+                                        origin:self.dateView
+                                          mode:UIDatePickerModeDate];
         
     } else if ([view isEqual:self.startTimeView]) {
-        if (self.datePicker) {
-            [self.datePicker removeFromSuperview];
-            self.datePicker = nil;
+        if (self.startTime) {
+            prefillDate = self.startTime;
+        } else {
+            prefillDate = [NSDate date];
         }
-        self.datePicker = [self createDatePickerWithAction:@selector(startTimeChanged) isDateMode:NO];
+        [self showDatePickerWithDoneButtonAction:^(ActionSheetDatePicker *picker, id selectedDate, id origin) {
+            weakSelf.startTimeView.subTitleLabel.textColor = [UIColor blackColor];
+            weakSelf.startTimeView.subTitleLabel.text = [[HHFormatUtility timeFormatter] stringFromDate:selectedDate];
+            weakSelf.startTime = selectedDate;
+        }
+                                     prefillDate:prefillDate
+                                          origin:self.startTimeView
+                                            mode:UIDatePickerModeTime];
         
     } else if ([view isEqual:self.endTimeView]) {
-        if (self.datePicker) {
-            [self.datePicker removeFromSuperview];
-            self.datePicker = nil;
+        if (self.endTime) {
+            prefillDate = self.endTime;
+        } else {
+            prefillDate = [NSDate date];
         }
-        self.datePicker = [self createDatePickerWithAction:@selector(endTimeChanged) isDateMode:NO];
+        [self showDatePickerWithDoneButtonAction:^(ActionSheetDatePicker *picker, id selectedDate, id origin) {
+            weakSelf.endTimeView.subTitleLabel.textColor = [UIColor blackColor];
+            weakSelf.endTimeView.subTitleLabel.text = [[HHFormatUtility timeFormatter] stringFromDate:selectedDate];
+            weakSelf.endTime = selectedDate;
+        }
+                                     prefillDate:prefillDate
+                                          origin:self.endTimeView
+                                            mode:UIDatePickerModeTime];
+
         
     } else if ([view isEqual:self.courseView]) {
-        
+        NSInteger prefillIndex = 0;
+        if ([self.course isEqualToString:NSLocalizedString(@"科目二", nil)] || !self.course) {
+            prefillIndex = 0;
+        } else {
+            prefillIndex = 1;
+        }
+        [self showCoursePickerWithDoneButtonAction:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+            weakSelf.courseView.subTitleLabel.textColor = [UIColor blackColor];
+            weakSelf.courseView.subTitleLabel.text = selectedValue;
+            weakSelf.course = selectedValue;
+
+        }
+                                           options:@[NSLocalizedString(@"科目二", nil), NSLocalizedString(@"科目三", nil)]
+                                            origin:self.courseView
+                             initialSelectionIndex:prefillIndex];
     }
     
 }
 
-- (UIDatePicker *)createDatePickerWithAction:(SEL)action isDateMode:(BOOL)isDateMode {
+- (void)showDatePickerWithDoneButtonAction:(ActionDateDoneBlock)action prefillDate:(NSDate *)prefillDate origin:(UIView *)origin mode:(UIDatePickerMode)mode {
+    self.datePicker = [[ActionSheetDatePicker alloc] initWithTitle:NSLocalizedString(@"选择时间", nil)
+                                                    datePickerMode:mode
+                                                      selectedDate:prefillDate
+                                                         doneBlock:action
+                                                       cancelBlock:nil
+                                                            origin:origin];
+    self.datePicker.tapDismissAction = TapActionCancel;
+    self.datePicker.minimumDate = [NSDate date];
     
-    UIDatePicker *picker = [[UIDatePicker alloc] initWithFrame:CGRectZero];
-    picker.translatesAutoresizingMaskIntoConstraints = NO;
-    if (isDateMode) {
-        picker.datePickerMode = UIDatePickerModeDate;
-    } else {
-        picker.datePickerMode = UIDatePickerModeTime;
-    }
+    self.datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
+    UIButton *cancelButton =  [UIButton buttonWithType:UIButtonTypeCustom];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"取消", nil)];
+    [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor HHGrayTextColor] range:NSMakeRange(0, 2)];
+    [cancelButton setAttributedTitle:attrString forState:UIControlStateNormal];
+    [cancelButton sizeToFit];
+    [self.datePicker setCancelButton:[[UIBarButtonItem alloc] initWithCustomView:cancelButton]];
     
-    [picker addTarget:self action:action forControlEvents:UIControlEventValueChanged];
-    NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
-    picker.locale = locale;
-    [self.view addSubview:picker];
+    UIButton *doneButton =  [UIButton buttonWithType:UIButtonTypeCustom];
+    NSMutableAttributedString *attrDoneString = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"确认", nil)];
+    [attrDoneString addAttribute:NSForegroundColorAttributeName value:[UIColor HHOrange] range:NSMakeRange(0, 2)];
+    [doneButton setAttributedTitle:attrDoneString forState:UIControlStateNormal];
+    [doneButton sizeToFit];
+    [self.datePicker setDoneButton:[[UIBarButtonItem alloc] initWithCustomView:doneButton]];
     
-    NSArray *constraints = @[
-                             [HHAutoLayoutUtility setCenterX:picker multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:picker constant:0],
-                             [HHAutoLayoutUtility setViewHeight:picker multiplier:0 constant:200.0f],
-                             
-                             ];
-    [self.view addConstraints:constraints];
-    return picker;
-
+    [self.datePicker showActionSheetPicker];
 }
 
-- (void)dateChanged {
-    self.date = self.datePicker.date;
-    self.dateView.subTitleLabel.text = [[HHFormatUtility dateFormatter] stringFromDate:self.date];
+- (void)showCoursePickerWithDoneButtonAction:(ActionStringDoneBlock)action options:(NSArray *)options origin:(UIView *)origin initialSelectionIndex:(NSInteger)initialSelectionIndex {
+    self.coursePicker = [[ActionSheetStringPicker alloc] initWithTitle:NSLocalizedString(@"选择科目", nil)
+                                                                  rows:options
+                                                      initialSelection:initialSelectionIndex
+                                                             doneBlock:action
+                                                           cancelBlock:nil
+                                                                origin:origin];
+    self.coursePicker.tapDismissAction = TapActionCancel;
+    UIButton *cancelButton =  [UIButton buttonWithType:UIButtonTypeCustom];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"取消", nil)];
+    [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor HHGrayTextColor] range:NSMakeRange(0, 2)];
+    [cancelButton setAttributedTitle:attrString forState:UIControlStateNormal];
+    [cancelButton sizeToFit];
+    [self.coursePicker setCancelButton:[[UIBarButtonItem alloc] initWithCustomView:cancelButton]];
+    
+    UIButton *doneButton =  [UIButton buttonWithType:UIButtonTypeCustom];
+    NSMutableAttributedString *attrDoneString = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"确认", nil)];
+    [attrDoneString addAttribute:NSForegroundColorAttributeName value:[UIColor HHOrange] range:NSMakeRange(0, 2)];
+    [doneButton setAttributedTitle:attrDoneString forState:UIControlStateNormal];
+    [doneButton sizeToFit];
+    [self.coursePicker setDoneButton:[[UIBarButtonItem alloc] initWithCustomView:doneButton]];
+    
+    [self.coursePicker showActionSheetPicker];
 }
 
-- (void)startTimeChanged {
-    self.startTime = self.datePicker.date;
-    self.startTimeView.subTitleLabel.text = [[HHFormatUtility timeFormatter] stringFromDate:self.startTime];
-}
 
-- (void)endTimeChanged {
-    self.endTime = self.datePicker.date;
-    self.endTimeView.subTitleLabel.text = [[HHFormatUtility timeFormatter] stringFromDate:self.endTime];
-}
 
 - (NSDate *)combineDate:(NSDate *)date withTime:(NSDate *)time {
     

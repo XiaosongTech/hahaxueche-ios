@@ -12,5 +12,6 @@
 @interface HHToastUtility : NSObject
 
 + (void)showToastWitiTitle:(NSString *)title isError:(BOOL)isError;
++ (void)showToastWitiTitle:(NSString *)title timeInterval:(NSNumber *)interval isError:(BOOL)isError;
 
 @end
