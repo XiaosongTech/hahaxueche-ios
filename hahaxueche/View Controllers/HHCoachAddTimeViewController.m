@@ -18,6 +18,7 @@
 #import "HHFormatUtility.h"
 #import <NSDate+DateTools.h>
 #import "ActionSheetPicker.h"
+#import "KLCPopup.h"
 
 #define kCellId  @"AddTimeCellId"
 
@@ -34,6 +35,8 @@
 @property (nonatomic, strong) NSDate *startTime;
 @property (nonatomic, strong) NSDate *endTime;
 @property (nonatomic, strong) NSString *course;
+@property (nonatomic, strong) UILabel *explanationLabel;
+@property (nonatomic, strong) KLCPopup *confirmPopup;
 
 @end
 
@@ -58,6 +61,17 @@
     
     UIBarButtonItem *bookBarButton = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"下一步", nil) action:@selector(confirmTime) target:self isLeft:NO];
     self.navigationItem.rightBarButtonItem = bookBarButton;
+    
+    
+    self.explanationLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.explanationLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    self.explanationLabel.textAlignment = NSTextAlignmentLeft;
+    self.explanationLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:14.0f];
+    self.explanationLabel.textColor = [UIColor HHGrayTextColor];
+    self.explanationLabel.text = NSLocalizedString(@"注：教练提交信息后将无法修改或删除该时间段，所以请教练再填写完毕后仔细阅读确认。", nil);
+    [self.explanationLabel sizeToFit];
+    self.explanationLabel.numberOfLines = 0;
+    [self.view addSubview:self.explanationLabel];
     
     [self createScheduleView];
     [self autoLayoutSubviews];
@@ -107,6 +121,10 @@
                              [HHAutoLayoutUtility setViewWidth:self.courseView multiplier:1.0f constant:-20.0f],
                              [HHAutoLayoutUtility setViewHeight:self.courseView multiplier:0 constant:50.0f],
                              
+                             [HHAutoLayoutUtility setCenterX:self.explanationLabel multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility verticalNext:self.explanationLabel toView:self.courseView constant:10.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.explanationLabel multiplier:1.0f constant:-20.0f],
+                             
                              ];
     [self.view addConstraints:constraints];
 }
@@ -125,7 +143,9 @@
         [HHToastUtility showToastWitiTitle:NSLocalizedString(@"开始时间必须小于结束时间，训练时候不得小于1小时！", nil) timeInterval:@(5) isError:YES];
         return;
     }
-
+    
+    [self showConfirmPopup];
+    
 }
 
 - (void)cellTapped:(UITapGestureRecognizer *)tapRecognizer {
@@ -206,7 +226,9 @@
                                                        cancelBlock:nil
                                                             origin:origin];
     self.datePicker.tapDismissAction = TapActionCancel;
-    self.datePicker.minimumDate = [NSDate date];
+    if (mode == UIDatePickerModeDate) {
+        self.datePicker.minimumDate = [NSDate date];
+    }
     
     self.datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
     UIButton *cancelButton =  [UIButton buttonWithType:UIButtonTypeCustom];
@@ -276,5 +298,112 @@
     return combDate;
 }
 
+
+- (void)showConfirmPopup {
+    UIView *confirmTimeView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 250.0f)];
+    confirmTimeView.backgroundColor = [UIColor whiteColor];
+    
+    UILabel *titleLabel = [self createLabelWithTitle:NSLocalizedString(@"您要添加到时间段和科目为：", nil) font:[UIFont fontWithName:@"STHeitiSC-Medium" size:16.0f] textColor:[UIColor blackColor]];
+    [confirmTimeView addSubview:titleLabel];
+    
+    NSString *timeString = [NSString stringWithFormat:@"%@ %@ 到 %@\n %@", [[HHFormatUtility fullDateFormatter] stringFromDate:self.date], [[HHFormatUtility timeFormatter] stringFromDate:self.startTime], [[HHFormatUtility timeFormatter] stringFromDate:self.endTime], self.course];
+    
+    UILabel *timeLabel = [self createLabelWithTitle:timeString font:[UIFont fontWithName:@"STHeitiSC-Medium" size:16.0f] textColor:[UIColor HHOrange]];
+    timeLabel.numberOfLines = 0;
+    [confirmTimeView addSubview:timeLabel];
+    
+    UIButton *confirmTimeButton = [self createButtonWithText:NSLocalizedString(@"确认提交", nil) textColor:[UIColor whiteColor] bgColor:[UIColor HHOrange] font:[UIFont fontWithName:@"STHeitiSC-Medium" size:16.0f] action:@selector(submitNewSchedule)];
+    
+    [confirmTimeView addSubview:confirmTimeButton];
+    
+    UIButton *cancelButton = [self createButtonWithText:NSLocalizedString(@"返回", nil) textColor:[UIColor whiteColor] bgColor:[UIColor HHBlueButtonColor] font:[UIFont fontWithName:@"STHeitiSC-Medium" size:16.0f] action:@selector(dismissPopupView)];
+    [confirmTimeView addSubview:cancelButton];
+    
+    UILabel *warningLabel = [self createLabelWithTitle:NSLocalizedString(@"确认提交后到信息将无法修改或删除，教练提交信息时请务必仔细确认", nil) font:[UIFont fontWithName:@"STHeitiSC-Medium" size:14.0f] textColor:[UIColor colorWithRed:0.91 green:0.59 blue:0.58 alpha:1]];
+    warningLabel.numberOfLines = 0;
+    [confirmTimeView addSubview:timeLabel];
+    
+    [confirmTimeView addSubview:warningLabel];
+    
+    NSArray *constraints = @[
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:titleLabel constant:20.0f],
+                             [HHAutoLayoutUtility setCenterX:titleLabel multiplier:1.0f constant:0],
+                             
+                             [HHAutoLayoutUtility verticalNext:timeLabel toView:titleLabel constant:15.0f],
+                             [HHAutoLayoutUtility setCenterX:timeLabel multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewWidth:timeLabel multiplier:1.0f constant:-40.0f],
+                             
+                             [HHAutoLayoutUtility verticalNext:confirmTimeButton toView:timeLabel constant:25.0f],
+                             [HHAutoLayoutUtility setCenterX:confirmTimeButton multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewHeight:confirmTimeButton multiplier:0 constant:40.0f],
+                             [HHAutoLayoutUtility setViewWidth:confirmTimeButton multiplier:1.0f constant:-40.0f],
+                             
+                             [HHAutoLayoutUtility verticalNext:cancelButton toView:confirmTimeButton constant:10.0f],
+                             [HHAutoLayoutUtility setCenterX:cancelButton multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewHeight:cancelButton multiplier:0 constant:40.0f],
+                             [HHAutoLayoutUtility setViewWidth:cancelButton multiplier:1.0f constant:-40.0f],
+                             
+                             [HHAutoLayoutUtility verticalNext:warningLabel toView:cancelButton constant:10.0f],
+                             [HHAutoLayoutUtility setCenterX:warningLabel multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewWidth:warningLabel multiplier:1.0f constant:-40.0f],
+                             
+                             ];
+    
+    [confirmTimeView addConstraints:constraints];
+
+    
+    self.confirmPopup = [KLCPopup popupWithContentView:confirmTimeView];
+    [self.confirmPopup showWithLayout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutCenter)];
+    
+}
+
+- (void)submitNewSchedule {
+    __weak HHCoachAddTimeViewController *weakSelf = self;
+    self.schedule.coachId = [HHUserAuthenticator sharedInstance].currentCoach.coachId;
+    self.schedule.startDateTime = [self combineDate:self.date withTime:self.startTime];
+    self.schedule.endDateTime = [self combineDate:self.date withTime:self.endTime];
+    self.schedule.course = self.course;
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+    [self.schedule saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [[HHLoadingView sharedInstance] hideLoadingView];
+        [weakSelf.confirmPopup dismiss:YES];
+        if (!error) {
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"提交成功！", nil) isError:NO];
+            if (weakSelf.successCompletion) {
+                weakSelf.successCompletion();
+            }
+            
+        } else {
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"提交失败！", nil) isError:YES];
+        }
+    }];
+}
+
+- (void)dismissPopupView {
+    [self.confirmPopup dismiss:YES];
+}
+
+-(UIButton *)createButtonWithText:(NSString *)text textColor:(UIColor *)textColor bgColor:(UIColor *)bgColor font:(UIFont *)font action:(SEL)action {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.translatesAutoresizingMaskIntoConstraints = NO;
+    button.backgroundColor = bgColor;
+    button.titleLabel.font = font;
+    [button setTitle:text forState:UIControlStateNormal];
+    [button setTitleColor:textColor forState:UIControlStateNormal];
+    [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+    return button;
+}
+
+
+- (UILabel *)createLabelWithTitle:(NSString *)title font:(UIFont *)font textColor:(UIColor *)textColor {
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.translatesAutoresizingMaskIntoConstraints = NO;
+    label.font = font;
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = title;
+    label.textColor = textColor;
+    [label sizeToFit];
+    return label;
+}
 
 @end

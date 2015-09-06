@@ -25,7 +25,6 @@
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHRootViewController.h"
 #import <pop/POP.h>
-#import "HHCoachListViewController.h"
 
 #define kTimeSlotCellIdentifier @"kTimeSlotCellIdentifier"
 

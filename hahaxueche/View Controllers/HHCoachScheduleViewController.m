@@ -27,6 +27,9 @@
 
 - (void)addTime {
     HHCoachAddTimeViewController *addTimeVC = [[HHCoachAddTimeViewController alloc] init];
+    addTimeVC.successCompletion = ^(){
+        [super fetchSchedulesWithCompletion:nil];
+    };
     [self.navigationController pushViewController:addTimeVC animated:YES];
 }
 

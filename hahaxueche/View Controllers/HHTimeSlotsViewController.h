@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HHCoach.h"
+#import "HHCoachListViewController.h"
 
 typedef enum : NSUInteger {
     TimeSlotFilterAll,
@@ -18,5 +19,7 @@ typedef enum : NSUInteger {
 @interface HHTimeSlotsViewController : UIViewController
 
 @property (nonatomic, strong) HHCoach *coach;
+
+- (void)fetchSchedulesWithCompletion:(HHGenericCompletion)completion;
 
 @end
