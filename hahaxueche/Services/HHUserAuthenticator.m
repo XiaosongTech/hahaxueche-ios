@@ -81,6 +81,7 @@
 
 - (void)createStudentWithStudent:(HHStudent *)student completion:(HHUserGenericCompletionBlock)completion {
     student.studentId = self.currentUser.objectId;
+    student.phoneNumber = self.currentUser.mobilePhoneNumber;
     [student saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             self.currentStudent = student;
@@ -113,11 +114,14 @@
         HHStudent *student = (HHStudent *)object;
         if (!error) {
             self.currentStudent = student;
-            [[HHCoachService sharedInstance] fetchCoachWithId:self.currentStudent.myCoachId completion:^(HHCoach *coach, NSError *error) {
-                if (!error) {
-                    self.myCoach = coach;
-                }
-            }];
+            if (self.currentStudent.myCoachId){
+                [[HHCoachService sharedInstance] fetchCoachWithId:self.currentStudent.myCoachId completion:^(HHCoach *coach, NSError *error) {
+                    if (!error) {
+                        self.myCoach = coach;
+                    }
+                }];
+
+            }
         }
         if (completion) {
             completion(student, error);

@@ -94,6 +94,8 @@
                         [weakSelf.tableView reloadData];
                     }
                 }];
+            } else {
+                [[HHLoadingView sharedInstance] hideLoadingView];
             }
             
             

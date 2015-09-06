@@ -17,7 +17,7 @@
 @dynamic city;
 @dynamic province;
 @dynamic myReservation;
-
+@dynamic phoneNumber;
 
 + (NSString *)parseClassName {
     return @"Student";
@@ -33,6 +33,7 @@
     newStudent.city = self.city;
     newStudent.province = self.province;
     newStudent.myReservation = self.myReservation;
+    newStudent.phoneNumber = self.phoneNumber;
     return newStudent;
 }
 

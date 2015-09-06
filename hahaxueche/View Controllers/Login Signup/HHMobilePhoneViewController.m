@@ -217,7 +217,7 @@
                                 [[HHLoadingView sharedInstance] hideLoadingView];
                                 if (!error) {
                                     [HHUserAuthenticator sharedInstance].currentStudent = student;
-                                    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+                                    HHRootViewController *rootVC = [[HHRootViewController alloc] initForStudent];
                                     [self presentViewController:rootVC animated:YES completion:nil];
                                 } else if (error.code == 101) {
                                     HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] initWithUser:[HHUserAuthenticator sharedInstance].currentUser];
@@ -227,7 +227,21 @@
                                 }
                             }];
                         } else {
-                            //login with coach
+                            [[HHUserAuthenticator sharedInstance] fetchAuthedCoachWithId:[HHUserAuthenticator sharedInstance].currentUser.objectId completion:^(HHCoach *coach, NSError *error) {
+                                [[HHLoadingView sharedInstance] hideLoadingView];
+                                if (!error) {
+                                    [HHUserAuthenticator sharedInstance].currentCoach = coach;
+                                    HHRootViewController *rootVC = [[HHRootViewController alloc] initForCoach];
+                                    [self presentViewController:rootVC animated:YES completion:nil];
+                                } else if (error.code == 101) {
+                                    HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] initWithUser:[HHUserAuthenticator sharedInstance].currentUser];
+                                    [self.navigationController pushViewController:profileSetupVC animated:YES];
+                                } else {
+                                    [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取用户信息失败",nil) isError:YES];
+                                }
+
+                            }];
+
                         }
                     } else {
                         [HHToastUtility showToastWitiTitle:NSLocalizedString(@"登陆失败！",nil) isError:YES];
