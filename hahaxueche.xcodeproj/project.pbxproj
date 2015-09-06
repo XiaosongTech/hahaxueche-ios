@@ -101,6 +101,8 @@
 		5C9366931B9B4E47007962A3 /* gray_arrow@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C9366841B9B4E47007962A3 /* gray_arrow@1x.png */; };
 		5C9366941B9B4E47007962A3 /* gray_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C9366851B9B4E47007962A3 /* gray_arrow@2x.png */; };
 		5C9366951B9B4E47007962A3 /* gray_arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C9366861B9B4E47007962A3 /* gray_arrow@3x.png */; };
+		5C9366991B9CA52C007962A3 /* HHStudentListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C9366981B9CA52C007962A3 /* HHStudentListTableViewCell.m */; };
+		5C93669C1B9CE5FC007962A3 /* HHStudentSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C93669B1B9CE5FC007962A3 /* HHStudentSearchViewController.m */; };
 		5C93FA6E1B6E827A00D7FC86 /* x_button@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C93FA6B1B6E827A00D7FC86 /* x_button@1x.png */; };
 		5C93FA6F1B6E827A00D7FC86 /* x_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C93FA6C1B6E827A00D7FC86 /* x_button@2x.png */; };
 		5C93FA701B6E827A00D7FC86 /* x_button@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C93FA6D1B6E827A00D7FC86 /* x_button@3x.png */; };
@@ -440,6 +442,10 @@
 		5C9366841B9B4E47007962A3 /* gray_arrow@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gray_arrow@1x.png"; sourceTree = "<group>"; };
 		5C9366851B9B4E47007962A3 /* gray_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gray_arrow@2x.png"; sourceTree = "<group>"; };
 		5C9366861B9B4E47007962A3 /* gray_arrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gray_arrow@3x.png"; sourceTree = "<group>"; };
+		5C9366971B9CA52C007962A3 /* HHStudentListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHStudentListTableViewCell.h; sourceTree = "<group>"; };
+		5C9366981B9CA52C007962A3 /* HHStudentListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHStudentListTableViewCell.m; sourceTree = "<group>"; };
+		5C93669A1B9CE5FC007962A3 /* HHStudentSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHStudentSearchViewController.h; sourceTree = "<group>"; };
+		5C93669B1B9CE5FC007962A3 /* HHStudentSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHStudentSearchViewController.m; sourceTree = "<group>"; };
 		5C93FA6B1B6E827A00D7FC86 /* x_button@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "x_button@1x.png"; sourceTree = "<group>"; };
 		5C93FA6C1B6E827A00D7FC86 /* x_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "x_button@2x.png"; sourceTree = "<group>"; };
 		5C93FA6D1B6E827A00D7FC86 /* x_button@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "x_button@3x.png"; sourceTree = "<group>"; };
@@ -580,7 +586,7 @@
 		5CD4EA341B5C2BA0003CF15E /* HHAvatarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAvatarView.h; sourceTree = "<group>"; };
 		5CD4EA351B5C2BA0003CF15E /* HHAvatarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHAvatarView.m; sourceTree = "<group>"; };
 		5CD4EA3A1B5C8180003CF15E /* HHCoachService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachService.h; sourceTree = "<group>"; };
-		5CD4EA3B1B5C8180003CF15E /* HHCoachService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachService.m; sourceTree = "<group>"; };
+		5CD4EA3B1B5C8180003CF15E /* HHCoachService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachService.m; sourceTree = "<group>"; wrapsLines = 0; };
 		5CD4EA3D1B5D97E1003CF15E /* HHTrainingField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTrainingField.h; sourceTree = "<group>"; };
 		5CD4EA3E1B5D97E1003CF15E /* HHTrainingField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHTrainingField.m; sourceTree = "<group>"; };
 		5CD4EA401B5DE6BC003CF15E /* HHFormatUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHFormatUtility.h; sourceTree = "<group>"; };
@@ -960,6 +966,10 @@
 				5C93666F1B9B44AE007962A3 /* HHCoachAddTimeViewController.m */,
 				5C9366741B9B4C1B007962A3 /* HHScheduleCellView.h */,
 				5C9366751B9B4C1B007962A3 /* HHScheduleCellView.m */,
+				5C9366971B9CA52C007962A3 /* HHStudentListTableViewCell.h */,
+				5C9366981B9CA52C007962A3 /* HHStudentListTableViewCell.m */,
+				5C93669A1B9CE5FC007962A3 /* HHStudentSearchViewController.h */,
+				5C93669B1B9CE5FC007962A3 /* HHStudentSearchViewController.m */,
 			);
 			name = "Coach View Controllers";
 			sourceTree = "<group>";
@@ -1494,6 +1504,7 @@
 				5C5451D21B52BE1D0025D19F /* UIImage+HHImage.m in Sources */,
 				5C4DA45E1B93ADDA0098A93E /* DataSigner.m in Sources */,
 				5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */,
+				5C9366991B9CA52C007962A3 /* HHStudentListTableViewCell.m in Sources */,
 				5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */,
 				5CBBA9731B5FE714009398B8 /* HHCoachDesTableViewCell.m in Sources */,
 				5C4DA46D1B93B6340098A93E /* APAuthV2Info.m in Sources */,
@@ -1516,6 +1527,7 @@
 				5C3980981B4C1A2A0057B049 /* HHMyReservationViewController.m in Sources */,
 				5C3980911B4C17900057B049 /* HHRootViewController.m in Sources */,
 				5C84E5C71B83F8EE00E70AD3 /* ParallaxHeaderView.m in Sources */,
+				5C93669C1B9CE5FC007962A3 /* HHStudentSearchViewController.m in Sources */,
 				5C11B3A21B6DA0560014A018 /* HHStudentService.m in Sources */,
 				5CBBA97C1B604762009398B8 /* HHDashView.m in Sources */,
 				5C0127331B77A4B600780992 /* HHTimeSlotSectionTitleView.m in Sources */,

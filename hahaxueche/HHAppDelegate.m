@@ -87,25 +87,25 @@
 //        [self setWindow:self.window];
 //    }
 //
-    [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:@"55aef07ee4b0124627a2cb2f" completion:^(HHStudent *student, NSError *error) {
-        HHRootViewController *rootVC = [[HHRootViewController alloc] initForStudent];
-        [self.window setRootViewController:rootVC];
-        [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
-        [self.window makeKeyAndVisible];
-        [self setAppearance];
-
-        
-    }];
-    
-//    [[HHUserAuthenticator sharedInstance] fetchAuthedCoachWithId:@"55ada2f4e4b0a17d557272d1" completion:^(HHCoach *coach, NSError *error) {
-//        if (!error) {
-//            HHRootViewController *rootVC = [[HHRootViewController alloc] initForCoach];
-//            [self.window setRootViewController:rootVC];
-//            [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
-//            [self.window makeKeyAndVisible];
-//            [self setAppearance];
-//        }
+//    [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:@"55aef07ee4b0124627a2cb2f" completion:^(HHStudent *student, NSError *error) {
+//        HHRootViewController *rootVC = [[HHRootViewController alloc] initForStudent];
+//        [self.window setRootViewController:rootVC];
+//        [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
+//        [self.window makeKeyAndVisible];
+//        [self setAppearance];
+//
+//        
 //    }];
+    
+    [[HHUserAuthenticator sharedInstance] fetchAuthedCoachWithId:@"55ada2f4e4b0a17d557272d1" completion:^(HHCoach *coach, NSError *error) {
+        if (!error) {
+            HHRootViewController *rootVC = [[HHRootViewController alloc] initForCoach];
+            [self.window setRootViewController:rootVC];
+            [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
+            [self.window makeKeyAndVisible];
+            [self setAppearance];
+        }
+    }];
     
     return YES;
    
@@ -139,6 +139,10 @@
                                                            NSFontAttributeName: [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f]}];
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],
                                                            NSFontAttributeName: [UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]} forState:UIControlStateNormal];
+    [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTitleTextAttributes:
+     @{NSForegroundColorAttributeName : [UIColor HHOrange],
+                                                                                                    NSFontAttributeName: [UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]} forState:UIControlStateNormal];
+    
     [[UINavigationBar appearance] setTranslucent:NO];
     [[UINavigationBar appearance] setBarTintColor:[UIColor HHOrange]];
     [[UITabBar appearance] setTintColor:[UIColor HHOrange]];

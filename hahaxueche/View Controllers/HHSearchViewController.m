@@ -22,8 +22,6 @@
 @interface HHSearchViewController ()
 
 @property (nonatomic, strong) UIButton *cancelButton;
-@property (nonatomic, strong) HHSearchBar *searchBar;
-@property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) NSMutableArray *coachesArray;
 

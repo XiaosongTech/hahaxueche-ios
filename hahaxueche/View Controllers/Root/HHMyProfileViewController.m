@@ -82,7 +82,7 @@
     self.tableView.tableFooterView = footerView;
     __weak HHMyProfileViewController *weakSelf = self;
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中", nil)];
-    [[HHPaymentTransactionService sharedInstance] fetchTransactionWithCompletion:^(NSArray *objects, NSError *error) {
+    [[HHPaymentTransactionService sharedInstance] fetchTransactionWithStudentId:[HHUserAuthenticator sharedInstance].currentStudent.studentId completion:^(NSArray *objects, NSError *error) {
         if (!error) {
             weakSelf.transactionArray = objects;
             if ([weakSelf.transactionArray count]) {

@@ -11,4 +11,7 @@
 
 @interface HHSearchViewController : UIViewController <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) HHSearchBar *searchBar;
+
 @end

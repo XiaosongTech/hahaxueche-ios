@@ -42,10 +42,6 @@
 
 @implementation HHCoachAddTimeViewController
 
-- (void)dealloc {
-    
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
