@@ -127,6 +127,10 @@
 
 
 - (void)autoLayoutSubviews {
+    NSInteger buttonLWidth = 50.0f;
+    if ([HHUserAuthenticator sharedInstance].currentCoach) {
+        buttonLWidth = 70.0f;
+    }
     NSArray *constraints = @[
                              [HHAutoLayoutUtility setCenterY:self.numberLabel multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.numberLabel constant:10.0f],
@@ -138,7 +142,7 @@
                              
                              [HHAutoLayoutUtility setCenterY:self.payButton multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setCenterX:self.payButton multiplier:2.0f constant:-80.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.payButton multiplier:0 constant:70.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.payButton multiplier:0 constant:buttonLWidth],
                              
                              
                              [HHAutoLayoutUtility setCenterY:self.infoImageView multiplier:1.0f constant:0],

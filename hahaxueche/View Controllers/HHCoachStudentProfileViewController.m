@@ -87,6 +87,7 @@
 - (void)setTransactionArray:(NSArray *)transactionArray {
     _transactionArray = transactionArray;
     if ([self.transactionArray count]) {
+        [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
         HHTransaction *transaction = [self.transactionArray firstObject];
         [[HHPaymentTransactionService sharedInstance] fetchPaymentStatusWithTransactionId:transaction.objectId completion:^(HHPaymentStatus *paymentStatus, NSError *error) {
             [[HHLoadingView sharedInstance] hideLoadingView];
@@ -95,8 +96,30 @@
                 [self.tableView reloadData];
             }
         }];
-    } else {
-        [[HHLoadingView sharedInstance] hideLoadingView];
+    }  else {
+        [[HHPaymentTransactionService sharedInstance] fetchTransactionWithStudentId:self.student.studentId completion:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                self.transactionArray = objects;
+                if ([self.transactionArray count]) {
+                    HHTransaction *transaction = [self.transactionArray firstObject];
+                    [[HHPaymentTransactionService sharedInstance] fetchPaymentStatusWithTransactionId:transaction.objectId completion:^(HHPaymentStatus *paymentStatus, NSError *error) {
+                        [[HHLoadingView sharedInstance] hideLoadingView];
+                        if (!error) {
+                            self.paymentStatus = paymentStatus;
+                            [self.tableView reloadData];
+                        }
+                    }];
+                } else {
+                    [[HHLoadingView sharedInstance] hideLoadingView];
+                }
+                
+                
+            } else {
+                [[HHLoadingView sharedInstance] hideLoadingView];
+                [HHToastUtility showToastWitiTitle:@"加载时出错！" isError:YES];
+            }
+        }];
+
     }
 
 }
@@ -123,7 +146,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HHCoachStudentProfileCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId];
     cell.student = self.student;
-    cell.transaction = self.transactionArray[indexPath.row];
+    if ([self.transactionArray count]) {
+         cell.transaction = self.transactionArray[indexPath.row];
+    } 
     cell.paymentStatus = self.paymentStatus;
     return cell;
 }
