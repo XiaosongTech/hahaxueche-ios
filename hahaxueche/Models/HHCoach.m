@@ -26,6 +26,7 @@
 @dynamic averageRating;
 @dynamic alipayAccount;
 @dynamic actualPrice;
+@dynamic qrCodeURL;
 
 + (NSString *)parseClassName {
     return @"Coach";

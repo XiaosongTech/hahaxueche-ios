@@ -181,6 +181,13 @@
                 [weakSelf.paymentStatus saveInBackground];
                 [weakSelf.tableView reloadData];
                 [HHToastUtility showToastWitiTitle:NSLocalizedString(@"付款成功！", nil) isError:NO];
+                if ([weakSelf.paymentStatus.currentStage integerValue] == 6) {
+                    NSNumber *newCurrentStudentAmount = @([[HHUserAuthenticator sharedInstance].myCoach.currentStudentAmount integerValue] - 1);
+                    NSNumber *newPassedStudentAmount = @([[HHUserAuthenticator sharedInstance].myCoach.passedStudentAmount integerValue] + 1);
+                    [HHUserAuthenticator sharedInstance].myCoach.currentStudentAmount = newCurrentStudentAmount;
+                    [HHUserAuthenticator sharedInstance].myCoach.passedStudentAmount = newPassedStudentAmount;
+                    [[HHUserAuthenticator sharedInstance].myCoach saveInBackground];
+                }
             }
         }];
         
@@ -216,7 +223,7 @@
         } else if (buttonIndex == 1) {
             
         } else if (buttonIndex == 2) {
-            self.alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"确定要退出？", nil) message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"取消退出", nil) otherButtonTitles:NSLocalizedString(@"确定退出", nil), nil];
+            self.alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"确定要退出？", nil) message:NSLocalizedString(@"退出后，可以通过手机号再次登陆！", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"取消退出", nil) otherButtonTitles:NSLocalizedString(@"确定退出", nil), nil];
             [self.alertView show];
         }
     }

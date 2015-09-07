@@ -20,6 +20,7 @@
 #import "HHStudentService.h"
 #import "HHStudentSearchViewController.h"
 #import "HHCoachStudentProfileViewController.h"
+#import "HHUserAuthenticator.h"
 
 #define kCellId @"StudentListCellId"
 
@@ -81,6 +82,37 @@
     self.refreshControl = [[UIRefreshControl alloc]init];
     [self.tableView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
+    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 50.0f)];
+    UILabel *currentStudentLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    currentStudentLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    currentStudentLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f];
+    currentStudentLabel.textColor = [UIColor HHOrange];
+    currentStudentLabel.text = [NSString stringWithFormat:@"当前学员数：%@", [[HHUserAuthenticator sharedInstance].currentCoach.currentStudentAmount stringValue]];
+    [currentStudentLabel sizeToFit];
+    [headerView addSubview:currentStudentLabel];
+    
+    
+    UILabel *passedStudentLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    passedStudentLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    passedStudentLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f];
+    passedStudentLabel.textColor = [UIColor HHOrange];
+    passedStudentLabel.text = [NSString stringWithFormat:@"已通过学员数：%@", [[HHUserAuthenticator sharedInstance].currentCoach.passedStudentAmount stringValue]];
+    [passedStudentLabel sizeToFit];
+    [headerView addSubview:passedStudentLabel];
+    self.tableView.tableHeaderView = headerView;
+    
+    NSArray *constraints = @[
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:currentStudentLabel constant:10.0f],
+                             [HHAutoLayoutUtility setCenterY:currentStudentLabel multiplier:1.0f constant:0],
+                             
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewRight:passedStudentLabel constant:-10.0f],
+                            [HHAutoLayoutUtility setCenterY:passedStudentLabel multiplier:1.0f constant:0],
+    
+                             ];
+    [self.view addConstraints:constraints];
+    
+    
     
     [self autoLayoutSubviews];
 }
