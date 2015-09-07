@@ -103,6 +103,8 @@
 		5C9366951B9B4E47007962A3 /* gray_arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C9366861B9B4E47007962A3 /* gray_arrow@3x.png */; };
 		5C9366991B9CA52C007962A3 /* HHStudentListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C9366981B9CA52C007962A3 /* HHStudentListTableViewCell.m */; };
 		5C93669C1B9CE5FC007962A3 /* HHStudentSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C93669B1B9CE5FC007962A3 /* HHStudentSearchViewController.m */; };
+		5C93669F1B9DF6FC007962A3 /* HHCoachStudentProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C93669E1B9DF6FC007962A3 /* HHCoachStudentProfileViewController.m */; };
+		5C9366A21B9DF8AB007962A3 /* HHCoachStudentProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C9366A11B9DF8AB007962A3 /* HHCoachStudentProfileCell.m */; };
 		5C93FA6E1B6E827A00D7FC86 /* x_button@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C93FA6B1B6E827A00D7FC86 /* x_button@1x.png */; };
 		5C93FA6F1B6E827A00D7FC86 /* x_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C93FA6C1B6E827A00D7FC86 /* x_button@2x.png */; };
 		5C93FA701B6E827A00D7FC86 /* x_button@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C93FA6D1B6E827A00D7FC86 /* x_button@3x.png */; };
@@ -446,6 +448,10 @@
 		5C9366981B9CA52C007962A3 /* HHStudentListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHStudentListTableViewCell.m; sourceTree = "<group>"; };
 		5C93669A1B9CE5FC007962A3 /* HHStudentSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHStudentSearchViewController.h; sourceTree = "<group>"; };
 		5C93669B1B9CE5FC007962A3 /* HHStudentSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHStudentSearchViewController.m; sourceTree = "<group>"; };
+		5C93669D1B9DF6FC007962A3 /* HHCoachStudentProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachStudentProfileViewController.h; sourceTree = "<group>"; };
+		5C93669E1B9DF6FC007962A3 /* HHCoachStudentProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachStudentProfileViewController.m; sourceTree = "<group>"; };
+		5C9366A01B9DF8AB007962A3 /* HHCoachStudentProfileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachStudentProfileCell.h; sourceTree = "<group>"; };
+		5C9366A11B9DF8AB007962A3 /* HHCoachStudentProfileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachStudentProfileCell.m; sourceTree = "<group>"; };
 		5C93FA6B1B6E827A00D7FC86 /* x_button@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "x_button@1x.png"; sourceTree = "<group>"; };
 		5C93FA6C1B6E827A00D7FC86 /* x_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "x_button@2x.png"; sourceTree = "<group>"; };
 		5C93FA6D1B6E827A00D7FC86 /* x_button@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "x_button@3x.png"; sourceTree = "<group>"; };
@@ -970,6 +976,10 @@
 				5C9366981B9CA52C007962A3 /* HHStudentListTableViewCell.m */,
 				5C93669A1B9CE5FC007962A3 /* HHStudentSearchViewController.h */,
 				5C93669B1B9CE5FC007962A3 /* HHStudentSearchViewController.m */,
+				5C93669D1B9DF6FC007962A3 /* HHCoachStudentProfileViewController.h */,
+				5C93669E1B9DF6FC007962A3 /* HHCoachStudentProfileViewController.m */,
+				5C9366A01B9DF8AB007962A3 /* HHCoachStudentProfileCell.h */,
+				5C9366A11B9DF8AB007962A3 /* HHCoachStudentProfileCell.m */,
 			);
 			name = "Coach View Controllers";
 			sourceTree = "<group>";
@@ -1508,10 +1518,12 @@
 				5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */,
 				5CBBA9731B5FE714009398B8 /* HHCoachDesTableViewCell.m in Sources */,
 				5C4DA46D1B93B6340098A93E /* APAuthV2Info.m in Sources */,
+				5C93669F1B9DF6FC007962A3 /* HHCoachStudentProfileViewController.m in Sources */,
 				5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */,
 				5CD4EA361B5C2BA0003CF15E /* HHAvatarView.m in Sources */,
 				5C3980951B4C1A180057B049 /* HHHomePageViewController.m in Sources */,
 				5C01272A1B7797B600780992 /* HHTimeSlotsViewController.m in Sources */,
+				5C9366A21B9DF8AB007962A3 /* HHCoachStudentProfileCell.m in Sources */,
 				5C4DA4611B93ADDA0098A93E /* NSDataEx.m in Sources */,
 				5CD4E9EA1B597CE2003CF15E /* HHToastUtility.m in Sources */,
 				5CD4E9DE1B593EA0003CF15E /* HHUserAuthenticator.m in Sources */,

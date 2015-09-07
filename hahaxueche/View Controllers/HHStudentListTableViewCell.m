@@ -37,8 +37,8 @@
     self.avatarView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.containerView addSubview:self.avatarView];
     
-    self.nameLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f] textColor:[UIColor blackColor]];
-    self.numberLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Medium" size:16.0f] textColor:[UIColor blackColor]];
+    self.nameLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f] textColor:[UIColor HHDarkGrayTextColor]];
+    self.numberLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Medium" size:16.0f] textColor:[UIColor HHGrayTextColor]];
     self.moneyLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Medium" size:20.0f] textColor:[UIColor HHOrange]];
     [self autoLayoutSubviews];
 }

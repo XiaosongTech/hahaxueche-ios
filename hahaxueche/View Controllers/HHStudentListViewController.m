@@ -19,6 +19,7 @@
 #import <pop/POP.h>
 #import "HHStudentService.h"
 #import "HHStudentSearchViewController.h"
+#import "HHCoachStudentProfileViewController.h"
 
 #define kCellId @"StudentListCellId"
 
@@ -178,6 +179,13 @@
     scaleAnimation.springBounciness = 15.f;
     [cell.layer pop_addAnimation:scaleAnimation forKey:@"scaleAnimation"];
     
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    HHCoachStudentProfileViewController *studentVC = [[HHCoachStudentProfileViewController alloc] init];
+    studentVC.student = self.students[indexPath.row];
+    studentVC.transactionArray = @[self.transactionsDic[studentVC.student.studentId]];
+    [self.navigationController pushViewController:studentVC animated:YES];
 }
 
 #pragma mark ScrollView Delegate
