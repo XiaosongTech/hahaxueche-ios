@@ -22,6 +22,7 @@
 @property (nonatomic, copy) NSString *phoneNumber;
 @property (nonatomic, copy) NSString *province;
 @property (nonatomic, copy) NSMutableArray *myReservation;
+@property (nonatomic, copy) NSNumber *isFinished;
 
 
 

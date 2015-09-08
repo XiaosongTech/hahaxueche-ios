@@ -29,6 +29,8 @@
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) NSMutableArray *students;
+@property (nonatomic, strong) NSArray *filteredStudents;
+@property (nonatomic, strong) UISegmentedControl *filterSegmentedControl;
 
 @property (nonatomic, strong) NSMutableDictionary *transactionsDic;
 @property (nonatomic) BOOL shouldLoadMore;
@@ -83,45 +85,37 @@
     [self.tableView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
     
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 50.0f)];
-    UILabel *currentStudentLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    currentStudentLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    currentStudentLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f];
-    currentStudentLabel.textColor = [UIColor HHOrange];
-    currentStudentLabel.text = [NSString stringWithFormat:@"当前学员数：%@", [[HHUserAuthenticator sharedInstance].currentCoach.currentStudentAmount stringValue]];
-    [currentStudentLabel sizeToFit];
-    [headerView addSubview:currentStudentLabel];
     
+    NSString *option1 = [NSString stringWithFormat:NSLocalizedString(@"当前学员（%@）", nil), [[HHUserAuthenticator sharedInstance].currentCoach.currentStudentAmount stringValue]];
     
-    UILabel *passedStudentLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    passedStudentLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    passedStudentLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f];
-    passedStudentLabel.textColor = [UIColor HHOrange];
-    passedStudentLabel.text = [NSString stringWithFormat:@"已通过学员数：%@", [[HHUserAuthenticator sharedInstance].currentCoach.passedStudentAmount stringValue]];
-    [passedStudentLabel sizeToFit];
-    [headerView addSubview:passedStudentLabel];
-    self.tableView.tableHeaderView = headerView;
-    
-    NSArray *constraints = @[
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:currentStudentLabel constant:10.0f],
-                             [HHAutoLayoutUtility setCenterY:currentStudentLabel multiplier:1.0f constant:0],
-                             
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewRight:passedStudentLabel constant:-10.0f],
-                            [HHAutoLayoutUtility setCenterY:passedStudentLabel multiplier:1.0f constant:0],
-    
-                             ];
-    [self.view addConstraints:constraints];
-    
-    
+     NSString *option2 = [NSString stringWithFormat:NSLocalizedString(@"已通过学员（%@）", nil), [[HHUserAuthenticator sharedInstance].currentCoach.passedStudentAmount stringValue]];
+    self.filterSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[option1, option2]];
+    self.filterSegmentedControl.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.filterSegmentedControl addTarget:self action:@selector(valueChanged) forControlEvents: UIControlEventValueChanged];
+    self.filterSegmentedControl.selectedSegmentIndex = 0;
+    self.filterSegmentedControl.tintColor = [UIColor HHOrange];
+    [self.filterSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Medium" size:13.0f]} forState:UIControlStateNormal];
+    [self.filterSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Medium" size:13.0f]} forState:UIControlStateSelected];
+    [self.view addSubview:self.filterSegmentedControl];
     
     [self autoLayoutSubviews];
 }
 
+- (void)valueChanged {
+    [self buildFilteredArray];
+    [self.tableView reloadData];
+}
+
 - (void)autoLayoutSubviews {
     NSArray *constraints = @[
-                             [HHAutoLayoutUtility setCenterX:self.tableView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setCenterY:self.tableView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.tableView multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setCenterX:self.filterSegmentedControl multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.filterSegmentedControl constant:10.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.filterSegmentedControl multiplier:0 constant:30.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.filterSegmentedControl multiplier:1.0f constant:-20.0f],
+                             
+                             [HHAutoLayoutUtility verticalNext:self.tableView toView:self.filterSegmentedControl constant:5.0f],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.tableView constant:0],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.tableView constant:0],
                              [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:0],
                              ];
     [self.view addConstraints:constraints];
@@ -143,6 +137,7 @@
             } else {
                 self.shouldLoadMore = YES;
             }
+            [self buildFilteredArray];
             [self.tableView reloadData];
         } else {
             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"加载出错", nil) isError:YES];
@@ -151,6 +146,14 @@
             completion();
         }
     }];
+}
+
+- (void)buildFilteredArray {
+    if (self.filterSegmentedControl.selectedSegmentIndex == 0) {
+         self.filteredStudents = [self.students filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(isFinished == %@)", @(0)]];
+    } else {
+        self.filteredStudents = [self.students filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(isFinished == %@)", @(1)]];
+    }
 }
 
 - (void)fetchMoreStudentsWithCompletion:(HHGenericCompletion)completion {
@@ -177,12 +180,12 @@
 #pragma -mark TableView Delegate & DataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.students.count;
+    return self.filteredStudents.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HHStudentListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
-    HHStudent *student = self.students[indexPath.row];
+    HHStudent *student = self.filteredStudents[indexPath.row];
     __block HHTransaction *transaction =self.transactionsDic[student.studentId];
     if (transaction){
         [cell setupViewsWithStudent:student priceString:[[HHFormatUtility moneyFormatter] stringFromNumber:transaction.paidPrice]];
@@ -215,7 +218,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     HHCoachStudentProfileViewController *studentVC = [[HHCoachStudentProfileViewController alloc] init];
-    studentVC.student = self.students[indexPath.row];
+    studentVC.student = self.filteredStudents[indexPath.row];
     studentVC.transactionArray = @[self.transactionsDic[studentVC.student.studentId]];
     [self.navigationController pushViewController:studentVC animated:YES];
 }

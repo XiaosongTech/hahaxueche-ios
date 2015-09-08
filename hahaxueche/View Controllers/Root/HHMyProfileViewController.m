@@ -187,6 +187,9 @@
                     [HHUserAuthenticator sharedInstance].myCoach.currentStudentAmount = newCurrentStudentAmount;
                     [HHUserAuthenticator sharedInstance].myCoach.passedStudentAmount = newPassedStudentAmount;
                     [[HHUserAuthenticator sharedInstance].myCoach saveInBackground];
+                    
+                    [HHUserAuthenticator sharedInstance].currentStudent.isFinished = @(1);
+                    [[HHUserAuthenticator sharedInstance].currentStudent saveInBackground];
                 }
             }
         }];
