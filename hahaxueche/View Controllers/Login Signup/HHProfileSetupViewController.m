@@ -78,9 +78,11 @@ typedef enum : NSUInteger {
     self.uploadImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.uploadImageView.translatesAutoresizingMaskIntoConstraints = NO;
     self.uploadImageView.userInteractionEnabled = YES;
-    self.uploadImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.uploadImageView.contentMode = UIViewContentModeCenter;
     self.uploadImageView.image = [UIImage imageNamed:@"camera-alt"];
     self.uploadImageView.layer.cornerRadius = 25.0f;
+    self.uploadImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.uploadImageView.layer.borderWidth = 1.0f;
     self.uploadImageView.layer.masksToBounds = YES;
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(uploadImage)];
     [self.uploadImageView addGestureRecognizer:tapGesture];
@@ -195,7 +197,7 @@ typedef enum : NSUInteger {
                 [[HHUserAuthenticator sharedInstance] createStudentWithStudent:self.student completion:^(NSError *error) {
                     [[HHLoadingView sharedInstance] hideLoadingView];
                     if (!error) {
-                        HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+                        HHRootViewController *rootVC = [[HHRootViewController alloc] initForStudent];
                         [self presentViewController:rootVC animated:YES completion:nil];
                     } else {
                         [HHToastUtility showToastWitiTitle:NSLocalizedString(@"创建账户失败！",nil) isError:YES];
@@ -333,6 +335,7 @@ typedef enum : NSUInteger {
     if(!self.originalImage) {
         self.originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
+    self.uploadImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.uploadImageView.image = self.originalImage;
     self.uploadImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.uploadImageView.layer.borderWidth = 0;

@@ -35,4 +35,27 @@
     [CRToastManager showNotificationWithOptions:options completionBlock:nil];
 }
 
++ (void)showToastWitiTitle:(NSString *)title timeInterval:(NSNumber *)interval isError:(BOOL)isError {
+    UIColor *backgroundColor = kGreenColor;
+    if (isError) {
+        backgroundColor = kRedColor;
+    }
+    NSDictionary *options = @{
+                              
+                              kCRToastNotificationTypeKey: @(CRToastTypeNavigationBar),
+                              kCRToastNotificationPresentationTypeKey:@(CRToastPresentationTypeCover),
+                              kCRToastTextKey: title,
+                              kCRToastFontKey: [UIFont fontWithName:@"STHeitiSC-Medium" size:13.0f],
+                              kCRToastTextAlignmentKey: @(NSTextAlignmentCenter),
+                              kCRToastBackgroundColorKey: backgroundColor,
+                              kCRToastAnimationInTypeKey: @(CRToastAnimationTypeSpring),
+                              kCRToastAnimationOutTypeKey: @(CRToastAnimationTypeSpring),
+                              kCRToastAnimationInDirectionKey: @(CRToastAnimationDirectionTop),
+                              kCRToastAnimationOutDirectionKey: @(CRToastAnimationDirectionBottom),
+                              kCRToastTimeIntervalKey: interval,
+                              };
+    [CRToastManager showNotificationWithOptions:options completionBlock:nil];
+
+}
+
 @end

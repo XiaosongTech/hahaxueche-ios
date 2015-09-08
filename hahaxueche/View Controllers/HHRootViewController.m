@@ -15,6 +15,9 @@
 #import "HHMyProfileViewController.h"
 #import "HHTrainingFieldService.h"
 #import "HHUserAuthenticator.h"
+#import "HHCoachMyProfileViewController.h"
+#import "HHCoachScheduleViewController.h"
+#import "HHStudentListViewController.h"
 
 @interface HHRootViewController ()
 
@@ -22,19 +25,60 @@
 
 @implementation HHRootViewController
 
-- (instancetype)init {
+- (instancetype)initForStudent {
     self = [super init];
     if (self) {
         self.delegate = self;
         self.view.backgroundColor = [UIColor clearColor];
         [[HHTrainingFieldService sharedInstance] fetchTrainingFieldsForCity:[HHUserAuthenticator sharedInstance].currentStudent.city completion:nil];
-        [self initViewControllers];
+        [self initViewControllersForStudent];
     }
     return self;
 }
 
+- (instancetype)initForCoach {
+    self = [super init];
+    if (self) {
+        self.delegate = self;
+        self.view.backgroundColor = [UIColor clearColor];
+        [self initViewControllersForCoach];
+    }
+    return self;
+}
 
-- (void)initViewControllers {
+- (void)initViewControllersForCoach {
+    
+    HHCoachScheduleViewController *coachScheduleVC = [[HHCoachScheduleViewController alloc] init];
+    coachScheduleVC.coach = [HHUserAuthenticator sharedInstance].currentCoach;
+    HHNavigationController *coachScheduleNavVC = [[HHNavigationController alloc] initWithRootViewController:coachScheduleVC];
+    UITabBarItem *coachScheduleItem = [[UITabBarItem alloc] init];
+    coachScheduleItem.image = [[UIImage imageNamed:@"calendar_grey"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    coachScheduleItem.selectedImage = [[UIImage imageNamed:@"calendar_selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    coachScheduleItem.title = NSLocalizedString(@"练车时间", nil);
+    coachScheduleNavVC.tabBarItem = coachScheduleItem;
+    
+    HHStudentListViewController *studentListVC = [[HHStudentListViewController alloc] init];
+    HHNavigationController *studentListNavVC = [[HHNavigationController alloc] initWithRootViewController:studentListVC];
+    UITabBarItem *studentListItem = [[UITabBarItem alloc] init];
+    studentListItem.image = [[UIImage imageNamed:@"reservation_grey"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    studentListItem.selectedImage = [[UIImage imageNamed:@"reservation_selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    studentListItem.title = NSLocalizedString(@"我的学员", nil);
+    studentListNavVC.tabBarItem = studentListItem;
+    
+    HHCoachMyProfileViewController *coachProfileVC = [[HHCoachMyProfileViewController alloc] init];
+    HHNavigationController *coachProfileNavVC = [[HHNavigationController alloc] initWithRootViewController:coachProfileVC];
+    UITabBarItem *coachProfileItem = [[UITabBarItem alloc] init];
+    coachProfileItem.image = [[UIImage imageNamed:@"profile_gray"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    coachProfileItem.selectedImage = [[UIImage imageNamed:@"profile_selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    coachProfileItem.title = NSLocalizedString(@"我的页面", nil);
+    coachProfileNavVC.tabBarItem = coachProfileItem;
+    
+    NSArray *viewControllers = @[coachScheduleNavVC, studentListNavVC, coachProfileNavVC];
+    self.viewControllers = viewControllers;
+    
+}
+
+- (void)initViewControllersForStudent {
     HHHomePageViewController *homePageVC = [[HHHomePageViewController alloc] init];
     HHNavigationController *HomePageNavVC = [[HHNavigationController alloc] initWithRootViewController:homePageVC];
     UITabBarItem *homePageItem = [[UITabBarItem alloc] init];

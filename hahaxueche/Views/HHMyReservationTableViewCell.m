@@ -187,7 +187,8 @@
     self.courseLabel.text = self.reservation.course;
     
     
-    for (HHStudent *student in self.students) {
+    for (int i = 0; i < self.students.count; i++ ) {
+        HHStudent *student = self.students[i];
         if ([student.studentId isEqualToString:[HHUserAuthenticator sharedInstance].currentStudent.studentId]) {
             [self.students removeObject:student];
         }

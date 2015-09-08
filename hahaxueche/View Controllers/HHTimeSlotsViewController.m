@@ -25,7 +25,7 @@
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHRootViewController.h"
 #import <pop/POP.h>
-#import "HHCoachListViewController.h"
+#import "HHCoachStudentProfileViewController.h"
 
 #define kTimeSlotCellIdentifier @"kTimeSlotCellIdentifier"
 
@@ -264,10 +264,21 @@
     HHCoachSchedule *schedule = (HHCoachSchedule *)self.groupedSchedules[indexPath.section][indexPath.row];
     cell.schedule = schedule;
     __weak HHTimeSlotsViewController *weakSelf = self;
-    cell.block = ^(HHStudent *student) {
-        HHFullScreenImageViewController *vc = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:student.avatarURL] title:student.fullName];
-        [weakSelf.tabBarController presentViewController:vc animated:YES completion:nil];
-    };
+    if ([HHUserAuthenticator sharedInstance].currentStudent) {
+        cell.block = ^(HHStudent *student) {
+            HHFullScreenImageViewController *vc = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:student.avatarURL] title:student.fullName];
+            [weakSelf.tabBarController presentViewController:vc animated:YES completion:nil];
+        };
+    } else if ([HHUserAuthenticator sharedInstance].currentCoach) {
+        cell.block = ^(HHStudent *student) {
+            HHCoachStudentProfileViewController *studentVC = [[HHCoachStudentProfileViewController alloc] init];
+            studentVC.student = student;
+            studentVC.transactionArray = nil;
+            [weakSelf.navigationController pushViewController:studentVC animated:YES];
+        };
+
+    }
+    
     cell.students = schedule.fullStudents;
     [cell setupViews];
     [cell setupAvatars];

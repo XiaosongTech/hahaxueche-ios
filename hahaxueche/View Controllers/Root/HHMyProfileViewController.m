@@ -70,7 +70,7 @@
     
     self.explanationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 60.0f)];
     self.explanationLabel.backgroundColor = [UIColor clearColor];
-    self.explanationLabel.text = NSLocalizedString(@"注：学员支付的学费将由平台保管，每个阶段结束后，学员可以根据情况，点此阶段的付款按钮，点击后，平台将该阶段对应的金额转给教练，然后进入下一阶段。每个阶段到金额会在点击付款后的第一个周二转到教练账户", nil);
+    self.explanationLabel.text = NSLocalizedString(@"注：学员支付的学费将由平台保管，每个阶段结束后，学员可以根据情况，点此阶段的付款按钮，点击后，平台将该阶段对应的金额转给教练，然后进入下一阶段。每个阶段到金额会在点击付款后的第一个周二转到教练账户。", nil);
     self.explanationLabel.textColor = [UIColor HHGrayTextColor];
     self.explanationLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:12.0f];
     self.explanationLabel.numberOfLines = 0;
@@ -82,7 +82,7 @@
     self.tableView.tableFooterView = footerView;
     __weak HHMyProfileViewController *weakSelf = self;
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中", nil)];
-    [[HHPaymentTransactionService sharedInstance] fetchTransactionWithCompletion:^(NSArray *objects, NSError *error) {
+    [[HHPaymentTransactionService sharedInstance] fetchTransactionWithStudentId:[HHUserAuthenticator sharedInstance].currentStudent.studentId completion:^(NSArray *objects, NSError *error) {
         if (!error) {
             weakSelf.transactionArray = objects;
             if ([weakSelf.transactionArray count]) {
@@ -94,6 +94,8 @@
                         [weakSelf.tableView reloadData];
                     }
                 }];
+            } else {
+                [[HHLoadingView sharedInstance] hideLoadingView];
             }
             
             
@@ -179,6 +181,16 @@
                 [weakSelf.paymentStatus saveInBackground];
                 [weakSelf.tableView reloadData];
                 [HHToastUtility showToastWitiTitle:NSLocalizedString(@"付款成功！", nil) isError:NO];
+                if ([weakSelf.paymentStatus.currentStage integerValue] == 6) {
+                    NSNumber *newCurrentStudentAmount = @([[HHUserAuthenticator sharedInstance].myCoach.currentStudentAmount integerValue] - 1);
+                    NSNumber *newPassedStudentAmount = @([[HHUserAuthenticator sharedInstance].myCoach.passedStudentAmount integerValue] + 1);
+                    [HHUserAuthenticator sharedInstance].myCoach.currentStudentAmount = newCurrentStudentAmount;
+                    [HHUserAuthenticator sharedInstance].myCoach.passedStudentAmount = newPassedStudentAmount;
+                    [[HHUserAuthenticator sharedInstance].myCoach saveInBackground];
+                    
+                    [HHUserAuthenticator sharedInstance].currentStudent.isFinished = @(1);
+                    [[HHUserAuthenticator sharedInstance].currentStudent saveInBackground];
+                }
             }
         }];
         
@@ -214,7 +226,7 @@
         } else if (buttonIndex == 1) {
             
         } else if (buttonIndex == 2) {
-            self.alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"确定要退出？", nil) message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"取消退出", nil) otherButtonTitles:NSLocalizedString(@"确定退出", nil), nil];
+            self.alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"确定要退出？", nil) message:NSLocalizedString(@"退出后，可以通过手机号再次登陆！", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"取消退出", nil) otherButtonTitles:NSLocalizedString(@"确定退出", nil), nil];
             [self.alertView show];
         }
     }

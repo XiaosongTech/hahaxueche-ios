@@ -19,8 +19,10 @@
 @property (nonatomic, copy) NSString *avatarURL;
 @property (nonatomic, copy) NSString *myCoachId;
 @property (nonatomic, copy) NSString *city;
+@property (nonatomic, copy) NSString *phoneNumber;
 @property (nonatomic, copy) NSString *province;
 @property (nonatomic, copy) NSMutableArray *myReservation;
+@property (nonatomic, copy) NSNumber *isFinished;
 
 
 

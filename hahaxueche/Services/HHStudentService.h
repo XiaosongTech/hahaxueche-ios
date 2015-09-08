@@ -12,6 +12,7 @@
 #import "HHCoachSchedule.h"
 
 typedef void (^HHStudentCompletionBlock)(HHStudent *student, NSError *error);
+typedef void (^HHStudentsCompletionBlock)(NSArray *students, NSInteger totalResults, NSError *error);
 typedef void (^HHStudentBookCompletionBlock)(BOOL succeed, NSInteger succeedCount);
 
 @interface HHStudentService : NSObject
@@ -21,6 +22,8 @@ typedef void (^HHStudentBookCompletionBlock)(BOOL succeed, NSInteger succeedCoun
 - (void)fetchStudentWithId:(NSString *)studentId completion:(HHStudentCompletionBlock)completion;
 
 - (void)bookTimeSlotsWithSchedules:(NSArray *)schedules student:(HHStudent *)student coachId:(NSString *)coachId completion:(HHStudentBookCompletionBlock)completion;
+
+- (void)fetchStudentWithQueryForAuthedCoach:(NSString *)queryText skip:(NSInteger)skip completion:(HHStudentsCompletionBlock)completion;
 
 
 

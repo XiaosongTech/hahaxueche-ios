@@ -27,4 +27,6 @@ typedef void (^HHCoachCompletionBlock)(HHCoach *coach, NSError *error);
 
 - (void)recommendCoachWithCompletion:(HHCoachesArrayCompletionBlock)completion;
 
+- (void)fetchMyStudentsForAuthedCoachWithSkip:(NSInteger)skip completion:(HHCoachesArrayCompletionBlock)completion;
+
 @end

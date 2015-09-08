@@ -199,6 +199,10 @@ typedef enum : NSUInteger {
 }
 
 - (void)payCoach {
+    if ([HHUserAuthenticator sharedInstance].currentStudent.myCoachId) {
+        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"您已经有教练，无需再购买其他教练服务。", nil) isError:YES];
+        return;
+    }
     HHTransaction *transaction = [HHTransaction objectWithClassName:[HHTransaction parseClassName]];
     transaction.studentId = [HHUserAuthenticator sharedInstance].currentStudent.studentId;
     transaction.coachId = self.coach.coachId;
@@ -265,6 +269,10 @@ typedef enum : NSUInteger {
 }
 
 - (void)callCoach {
+    if ([HHUserAuthenticator sharedInstance].currentStudent.myCoachId) {
+        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"您已经有教练，无需再试学。", nil) isError:YES];
+        return;
+    }
     NSString *phoneURLString = [NSString stringWithFormat:@"telprompt://%@", self.coach.phoneNumber];
     NSURL *phoneURL = [NSURL URLWithString:phoneURLString];
     [[UIApplication sharedApplication] openURL:phoneURL];

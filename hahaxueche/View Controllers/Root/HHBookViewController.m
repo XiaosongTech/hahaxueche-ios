@@ -113,8 +113,6 @@
         [self fetchSchedulesWithCompletion:^{
             [[HHLoadingView sharedInstance] hideLoadingView];
         }];
-    } else {
-        
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateData) name:@"cancelSucceed" object:nil];

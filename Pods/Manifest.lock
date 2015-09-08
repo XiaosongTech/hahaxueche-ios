@@ -1,4 +1,5 @@
 PODS:
+  - ActionSheetPicker-3.0 (1.7.2)
   - AVOSCloud (3.1.2.6)
   - CMPopTipView (2.2.0)
   - CRToast (0.0.7)
@@ -13,6 +14,7 @@ PODS:
   - SDWebImage/Core (3.7.2)
 
 DEPENDENCIES:
+  - ActionSheetPicker-3.0
   - AVOSCloud
   - CMPopTipView (~> 2.2)
   - CRToast (~> 0.0.7)
@@ -25,6 +27,7 @@ DEPENDENCIES:
   - SDWebImage (~> 3.7)
 
 SPEC CHECKSUMS:
+  ActionSheetPicker-3.0: c5bdca19fd8b3d798f0c79892cbab6f11a8523ae
   AVOSCloud: a2fc903a1aee5a346f0fb839f92617378fffd2ed
   CMPopTipView: a0a88404b9f46a5cfc16ce54bdb1b9bf9acb9aff
   CRToast: 99a28f4387def43b439ad88f957ce31357ff7373

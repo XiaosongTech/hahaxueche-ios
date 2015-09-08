@@ -10,9 +10,9 @@
 #import "HHAutoLayoutUtility.h"
 #import "UIColor+HHColor.h"
 #import "HHFormatUtility.h"
+#import "HHUserAuthenticator.h"
 
 #define kNumberLabelRadius 10.0f
-#define kDarkGrayTextColor [UIColor colorWithRed:0.37 green:0.36 blue:0.38 alpha:1]
 #define kGreenColor [UIColor colorWithRed:0.39 green:0.75 blue:0.01 alpha:1]
 
 @implementation HHPaymentStatusView
@@ -33,6 +33,11 @@
 
 - (void)initSubviews {
     if (self.currentStage > self.stage) {
+        NSString *payButtonText = NSLocalizedString(@"已付款", nil);
+        if ([HHUserAuthenticator sharedInstance].currentCoach) {
+            payButtonText = NSLocalizedString(@"学员已付款", nil);
+        }
+
         self.numberLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]
                                            textColor:[UIColor HHGrayTextColor]
                                                 text:[NSString stringWithFormat:@"%ld", (long)self.stage]
@@ -45,7 +50,7 @@
                                                 text:[[HHFormatUtility moneyFormatter] stringFromNumber:self.amount]
                                      backgroundColor:[UIColor whiteColor]];
         
-        self.payButton = [self createButtonWithTitle:NSLocalizedString(@"已付款", nil)
+        self.payButton = [self createButtonWithTitle:payButtonText
                                      backgroundColor:[UIColor whiteColor]
                                                 font:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]
                                               action:@selector(payButtonTapped)
@@ -63,17 +68,28 @@
                                            textColor:[UIColor HHOrange]
                                                 text:[[HHFormatUtility moneyFormatter] stringFromNumber:self.amount]
                                      backgroundColor:[UIColor whiteColor]];
-        
-        self.payButton = [self createButtonWithTitle:NSLocalizedString(@"付款", nil)
-                                     backgroundColor:[UIColor HHOrange]
+        UIColor *payButtonBGColor = [UIColor HHOrange];
+        UIColor *payButtonTextColor = [UIColor whiteColor];
+        NSString *payButtonText = NSLocalizedString(@"付款", nil);
+        if ([HHUserAuthenticator sharedInstance].currentCoach) {
+            payButtonBGColor  = [UIColor whiteColor];
+            payButtonTextColor = [UIColor HHOrange];
+            payButtonText = NSLocalizedString(@"待学员付款", nil);
+        }
+        self.payButton = [self createButtonWithTitle:payButtonText
+                                     backgroundColor:payButtonBGColor
                                                 font:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]
                                               action:@selector(payButtonTapped)
-                                           textColor:[UIColor whiteColor]];
+                                           textColor:payButtonTextColor];
         self.payButton.enabled = YES;
         
     } else {
+        NSString *payButtonText = NSLocalizedString(@"待付款", nil);
+        if ([HHUserAuthenticator sharedInstance].currentCoach) {
+            payButtonText = NSLocalizedString(@"待学员付款", nil);
+        }
         self.numberLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]
-                                           textColor:kDarkGrayTextColor
+                                           textColor:[UIColor HHDarkGrayTextColor]
                                                 text:[NSString stringWithFormat:@"%ld", (long)self.stage]
                                      backgroundColor:[UIColor whiteColor]];
         
@@ -83,15 +99,15 @@
         
         
         self.amountLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]
-                                           textColor:kDarkGrayTextColor
+                                           textColor:[UIColor HHDarkGrayTextColor]
                                                 text:[[HHFormatUtility moneyFormatter] stringFromNumber:self.amount]
                                      backgroundColor:[UIColor whiteColor]];
         
-        self.payButton = [self createButtonWithTitle:NSLocalizedString(@"待付款", nil)
+        self.payButton = [self createButtonWithTitle:payButtonText
                                      backgroundColor:[UIColor whiteColor]
                                                 font:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]
                                               action:@selector(payButtonTapped)
-                                           textColor:kDarkGrayTextColor];
+                                           textColor:[UIColor HHDarkGrayTextColor]];
         self.payButton.enabled = NO;
     }
     self.infoImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -102,13 +118,19 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showToolTip)];
     [self.infoImageView addGestureRecognizer:tapGesture];
     [self addSubview:self.infoImageView];
-    
     [self autoLayoutSubviews];
     
+    if ([HHUserAuthenticator sharedInstance].currentCoach) {
+        self.payButton.enabled = NO;
+    }
 }
 
 
 - (void)autoLayoutSubviews {
+    NSInteger buttonLWidth = 50.0f;
+    if ([HHUserAuthenticator sharedInstance].currentCoach) {
+        buttonLWidth = 70.0f;
+    }
     NSArray *constraints = @[
                              [HHAutoLayoutUtility setCenterY:self.numberLabel multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.numberLabel constant:10.0f],
@@ -120,7 +142,7 @@
                              
                              [HHAutoLayoutUtility setCenterY:self.payButton multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setCenterX:self.payButton multiplier:2.0f constant:-80.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.payButton multiplier:0 constant:50.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.payButton multiplier:0 constant:buttonLWidth],
                              
                              
                              [HHAutoLayoutUtility setCenterY:self.infoImageView multiplier:1.0f constant:0],
@@ -178,26 +200,54 @@
         titleColor = kGreenColor;
         title = [NSString stringWithFormat:NSLocalizedString(@"%@  已付款", nil), self.paidDate];
     } else {
-        titleColor = kDarkGrayTextColor;
+        titleColor = [UIColor HHDarkGrayTextColor];
         title = NSLocalizedString(@"未付款", nil);
     }
 
     
     switch (self.stage) {
         case StageOne: {
-            message = [NSString stringWithFormat: NSLocalizedString(@"\n第一阶段：确认付款后，我们会将%@自动打给教练账户。\n", nil), [[HHFormatUtility moneyFormatter] stringFromNumber:self.amount]];
+            if ([HHUserAuthenticator sharedInstance].currentStudent) {
+                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第一阶段：确认付款后，我们会将%@元自动转到教练账户。\n", nil), [self.amount stringValue]];
+            } else {
+                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第一阶段：学员确认付款后，我们会将%@元转到您的账户。\n", nil), [self.amount stringValue]];
+            }
+           
         } break;
         case StageTwo: {
-            message = [NSString stringWithFormat: NSLocalizedString(@"\n第二阶段：确认需要预约科目一考试后，点击付款按钮后，我们会将%@转到教练账户。\n", nil), [[HHFormatUtility moneyFormatter] stringFromNumber:self.amount]];
+            if ([HHUserAuthenticator sharedInstance].currentStudent) {
+                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第二阶段：确认需要预约科目一考试后，点击付款按钮后，我们会将%@元转到教练账户。\n", nil), [self.amount stringValue]];
+            } else {
+                message = [NSString stringWithFormat: NSLocalizedString(@"\n第二阶段：学员确认需要预约科目一考试，点击付款按钮后，我们会将%@元转到您到账户。\n", nil), [self.amount stringValue]];
+            }
+
+           
         } break;
         case StageThree: {
-            message = [NSString stringWithFormat: NSLocalizedString(@"\n第三阶段：确认通过科目二后，点击付款按钮，我们会将%@转到教练账户。\n", nil), [[HHFormatUtility moneyFormatter] stringFromNumber:self.amount]];
+            
+            if ([HHUserAuthenticator sharedInstance].currentStudent) {
+                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第三阶段：确认通过科目二后，点击付款按钮，我们会将%@元转到教练账户。\n", nil), [self.amount stringValue]];
+            } else {
+                message = [NSString stringWithFormat: NSLocalizedString(@"\n第三阶段：学员确认通过科目二后，点击付款按钮，我们会将%@元转到您到账户。\n", nil), [self.amount stringValue]];
+            }
+           
         } break;
         case StageFour: {
-            message = [NSString stringWithFormat: NSLocalizedString(@"\n第四阶段：确认通过科目二后，点击付款按钮，我们会将%@转到教练账户。\n", nil), [[HHFormatUtility moneyFormatter] stringFromNumber:self.amount]];
+            
+            if ([HHUserAuthenticator sharedInstance].currentStudent) {
+                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第四阶段：确认通过科目三后，点击付款按钮，我们会将%@元转到教练账户。\n", nil), [self.amount stringValue]];
+            } else {
+                message = [NSString stringWithFormat: NSLocalizedString(@"\n第四阶段：学员确认通过科目三后，点击付款按钮，我们会将%@元转到您到账户。\n", nil), [self.amount stringValue]];
+            }
+           
         } break;
         case StageFive: {
-            message = [NSString stringWithFormat: NSLocalizedString(@"\n第五阶段：确认通过科目四并且拿到驾驶证后，点击付款按钮，我们会将剩下的所有金额（%@）转到教练账户。\n", nil), [[HHFormatUtility moneyFormatter] stringFromNumber:self.amount]];
+            if ([HHUserAuthenticator sharedInstance].currentStudent) {
+                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第五阶段：确认通过科目四并且拿到驾驶证后，点击付款按钮，我们会将剩下的所有金额（%@元）转到教练账户。\n", nil), [self.amount stringValue]];
+            } else {
+                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第五阶段：学员确认通过科目四并且拿到驾驶证后，点击付款按钮，我们会将剩下的所有金额（%@元）转到您到账户。\n", nil), [self.amount stringValue]];
+            }
+           
         } break;
             
         default:

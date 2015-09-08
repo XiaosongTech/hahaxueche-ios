@@ -78,4 +78,17 @@
     }];
 }
 
+
+- (void)fetchStudentWithQueryForAuthedCoach:(NSString *)queryText skip:(NSInteger)skip completion:(HHStudentsCompletionBlock)completion {
+    AVQuery *query = [AVQuery queryWithClassName:[HHStudent parseClassName]];
+    query.limit = 50;
+    query.skip = skip;
+    [query whereKey:@"myCoachId" equalTo:[HHUserAuthenticator sharedInstance].currentCoach.coachId];
+    [query whereKey:@"fullName" containsString:queryText];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (completion) {
+            completion(objects, [query countObjects], error);
+        }
+    }];
+}
 @end

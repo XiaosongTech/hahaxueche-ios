@@ -133,4 +133,16 @@
 
 }
 
+- (void)fetchMyStudentsForAuthedCoachWithSkip:(NSInteger)skip completion:(HHCoachesArrayCompletionBlock)completion {
+    AVQuery *query = [AVQuery queryWithClassName:[HHStudent parseClassName]];
+    query.limit = kCountPerPage;
+    query.skip = skip;
+    [query whereKey:@"myCoachId" equalTo:[HHUserAuthenticator sharedInstance].currentCoach.coachId];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (completion) {
+            completion(objects, [query countObjects], error);
+        }
+    }];
+}
+
 @end

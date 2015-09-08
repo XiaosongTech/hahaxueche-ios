@@ -31,5 +31,6 @@
 @property (nonatomic, copy) NSString *trainingFieldId;
 @property (nonatomic, copy) NSString *phoneNumber;
 @property (nonatomic, copy) NSString *alipayAccount;
+@property (nonatomic, copy) NSString *qrCodeURL;
 
 @end

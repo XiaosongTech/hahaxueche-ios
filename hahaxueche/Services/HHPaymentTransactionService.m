@@ -23,9 +23,9 @@
     return sharedInstance;
 }
 
-- (void)fetchTransactionWithCompletion:(HHTransactionGenericCompletionBlock)completion {
+- (void)fetchTransactionWithStudentId:(NSString *)studentId completion:(HHTransactionGenericCompletionBlock)completion {
     AVQuery *query = [AVQuery queryWithClassName:[HHTransaction parseClassName]];
-    [query whereKey:@"studentId" equalTo:[HHUserAuthenticator sharedInstance].currentStudent.studentId];
+    [query whereKey:@"studentId" equalTo:studentId];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (completion) {
             completion(objects, error);
@@ -52,5 +52,6 @@
         }
     }];
 }
+
 
 @end

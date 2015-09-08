@@ -18,5 +18,8 @@ typedef enum : NSUInteger {
 
 @interface HHRootViewController : UITabBarController <UITabBarControllerDelegate>
 
+- (instancetype)initForStudent;
+- (instancetype)initForCoach;
+
 
 @end

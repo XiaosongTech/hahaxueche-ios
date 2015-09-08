@@ -19,7 +19,7 @@ typedef void (^HHPaymentStatusGenericCompletionBlock)(HHPaymentStatus *paymentSt
 
 + (instancetype)sharedInstance;
 
-- (void)fetchTransactionWithCompletion:(HHTransactionGenericCompletionBlock)completion;
+- (void)fetchTransactionWithStudentId:(NSString *)studentId completion:(HHTransactionGenericCompletionBlock)completion;
 
 - (void)fetchPaymentStatusWithTransactionId:(NSString *)transactionId completion:(HHPaymentStatusGenericCompletionBlock)completion;
 
