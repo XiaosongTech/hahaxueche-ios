@@ -83,7 +83,7 @@
     self.startScanningAtLoad  = startScanningAtLoad;
 
     if (cancelTitle == nil) {
-      cancelTitle = NSLocalizedString(@"Cancel", @"Cancel");
+      cancelTitle = NSLocalizedString(@"取消", nil);
     }
 
     [self setupUIComponentsWithCancelButtonTitle:cancelTitle];
@@ -211,6 +211,7 @@
 
   if ([_codeReader hasFrontDevice]) {
     _switchCameraButton = [[QRCameraSwitchButton alloc] init];
+      _switchCameraButton.hidden = YES;
     [_switchCameraButton setTranslatesAutoresizingMaskIntoConstraints:false];
     [_switchCameraButton addTarget:self action:@selector(switchCameraAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_switchCameraButton];

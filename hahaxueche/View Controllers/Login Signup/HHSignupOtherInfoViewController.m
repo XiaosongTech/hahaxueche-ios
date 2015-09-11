@@ -15,16 +15,21 @@
 #import "HHRootViewController.h"
 #import "HHAvatarView.h"
 #import "HHCoachService.h"
+#import <QRCodeReaderViewController.h>
+#import "HHCoachService.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "HHUserAuthenticator.h"
+#import "HHLoadingView.h"
 
 #define kAvatarRadius 30.0f
 
-@interface HHSignupOtherInfoViewController () <UITextFieldDelegate>
+@interface HHSignupOtherInfoViewController () <UITextFieldDelegate, QRCodeReaderDelegate>
 
 @property (nonatomic, strong) UILabel *subTitleLabel;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) HHTextFieldView *referCodeField;
 @property (nonatomic, strong) UIImageView *qrCodeImageView;
-@property (nonatomic, strong) NSString *coachId;
+@property (nonatomic, strong) HHCoach *myCoach;
 
 @property (nonatomic, strong) HHAvatarView *avatarView;
 @property (nonatomic, strong) UILabel *nameLabel;
@@ -51,8 +56,10 @@
 }
 
 - (void)donePressed {
-    if (self.coachId){
-        self.student.myCoachId = self.coachId;
+    if (self.myCoach){
+        self.student.myCoachId = self.myCoach.coachId;
+        [HHUserAuthenticator sharedInstance].currentStudent = self.student;
+        [HHUserAuthenticator sharedInstance].myCoach = self.myCoach;
         [self.student saveInBackground];
     }
     if (![self.referCodeField.textField.text isEqualToString:@""]) {
@@ -67,9 +74,9 @@
     
 }
 
-- (void)setCoachId:(NSString *)coachId {
-    _coachId = coachId;
-    if (self.coachId) {
+- (void)setMyCoach:(HHCoach *)myCoach{
+    _myCoach = myCoach;
+    if (self.myCoach) {
         self.titleLabel.hidden = YES;
         self.subTitleLabel.hidden = YES;
         self.qrCodeImageView.hidden = YES;
@@ -157,7 +164,17 @@
                              [HHAutoLayoutUtility setCenterX:self.referCodeField multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility verticalNext:self.referCodeField toView:self.qrCodeImageView constant:20.0f],
                              [HHAutoLayoutUtility setViewWidth:self.referCodeField multiplier:1.0f constant:-60.0f],
-                             [HHAutoLayoutUtility setViewHeight:self.referCodeField multiplier:0 constant:40.0f]
+                             [HHAutoLayoutUtility setViewHeight:self.referCodeField multiplier:0 constant:40.0f],
+                             
+                             [HHAutoLayoutUtility setCenterX:self.avatarView multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.avatarView constant:40.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.avatarView multiplier:0 constant:kAvatarRadius * 2.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.avatarView multiplier:0 constant:kAvatarRadius * 2.0f],
+                             
+                             [HHAutoLayoutUtility setCenterX:self.nameLabel multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility verticalNext:self.nameLabel toView:self.avatarView constant:10.0f],
+                             
+                             
                              ];
     [self.view addConstraints:constraints];
     
@@ -193,7 +210,37 @@
 }
 
 - (void)jumpToQRScanVC {
-   
+    QRCodeReaderViewController *scanVC = [[QRCodeReaderViewController alloc] init];
+    scanVC.delegate = self;
+    scanVC.view.backgroundColor = [UIColor HHOrange];
+    [self presentViewController:scanVC animated:YES completion:nil];
 }
+
+#pragma mark - QRCodeReader Delegate Methods
+
+- (void)reader:(QRCodeReaderViewController *)reader didScanResult:(NSString *)result {
+    __weak HHSignupOtherInfoViewController *weakSelf = self;
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        if (result) {
+            [[HHLoadingView sharedInstance] hideLoadingView];
+            [[HHCoachService sharedInstance] fetchCoachWithId:result completion:^(HHCoach *coach, NSError *error) {
+                if (!error) {
+                    weakSelf.myCoach = coach;
+                    [weakSelf.avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:coach.avatarURL] placeholderImage:nil];
+                    weakSelf.nameLabel.text = coach.fullName;
+                } else {
+                    weakSelf.myCoach = nil;
+                }
+            }];
+        }
+    }];
+}
+
+- (void)readerDidCancel:(QRCodeReaderViewController *)reader
+{
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
 
 @end
