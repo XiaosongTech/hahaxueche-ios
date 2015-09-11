@@ -235,7 +235,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([alertView isEqual:self.alertView]) {
         if (buttonIndex == 1) {
-            [HHUser logOut];
+            [[HHUserAuthenticator sharedInstance] logout];
             HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
             [self presentViewController:loginSignupVC animated:YES completion:nil];
         }

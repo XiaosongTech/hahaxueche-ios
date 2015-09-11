@@ -8,7 +8,7 @@
 
 #import "HHProfileSetupViewController.h"
 #import "UIBarButtonItem+HHCustomButton.h"
-#import "HHRootViewController.h"
+#import "HHSignupOtherInfoViewController.h"
 #import "HHButton.h"
 #import "HHAutoLayoutUtility.h"
 #import "UIColor+HHColor.h"
@@ -163,11 +163,7 @@ typedef enum : NSUInteger {
             [[HHLoadingView sharedInstance] hideLoadingView];
         } else {
             self.student.avatarURL = imageFile.url;
-            [self.student saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (!error) {
-                    [[HHUserAuthenticator sharedInstance] fetchAuthedStudentAgainWithCompletion:nil];
-                }
-            }];
+            [self.student saveInBackground];
         }
     }];
     
@@ -197,14 +193,17 @@ typedef enum : NSUInteger {
                 [[HHUserAuthenticator sharedInstance] createStudentWithStudent:self.student completion:^(NSError *error) {
                     [[HHLoadingView sharedInstance] hideLoadingView];
                     if (!error) {
-                        HHRootViewController *rootVC = [[HHRootViewController alloc] initForStudent];
-                        [self presentViewController:rootVC animated:YES completion:nil];
+                        HHSignupOtherInfoViewController *otherInfoVC = [[HHSignupOtherInfoViewController alloc] init];
+                        otherInfoVC.student = self.student;
+                        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:otherInfoVC];
+                        [self presentViewController:navVC animated:YES completion:nil];
                     } else {
                         [HHToastUtility showToastWitiTitle:NSLocalizedString(@"创建账户失败！",nil) isError:YES];
                     }
                 }];
                 
             } else {
+                [[HHLoadingView sharedInstance] hideLoadingView];
                 [HHToastUtility showToastWitiTitle:NSLocalizedString(@"创建账户失败！",nil) isError:YES];
             }
         }];
@@ -338,7 +337,6 @@ typedef enum : NSUInteger {
     self.uploadImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.uploadImageView.image = self.originalImage;
     self.uploadImageView.contentMode = UIViewContentModeScaleAspectFill;
-    self.uploadImageView.layer.borderWidth = 0;
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
 }
