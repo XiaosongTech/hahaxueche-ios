@@ -20,9 +20,11 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NSMutableArray *imageViews;
 @property (nonatomic, strong) NSArray *URLStrings;
+@property (nonatomic, strong) NSArray *images;
 @property (nonatomic, strong) UIPageControl *pageControl;
 @property (nonatomic, weak)   id<HHScrollImageGalleryDelegate> delegate;
 
 - (instancetype)initWithURLStrings:(NSArray *)URLStrings;
+- (instancetype)initWithImages:(NSArray *)images;
 
 @end

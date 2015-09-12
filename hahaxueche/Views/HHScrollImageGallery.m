@@ -17,25 +17,44 @@
     self = [super init];
     if (self) {
         self.URLStrings = URLStrings;
-        self.imageViews = [NSMutableArray array];
-        self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
-        self.scrollView.bounces = NO;
-        self.scrollView.pagingEnabled = YES;
-        self.scrollView.showsHorizontalScrollIndicator = NO;
-        self.scrollView.delegate = self;
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showFullImageView)];
-        [self.scrollView addGestureRecognizer:tap];
-        [self addSubview:self.scrollView];
-        [self addImageViews];
-        
-        self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectZero];
-        self.pageControl.numberOfPages = self.URLStrings.count;
-        [self.pageControl addTarget:self action:@selector(changePage) forControlEvents:UIControlEventValueChanged];
-        self.pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
-        self.pageControl.currentPageIndicatorTintColor = [UIColor HHOrange];
-        [self addSubview:self.pageControl];
+        [self commonInit];
     }
     return self;
+}
+
+- (instancetype)initWithImages:(NSArray *)images {
+    self = [super init];
+    if (self) {
+        self.images = images;
+        [self commonInit];
+    }
+    return self;
+}
+
+- (void)commonInit {
+    self.imageViews = [NSMutableArray array];
+    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
+    self.scrollView.bounces = NO;
+    self.scrollView.pagingEnabled = YES;
+    self.scrollView.showsHorizontalScrollIndicator = NO;
+    self.scrollView.delegate = self;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showFullImageView)];
+    [self.scrollView addGestureRecognizer:tap];
+    [self addSubview:self.scrollView];
+    [self addImageViews];
+    
+    self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectZero];
+    if ([self.URLStrings count]) {
+       self.pageControl.numberOfPages = self.URLStrings.count;
+    } else {
+        self.pageControl.numberOfPages = self.images.count;
+    }
+    
+    [self.pageControl addTarget:self action:@selector(changePage) forControlEvents:UIControlEventValueChanged];
+    self.pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
+    self.pageControl.currentPageIndicatorTintColor = [UIColor HHOrange];
+    [self addSubview:self.pageControl];
+
 }
 
 -(void)showFullImageView {
@@ -48,24 +67,39 @@
 }
 
 -(void)addImageViews {
-    for (int i = 0; i < self.URLStrings.count; i++) {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        imageView.contentMode = UIViewContentModeScaleAspectFill;
-        [imageView sd_setImageWithURL:[NSURL URLWithString:self.URLStrings[i]] placeholderImage:nil];
-        [self.scrollView addSubview:imageView];
-        [self.imageViews addObject:imageView];
+    if ([self.URLStrings count]) {
+        for (int i = 0; i < self.URLStrings.count; i++) {
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+            imageView.contentMode = UIViewContentModeScaleAspectFill;
+            [imageView sd_setImageWithURL:[NSURL URLWithString:self.URLStrings[i]] placeholderImage:nil];
+            [self.scrollView addSubview:imageView];
+            [self.imageViews addObject:imageView];
+        }
+
+    } else {
+        for (int i = 0; i < self.images.count; i++) {
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+            imageView.contentMode = UIViewContentModeScaleAspectFill;
+            imageView.image = self.images[i] ;
+            [self.scrollView addSubview:imageView];
+            [self.imageViews addObject:imageView];
+        }
     }
     
 }
 
 - (void)layoutSubviews {
     self.scrollView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
-    for (int i = 0; i < self.URLStrings.count; i++) {
+    NSArray *trueImagesArray = self.URLStrings;
+    if ([self.images count]) {
+        trueImagesArray = self.images;
+    }
+    for (int i = 0; i < trueImagesArray.count; i++) {
         UIImageView *imageView = self.imageViews[i];
         imageView.frame = CGRectMake(i * CGRectGetWidth(self.bounds), 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
         [imageView layoutIfNeeded];
     }
-    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.scrollView.bounds) * self.URLStrings.count, CGRectGetHeight(self.scrollView.bounds));
+    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.scrollView.bounds) * trueImagesArray.count, CGRectGetHeight(self.scrollView.bounds));
     
     self.pageControl.frame = CGRectMake(0, CGRectGetHeight(self.bounds) - 25.0f, CGRectGetWidth(self.bounds), 25.0f);
 }

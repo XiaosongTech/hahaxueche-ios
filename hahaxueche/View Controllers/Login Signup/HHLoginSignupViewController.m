@@ -55,10 +55,10 @@
 
 - (void)autoLayoutSubviews {
     NSArray *constraints = @[
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.logoView constant:100.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.logoView constant:80.0f],
                              [HHAutoLayoutUtility setCenterX:self.logoView multiplier:1.0f constant:0],
                              
-                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.signupButton constant:-150.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.signupButton constant:-100.0f],
                              [HHAutoLayoutUtility setCenterX:self.signupButton multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.signupButton multiplier:0 constant:50.0f],
                              [HHAutoLayoutUtility setViewWidth:self.signupButton multiplier:0 constant:CGRectGetWidth(self.view.bounds)-60.0f],

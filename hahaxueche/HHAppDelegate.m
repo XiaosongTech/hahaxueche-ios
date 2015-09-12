@@ -30,6 +30,7 @@
 #import "HHToastUtility.h"
 #import "HHTransfer.h"
 #import "HHReferral.h"
+#import "HHFirstLaunchGuideViewController.h"
 
 #define kLeanCloudStagingAppID @"cr9pv6bp9nlr1xrtl36slyxt0hgv6ypifso9aocxwas2fugq"
 #define kLeanCloudStagingAppKey @"2ykqwhzhfrzhjn3o9bj7rizb8qd75ym3f0lez1d8fcxmn2k3"
@@ -52,6 +53,19 @@
     [self setupBackend];
     [self setAppearance];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        HHFirstLaunchGuideViewController *guideVC = [[HHFirstLaunchGuideViewController alloc] init];
+        [self.window setRootViewController:guideVC];
+        [self.window makeKeyAndVisible];
+        [self setAppearance];
+        [self setWindow:self.window];
+        return YES;
+
+    }
+    
+    
     if ([HHUser currentUser]) {
         [HHUserAuthenticator sharedInstance].currentUser = [HHUser currentUser];
         if ([[HHUserAuthenticator sharedInstance].currentUser.type isEqualToString:kStudentTypeValue]) {
@@ -87,7 +101,7 @@
         [self setAppearance];
         [self setWindow:self.window];
     }
-//
+
 //    [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:@"55aef07ee4b0124627a2cb2f" completion:^(HHStudent *student, NSError *error) {
 //        HHRootViewController *rootVC = [[HHRootViewController alloc] initForStudent];
 //        [self.window setRootViewController:rootVC];
