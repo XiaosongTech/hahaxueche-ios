@@ -33,7 +33,7 @@
 - (void)initSubviews {
     self.logoView = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.logoView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.logoView.backgroundColor = [UIColor whiteColor];
+    self.logoView.image = [UIImage imageNamed:@"logo"];
     [self.view addSubview:self.logoView];
     
     self.signupButton = [self createBorderButtonWithTitle:NSLocalizedString(@"新用户注册",nil) textColor:[UIColor whiteColor] font:[UIFont fontWithName:@"STHeitiSC-Light" size:18] action:@selector(signup)];
@@ -55,10 +55,8 @@
 
 - (void)autoLayoutSubviews {
     NSArray *constraints = @[
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.logoView constant:80.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.logoView constant:100.0f],
                              [HHAutoLayoutUtility setCenterX:self.logoView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.logoView multiplier:0 constant:100.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.logoView multiplier:0 constant:100.0f],
                              
                              [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.signupButton constant:-150.0f],
                              [HHAutoLayoutUtility setCenterX:self.signupButton multiplier:1.0f constant:0],
