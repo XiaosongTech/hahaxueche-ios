@@ -102,7 +102,7 @@
         [self setWindow:self.window];
     }
 
-//    [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:@"55aef07ee4b0124627a2cb2f" completion:^(HHStudent *student, NSError *error) {
+//    [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:@"55f3a139ddb2dd00a369c84b" completion:^(HHStudent *student, NSError *error) {
 //        HHRootViewController *rootVC = [[HHRootViewController alloc] initForStudent];
 //        [self.window setRootViewController:rootVC];
 //        [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
@@ -121,7 +121,7 @@
 //            [self setAppearance];
 //        }
 //    }];
-//    
+    
     return YES;
    
 }
