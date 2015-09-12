@@ -132,7 +132,12 @@
 
 
 - (void)fetchAuthedStudentAgainWithCompletion:(HHStudentCompletionBlock)completion {
-    [self fetchAuthedStudentWithId:self.currentStudent.studentId completion:completion];
+    if (self.currentStudent) {
+        [self fetchAuthedStudentWithId:self.currentStudent.studentId completion:completion];
+    } else {
+        [self fetchAuthedStudentWithId:self.currentUser.objectId completion:completion];
+    }
+    
 }
 
 
@@ -163,6 +168,8 @@
     [HHUser logOut];
     self.currentStudent = nil;
     self.currentUser = nil;
+    self.currentCoach = nil;
+    self.myCoach = nil;
 }
 
 @end
