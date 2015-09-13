@@ -82,8 +82,8 @@
 		5C6686AE1BA4915D00F899FC /* guide2@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5C6686A81BA4915D00F899FC /* guide2@3x.jpg */; };
 		5C6686AF1BA4915D00F899FC /* guide3@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5C6686A91BA4915D00F899FC /* guide3@2x.jpg */; };
 		5C6686B01BA4915D00F899FC /* guide3@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5C6686AA1BA4915D00F899FC /* guide3@3x.jpg */; };
-		5C6686B31BA49A3200F899FC /* guide4@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5C6686B11BA49A3200F899FC /* guide4@2x.jpg */; };
-		5C6686B41BA49A3200F899FC /* guide4@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5C6686B21BA49A3200F899FC /* guide4@3x.jpg */; };
+		5C6686B71BA52FE400F899FC /* guide4@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5C6686B51BA52FE400F899FC /* guide4@2x.jpg */; };
+		5C6686B81BA52FE400F899FC /* guide4@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5C6686B61BA52FE400F899FC /* guide4@3x.jpg */; };
 		5C69C7B51B7F7E9A00FDE709 /* ic_st_add@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C69C7AF1B7F7E9A00FDE709 /* ic_st_add@1x.png */; };
 		5C69C7B61B7F7E9A00FDE709 /* ic_st_add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C69C7B01B7F7E9A00FDE709 /* ic_st_add@2x.png */; };
 		5C69C7B71B7F7E9A00FDE709 /* ic_st_add@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C69C7B11B7F7E9A00FDE709 /* ic_st_add@3x.png */; };
@@ -438,8 +438,8 @@
 		5C6686A81BA4915D00F899FC /* guide2@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "guide2@3x.jpg"; sourceTree = "<group>"; };
 		5C6686A91BA4915D00F899FC /* guide3@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "guide3@2x.jpg"; sourceTree = "<group>"; };
 		5C6686AA1BA4915D00F899FC /* guide3@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "guide3@3x.jpg"; sourceTree = "<group>"; };
-		5C6686B11BA49A3200F899FC /* guide4@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "guide4@2x.jpg"; sourceTree = "<group>"; };
-		5C6686B21BA49A3200F899FC /* guide4@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "guide4@3x.jpg"; sourceTree = "<group>"; };
+		5C6686B51BA52FE400F899FC /* guide4@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "guide4@2x.jpg"; sourceTree = "<group>"; };
+		5C6686B61BA52FE400F899FC /* guide4@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "guide4@3x.jpg"; sourceTree = "<group>"; };
 		5C69C7AF1B7F7E9A00FDE709 /* ic_st_add@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_st_add@1x.png"; sourceTree = "<group>"; };
 		5C69C7B01B7F7E9A00FDE709 /* ic_st_add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_st_add@2x.png"; sourceTree = "<group>"; };
 		5C69C7B11B7F7E9A00FDE709 /* ic_st_add@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_st_add@3x.png"; sourceTree = "<group>"; };
@@ -777,8 +777,8 @@
 		5C10F9271B49E6F100992B63 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				5C6686B11BA49A3200F899FC /* guide4@2x.jpg */,
-				5C6686B21BA49A3200F899FC /* guide4@3x.jpg */,
+				5C6686B51BA52FE400F899FC /* guide4@2x.jpg */,
+				5C6686B61BA52FE400F899FC /* guide4@3x.jpg */,
 				5C6686A51BA4915D00F899FC /* guide1@2x.jpg */,
 				5C6686A61BA4915D00F899FC /* guide1@3x.jpg */,
 				5C6686A71BA4915D00F899FC /* guide2@2x.jpg */,
@@ -1422,7 +1422,7 @@
 				5CB5507A1B4CC055005DE447 /* car_grey@2x.png in Resources */,
 				5CD4EA111B5BEEBF003CF15E /* camera-alt@2x.png in Resources */,
 				5C98B3C81B9200D5000D6032 /* info@3x.png in Resources */,
-				5C6686B31BA49A3200F899FC /* guide4@2x.jpg in Resources */,
+				5C6686B71BA52FE400F899FC /* guide4@2x.jpg in Resources */,
 				5CB550811B4CC055005DE447 /* list_grey@3x.png in Resources */,
 				5CD4E9DB1B58B3B3003CF15E /* location_icon@3x.png in Resources */,
 				5C2DCCFC1B65ACE0007E8FA7 /* car_icon_solid@1x.png in Resources */,
@@ -1484,7 +1484,7 @@
 				5C9366871B9B4E47007962A3 /* addtime_calendar@1x.png in Resources */,
 				5C69C7D21B80432500FDE709 /* profile_gray@3x.png in Resources */,
 				5CB34F0A1B63EA4B007954DF /* left_arrow@1x.png in Resources */,
-				5C6686B41BA49A3200F899FC /* guide4@3x.jpg in Resources */,
+				5C6686B81BA52FE400F899FC /* guide4@3x.jpg in Resources */,
 				5C69C7B91B7F7E9A00FDE709 /* ic_time_title_left@2x.png in Resources */,
 				5C98B3921B8CBE05000D6032 /* star_half@2x.png in Resources */,
 				5C2DCCFD1B65ACE0007E8FA7 /* car_icon_solid@2x.png in Resources */,
