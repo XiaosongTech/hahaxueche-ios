@@ -31,6 +31,7 @@
 #import "HHTransfer.h"
 #import "HHReferral.h"
 #import "HHFirstLaunchGuideViewController.h"
+#import "HHStartAppLoadingViewController.h"
 
 #define kLeanCloudStagingAppID @"cr9pv6bp9nlr1xrtl36slyxt0hgv6ypifso9aocxwas2fugq"
 #define kLeanCloudStagingAppKey @"2ykqwhzhfrzhjn3o9bj7rizb8qd75ym3f0lez1d8fcxmn2k3"
@@ -65,6 +66,11 @@
 
     }
     
+    HHStartAppLoadingViewController *vc = [[HHStartAppLoadingViewController alloc] init];
+    [self.window setRootViewController:vc];
+    [self.window makeKeyAndVisible];
+    [self setAppearance];
+    [self setWindow:self.window];
     
     if ([HHUser currentUser]) {
         [HHUserAuthenticator sharedInstance].currentUser = [HHUser currentUser];
