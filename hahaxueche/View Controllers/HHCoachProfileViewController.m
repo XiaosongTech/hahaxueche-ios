@@ -199,7 +199,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)payCoach {
-    if ([HHUserAuthenticator sharedInstance].currentStudent.myCoachId) {
+    if ([[HHUserAuthenticator sharedInstance].currentStudent.myCoachId length]) {
         [HHToastUtility showToastWitiTitle:NSLocalizedString(@"您已经有教练，无需再购买其他教练服务。", nil) isError:YES];
         return;
     }
