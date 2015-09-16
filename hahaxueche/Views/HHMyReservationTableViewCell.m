@@ -86,7 +86,7 @@
 
 - (void)avatarViewTapped:(UITapGestureRecognizer *)tap {
     HHAvatarView *view = (HHAvatarView *)tap.view;
-    if ([self.students count]) {
+    if (view.tag < [self.students count]) {
         if (self.avatarActionBlock) {
             HHStudent *student = self.students[view.tag];
             self.avatarActionBlock(student);
