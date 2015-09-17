@@ -98,7 +98,7 @@ typedef enum : NSUInteger {
         NSMutableParagraphStyle *paragrahStyle = [[NSMutableParagraphStyle alloc] init];
         [paragrahStyle setLineSpacing:5.0f];
         [self.coachDes addAttribute:NSParagraphStyleAttributeName value:paragrahStyle range:NSMakeRange(0, [self.coach.des length])];
-        self.desCellHeight = CGRectGetHeight([self.coachDes boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.bounds)-40.0f, 99999.0)
+        self.desCellHeight = CGRectGetHeight([self.coachDes boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.bounds)-40.0f, CGFLOAT_MAX)
                                                                             options:NSStringDrawingUsesLineFragmentOrigin
                                                                             context:nil]) + 65.0f;
         
