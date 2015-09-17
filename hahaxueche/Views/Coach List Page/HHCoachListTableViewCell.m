@@ -128,7 +128,7 @@
                              [HHAutoLayoutUtility verticalNext:self.priceLabel toView:self.actualPriceLabel constant:3.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.priceLabel constant:-10.0f],
                              
-                             [HHAutoLayoutUtility verticalNext:self.ratingView toView:self.nameLabel constant:6.0f],
+                             [HHAutoLayoutUtility setCenterY:self.ratingView multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility horizontalNext:self.ratingView toView:self.avatarView constant:9.0f],
                              [HHAutoLayoutUtility setViewHeight:self.ratingView multiplier:0 constant:15.0f],
                              [HHAutoLayoutUtility setViewWidth:self.ratingView multiplier:0 constant:90.0f],

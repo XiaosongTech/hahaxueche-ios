@@ -408,7 +408,7 @@
     if ([self.coachesArray[indexPath.row] isKindOfClass:[NSString class]]) {
         return 30.0;
     }
-    return 100.0f;
+    return 90.0f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
