@@ -98,9 +98,12 @@ typedef enum : NSUInteger {
         NSMutableParagraphStyle *paragrahStyle = [[NSMutableParagraphStyle alloc] init];
         [paragrahStyle setLineSpacing:5.0f];
         [self.coachDes addAttribute:NSParagraphStyleAttributeName value:paragrahStyle range:NSMakeRange(0, [self.coach.des length])];
-        self.desCellHeight = CGRectGetHeight([self.coachDes boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.bounds)-40.0f, CGFLOAT_MAX)
-                                                                            options:NSStringDrawingUsesLineFragmentOrigin
-                                                                            context:nil]) + 65.0f;
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 0)];
+        label.numberOfLines = 0;
+        label.attributedText = self.coachDes;
+        [label sizeToFit];
+        self.desCellHeight = CGRectGetHeight(label.bounds) + 65.0f;
         
         __weak HHCoachProfileViewController *weakSelf = self;
         [[HHReviewService sharedInstance] fetchReviewsForCoach:self.coach.coachId skip:0 completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
