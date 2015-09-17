@@ -24,7 +24,6 @@
 #import "HHTrainingFieldService.h"
 #import "CMPopTipView.h"
 #import "HHPointAnnotation.h"
-#import "HHLoadingTableViewCell.h"
 #import "HHToastUtility.h"
 
 
@@ -37,7 +36,6 @@
 #define kCourseThreeString NSLocalizedString(@"科目三",nil)
 
 #define kCoachListViewCellIdentifier @"coachListViewCellIdentifier"
-#define kLoadingCellIDentifier @"loadingCellIdentifier"
 
 
 @interface HHCoachListViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, CMPopTipViewDelegate, MKMapViewDelegate>
@@ -62,12 +60,18 @@
 @property (nonatomic, strong) MKMapView *mapView;
 @property (nonatomic)         BOOL isFetchingMoreCoaches;
 @property (nonatomic)         BOOL isFetchingCoaches;
+@property (nonatomic) BOOL shouldFetchMore;
 
 @property (assign, nonatomic) CATransform3D initialTransformation;
 
 @end
 
 @implementation HHCoachListViewController
+
+- (void)dealloc {
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+}
 
 - (void)setCurrentSortOption:(SortOption)currentSortOption {
     _currentSortOption = currentSortOption;
@@ -76,6 +80,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.shouldFetchMore = YES;
     self.navigationItem.title = @"教练";
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.currentCourseOption = CourseAllInOne;
@@ -96,13 +101,15 @@
         return;
     }
     self.isFetchingCoaches = YES;
-    [[HHCoachService sharedInstance] fetchCoachesWithTraningFields:[HHTrainingFieldService sharedInstance].selectedFields skip:self.coachesArray.count courseOption:self.currentCourseOption sortOption:self.currentSortOption completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
+    [[HHCoachService sharedInstance] fetchCoachesWithTraningFields:[HHTrainingFieldService sharedInstance].selectedFields skip:0 courseOption:self.currentCourseOption sortOption:self.currentSortOption completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
         self.isFetchingCoaches = NO;
         if (!error) {
             [self.coachesArray removeAllObjects];
             [self.coachesArray addObjectsFromArray:objects];
             if (self.coachesArray.count < totalCount) {
-                [self.coachesArray addObject:kLoadingCellIDentifier];
+                self.shouldFetchMore = YES;
+            } else {
+                self.shouldFetchMore = NO;
             }
             if ([self.coachesArray count]) {
                 [self.tableView reloadData];
@@ -122,12 +129,11 @@
     [[HHCoachService sharedInstance] fetchCoachesWithTraningFields:[HHTrainingFieldService sharedInstance].selectedFields skip:self.coachesArray.count-1 courseOption:self.currentCourseOption sortOption:self.currentSortOption completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
         self.isFetchingMoreCoaches = NO;
         if (!error) {
-            if ([[self.coachesArray lastObject] isEqualToString:kLoadingCellIDentifier]) {
-                [self.coachesArray removeObject:kLoadingCellIDentifier];
-            }
             [self.coachesArray addObjectsFromArray:objects];
             if (self.coachesArray.count < totalCount) {
-                [self.coachesArray addObject:kLoadingCellIDentifier];
+                self.shouldFetchMore = YES;
+            } else {
+                self.shouldFetchMore = NO;
             }
             [self.tableView reloadData];
             if (completion) {
@@ -186,7 +192,6 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.showsVerticalScrollIndicator = NO;
     [self.tableView registerClass:[HHCoachListTableViewCell class] forCellReuseIdentifier:kCoachListViewCellIdentifier];
-    [self.tableView registerClass:[HHLoadingTableViewCell class] forCellReuseIdentifier:kLoadingCellIDentifier];
     [self.view addSubview:self.tableView];
     
     self.refreshControl = [[UIRefreshControl alloc]init];
@@ -328,10 +333,6 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == self.coachesArray.count - 1 && [self.coachesArray[indexPath.row] isKindOfClass:[NSString class]]) {
-        HHLoadingTableViewCell *loadingCell = [tableView dequeueReusableCellWithIdentifier:kLoadingCellIDentifier forIndexPath:indexPath];
-        return loadingCell;
-    }
     HHCoachListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCoachListViewCellIdentifier forIndexPath:indexPath];
     HHCoach *coach = self.coachesArray[indexPath.row];
     [cell setupCellWithCoach:coach];
@@ -385,14 +386,7 @@
 
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self.coachesArray[indexPath.row] isKindOfClass:[NSString class]]) {
-        if (!self.isFetchingMoreCoaches) {
-            self.isFetchingMoreCoaches = YES;
-            [self fetchMoreDataWithCompletion:nil];
-            return;
-        }
-    }
-    
+
     POPSpringAnimation *scaleAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerScaleXY];
     scaleAnimation.fromValue = [NSValue valueWithCGSize:CGSizeMake(0.8f, 0.8f)];
     scaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.0f, 1.0f)];
@@ -439,6 +433,20 @@
 #pragma -mark Hide TabBar
 - (BOOL)hidesBottomBarWhenPushed {
     return NO;
+}
+
+#pragma mark ScrollView Delegate
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    NSInteger currentOffset = scrollView.contentOffset.y;
+    NSInteger maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
+    
+    if (maximumOffset - currentOffset <= 0) {
+        if (!self.shouldFetchMore) {
+            return;
+        }
+        [self fetchMoreDataWithCompletion:nil];
+    }
 }
 
 @end
