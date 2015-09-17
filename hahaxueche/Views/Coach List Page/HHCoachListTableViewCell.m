@@ -136,7 +136,7 @@
                              [HHAutoLayoutUtility setCenterY:self.ratingLabel toView:self.ratingView multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility horizontalNext:self.ratingLabel toView:self.ratingView constant:5.0f],
                              
-                             [HHAutoLayoutUtility verticalNext:self.teachedYearLabel toView:self.ratingView constant:8.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.teachedYearLabel constant:-10.0f],
                              [HHAutoLayoutUtility horizontalNext:self.teachedYearLabel toView:self.avatarView constant:10.0f],
 
                              [HHAutoLayoutUtility setCenterY:self.teachedStudentAmount toView:self.teachedYearLabel multiplier:1.0f constant:0],
