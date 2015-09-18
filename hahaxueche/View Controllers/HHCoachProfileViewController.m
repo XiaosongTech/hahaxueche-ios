@@ -94,16 +94,15 @@ typedef enum : NSUInteger {
         negativeSpacer.width = -8.0f;//
         [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, backButton]];
         
-        self.coachDes = [[NSMutableAttributedString alloc] initWithString:self.coach.des];
-        NSMutableParagraphStyle *paragrahStyle = [[NSMutableParagraphStyle alloc] init];
-        [paragrahStyle setLineSpacing:5.0f];
-        [self.coachDes addAttribute:NSParagraphStyleAttributeName value:paragrahStyle range:NSMakeRange(0, [self.coach.des length])];
         
-        UITextView *view = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 10)];
-        view.attributedText = self.coachDes;
-        CGSize size = [view sizeThatFits:CGSizeMake(CGRectGetWidth(self.view.bounds), CGFLOAT_MAX)];
-        self.desCellHeight = size.height + 65.0f;
+        NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
+        [paragraph setLineSpacing:3.0f];
+        self.coachDes = [[NSMutableAttributedString alloc] initWithString:self.coach.des attributes:@{NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f], NSParagraphStyleAttributeName:paragraph}];
+
         
+        CGRect rect = [self.coachDes boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.bounds) - 40.0f, CGFLOAT_MAX) options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)context:nil];
+        
+        self.desCellHeight = CGRectGetHeight(rect) + 65.0f;
         __weak HHCoachProfileViewController *weakSelf = self;
         [[HHReviewService sharedInstance] fetchReviewsForCoach:self.coach.coachId skip:0 completion:^(NSArray *objects, NSInteger totalCount, NSError *error) {
             if (!error) {

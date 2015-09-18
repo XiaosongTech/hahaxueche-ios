@@ -71,10 +71,9 @@
                              [HHAutoLayoutUtility setCenterY:self.nameLabel toView:self.avatarView multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility horizontalNext:self.nameLabel toView:self.avatarView constant:8.0f],
                              
-                             [HHAutoLayoutUtility verticalNext:self.desLabel toView:self.avatarView constant:1.0f],
+                             [HHAutoLayoutUtility verticalNext:self.desLabel toView:self.avatarView constant:5.0f],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.desLabel constant:10.0f],
                              [HHAutoLayoutUtility setViewWidth:self.desLabel multiplier:1.0f constant:-20.0f],
-                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.desLabel constant:-5.0f],
 
                              ];
     [self.contentView addConstraints:constraints];
