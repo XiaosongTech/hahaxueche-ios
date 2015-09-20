@@ -242,6 +242,9 @@
     }
 }
 
-
+#pragma -mark Hide TabBar
+- (BOOL)hidesBottomBarWhenPushed {
+    return NO;
+}
 
 @end

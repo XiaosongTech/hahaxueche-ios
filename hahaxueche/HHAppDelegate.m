@@ -157,7 +157,7 @@
 - (void)setAppearance {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],
-                                                           NSFontAttributeName: [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f]}];
+                                                           NSFontAttributeName: [UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f]}];
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],
                                                            NSFontAttributeName: [UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]} forState:UIControlStateNormal];
     [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTitleTextAttributes:

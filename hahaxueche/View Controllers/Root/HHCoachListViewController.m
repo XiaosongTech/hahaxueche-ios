@@ -178,7 +178,10 @@
     HHMapViewController *mapVC = [[HHMapViewController alloc] init];
     mapVC.selectedCompletion = ^(){
         self.coachesArray = [NSMutableArray array];
-        [self fetchDataWithCompletion:nil];
+        [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+        [self fetchDataWithCompletion:^{
+            [[HHLoadingView sharedInstance] hideLoadingView];
+        }];
     };
     [self presentViewController:mapVC animated:YES completion:nil];
 }

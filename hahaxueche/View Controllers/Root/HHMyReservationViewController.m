@@ -411,4 +411,9 @@ typedef void (^HHGenericCompletion)();
     return button;
 }
 
+#pragma -mark Hide TabBar
+- (BOOL)hidesBottomBarWhenPushed {
+    return NO;
+}
+
 @end

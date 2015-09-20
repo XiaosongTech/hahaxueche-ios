@@ -26,9 +26,9 @@
 @property (nonatomic, strong) UIButton *floatButton;
 @property (nonatomic, strong) MKMapView *mapView;
 @property (nonatomic, strong) CLLocationManager *locationManager;
-@property (nonatomic, strong) NSMutableArray *fields;
+@property (nonatomic, strong) NSArray *fields;
 @property (nonatomic, strong) NSMutableArray *selectedField;
-@property (nonatomic, strong) NSMutableArray *nearestFields;
+@property (nonatomic, strong) NSArray *nearestFields;
 @property (nonatomic)         BOOL shouldCenterUserLocation;
 
 @end
@@ -42,9 +42,7 @@
     if ([HHTrainingFieldService sharedInstance].nearestFields.count == 0) {
         self.nearestFields = [NSMutableArray array];
         NSInteger count = MIN(kNearestFieldCount, self.fields.count);
-        for (int i = 0; i < count; i++){
-            [self.nearestFields addObject:self.fields[i]];
-        }
+        self.nearestFields = [self.fields subarrayWithRange:NSMakeRange(0, count)];
         [HHTrainingFieldService sharedInstance].nearestFields = self.nearestFields;
 
     } else {
@@ -122,7 +120,7 @@
     [self autolayoutSubviews];
 }
 
-- (NSMutableArray *)sortFieldsByDistance:(NSArray *)array {
+- (NSArray *)sortFieldsByDistance:(NSArray *)array {
     NSMutableArray *fieldArray = [NSMutableArray array];
     CLLocation *userLocation = [[CLLocation alloc]
                                 initWithLatitude:self.mapView.userLocation.coordinate.latitude
@@ -144,7 +142,7 @@
         HHTrainingField *field = dicArray[i];
         [finalArray addObject:field[@"field"]];
     }
-    return finalArray;
+    return [NSArray arrayWithArray:finalArray];
 }
 
 - (UIButton *)createTopButtonWithTitle:(NSString *)title action:(SEL)action {
@@ -261,7 +259,7 @@
     if ([self.floatButton.titleLabel.text isEqualToString:NSLocalizedString(@"全选",nil)]) {
         for (HHPointAnnotation *annotation in self.mapView.annotations){
             if([annotation isEqual:self.mapView.userLocation]) {
-                break;
+                continue;
             }
             MKAnnotationView *annotationView = [self.mapView viewForAnnotation: annotation];
             if (annotationView){
@@ -270,12 +268,12 @@
             self.selectedField = [NSMutableArray arrayWithArray:self.fields];
         }
         [self.floatButton setTitle:NSLocalizedString(@"周边训练场",nil) forState:UIControlStateNormal];
-        self.selectedField = self.fields;
+        self.selectedField = [NSMutableArray arrayWithArray:self.fields];
     } else {
         for (HHPointAnnotation *annotation in self.mapView.annotations){
             MKAnnotationView *annotationView = [self.mapView viewForAnnotation: annotation];
             if([annotation isEqual:self.mapView.userLocation]) {
-                break;
+                continue;
             }
             if (annotationView){
                 if ([self.nearestFields containsObject:self.fields[annotation.tag]]) {
@@ -287,7 +285,7 @@
             }
         }
         [self.floatButton setTitle:NSLocalizedString(@"全选",nil) forState:UIControlStateNormal];
-        self.selectedField = self.nearestFields;
+        self.selectedField = [NSMutableArray arrayWithArray:self.nearestFields];
 
     }
 }

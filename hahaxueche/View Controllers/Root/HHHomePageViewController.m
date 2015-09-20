@@ -157,4 +157,9 @@
     [self.tabBarController presentViewController:fullImageVC animated:YES completion:nil];
 }
 
+#pragma -mark Hide TabBar
+- (BOOL)hidesBottomBarWhenPushed {
+    return NO;
+}
+
 @end
