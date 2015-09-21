@@ -52,7 +52,7 @@
                                                            delegate:self
                                                   cancelButtonTitle:NSLocalizedString(@"返回", nil)
                                              destructiveButtonTitle:nil
-                                                  otherButtonTitles:NSLocalizedString(@"查看条款和协议", nil), NSLocalizedString(@"退出账号", nil), nil];
+                                                  otherButtonTitles:NSLocalizedString(@"查看条款和协议", nil), NSLocalizedString(@"联系客服", nil), NSLocalizedString(@"退出账号", nil), nil];
     [self.settingsActionSheet showInView:self.view];
 }
 
@@ -110,7 +110,7 @@
                              
                              [HHAutoLayoutUtility setCenterX:self.containerView multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.containerView constant:20.0f],
-                             [HHAutoLayoutUtility setViewHeight:self.containerView multiplier:0 constant:300.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.containerView multiplier:0 constant:350.0f],
                              [HHAutoLayoutUtility setViewWidth:self.containerView multiplier:1.0f constant:-40.0f],
                              
                              [HHAutoLayoutUtility setCenterX:self.self.avatarView multiplier:1.0f constant:0],
@@ -157,6 +157,14 @@
     if (buttonIndex == 0) {
         //go to Terms of use web page
     } else if (buttonIndex == 1) {
+        NSString *phNo = @"4000016006";
+        NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",phNo]];
+        
+        if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
+            [[UIApplication sharedApplication] openURL:phoneUrl];
+        }
+
+    } else if (buttonIndex == 2) {
         self.logoutAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"确定要退出？", nil) message:NSLocalizedString(@"退出后，可以通过手机号再次登陆！", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"取消退出", nil) otherButtonTitles:NSLocalizedString(@"确定退出", nil), nil];
         [self.logoutAlertView show];
     }

@@ -195,7 +195,7 @@
 - (void)verifySMSCode {
     [self.numberFieldView.textField resignFirstResponder];
     [self.verificationCodeFieldView.textField resignFirstResponder];
-    
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
     if (self.type == PageTypeSignup) {
         self.user = [HHUser user];
         self.user.username = self.numberFieldView.textField.text;
