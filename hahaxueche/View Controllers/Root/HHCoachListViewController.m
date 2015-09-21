@@ -98,6 +98,9 @@
 
 - (void)fetchDataWithCompletion:(HHGenericCompletion)completion {
     if (self.isFetchingCoaches) {
+        if (completion) {
+            completion();
+        }
         return;
     }
     self.isFetchingCoaches = YES;
@@ -204,7 +207,6 @@
 
 - (void)refreshData {
     __weak HHCoachListViewController *weakSelf = self;
-    self.coachesArray = [NSMutableArray array];
     [self fetchDataWithCompletion:^(){
         [weakSelf.refreshControl endRefreshing];
     }];

@@ -18,6 +18,7 @@
 #import "HHCoachService.h"
 #import "HHLoadingView.h"
 #import "HHToastUtility.h"
+#import "UIBarButtonItem+HHCustomButton.h"
 
 @interface HHHomePageViewController () <HHScrollImageGalleryDelegate>
 
@@ -64,7 +65,19 @@
     
     self.stepThreeLabel = [self createLabelWithTitle:NSLocalizedString(@"查看预约",nil) textColor:[UIColor blackColor] font:[UIFont fontWithName:@"STHeitiSC-Medium" size:12]];
     
+    UIBarButtonItem *callSupportButtonItem = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"联系客服", nil) action:@selector(callSupport) target:self isLeft:NO];
+    self.navigationItem.rightBarButtonItem = callSupportButtonItem;
+    
     [self autoLayoutSubviews];
+}
+
+- (void)callSupport {
+    NSString *phNo = @"4000016006";
+    NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",phNo]];
+    
+    if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
+        [[UIApplication sharedApplication] openURL:phoneUrl];
+    }
 }
 
 - (HHButton *)createButtonWithTitle:(NSString *)title {
