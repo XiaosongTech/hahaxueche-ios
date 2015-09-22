@@ -17,6 +17,8 @@
 
 #define kAvatarRadius 35.0f
 
+static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
+
 @interface HHCoachMyProfileViewController () <UIActionSheetDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) UIView *containerView;
@@ -155,7 +157,8 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
-        //go to Terms of use web page
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:TOUURL]];
+        
     } else if (buttonIndex == 1) {
         NSString *phNo = @"4000016006";
         NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",phNo]];

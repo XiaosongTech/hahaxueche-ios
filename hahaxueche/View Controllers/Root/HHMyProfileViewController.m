@@ -26,6 +26,8 @@
 
 #define kCellId @"HHReceiptTableViewCellId"
 
+static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
+
 @interface HHMyProfileViewController ()<UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -224,6 +226,7 @@
             UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:setupVC];
             [self presentViewController:navVC animated:YES completion:nil];
         } else if (buttonIndex == 1) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:TOUURL]];
             
         } else if (buttonIndex == 2) {
             NSString *phNo = @"4000016006";
