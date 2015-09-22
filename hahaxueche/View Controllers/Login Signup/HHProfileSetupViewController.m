@@ -163,6 +163,7 @@ typedef enum : NSUInteger {
             [[HHLoadingView sharedInstance] hideLoadingView];
         } else {
             self.student.avatarURL = imageFile.url;
+            [HHUserAuthenticator sharedInstance].currentStudent.avatarURL = imageFile.url;
             [self.student saveInBackground];
         }
     }];
