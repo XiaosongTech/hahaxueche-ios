@@ -61,6 +61,11 @@
             </dict>
 		</dict>
 	</dict>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>baidumap</string>
+        <string>iosamap</string>
+    </array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UIAppFonts</key>

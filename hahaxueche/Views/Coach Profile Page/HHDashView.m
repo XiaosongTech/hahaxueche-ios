@@ -50,6 +50,7 @@
                                  
                         [HHAutoLayoutUtility setCenterY:self.valueLabel multiplier:1.0f constant:10.0f],
                         [HHAutoLayoutUtility setCenterX:self.valueLabel multiplier:1.0f constant:0],
+                        [HHAutoLayoutUtility setViewWidth:self.valueLabel multiplier:1.0f constant:-20.0f],
                                  
                         [HHAutoLayoutUtility setCenterY:self.rightLine multiplier:1.0f constant:0],
                         [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.rightLine constant:-1.0f],

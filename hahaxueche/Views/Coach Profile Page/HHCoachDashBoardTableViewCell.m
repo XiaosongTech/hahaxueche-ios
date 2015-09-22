@@ -42,6 +42,7 @@
     [self.phoneNumberView addGestureRecognizer:phoneTap];
     
     self.addressView =[self createDashViewValueTextColor:[UIColor HHClickableBlue] rightLine:NO];
+    self.addressView.valueLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12.0f];
     UITapGestureRecognizer *addressTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addressPressed)];
     [self.addressView addGestureRecognizer:addressTap];
     
@@ -154,8 +155,8 @@
     
     [self.phoneNumberView setupViewWithKey:NSLocalizedString(@"手机号", nil) value:coach.phoneNumber];
     
-    NSString *fullAddress = [NSString stringWithFormat:@"%@%@%@%@", field.province, field.city, field.district, field.address];
-    [self.addressView setupViewWithKey:NSLocalizedString(@"训练场地址", nil) value:fullAddress];
+    [self.addressView setupViewWithKey:NSLocalizedString(@"训练场地址", nil) value:field.address];
+    
 }
 
 
