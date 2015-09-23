@@ -491,6 +491,10 @@ typedef enum : NSUInteger {
         case CoachProfileCellDashBoard: {
             HHCoachDashBoardTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDashBoardCellId forIndexPath:indexPath];
             [cell setupViewsWithCoach:self.coach trainingFielf:self.field];
+            cell.priceTappedCompletion = ^() {
+                
+            };
+            
             cell.phoneTappedCompletion = ^() {
                 [weakSelf.phoneSheet showInView:weakSelf.view];
             };

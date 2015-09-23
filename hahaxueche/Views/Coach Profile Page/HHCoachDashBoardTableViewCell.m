@@ -31,7 +31,10 @@
     self.containerView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:self.containerView];
     
-    self.priceView = [self createDashViewValueTextColor:[UIColor blackColor] rightLine:YES];
+    self.priceView = [self createDashViewValueTextColor:[UIColor HHClickableBlue] rightLine:YES];
+    UITapGestureRecognizer *priceTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(priceViewTapped)];
+    [self.priceView addGestureRecognizer:priceTap];
+    
     self.courseView = [self createDashViewValueTextColor:[UIColor blackColor] rightLine:YES];
     self.yearView = [self createDashViewValueTextColor:[UIColor blackColor] rightLine:NO];
     self.passedStudentAmountView = [self createDashViewValueTextColor:[UIColor blackColor] rightLine:YES];
@@ -53,15 +56,21 @@
     [self autoLayoutSubviews];
 }
 
+- (void)priceViewTapped {
+    if (self.priceTappedCompletion) {
+        self.priceTappedCompletion();
+    }
+}
+
 - (void)phoneNumberPressed {
     if (self.phoneTappedCompletion) {
-        self.phoneTappedCompletion(self.phoneNumberView.valueLabel.text);
+        self.phoneTappedCompletion();
     }
 }
 
 - (void)addressPressed {
     if (self.addressTappedCompletion) {
-        self.addressTappedCompletion(self.addressView.valueLabel.text);
+        self.addressTappedCompletion();
     }
 }
 

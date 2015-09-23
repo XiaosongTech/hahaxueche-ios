@@ -84,6 +84,9 @@
                     [self.window makeKeyAndVisible];
                     [self setAppearance];
                     [self setWindow:self.window];
+                } else {
+                    [HHToastUtility showToastWitiTitle:NSLocalizedString(@"登陆失败", nil) isError:YES];
+                    [self jumpToLoginSignupView];
                 }
             }];
 
@@ -96,17 +99,15 @@
                     [self.window makeKeyAndVisible];
                     [self setAppearance];
                     [self setWindow:self.window];
+                } else {
+                    [HHToastUtility showToastWitiTitle:NSLocalizedString(@"登陆失败", nil) isError:YES];
+                    [self jumpToLoginSignupView];
                 }
             }];
         }
         
     } else {
-        HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
-        [self.window setRootViewController:loginSignupVC];
-        [self.window setBackgroundColor:[UIColor HHLightGrayBackgroundColor]];
-        [self.window makeKeyAndVisible];
-        [self setAppearance];
-        [self setWindow:self.window];
+        [self jumpToLoginSignupView];
     }
 
 //    [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:@"55f3a139ddb2dd00a369c84b" completion:^(HHStudent *student, NSError *error) {
@@ -131,6 +132,15 @@
     
     return YES;
    
+}
+
+- (void)jumpToLoginSignupView {
+    HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
+    [self.window setRootViewController:loginSignupVC];
+    [self.window setBackgroundColor:[UIColor HHLightGrayBackgroundColor]];
+    [self.window makeKeyAndVisible];
+    [self setAppearance];
+    [self setWindow:self.window];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

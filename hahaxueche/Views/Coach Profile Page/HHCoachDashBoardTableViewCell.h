@@ -31,6 +31,7 @@ typedef void (^HHDashViewTappedCompletion)();
 
 @property (nonatomic, strong) HHDashViewTappedCompletion phoneTappedCompletion;
 @property (nonatomic, strong) HHDashViewTappedCompletion addressTappedCompletion;
+@property (nonatomic, strong) HHDashViewTappedCompletion priceTappedCompletion;
 
 - (void)setupViewsWithCoach:(HHCoach *)coach trainingFielf:(HHTrainingField *)field;
 
