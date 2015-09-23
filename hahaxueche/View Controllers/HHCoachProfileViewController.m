@@ -274,7 +274,7 @@ typedef enum : NSUInteger {
         [HHToastUtility showToastWitiTitle:NSLocalizedString(@"您已经有教练，无需再试学。", nil) isError:YES];
         return;
     }
-    NSString *phoneURLString = [NSString stringWithFormat:@"telprompt://%@", self.coach.phoneNumber];
+    NSString *phoneURLString = [NSString stringWithFormat:@"telprompt://%@", @"4000016006"];
     NSURL *phoneURL = [NSURL URLWithString:phoneURLString];
     [[UIApplication sharedApplication] openURL:phoneURL];
 }

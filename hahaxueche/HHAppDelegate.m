@@ -32,6 +32,7 @@
 #import "HHReferral.h"
 #import "HHFirstLaunchGuideViewController.h"
 #import "HHStartAppLoadingViewController.h"
+#import "HHBanner.h"
 
 #define kLeanCloudStagingAppID @"cr9pv6bp9nlr1xrtl36slyxt0hgv6ypifso9aocxwas2fugq"
 #define kLeanCloudStagingAppKey @"2ykqwhzhfrzhjn3o9bj7rizb8qd75ym3f0lez1d8fcxmn2k3"
@@ -187,6 +188,7 @@
     [HHPaymentStatus registerSubclass];
     [HHTransfer registerSubclass];
     [HHReferral registerSubclass];
+    [HHBanner registerSubclass];
 }
 
 - (void)setupBackend {

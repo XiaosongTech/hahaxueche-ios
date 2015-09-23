@@ -10,7 +10,7 @@
 
 @interface HHReferral : AVObject <AVSubclassing>
 
-@property (nonatomic, strong) NSString *referCode;
-@property (nonatomic, strong) NSString *studentId;
+@property (nonatomic, copy) NSString *referCode;
+@property (nonatomic, copy) NSString *studentId;
 
 @end

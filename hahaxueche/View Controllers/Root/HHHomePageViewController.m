@@ -19,11 +19,11 @@
 #import "HHLoadingView.h"
 #import "HHToastUtility.h"
 #import "UIBarButtonItem+HHCustomButton.h"
+#import "HHBanner.h"
 
 @interface HHHomePageViewController () <HHScrollImageGalleryDelegate>
 
 @property (nonatomic, strong) HHScrollImageGallery *imageGalleryView;
-@property (nonatomic, strong) NSArray *imagesArray;
 @property (nonatomic, strong) HHButton *oneClickButton;
 @property (nonatomic, strong) HHButton *stepOneButton;
 @property (nonatomic, strong) HHButton *stepTwoButton;
@@ -31,6 +31,7 @@
 @property (nonatomic, strong) UILabel *stepOneLabel;
 @property (nonatomic, strong) UILabel *stepTwoLabel;
 @property (nonatomic, strong) UILabel *stepThreeLabel;
+@property (nonatomic, strong) NSArray *banners;
 
 @end
 
@@ -44,11 +45,8 @@
     self.title = NSLocalizedString(@"哈哈学车",nil);
     self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.imagesArray = @[@"http://ac-cr9pv6bp.clouddn.com/wiB2E9Rplx5UDHpH8gYJFYC", @"http://ac-cr9pv6bp.clouddn.com/wiB2E9Rplx5UDHpH8gYJFYC"];
-    self.imageGalleryView = [[HHScrollImageGallery alloc] initWithURLStrings:self.imagesArray];
-    self.imageGalleryView.delegate = self;
-    self.imageGalleryView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds) * 0.35);
-    [self.view addSubview:self.imageGalleryView];
+    
+    [self fetchBanner];
     
     self.oneClickButton = [[HHButton alloc] initSolidButtonWithTitle:NSLocalizedString(@"一 键 找 教 练",nil) textColor:[UIColor whiteColor] font:[UIFont fontWithName:@"STHeitiSC-Medium" size:30.0f]];
     [self.oneClickButton addTarget:self action:@selector(findCoach) forControlEvents:UIControlEventTouchUpInside];
@@ -69,6 +67,19 @@
     self.navigationItem.rightBarButtonItem = callSupportButtonItem;
     
     [self autoLayoutSubviews];
+}
+
+- (void)setBanners:(NSArray *)banners {
+    _banners = banners;
+    NSMutableArray *bannerImages = [NSMutableArray array];
+    for (HHBanner *banner in self.banners) {
+        [bannerImages addObject:banner.bannerImageURL];
+    }
+    self.imageGalleryView = [[HHScrollImageGallery alloc] initWithURLStrings:bannerImages];
+    self.imageGalleryView.delegate = self;
+    self.imageGalleryView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds) * 0.35);
+    [self.view addSubview:self.imageGalleryView];
+    
 }
 
 - (void)callSupport {
@@ -163,10 +174,21 @@
     }];
 }
 
+- (void)fetchBanner {
+    AVQuery *query = [AVQuery queryWithClassName:[HHBanner parseClassName]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            self.banners = objects;
+        }
+    }];
+
+}
+
 #pragma -mark HHScrollImageGallery Delegate
 
 - (void)showFullImageView:(NSInteger)index {
-    HHFullScreenImageViewController *fullImageVC = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:self.imagesArray[index] ] title:nil];
+    HHBanner *banner = self.banners[index];
+    HHFullScreenImageViewController *fullImageVC = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:banner.detailImageURL] title:nil];
     [self.tabBarController presentViewController:fullImageVC animated:YES completion:nil];
 }
 

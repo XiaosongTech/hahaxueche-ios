@@ -233,6 +233,7 @@
 		5CD4EA3C1B5C8180003CF15E /* HHCoachService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA3B1B5C8180003CF15E /* HHCoachService.m */; };
 		5CD4EA3F1B5D97E1003CF15E /* HHTrainingField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA3E1B5D97E1003CF15E /* HHTrainingField.m */; };
 		5CD4EA421B5DE6BC003CF15E /* HHFormatUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA411B5DE6BC003CF15E /* HHFormatUtility.m */; };
+		5CDFB9321BB31E760000AF6F /* HHBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDFB9311BB31E760000AF6F /* HHBanner.m */; settings = {ASSET_TAGS = (); }; };
 		D68F0EFAEA66F3DCDFE972F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B0110F2ECD81DF5CD4D72E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -641,6 +642,8 @@
 		5CD4EA3E1B5D97E1003CF15E /* HHTrainingField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHTrainingField.m; sourceTree = "<group>"; };
 		5CD4EA401B5DE6BC003CF15E /* HHFormatUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHFormatUtility.h; sourceTree = "<group>"; };
 		5CD4EA411B5DE6BC003CF15E /* HHFormatUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHFormatUtility.m; sourceTree = "<group>"; };
+		5CDFB9301BB31E760000AF6F /* HHBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHBanner.h; sourceTree = "<group>"; };
+		5CDFB9311BB31E760000AF6F /* HHBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHBanner.m; sourceTree = "<group>"; };
 		D5B0110F2ECD81DF5CD4D72E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8832576172C8DF34558C848 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		EFA148D80F7878EC1B2315C7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -726,6 +729,8 @@
 				5C4DA46F1B9401220098A93E /* HHTransfer.m */,
 				5C66868A1BA281D700F899FC /* HHReferral.h */,
 				5C66868B1BA281D700F899FC /* HHReferral.m */,
+				5CDFB9301BB31E760000AF6F /* HHBanner.h */,
+				5CDFB9311BB31E760000AF6F /* HHBanner.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1631,6 +1636,7 @@
 				5CBBA97C1B604762009398B8 /* HHDashView.m in Sources */,
 				5C0127331B77A4B600780992 /* HHTimeSlotSectionTitleView.m in Sources */,
 				5C4DA4641B93ADDA0098A93E /* RSADataVerifier.m in Sources */,
+				5CDFB9321BB31E760000AF6F /* HHBanner.m in Sources */,
 				5CB34F2D1B64455A007954DF /* HHTrainingFieldService.m in Sources */,
 				5C0127121B72F62000780992 /* HHFullScreenImageViewController.m in Sources */,
 				5C4DA4701B9401220098A93E /* HHTransfer.m in Sources */,
