@@ -12,6 +12,7 @@
 #import "HHFullReviewTableViewCell.h"
 #import "HHCoachService.h"
 #import "HHReviewService.h"
+#import "HHStudentService.h"
 
 #define kReviewCellId @"kReviewCellId"
 
@@ -23,6 +24,7 @@
 @property (nonatomic, strong) UIImageView *backgroundImageView;
 @property (nonatomic, strong) UIView *line;
 @property (nonatomic)         BOOL shouldFetchMore;
+@property (nonatomic, strong) NSMutableDictionary *students;
 
 @end
 
@@ -31,6 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
+    self.students = [NSMutableDictionary dictionary];
     self.shouldFetchMore = YES;
     
     self.backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"blur_background"]];
@@ -121,7 +124,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HHFullReviewTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kReviewCellId forIndexPath:indexPath];
-    [cell setupViews:self.reviews[indexPath.row]];
+    HHReview *review = self.reviews[indexPath.row];
+    HHStudent *cachedStudent = self.students[review.studentId];
+    if (cachedStudent) {
+         [cell setupViews:review student:cachedStudent];
+    } else {
+        [[HHStudentService sharedInstance] fetchStudentWithId:review.studentId completion:^(HHStudent *student, NSError *error) {
+            [cell setupViews:review student:student];
+            self.students[review.studentId] = student;
+        }];
+    }
+   
     return cell;
 }
 

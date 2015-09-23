@@ -9,7 +9,6 @@
 #import "HHFullReviewTableViewCell.h"
 #import "UIColor+HHColor.h"
 #import "HHAutoLayoutUtility.h"
-#import "HHStudentService.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "HHFormatUtility.h"
 #import "NSDate+DateTools.h"
@@ -102,18 +101,16 @@
     
 }
 
-- (void)setupViews:(HHReview *)review {
+- (void)setupViews:(HHReview *)review student:(HHStudent *)student {
     self.ratingView.value = [review.rating floatValue];
     self.ratingLabel.text = [[HHFormatUtility floatFormatter] stringFromNumber:review.rating];
     self.commentLabel.text = review.comment;
     self.timeLabel.text = [NSDate timeAgoSinceDate:review.createdAt];
-    
-    [[HHStudentService sharedInstance] fetchStudentWithId:review.studentId completion:^(HHStudent *student, NSError *error) {
-        AVFile *file = [AVFile fileWithURL:student.avatarURL];
-        NSString *thumbnailString = [file getThumbnailURLWithScaleToFit:YES width:kAvatarRadius * 4 height:kAvatarRadius * 4 quality:100 format:@"png"];
-        [self.avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:thumbnailString] placeholderImage:nil];
-        self.nameLabel.text = student.fullName;
-    }];
+
+    AVFile *file = [AVFile fileWithURL:student.avatarURL];
+    NSString *thumbnailString = [file getThumbnailURLWithScaleToFit:YES width:kAvatarRadius * 4 height:kAvatarRadius * 4 quality:100 format:@"png"];
+    [self.avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:thumbnailString] placeholderImage:nil];
+    self.nameLabel.text = student.fullName;
     
 }
 

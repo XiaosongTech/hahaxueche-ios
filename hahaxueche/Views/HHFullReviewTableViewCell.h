@@ -10,6 +10,7 @@
 #import "HHStarRatingView.h"
 #import "HHAvatarView.h"
 #import "HHReview.h"
+#import "HHStudent.h"
 
 @interface HHFullReviewTableViewCell : UITableViewCell
 
@@ -21,6 +22,6 @@
 @property (nonatomic, strong) UIView *line;
 @property (nonatomic, strong) UILabel *timeLabel;
 
-- (void)setupViews:(HHReview *)review;
+- (void)setupViews:(HHReview *)review student:(HHStudent *)student;
 
 @end
