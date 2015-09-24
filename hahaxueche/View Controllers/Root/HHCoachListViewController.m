@@ -354,7 +354,7 @@
 
 - (void)addMapVIewToCell:(HHCoachListTableViewCell *)cell field:(HHTrainingField *)field{
     if (!self.mapTipView){
-        self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, 200.0f, 180.0f)];
+        self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, 310.0f, 180.0f)];
         self.mapView.delegate = self;
         HHPointAnnotation *point = [[HHPointAnnotation alloc] init];
         point.coordinate = CLLocationCoordinate2DMake([field.latitude doubleValue], [field.longitude doubleValue]);

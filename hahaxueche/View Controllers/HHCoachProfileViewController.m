@@ -35,6 +35,7 @@
 #import "HHTransaction.h"
 #import "HHPaymentStatus.h"
 #import "HHTransfer.h"
+#import "KLCPopup.h"
 
 
 typedef enum : NSUInteger {
@@ -492,7 +493,14 @@ typedef enum : NSUInteger {
             HHCoachDashBoardTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDashBoardCellId forIndexPath:indexPath];
             [cell setupViewsWithCoach:self.coach trainingFielf:self.field];
             cell.priceTappedCompletion = ^() {
+                UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 350.0f)];
                 
+                imageView.image = [UIImage imageNamed:@"fees.jpg"];
+                imageView.contentMode = UIViewContentModeScaleAspectFit;
+                KLCPopup *feesPopup= [KLCPopup popupWithContentView:imageView];
+                feesPopup.shouldDismissOnContentTouch = YES;
+                [feesPopup showWithLayout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutCenter)];
+
             };
             
             cell.phoneTappedCompletion = ^() {
