@@ -195,6 +195,12 @@
 
 - (void)fetchSchedulesWithCompletion:(HHGenericCompletion)completion {
     __weak HHBookViewController *weakSelf = self;
+    if (![HHUserAuthenticator sharedInstance].currentStudent.myCoachId) {
+        if (completion) {
+            completion();
+        }
+        return;
+    }
     [[HHScheduleService sharedInstance] fetchCoachSchedulesWithCoachId:[HHUserAuthenticator sharedInstance].currentStudent.myCoachId skip:0 completion:^(NSArray *objects, NSInteger totalResults, NSError *error) {
         if (completion) {
             completion();
