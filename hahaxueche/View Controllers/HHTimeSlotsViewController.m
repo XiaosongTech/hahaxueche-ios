@@ -230,6 +230,7 @@
                 [array addObject:currentGroup];
                 currentGroup = [NSMutableArray array];
                 [currentGroup addObject:schedule];
+                previousDate = schedule.startDateTime;
             }
             if (i == filteredArray.count - 1) {
                 [array addObject:currentGroup];

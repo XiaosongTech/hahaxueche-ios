@@ -296,7 +296,7 @@
 
 
 - (void)showConfirmPopup {
-    UIView *confirmTimeView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 250.0f)];
+    UIView *confirmTimeView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 280.0f)];
     confirmTimeView.backgroundColor = [UIColor whiteColor];
     
     UILabel *titleLabel = [self createLabelWithTitle:NSLocalizedString(@"您要添加到时间段和科目为：", nil) font:[UIFont fontWithName:@"STHeitiSC-Medium" size:16.0f] textColor:[UIColor blackColor]];
@@ -355,6 +355,7 @@
 
 - (void)submitNewSchedule {
     __weak HHCoachAddTimeViewController *weakSelf = self;
+    self.schedule = [HHCoachSchedule object];
     self.schedule.coachId = [HHUserAuthenticator sharedInstance].currentCoach.coachId;
     self.schedule.startDateTime = [self combineDate:self.date withTime:self.startTime];
     self.schedule.endDateTime = [self combineDate:self.date withTime:self.endTime];
