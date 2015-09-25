@@ -141,6 +141,7 @@
     [self.window makeKeyAndVisible];
     [self setAppearance];
     [self setWindow:self.window];
+    [[HHUserAuthenticator sharedInstance] logout];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
