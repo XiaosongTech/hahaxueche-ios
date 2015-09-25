@@ -87,6 +87,7 @@ typedef enum : NSUInteger {
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(uploadImage)];
     [self.uploadImageView addGestureRecognizer:tapGesture];
     if ([HHUserAuthenticator sharedInstance].currentStudent) {
+        self.uploadImageView.contentMode = UIViewContentModeScaleAspectFill;
         AVFile *file = [AVFile fileWithURL:[HHUserAuthenticator sharedInstance].currentStudent.avatarURL];
         NSString *thumbnailString = [file getThumbnailURLWithScaleToFit:YES width:200.0f height:200.0f quality:100 format:@"png"];
         [self.uploadImageView sd_setImageWithURL:[NSURL URLWithString:thumbnailString] placeholderImage:nil];
@@ -335,9 +336,8 @@ typedef enum : NSUInteger {
     if(!self.originalImage) {
         self.originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
-    self.uploadImageView.contentMode = UIViewContentModeScaleAspectFill;
+     self.uploadImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.uploadImageView.image = self.originalImage;
-    self.uploadImageView.contentMode = UIViewContentModeScaleAspectFill;
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
 }
