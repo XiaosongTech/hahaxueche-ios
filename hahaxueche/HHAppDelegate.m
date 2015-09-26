@@ -33,6 +33,7 @@
 #import "HHFirstLaunchGuideViewController.h"
 #import "HHStartAppLoadingViewController.h"
 #import "HHBanner.h"
+#import "HHLoadingView.h"
 
 #define kLeanCloudStagingAppID @"cr9pv6bp9nlr1xrtl36slyxt0hgv6ypifso9aocxwas2fugq"
 #define kLeanCloudStagingAppKey @"2ykqwhzhfrzhjn3o9bj7rizb8qd75ym3f0lez1d8fcxmn2k3"
@@ -150,8 +151,7 @@
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+   [[HHLoadingView sharedInstance] hideLoadingView];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {

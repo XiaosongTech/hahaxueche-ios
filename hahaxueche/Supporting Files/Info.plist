@@ -37,6 +37,7 @@
 	<string>1.0.10</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>alipay</string>
 		<string>baidumap</string>
 		<string>iosamap</string>
 	</array>

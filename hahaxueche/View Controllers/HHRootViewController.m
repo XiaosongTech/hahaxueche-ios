@@ -100,7 +100,7 @@
     UITabBarItem *bookItem = [[UITabBarItem alloc] init];
     bookItem.image = [[UIImage imageNamed:@"calendar_grey"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     bookItem.selectedImage = [[UIImage imageNamed:@"calendar_selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    bookItem.title = NSLocalizedString(@"预约时间", nil);
+    bookItem.title = NSLocalizedString(@"预约练车", nil);
     bookNavVC.tabBarItem = bookItem;
     
     HHMyReservationViewController *myReservationVC = [[HHMyReservationViewController alloc] init];

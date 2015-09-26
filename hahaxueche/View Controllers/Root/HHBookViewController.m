@@ -57,7 +57,7 @@
 }
 
 - (void)viewDidLoad {
-    self.title = NSLocalizedString(@"预约时间", nil);
+    self.title = NSLocalizedString(@"预约练车", nil);
     self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
     self.navigationItem.hidesBackButton = YES;
     self.selectedSchedules = [NSMutableArray array];
