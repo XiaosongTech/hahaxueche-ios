@@ -110,27 +110,6 @@
     } else {
         [self jumpToLoginSignupView];
     }
-
-//    [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:@"55f3a139ddb2dd00a369c84b" completion:^(HHStudent *student, NSError *error) {
-//        HHRootViewController *rootVC = [[HHRootViewController alloc] initForStudent];
-//        [self.window setRootViewController:rootVC];
-//        [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
-//        [self.window makeKeyAndVisible];
-//        [self setAppearance];
-//
-//        
-//    }];
-//
-//    [[HHUserAuthenticator sharedInstance] fetchAuthedCoachWithId:@"55ada2f4e4b0a17d557272d1" completion:^(HHCoach *coach, NSError *error) {
-//        if (!error) {
-//            HHRootViewController *rootVC = [[HHRootViewController alloc] initForCoach];
-//            [self.window setRootViewController:rootVC];
-//            [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
-//            [self.window makeKeyAndVisible];
-//            [self setAppearance];
-//        }
-//    }];
-    
     return YES;
    
 }
@@ -145,11 +124,6 @@
     [[HHUserAuthenticator sharedInstance] logout];
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
-
 - (void)applicationDidEnterBackground:(UIApplication *)application {
    [[HHLoadingView sharedInstance] hideLoadingView];
 }
@@ -160,10 +134,6 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
 - (void)setAppearance {
