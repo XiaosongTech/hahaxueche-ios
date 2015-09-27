@@ -228,7 +228,6 @@ typedef enum : NSUInteger {
 }
 
 - (void)transactionSucceed:(HHTransaction *)transaction {
-    
     __weak HHCoachProfileViewController *weakSelf = self;
     NSInteger newAmount = [self.coach.currentStudentAmount integerValue] + 1;
     self.coach.currentStudentAmount = [NSNumber numberWithInteger:newAmount];
@@ -271,7 +270,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)callCoach {
-    if ([HHUserAuthenticator sharedInstance].currentStudent.myCoachId) {
+    if ([[HHUserAuthenticator sharedInstance].currentStudent.myCoachId length]) {
         [HHToastUtility showToastWitiTitle:NSLocalizedString(@"您已经有教练，无需再试学。", nil) isError:YES];
         return;
     }

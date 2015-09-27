@@ -37,6 +37,7 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
 @property (nonatomic, strong) UIBarButtonItem *settings;
 @property (nonatomic, strong) UIActionSheet *settingsActionSheet;
 @property (nonatomic, strong) UIAlertView *alertView;
+@property (nonatomic)         BOOL isFetching;
 
 @end
 
@@ -47,14 +48,56 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
     self.tableView.dataSource = nil;
     self.settingsActionSheet.delegate = nil;
     self.alertView.delegate = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = NSLocalizedString(@"我的页面", nil);
     [self initSubviews];
-    
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (!self.paymentStatus) {
+        [self fetchData];
+    }
+}
+
+- (void)fetchData {
+    if (self.isFetching) {
+        return;
+    }
+    self.isFetching = YES;
+    __weak HHMyProfileViewController *weakSelf = self;
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中", nil)];
+    [[HHPaymentTransactionService sharedInstance] fetchTransactionWithStudentId:[HHUserAuthenticator sharedInstance].currentStudent.studentId completion:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            weakSelf.transactionArray = objects;
+            if ([weakSelf.transactionArray count]) {
+                HHTransaction *transaction = [weakSelf.transactionArray firstObject];
+                [[HHPaymentTransactionService sharedInstance] fetchPaymentStatusWithTransactionId:transaction.objectId completion:^(HHPaymentStatus *paymentStatus, NSError *error) {
+                    [[HHLoadingView sharedInstance] hideLoadingView];
+                    self.isFetching = NO;
+                    if (!error) {
+                        weakSelf.paymentStatus = paymentStatus;
+                        [weakSelf.tableView reloadData];
+                    }
+                }];
+            } else {
+                self.isFetching = NO;
+                [[HHLoadingView sharedInstance] hideLoadingView];
+            }
+            
+            
+        } else {
+            self.isFetching = NO;
+            [[HHLoadingView sharedInstance] hideLoadingView];
+            [HHToastUtility showToastWitiTitle:@"加载时出错！" isError:YES];
+        }
+    }];
+
+
 }
 
 - (void)initSubviews {
@@ -82,31 +125,7 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
     [footerView addSubview:self.explanationLabel];
     
     self.tableView.tableFooterView = footerView;
-    __weak HHMyProfileViewController *weakSelf = self;
-    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中", nil)];
-    [[HHPaymentTransactionService sharedInstance] fetchTransactionWithStudentId:[HHUserAuthenticator sharedInstance].currentStudent.studentId completion:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            weakSelf.transactionArray = objects;
-            if ([weakSelf.transactionArray count]) {
-                HHTransaction *transaction = [weakSelf.transactionArray firstObject];
-                [[HHPaymentTransactionService sharedInstance] fetchPaymentStatusWithTransactionId:transaction.objectId completion:^(HHPaymentStatus *paymentStatus, NSError *error) {
-                    [[HHLoadingView sharedInstance] hideLoadingView];
-                    if (!error) {
-                        weakSelf.paymentStatus = paymentStatus;
-                        [weakSelf.tableView reloadData];
-                    }
-                }];
-            } else {
-                [[HHLoadingView sharedInstance] hideLoadingView];
-            }
-            
-            
-        } else {
-            [[HHLoadingView sharedInstance] hideLoadingView];
-            [HHToastUtility showToastWitiTitle:@"加载时出错！" isError:YES];
-        }
-    }];
-    
+    [self fetchData];
     [self autolayoutSubview];
     
 }
