@@ -64,6 +64,7 @@
 - (void)changePage {
     CGFloat x = self.pageControl.currentPage * CGRectGetWidth(self.scrollView.bounds);
     [self.scrollView setContentOffset:CGPointMake(x, 0) animated:YES];
+    [self.scrollView bringSubviewToFront:self.imageViews[self.pageControl.currentPage]];
 }
 
 -(void)addImageViews {
@@ -85,6 +86,7 @@
             [self.imageViews addObject:imageView];
         }
     }
+    [self.scrollView bringSubviewToFront:[self.imageViews firstObject]];
     
 }
 
@@ -107,6 +109,7 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     NSInteger pageNumber = roundf(self.scrollView.contentOffset.x / CGRectGetWidth(self.scrollView.bounds));
     self.pageControl.currentPage = pageNumber;
+    [self.scrollView bringSubviewToFront:self.imageViews[self.pageControl.currentPage]];
 }
 
 @end
