@@ -241,8 +241,8 @@ typedef enum : NSUInteger {
     
     HHPaymentStatus *paymentStatus = [HHPaymentStatus objectWithClassName:[HHPaymentStatus parseClassName]];
     paymentStatus.transactionId = transaction.objectId;
-    paymentStatus.stageOneAmount = @(550);
-    paymentStatus.stageTwoAmount = @(350);
+    paymentStatus.stageOneAmount = @(350);
+    paymentStatus.stageTwoAmount = @(550);
     paymentStatus.stageThreeAmount = @(([transaction.paidPrice floatValue] - 900) * 0.6);
     paymentStatus.stageFourAmount = @(([transaction.paidPrice floatValue] - 900) * 0.3);
     paymentStatus.stageFiveAmount = @(([transaction.paidPrice floatValue] - 900) * 0.1);
