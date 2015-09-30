@@ -9,6 +9,7 @@
 #import "HHFullScreenImageViewController.h"
 #import "HHAutoLayoutUtility.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "HHLoadingView.h"
 
 @interface HHFullScreenImageViewController ()<UIScrollViewDelegate>
 
@@ -29,7 +30,11 @@
         self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         self.view.backgroundColor = [UIColor blackColor];
         self.imageURL = imageURL;
-        [self.imageView sd_setImageWithURL:self.imageURL placeholderImage:nil];
+        
+        [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+        [self.imageView sd_setImageWithURL:self.imageURL placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+             [[HHLoadingView sharedInstance] hideLoadingView];
+        }];
         
         self.label.text = title;
         [self.label sizeToFit];

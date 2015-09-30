@@ -502,9 +502,12 @@ typedef enum : NSUInteger {
 
             };
             
-            cell.phoneTappedCompletion = ^() {
-                [weakSelf.phoneSheet showInView:weakSelf.view];
-            };
+            if ([[HHUserAuthenticator sharedInstance].currentStudent.myCoachId isEqualToString:self.coach.coachId]) {
+                cell.phoneTappedCompletion = ^() {
+                    [weakSelf.phoneSheet showInView:weakSelf.view];
+                };
+            }
+            
             
             cell.addressTappedCompletion = ^() {
                 [weakSelf.addressSheet showInView:weakSelf.view];

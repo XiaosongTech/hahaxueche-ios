@@ -182,6 +182,18 @@
     if (self.type == PageTypeLogin) {
         isSignup = NO;
     }
+    
+    if (![[HHUserAuthenticator sharedInstance] isBetaUser:self.numberFieldView.textField.text] && isSignup) {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"无法注册！", nil)
+                                                        message:NSLocalizedString(@"非常抱歉，哈哈学车目前只对内测用户开放。关注哈哈学车微信公众号并提交个人信息，就可以获得内测账号。", nil)
+                                                       delegate:self
+                                              cancelButtonTitle:NSLocalizedString(@"我知道了", nil)
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
     [[HHUserAuthenticator sharedInstance] requestCodeWithNumber:self.numberFieldView.textField.text isSignup:isSignup completion:^(NSError *error) {
         if (error) {
             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"发送失败，请过会重试",nil) isError:YES];

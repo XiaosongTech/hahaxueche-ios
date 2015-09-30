@@ -10,6 +10,7 @@
 #import "HHAutoLayoutUtility.h"
 #import "HHFormatUtility.h"
 #import "UIColor+HHColor.h"
+#import "HHUserAuthenticator.h"
 
 @implementation HHCoachDashBoardTableViewCell
 
@@ -162,7 +163,13 @@
     
     [self.currentStudentAmountView setupViewWithKey:NSLocalizedString(@"当前学员数", nil) value:[coach.currentStudentAmount stringValue]];
     
-    [self.phoneNumberView setupViewWithKey:NSLocalizedString(@"手机号", nil) value:coach.phoneNumber];
+    if ([[HHUserAuthenticator sharedInstance].currentStudent.myCoachId isEqualToString:coach.coachId]) {
+        [self.phoneNumberView setupViewWithKey:NSLocalizedString(@"手机号", nil) value:coach.phoneNumber];
+        
+    } else {
+        [self.phoneNumberView setupViewWithKey:NSLocalizedString(@"手机号", nil) value:NSLocalizedString(@"付款后可见", nil)];
+    }
+    
     
     [self.addressView setupViewWithKey:NSLocalizedString(@"训练场地址", nil) value:field.address];
     

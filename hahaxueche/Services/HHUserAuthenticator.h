@@ -47,4 +47,6 @@ typedef void (^HHCoachCompletionBlock)(HHCoach *coach, NSError *error);
 
 - (void)logout;
 
+- (BOOL)isBetaUser:(NSString *)phoneNumber;
+
 @end
