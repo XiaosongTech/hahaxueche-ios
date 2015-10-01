@@ -10,35 +10,34 @@
 #import "HHAutoLayoutUtility.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "HHLoadingView.h"
+#import "UIView+HHRect.h"
 
 @interface HHFullScreenImageViewController ()<UIScrollViewDelegate>
 
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UIImageView *imageView;
-@property (nonatomic, strong) NSURL *imageURL;
-@property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong) NSMutableArray *imageViews;
+@property (nonatomic, strong) NSMutableArray *subScrollViews;
+@property (nonatomic, strong) NSArray *imageURLs;
+@property (nonatomic, strong) NSArray *titles;
+@property (nonatomic, strong) NSMutableArray *labels;
+@property (nonatomic) NSInteger initialIndex;
+@property (nonatomic) NSInteger currentIndex;
+@property (nonatomic, strong) UILabel *indexLabel;
 
 @end
 
 @implementation HHFullScreenImageViewController
 
 
-- (instancetype)initWithImageURL:(NSURL *)imageURL title:(NSString *)title {
+- (instancetype)initWithImageURLArray:(NSArray *)imageURLArray titleArray:(NSArray *)titleArray initalIndex:(NSInteger)initialIndex{
     self = [super init];
     if (self) {
         self.modalPresentationStyle = UIModalPresentationCurrentContext;
         self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        self.view.backgroundColor = [UIColor blackColor];
-        self.imageURL = imageURL;
-        
-        [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
-        [self.imageView sd_setImageWithURL:self.imageURL placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-             [[HHLoadingView sharedInstance] hideLoadingView];
-        }];
-        
-        self.label.text = title;
-        [self.label sizeToFit];
-        
+        self.imageURLs = imageURLArray;
+        self.titles = titleArray;
+        self.initialIndex = initialIndex;
+        self.currentIndex = initialIndex;
     }
     return self;
 }
@@ -47,36 +46,89 @@
     self.scrollView.delegate = nil;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    [self.scrollView setContentOffset:CGPointMake(self.currentIndex * CGRectGetWidth(self.scrollView.bounds), 0)];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor blackColor];
+    self.imageViews = [NSMutableArray array];
+    self.labels = [NSMutableArray array];
+    self.subScrollViews = [NSMutableArray array];
+    
+    self.indexLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.indexLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    self.indexLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:13.0f];
+    self.indexLabel.textColor = [UIColor whiteColor];
+    self.indexLabel.textAlignment = NSTextAlignmentCenter;
+    self.indexLabel.text = [self generateIndexString];
+    [self.view addSubview:self.indexLabel];
+    
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
     self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
     self.scrollView.delegate = self;
     self.scrollView.userInteractionEnabled = YES;
-    self.scrollView.maximumZoomScale = 4.0f;
+    self.scrollView.bounces = NO;
+    self.scrollView.pagingEnabled = YES;
     self.scrollView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
     self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.scrollView];
     
-    self.imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    self.imageView.userInteractionEnabled = YES;
-    [self.scrollView addSubview:self.imageView];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissVC)];
-    [self.imageView addGestureRecognizer:tap];
     
-    self.label = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.label.translatesAutoresizingMaskIntoConstraints = NO;
-    self.label.backgroundColor = [UIColor clearColor];
-    self.label.textAlignment = NSTextAlignmentCenter;
-    self.label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f];
-    self.label.textColor = [UIColor whiteColor];
-    [self.view addSubview:self.label];
+    for (int i = 0; i < self.imageURLs.count; i++) {
+        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
+        scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+        scrollView.delegate = self;
+        scrollView.userInteractionEnabled = YES;
+        scrollView.maximumZoomScale = 4.0f;
+        scrollView.bounces = NO;
+        scrollView.showsHorizontalScrollIndicator = NO;
+        scrollView.showsVerticalScrollIndicator = NO;
+        scrollView.scrollEnabled = YES;
+        [self.scrollView addSubview:scrollView];
+        [self.subScrollViews addObject:scrollView];
+
+        
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        imageView.translatesAutoresizingMaskIntoConstraints = NO;
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        imageView.userInteractionEnabled = YES;
+        [scrollView addSubview:imageView];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissVC)];
+        [imageView addGestureRecognizer:tap];
+        [self.imageViews addObject:imageView];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:self.imageURLs[i]] placeholderImage:nil];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+        label.translatesAutoresizingMaskIntoConstraints = NO;
+        label.backgroundColor = [UIColor clearColor];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f];
+        label.textColor = [UIColor whiteColor];
+        if(self.title) {
+            label.text = self.titles[i];
+        }
+        [label sizeToFit];
+        [scrollView addSubview:label];
+        [self.labels addObject:label];
+        
+
+    }
     
-    [self autoLayoutSubviews];
-}
+    
+    [self autoLayoutSubviews];}
 
 - (void)dismissVC {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -84,24 +136,78 @@
 
 - (void)autoLayoutSubviews {
     NSArray *constraints = @[
-                             [HHAutoLayoutUtility setCenterX:self.scrollView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setCenterY:self.scrollView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.scrollView multiplier:1.0f constant:0],
+                             
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.indexLabel constant:0],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.indexLabel constant:0],
+                             [HHAutoLayoutUtility setViewHeight:self.indexLabel multiplier:0 constant:20.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.indexLabel multiplier:1.0f constant:0],
+                             
+                             [HHAutoLayoutUtility verticalNext:self.scrollView toView:self.indexLabel constant:0],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.scrollView constant:0],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.scrollView constant:0],
                              [HHAutoLayoutUtility setViewWidth:self.scrollView multiplier:1.0f constant:0],
                              
-                             [HHAutoLayoutUtility setCenterX:self.imageView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setCenterY:self.imageView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.imageView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewWidth:self.imageView multiplier:1.0f constant:0],
-                             
-                             [HHAutoLayoutUtility setCenterX:self.label multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.label constant:-20.0f],
                              ];
     [self.view addConstraints:constraints];
+    
+    
+    for (int i = 0; i < self.imageURLs.count; i++) {
+        UIImageView *imageView = self.imageViews[i];
+        UILabel *label = self.labels[i];
+        UIScrollView *scrollView = self.subScrollViews[i];
+        NSArray *constraints = @[
+                                 
+                                 [HHAutoLayoutUtility setCenterX:scrollView multiplier:(1.0f + i * 2.0f) constant:0],
+                                 [HHAutoLayoutUtility setCenterY:scrollView multiplier:1.0f constant:0],
+                                 [HHAutoLayoutUtility setViewHeight:scrollView multiplier:1.0f constant:0],
+                                 [HHAutoLayoutUtility setViewWidth:scrollView multiplier:1.0f constant:0],
+                                 
+                                 [HHAutoLayoutUtility verticalAlignToSuperViewTop:imageView constant:0],
+                                 [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:imageView constant:0],
+                                 [HHAutoLayoutUtility setViewHeight:imageView multiplier:1.0f constant:-20.0f],
+                                 [HHAutoLayoutUtility setViewWidth:imageView multiplier:1.0f constant:0],
+                                 
+                                 [HHAutoLayoutUtility setCenterX:label multiplier:1.0f constant:0],
+                                 [HHAutoLayoutUtility verticalAlignToSuperViewBottom:label constant:-20.0f],
+                                 
+                                 ];
+        [self.view addConstraints:constraints];
+
+    }
+    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:[self.subScrollViews lastObject]
+                                                                attribute:NSLayoutAttributeRight
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self.scrollView
+                                                                attribute:NSLayoutAttributeRight
+                                                               multiplier:1.0
+                                                                 constant:0]];
+    
+    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:[self.subScrollViews lastObject]
+                                                                attribute:NSLayoutAttributeBottom
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self.scrollView
+                                                                attribute:NSLayoutAttributeBottom
+                                                               multiplier:1.0
+                                                                 constant:0]];
+    
+
 }
 
 -(UIView *) viewForZoomingInScrollView:(UIScrollView *)scrollView {
-    return self.imageView;
+    return self.imageViews[self.currentIndex];
 }
+
+- (NSString *)generateIndexString {
+    return  [NSString stringWithFormat:@"%ld/%lu", (long)self.currentIndex + 1, (unsigned long)self.imageURLs.count];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    self.currentIndex = roundf(self.scrollView.contentOffset.x / CGRectGetWidth(self.scrollView.bounds));
+    self.indexLabel.text = [self generateIndexString];
+}
+
+
+
+
 
 @end

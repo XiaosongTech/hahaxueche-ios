@@ -187,8 +187,12 @@
 #pragma -mark HHScrollImageGallery Delegate
 
 - (void)showFullImageView:(NSInteger)index {
-    HHBanner *banner = self.banners[index];
-    HHFullScreenImageViewController *fullImageVC = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:banner.detailImageURL] title:nil];
+    NSMutableArray *imageURLs = [NSMutableArray array];
+    for (int i = 0; i < self.banners.count; i++) {
+        HHBanner *banner = self.banners[i];
+        [imageURLs addObject:banner.detailImageURL];
+    }
+    HHFullScreenImageViewController *fullImageVC = [[HHFullScreenImageViewController alloc] initWithImageURLArray:imageURLs titleArray:nil initalIndex:index];
     [self.tabBarController presentViewController:fullImageVC animated:YES completion:nil];
 }
 

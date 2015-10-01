@@ -10,7 +10,7 @@
 
 @interface HHFullScreenImageViewController : UIViewController
 
-- (instancetype)initWithImageURL:(NSURL *)imageURL title:(NSString *)title;
+- (instancetype)initWithImageURLArray:(NSArray *)imageURLArray titleArray:(NSArray *)titleArray initalIndex:(NSInteger)initialIndex;
 
 
 @end
