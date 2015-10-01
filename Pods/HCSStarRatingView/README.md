@@ -4,7 +4,7 @@
 
 It supports all device resolutions and although it requires no images do render the stars (thanks <a href="http://www.paintcodeapp.com" target=_blank>PaintCode</a>), you can provide custom ones if you so desire.
 
-<img src="https://raw.github.com/hsousa/HCSStarRatingView/master/Assets/demo.gif" width="288" height="394" />
+<img src="https://raw.github.com/hsousa/HCSStarRatingView/master/Assets/demo.gif" width="240" />
 
 ## Installation
 
@@ -21,7 +21,7 @@ use_frameworks!
 
 (...)
 
-pod 'HCSStarRatingView', '~> 1.2'
+pod 'HCSStarRatingView', '~> 1.4.2'
 ```
 
 and run `pod install`
@@ -53,6 +53,11 @@ starRatingView.tintColor = [UIColor redColor];
 ```objective-c
 starRatingView.allowsHalfStars = YES;
 starRatingView.value = 2.5f;
+```
+
+Enable `accurateHalfStars` to get more precise ratings (works with images too)!
+```objective-c
+starRatingView.accurateHalfStars = YES;
 ```
 
 #### Custom images:

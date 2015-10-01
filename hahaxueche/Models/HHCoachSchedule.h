@@ -7,7 +7,6 @@
 //
 
 #import <AVOSCloud/AVOSCloud.h>
-#import "AVObject+Subclass.h"
 
 @interface HHCoachSchedule : AVObject<AVSubclassing, NSCopying>
 
