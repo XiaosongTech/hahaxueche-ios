@@ -8,7 +8,6 @@
 
 #import <AVOSCloud/AVOSCloud.h>
 #import "HHCoach.h"
-#import "AVObject+Subclass.h"
 
 #define kStudentIdKey @"studentId"
 

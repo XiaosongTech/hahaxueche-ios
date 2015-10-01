@@ -7,7 +7,6 @@
 //
 
 #import <AVOSCloud/AVOSCloud.h>
-#import "AVObject+Subclass.h"
 
 @interface HHReview : AVObject <AVSubclassing>
 

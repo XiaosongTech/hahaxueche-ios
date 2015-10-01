@@ -22,6 +22,8 @@
 
 @import UIKit;
 
+typedef BOOL(^HCSStarRatingViewShouldBeginGestureRecognizerBlock)(UIGestureRecognizer *gestureRecognizer);
+
 IB_DESIGNABLE
 @interface HCSStarRatingView : UIControl
 @property (nonatomic) IBInspectable NSUInteger maximumValue;
@@ -29,8 +31,14 @@ IB_DESIGNABLE
 @property (nonatomic) IBInspectable CGFloat value;
 @property (nonatomic) IBInspectable CGFloat spacing;
 @property (nonatomic) IBInspectable BOOL allowsHalfStars;
+@property (nonatomic) IBInspectable BOOL accurateHalfStars;
+@property (nonatomic) IBInspectable BOOL continuous;
+
+// Optional: if `nil` method will return `NO`.
+@property (nonatomic, copy) HCSStarRatingViewShouldBeginGestureRecognizerBlock shouldBeginGestureRecognizerBlock;
 
 @property (nonatomic, strong) IBInspectable UIImage *emptyStarImage;
 @property (nonatomic, strong) IBInspectable UIImage *halfStarImage;
 @property (nonatomic, strong) IBInspectable UIImage *filledStarImage;
 @end
+
