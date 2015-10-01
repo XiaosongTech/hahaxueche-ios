@@ -8,6 +8,8 @@ PODS:
   - KLCPopup (1.0)
   - libPhoneNumber-iOS (0.8.5)
   - MBProgressHUD (0.9.1)
+  - NKJPhotoSliderController (0.5.0):
+    - SDWebImage
   - pop (1.0.7)
   - QRCodeReaderViewController (3.5.2)
   - SDWebImage (3.7.2):
@@ -24,6 +26,7 @@ DEPENDENCIES:
   - KLCPopup (~> 1.0)
   - libPhoneNumber-iOS (~> 0.8)
   - MBProgressHUD (~> 0.9.1)
+  - NKJPhotoSliderController
   - pop (~> 1.0)
   - QRCodeReaderViewController (~> 3.5.2)
   - SDWebImage (~> 3.7)
@@ -38,8 +41,9 @@ SPEC CHECKSUMS:
   KLCPopup: 76c5a19227977f1e53d85236f9ef42257c168d98
   libPhoneNumber-iOS: b8ccd23576379caca37c7cbdd554addf384459ed
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  NKJPhotoSliderController: cf57967dc96151b2e0a1006bb4adb8dc0c39f3ad
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   QRCodeReaderViewController: f20275985c41ae551099641493ab364691d9113e
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
 
-COCOAPODS: 0.36.3
+COCOAPODS: 0.38.2

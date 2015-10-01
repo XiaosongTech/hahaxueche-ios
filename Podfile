@@ -14,3 +14,4 @@ pod 'KLCPopup', '~> 1.0'
 pod 'HCSStarRatingView', '~> 1.2'
 pod 'ActionSheetPicker-3.0'
 pod 'QRCodeReaderViewController', '~> 3.5.2'
+pod "NKJPhotoSliderController"

@@ -1,0 +1,1 @@
+../../../NKJPhotoSliderController/Pod/Classes/NKJPhotoSliderImageView.h
