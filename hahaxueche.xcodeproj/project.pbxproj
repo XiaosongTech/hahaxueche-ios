@@ -1854,6 +1854,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "e49b0cdf-b233-45d8-9fcb-17eab4361d62";
 			};
 			name = Debug;
 		};
@@ -1922,6 +1923,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "e49b0cdf-b233-45d8-9fcb-17eab4361d62";
 			};
 			name = Release;
 		};
