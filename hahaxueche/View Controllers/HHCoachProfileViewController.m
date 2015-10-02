@@ -483,7 +483,7 @@ typedef enum : NSUInteger {
             NSString *thumbnailString = [file getThumbnailURLWithScaleToFit:YES width:80.0f height:80.0f quality:100 format:@"png"];
             [cell setupViewWithURL:thumbnailString name:self.coach.fullName des:self.coachDes];
             cell.block = ^() {
-                HHFullScreenImageViewController *imageViewer = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:weakSelf.coach.avatarURL] title:weakSelf.coach.fullName];
+                HHFullScreenImageViewController *imageViewer = [[HHFullScreenImageViewController alloc] initWithImageURLArray:@[weakSelf.coach.avatarURL] titleArray:@[weakSelf.coach.fullName] initalIndex:0];
                 [weakSelf presentViewController:imageViewer animated:YES completion:nil];
             };
             return cell;
@@ -627,7 +627,7 @@ typedef enum : NSUInteger {
 #pragma -mark HHScrollImageGallery Delegate
 
 - (void)showFullImageView:(NSInteger)index {
-    HHFullScreenImageViewController *fullImageVC = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:self.coach.images[index] ] title:nil];
+    HHFullScreenImageViewController *fullImageVC = [[HHFullScreenImageViewController alloc] initWithImageURLArray:self.coach.images titleArray:nil initalIndex:index];
     [self.tabBarController presentViewController:fullImageVC animated:YES completion:nil];
 }
 

@@ -269,7 +269,7 @@ typedef void (^HHGenericCompletion)();
     [cell setupViews];
     
     cell.avatarActionBlock = ^(HHStudent *student){
-        HHFullScreenImageViewController *vc = [[HHFullScreenImageViewController alloc] initWithImageURL:[NSURL URLWithString:student.avatarURL] title:student.fullName];
+        HHFullScreenImageViewController *vc = [[HHFullScreenImageViewController alloc] initWithImageURLArray:@[student.avatarURL] titleArray:@[student.fullName] initalIndex:0];
         [weakSelf.tabBarController presentViewController:vc animated:YES completion:nil];
     };
     
