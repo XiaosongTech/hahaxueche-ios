@@ -67,6 +67,7 @@
 
 - (void)searchIconPressed {
     HHStudentSearchViewController *searchVC =  [[HHStudentSearchViewController alloc] init];
+    searchVC.transactionDic = self.transactionsDic;
     searchVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:searchVC animated:YES];
 }

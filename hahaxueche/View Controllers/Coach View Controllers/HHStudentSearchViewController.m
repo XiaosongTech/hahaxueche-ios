@@ -15,6 +15,7 @@
 #import "HHPaymentTransactionService.h"
 #import "HHFormatUtility.h"
 #import "UIColor+HHColor.h"
+#import "HHCoachStudentProfileViewController.h"
 
 #define kCellId @"cellId"
 
@@ -109,7 +110,11 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    HHCoachStudentProfileViewController *studentProfileVC = [[HHCoachStudentProfileViewController alloc] init];
+    HHStudent *student = self.students[indexPath.row];
+    studentProfileVC.student = student;
+    studentProfileVC.transactionArray =@[self.transactionsDic[student.studentId]];
+    [self.navigationController pushViewController:studentProfileVC animated:YES];
 }
 
 #pragma mark ScrollView Delegate

@@ -10,4 +10,6 @@
 
 @interface HHStudentSearchViewController : HHSearchViewController
 
+@property (nonatomic, strong) NSMutableDictionary *transactionDic;
+
 @end
