@@ -20,6 +20,14 @@
     return formatter;
 }
 
++ (NSNumberFormatter *)numberFormatter {
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    [formatter setMaximumFractionDigits:0];
+    return formatter;
+
+}
+
 + (NSNumberFormatter *)moneyFormatter {
     NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];

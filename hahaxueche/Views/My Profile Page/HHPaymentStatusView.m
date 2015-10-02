@@ -208,17 +208,17 @@
     switch (self.stage) {
         case StageOne: {
             if ([HHUserAuthenticator sharedInstance].currentStudent) {
-                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第一阶段：确认付款后，我们会将%@元自动转到教练账户。\n", nil), [self.amount stringValue]];
+                message = [NSString stringWithFormat: NSLocalizedString(@"\n第一阶段：确认付款后，我们会将%@元自动转到教练账户。\n", nil), [[HHFormatUtility numberFormatter] stringFromNumber: self.amount]];
             } else {
-                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第一阶段：学员确认付款后，我们会将%@元转到您的账户。\n", nil), [self.amount stringValue]];
+                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第一阶段：学员确认付款后，我们会将%@元转到您的账户。\n", nil), [[HHFormatUtility numberFormatter] stringFromNumber: self.amount]];
             }
            
         } break;
         case StageTwo: {
             if ([HHUserAuthenticator sharedInstance].currentStudent) {
-                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第二阶段：确认需要预约科目一考试后，点击付款按钮后，我们会将%@元转到教练账户。\n", nil), [self.amount stringValue]];
+                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第二阶段：确认需要预约科目一考试后，点击付款按钮后，我们会将%@元转到教练账户。\n", nil), [[HHFormatUtility numberFormatter] stringFromNumber: self.amount]];
             } else {
-                message = [NSString stringWithFormat: NSLocalizedString(@"\n第二阶段：学员确认需要预约科目一考试，点击付款按钮后，我们会将%@元转到您到账户。\n", nil), [self.amount stringValue]];
+                message = [NSString stringWithFormat: NSLocalizedString(@"\n第二阶段：学员确认需要预约科目一考试，点击付款按钮后，我们会将%@元转到您到账户。\n", nil), [[HHFormatUtility numberFormatter] stringFromNumber: self.amount]];
             }
 
            
@@ -226,26 +226,26 @@
         case StageThree: {
             
             if ([HHUserAuthenticator sharedInstance].currentStudent) {
-                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第三阶段：确认通过科目二后，点击付款按钮，我们会将%@元转到教练账户。\n", nil), [self.amount stringValue]];
+                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第三阶段：确认通过科目二后，点击付款按钮，我们会将%@元转到教练账户。\n", nil), [[HHFormatUtility numberFormatter] stringFromNumber: self.amount]];
             } else {
-                message = [NSString stringWithFormat: NSLocalizedString(@"\n第三阶段：学员确认通过科目二后，点击付款按钮，我们会将%@元转到您到账户。\n", nil), [self.amount stringValue]];
+                message = [NSString stringWithFormat: NSLocalizedString(@"\n第三阶段：学员确认通过科目二后，点击付款按钮，我们会将%@元转到您到账户。\n", nil), [[HHFormatUtility numberFormatter] stringFromNumber: self.amount]];
             }
            
         } break;
         case StageFour: {
             
             if ([HHUserAuthenticator sharedInstance].currentStudent) {
-                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第四阶段：确认通过科目三后，点击付款按钮，我们会将%@元转到教练账户。\n", nil), [self.amount stringValue]];
+                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第四阶段：确认通过科目三后，点击付款按钮，我们会将%@元转到教练账户。\n", nil), [[HHFormatUtility numberFormatter] stringFromNumber: self.amount]];
             } else {
-                message = [NSString stringWithFormat: NSLocalizedString(@"\n第四阶段：学员确认通过科目三后，点击付款按钮，我们会将%@元转到您到账户。\n", nil), [self.amount stringValue]];
+                message = [NSString stringWithFormat: NSLocalizedString(@"\n第四阶段：学员确认通过科目三后，点击付款按钮，我们会将%@元转到您到账户。\n", nil), [[HHFormatUtility numberFormatter] stringFromNumber: self.amount]];
             }
            
         } break;
         case StageFive: {
             if ([HHUserAuthenticator sharedInstance].currentStudent) {
-                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第五阶段：确认通过科目四并且拿到驾驶证后，点击付款按钮，我们会将剩下的所有金额（%@元）转到教练账户。\n", nil), [self.amount stringValue]];
+                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第五阶段：确认通过科目四并且拿到驾驶证后，点击付款按钮，我们会将剩下的所有金额（%@元）转到教练账户。\n", nil), [[HHFormatUtility numberFormatter] stringFromNumber: self.amount]];
             } else {
-                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第五阶段：学员确认通过科目四并且拿到驾驶证后，点击付款按钮，我们会将剩下的所有金额（%@元）转到您到账户。\n", nil), [self.amount stringValue]];
+                 message = [NSString stringWithFormat: NSLocalizedString(@"\n第五阶段：学员确认通过科目四并且拿到驾驶证后，点击付款按钮，我们会将剩下的所有金额（%@元）转到您到账户。\n", nil), [[HHFormatUtility numberFormatter] stringFromNumber: self.amount]];
             }
            
         } break;
