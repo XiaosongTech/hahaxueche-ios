@@ -158,10 +158,6 @@
 }
 
 
-#pragma -mark Hide TabBar
-- (BOOL)hidesBottomBarWhenPushed {
-    return (self.navigationController.topViewController == self);
-}
 
 
 @end

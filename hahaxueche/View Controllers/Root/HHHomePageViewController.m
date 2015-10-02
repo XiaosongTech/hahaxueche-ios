@@ -166,6 +166,7 @@
             int randomIndex = arc4random() % objects.count;
             HHCoach *recommendCoach = objects[randomIndex];
             HHCoachProfileViewController *coachVC = [[HHCoachProfileViewController alloc] initWithCoach:recommendCoach];
+            coachVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:coachVC animated:YES];
         } else {
             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"抱歉，没有找到合适到教练", nil) isError:YES];
@@ -194,11 +195,6 @@
     }
     HHFullScreenImageViewController *fullImageVC = [[HHFullScreenImageViewController alloc] initWithImageURLArray:imageURLs titleArray:nil initalIndex:index];
     [self.tabBarController presentViewController:fullImageVC animated:YES completion:nil];
-}
-
-#pragma -mark Hide TabBar
-- (BOOL)hidesBottomBarWhenPushed {
-    return NO;
 }
 
 @end

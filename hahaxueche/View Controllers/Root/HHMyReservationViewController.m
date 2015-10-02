@@ -275,6 +275,7 @@ typedef void (^HHGenericCompletion)();
     
     cell.nameButtonBlock = ^(){
         HHCoachProfileViewController *coachProfileVC =  [[HHCoachProfileViewController alloc] initWithCoach:[HHUserAuthenticator sharedInstance].myCoach];
+        coachProfileVC.hidesBottomBarWhenPushed = YES;
         [weakSelf.navigationController pushViewController:coachProfileVC animated:YES];
     };
     return cell;
@@ -409,11 +410,6 @@ typedef void (^HHGenericCompletion)();
     [button setTitleColor:textColor forState:UIControlStateNormal];
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
     return button;
-}
-
-#pragma -mark Hide TabBar
-- (BOOL)hidesBottomBarWhenPushed {
-    return NO;
 }
 
 @end

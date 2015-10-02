@@ -128,6 +128,7 @@
 - (void)jumpToMyCoachProfileView {
     if (self.myCoach) {
          HHCoachProfileViewController *myCoachVC = [[HHCoachProfileViewController alloc] initWithCoach:self.myCoach];
+        myCoachVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:myCoachVC animated:YES];
     }
    
@@ -428,13 +429,6 @@
         [self fetchMoreSchedules];
     }
 }
-
-#pragma -mark Hide TabBar
-- (BOOL)hidesBottomBarWhenPushed {
-    return NO;
-}
-
-
 
 
 @end

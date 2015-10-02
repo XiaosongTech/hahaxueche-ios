@@ -275,6 +275,7 @@
             HHCoachStudentProfileViewController *studentVC = [[HHCoachStudentProfileViewController alloc] init];
             studentVC.student = student;
             studentVC.transactionArray = nil;
+            studentVC.hidesBottomBarWhenPushed = YES;
             [weakSelf.navigationController pushViewController:studentVC animated:YES];
         };
 
@@ -330,12 +331,6 @@
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
     return button;
-}
-
-#pragma mark Hide TabBar
-
-- (BOOL)hidesBottomBarWhenPushed {
-    return (self.navigationController.topViewController == self);
 }
 
 

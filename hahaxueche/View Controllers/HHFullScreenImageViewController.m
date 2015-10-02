@@ -19,7 +19,7 @@
 @property (nonatomic, strong) NSMutableArray *subScrollViews;
 @property (nonatomic, strong) NSArray *imageURLs;
 @property (nonatomic, strong) NSArray *titles;
-@property (nonatomic, strong) NSMutableArray *labels;
+@property (nonatomic, strong) UILabel *label;
 @property (nonatomic) NSInteger initialIndex;
 @property (nonatomic) NSInteger currentIndex;
 @property (nonatomic, strong) UILabel *indexLabel;
@@ -64,7 +64,6 @@
     
     self.view.backgroundColor = [UIColor blackColor];
     self.imageViews = [NSMutableArray array];
-    self.labels = [NSMutableArray array];
     self.subScrollViews = [NSMutableArray array];
     
     self.indexLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -85,6 +84,17 @@
     self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.scrollView];
+    
+    self.label = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.label.translatesAutoresizingMaskIntoConstraints = NO;
+    self.label.backgroundColor = [UIColor clearColor];
+    self.label.textAlignment = NSTextAlignmentCenter;
+    self.label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f];
+    self.label.textColor = [UIColor whiteColor];
+    if ([self.titles count]) {
+        self.label.text = self.titles[self.initialIndex];
+    }
+    [self.view addSubview:self.label];
     
     
     for (int i = 0; i < self.imageURLs.count; i++) {
@@ -110,20 +120,6 @@
         [imageView addGestureRecognizer:tap];
         [self.imageViews addObject:imageView];
         [imageView sd_setImageWithURL:[NSURL URLWithString:self.imageURLs[i]] placeholderImage:nil];
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-        label.translatesAutoresizingMaskIntoConstraints = NO;
-        label.backgroundColor = [UIColor clearColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f];
-        label.textColor = [UIColor whiteColor];
-        if(self.title) {
-            label.text = self.titles[i];
-        }
-        [label sizeToFit];
-        [scrollView addSubview:label];
-        [self.labels addObject:label];
-        
 
     }
     
@@ -144,8 +140,13 @@
                              
                              [HHAutoLayoutUtility verticalNext:self.scrollView toView:self.indexLabel constant:0],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.scrollView constant:0],
-                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.scrollView constant:0],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.scrollView constant:-20.0f],
                              [HHAutoLayoutUtility setViewWidth:self.scrollView multiplier:1.0f constant:0],
+                             
+                             [HHAutoLayoutUtility verticalNext:self.label toView:self.scrollView constant:0],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.label constant:0],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.label constant:0],
+                             [HHAutoLayoutUtility setViewWidth:self.label multiplier:1.0f constant:0],
                              
                              ];
     [self.view addConstraints:constraints];
@@ -153,7 +154,6 @@
     
     for (int i = 0; i < self.imageURLs.count; i++) {
         UIImageView *imageView = self.imageViews[i];
-        UILabel *label = self.labels[i];
         UIScrollView *scrollView = self.subScrollViews[i];
         NSArray *constraints = @[
                                  
@@ -166,9 +166,6 @@
                                  [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:imageView constant:0],
                                  [HHAutoLayoutUtility setViewHeight:imageView multiplier:1.0f constant:-20.0f],
                                  [HHAutoLayoutUtility setViewWidth:imageView multiplier:1.0f constant:0],
-                                 
-                                 [HHAutoLayoutUtility setCenterX:label multiplier:1.0f constant:0],
-                                 [HHAutoLayoutUtility verticalAlignToSuperViewBottom:label constant:-20.0f],
                                  
                                  ];
         [self.view addConstraints:constraints];
@@ -204,6 +201,10 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     self.currentIndex = roundf(self.scrollView.contentOffset.x / CGRectGetWidth(self.scrollView.bounds));
     self.indexLabel.text = [self generateIndexString];
+    if ([self.titles count]) {
+        self.label.text = self.titles[self.currentIndex];
+    }
+    
 }
 
 

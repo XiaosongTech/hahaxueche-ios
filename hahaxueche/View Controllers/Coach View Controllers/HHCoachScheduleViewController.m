@@ -30,12 +30,8 @@
     addTimeVC.successCompletion = ^(){
         [super fetchSchedulesWithCompletion:nil];
     };
+    addTimeVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:addTimeVC animated:YES];
-}
-
-#pragma -mark Show TabBar
-- (BOOL)hidesBottomBarWhenPushed {
-    return (self.navigationController.topViewController != self);
 }
 
 

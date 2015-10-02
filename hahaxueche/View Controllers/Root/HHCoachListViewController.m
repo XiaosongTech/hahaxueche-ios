@@ -173,6 +173,7 @@
 
 - (void)searchIconPressed {
     HHSearchViewController *searchViewController = [[HHSearchViewController alloc] init];
+    searchViewController.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:searchViewController animated:NO];
 
 }
@@ -412,6 +413,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     HHCoachProfileViewController *coachProfiveVC = [[HHCoachProfileViewController alloc] initWithCoach:self.coachesArray[indexPath.row]];
+    coachProfiveVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:coachProfiveVC animated:YES];
 }
 
@@ -433,11 +435,6 @@
         [mapView selectAnnotation:currentAnnotation animated:NO];
 
     }
-}
-
-#pragma -mark Hide TabBar
-- (BOOL)hidesBottomBarWhenPushed {
-    return NO;
 }
 
 #pragma mark ScrollView Delegate

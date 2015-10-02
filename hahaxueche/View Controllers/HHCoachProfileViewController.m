@@ -581,12 +581,6 @@ typedef enum : NSUInteger {
 }
 
 
-#pragma mark Hide TabBar
-
-- (BOOL)hidesBottomBarWhenPushed {
-    return (self.navigationController.topViewController == self);
-}
-
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([actionSheet isEqual:self.phoneSheet]) {
         if (buttonIndex == 0) {

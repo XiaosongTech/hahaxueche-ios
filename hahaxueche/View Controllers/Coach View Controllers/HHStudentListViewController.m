@@ -67,6 +67,7 @@
 
 - (void)searchIconPressed {
     HHStudentSearchViewController *searchVC =  [[HHStudentSearchViewController alloc] init];
+    searchVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:searchVC animated:YES];
 }
 
@@ -220,6 +221,7 @@
     HHCoachStudentProfileViewController *studentVC = [[HHCoachStudentProfileViewController alloc] init];
     studentVC.student = self.filteredStudents[indexPath.row];
     studentVC.transactionArray = @[self.transactionsDic[studentVC.student.studentId]];
+    studentVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:studentVC animated:YES];
 }
 

@@ -163,6 +163,7 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
     cell.transaction = transaction;
     cell.nameButtonActionBlock = ^(){
         HHCoachProfileViewController *coachProfileVC = [[HHCoachProfileViewController alloc] initWithCoach:[HHUserAuthenticator sharedInstance].myCoach];
+        coachProfileVC.hidesBottomBarWhenPushed = YES;
         [weakSelf.navigationController pushViewController:coachProfileVC animated:YES];
     };
     cell.payBlock = ^(){
@@ -270,11 +271,6 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
             [self presentViewController:loginSignupVC animated:YES completion:nil];
         }
     }
-}
-
-#pragma -mark Hide TabBar
-- (BOOL)hidesBottomBarWhenPushed {
-    return NO;
 }
 
 @end

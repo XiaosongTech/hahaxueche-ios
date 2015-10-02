@@ -147,6 +147,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     HHCoachProfileViewController *coachProfiveVC = [[HHCoachProfileViewController alloc] initWithCoach:self.coachesArray[indexPath.row]];
+    coachProfiveVC.hidesBottomBarWhenPushed = YES;
     [self.searchBar resignFirstResponder];
     [self.navigationController pushViewController:coachProfiveVC animated:YES];
 }
@@ -159,14 +160,6 @@
     [cell setPreservesSuperviewLayoutMargins:NO];
     [cell setLayoutMargins:UIEdgeInsetsZero];
     
-}
-
-
-
-#pragma mark Hide TabBar
-
-- (BOOL)hidesBottomBarWhenPushed {
-    return (self.navigationController.topViewController == self);
 }
 
 @end
