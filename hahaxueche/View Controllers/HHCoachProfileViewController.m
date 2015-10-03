@@ -622,7 +622,7 @@ typedef enum : NSUInteger {
 
 - (void)showFullImageView:(NSInteger)index {
     HHFullScreenImageViewController *fullImageVC = [[HHFullScreenImageViewController alloc] initWithImageURLArray:self.coach.images titleArray:nil initalIndex:index];
-    [self.tabBarController presentViewController:fullImageVC animated:YES completion:nil];
+    [self presentViewController:fullImageVC animated:YES completion:nil];
 }
 
 #pragma -mark TextView Delegate

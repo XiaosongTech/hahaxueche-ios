@@ -268,7 +268,7 @@
     if ([HHUserAuthenticator sharedInstance].currentStudent) {
         cell.block = ^(HHStudent *student) {
             HHFullScreenImageViewController *vc = [[HHFullScreenImageViewController alloc] initWithImageURLArray:@[student.avatarURL] titleArray:@[student.fullName] initalIndex:0];
-            [weakSelf.tabBarController presentViewController:vc animated:YES completion:nil];
+            [weakSelf presentViewController:vc animated:YES completion:nil];
         };
     } else if ([HHUserAuthenticator sharedInstance].currentCoach) {
         cell.block = ^(HHStudent *student) {
