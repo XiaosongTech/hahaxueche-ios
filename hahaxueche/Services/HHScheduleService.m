@@ -28,6 +28,7 @@
     query.skip = skip;
     [query whereKey:@"coachId" equalTo:coachId];
     [query orderByAscending:@"startDateTime"];
+    [query whereKey:@"startDateTime" greaterThanOrEqualTo:[NSDate date]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             for (HHCoachSchedule *schedule in objects) {
@@ -62,6 +63,7 @@
     }
     [query whereKey:@"objectId" containedIn:[HHUserAuthenticator sharedInstance].currentStudent.myReservation];
     [query orderByAscending:@"startDateTime"];
+    [query whereKey:@"startDateTime" greaterThanOrEqualTo:[NSDate date]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             for (HHCoachSchedule *schedule in objects) {
