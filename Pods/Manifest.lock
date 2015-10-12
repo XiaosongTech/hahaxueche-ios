@@ -1,10 +1,45 @@
 PODS:
-  - SLPagingView (0.0.5)
+  - ActionSheetPicker-3.0 (2.0.1)
+  - AVOSCloud (3.1.4)
+  - CMPopTipView (2.2.0)
+  - CRToast (0.0.8)
+  - DateTools (1.7.0)
+  - HCSStarRatingView (1.4.2)
+  - KLCPopup (1.0)
+  - libPhoneNumber-iOS (0.8.7)
+  - MBProgressHUD (0.9.1)
+  - pop (1.0.8)
+  - QRCodeReaderViewController (3.5.2)
+  - SDWebImage (3.7.3):
+    - SDWebImage/Core (= 3.7.3)
+  - SDWebImage/Core (3.7.3)
 
 DEPENDENCIES:
-  - SLPagingView
+  - ActionSheetPicker-3.0
+  - AVOSCloud
+  - CMPopTipView (~> 2.2)
+  - CRToast (~> 0.0.7)
+  - DateTools
+  - HCSStarRatingView (~> 1.2)
+  - KLCPopup (~> 1.0)
+  - libPhoneNumber-iOS (~> 0.8)
+  - MBProgressHUD (~> 0.9.1)
+  - pop (~> 1.0)
+  - QRCodeReaderViewController (~> 3.5.2)
+  - SDWebImage (~> 3.7)
 
 SPEC CHECKSUMS:
-  SLPagingView: ba9bb6102cb318ce56f23d0a7e49a46ddcdad7e3
+  ActionSheetPicker-3.0: eeb47e64b7af3e09a50e1ce5dfee9c8c957490c6
+  AVOSCloud: 2be1640178facaac8343d67ed4d5348f4dffecd7
+  CMPopTipView: a0a88404b9f46a5cfc16ce54bdb1b9bf9acb9aff
+  CRToast: b087127369b4c603726ef6249d74d0d737629ab8
+  DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
+  HCSStarRatingView: 6157471eff9fe3ec7240e131a5b0aba39f097e57
+  KLCPopup: 76c5a19227977f1e53d85236f9ef42257c168d98
+  libPhoneNumber-iOS: 1bccd3288375d954b0b904e26061cecaa0fb83d6
+  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
+  QRCodeReaderViewController: f20275985c41ae551099641493ab364691d9113e
+  SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
 
-COCOAPODS: 0.36.3
+COCOAPODS: 0.38.2
