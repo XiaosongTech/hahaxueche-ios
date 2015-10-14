@@ -150,7 +150,7 @@ typedef enum : NSUInteger {
     [self.tableView registerClass:[HHReviewTableViewCell class] forCellReuseIdentifier:kReviewCellId];
 
     self.imageGalleryView = [[HHScrollImageGallery alloc] initWithURLStrings:self.coach.images];
-    self.imageGalleryView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 150.0f);
+    self.imageGalleryView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 200.0f);
     self.imageGalleryView.delegate = self;
     ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithSubView:self.imageGalleryView];
     self.tableView.tableHeaderView = headerView;
