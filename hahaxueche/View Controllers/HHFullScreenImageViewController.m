@@ -32,7 +32,6 @@
 - (instancetype)initWithImageURLArray:(NSArray *)imageURLArray titleArray:(NSArray *)titleArray initalIndex:(NSInteger)initialIndex{
     self = [super init];
     if (self) {
-        self.modalPresentationStyle = UIModalPresentationCurrentContext;
         self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         self.imageURLs = imageURLArray;
         self.titles = titleArray;
