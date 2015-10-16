@@ -22,7 +22,7 @@
 #import "HHToastUtility.h"
 #import "HHLoadingView.h"
 #import "HHUser.h"
-#import <SMS_SDK/SMS_SDK.h>
+#import <SMS_SDK/SMSSDK.h>
 
 @interface HHMobilePhoneViewController ()
 
@@ -227,7 +227,7 @@
     [self.numberFieldView.textField resignFirstResponder];
     [self.verificationCodeFieldView.textField resignFirstResponder];
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
-    [[HHUserAuthenticator sharedInstance] verifyPhoneNumberWith:self.verificationCodeFieldView.textField.text completion:^(BOOL succeed) {
+    [[HHUserAuthenticator sharedInstance] verifyPhoneNumberWith:self.verificationCodeFieldView.textField.text number:self.numberFieldView.textField.text completion:^(BOOL succeed) {
         if (succeed) {
             if (self.type == PageTypeSignup) {
                 self.user = [HHUser user];
