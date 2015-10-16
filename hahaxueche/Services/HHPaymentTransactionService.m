@@ -36,9 +36,9 @@
 - (void)fetchPaymentStatusWithTransactionId:(NSString *)transactionId completion:(HHPaymentStatusGenericCompletionBlock)completion {
     AVQuery *query = [AVQuery queryWithClassName:[HHPaymentStatus parseClassName]];
     [query whereKey:@"transactionId" equalTo:transactionId];
-    [query getFirstObjectInBackgroundWithBlock:^(AVObject *object, NSError *error) {
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (completion) {
-            completion((HHPaymentStatus *)object, error);
+            completion((HHPaymentStatus *)[objects firstObject], error);
         }
     }];
 }
