@@ -11,7 +11,7 @@
 #import "HHUser.h"
 #import "HHStudent.h"
 #import "HHCoach.h"
-#import <SMS_SDK/SMS_SDK.h>
+#import <SMS_SDK/SMSSDK.h>
 
 typedef void (^HHUserGenericCompletionBlock)(NSError *error);
 typedef void (^HHUserCodeVerificationCompletionBlock)(BOOL succeed);
@@ -31,7 +31,7 @@ typedef void (^HHCoachCompletionBlock)(HHCoach *coach, NSError *error);
 
 - (void)signupWithUser:(HHUser *)user completion:(HHUserGenericCompletionBlock)completion;
 
-- (void)verifyPhoneNumberWith:(NSString *)code completion:(HHUserCodeVerificationCompletionBlock)completion;
+- (void)verifyPhoneNumberWith:(NSString *)code number:(NSString *)number completion:(HHUserCodeVerificationCompletionBlock)completion;
 
 - (void)createStudentWithStudent:(HHStudent *)student completion:(HHUserGenericCompletionBlock)completion;
 

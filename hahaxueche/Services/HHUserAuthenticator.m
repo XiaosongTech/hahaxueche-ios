@@ -46,9 +46,9 @@
         }
 
     }
-       [SMS_SDK getVerificationCodeBySMSWithPhone:number zone:kAreaCode result:^(SMS_SDKError *error) {
-           [[HHLoadingView sharedInstance] hideLoadingView];
-           completion(error);
+    [SMSSDK getVerificationCodeByMethod:SMSGetCodeMethodSMS phoneNumber:number zone:kAreaCode customIdentifier:nil result:^(NSError *error) {
+        [[HHLoadingView sharedInstance] hideLoadingView];
+        completion(error);
     }];
 }
 
@@ -64,19 +64,15 @@
 }
 
 
-- (void)verifyPhoneNumberWith:(NSString *)code completion:(HHUserCodeVerificationCompletionBlock)completion {
-   [SMS_SDK commitVerifyCode:code result:^(enum SMS_ResponseState state) {
-       if (state == SMS_ResponseStateSuccess) {
-           if (completion) {
-               completion(YES);
-           }
-       } else {
-           if (completion) {
-                completion(NO);
-           }
-       }
-   }];
+- (void)verifyPhoneNumberWith:(NSString *)code number:(NSString *)number completion:(HHUserCodeVerificationCompletionBlock)completion {
 
+    [SMSSDK commitVerificationCode:code phoneNumber:number zone:kAreaCode result:^(NSError *error) {
+        if (error) {
+            completion(NO);
+        } else {
+            completion(YES);
+        }
+    }];
 }
 
 - (void)createStudentWithStudent:(HHStudent *)student completion:(HHUserGenericCompletionBlock)completion {

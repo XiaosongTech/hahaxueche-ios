@@ -198,6 +198,9 @@
 		5CBBA9791B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBBA9781B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m */; };
 		5CBBA97C1B604762009398B8 /* HHDashView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBBA97B1B604762009398B8 /* HHDashView.m */; };
 		5CC34C3D1BCF4DA500C6D9A0 /* fees.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5CC34C3C1BCF4DA500C6D9A0 /* fees.jpg */; settings = {ASSET_TAGS = (); }; };
+		5CC34C681BD0C9D000C6D9A0 /* MOBFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CC34C651BD0C9D000C6D9A0 /* MOBFoundation.framework */; settings = {ASSET_TAGS = (); }; };
+		5CC34C691BD0C9D000C6D9A0 /* SMS_SDKLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5CC34C661BD0C9D000C6D9A0 /* SMS_SDKLocalizable.strings */; settings = {ASSET_TAGS = (); }; };
+		5CC34C6A1BD0C9D000C6D9A0 /* SMS_SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CC34C671BD0C9D000C6D9A0 /* SMS_SDK.framework */; settings = {ASSET_TAGS = (); }; };
 		5CC3B6011B48268A00D10DFB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6001B48268A00D10DFB /* main.m */; };
 		5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6031B48268A00D10DFB /* HHAppDelegate.m */; };
 		5CC3B60C1B48268A00D10DFB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CC3B60B1B48268A00D10DFB /* Images.xcassets */; };
@@ -224,7 +227,6 @@
 		5CD4E9EA1B597CE2003CF15E /* HHToastUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4E9E91B597CE2003CF15E /* HHToastUtility.m */; };
 		5CD4E9ED1B5984FD003CF15E /* HHLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4E9EC1B5984FD003CF15E /* HHLoadingView.m */; };
 		5CD4E9F01B59CC7B003CF15E /* HHUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4E9EF1B59CC7B003CF15E /* HHUser.m */; };
-		5CD4E9F21B5A9F35003CF15E /* SMS_SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD4E9F11B5A9F35003CF15E /* SMS_SDK.framework */; };
 		5CD4E9F81B5AA10C003CF15E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD4E9F71B5AA10C003CF15E /* SystemConfiguration.framework */; };
 		5CD4E9FA1B5AA115003CF15E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD4E9F91B5AA115003CF15E /* MessageUI.framework */; };
 		5CD4E9FD1B5AD565003CF15E /* HHStudent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4E9FC1B5AD565003CF15E /* HHStudent.m */; };
@@ -595,6 +597,9 @@
 		5CBBA97A1B604762009398B8 /* HHDashView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHDashView.h; sourceTree = "<group>"; };
 		5CBBA97B1B604762009398B8 /* HHDashView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHDashView.m; sourceTree = "<group>"; };
 		5CC34C3C1BCF4DA500C6D9A0 /* fees.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fees.jpg; sourceTree = "<group>"; };
+		5CC34C651BD0C9D000C6D9A0 /* MOBFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MOBFoundation.framework; sourceTree = "<group>"; };
+		5CC34C661BD0C9D000C6D9A0 /* SMS_SDKLocalizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = SMS_SDKLocalizable.strings; sourceTree = "<group>"; };
+		5CC34C671BD0C9D000C6D9A0 /* SMS_SDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SMS_SDK.framework; sourceTree = "<group>"; };
 		5CC3B5FB1B48268A00D10DFB /* hahaxueche.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hahaxueche.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CC3B5FF1B48268A00D10DFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CC3B6001B48268A00D10DFB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -630,7 +635,6 @@
 		5CD4E9EC1B5984FD003CF15E /* HHLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHLoadingView.m; sourceTree = "<group>"; };
 		5CD4E9EE1B59CC7B003CF15E /* HHUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHUser.h; sourceTree = "<group>"; };
 		5CD4E9EF1B59CC7B003CF15E /* HHUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHUser.m; sourceTree = "<group>"; };
-		5CD4E9F11B5A9F35003CF15E /* SMS_SDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SMS_SDK.framework; sourceTree = "<group>"; };
 		5CD4E9F71B5AA10C003CF15E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		5CD4E9F91B5AA115003CF15E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		5CD4E9FB1B5AD565003CF15E /* HHStudent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHStudent.h; sourceTree = "<group>"; };
@@ -661,6 +665,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C7A4EF61BBCD7FC003DB168 /* CoreTelephony.framework in Frameworks */,
+				5CC34C681BD0C9D000C6D9A0 /* MOBFoundation.framework in Frameworks */,
 				5C7A4EF41BBCD7EF003DB168 /* MobileCoreServices.framework in Frameworks */,
 				5C7A4EF01BBCD345003DB168 /* libz.tbd in Frameworks */,
 				5C7A4EEE1BBCD2DE003DB168 /* libicucore.tbd in Frameworks */,
@@ -668,9 +673,9 @@
 				5CD4E9F81B5AA10C003CF15E /* SystemConfiguration.framework in Frameworks */,
 				5C4DA3FE1B93ADA30098A93E /* libssl.a in Frameworks */,
 				5C5451A81B51A7520025D19F /* CoreLocation.framework in Frameworks */,
-				5CD4E9F21B5A9F35003CF15E /* SMS_SDK.framework in Frameworks */,
 				5C4DA3FD1B93ADA30098A93E /* libcrypto.a in Frameworks */,
 				5C5451A61B51A7480025D19F /* MapKit.framework in Frameworks */,
+				5CC34C6A1BD0C9D000C6D9A0 /* SMS_SDK.framework in Frameworks */,
 				D68F0EFAEA66F3DCDFE972F8 /* libPods.a in Frameworks */,
 				5C4DA3FA1B93AD970098A93E /* AlipaySDK.framework in Frameworks */,
 			);
@@ -1320,13 +1325,15 @@
 		D888D3204AF4D3C403817A89 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5CC34C651BD0C9D000C6D9A0 /* MOBFoundation.framework */,
+				5CC34C661BD0C9D000C6D9A0 /* SMS_SDKLocalizable.strings */,
+				5CC34C671BD0C9D000C6D9A0 /* SMS_SDK.framework */,
 				5C7A4EF51BBCD7FB003DB168 /* CoreTelephony.framework */,
 				5C7A4EF31BBCD7EF003DB168 /* MobileCoreServices.framework */,
 				5C7A4EEF1BBCD345003DB168 /* libz.tbd */,
 				5C7A4EED1BBCD2DE003DB168 /* libicucore.tbd */,
 				5CD4E9F91B5AA115003CF15E /* MessageUI.framework */,
 				5CD4E9F71B5AA10C003CF15E /* SystemConfiguration.framework */,
-				5CD4E9F11B5A9F35003CF15E /* SMS_SDK.framework */,
 				5C5451A71B51A7520025D19F /* CoreLocation.framework */,
 				5C5451A51B51A7480025D19F /* MapKit.framework */,
 				D5B0110F2ECD81DF5CD4D72E /* libPods.a */,
@@ -1522,6 +1529,7 @@
 				5C6686AF1BA4915D00F899FC /* guide3@2x.jpg in Resources */,
 				5C6686AE1BA4915D00F899FC /* guide2@3x.jpg in Resources */,
 				5CB34F0C1B63EA4B007954DF /* left_arrow@3x.png in Resources */,
+				5CC34C691BD0C9D000C6D9A0 /* SMS_SDKLocalizable.strings in Resources */,
 				5C69C7D31B80432500FDE709 /* profile_selected@1x.png in Resources */,
 				5C9366881B9B4E47007962A3 /* addtime_calendar@2x.png in Resources */,
 				5C69C7D51B80432500FDE709 /* profile_selected@3x.png in Resources */,
@@ -1816,6 +1824,7 @@
 					"\"${PODS_ROOT}/Headers/Public/libPhoneNumber-iOS\"",
 					"\"${PODS_ROOT}/Headers/Public/pop\"",
 					"$(PROJECT_DIR)/hahaxueche/Alipay/**",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "hahaxueche/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1824,6 +1833,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/hahaxueche",
 					"$(PROJECT_DIR)/hahaxueche/Alipay",
+					"$(PROJECT_DIR)",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -1885,6 +1895,7 @@
 					"\"${PODS_ROOT}/Headers/Public/libPhoneNumber-iOS\"",
 					"\"${PODS_ROOT}/Headers/Public/pop\"",
 					"$(PROJECT_DIR)/hahaxueche/Alipay/**",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "hahaxueche/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1893,6 +1904,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/hahaxueche",
 					"$(PROJECT_DIR)/hahaxueche/Alipay",
+					"$(PROJECT_DIR)",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (

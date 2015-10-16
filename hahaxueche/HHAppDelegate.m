@@ -14,7 +14,7 @@
 #import <AVOSCloud/AVOSCloud.h>
 #import "HHUser.h"
 #import "HHStudent.h"
-#import <SMS_SDK/SMS_SDK.h>
+#import <SMS_SDK/SMSSDK.h>
 #import "HHCoach.h"
 #import "HHTrainingField.h"
 #import "HHUserAuthenticator.h"
@@ -154,8 +154,7 @@
 }
 
 - (void)setupSMSService {
-    [SMS_SDK registerApp:@"8e7f80c5c4e6" withSecret:@"1a8ed11da1f399a723950c47b084525e"];
-    [SMS_SDK enableAppContactFriends:NO];
+    [SMSSDK registerApp:@"8e7f80c5c4e6" withSecret:@"1a8ed11da1f399a723950c47b084525e"];
 }
 
 - (void)leanCloudRegisterSubclass {
