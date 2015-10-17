@@ -393,6 +393,7 @@ typedef enum : NSUInteger {
     
     [reviewView addConstraints:constraints];
     [self.reviewTextView becomeFirstResponder];
+    self.reviewPopupView.shouldDismissOnBackgroundTouch = NO;
     [self.reviewPopupView showWithLayout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
 }
 
