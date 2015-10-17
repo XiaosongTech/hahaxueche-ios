@@ -401,13 +401,30 @@ typedef enum : NSUInteger {
 }
 
 - (void)confirmButtonTapped {
-    [self.reviewPopupView dismiss:YES];
     __weak HHCoachProfileViewController *weakSelf = self;
     HHReview *newReview = [[HHReview alloc] initWithClassName:@"Review"];
     newReview.studentId = [HHUserAuthenticator sharedInstance].currentStudent.studentId;
     newReview.coachId = self.coach.coachId;
     newReview.rating = [NSNumber numberWithFloat:self.ratingView.value];
     newReview.comment = self.reviewTextView.text;
+    if([newReview.comment isEqualToString:@""]) {
+        UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:NSLocalizedString(@"忘记评价了？", nil)
+                                                         message:NSLocalizedString(@"对教练说点什么吧！", nil)
+                                                        delegate:self
+                                               cancelButtonTitle:NSLocalizedString(@"我知道了", nil)
+                                               otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
+    if([newReview.rating floatValue] <= 0) {
+        UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:NSLocalizedString(@"忘记给教练打分了？", nil)
+                                                         message:nil
+                                                        delegate:self
+                                               cancelButtonTitle:NSLocalizedString(@"我知道了", nil)
+                                               otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"提交中", nil)];
     [[HHReviewService sharedInstance] submitReview:newReview completion:^(HHCoach *coach, NSError *error) {
         [[HHLoadingView sharedInstance] hideLoadingView];
@@ -422,6 +439,7 @@ typedef enum : NSUInteger {
             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"提交数据出错！", nil) isError:YES];
         }
     }];
+    [self.reviewPopupView dismiss:YES];
 }
 
 - (void)autolayoutSubview {
