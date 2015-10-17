@@ -179,6 +179,7 @@
                                             mode:UIDatePickerModeTime];
         
     } else if ([view isEqual:self.endTimeView]) {
+       
         if (self.endTime) {
             prefillDate = self.endTime;
         } else {
@@ -226,7 +227,13 @@
         self.datePicker.minimumDate = [NSDate date];
     }
     
-    self.datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
+    if (mode == UIDatePickerModeTime) {
+        self.datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"NL"];
+
+    } else if (mode == UIDatePickerModeDate ){
+        self.datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
+    }
+    
     UIButton *cancelButton =  [UIButton buttonWithType:UIButtonTypeCustom];
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"取消", nil)];
     [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor HHGrayTextColor] range:NSMakeRange(0, 2)];

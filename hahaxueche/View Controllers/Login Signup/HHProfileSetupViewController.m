@@ -36,6 +36,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSString *selectedCity;
 @property (nonatomic, strong) NSString *selectedProvince;
 @property (nonatomic, strong) UIImage *originalImage;
+@property (nonatomic, strong) UILabel *remindLabel;
 
 
 
@@ -97,6 +98,16 @@ typedef enum : NSUInteger {
 }
 
 - (void)initFieldView {
+    self.remindLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.remindLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    self.remindLabel.text = NSLocalizedString(@"请实名注册并提交真实头像，以便获得更好的服务体验！", nil);
+    self.remindLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f];
+    self.remindLabel.textColor = [UIColor whiteColor];
+    self.remindLabel.numberOfLines = 0;
+    self.remindLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:self.remindLabel];
+
+    
     self.nameTextView = [[HHTextFieldView alloc] initWithPlaceholder:NSLocalizedString(@"姓名",nil)];
     self.nameTextView.translatesAutoresizingMaskIntoConstraints = NO;
     self.nameTextView.textField.keyboardType = UIKeyboardTypeDefault;
@@ -122,7 +133,11 @@ typedef enum : NSUInteger {
 
 - (void)autolayoutSubviews {
     NSArray *constraints = @[
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.uploadImageView constant:10.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.remindLabel constant:40.0f],
+                             [HHAutoLayoutUtility setCenterX:self.remindLabel multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewWidth:self.remindLabel multiplier:1.0f constant:-100.0f],
+                             
+                             [HHAutoLayoutUtility verticalNext:self.uploadImageView toView:self.remindLabel constant:20.0f],
                              [HHAutoLayoutUtility setCenterX:self.uploadImageView multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewWidth:self.uploadImageView multiplier:0 constant:50.0f],
                              [HHAutoLayoutUtility setViewHeight:self.uploadImageView multiplier:0 constant:50.0f],
@@ -136,6 +151,8 @@ typedef enum : NSUInteger {
                              [HHAutoLayoutUtility setCenterX:self.cityTextView multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewWidth:self.cityTextView multiplier:1.0f constant:-80.0f],
                              [HHAutoLayoutUtility setViewHeight:self.cityTextView multiplier:0 constant:40.0f],
+                             
+                             
                              ];
     [self.view addConstraints:constraints];
 

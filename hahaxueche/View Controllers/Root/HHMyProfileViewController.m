@@ -23,12 +23,15 @@
 #import "HHLoginSignupViewController.h"
 #import "HHProfileSetupViewController.h"
 #import "HHTransfer.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "QRCodeReaderViewController.h"
+#import "HHCoachService.h"
 
 #define kCellId @"HHReceiptTableViewCellId"
 
 static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
 
-@interface HHMyProfileViewController ()<UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, UIAlertViewDelegate>
+@interface HHMyProfileViewController ()<UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, UIAlertViewDelegate, QRCodeReaderDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UILabel *explanationLabel;
@@ -37,6 +40,11 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
 @property (nonatomic, strong) UIBarButtonItem *settings;
 @property (nonatomic, strong) UIActionSheet *settingsActionSheet;
 @property (nonatomic, strong) UIAlertView *alertView;
+@property (nonatomic, strong) UIView *noTransactionView;
+@property (nonatomic, strong) UIImageView *qrCodeImageView;
+@property (nonatomic, strong) UILabel *scanCodeLabel;
+@property (nonatomic, strong) HHAvatarView *coachImageView;
+@property (nonatomic, strong) UIButton *coachNameButton;
 @property (nonatomic)         BOOL isFetching;
 
 @end
@@ -95,6 +103,25 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
             [[HHLoadingView sharedInstance] hideLoadingView];
             [HHToastUtility showToastWitiTitle:@"加载时出错！" isError:YES];
         }
+        if (weakSelf.paymentStatus) {
+            weakSelf.tableView.hidden = NO;
+            weakSelf.noTransactionView.hidden = YES;
+        } else {
+            weakSelf.tableView.hidden = YES;
+            weakSelf.noTransactionView.hidden = NO;
+            if ([HHUserAuthenticator sharedInstance].myCoach) {
+                weakSelf.qrCodeImageView.hidden = YES;
+                weakSelf.scanCodeLabel.hidden = YES;
+                weakSelf.coachNameButton.hidden = NO;
+                weakSelf.coachImageView.hidden = NO;
+            } else {
+                weakSelf.qrCodeImageView.hidden = NO;
+                weakSelf.scanCodeLabel.hidden = NO;
+                weakSelf.coachNameButton.hidden = YES;
+                weakSelf.coachImageView.hidden = YES;
+            }
+        }
+
     }];
 
 
@@ -125,9 +152,63 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
     [footerView addSubview:self.explanationLabel];
     
     self.tableView.tableFooterView = footerView;
+    self.tableView.hidden = YES;
+    
+    self.noTransactionView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.noTransactionView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
+    [self.view addSubview:self.noTransactionView];
+    self.noTransactionView.hidden = YES;
+    
+    self.qrCodeImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_qrcode_orange_btn@1x"]];
+    self.qrCodeImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.qrCodeImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showScanView)];
+    [self.qrCodeImageView addGestureRecognizer:tapRecognizer];
+    [self.noTransactionView addSubview:self.qrCodeImageView];
+    
+    self.scanCodeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.scanCodeLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    self.scanCodeLabel.numberOfLines = 0;
+    self.scanCodeLabel.text = NSLocalizedString(@"如果你已经是我们教练的学员，请扫描该教练二维码(教练处获取)，之后便可以使用哈哈学车的预约练车系统了。", nil);
+    self.scanCodeLabel.textColor = [UIColor HHOrange];
+    self.scanCodeLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f];
+    [self.scanCodeLabel sizeToFit];
+    [self.noTransactionView addSubview:self.scanCodeLabel];
+    
+    self.coachImageView = [[HHAvatarView alloc] initWithImageURL:nil radius:50.0f borderColor:[UIColor whiteColor]];
+    self.coachImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToCoachView)];
+    [self.coachImageView addGestureRecognizer:tap];
+    [self.coachImageView.imageView sd_setImageWithURL:[NSURL URLWithString:[HHUserAuthenticator sharedInstance].myCoach.avatarURL]];
+    [self.noTransactionView addSubview:self.coachImageView];
+    
+    self.coachNameButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.coachNameButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.coachNameButton setTitleColor:[UIColor HHClickableBlue] forState:UIControlStateNormal];
+    [self.coachNameButton setTitle:[HHUserAuthenticator sharedInstance].myCoach.fullName forState:UIControlStateNormal];
+    self.coachNameButton.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f];
+    [self.coachNameButton addTarget:self action:@selector(jumpToCoachView) forControlEvents:UIControlEventTouchUpInside];
+    [self.coachNameButton sizeToFit];
+    [self.noTransactionView addSubview:self.coachNameButton];
+    
     [self fetchData];
     [self autolayoutSubview];
     
+}
+
+- (void)jumpToCoachView {
+    HHCoachProfileViewController *coachVC = [[HHCoachProfileViewController alloc] initWithCoach:[HHUserAuthenticator sharedInstance].myCoach];
+    coachVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:coachVC animated:YES];
+}
+
+- (void)showScanView {
+    QRCodeReaderViewController *scanVC = [[QRCodeReaderViewController alloc] init];
+    scanVC.delegate = self;
+    scanVC.view.backgroundColor = [UIColor HHOrange];
+    [self presentViewController:scanVC animated:YES completion:nil];
+
 }
 
 - (void)autolayoutSubview {
@@ -136,6 +217,27 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
                              [HHAutoLayoutUtility setCenterY:self.tableView multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.tableView multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:0],
+                             
+                             [HHAutoLayoutUtility setCenterX:self.noTransactionView multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setCenterY:self.noTransactionView multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewHeight:self.noTransactionView multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewWidth:self.noTransactionView multiplier:1.0f constant:0],
+                             
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.scanCodeLabel constant:30.0f],
+                             [HHAutoLayoutUtility setCenterX:self.scanCodeLabel multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewWidth:self.scanCodeLabel multiplier:1.0f constant:-80.0f],
+                             
+                             [HHAutoLayoutUtility verticalNext:self.qrCodeImageView toView:self.scanCodeLabel constant:20.0f],
+                             [HHAutoLayoutUtility setCenterX:self.qrCodeImageView multiplier:1.0f constant:0],
+                             
+                             [HHAutoLayoutUtility setCenterX:self.coachImageView multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.coachImageView constant:40.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.coachImageView multiplier:0 constant:100.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.coachImageView multiplier:0 constant:100.0f],
+                             
+                             [HHAutoLayoutUtility setCenterX:self.coachNameButton multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility verticalNext:self.coachNameButton toView:self.coachImageView constant:10.0f],
+                             
                              
                              ];
     [self.view addConstraints:constraints];
@@ -271,6 +373,43 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
             [self presentViewController:loginSignupVC animated:YES completion:nil];
         }
     }
+}
+
+#pragma mark - QRCodeReader Delegate Methods
+
+- (void)reader:(QRCodeReaderViewController *)reader didScanResult:(NSString *)result {
+    __weak HHMyProfileViewController *weakSelf = self;
+    [self dismissViewControllerAnimated:YES completion:^{
+        if (result) {
+            [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+            [[HHLoadingView sharedInstance] hideLoadingView];
+            [[HHCoachService sharedInstance] fetchCoachWithId:result completion:^(HHCoach *coach, NSError *error) {
+                if (!error) {
+                    [HHUserAuthenticator sharedInstance].myCoach = coach;
+                    [HHUserAuthenticator sharedInstance].currentStudent.myCoachId = coach.coachId;
+                    [[HHUserAuthenticator sharedInstance].currentStudent saveInBackground];
+                    [weakSelf.coachImageView.imageView sd_setImageWithURL:[NSURL URLWithString:coach.avatarURL] placeholderImage:nil];
+                    [weakSelf.coachNameButton setTitle:coach.fullName forState:UIControlStateNormal];
+                    weakSelf.qrCodeImageView.hidden = YES;
+                    weakSelf.scanCodeLabel.hidden = YES;
+                    weakSelf.coachNameButton.hidden = NO;
+                    weakSelf.coachImageView.hidden = NO;
+                    
+                } else {
+                    [[HHLoadingView sharedInstance] hideLoadingView];
+                    [HHToastUtility showToastWitiTitle:NSLocalizedString(@"扫描出错！", nil) isError:YES];
+                }
+            }];
+        } else {
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"扫描出错！", nil) isError:YES];
+        }
+        
+    }];
+}
+
+- (void)readerDidCancel:(QRCodeReaderViewController *)reader
+{
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 @end
