@@ -85,7 +85,6 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
             if ([weakSelf.transactionArray count]) {
                 HHTransaction *transaction = [weakSelf.transactionArray firstObject];
                 [[HHPaymentTransactionService sharedInstance] fetchPaymentStatusWithTransactionId:transaction.objectId completion:^(HHPaymentStatus *paymentStatus, NSError *error) {
-                    [[HHLoadingView sharedInstance] hideLoadingView];
                     self.isFetching = NO;
                     if (!error) {
                         weakSelf.paymentStatus = paymentStatus;
@@ -94,15 +93,14 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
                 }];
             } else {
                 self.isFetching = NO;
-                [[HHLoadingView sharedInstance] hideLoadingView];
             }
             
             
         } else {
             self.isFetching = NO;
-            [[HHLoadingView sharedInstance] hideLoadingView];
             [HHToastUtility showToastWitiTitle:@"加载时出错！" isError:YES];
         }
+        [[HHLoadingView sharedInstance] hideLoadingView];
         if (weakSelf.paymentStatus) {
             weakSelf.tableView.hidden = NO;
             weakSelf.noTransactionView.hidden = YES;
