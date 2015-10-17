@@ -90,35 +90,71 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
                         weakSelf.paymentStatus = paymentStatus;
                         [weakSelf.tableView reloadData];
                     }
+                    if (weakSelf.paymentStatus) {
+                        weakSelf.tableView.hidden = NO;
+                        weakSelf.noTransactionView.hidden = YES;
+                    } else {
+                        weakSelf.tableView.hidden = YES;
+                        weakSelf.noTransactionView.hidden = NO;
+                        if ([HHUserAuthenticator sharedInstance].myCoach) {
+                            weakSelf.qrCodeImageView.hidden = YES;
+                            weakSelf.scanCodeLabel.hidden = YES;
+                            weakSelf.coachNameButton.hidden = NO;
+                            weakSelf.coachImageView.hidden = NO;
+                        } else {
+                            weakSelf.qrCodeImageView.hidden = NO;
+                            weakSelf.scanCodeLabel.hidden = NO;
+                            weakSelf.coachNameButton.hidden = YES;
+                            weakSelf.coachImageView.hidden = YES;
+                        }
+                    }
                 }];
             } else {
                 self.isFetching = NO;
+                if (weakSelf.paymentStatus) {
+                    weakSelf.tableView.hidden = NO;
+                    weakSelf.noTransactionView.hidden = YES;
+                } else {
+                    weakSelf.tableView.hidden = YES;
+                    weakSelf.noTransactionView.hidden = NO;
+                    if ([HHUserAuthenticator sharedInstance].myCoach) {
+                        weakSelf.qrCodeImageView.hidden = YES;
+                        weakSelf.scanCodeLabel.hidden = YES;
+                        weakSelf.coachNameButton.hidden = NO;
+                        weakSelf.coachImageView.hidden = NO;
+                    } else {
+                        weakSelf.qrCodeImageView.hidden = NO;
+                        weakSelf.scanCodeLabel.hidden = NO;
+                        weakSelf.coachNameButton.hidden = YES;
+                        weakSelf.coachImageView.hidden = YES;
+                    }
+                }
             }
             
             
         } else {
             self.isFetching = NO;
             [HHToastUtility showToastWitiTitle:@"加载时出错！" isError:YES];
-        }
-        [[HHLoadingView sharedInstance] hideLoadingView];
-        if (weakSelf.paymentStatus) {
-            weakSelf.tableView.hidden = NO;
-            weakSelf.noTransactionView.hidden = YES;
-        } else {
-            weakSelf.tableView.hidden = YES;
-            weakSelf.noTransactionView.hidden = NO;
-            if ([HHUserAuthenticator sharedInstance].myCoach) {
-                weakSelf.qrCodeImageView.hidden = YES;
-                weakSelf.scanCodeLabel.hidden = YES;
-                weakSelf.coachNameButton.hidden = NO;
-                weakSelf.coachImageView.hidden = NO;
+            if (weakSelf.paymentStatus) {
+                weakSelf.tableView.hidden = NO;
+                weakSelf.noTransactionView.hidden = YES;
             } else {
-                weakSelf.qrCodeImageView.hidden = NO;
-                weakSelf.scanCodeLabel.hidden = NO;
-                weakSelf.coachNameButton.hidden = YES;
-                weakSelf.coachImageView.hidden = YES;
+                weakSelf.tableView.hidden = YES;
+                weakSelf.noTransactionView.hidden = NO;
+                if ([HHUserAuthenticator sharedInstance].myCoach) {
+                    weakSelf.qrCodeImageView.hidden = YES;
+                    weakSelf.scanCodeLabel.hidden = YES;
+                    weakSelf.coachNameButton.hidden = NO;
+                    weakSelf.coachImageView.hidden = NO;
+                } else {
+                    weakSelf.qrCodeImageView.hidden = NO;
+                    weakSelf.scanCodeLabel.hidden = NO;
+                    weakSelf.coachNameButton.hidden = YES;
+                    weakSelf.coachImageView.hidden = YES;
+                }
             }
         }
+        [[HHLoadingView sharedInstance] hideLoadingView];
 
     }];
 

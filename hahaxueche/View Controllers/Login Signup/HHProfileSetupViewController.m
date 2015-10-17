@@ -135,7 +135,7 @@ typedef enum : NSUInteger {
     NSArray *constraints = @[
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.remindLabel constant:40.0f],
                              [HHAutoLayoutUtility setCenterX:self.remindLabel multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewWidth:self.remindLabel multiplier:1.0f constant:-100.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.remindLabel multiplier:0 constant:200.0f],
                              
                              [HHAutoLayoutUtility verticalNext:self.uploadImageView toView:self.remindLabel constant:20.0f],
                              [HHAutoLayoutUtility setCenterX:self.uploadImageView multiplier:1.0f constant:0],
