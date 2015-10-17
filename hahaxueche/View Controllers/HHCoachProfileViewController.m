@@ -409,8 +409,8 @@ typedef enum : NSUInteger {
     newReview.rating = [NSNumber numberWithFloat:self.ratingView.value];
     newReview.comment = self.reviewTextView.text;
     if([newReview.comment isEqualToString:@""]) {
-        UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:NSLocalizedString(@"忘记评价了？", nil)
-                                                         message:NSLocalizedString(@"对教练说点什么吧！", nil)
+        UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:NSLocalizedString(@"请输入评语，谢谢", nil)
+                                                         message:nil
                                                         delegate:self
                                                cancelButtonTitle:NSLocalizedString(@"我知道了", nil)
                                                otherButtonTitles: nil];
@@ -418,7 +418,7 @@ typedef enum : NSUInteger {
         return;
     }
     if([newReview.rating floatValue] <= 0) {
-        UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:NSLocalizedString(@"忘记给教练打分了？", nil)
+        UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:NSLocalizedString(@"您还没有打分哦", nil)
                                                          message:nil
                                                         delegate:self
                                                cancelButtonTitle:NSLocalizedString(@"我知道了", nil)
