@@ -52,7 +52,7 @@
         if(self.type == PageTypeSignup) {
             self.title = NSLocalizedString(@"手机验证",nil);
             self.titleText = NSLocalizedString(@"请输入您的手机号码",nil);
-            self.subTitleText = NSLocalizedString(@"我们会保护好你的个人信息",nil);
+            self.subTitleText = NSLocalizedString(@"我们会保护好您的个人信息",nil);
         } else {
             self.title = NSLocalizedString(@"手机号登陆",nil);
         }
