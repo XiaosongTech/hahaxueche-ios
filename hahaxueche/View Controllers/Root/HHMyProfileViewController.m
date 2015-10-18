@@ -45,6 +45,7 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
 @property (nonatomic, strong) UILabel *scanCodeLabel;
 @property (nonatomic, strong) HHAvatarView *coachImageView;
 @property (nonatomic, strong) UIButton *coachNameButton;
+@property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic)         BOOL isFetching;
 
 @end
@@ -90,74 +91,46 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
                         weakSelf.paymentStatus = paymentStatus;
                         [weakSelf.tableView reloadData];
                     }
-                    if (weakSelf.paymentStatus) {
-                        weakSelf.tableView.hidden = NO;
-                        weakSelf.noTransactionView.hidden = YES;
-                    } else {
-                        weakSelf.tableView.hidden = YES;
-                        weakSelf.noTransactionView.hidden = NO;
-                        if ([HHUserAuthenticator sharedInstance].myCoach) {
-                            weakSelf.qrCodeImageView.hidden = YES;
-                            weakSelf.scanCodeLabel.hidden = YES;
-                            weakSelf.coachNameButton.hidden = NO;
-                            weakSelf.coachImageView.hidden = NO;
-                        } else {
-                            weakSelf.qrCodeImageView.hidden = NO;
-                            weakSelf.scanCodeLabel.hidden = NO;
-                            weakSelf.coachNameButton.hidden = YES;
-                            weakSelf.coachImageView.hidden = YES;
-                        }
-                    }
+                    [weakSelf showHideSubviews];
                 }];
             } else {
-                self.isFetching = NO;
-                if (weakSelf.paymentStatus) {
-                    weakSelf.tableView.hidden = NO;
-                    weakSelf.noTransactionView.hidden = YES;
-                } else {
-                    weakSelf.tableView.hidden = YES;
-                    weakSelf.noTransactionView.hidden = NO;
-                    if ([HHUserAuthenticator sharedInstance].myCoach) {
-                        weakSelf.qrCodeImageView.hidden = YES;
-                        weakSelf.scanCodeLabel.hidden = YES;
-                        weakSelf.coachNameButton.hidden = NO;
-                        weakSelf.coachImageView.hidden = NO;
-                    } else {
-                        weakSelf.qrCodeImageView.hidden = NO;
-                        weakSelf.scanCodeLabel.hidden = NO;
-                        weakSelf.coachNameButton.hidden = YES;
-                        weakSelf.coachImageView.hidden = YES;
-                    }
-                }
+                weakSelf.isFetching = NO;
+                [weakSelf showHideSubviews];
             }
             
             
         } else {
-            self.isFetching = NO;
+            weakSelf.isFetching = NO;
             [HHToastUtility showToastWitiTitle:@"加载时出错！" isError:YES];
-            if (weakSelf.paymentStatus) {
-                weakSelf.tableView.hidden = NO;
-                weakSelf.noTransactionView.hidden = YES;
-            } else {
-                weakSelf.tableView.hidden = YES;
-                weakSelf.noTransactionView.hidden = NO;
-                if ([HHUserAuthenticator sharedInstance].myCoach) {
-                    weakSelf.qrCodeImageView.hidden = YES;
-                    weakSelf.scanCodeLabel.hidden = YES;
-                    weakSelf.coachNameButton.hidden = NO;
-                    weakSelf.coachImageView.hidden = NO;
-                } else {
-                    weakSelf.qrCodeImageView.hidden = NO;
-                    weakSelf.scanCodeLabel.hidden = NO;
-                    weakSelf.coachNameButton.hidden = YES;
-                    weakSelf.coachImageView.hidden = YES;
-                }
-            }
+            [weakSelf showHideSubviews];
         }
         [[HHLoadingView sharedInstance] hideLoadingView];
 
     }];
 
+}
+
+- (void)showHideSubviews {
+    if (self.paymentStatus) {
+        self.tableView.hidden = NO;
+        self.noTransactionView.hidden = YES;
+    } else {
+        self.tableView.hidden = YES;
+        self.noTransactionView.hidden = NO;
+        if ([HHUserAuthenticator sharedInstance].myCoach) {
+            self.qrCodeImageView.hidden = YES;
+            self.titleLabel.hidden = YES;
+            self.scanCodeLabel.hidden = YES;
+            self.coachNameButton.hidden = NO;
+            self.coachImageView.hidden = NO;
+        } else {
+            self.qrCodeImageView.hidden = NO;
+            self.scanCodeLabel.hidden = NO;
+            self.titleLabel.hidden = NO;
+            self.coachNameButton.hidden = YES;
+            self.coachImageView.hidden = YES;
+        }
+    }
 
 }
 
@@ -204,7 +177,7 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
     self.scanCodeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.scanCodeLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.scanCodeLabel.numberOfLines = 0;
-    self.scanCodeLabel.text = NSLocalizedString(@"如果你已经是我们教练的学员，请扫描该教练二维码(教练处获取)，之后便可以使用哈哈学车的预约练车系统了。", nil);
+    self.scanCodeLabel.text = NSLocalizedString(@"如果你已经是我们教练的学员，可以点击下面方块，扫描该教练二维码(教练处获取)，之后便可以使用哈哈学车的预约练车系统了。", nil);
     self.scanCodeLabel.textColor = [UIColor HHOrange];
     self.scanCodeLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f];
     [self.scanCodeLabel sizeToFit];
@@ -225,6 +198,14 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
     [self.coachNameButton addTarget:self action:@selector(jumpToCoachView) forControlEvents:UIControlEventTouchUpInside];
     [self.coachNameButton sizeToFit];
     [self.noTransactionView addSubview:self.coachNameButton];
+    
+    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    self.titleLabel.text = NSLocalizedString(@"扫一扫", nil);
+    self.titleLabel.textColor = [UIColor HHOrange];
+    self.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:25.0f];
+    [self.titleLabel sizeToFit];
+    [self.noTransactionView addSubview:self.titleLabel];
     
     [self fetchData];
     [self autolayoutSubview];
@@ -257,7 +238,10 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
                              [HHAutoLayoutUtility setViewHeight:self.noTransactionView multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewWidth:self.noTransactionView multiplier:1.0f constant:0],
                              
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.scanCodeLabel constant:30.0f],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.titleLabel constant:30.0f],
+                             [HHAutoLayoutUtility setCenterX:self.titleLabel multiplier:1.0f constant:0],
+    
+                             [HHAutoLayoutUtility verticalNext:self.scanCodeLabel toView:self.titleLabel constant:10.0f],
                              [HHAutoLayoutUtility setCenterX:self.scanCodeLabel multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewWidth:self.scanCodeLabel multiplier:1.0f constant:-80.0f],
                              
@@ -426,6 +410,7 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
                     [weakSelf.coachNameButton setTitle:coach.fullName forState:UIControlStateNormal];
                     weakSelf.qrCodeImageView.hidden = YES;
                     weakSelf.scanCodeLabel.hidden = YES;
+                    weakSelf.titleLabel.hidden = YES;
                     weakSelf.coachNameButton.hidden = NO;
                     weakSelf.coachImageView.hidden = NO;
                     

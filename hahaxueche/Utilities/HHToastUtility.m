@@ -31,11 +31,12 @@
                               kCRToastAnimationOutTypeKey: @(CRToastAnimationTypeSpring),
                               kCRToastAnimationInDirectionKey: @(CRToastAnimationDirectionTop),
                               kCRToastAnimationOutDirectionKey: @(CRToastAnimationDirectionBottom),
+                              kCRToastInteractionRespondersKey:@[[CRToastInteractionResponder interactionResponderWithInteractionType:CRToastInteractionTypeTapOnce automaticallyDismiss:YES block:nil]],
                               };
     [CRToastManager showNotificationWithOptions:options completionBlock:nil];
 }
 
-+ (void)showToastWitiTitle:(NSString *)title timeInterval:(NSNumber *)interval isError:(BOOL)isError {
++ (void)showToastWitiTitle:(NSString *)title timeInterval:(NSTimeInterval)interval isError:(BOOL)isError {
     UIColor *backgroundColor = kGreenColor;
     if (isError) {
         backgroundColor = kRedColor;
@@ -45,14 +46,15 @@
                               kCRToastNotificationTypeKey: @(CRToastTypeNavigationBar),
                               kCRToastNotificationPresentationTypeKey:@(CRToastPresentationTypeCover),
                               kCRToastTextKey: title,
-                              kCRToastFontKey: [UIFont fontWithName:@"STHeitiSC-Medium" size:13.0f],
+                              kCRToastFontKey: [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f],
                               kCRToastTextAlignmentKey: @(NSTextAlignmentCenter),
                               kCRToastBackgroundColorKey: backgroundColor,
                               kCRToastAnimationInTypeKey: @(CRToastAnimationTypeSpring),
                               kCRToastAnimationOutTypeKey: @(CRToastAnimationTypeSpring),
                               kCRToastAnimationInDirectionKey: @(CRToastAnimationDirectionTop),
                               kCRToastAnimationOutDirectionKey: @(CRToastAnimationDirectionBottom),
-                              kCRToastTimeIntervalKey: interval,
+                              kCRToastTimeIntervalKey: @(interval),
+                              kCRToastInteractionRespondersKey:@[[CRToastInteractionResponder interactionResponderWithInteractionType:CRToastInteractionTypeTapOnce automaticallyDismiss:YES block:nil]],
                               };
     [CRToastManager showNotificationWithOptions:options completionBlock:nil];
 

@@ -186,6 +186,9 @@
     
     self.courseLabel.text = self.reservation.course;
     
+    for (HHAvatarView *view in self.avatarViewsArray) {
+        view.imageView.image = nil;
+    }
     
     for (int i = 0; i < self.students.count; i++ ) {
         HHStudent *student = self.students[i];

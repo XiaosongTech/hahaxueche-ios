@@ -136,7 +136,7 @@
     }
     
     if ([self.endTime hoursFrom:self.startTime] < 1.0f) {
-        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"开始时间必须小于结束时间，训练时候不得小于1小时！", nil) timeInterval:@(5) isError:YES];
+        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"开始时间必须小于结束时间，训练时候不得小于1小时！", nil) timeInterval:3.0f isError:YES];
         return;
     }
     
@@ -369,17 +369,19 @@
     self.schedule.course = self.course;
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
     [self.schedule saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+       
         [[HHLoadingView sharedInstance] hideLoadingView];
-        [weakSelf.confirmPopup dismiss:YES];
         if (!error) {
-            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"提交成功！", nil) isError:NO];
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"提交成功！", nil) timeInterval:1.0f isError:NO];
             if (weakSelf.successCompletion) {
                 weakSelf.successCompletion();
             }
             
         } else {
-            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"提交失败！", nil) isError:YES];
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"提交失败！", nil) timeInterval:1.0f isError:YES];
         }
+        [weakSelf dismissPopupView];
+
     }];
 }
 

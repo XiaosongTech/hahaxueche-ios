@@ -93,7 +93,7 @@
     [self.refreshControl addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
     
 
-    if (self.hasCoach) {
+    if (self.hasCoach && ![[HHUserAuthenticator sharedInstance].currentStudent.isFinished boolValue]) {
         self.confirmBarButtonItem = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"确认", nil) action:@selector(confirmTimes) target:self isLeft:NO];
         self.navigationItem.rightBarButtonItem = self.confirmBarButtonItem;
         HHAvatarView *myCoachAvatar = [[HHAvatarView alloc] initWithImageURL:nil radius:15.0f borderColor:[UIColor whiteColor]];

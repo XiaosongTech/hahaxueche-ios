@@ -375,13 +375,13 @@ typedef void (^HHGenericCompletion)();
     [[HHScheduleService sharedInstance] cancelAppointmentWithSchedule:self.groupedReservations[self.cancelCellIndexPath.section][self.cancelCellIndexPath.row] completion:^(BOOL succeed, NSError *error) {
         [[HHLoadingView sharedInstance] hideLoadingView];
         if (succeed) {
-            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"取消成功", nil) isError:NO];
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"取消成功", nil) timeInterval:1.0f isError:NO];
             [weakSelf.reservations removeObject:self.groupedReservations[self.cancelCellIndexPath.section][self.cancelCellIndexPath.row]];
             weakSelf.sectionTitles = [self groupReservationsTitles];
             [weakSelf.tableView reloadData];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"cancelSucceed" object:self];
         } else {
-            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"取消失败", nil) isError:YES];
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"取消失败", nil) timeInterval:1.0f isError:YES];
         }
     }];
 }

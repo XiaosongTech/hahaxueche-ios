@@ -71,6 +71,7 @@
     self.indexLabel.textColor = [UIColor whiteColor];
     self.indexLabel.textAlignment = NSTextAlignmentCenter;
     self.indexLabel.text = [self generateIndexString];
+    
     [self.view addSubview:self.indexLabel];
     
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
@@ -194,6 +195,9 @@
 }
 
 - (NSString *)generateIndexString {
+    if (self.imageURLs.count <= 1) {
+        return @"";
+    }
     return  [NSString stringWithFormat:@"%ld/%lu", (long)self.currentIndex + 1, (unsigned long)self.imageURLs.count];
 }
 

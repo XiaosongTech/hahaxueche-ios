@@ -24,7 +24,7 @@
 
 - (void)fetchCoachSchedulesWithCoachId:(NSString *)coachId skip:(NSInteger)skip completion:(HHSchedulesCompletionBlock)completion {
     AVQuery *query = [AVQuery queryWithClassName:[HHCoachSchedule parseClassName]];
-    query.limit = 20;
+    query.limit = 50;
     query.skip = skip;
     [query whereKey:@"coachId" equalTo:coachId];
     [query orderByAscending:@"startDateTime"];

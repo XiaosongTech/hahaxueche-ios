@@ -150,6 +150,10 @@
          cell.transaction = self.transactionArray[indexPath.row];
     } 
     cell.paymentStatus = self.paymentStatus;
+    cell.callStudentBlock = ^(){
+        NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",self.student.phoneNumber]];
+       [[UIApplication sharedApplication] openURL:phoneUrl];
+    };
     return cell;
 }
 
