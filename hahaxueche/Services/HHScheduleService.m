@@ -9,6 +9,7 @@
 #import "HHScheduleService.h"
 #import "HHUserAuthenticator.h"
 #import "HHUserAuthenticator.h"
+#import "NSDate+DateTools.h"
 
 static NSInteger const daysGap = 14;
 
@@ -27,7 +28,7 @@ static NSInteger const daysGap = 14;
 
 - (void)fetchCoachSchedulesWithCoachId:(NSString *)coachId skip:(NSInteger)skip completion:(HHSchedulesCompletionBlock)completion {
     AVQuery *query = [AVQuery queryWithClassName:[HHCoachSchedule parseClassName]];
-    query.limit = 50;
+    query.limit = 20;
     query.skip = skip;
     [query whereKey:@"coachId" equalTo:coachId];
     [query orderByAscending:@"startDateTime"];
@@ -60,7 +61,7 @@ static NSInteger const daysGap = 14;
 
 - (void)fetchAuthedStudentReservationsWithSkip:(NSInteger)skip completion:(HHSchedulesCompletionBlock)completion {
     AVQuery *query = [AVQuery queryWithClassName:[HHCoachSchedule parseClassName]];
-    query.limit = 50;
+    query.limit = 20;
     query.skip = skip;
     if (![[HHUserAuthenticator sharedInstance].currentStudent.myReservation count]) {
         if (completion) {
@@ -95,7 +96,7 @@ static NSInteger const daysGap = 14;
     
 }
 
-- (void)cancelAppointmentWithSchedule:(HHCoachSchedule *)schedule completion:(HHCancelScheduleCompletionBlock)completion {
+- (void)cancelAppointmentWithSchedule:(HHCoachSchedule *)schedule completion:(HHScheduleCompletionBlock)completion {
     NSMutableArray *copiedReservations = [[HHUserAuthenticator sharedInstance].currentStudent.myReservation mutableCopy];
     HHStudent *copiedStudent = [[HHUserAuthenticator sharedInstance].currentStudent mutableCopy];
     HHCoachSchedule *copiedSchedule = [schedule mutableCopy];
@@ -131,6 +132,42 @@ static NSInteger const daysGap = 14;
             completion(NO, nil);
         }
     }
+}
+
+- (void)submitSchedule:(HHCoachSchedule *)schedule completion:(HHScheduleCompletionBlock)completion {
+    AVQuery *query = [AVQuery queryWithClassName:[HHCoachSchedule parseClassName]];
+    query.limit = 50;
+    [query whereKey:@"startDateTime" lessThanOrEqualTo:schedule.startDateTime];
+    [query orderByAscending:@"startDateTime"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        for (HHCoachSchedule *oldSchedule in objects) {
+            if ([oldSchedule.endDateTime isLaterThan:schedule.startDateTime]) {
+                if (completion) {
+                    completion (NO, nil);
+                    return;
+                }
+            }
+        }
+        [query whereKey:@"endDateTime" greaterThanOrEqualTo:schedule.endDateTime];
+        [query orderByAscending:@"endDateTime"];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            for (HHCoachSchedule *oldSchedule in objects) {
+                if ([oldSchedule.startDateTime isEarlierThan:schedule.endDateTime]) {
+                    if (completion) {
+                        completion (NO, nil);
+                        return;
+                    }
+                }
+            }
+            [schedule saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (completion) {
+                    completion(succeeded, error);
+                }
+            }];
+            
+        }];
+        
+    }];
 }
 
 

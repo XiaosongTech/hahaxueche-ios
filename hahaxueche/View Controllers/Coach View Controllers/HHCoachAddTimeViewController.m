@@ -19,6 +19,7 @@
 #import <NSDate+DateTools.h>
 #import "ActionSheetPicker.h"
 #import "KLCPopup.h"
+#import "HHScheduleService.h"
 
 #define kCellId  @"AddTimeCellId"
 
@@ -368,20 +369,19 @@
     self.schedule.endDateTime = [self combineDate:self.date withTime:self.endTime];
     self.schedule.course = self.course;
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
-    [self.schedule saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-       
+    
+    [[HHScheduleService sharedInstance] submitSchedule:self.schedule completion:^(BOOL succeed, NSError *error) {
         [[HHLoadingView sharedInstance] hideLoadingView];
-        if (!error) {
+        if (succeed) {
             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"提交成功！", nil) timeInterval:1.0f isError:NO];
             if (weakSelf.successCompletion) {
                 weakSelf.successCompletion();
             }
-            
-        } else {
-            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"提交失败！", nil) timeInterval:1.0f isError:YES];
-        }
-        [weakSelf dismissPopupView];
 
+        } else {
+             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"提交失败！本次提交的时间可能与之前提交的时间冲突，请仔细检查！", nil) timeInterval:3.0f isError:YES];
+        }
+         [weakSelf dismissPopupView];
     }];
 }
 
