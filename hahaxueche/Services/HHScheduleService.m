@@ -8,6 +8,9 @@
 
 #import "HHScheduleService.h"
 #import "HHUserAuthenticator.h"
+#import "HHUserAuthenticator.h"
+
+static NSInteger const daysGap = 14;
 
 @implementation HHScheduleService
 
@@ -29,6 +32,10 @@
     [query whereKey:@"coachId" equalTo:coachId];
     [query orderByAscending:@"startDateTime"];
     [query whereKey:@"startDateTime" greaterThanOrEqualTo:[NSDate date]];
+    if ([HHUserAuthenticator sharedInstance].currentStudent) {
+        NSDate *endDate = [[NSDate date] dateByAddingTimeInterval:60*60*24*daysGap];
+        [query whereKey:@"startDateTime" lessThanOrEqualTo:endDate];
+    }
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             for (HHCoachSchedule *schedule in objects) {
@@ -53,7 +60,7 @@
 
 - (void)fetchAuthedStudentReservationsWithSkip:(NSInteger)skip completion:(HHSchedulesCompletionBlock)completion {
     AVQuery *query = [AVQuery queryWithClassName:[HHCoachSchedule parseClassName]];
-    query.limit = 20;
+    query.limit = 50;
     query.skip = skip;
     if (![[HHUserAuthenticator sharedInstance].currentStudent.myReservation count]) {
         if (completion) {
