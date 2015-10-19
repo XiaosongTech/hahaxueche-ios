@@ -405,7 +405,9 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
                 if (!error) {
                     [HHUserAuthenticator sharedInstance].myCoach = coach;
                     [HHUserAuthenticator sharedInstance].currentStudent.myCoachId = coach.coachId;
+                    [HHUserAuthenticator sharedInstance].myCoach.currentStudentAmount = @([[HHUserAuthenticator sharedInstance].myCoach.currentStudentAmount integerValue] + 1);
                     [[HHUserAuthenticator sharedInstance].currentStudent saveInBackground];
+                    [[HHUserAuthenticator sharedInstance].myCoach saveInBackground];
                     [weakSelf.coachImageView.imageView sd_setImageWithURL:[NSURL URLWithString:coach.avatarURL] placeholderImage:nil];
                     [weakSelf.coachNameButton setTitle:coach.fullName forState:UIControlStateNormal];
                     weakSelf.qrCodeImageView.hidden = YES;

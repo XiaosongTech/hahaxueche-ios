@@ -137,6 +137,7 @@ static NSInteger const daysGap = 14;
 - (void)submitSchedule:(HHCoachSchedule *)schedule completion:(HHScheduleCompletionBlock)completion {
     AVQuery *query = [AVQuery queryWithClassName:[HHCoachSchedule parseClassName]];
     query.limit = 50;
+    [query whereKey:@"coachId" equalTo:schedule.coachId];
     [query whereKey:@"startDateTime" lessThanOrEqualTo:schedule.startDateTime];
     [query orderByAscending:@"startDateTime"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -148,6 +149,7 @@ static NSInteger const daysGap = 14;
                 }
             }
         }
+        [query whereKey:@"coachId" equalTo:schedule.coachId];
         [query whereKey:@"endDateTime" greaterThanOrEqualTo:schedule.endDateTime];
         [query orderByAscending:@"endDateTime"];
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {

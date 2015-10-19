@@ -59,7 +59,9 @@
     if (self.myCoach){
         self.student.myCoachId = self.myCoach.coachId;
         [HHUserAuthenticator sharedInstance].currentStudent = self.student;
+        [HHUserAuthenticator sharedInstance].myCoach.currentStudentAmount = @([[HHUserAuthenticator sharedInstance].myCoach.currentStudentAmount integerValue] + 1);
         [HHUserAuthenticator sharedInstance].myCoach = self.myCoach;
+        [[HHUserAuthenticator sharedInstance].myCoach saveInBackground];
         [self.student saveInBackground];
     }
     if (![self.referCodeField.textField.text isEqualToString:@""]) {
