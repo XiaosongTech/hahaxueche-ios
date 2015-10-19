@@ -182,7 +182,7 @@
 
 
 - (void)valueChanged:(UISegmentedControl *)control {
-    [self groupSchedulesTitleWithFilter:control.selectedSegmentIndex];
+    self.sectionTiltes = [self groupSchedulesTitleWithFilter:control.selectedSegmentIndex];
     [self.selectedSchedules removeAllObjects];
     [self.tableView reloadData];
 }

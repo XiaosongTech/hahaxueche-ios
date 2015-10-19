@@ -165,7 +165,7 @@
 }
 
 - (void)valueChanged:(UISegmentedControl *)control {
-    [self groupSchedulesTitleWithFilter:control.selectedSegmentIndex];
+    self.sectionTiltes =[self groupSchedulesTitleWithFilter:control.selectedSegmentIndex];
     [self.tableView reloadData];
 }
 
