@@ -188,15 +188,27 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HHStudentListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
     HHStudent *student = self.filteredStudents[indexPath.row];
-    __block HHTransaction *transaction =self.transactionsDic[student.studentId];
+    __block HHTransaction *transaction = self.transactionsDic[student.studentId];
     if (transaction){
-        [cell setupViewsWithStudent:student priceString:[[HHFormatUtility moneyFormatter] stringFromNumber:transaction.paidPrice]];
+        if ([transaction isKindOfClass:[NSString class]]) {
+            [cell setupViewsWithStudent:student priceString:[[HHFormatUtility moneyFormatter] stringFromNumber:nil]];
+        } else {
+            [cell setupViewsWithStudent:student priceString:[[HHFormatUtility moneyFormatter] stringFromNumber:transaction.paidPrice]];
+        }
+        
     } else {
         [[HHPaymentTransactionService sharedInstance] fetchTransactionWithStudentId:student.studentId completion:^(NSArray *objects, NSError *error) {
             if (!error) {
                 transaction = [objects firstObject];
                 [cell setupViewsWithStudent:student priceString:[[HHFormatUtility moneyFormatter] stringFromNumber:transaction.paidPrice]];
-                self.transactionsDic[student.studentId] = transaction;
+                if (transaction) {
+                    self.transactionsDic[student.studentId] = transaction;
+                } else {
+                    self.transactionsDic[student.studentId] = @"NoTransaction";
+                }
+                
+            } else {
+                self.transactionsDic[student.studentId] = @"NoTransaction";
             }
         }];
     }
@@ -221,7 +233,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     HHCoachStudentProfileViewController *studentVC = [[HHCoachStudentProfileViewController alloc] init];
     studentVC.student = self.filteredStudents[indexPath.row];
-    studentVC.transactionArray = @[self.transactionsDic[studentVC.student.studentId]];
+    if (self.transactionsDic[studentVC.student.studentId]) {
+        studentVC.transactionArray = @[self.transactionsDic[studentVC.student.studentId]];
+    }
     studentVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:studentVC animated:YES];
 }

@@ -194,7 +194,7 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
     self.coachNameButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.coachNameButton setTitleColor:[UIColor HHClickableBlue] forState:UIControlStateNormal];
     [self.coachNameButton setTitle:[HHUserAuthenticator sharedInstance].myCoach.fullName forState:UIControlStateNormal];
-    self.coachNameButton.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f];
+    self.coachNameButton.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f];
     [self.coachNameButton addTarget:self action:@selector(jumpToCoachView) forControlEvents:UIControlEventTouchUpInside];
     [self.coachNameButton sizeToFit];
     [self.noTransactionView addSubview:self.coachNameButton];

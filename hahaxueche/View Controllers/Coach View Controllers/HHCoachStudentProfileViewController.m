@@ -18,12 +18,17 @@
 #import "UIBarButtonItem+HHCustomButton.h"
 
 #define kCellId @"cellId"
+#define kAvatarRadius 50.0f
 
 @interface HHCoachStudentProfileViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UILabel *explanationLabel;
 @property (nonatomic, strong) HHPaymentStatus *paymentStatus;
+@property (nonatomic, strong) UIView *noTransactionView;
+@property (nonatomic, strong) HHAvatarView *avatarView;
+@property (nonatomic, strong) UILabel *nameLabel;
+@property (nonatomic, strong) UILabel *desLabel;
 
 @end
 
@@ -74,19 +79,43 @@
     [footerView addSubview:self.explanationLabel];
     
     self.tableView.tableFooterView = footerView;
+    
+    self.noTransactionView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.noTransactionView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
+    [self.view addSubview:self.noTransactionView];
+    
+    self.avatarView = [[HHAvatarView alloc] initWithImageURL:self.student.avatarURL radius:kAvatarRadius borderColor:[UIColor whiteColor]];
+    self.avatarView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.noTransactionView addSubview:self.avatarView];
+    
+    self.nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    self.nameLabel.text = self.student.fullName;
+    self.nameLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f];
+    self.nameLabel.textColor = [UIColor HHDarkGrayTextColor];
+    [self.nameLabel sizeToFit];
+    [self.noTransactionView addSubview:self.nameLabel];
+    
+    self.desLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.desLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    self.desLabel.text = NSLocalizedString(@"该学员并未在哈哈学车平台上付款，可能是您之前已有的学员在使用哈哈学车的预约练车系统。所以无法查看该学员的付款情况！", nil);
+    self.desLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f];
+    self.desLabel.textColor = [UIColor HHOrange];
+    self.desLabel.numberOfLines = 0;
+    [self.noTransactionView addSubview:self.desLabel];
+    
+    
+    self.tableView.hidden = YES;
+    self.noTransactionView.hidden = YES;
 
+    [self fetchPaymentData];
     [self autolayoutSubview];
     
 }
 
-- (void)setStudent:(HHStudent *)student {
-    _student = student;
-    [self.tableView reloadData];
-}
-
-- (void)setTransactionArray:(NSArray *)transactionArray {
-    _transactionArray = transactionArray;
-    if ([self.transactionArray count]) {
+- (void)fetchPaymentData {
+    if ([self.transactionArray count] && ![[self.transactionArray firstObject] isKindOfClass:[NSString class]]) {
         [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
         HHTransaction *transaction = [self.transactionArray firstObject];
         [[HHPaymentTransactionService sharedInstance] fetchPaymentStatusWithTransactionId:transaction.objectId completion:^(HHPaymentStatus *paymentStatus, NSError *error) {
@@ -95,34 +124,25 @@
                 self.paymentStatus = paymentStatus;
                 [self.tableView reloadData];
             }
-        }];
-    }  else {
-        [[HHPaymentTransactionService sharedInstance] fetchTransactionWithStudentId:self.student.studentId completion:^(NSArray *objects, NSError *error) {
-            if (!error) {
-                self.transactionArray = objects;
-                if ([self.transactionArray count]) {
-                    HHTransaction *transaction = [self.transactionArray firstObject];
-                    [[HHPaymentTransactionService sharedInstance] fetchPaymentStatusWithTransactionId:transaction.objectId completion:^(HHPaymentStatus *paymentStatus, NSError *error) {
-                        [[HHLoadingView sharedInstance] hideLoadingView];
-                        if (!error) {
-                            self.paymentStatus = paymentStatus;
-                            [self.tableView reloadData];
-                        }
-                    }];
-                } else {
-                    [[HHLoadingView sharedInstance] hideLoadingView];
-                }
-                
-                
+            if (self.paymentStatus) {
+                self.tableView.hidden = NO;
+                self.noTransactionView.hidden = YES;
             } else {
-                [[HHLoadingView sharedInstance] hideLoadingView];
-                [HHToastUtility showToastWitiTitle:@"加载时出错！" isError:YES];
+                self.tableView.hidden = YES;
+                self.noTransactionView.hidden = NO;
             }
+
         }];
-
+    } else {
+        self.tableView.hidden = YES;
+        self.noTransactionView.hidden = NO;
     }
-
 }
+
+- (void)setStudent:(HHStudent *)student {
+    _student = student;
+}
+
 
 - (void)autolayoutSubview {
     NSArray *constraints = @[
@@ -130,7 +150,24 @@
                              [HHAutoLayoutUtility setCenterY:self.tableView multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.tableView multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewWidth:self.tableView multiplier:1.0f constant:0],
+
+                             [HHAutoLayoutUtility setCenterX:self.noTransactionView multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setCenterY:self.noTransactionView multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewHeight:self.noTransactionView multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewWidth:self.noTransactionView multiplier:1.0f constant:0],
                              
+                             [HHAutoLayoutUtility setCenterX:self.avatarView multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.avatarView constant:30.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.avatarView multiplier:0 constant:kAvatarRadius * 2.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.avatarView multiplier:0 constant:kAvatarRadius * 2.0f],
+                             
+                             [HHAutoLayoutUtility setCenterX:self.nameLabel multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility verticalNext:self.nameLabel toView:self.avatarView constant:20.0f],
+                             
+                             [HHAutoLayoutUtility setCenterX:self.desLabel multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility verticalNext:self.desLabel toView:self.nameLabel constant:20.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.desLabel multiplier:1.0f constant:-80.0f],
+
                              ];
     [self.view addConstraints:constraints];
 }
@@ -146,10 +183,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HHCoachStudentProfileCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId];
     cell.student = self.student;
-    if ([self.transactionArray count]) {
+    if ([self.transactionArray count] && ![[self.transactionArray firstObject] isKindOfClass:[NSString class]]) {
          cell.transaction = self.transactionArray[indexPath.row];
-    } 
-    cell.paymentStatus = self.paymentStatus;
+        cell.paymentStatus = self.paymentStatus;
+    }
     cell.callStudentBlock = ^(){
         NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",self.student.phoneNumber]];
        [[UIApplication sharedApplication] openURL:phoneUrl];
