@@ -547,7 +547,6 @@ typedef enum : NSUInteger {
                 reviewVC.initialIndex = index;
                 reviewVC.coach = weakSelf.coach;
                 reviewVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-                reviewVC.modalPresentationStyle = UIModalPresentationCurrentContext;
                 [weakSelf presentViewController:reviewVC animated:YES completion:nil];
             };
             return cell;
