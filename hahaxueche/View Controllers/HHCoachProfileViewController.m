@@ -513,7 +513,7 @@ typedef enum : NSUInteger {
             cell.priceTappedCompletion = ^() {
                 UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 350.0f)];
                 
-                imageView.image = [UIImage imageNamed:@"fees.jpg"];
+                imageView.image = [UIImage imageNamed:@"fees"];
                 imageView.contentMode = UIViewContentModeScaleAspectFit;
                 KLCPopup *feesPopup= [KLCPopup popupWithContentView:imageView];
                 feesPopup.shouldDismissOnContentTouch = YES;

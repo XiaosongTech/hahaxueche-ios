@@ -101,6 +101,7 @@
 		5C69C7D41B80432500FDE709 /* profile_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C69C7CE1B80432500FDE709 /* profile_selected@2x.png */; };
 		5C69C7D51B80432500FDE709 /* profile_selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C69C7CF1B80432500FDE709 /* profile_selected@3x.png */; };
 		5C69C7DD1B81015400FDE709 /* HHMyReservationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C69C7DC1B81015400FDE709 /* HHMyReservationTableViewCell.m */; };
+		5C6C32D01BDA88D200692ACD /* fees.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C6C32CF1BDA88D200692ACD /* fees.png */; settings = {ASSET_TAGS = (); }; };
 		5C7A4EEE1BBCD2DE003DB168 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7A4EED1BBCD2DE003DB168 /* libicucore.tbd */; };
 		5C7A4EF01BBCD345003DB168 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7A4EEF1BBCD345003DB168 /* libz.tbd */; };
 		5C7A4EF41BBCD7EF003DB168 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7A4EF31BBCD7EF003DB168 /* MobileCoreServices.framework */; };
@@ -200,7 +201,6 @@
 		5CBBA9731B5FE714009398B8 /* HHCoachDesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBBA9721B5FE714009398B8 /* HHCoachDesTableViewCell.m */; };
 		5CBBA9791B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBBA9781B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m */; };
 		5CBBA97C1B604762009398B8 /* HHDashView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBBA97B1B604762009398B8 /* HHDashView.m */; };
-		5CC34C3D1BCF4DA500C6D9A0 /* fees.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5CC34C3C1BCF4DA500C6D9A0 /* fees.jpg */; settings = {ASSET_TAGS = (); }; };
 		5CC34C681BD0C9D000C6D9A0 /* MOBFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CC34C651BD0C9D000C6D9A0 /* MOBFoundation.framework */; settings = {ASSET_TAGS = (); }; };
 		5CC34C691BD0C9D000C6D9A0 /* SMS_SDKLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5CC34C661BD0C9D000C6D9A0 /* SMS_SDKLocalizable.strings */; settings = {ASSET_TAGS = (); }; };
 		5CC34C6A1BD0C9D000C6D9A0 /* SMS_SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CC34C671BD0C9D000C6D9A0 /* SMS_SDK.framework */; settings = {ASSET_TAGS = (); }; };
@@ -471,6 +471,7 @@
 		5C69C7CF1B80432500FDE709 /* profile_selected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile_selected@3x.png"; sourceTree = "<group>"; };
 		5C69C7DB1B81015400FDE709 /* HHMyReservationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyReservationTableViewCell.h; sourceTree = "<group>"; };
 		5C69C7DC1B81015400FDE709 /* HHMyReservationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyReservationTableViewCell.m; sourceTree = "<group>"; };
+		5C6C32CF1BDA88D200692ACD /* fees.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fees.png; sourceTree = "<group>"; };
 		5C7A4EED1BBCD2DE003DB168 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		5C7A4EEF1BBCD345003DB168 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		5C7A4EF31BBCD7EF003DB168 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -602,7 +603,6 @@
 		5CBBA9781B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachDashBoardTableViewCell.m; sourceTree = "<group>"; };
 		5CBBA97A1B604762009398B8 /* HHDashView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHDashView.h; sourceTree = "<group>"; };
 		5CBBA97B1B604762009398B8 /* HHDashView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHDashView.m; sourceTree = "<group>"; };
-		5CC34C3C1BCF4DA500C6D9A0 /* fees.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fees.jpg; sourceTree = "<group>"; };
 		5CC34C651BD0C9D000C6D9A0 /* MOBFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MOBFoundation.framework; sourceTree = "<group>"; };
 		5CC34C661BD0C9D000C6D9A0 /* SMS_SDKLocalizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = SMS_SDKLocalizable.strings; sourceTree = "<group>"; };
 		5CC34C671BD0C9D000C6D9A0 /* SMS_SDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SMS_SDK.framework; sourceTree = "<group>"; };
@@ -810,10 +810,10 @@
 		5C10F9271B49E6F100992B63 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5C6C32CF1BDA88D200692ACD /* fees.png */,
 				5C2E42B51BD28EEB00D9F1BD /* ic_qrcode_orange_btn@1x.png */,
 				5C2E42B61BD28EEB00D9F1BD /* ic_qrcode_orange_btn@2x.png */,
 				5C2E42B71BD28EEB00D9F1BD /* ic_qrcode_orange_btn@3x.png */,
-				5CC34C3C1BCF4DA500C6D9A0 /* fees.jpg */,
 				5C8AA1E91BA7AEAB006557E6 /* splash@2x.png */,
 				5C8AA1EA1BA7AEAB006557E6 /* splash@3x.png */,
 				5C6686B51BA52FE400F899FC /* guide4@2x.jpg */,
@@ -1441,6 +1441,7 @@
 				5C9366941B9B4E47007962A3 /* gray_arrow@2x.png in Resources */,
 				5C9366951B9B4E47007962A3 /* gray_arrow@3x.png in Resources */,
 				5C93668F1B9B4E47007962A3 /* addtime_endtime@3x.png in Resources */,
+				5C6C32D01BDA88D200692ACD /* fees.png in Resources */,
 				5CD4E9501B558184003CF15E /* list_selected@1x.png in Resources */,
 				5CD4E94A1B5580DC003CF15E /* reservation_selected@1x.png in Resources */,
 				5CA5B7861B533A2200312674 /* austin1.jpg in Resources */,
@@ -1488,7 +1489,6 @@
 				5C98B3C61B9200D5000D6032 /* info@1x.png in Resources */,
 				5CD4E9461B55809B003CF15E /* car_selected@3x.png in Resources */,
 				5C98B3C01B92008E000D6032 /* needPay@1x.png in Resources */,
-				5CC34C3D1BCF4DA500C6D9A0 /* fees.jpg in Resources */,
 				5C69C7BA1B7F7E9A00FDE709 /* ic_time_title_left@3x.png in Resources */,
 				5CB5507B1B4CC055005DE447 /* car_grey@3x.png in Resources */,
 				5CB34F0E1B63EA4B007954DF /* map@2x.png in Resources */,
