@@ -14,6 +14,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHLoginSignupViewController.h"
+#import "Appirater.h"
 
 #define kAvatarRadius 35.0f
 
@@ -54,7 +55,8 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
                                                            delegate:self
                                                   cancelButtonTitle:NSLocalizedString(@"返回", nil)
                                              destructiveButtonTitle:nil
-                                                  otherButtonTitles:NSLocalizedString(@"查看条款和协议", nil), NSLocalizedString(@"联系客服", nil), NSLocalizedString(@"退出账号", nil), nil];
+                                                  otherButtonTitles:NSLocalizedString(@"给哈哈学车评分", nil), NSLocalizedString(@"查看条款和协议", nil), NSLocalizedString(@"联系客服", nil), NSLocalizedString(@"退出账号", nil), nil];
+    self.settingsActionSheet.destructiveButtonIndex = 3;
     [self.settingsActionSheet showInView:self.view];
 }
 
@@ -157,9 +159,12 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:TOUURL]];
+        [Appirater rateApp];
         
     } else if (buttonIndex == 1) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:TOUURL]];
+        
+    } else if (buttonIndex == 2) {
         NSString *phNo = @"4000016006";
         NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",phNo]];
         
@@ -167,7 +172,7 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
             [[UIApplication sharedApplication] openURL:phoneUrl];
         }
 
-    } else if (buttonIndex == 2) {
+    } else if (buttonIndex == 3) {
         self.logoutAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"确定要退出？", nil) message:NSLocalizedString(@"退出后，可以通过手机号再次登陆！", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"取消退出", nil) otherButtonTitles:NSLocalizedString(@"确定退出", nil), nil];
         [self.logoutAlertView show];
     }

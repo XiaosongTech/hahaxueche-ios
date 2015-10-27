@@ -26,6 +26,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "QRCodeReaderViewController.h"
 #import "HHCoachService.h"
+#import "Appirater.h"
 
 #define kCellId @"HHReceiptTableViewCellId"
 
@@ -355,20 +356,25 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
                                                            delegate:self
                                                   cancelButtonTitle:NSLocalizedString(@"返回", nil)
                                              destructiveButtonTitle:nil
-                                                  otherButtonTitles:NSLocalizedString(@"更改个人信息", nil), NSLocalizedString(@"查看条款和协议", nil), NSLocalizedString(@"联系客服", nil),NSLocalizedString(@"退出当前账号", nil), nil];
+                                                  otherButtonTitles:NSLocalizedString(@"给哈哈学车评价", nil), NSLocalizedString(@"更改个人信息", nil), NSLocalizedString(@"查看条款和协议", nil), NSLocalizedString(@"联系客服", nil),NSLocalizedString(@"退出当前账号", nil), nil];
+    self.settingsActionSheet.destructiveButtonIndex = 4;
     [self.settingsActionSheet showInView:self.view];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([actionSheet isEqual:self.settingsActionSheet]) {
         if (buttonIndex == 0) {
+            [Appirater rateApp];
+            
+        } else if (buttonIndex == 1) {
             HHProfileSetupViewController *setupVC = [[HHProfileSetupViewController alloc] init];
             UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:setupVC];
             [self presentViewController:navVC animated:YES completion:nil];
-        } else if (buttonIndex == 1) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:TOUURL]];
             
         } else if (buttonIndex == 2) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:TOUURL]];
+            
+        } else if (buttonIndex == 3) {
             NSString *phNo = @"4000016006";
             NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",phNo]];
             
@@ -376,7 +382,8 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
                 [[UIApplication sharedApplication] openURL:phoneUrl];
             }
             
-        } else if (buttonIndex == 3) {
+            
+        } else if (buttonIndex == 4) {
             self.alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"确定要退出？", nil) message:NSLocalizedString(@"退出后，可以通过手机号再次登陆！", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"取消退出", nil) otherButtonTitles:NSLocalizedString(@"确定退出", nil), nil];
             [self.alertView show];
         }
