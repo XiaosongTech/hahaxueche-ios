@@ -1,5 +1,6 @@
 PODS:
   - ActionSheetPicker-3.0 (2.0.1)
+  - Appirater (2.0.5)
   - AVOSCloud (3.1.4)
   - CMPopTipView (2.2.0)
   - CRToast (0.0.8)
@@ -16,6 +17,7 @@ PODS:
 
 DEPENDENCIES:
   - ActionSheetPicker-3.0
+  - Appirater
   - AVOSCloud
   - CMPopTipView (~> 2.2)
   - CRToast (~> 0.0.7)
@@ -30,6 +32,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: eeb47e64b7af3e09a50e1ce5dfee9c8c957490c6
+  Appirater: e7c0a47fb67ee5041ce8479e6ba960927fb40264
   AVOSCloud: 2be1640178facaac8343d67ed4d5348f4dffecd7
   CMPopTipView: a0a88404b9f46a5cfc16ce54bdb1b9bf9acb9aff
   CRToast: b087127369b4c603726ef6249d74d0d737629ab8

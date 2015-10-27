@@ -33,6 +33,10 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
+## Appirater
+
+Copyright 2015. Arash Payan. This library is distributed under the terms of the MIT/X11.
+
 ## CMPopTipView
 
 
