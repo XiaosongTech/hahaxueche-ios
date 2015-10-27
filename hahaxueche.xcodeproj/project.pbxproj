@@ -32,9 +32,9 @@
 		5C2DCD001B65ACE0007E8FA7 /* car_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2DCCFA1B65ACE0007E8FA7 /* car_icon@2x.png */; };
 		5C2DCD011B65ACE0007E8FA7 /* car_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2DCCFB1B65ACE0007E8FA7 /* car_icon@3x.png */; };
 		5C2DCD041B65CBA0007E8FA7 /* HHLoadingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2DCD031B65CBA0007E8FA7 /* HHLoadingTableViewCell.m */; };
-		5C2E42B81BD28EEB00D9F1BD /* ic_qrcode_orange_btn@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2E42B51BD28EEB00D9F1BD /* ic_qrcode_orange_btn@1x.png */; settings = {ASSET_TAGS = (); }; };
-		5C2E42B91BD28EEB00D9F1BD /* ic_qrcode_orange_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2E42B61BD28EEB00D9F1BD /* ic_qrcode_orange_btn@2x.png */; settings = {ASSET_TAGS = (); }; };
-		5C2E42BA1BD28EEB00D9F1BD /* ic_qrcode_orange_btn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2E42B71BD28EEB00D9F1BD /* ic_qrcode_orange_btn@3x.png */; settings = {ASSET_TAGS = (); }; };
+		5C2E42B81BD28EEB00D9F1BD /* ic_qrcode_orange_btn@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2E42B51BD28EEB00D9F1BD /* ic_qrcode_orange_btn@1x.png */; };
+		5C2E42B91BD28EEB00D9F1BD /* ic_qrcode_orange_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2E42B61BD28EEB00D9F1BD /* ic_qrcode_orange_btn@2x.png */; };
+		5C2E42BA1BD28EEB00D9F1BD /* ic_qrcode_orange_btn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2E42B71BD28EEB00D9F1BD /* ic_qrcode_orange_btn@3x.png */; };
 		5C3980701B4AAD450057B049 /* HHCoachListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C39806D1B4AAD450057B049 /* HHCoachListViewController.m */; };
 		5C3980711B4AAD450057B049 /* HHNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C39806F1B4AAD450057B049 /* HHNavigationController.m */; };
 		5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C3980791B4ACA2B0057B049 /* UIView+HHRect.m */; };
@@ -101,15 +101,15 @@
 		5C69C7D41B80432500FDE709 /* profile_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C69C7CE1B80432500FDE709 /* profile_selected@2x.png */; };
 		5C69C7D51B80432500FDE709 /* profile_selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C69C7CF1B80432500FDE709 /* profile_selected@3x.png */; };
 		5C69C7DD1B81015400FDE709 /* HHMyReservationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C69C7DC1B81015400FDE709 /* HHMyReservationTableViewCell.m */; };
-		5C6C32D01BDA88D200692ACD /* fees.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C6C32CF1BDA88D200692ACD /* fees.png */; settings = {ASSET_TAGS = (); }; };
+		5C6C32D01BDA88D200692ACD /* fees.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C6C32CF1BDA88D200692ACD /* fees.png */; };
 		5C7A4EEE1BBCD2DE003DB168 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7A4EED1BBCD2DE003DB168 /* libicucore.tbd */; };
 		5C7A4EF01BBCD345003DB168 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7A4EEF1BBCD345003DB168 /* libz.tbd */; };
 		5C7A4EF41BBCD7EF003DB168 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7A4EF31BBCD7EF003DB168 /* MobileCoreServices.framework */; };
 		5C7A4EF61BBCD7FC003DB168 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7A4EF51BBCD7FB003DB168 /* CoreTelephony.framework */; };
 		5C84E5C71B83F8EE00E70AD3 /* ParallaxHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C84E5C41B83F8EE00E70AD3 /* ParallaxHeaderView.m */; };
-		5C8AA1E81BA7A76C006557E6 /* HHStartAppLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C8AA1E71BA7A76C006557E6 /* HHStartAppLoadingViewController.m */; settings = {ASSET_TAGS = (); }; };
-		5C8AA1EB1BA7AEAB006557E6 /* splash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8AA1E91BA7AEAB006557E6 /* splash@2x.png */; settings = {ASSET_TAGS = (); }; };
-		5C8AA1EC1BA7AEAB006557E6 /* splash@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8AA1EA1BA7AEAB006557E6 /* splash@3x.png */; settings = {ASSET_TAGS = (); }; };
+		5C8AA1E81BA7A76C006557E6 /* HHStartAppLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C8AA1E71BA7A76C006557E6 /* HHStartAppLoadingViewController.m */; };
+		5C8AA1EB1BA7AEAB006557E6 /* splash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8AA1E91BA7AEAB006557E6 /* splash@2x.png */; };
+		5C8AA1EC1BA7AEAB006557E6 /* splash@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8AA1EA1BA7AEAB006557E6 /* splash@3x.png */; };
 		5C93666A1B9B3557007962A3 /* HHCoachMyProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C9366691B9B3557007962A3 /* HHCoachMyProfileViewController.m */; };
 		5C93666D1B9B40D1007962A3 /* HHCoachScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C93666C1B9B40D1007962A3 /* HHCoachScheduleViewController.m */; };
 		5C9366701B9B44AE007962A3 /* HHCoachAddTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C93666F1B9B44AE007962A3 /* HHCoachAddTimeViewController.m */; };
@@ -201,9 +201,9 @@
 		5CBBA9731B5FE714009398B8 /* HHCoachDesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBBA9721B5FE714009398B8 /* HHCoachDesTableViewCell.m */; };
 		5CBBA9791B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBBA9781B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m */; };
 		5CBBA97C1B604762009398B8 /* HHDashView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBBA97B1B604762009398B8 /* HHDashView.m */; };
-		5CC34C681BD0C9D000C6D9A0 /* MOBFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CC34C651BD0C9D000C6D9A0 /* MOBFoundation.framework */; settings = {ASSET_TAGS = (); }; };
-		5CC34C691BD0C9D000C6D9A0 /* SMS_SDKLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5CC34C661BD0C9D000C6D9A0 /* SMS_SDKLocalizable.strings */; settings = {ASSET_TAGS = (); }; };
-		5CC34C6A1BD0C9D000C6D9A0 /* SMS_SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CC34C671BD0C9D000C6D9A0 /* SMS_SDK.framework */; settings = {ASSET_TAGS = (); }; };
+		5CC34C681BD0C9D000C6D9A0 /* MOBFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CC34C651BD0C9D000C6D9A0 /* MOBFoundation.framework */; };
+		5CC34C691BD0C9D000C6D9A0 /* SMS_SDKLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5CC34C661BD0C9D000C6D9A0 /* SMS_SDKLocalizable.strings */; };
+		5CC34C6A1BD0C9D000C6D9A0 /* SMS_SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CC34C671BD0C9D000C6D9A0 /* SMS_SDK.framework */; };
 		5CC3B6011B48268A00D10DFB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6001B48268A00D10DFB /* main.m */; };
 		5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6031B48268A00D10DFB /* HHAppDelegate.m */; };
 		5CC3B60C1B48268A00D10DFB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CC3B60B1B48268A00D10DFB /* Images.xcassets */; };
@@ -241,7 +241,7 @@
 		5CD4EA3C1B5C8180003CF15E /* HHCoachService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA3B1B5C8180003CF15E /* HHCoachService.m */; };
 		5CD4EA3F1B5D97E1003CF15E /* HHTrainingField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA3E1B5D97E1003CF15E /* HHTrainingField.m */; };
 		5CD4EA421B5DE6BC003CF15E /* HHFormatUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA411B5DE6BC003CF15E /* HHFormatUtility.m */; };
-		5CDFB9321BB31E760000AF6F /* HHBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDFB9311BB31E760000AF6F /* HHBanner.m */; settings = {ASSET_TAGS = (); }; };
+		5CDFB9321BB31E760000AF6F /* HHBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDFB9311BB31E760000AF6F /* HHBanner.m */; };
 		D68F0EFAEA66F3DCDFE972F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B0110F2ECD81DF5CD4D72E /* libPods.a */; };
 /* End PBXBuildFile section */
 
