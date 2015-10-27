@@ -199,6 +199,8 @@
                                                       
                                                       if ([resultDic[@"resultStatus"] isEqualToString:@"9000"]) {
                                                           [HHToastUtility showToastWitiTitle:NSLocalizedString(@"支付成功！", nil) isError:NO];
+                                                      } else if ([resultDic[@"resultStatus"] isEqualToString:@"6001"]) {
+                                                           [HHToastUtility showToastWitiTitle:NSLocalizedString(@"您已取消支付。", nil) isError:YES];
                                                       } else {
                                                           [HHToastUtility showToastWitiTitle:NSLocalizedString(@"支付失败！", nil) isError:YES];
                                                       }
