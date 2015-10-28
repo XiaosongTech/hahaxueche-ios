@@ -70,6 +70,7 @@
 		5C5451C61B52A7760025D19F /* HHLoginSignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451C51B52A7760025D19F /* HHLoginSignupViewController.m */; };
 		5C5451CF1B52ADE50025D19F /* HHButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451CE1B52ADE50025D19F /* HHButton.m */; };
 		5C5451D21B52BE1D0025D19F /* UIImage+HHImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451D11B52BE1D0025D19F /* UIImage+HHImage.m */; };
+		5C6122141BE1758B0082B732 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C6122131BE1758B0082B732 /* NSString+MD5.m */; };
 		5C6686831BA267B200F899FC /* HHSignupOtherInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C6686821BA267B200F899FC /* HHSignupOtherInfoViewController.m */; };
 		5C6686871BA2707200F899FC /* qrcode_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C6686841BA2707200F899FC /* qrcode_btn.png */; };
 		5C6686881BA2707200F899FC /* qrcode_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C6686851BA2707200F899FC /* qrcode_btn@2x.png */; };
@@ -436,6 +437,8 @@
 		5C5451CE1B52ADE50025D19F /* HHButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHButton.m; sourceTree = "<group>"; };
 		5C5451D01B52BE1D0025D19F /* UIImage+HHImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HHImage.h"; sourceTree = "<group>"; };
 		5C5451D11B52BE1D0025D19F /* UIImage+HHImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HHImage.m"; sourceTree = "<group>"; };
+		5C6122121BE1758B0082B732 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
+		5C6122131BE1758B0082B732 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 		5C6686811BA267B200F899FC /* HHSignupOtherInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSignupOtherInfoViewController.h; sourceTree = "<group>"; };
 		5C6686821BA267B200F899FC /* HHSignupOtherInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSignupOtherInfoViewController.m; sourceTree = "<group>"; };
 		5C6686841BA2707200F899FC /* qrcode_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qrcode_btn.png; sourceTree = "<group>"; };
@@ -898,6 +901,8 @@
 				5C54517A1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m */,
 				5C5451D01B52BE1D0025D19F /* UIImage+HHImage.h */,
 				5C5451D11B52BE1D0025D19F /* UIImage+HHImage.m */,
+				5C6122121BE1758B0082B732 /* NSString+MD5.h */,
+				5C6122131BE1758B0082B732 /* NSString+MD5.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1669,6 +1674,7 @@
 				5C5451991B50B5910025D19F /* HHCoachListTableViewCell.m in Sources */,
 				5CD4EA421B5DE6BC003CF15E /* HHFormatUtility.m in Sources */,
 				5C3980711B4AAD450057B049 /* HHNavigationController.m in Sources */,
+				5C6122141BE1758B0082B732 /* NSString+MD5.m in Sources */,
 				5C5451D21B52BE1D0025D19F /* UIImage+HHImage.m in Sources */,
 				5C4DA45E1B93ADDA0098A93E /* DataSigner.m in Sources */,
 				5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */,
