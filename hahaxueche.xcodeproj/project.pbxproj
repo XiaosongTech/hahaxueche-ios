@@ -106,6 +106,7 @@
 		5C7A4EF01BBCD345003DB168 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7A4EEF1BBCD345003DB168 /* libz.tbd */; };
 		5C7A4EF41BBCD7EF003DB168 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7A4EF31BBCD7EF003DB168 /* MobileCoreServices.framework */; };
 		5C7A4EF61BBCD7FC003DB168 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7A4EF51BBCD7FB003DB168 /* CoreTelephony.framework */; };
+		5C7B14EB1BE1175F00264C8A /* fee2800.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C7B14EA1BE1175F00264C8A /* fee2800.png */; };
 		5C84E5C71B83F8EE00E70AD3 /* ParallaxHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C84E5C41B83F8EE00E70AD3 /* ParallaxHeaderView.m */; };
 		5C8AA1E81BA7A76C006557E6 /* HHStartAppLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C8AA1E71BA7A76C006557E6 /* HHStartAppLoadingViewController.m */; };
 		5C8AA1EB1BA7AEAB006557E6 /* splash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8AA1E91BA7AEAB006557E6 /* splash@2x.png */; };
@@ -476,6 +477,7 @@
 		5C7A4EEF1BBCD345003DB168 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		5C7A4EF31BBCD7EF003DB168 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		5C7A4EF51BBCD7FB003DB168 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		5C7B14EA1BE1175F00264C8A /* fee2800.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fee2800.png; sourceTree = "<group>"; };
 		5C84E5C31B83F8EE00E70AD3 /* ParallaxHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParallaxHeaderView.h; sourceTree = "<group>"; };
 		5C84E5C41B83F8EE00E70AD3 /* ParallaxHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParallaxHeaderView.m; sourceTree = "<group>"; };
 		5C8AA1E61BA7A76C006557E6 /* HHStartAppLoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHStartAppLoadingViewController.h; sourceTree = "<group>"; };
@@ -810,6 +812,7 @@
 		5C10F9271B49E6F100992B63 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5C7B14EA1BE1175F00264C8A /* fee2800.png */,
 				5C6C32CF1BDA88D200692ACD /* fees.png */,
 				5C2E42B51BD28EEB00D9F1BD /* ic_qrcode_orange_btn@1x.png */,
 				5C2E42B61BD28EEB00D9F1BD /* ic_qrcode_orange_btn@2x.png */,
@@ -1560,6 +1563,7 @@
 				5C93668C1B9B4E47007962A3 /* addtime_class@3x.png in Resources */,
 				5CB550791B4CC055005DE447 /* car_grey@1x.png in Resources */,
 				5C01270E1B71AF7000780992 /* arrow_right@2x.png in Resources */,
+				5C7B14EB1BE1175F00264C8A /* fee2800.png in Resources */,
 				5C01270D1B71AF7000780992 /* arrow_right@1x.png in Resources */,
 				5CD4E9631B55837A003CF15E /* calendar_selected@2x.png in Resources */,
 				5C4DA3F91B93AD970098A93E /* AlipaySDK.bundle in Resources */,

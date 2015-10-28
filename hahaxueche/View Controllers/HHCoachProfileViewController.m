@@ -514,8 +514,12 @@ typedef enum : NSUInteger {
             [cell setupViewsWithCoach:self.coach trainingFielf:self.field];
             cell.priceTappedCompletion = ^() {
                 UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 350.0f)];
+                if([weakSelf.coach.actualPrice integerValue] == 2850) {
+                    imageView.image = [UIImage imageNamed:@"fees"];
+                } else if ([weakSelf.coach.actualPrice integerValue] == 2800) {
+                    imageView.image = [UIImage imageNamed:@"fee2800"];
+                }
                 
-                imageView.image = [UIImage imageNamed:@"fees"];
                 imageView.contentMode = UIViewContentModeScaleAspectFit;
                 KLCPopup *feesPopup= [KLCPopup popupWithContentView:imageView];
                 feesPopup.shouldDismissOnContentTouch = YES;
