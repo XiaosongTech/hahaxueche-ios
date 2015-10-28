@@ -24,6 +24,7 @@
 #import "HHUser.h"
 #import <SMS_SDK/SMSSDK.h>
 
+
 @interface HHMobilePhoneViewController ()
 
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -202,6 +203,7 @@
             [self.verificationCodeFieldView.textField becomeFirstResponder];
         }
     }];
+    
 }
 
 - (void)verifySMSCode {

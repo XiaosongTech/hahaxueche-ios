@@ -3,8 +3,12 @@ PODS:
   - Appirater (2.0.5)
   - AVOSCloud (3.1.4)
   - CMPopTipView (2.2.0)
+  - Crashlytics (3.3.4)
   - CRToast (0.0.8)
   - DateTools (1.7.0)
+  - Fabric (1.5.5):
+    - Fabric/Base (= 1.5.5)
+  - Fabric/Base (1.5.5)
   - HCSStarRatingView (1.4.2)
   - KLCPopup (1.0)
   - libPhoneNumber-iOS (0.8.7)
@@ -20,8 +24,10 @@ DEPENDENCIES:
   - Appirater
   - AVOSCloud
   - CMPopTipView (~> 2.2)
+  - Crashlytics
   - CRToast (~> 0.0.7)
   - DateTools
+  - Fabric
   - HCSStarRatingView (~> 1.2)
   - KLCPopup (~> 1.0)
   - libPhoneNumber-iOS (~> 0.8)
@@ -35,8 +41,10 @@ SPEC CHECKSUMS:
   Appirater: e7c0a47fb67ee5041ce8479e6ba960927fb40264
   AVOSCloud: 2be1640178facaac8343d67ed4d5348f4dffecd7
   CMPopTipView: a0a88404b9f46a5cfc16ce54bdb1b9bf9acb9aff
+  Crashlytics: 41c082440d2e14da444186fff65e79c0b4b35d4c
   CRToast: b087127369b4c603726ef6249d74d0d737629ab8
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
+  Fabric: 190bf1a6eb65f7500de1347d027d2e59a7e53db1
   HCSStarRatingView: 6157471eff9fe3ec7240e131a5b0aba39f097e57
   KLCPopup: 76c5a19227977f1e53d85236f9ef42257c168d98
   libPhoneNumber-iOS: 1bccd3288375d954b0b904e26061cecaa0fb83d6
@@ -45,4 +53,4 @@ SPEC CHECKSUMS:
   QRCodeReaderViewController: f20275985c41ae551099641493ab364691d9113e
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
 
-COCOAPODS: 0.38.2
+COCOAPODS: 0.39.0
