@@ -705,23 +705,23 @@
 		5C10F9231B49618300992B63 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5C98B3B31B9142B9000D6032 /* My Profile Page */,
-				5CBBA9701B5FE6B2009398B8 /* Coach Profile Page */,
-				5CD4E9EB1B5984FD003CF15E /* HHLoadingView.h */,
-				5CD4E9EC1B5984FD003CF15E /* HHLoadingView.m */,
-				5CA5B77B1B52DF5500312674 /* Login Signup */,
-				5C5451961B50B52D0025D19F /* Coach List Page */,
 				5CB5508B1B4CC718005DE447 /* Buttons */,
-				5C54518F1B4F67200025D19F /* HHSearchBar.h */,
-				5C5451901B4F67200025D19F /* HHSearchBar.m */,
+				5C5451961B50B52D0025D19F /* Coach List Page */,
+				5CBBA9701B5FE6B2009398B8 /* Coach Profile Page */,
+				5CA5B77B1B52DF5500312674 /* Login Signup */,
+				5C98B3B31B9142B9000D6032 /* My Profile Page */,
 				5CD4EA341B5C2BA0003CF15E /* HHAvatarView.h */,
 				5CD4EA351B5C2BA0003CF15E /* HHAvatarView.m */,
 				5C0126F81B7051C000780992 /* HHFullReviewTableViewCell.h */,
 				5C0126F91B7051C000780992 /* HHFullReviewTableViewCell.m */,
+				5CD4E9EB1B5984FD003CF15E /* HHLoadingView.h */,
+				5CD4E9EC1B5984FD003CF15E /* HHLoadingView.m */,
 				5C69C7DB1B81015400FDE709 /* HHMyReservationTableViewCell.h */,
 				5C69C7DC1B81015400FDE709 /* HHMyReservationTableViewCell.m */,
 				5C98B3751B891C63000D6032 /* HHScrollImageGallery.h */,
 				5C98B3761B891C63000D6032 /* HHScrollImageGallery.m */,
+				5C54518F1B4F67200025D19F /* HHSearchBar.h */,
+				5C5451901B4F67200025D19F /* HHSearchBar.m */,
 				5C98B3841B8CB5F2000D6032 /* HHStarRatingView.h */,
 				5C98B3851B8CB5F2000D6032 /* HHStarRatingView.m */,
 			);
@@ -731,30 +731,30 @@
 		5C10F9241B4962EA00992B63 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				5CD4E9EE1B59CC7B003CF15E /* HHUser.h */,
-				5CD4E9EF1B59CC7B003CF15E /* HHUser.m */,
-				5CD4E9FB1B5AD565003CF15E /* HHStudent.h */,
-				5CD4E9FC1B5AD565003CF15E /* HHStudent.m */,
-				5CD4E9FE1B5AD60F003CF15E /* HHCoach.h */,
-				5CD4E9FF1B5AD60F003CF15E /* HHCoach.m */,
-				5CD4EA3D1B5D97E1003CF15E /* HHTrainingField.h */,
-				5CD4EA3E1B5D97E1003CF15E /* HHTrainingField.m */,
-				5C11B3971B6D2B3C0014A018 /* HHCoachSchedule.h */,
-				5C11B3981B6D2B3C0014A018 /* HHCoachSchedule.m */,
-				5C93FA861B6F1CB400D7FC86 /* HHReview.h */,
-				5C93FA871B6F1CB400D7FC86 /* HHReview.m */,
-				5C98B3A71B8F4EC4000D6032 /* HHTransaction.h */,
-				5C98B3A81B8F4EC4000D6032 /* HHTransaction.m */,
-				5C98B3B01B913BC6000D6032 /* HHPaymentStatus.h */,
-				5C98B3B11B913BC6000D6032 /* HHPaymentStatus.m */,
 				5C4DA4681B93B1380098A93E /* HHAlipayOrder.h */,
 				5C4DA4691B93B1380098A93E /* HHAlipayOrder.m */,
-				5C4DA46E1B9401220098A93E /* HHTransfer.h */,
-				5C4DA46F1B9401220098A93E /* HHTransfer.m */,
-				5C66868A1BA281D700F899FC /* HHReferral.h */,
-				5C66868B1BA281D700F899FC /* HHReferral.m */,
 				5CDFB9301BB31E760000AF6F /* HHBanner.h */,
 				5CDFB9311BB31E760000AF6F /* HHBanner.m */,
+				5CD4E9FE1B5AD60F003CF15E /* HHCoach.h */,
+				5CD4E9FF1B5AD60F003CF15E /* HHCoach.m */,
+				5C11B3971B6D2B3C0014A018 /* HHCoachSchedule.h */,
+				5C11B3981B6D2B3C0014A018 /* HHCoachSchedule.m */,
+				5C98B3B01B913BC6000D6032 /* HHPaymentStatus.h */,
+				5C98B3B11B913BC6000D6032 /* HHPaymentStatus.m */,
+				5C66868A1BA281D700F899FC /* HHReferral.h */,
+				5C66868B1BA281D700F899FC /* HHReferral.m */,
+				5C93FA861B6F1CB400D7FC86 /* HHReview.h */,
+				5C93FA871B6F1CB400D7FC86 /* HHReview.m */,
+				5CD4E9FB1B5AD565003CF15E /* HHStudent.h */,
+				5CD4E9FC1B5AD565003CF15E /* HHStudent.m */,
+				5CD4EA3D1B5D97E1003CF15E /* HHTrainingField.h */,
+				5CD4EA3E1B5D97E1003CF15E /* HHTrainingField.m */,
+				5C98B3A71B8F4EC4000D6032 /* HHTransaction.h */,
+				5C98B3A81B8F4EC4000D6032 /* HHTransaction.m */,
+				5C4DA46E1B9401220098A93E /* HHTransfer.h */,
+				5C4DA46F1B9401220098A93E /* HHTransfer.m */,
+				5CD4E9EE1B59CC7B003CF15E /* HHUser.h */,
+				5CD4E9EF1B59CC7B003CF15E /* HHUser.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -762,22 +762,22 @@
 		5C10F9251B4962F300992B63 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				5CD4E9DC1B593EA0003CF15E /* HHUserAuthenticator.h */,
-				5CD4E9DD1B593EA0003CF15E /* HHUserAuthenticator.m */,
+				5C4DA4651B93B11C0098A93E /* HHAlipayService.h */,
+				5C4DA4661B93B11C0098A93E /* HHAlipayService.m */,
 				5CD4EA3A1B5C8180003CF15E /* HHCoachService.h */,
 				5CD4EA3B1B5C8180003CF15E /* HHCoachService.m */,
-				5CB34F2B1B64455A007954DF /* HHTrainingFieldService.h */,
-				5CB34F2C1B64455A007954DF /* HHTrainingFieldService.m */,
+				5C98B3AA1B8F5060000D6032 /* HHPaymentTransactionService.h */,
+				5C98B3AB1B8F5060000D6032 /* HHPaymentTransactionService.m */,
+				5C98B3971B8D2AF6000D6032 /* HHReviewService.h */,
+				5C98B3981B8D2AF6000D6032 /* HHReviewService.m */,
 				5C11B39D1B6D9DA20014A018 /* HHScheduleService.h */,
 				5C11B39E1B6D9DA20014A018 /* HHScheduleService.m */,
 				5C11B3A01B6DA0560014A018 /* HHStudentService.h */,
 				5C11B3A11B6DA0560014A018 /* HHStudentService.m */,
-				5C98B3971B8D2AF6000D6032 /* HHReviewService.h */,
-				5C98B3981B8D2AF6000D6032 /* HHReviewService.m */,
-				5C98B3AA1B8F5060000D6032 /* HHPaymentTransactionService.h */,
-				5C98B3AB1B8F5060000D6032 /* HHPaymentTransactionService.m */,
-				5C4DA4651B93B11C0098A93E /* HHAlipayService.h */,
-				5C4DA4661B93B11C0098A93E /* HHAlipayService.m */,
+				5CB34F2B1B64455A007954DF /* HHTrainingFieldService.h */,
+				5CB34F2C1B64455A007954DF /* HHTrainingFieldService.m */,
+				5CD4E9DC1B593EA0003CF15E /* HHUserAuthenticator.h */,
+				5CD4E9DD1B593EA0003CF15E /* HHUserAuthenticator.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -788,26 +788,26 @@
 				5C504B6A1B9894DB00149923 /* Coach View Controllers */,
 				5C5451C31B52A49F0025D19F /* Login Signup */,
 				5C3980921B4C19A70057B049 /* Root */,
-				5C39806E1B4AAD450057B049 /* HHNavigationController.h */,
-				5C39806F1B4AAD450057B049 /* HHNavigationController.m */,
-				5C39808F1B4C17900057B049 /* HHRootViewController.h */,
-				5C3980901B4C17900057B049 /* HHRootViewController.m */,
 				5CBBA9591B5EFD91009398B8 /* HHCoachProfileViewController.h */,
 				5CBBA95A1B5EFD91009398B8 /* HHCoachProfileViewController.m */,
-				5CB34EE61B61F4B5007954DF /* HHMapViewController.h */,
-				5CB34EE71B61F4B5007954DF /* HHMapViewController.m */,
-				5CB34F161B63F42C007954DF /* HHSearchViewController.h */,
-				5CB34F171B63F42C007954DF /* HHSearchViewController.m */,
-				5C0126EF1B70360800780992 /* HHReviewViewController.h */,
-				5C0126F01B70360800780992 /* HHReviewViewController.m */,
-				5C0127101B72F62000780992 /* HHFullScreenImageViewController.h */,
-				5C0127111B72F62000780992 /* HHFullScreenImageViewController.m */,
-				5C0127281B7797B600780992 /* HHTimeSlotsViewController.h */,
-				5C0127291B7797B600780992 /* HHTimeSlotsViewController.m */,
 				5C6686A21BA48FEC00F899FC /* HHFirstLaunchGuideViewController.h */,
 				5C6686A31BA48FEC00F899FC /* HHFirstLaunchGuideViewController.m */,
+				5C0127101B72F62000780992 /* HHFullScreenImageViewController.h */,
+				5C0127111B72F62000780992 /* HHFullScreenImageViewController.m */,
+				5CB34EE61B61F4B5007954DF /* HHMapViewController.h */,
+				5CB34EE71B61F4B5007954DF /* HHMapViewController.m */,
+				5C39806E1B4AAD450057B049 /* HHNavigationController.h */,
+				5C39806F1B4AAD450057B049 /* HHNavigationController.m */,
+				5C0126EF1B70360800780992 /* HHReviewViewController.h */,
+				5C0126F01B70360800780992 /* HHReviewViewController.m */,
+				5C39808F1B4C17900057B049 /* HHRootViewController.h */,
+				5C3980901B4C17900057B049 /* HHRootViewController.m */,
+				5CB34F161B63F42C007954DF /* HHSearchViewController.h */,
+				5CB34F171B63F42C007954DF /* HHSearchViewController.m */,
 				5C8AA1E61BA7A76C006557E6 /* HHStartAppLoadingViewController.h */,
 				5C8AA1E71BA7A76C006557E6 /* HHStartAppLoadingViewController.m */,
+				5C0127281B7797B600780992 /* HHTimeSlotsViewController.h */,
+				5C0127291B7797B600780992 /* HHTimeSlotsViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -815,77 +815,77 @@
 		5C10F9271B49E6F100992B63 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				5C7B14EA1BE1175F00264C8A /* fee2800.png */,
-				5C6C32CF1BDA88D200692ACD /* fees.png */,
-				5C2E42B51BD28EEB00D9F1BD /* ic_qrcode_orange_btn@1x.png */,
-				5C2E42B61BD28EEB00D9F1BD /* ic_qrcode_orange_btn@2x.png */,
-				5C2E42B71BD28EEB00D9F1BD /* ic_qrcode_orange_btn@3x.png */,
-				5C8AA1E91BA7AEAB006557E6 /* splash@2x.png */,
-				5C8AA1EA1BA7AEAB006557E6 /* splash@3x.png */,
-				5C6686B51BA52FE400F899FC /* guide4@2x.jpg */,
-				5C6686B61BA52FE400F899FC /* guide4@3x.jpg */,
-				5C6686A51BA4915D00F899FC /* guide1@2x.jpg */,
-				5C6686A61BA4915D00F899FC /* guide1@3x.jpg */,
-				5C6686A71BA4915D00F899FC /* guide2@2x.jpg */,
-				5C6686A81BA4915D00F899FC /* guide2@3x.jpg */,
-				5C6686A91BA4915D00F899FC /* guide3@2x.jpg */,
-				5C6686AA1BA4915D00F899FC /* guide3@3x.jpg */,
-				5C66869C1BA48BB200F899FC /* logo@1x.png */,
-				5C66869D1BA48BB200F899FC /* logo@2x.png */,
-				5C66869E1BA48BB200F899FC /* logo@3x.png */,
+				5CA5B7821B53399200312674 /* Assests for test */,
 				5C9366771B9B4E35007962A3 /* Coach */,
-				5C98B3C31B9200D5000D6032 /* info@1x.png */,
-				5C98B3C41B9200D5000D6032 /* info@2x.png */,
-				5C98B3C51B9200D5000D6032 /* info@3x.png */,
-				5C98B3B71B92008E000D6032 /* greenCheck@1x.png */,
-				5C98B3B81B92008E000D6032 /* greenCheck@2x.png */,
-				5C98B3B91B92008E000D6032 /* greenCheck@3x.png */,
-				5C98B3BA1B92008E000D6032 /* needPay@1x.png */,
-				5C98B3BB1B92008E000D6032 /* needPay@2x.png */,
-				5C98B3BC1B92008E000D6032 /* needPay@3x.png */,
-				5C98B3881B8CBE05000D6032 /* star_empt@1x.png */,
-				5C98B3891B8CBE05000D6032 /* star_empty@2x.png */,
-				5C98B38A1B8CBE05000D6032 /* star_empty@3x.png */,
-				5C98B38B1B8CBE05000D6032 /* star_half@1x.png */,
-				5C98B38C1B8CBE05000D6032 /* star_half@2x.png */,
-				5C98B38D1B8CBE05000D6032 /* star_half@3x.png */,
-				5C98B37B1B8CAD44000D6032 /* star_full@1x.png */,
-				5C98B37C1B8CAD44000D6032 /* star_full@2x.png */,
-				5C98B37D1B8CAD44000D6032 /* star_full@3x.png */,
-				5C69C7AF1B7F7E9A00FDE709 /* ic_st_add@1x.png */,
-				5C69C7B01B7F7E9A00FDE709 /* ic_st_add@2x.png */,
-				5C69C7B11B7F7E9A00FDE709 /* ic_st_add@3x.png */,
-				5C69C7B21B7F7E9A00FDE709 /* ic_time_title_left@1x.png */,
-				5C69C7B31B7F7E9A00FDE709 /* ic_time_title_left@2x.png */,
-				5C69C7B41B7F7E9A00FDE709 /* ic_time_title_left@3x.png */,
+				5C5451821B4F5D790025D19F /* Nav Bar */,
+				5CB5505A1B4CC040005DE447 /* Tab Bar */,
 				5C01270A1B71AF7000780992 /* arrow_right@1x.png */,
 				5C01270B1B71AF7000780992 /* arrow_right@2x.png */,
 				5C01270C1B71AF7000780992 /* arrow_right@3x.png */,
 				5C0126F21B7038FA00780992 /* blur_background@1x.png */,
 				5C0126F31B7038FA00780992 /* blur_background@2x.png */,
 				5C0126F41B7038FA00780992 /* blur_background@3x.png */,
-				5C93FA6B1B6E827A00D7FC86 /* x_button@1x.png */,
-				5C93FA6C1B6E827A00D7FC86 /* x_button@2x.png */,
-				5C93FA6D1B6E827A00D7FC86 /* x_button@3x.png */,
-				5C2DCCF61B65ACE0007E8FA7 /* car_icon_solid@1x.png */,
-				5C2DCCF71B65ACE0007E8FA7 /* car_icon_solid@2x.png */,
-				5C2DCCF81B65ACE0007E8FA7 /* car_icon_solid@3x.png */,
-				5C2DCCF91B65ACE0007E8FA7 /* car_icon@1x.png */,
-				5C2DCCFA1B65ACE0007E8FA7 /* car_icon@2x.png */,
-				5C2DCCFB1B65ACE0007E8FA7 /* car_icon@3x.png */,
-				5CB34EE01B61D6B0007954DF /* trasparent_view@1x.png */,
-				5CB34EE11B61D6B0007954DF /* trasparent_view@2x.png */,
-				5CB34EE21B61D6B0007954DF /* trasparent_view@3x.png */,
 				5CD4EA0D1B5BEEBF003CF15E /* camera-alt@1x.png */,
 				5CD4EA0E1B5BEEBF003CF15E /* camera-alt@2x.png */,
 				5CD4EA0F1B5BEEBF003CF15E /* camera-alt@3x.png */,
-				5CA5B7821B53399200312674 /* Assests for test */,
+				5C2DCCF91B65ACE0007E8FA7 /* car_icon@1x.png */,
+				5C2DCCFA1B65ACE0007E8FA7 /* car_icon@2x.png */,
+				5C2DCCFB1B65ACE0007E8FA7 /* car_icon@3x.png */,
+				5C2DCCF61B65ACE0007E8FA7 /* car_icon_solid@1x.png */,
+				5C2DCCF71B65ACE0007E8FA7 /* car_icon_solid@2x.png */,
+				5C2DCCF81B65ACE0007E8FA7 /* car_icon_solid@3x.png */,
+				5C7B14EA1BE1175F00264C8A /* fee2800.png */,
+				5C6C32CF1BDA88D200692ACD /* fees.png */,
+				5C98B3B71B92008E000D6032 /* greenCheck@1x.png */,
+				5C98B3B81B92008E000D6032 /* greenCheck@2x.png */,
+				5C98B3B91B92008E000D6032 /* greenCheck@3x.png */,
+				5C6686A51BA4915D00F899FC /* guide1@2x.jpg */,
+				5C6686A61BA4915D00F899FC /* guide1@3x.jpg */,
+				5C6686A71BA4915D00F899FC /* guide2@2x.jpg */,
+				5C6686A81BA4915D00F899FC /* guide2@3x.jpg */,
+				5C6686A91BA4915D00F899FC /* guide3@2x.jpg */,
+				5C6686AA1BA4915D00F899FC /* guide3@3x.jpg */,
+				5C6686B51BA52FE400F899FC /* guide4@2x.jpg */,
+				5C6686B61BA52FE400F899FC /* guide4@3x.jpg */,
+				5C2E42B51BD28EEB00D9F1BD /* ic_qrcode_orange_btn@1x.png */,
+				5C2E42B61BD28EEB00D9F1BD /* ic_qrcode_orange_btn@2x.png */,
+				5C2E42B71BD28EEB00D9F1BD /* ic_qrcode_orange_btn@3x.png */,
+				5C69C7AF1B7F7E9A00FDE709 /* ic_st_add@1x.png */,
+				5C69C7B01B7F7E9A00FDE709 /* ic_st_add@2x.png */,
+				5C69C7B11B7F7E9A00FDE709 /* ic_st_add@3x.png */,
+				5C69C7B21B7F7E9A00FDE709 /* ic_time_title_left@1x.png */,
+				5C69C7B31B7F7E9A00FDE709 /* ic_time_title_left@2x.png */,
+				5C69C7B41B7F7E9A00FDE709 /* ic_time_title_left@3x.png */,
+				5C98B3C31B9200D5000D6032 /* info@1x.png */,
+				5C98B3C41B9200D5000D6032 /* info@2x.png */,
+				5C98B3C51B9200D5000D6032 /* info@3x.png */,
 				5CD4E9D61B58B3B3003CF15E /* location_icon.png */,
 				5CD4E9D71B58B3B3003CF15E /* location_icon@2x.png */,
 				5CD4E9D81B58B3B3003CF15E /* location_icon@3x.png */,
+				5C66869C1BA48BB200F899FC /* logo@1x.png */,
+				5C66869D1BA48BB200F899FC /* logo@2x.png */,
+				5C66869E1BA48BB200F899FC /* logo@3x.png */,
+				5C98B3BA1B92008E000D6032 /* needPay@1x.png */,
+				5C98B3BB1B92008E000D6032 /* needPay@2x.png */,
+				5C98B3BC1B92008E000D6032 /* needPay@3x.png */,
 				5C5451941B50B4AD0025D19F /* search_icon.png */,
-				5C5451821B4F5D790025D19F /* Nav Bar */,
-				5CB5505A1B4CC040005DE447 /* Tab Bar */,
+				5C8AA1E91BA7AEAB006557E6 /* splash@2x.png */,
+				5C8AA1EA1BA7AEAB006557E6 /* splash@3x.png */,
+				5C98B3881B8CBE05000D6032 /* star_empt@1x.png */,
+				5C98B3891B8CBE05000D6032 /* star_empty@2x.png */,
+				5C98B38A1B8CBE05000D6032 /* star_empty@3x.png */,
+				5C98B37B1B8CAD44000D6032 /* star_full@1x.png */,
+				5C98B37C1B8CAD44000D6032 /* star_full@2x.png */,
+				5C98B37D1B8CAD44000D6032 /* star_full@3x.png */,
+				5C98B38B1B8CBE05000D6032 /* star_half@1x.png */,
+				5C98B38C1B8CBE05000D6032 /* star_half@2x.png */,
+				5C98B38D1B8CBE05000D6032 /* star_half@3x.png */,
+				5CB34EE01B61D6B0007954DF /* trasparent_view@1x.png */,
+				5CB34EE11B61D6B0007954DF /* trasparent_view@2x.png */,
+				5CB34EE21B61D6B0007954DF /* trasparent_view@3x.png */,
+				5C93FA6B1B6E827A00D7FC86 /* x_button@1x.png */,
+				5C93FA6C1B6E827A00D7FC86 /* x_button@2x.png */,
+				5C93FA6D1B6E827A00D7FC86 /* x_button@3x.png */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -893,16 +893,16 @@
 		5C10F92B1B49E7CD00992B63 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				5C3980781B4ACA2B0057B049 /* UIView+HHRect.h */,
-				5C3980791B4ACA2B0057B049 /* UIView+HHRect.m */,
-				5C10F92C1B49E85200992B63 /* UIColor+HHColor.h */,
-				5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */,
-				5C5451791B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.h */,
-				5C54517A1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m */,
-				5C5451D01B52BE1D0025D19F /* UIImage+HHImage.h */,
-				5C5451D11B52BE1D0025D19F /* UIImage+HHImage.m */,
 				5C6122121BE1758B0082B732 /* NSString+MD5.h */,
 				5C6122131BE1758B0082B732 /* NSString+MD5.m */,
+				5C5451791B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.h */,
+				5C54517A1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m */,
+				5C10F92C1B49E85200992B63 /* UIColor+HHColor.h */,
+				5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */,
+				5C5451D01B52BE1D0025D19F /* UIImage+HHImage.h */,
+				5C5451D11B52BE1D0025D19F /* UIImage+HHImage.m */,
+				5C3980781B4ACA2B0057B049 /* UIView+HHRect.h */,
+				5C3980791B4ACA2B0057B049 /* UIView+HHRect.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -912,10 +912,10 @@
 			children = (
 				5C3980891B4BFFB20057B049 /* HHAutoLayoutUtility.h */,
 				5C39808A1B4BFFB20057B049 /* HHAutoLayoutUtility.m */,
-				5CD4E9E81B597CE2003CF15E /* HHToastUtility.h */,
-				5CD4E9E91B597CE2003CF15E /* HHToastUtility.m */,
 				5CD4EA401B5DE6BC003CF15E /* HHFormatUtility.h */,
 				5CD4EA411B5DE6BC003CF15E /* HHFormatUtility.m */,
+				5CD4E9E81B597CE2003CF15E /* HHToastUtility.h */,
+				5CD4E9E91B597CE2003CF15E /* HHToastUtility.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -923,16 +923,16 @@
 		5C3980921B4C19A70057B049 /* Root */ = {
 			isa = PBXGroup;
 			children = (
-				5C39806C1B4AAD450057B049 /* HHCoachListViewController.h */,
-				5C39806D1B4AAD450057B049 /* HHCoachListViewController.m */,
 				5C3980831B4AD7DE0057B049 /* HHBookViewController.h */,
 				5C3980841B4AD7DE0057B049 /* HHBookViewController.m */,
+				5C39806C1B4AAD450057B049 /* HHCoachListViewController.h */,
+				5C39806D1B4AAD450057B049 /* HHCoachListViewController.m */,
 				5C3980931B4C1A180057B049 /* HHHomePageViewController.h */,
 				5C3980941B4C1A180057B049 /* HHHomePageViewController.m */,
-				5C3980961B4C1A2A0057B049 /* HHMyReservationViewController.h */,
-				5C3980971B4C1A2A0057B049 /* HHMyReservationViewController.m */,
 				5C69C7BB1B803DB800FDE709 /* HHMyProfileViewController.h */,
 				5C69C7BC1B803DB800FDE709 /* HHMyProfileViewController.m */,
+				5C3980961B4C1A2A0057B049 /* HHMyReservationViewController.h */,
+				5C3980971B4C1A2A0057B049 /* HHMyReservationViewController.m */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -940,14 +940,14 @@
 		5C4DA3F61B93AD7C0098A93E /* Alipay */ = {
 			isa = PBXGroup;
 			children = (
+				5C4DA3FF1B93ADA80098A93E /* openssl */,
+				5C4DA4001B93ADB30098A93E /* utli */,
 				5C4DA46B1B93B6340098A93E /* APAuthV2Info.h */,
 				5C4DA46C1B93B6340098A93E /* APAuthV2Info.m */,
-				5C4DA4001B93ADB30098A93E /* utli */,
-				5C4DA3FF1B93ADA80098A93E /* openssl */,
-				5C4DA3FB1B93ADA30098A93E /* libcrypto.a */,
-				5C4DA3FC1B93ADA30098A93E /* libssl.a */,
 				5C4DA3F71B93AD970098A93E /* AlipaySDK.bundle */,
 				5C4DA3F81B93AD970098A93E /* AlipaySDK.framework */,
+				5C4DA3FB1B93ADA30098A93E /* libcrypto.a */,
+				5C4DA3FC1B93ADA30098A93E /* libssl.a */,
 			);
 			path = Alipay;
 			sourceTree = "<group>";
@@ -956,8 +956,8 @@
 			isa = PBXGroup;
 			children = (
 				5C4DA4011B93ADC90098A93E /* aes.h */,
-				5C4DA4021B93ADC90098A93E /* asn1_mac.h */,
 				5C4DA4031B93ADC90098A93E /* asn1.h */,
+				5C4DA4021B93ADC90098A93E /* asn1_mac.h */,
 				5C4DA4041B93ADC90098A93E /* asn1t.h */,
 				5C4DA4051B93ADC90098A93E /* bio.h */,
 				5C4DA4061B93ADC90098A93E /* blowfish.h */,
@@ -968,11 +968,11 @@
 				5C4DA40B1B93ADC90098A93E /* cmac.h */,
 				5C4DA40C1B93ADC90098A93E /* cms.h */,
 				5C4DA40D1B93ADC90098A93E /* comp.h */,
-				5C4DA40E1B93ADC90098A93E /* conf_api.h */,
 				5C4DA40F1B93ADC90098A93E /* conf.h */,
+				5C4DA40E1B93ADC90098A93E /* conf_api.h */,
 				5C4DA4101B93ADC90098A93E /* crypto.h */,
-				5C4DA4111B93ADC90098A93E /* des_old.h */,
 				5C4DA4121B93ADC90098A93E /* des.h */,
+				5C4DA4111B93ADC90098A93E /* des_old.h */,
 				5C4DA4131B93ADC90098A93E /* dh.h */,
 				5C4DA4141B93ADC90098A93E /* dsa.h */,
 				5C4DA4151B93ADC90098A93E /* dso.h */,
@@ -1002,8 +1002,8 @@
 				5C4DA42D1B93ADC90098A93E /* ossl_typ.h */,
 				5C4DA42E1B93ADC90098A93E /* pem.h */,
 				5C4DA42F1B93ADC90098A93E /* pem2.h */,
-				5C4DA4301B93ADC90098A93E /* pkcs7.h */,
 				5C4DA4311B93ADC90098A93E /* pkcs12.h */,
+				5C4DA4301B93ADC90098A93E /* pkcs7.h */,
 				5C4DA4321B93ADC90098A93E /* pqueue.h */,
 				5C4DA4331B93ADC90098A93E /* rand.h */,
 				5C4DA4341B93ADC90098A93E /* rc2.h */,
@@ -1017,18 +1017,18 @@
 				5C4DA43C1B93ADC90098A93E /* srtp.h */,
 				5C4DA43D1B93ADC90098A93E /* ssl.h */,
 				5C4DA43E1B93ADC90098A93E /* ssl2.h */,
-				5C4DA43F1B93ADC90098A93E /* ssl3.h */,
 				5C4DA4401B93ADC90098A93E /* ssl23.h */,
+				5C4DA43F1B93ADC90098A93E /* ssl3.h */,
 				5C4DA4411B93ADC90098A93E /* stack.h */,
 				5C4DA4421B93ADC90098A93E /* symhacks.h */,
 				5C4DA4431B93ADC90098A93E /* tls1.h */,
 				5C4DA4441B93ADC90098A93E /* ts.h */,
 				5C4DA4451B93ADC90098A93E /* txt_db.h */,
-				5C4DA4461B93ADC90098A93E /* ui_compat.h */,
 				5C4DA4471B93ADC90098A93E /* ui.h */,
+				5C4DA4461B93ADC90098A93E /* ui_compat.h */,
 				5C4DA4481B93ADC90098A93E /* whrlpool.h */,
-				5C4DA4491B93ADC90098A93E /* x509_vfy.h */,
 				5C4DA44A1B93ADC90098A93E /* x509.h */,
+				5C4DA4491B93ADC90098A93E /* x509_vfy.h */,
 				5C4DA44B1B93ADC90098A93E /* x509v3.h */,
 			);
 			path = openssl;
@@ -1037,9 +1037,6 @@
 		5C4DA4001B93ADB30098A93E /* utli */ = {
 			isa = PBXGroup;
 			children = (
-				5C4DA44C1B93ADDA0098A93E /* base64.h */,
-				5C4DA44D1B93ADDA0098A93E /* base64.m */,
-				5C4DA44E1B93ADDA0098A93E /* config.h */,
 				5C4DA44F1B93ADDA0098A93E /* DataSigner.h */,
 				5C4DA4501B93ADDA0098A93E /* DataSigner.m */,
 				5C4DA4511B93ADDA0098A93E /* DataVerifier.h */,
@@ -1048,12 +1045,15 @@
 				5C4DA4541B93ADDA0098A93E /* MD5DataSigner.m */,
 				5C4DA4551B93ADDA0098A93E /* NSDataEx.h */,
 				5C4DA4561B93ADDA0098A93E /* NSDataEx.m */,
-				5C4DA4571B93ADDA0098A93E /* openssl_wrapper.h */,
-				5C4DA4581B93ADDA0098A93E /* openssl_wrapper.m */,
 				5C4DA4591B93ADDA0098A93E /* RSADataSigner.h */,
 				5C4DA45A1B93ADDA0098A93E /* RSADataSigner.m */,
 				5C4DA45B1B93ADDA0098A93E /* RSADataVerifier.h */,
 				5C4DA45C1B93ADDA0098A93E /* RSADataVerifier.m */,
+				5C4DA44C1B93ADDA0098A93E /* base64.h */,
+				5C4DA44D1B93ADDA0098A93E /* base64.m */,
+				5C4DA44E1B93ADDA0098A93E /* config.h */,
+				5C4DA4571B93ADDA0098A93E /* openssl_wrapper.h */,
+				5C4DA4581B93ADDA0098A93E /* openssl_wrapper.m */,
 			);
 			path = utli;
 			sourceTree = "<group>";
@@ -1061,24 +1061,24 @@
 		5C504B6A1B9894DB00149923 /* Coach View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				5C504B6E1B98961D00149923 /* HHStudentListViewController.h */,
-				5C504B6F1B98961D00149923 /* HHStudentListViewController.m */,
+				5C93666E1B9B44AE007962A3 /* HHCoachAddTimeViewController.h */,
+				5C93666F1B9B44AE007962A3 /* HHCoachAddTimeViewController.m */,
 				5C9366681B9B3557007962A3 /* HHCoachMyProfileViewController.h */,
 				5C9366691B9B3557007962A3 /* HHCoachMyProfileViewController.m */,
 				5C93666B1B9B40D1007962A3 /* HHCoachScheduleViewController.h */,
 				5C93666C1B9B40D1007962A3 /* HHCoachScheduleViewController.m */,
-				5C93666E1B9B44AE007962A3 /* HHCoachAddTimeViewController.h */,
-				5C93666F1B9B44AE007962A3 /* HHCoachAddTimeViewController.m */,
+				5C9366A01B9DF8AB007962A3 /* HHCoachStudentProfileCell.h */,
+				5C9366A11B9DF8AB007962A3 /* HHCoachStudentProfileCell.m */,
+				5C93669D1B9DF6FC007962A3 /* HHCoachStudentProfileViewController.h */,
+				5C93669E1B9DF6FC007962A3 /* HHCoachStudentProfileViewController.m */,
 				5C9366741B9B4C1B007962A3 /* HHScheduleCellView.h */,
 				5C9366751B9B4C1B007962A3 /* HHScheduleCellView.m */,
 				5C9366971B9CA52C007962A3 /* HHStudentListTableViewCell.h */,
 				5C9366981B9CA52C007962A3 /* HHStudentListTableViewCell.m */,
+				5C504B6E1B98961D00149923 /* HHStudentListViewController.h */,
+				5C504B6F1B98961D00149923 /* HHStudentListViewController.m */,
 				5C93669A1B9CE5FC007962A3 /* HHStudentSearchViewController.h */,
 				5C93669B1B9CE5FC007962A3 /* HHStudentSearchViewController.m */,
-				5C93669D1B9DF6FC007962A3 /* HHCoachStudentProfileViewController.h */,
-				5C93669E1B9DF6FC007962A3 /* HHCoachStudentProfileViewController.m */,
-				5C9366A01B9DF8AB007962A3 /* HHCoachStudentProfileCell.h */,
-				5C9366A11B9DF8AB007962A3 /* HHCoachStudentProfileCell.m */,
 			);
 			path = "Coach View Controllers";
 			sourceTree = "<group>";
@@ -1086,15 +1086,15 @@
 		5C5451821B4F5D790025D19F /* Nav Bar */ = {
 			isa = PBXGroup;
 			children = (
-				5CB34F101B63EA61007954DF /* search.png */,
-				5CB34F111B63EA61007954DF /* search@2x.png */,
-				5CB34F121B63EA61007954DF /* search@3x.png */,
 				5CB34F041B63EA4A007954DF /* left_arrow@1x.png */,
 				5CB34F051B63EA4A007954DF /* left_arrow@2x.png */,
 				5CB34F061B63EA4A007954DF /* left_arrow@3x.png */,
 				5CB34F071B63EA4A007954DF /* map@1x.png */,
 				5CB34F081B63EA4A007954DF /* map@2x.png */,
 				5CB34F091B63EA4B007954DF /* map@3x.png */,
+				5CB34F101B63EA61007954DF /* search.png */,
+				5CB34F111B63EA61007954DF /* search@2x.png */,
+				5CB34F121B63EA61007954DF /* search@3x.png */,
 			);
 			path = "Nav Bar";
 			sourceTree = "<group>";
@@ -1104,10 +1104,10 @@
 			children = (
 				5C5451971B50B5910025D19F /* HHCoachListTableViewCell.h */,
 				5C5451981B50B5910025D19F /* HHCoachListTableViewCell.m */,
-				5C2DCCE71B6477A1007E8FA7 /* HHPointAnnotation.h */,
-				5C2DCCE81B6477A1007E8FA7 /* HHPointAnnotation.m */,
 				5C2DCD021B65CBA0007E8FA7 /* HHLoadingTableViewCell.h */,
 				5C2DCD031B65CBA0007E8FA7 /* HHLoadingTableViewCell.m */,
+				5C2DCCE71B6477A1007E8FA7 /* HHPointAnnotation.h */,
+				5C2DCCE81B6477A1007E8FA7 /* HHPointAnnotation.m */,
 			);
 			path = "Coach List Page";
 			sourceTree = "<group>";
@@ -1139,9 +1139,6 @@
 		5C9366771B9B4E35007962A3 /* Coach */ = {
 			isa = PBXGroup;
 			children = (
-				5C6686841BA2707200F899FC /* qrcode_btn.png */,
-				5C6686851BA2707200F899FC /* qrcode_btn@2x.png */,
-				5C6686861BA2707200F899FC /* qrcode_btn@3x.png */,
 				5C9366781B9B4E47007962A3 /* addtime_calendar@1x.png */,
 				5C9366791B9B4E47007962A3 /* addtime_calendar@2x.png */,
 				5C93667A1B9B4E47007962A3 /* addtime_calendar@3x.png */,
@@ -1157,6 +1154,9 @@
 				5C9366841B9B4E47007962A3 /* gray_arrow@1x.png */,
 				5C9366851B9B4E47007962A3 /* gray_arrow@2x.png */,
 				5C9366861B9B4E47007962A3 /* gray_arrow@3x.png */,
+				5C6686841BA2707200F899FC /* qrcode_btn.png */,
+				5C6686851BA2707200F899FC /* qrcode_btn@2x.png */,
+				5C6686861BA2707200F899FC /* qrcode_btn@3x.png */,
 			);
 			path = Coach;
 			sourceTree = "<group>";
@@ -1164,12 +1164,12 @@
 		5C98B3B31B9142B9000D6032 /* My Profile Page */ = {
 			isa = PBXGroup;
 			children = (
-				5C98B3A11B8EB39B000D6032 /* HHReceiptTableViewCell.h */,
-				5C98B3A21B8EB39B000D6032 /* HHReceiptTableViewCell.m */,
-				5C98B3A41B8F4C2F000D6032 /* HHReceiptItemView.h */,
-				5C98B3A51B8F4C2F000D6032 /* HHReceiptItemView.m */,
 				5C98B3B41B914300000D6032 /* HHPaymentStatusView.h */,
 				5C98B3B51B914300000D6032 /* HHPaymentStatusView.m */,
+				5C98B3A41B8F4C2F000D6032 /* HHReceiptItemView.h */,
+				5C98B3A51B8F4C2F000D6032 /* HHReceiptItemView.m */,
+				5C98B3A11B8EB39B000D6032 /* HHReceiptTableViewCell.h */,
+				5C98B3A21B8EB39B000D6032 /* HHReceiptTableViewCell.m */,
 			);
 			path = "My Profile Page";
 			sourceTree = "<group>";
@@ -1186,11 +1186,11 @@
 		5CA5B7821B53399200312674 /* Assests for test */ = {
 			isa = PBXGroup;
 			children = (
-				5CBBA96E1B5F4B13009398B8 /* loading.jpg */,
 				5CA5B7831B533A2200312674 /* austin1.jpg */,
 				5CA5B7841B533A2200312674 /* austin2.jpg */,
 				5CA5B7851B533A2200312674 /* austin3.jpg */,
 				5C5451BB1B51E6B60025D19F /* fbAvatar.jpg */,
+				5CBBA96E1B5F4B13009398B8 /* loading.jpg */,
 			);
 			path = "Assests for test";
 			sourceTree = "<group>";
@@ -1198,6 +1198,24 @@
 		5CB5505A1B4CC040005DE447 /* Tab Bar */ = {
 			isa = PBXGroup;
 			children = (
+				5CB5505B1B4CC055005DE447 /* calendar_grey@1x.png */,
+				5CB5505C1B4CC055005DE447 /* calendar_grey@2x.png */,
+				5CB5505D1B4CC055005DE447 /* calendar_grey@3x.png */,
+				5CD4E95F1B55837A003CF15E /* calendar_selected@1x.png */,
+				5CD4E9601B55837A003CF15E /* calendar_selected@2x.png */,
+				5CD4E9611B55837A003CF15E /* calendar_selected@3x.png */,
+				5CB550611B4CC055005DE447 /* car_grey@1x.png */,
+				5CB550621B4CC055005DE447 /* car_grey@2x.png */,
+				5CB550631B4CC055005DE447 /* car_grey@3x.png */,
+				5CD4E93E1B55809B003CF15E /* car_selected@1x.png */,
+				5CD4E93F1B55809B003CF15E /* car_selected@2x.png */,
+				5CD4E9401B55809B003CF15E /* car_selected@3x.png */,
+				5CB550671B4CC055005DE447 /* list_grey@1x.png */,
+				5CB550681B4CC055005DE447 /* list_grey@2x.png */,
+				5CB550691B4CC055005DE447 /* list_grey@3x.png */,
+				5CD4E94D1B558184003CF15E /* list_selected@1x.png */,
+				5CD4E94E1B558184003CF15E /* list_selected@2x.png */,
+				5CD4E94F1B558184003CF15E /* list_selected@3x.png */,
 				5C69C7CA1B80432500FDE709 /* profile_gray@1x.png */,
 				5C69C7CB1B80432500FDE709 /* profile_gray@2x.png */,
 				5C69C7CC1B80432500FDE709 /* profile_gray@3x.png */,
@@ -1207,27 +1225,9 @@
 				5CD4E9651B558431003CF15E /* reservation_grey@1x.png */,
 				5CD4E9661B558431003CF15E /* reservation_grey@2x.png */,
 				5CD4E9671B558431003CF15E /* reservation_grey@3x.png */,
-				5CD4E95F1B55837A003CF15E /* calendar_selected@1x.png */,
-				5CD4E9601B55837A003CF15E /* calendar_selected@2x.png */,
-				5CD4E9611B55837A003CF15E /* calendar_selected@3x.png */,
-				5CD4E94D1B558184003CF15E /* list_selected@1x.png */,
-				5CD4E94E1B558184003CF15E /* list_selected@2x.png */,
-				5CD4E94F1B558184003CF15E /* list_selected@3x.png */,
 				5CD4E9471B5580DC003CF15E /* reservation_selected@1x.png */,
 				5CD4E9481B5580DC003CF15E /* reservation_selected@2x.png */,
 				5CD4E9491B5580DC003CF15E /* reservation_selected@3x.png */,
-				5CD4E93E1B55809B003CF15E /* car_selected@1x.png */,
-				5CD4E93F1B55809B003CF15E /* car_selected@2x.png */,
-				5CD4E9401B55809B003CF15E /* car_selected@3x.png */,
-				5CB5505B1B4CC055005DE447 /* calendar_grey@1x.png */,
-				5CB5505C1B4CC055005DE447 /* calendar_grey@2x.png */,
-				5CB5505D1B4CC055005DE447 /* calendar_grey@3x.png */,
-				5CB550611B4CC055005DE447 /* car_grey@1x.png */,
-				5CB550621B4CC055005DE447 /* car_grey@2x.png */,
-				5CB550631B4CC055005DE447 /* car_grey@3x.png */,
-				5CB550671B4CC055005DE447 /* list_grey@1x.png */,
-				5CB550681B4CC055005DE447 /* list_grey@2x.png */,
-				5CB550691B4CC055005DE447 /* list_grey@3x.png */,
 			);
 			path = "Tab Bar";
 			sourceTree = "<group>";
@@ -1244,10 +1244,10 @@
 		5CBBA9701B5FE6B2009398B8 /* Coach Profile Page */ = {
 			isa = PBXGroup;
 			children = (
-				5CBBA9711B5FE714009398B8 /* HHCoachDesTableViewCell.h */,
-				5CBBA9721B5FE714009398B8 /* HHCoachDesTableViewCell.m */,
 				5CBBA9771B6043A9009398B8 /* HHCoachDashBoardTableViewCell.h */,
 				5CBBA9781B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m */,
+				5CBBA9711B5FE714009398B8 /* HHCoachDesTableViewCell.h */,
+				5CBBA9721B5FE714009398B8 /* HHCoachDesTableViewCell.m */,
 				5CBBA97A1B604762009398B8 /* HHDashView.h */,
 				5CBBA97B1B604762009398B8 /* HHDashView.m */,
 				5C93FA891B6F1DFE00D7FC86 /* HHReviewTableViewCell.h */,
@@ -1256,10 +1256,10 @@
 				5C93FA8D1B6FEECC00D7FC86 /* HHReviewView.m */,
 				5C01272B1B779EF200780992 /* HHScheduleTableViewCell.h */,
 				5C01272C1B779EF200780992 /* HHScheduleTableViewCell.m */,
-				5C01272E1B779F7100780992 /* HHTimeSlotTableViewCell.h */,
-				5C01272F1B779F7100780992 /* HHTimeSlotTableViewCell.m */,
 				5C0127311B77A4B600780992 /* HHTimeSlotSectionTitleView.h */,
 				5C0127321B77A4B600780992 /* HHTimeSlotSectionTitleView.m */,
+				5C01272E1B779F7100780992 /* HHTimeSlotTableViewCell.h */,
+				5C01272F1B779F7100780992 /* HHTimeSlotTableViewCell.m */,
 			);
 			path = "Coach Profile Page";
 			sourceTree = "<group>";
@@ -1267,11 +1267,11 @@
 		5CC3B5F21B48268A00D10DFB = {
 			isa = PBXGroup;
 			children = (
+				D888D3204AF4D3C403817A89 /* Frameworks */,
+				9F9FAF418A99FA3C4406DAC1 /* Pods */,
+				5CC3B5FC1B48268A00D10DFB /* Products */,
 				5CC3B5FD1B48268A00D10DFB /* hahaxueche */,
 				5CC3B6171B48268A00D10DFB /* hahaxuecheTests */,
-				5CC3B5FC1B48268A00D10DFB /* Products */,
-				9F9FAF418A99FA3C4406DAC1 /* Pods */,
-				D888D3204AF4D3C403817A89 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1288,18 +1288,18 @@
 			isa = PBXGroup;
 			children = (
 				5C4DA3F61B93AD7C0098A93E /* Alipay */,
+				5C10F9271B49E6F100992B63 /* Assets */,
+				5C10F92B1B49E7CD00992B63 /* Categories */,
+				5C10F9241B4962EA00992B63 /* Models */,
+				5C10F9251B4962F300992B63 /* Services */,
+				5CC3B5FE1B48268A00D10DFB /* Supporting Files */,
 				5C84E5C21B83F8D800E70AD3 /* Third Party Libs */,
 				5C10F94C1B49F2DE00992B63 /* Utilities */,
-				5C10F92B1B49E7CD00992B63 /* Categories */,
-				5C10F9271B49E6F100992B63 /* Assets */,
 				5C10F9261B49631200992B63 /* View Controllers */,
-				5C10F9251B4962F300992B63 /* Services */,
-				5C10F9241B4962EA00992B63 /* Models */,
 				5C10F9231B49618300992B63 /* Views */,
 				5CC3B6021B48268A00D10DFB /* HHAppDelegate.h */,
 				5CC3B6031B48268A00D10DFB /* HHAppDelegate.m */,
 				5CC3B60B1B48268A00D10DFB /* Images.xcassets */,
-				5CC3B5FE1B48268A00D10DFB /* Supporting Files */,
 			);
 			path = hahaxueche;
 			sourceTree = "<group>";
@@ -1316,8 +1316,8 @@
 		5CC3B6171B48268A00D10DFB /* hahaxuecheTests */ = {
 			isa = PBXGroup;
 			children = (
-				5CC3B61A1B48268A00D10DFB /* hahaxuecheTests.m */,
 				5CC3B6181B48268A00D10DFB /* Supporting Files */,
+				5CC3B61A1B48268A00D10DFB /* hahaxuecheTests.m */,
 			);
 			path = hahaxuecheTests;
 			sourceTree = "<group>";
