@@ -35,6 +35,10 @@
 #import "HHBanner.h"
 #import "HHLoadingView.h"
 #import "Appirater.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
+
 
 #define kLeanCloudStagingAppID @"cr9pv6bp9nlr1xrtl36slyxt0hgv6ypifso9aocxwas2fugq"
 #define kLeanCloudStagingAppKey @"2ykqwhzhfrzhjn3o9bj7rizb8qd75ym3f0lez1d8fcxmn2k3"
@@ -52,9 +56,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [self leanCloudRegisterSubclass];
-    [self setupSMSService];
-    [self setupBackend];
+    [self setupAllServices];
     [self setAppearance];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"]) {
@@ -152,10 +154,23 @@
     [[UITabBar appearance] setTintColor:[UIColor HHOrange]];
     [[UITabBar appearance] setBarTintColor:[UIColor HHLightGrayBackgroundColor]];
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Medium" size:10]} forState:UIControlStateNormal];
+    
+}
+
+- (void)setupAllServices {
+    [self setupFabricCrashlytics];
+    [self leanCloudRegisterSubclass];
+    [self setupSMSService];
+    [self setupBackend];
 }
 
 - (void)setupSMSService {
     [SMSSDK registerApp:@"8e7f80c5c4e6" withSecret:@"1a8ed11da1f399a723950c47b084525e"];
+}
+
+- (void)setupFabricCrashlytics {
+    [Fabric with:@[[Crashlytics class]]];
+    [[Crashlytics sharedInstance] setDebugMode:YES];
 }
 
 - (void)leanCloudRegisterSubclass {
