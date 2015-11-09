@@ -35,31 +35,6 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1.4</string>
-	<key>Fabric</key>
-	<dict>
-		<key>APIKey</key>
-		<string>7f82448ffbb1cb71d98a139a03ae64b2c135c6a2</string>
-		<key>Kits</key>
-		<array>
-			<dict>
-				<key>KitInfo</key>
-				<dict/>
-				<key>KitName</key>
-				<string>Crashlytics</string>
-			</dict>
-			<dict>
-				<key>KitInfo</key>
-				<dict>
-					<key>consumerKey</key>
-					<string>zQEsCnmwMIHG167yKczJH6qBx</string>
-					<key>consumerSecret</key>
-					<string>WfsGorFZyxi8xNs7dhcWZ0YwgoPiqcBbCpcRRwY2TS6l0dEq1q</string>
-				</dict>
-				<key>KitName</key>
-				<string>Digits</string>
-			</dict>
-		</array>
-	</dict>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>alipay</string>

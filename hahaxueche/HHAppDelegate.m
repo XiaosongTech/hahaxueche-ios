@@ -35,8 +35,6 @@
 #import "HHBanner.h"
 #import "HHLoadingView.h"
 #import "Appirater.h"
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
 #import <SMS_SDK/SMSSDK+AddressBookMethods.h>
 
 
@@ -159,7 +157,6 @@
 }
 
 - (void)setupAllServices {
-    [self setupFabricCrashlytics];
     [self leanCloudRegisterSubclass];
     [self setupSMSService];
     [self setupBackend];
@@ -168,11 +165,6 @@
 - (void)setupSMSService {
     [SMSSDK registerApp:@"8e7f80c5c4e6" withSecret:@"1a8ed11da1f399a723950c47b084525e"];
     [SMSSDK enableAppContactFriends:NO];
-}
-
-- (void)setupFabricCrashlytics {
-    [Fabric with:@[[Crashlytics class]]];
-    [[Crashlytics sharedInstance] setDebugMode:YES];
 }
 
 - (void)leanCloudRegisterSubclass {

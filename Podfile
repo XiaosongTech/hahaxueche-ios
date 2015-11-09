@@ -14,5 +14,3 @@ pod 'ActionSheetPicker-3.0'
 pod 'QRCodeReaderViewController', '~> 3.5.2'
 pod 'AVOSCloud'
 pod "Appirater"
-pod 'Fabric'
-pod 'Crashlytics'
