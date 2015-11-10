@@ -168,14 +168,14 @@
     
 #ifdef DEBUG
     [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventShake];
-    [Instabug setIsTrackingCrashes:YES];
+    [Instabug setIsTrackingCrashes:NO];
 #else
     NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
     NSString *receiptURLString = [receiptURL path];
     BOOL isRunningTestFlightBeta =  ([receiptURLString rangeOfString:@"sandboxReceipt"].location != NSNotFound);
     if (isRunningTestFlightBeta) {
         [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventShake];
-        [Instabug setIsTrackingCrashes:YES];
+        [Instabug setIsTrackingCrashes:NO];
     }
     
 #endif
