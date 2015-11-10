@@ -70,6 +70,17 @@
 		5C5451C61B52A7760025D19F /* HHLoginSignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451C51B52A7760025D19F /* HHLoginSignupViewController.m */; };
 		5C5451CF1B52ADE50025D19F /* HHButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451CE1B52ADE50025D19F /* HHButton.m */; };
 		5C5451D21B52BE1D0025D19F /* UIImage+HHImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5451D11B52BE1D0025D19F /* UIImage+HHImage.m */; };
+		5C5F87271BF16B55006F9594 /* Instabug.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5C5F87251BF16B55006F9594 /* Instabug.bundle */; };
+		5C5F87281BF16B55006F9594 /* Instabug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5F87261BF16B55006F9594 /* Instabug.framework */; };
+		5C5F872A1BF16B80006F9594 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5F87291BF16B80006F9594 /* AudioToolbox.framework */; };
+		5C5F872C1BF16B8F006F9594 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5F872B1BF16B8F006F9594 /* CoreGraphics.framework */; };
+		5C5F872E1BF16B98006F9594 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5F872D1BF16B98006F9594 /* CoreMotion.framework */; };
+		5C5F87301BF16BA8006F9594 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5F872F1BF16BA8006F9594 /* Foundation.framework */; };
+		5C5F87321BF16BB1006F9594 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5F87311BF16BB1006F9594 /* GLKit.framework */; };
+		5C5F87341BF16BBA006F9594 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5F87331BF16BBA006F9594 /* libc++.tbd */; };
+		5C5F87361BF16BCE006F9594 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5F87351BF16BCE006F9594 /* OpenGLES.framework */; };
+		5C5F87381BF16BD6006F9594 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5F87371BF16BD6006F9594 /* QuartzCore.framework */; };
+		5C5F873A1BF16BEF006F9594 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5F87391BF16BEF006F9594 /* UIKit.framework */; };
 		5C6686831BA267B200F899FC /* HHSignupOtherInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C6686821BA267B200F899FC /* HHSignupOtherInfoViewController.m */; };
 		5C6686871BA2707200F899FC /* qrcode_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C6686841BA2707200F899FC /* qrcode_btn.png */; };
 		5C6686881BA2707200F899FC /* qrcode_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C6686851BA2707200F899FC /* qrcode_btn@2x.png */; };
@@ -436,6 +447,17 @@
 		5C5451CE1B52ADE50025D19F /* HHButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHButton.m; sourceTree = "<group>"; };
 		5C5451D01B52BE1D0025D19F /* UIImage+HHImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HHImage.h"; sourceTree = "<group>"; };
 		5C5451D11B52BE1D0025D19F /* UIImage+HHImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HHImage.m"; sourceTree = "<group>"; };
+		5C5F87251BF16B55006F9594 /* Instabug.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Instabug.bundle; sourceTree = "<group>"; };
+		5C5F87261BF16B55006F9594 /* Instabug.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Instabug.framework; sourceTree = "<group>"; };
+		5C5F87291BF16B80006F9594 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		5C5F872B1BF16B8F006F9594 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		5C5F872D1BF16B98006F9594 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		5C5F872F1BF16BA8006F9594 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		5C5F87311BF16BB1006F9594 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		5C5F87331BF16BBA006F9594 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		5C5F87351BF16BCE006F9594 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		5C5F87371BF16BD6006F9594 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		5C5F87391BF16BEF006F9594 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5C6686811BA267B200F899FC /* HHSignupOtherInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSignupOtherInfoViewController.h; sourceTree = "<group>"; };
 		5C6686821BA267B200F899FC /* HHSignupOtherInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSignupOtherInfoViewController.m; sourceTree = "<group>"; };
 		5C6686841BA2707200F899FC /* qrcode_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qrcode_btn.png; sourceTree = "<group>"; };
@@ -672,13 +694,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C5F873A1BF16BEF006F9594 /* UIKit.framework in Frameworks */,
+				5CD4E9F81B5AA10C003CF15E /* SystemConfiguration.framework in Frameworks */,
+				5C5F87381BF16BD6006F9594 /* QuartzCore.framework in Frameworks */,
+				5C5F87361BF16BCE006F9594 /* OpenGLES.framework in Frameworks */,
+				5CD4E9FA1B5AA115003CF15E /* MessageUI.framework in Frameworks */,
+				5C5F87341BF16BBA006F9594 /* libc++.tbd in Frameworks */,
+				5C5F87321BF16BB1006F9594 /* GLKit.framework in Frameworks */,
+				5C5F87301BF16BA8006F9594 /* Foundation.framework in Frameworks */,
 				5C7A4EF61BBCD7FC003DB168 /* CoreTelephony.framework in Frameworks */,
+				5C5F872E1BF16B98006F9594 /* CoreMotion.framework in Frameworks */,
+				5C5F872C1BF16B8F006F9594 /* CoreGraphics.framework in Frameworks */,
+				5C5F872A1BF16B80006F9594 /* AudioToolbox.framework in Frameworks */,
 				5CC34C681BD0C9D000C6D9A0 /* MOBFoundation.framework in Frameworks */,
 				5C7A4EF41BBCD7EF003DB168 /* MobileCoreServices.framework in Frameworks */,
+				5C5F87281BF16B55006F9594 /* Instabug.framework in Frameworks */,
 				5C7A4EF01BBCD345003DB168 /* libz.tbd in Frameworks */,
 				5C7A4EEE1BBCD2DE003DB168 /* libicucore.tbd in Frameworks */,
-				5CD4E9FA1B5AA115003CF15E /* MessageUI.framework in Frameworks */,
-				5CD4E9F81B5AA10C003CF15E /* SystemConfiguration.framework in Frameworks */,
 				5C4DA3FE1B93ADA30098A93E /* libssl.a in Frameworks */,
 				5C5451A81B51A7520025D19F /* CoreLocation.framework in Frameworks */,
 				5C4DA3FD1B93ADA30098A93E /* libcrypto.a in Frameworks */,
@@ -1337,6 +1369,17 @@
 		D888D3204AF4D3C403817A89 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5C5F87391BF16BEF006F9594 /* UIKit.framework */,
+				5C5F87371BF16BD6006F9594 /* QuartzCore.framework */,
+				5C5F87351BF16BCE006F9594 /* OpenGLES.framework */,
+				5C5F87331BF16BBA006F9594 /* libc++.tbd */,
+				5C5F87311BF16BB1006F9594 /* GLKit.framework */,
+				5C5F872F1BF16BA8006F9594 /* Foundation.framework */,
+				5C5F872D1BF16B98006F9594 /* CoreMotion.framework */,
+				5C5F872B1BF16B8F006F9594 /* CoreGraphics.framework */,
+				5C5F87291BF16B80006F9594 /* AudioToolbox.framework */,
+				5C5F87251BF16B55006F9594 /* Instabug.bundle */,
+				5C5F87261BF16B55006F9594 /* Instabug.framework */,
 				5CC34C651BD0C9D000C6D9A0 /* MOBFoundation.framework */,
 				5CC34C661BD0C9D000C6D9A0 /* SMS_SDKLocalizable.strings */,
 				5CC34C671BD0C9D000C6D9A0 /* SMS_SDK.framework */,
@@ -1476,6 +1519,7 @@
 				5C6686B71BA52FE400F899FC /* guide4@2x.jpg in Resources */,
 				5CB550811B4CC055005DE447 /* list_grey@3x.png in Resources */,
 				5CD4E9DB1B58B3B3003CF15E /* location_icon@3x.png in Resources */,
+				5C5F87271BF16B55006F9594 /* Instabug.bundle in Resources */,
 				5C2DCCFC1B65ACE0007E8FA7 /* car_icon_solid@1x.png in Resources */,
 				5CD4E9D91B58B3B3003CF15E /* location_icon.png in Resources */,
 				5C98B3901B8CBE05000D6032 /* star_empty@3x.png in Resources */,

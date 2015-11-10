@@ -36,6 +36,7 @@
 #import "HHLoadingView.h"
 #import "Appirater.h"
 #import <SMS_SDK/SMSSDK+AddressBookMethods.h>
+#import <Instabug/Instabug.h>
 
 
 
@@ -160,6 +161,24 @@
     [self leanCloudRegisterSubclass];
     [self setupSMSService];
     [self setupBackend];
+    [self setInstabugService];
+}
+
+- (void)setInstabugService {
+    
+#ifdef DEBUG
+    [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventShake];
+    [Instabug setIsTrackingCrashes:YES];
+#else
+    NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
+    NSString *receiptURLString = [receiptURL path];
+    BOOL isRunningTestFlightBeta =  ([receiptURLString rangeOfString:@"sandboxReceipt"].location != NSNotFound);
+    if (isRunningTestFlightBeta) {
+        [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventShake];
+        [Instabug setIsTrackingCrashes:YES];
+    }
+    
+#endif
 }
 
 - (void)setupSMSService {
