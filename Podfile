@@ -16,3 +16,4 @@ pod 'AVOSCloud'
 pod "Appirater"
 pod 'Fabric'
 pod 'Crashlytics'
+pod 'Instabug'
