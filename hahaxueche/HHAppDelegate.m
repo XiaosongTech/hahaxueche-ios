@@ -37,6 +37,9 @@
 #import "Appirater.h"
 #import <SMS_SDK/SMSSDK+AddressBookMethods.h>
 #import <Instabug/Instabug.h>
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
@@ -167,6 +170,12 @@
     [self setupSMSService];
     [self setupBackend];
     [self setInstabugService];
+    [self setupFabric];
+}
+
+- (void)setupFabric {
+    [Fabric with:@[[Crashlytics class]]];
+
 }
 
 - (void)setInstabugService {
