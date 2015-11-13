@@ -39,6 +39,7 @@
 #import <Instabug/Instabug.h>
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+#import "HHEventTrackingManager.h"
 
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
@@ -171,11 +172,16 @@
     [self setupBackend];
     [self setInstabugService];
     [self setupFabric];
+    [self setupUmeng];
 }
 
 - (void)setupFabric {
     [Fabric with:@[[Crashlytics class]]];
 
+}
+
+- (void)setupUmeng {
+    [HHEventTrackingManager sharedManager];
 }
 
 - (void)setInstabugService {

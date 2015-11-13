@@ -19,6 +19,7 @@
 #import "HHUserAuthenticator.h"
 #import "HHLoadingView.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "HHEventTrackingManager.h"
 
 typedef enum : NSUInteger {
     ImageOptionTakePhoto,
@@ -206,6 +207,7 @@ typedef enum : NSUInteger {
                 [[HHUserAuthenticator sharedInstance] createStudentWithStudent:weakSelf.student completion:^(NSError *error) {
                     [[HHLoadingView sharedInstance] hideLoadingView];
                     if (!error) {
+                        [[HHEventTrackingManager sharedManager] studentSignedUpOrLoggedIn:weakSelf.student.studentId];
                         HHSignupOtherInfoViewController *otherInfoVC = [[HHSignupOtherInfoViewController alloc] init];
                         otherInfoVC.student = weakSelf.student;
                         UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:otherInfoVC];
