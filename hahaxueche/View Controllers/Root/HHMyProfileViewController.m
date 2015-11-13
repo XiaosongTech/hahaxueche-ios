@@ -27,6 +27,7 @@
 #import "QRCodeReaderViewController.h"
 #import "HHCoachService.h"
 #import "Appirater.h"
+#import "HHEventTrackingManager.h"
 
 #define kCellId @"HHReceiptTableViewCellId"
 
@@ -394,6 +395,7 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([alertView isEqual:self.alertView]) {
         if (buttonIndex == 1) {
+            [[HHEventTrackingManager sharedManager] studentLoggedOff];
             [[HHUserAuthenticator sharedInstance] logout];
             HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
             [self presentViewController:loginSignupVC animated:YES completion:nil];

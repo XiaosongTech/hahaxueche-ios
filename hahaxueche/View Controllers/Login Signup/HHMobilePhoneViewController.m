@@ -23,6 +23,7 @@
 #import "HHLoadingView.h"
 #import "HHUser.h"
 #import <SMS_SDK/SMSSDK.h>
+#import "HHEventTrackingManager.h"
 
 
 @interface HHMobilePhoneViewController ()
@@ -248,9 +249,11 @@
                             [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:[HHUserAuthenticator sharedInstance] .currentUser.objectId completion:^(HHStudent *student, NSError *error) {
                                 [[HHLoadingView sharedInstance] hideLoadingView];
                                 if (!error) {
+                                    [[HHEventTrackingManager sharedManager] studentSignedUpOrLoggedIn:student.studentId];
                                     [HHUserAuthenticator sharedInstance].currentStudent = student;
                                     HHRootViewController *rootVC = [[HHRootViewController alloc] initForStudent];
                                     [self presentViewController:rootVC animated:YES completion:nil];
+                                    
                                 } else if (error.code == 101) {
                                     HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] initWithUser:[HHUserAuthenticator sharedInstance].currentUser];
                                     [self.navigationController pushViewController:profileSetupVC animated:YES];

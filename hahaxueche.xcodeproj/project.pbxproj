@@ -79,6 +79,7 @@
 		5C5F87361BF16BCE006F9594 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5F87351BF16BCE006F9594 /* OpenGLES.framework */; };
 		5C5F87381BF16BD6006F9594 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5F87371BF16BD6006F9594 /* QuartzCore.framework */; };
 		5C5F873A1BF16BEF006F9594 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5F87391BF16BEF006F9594 /* UIKit.framework */; };
+		5C5F87671BF6723F006F9594 /* HHEventTrackingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5F87661BF6723F006F9594 /* HHEventTrackingManager.m */; };
 		5C6686831BA267B200F899FC /* HHSignupOtherInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C6686821BA267B200F899FC /* HHSignupOtherInfoViewController.m */; };
 		5C6686871BA2707200F899FC /* qrcode_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C6686841BA2707200F899FC /* qrcode_btn.png */; };
 		5C6686881BA2707200F899FC /* qrcode_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C6686851BA2707200F899FC /* qrcode_btn@2x.png */; };
@@ -454,6 +455,8 @@
 		5C5F87351BF16BCE006F9594 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		5C5F87371BF16BD6006F9594 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		5C5F87391BF16BEF006F9594 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		5C5F87651BF6723F006F9594 /* HHEventTrackingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHEventTrackingManager.h; sourceTree = "<group>"; };
+		5C5F87661BF6723F006F9594 /* HHEventTrackingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHEventTrackingManager.m; sourceTree = "<group>"; };
 		5C6686811BA267B200F899FC /* HHSignupOtherInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSignupOtherInfoViewController.h; sourceTree = "<group>"; };
 		5C6686821BA267B200F899FC /* HHSignupOtherInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSignupOtherInfoViewController.m; sourceTree = "<group>"; };
 		5C6686841BA2707200F899FC /* qrcode_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qrcode_btn.png; sourceTree = "<group>"; };
@@ -938,6 +941,8 @@
 				5CD4EA411B5DE6BC003CF15E /* HHFormatUtility.m */,
 				5CD4E9E81B597CE2003CF15E /* HHToastUtility.h */,
 				5CD4E9E91B597CE2003CF15E /* HHToastUtility.m */,
+				5C5F87651BF6723F006F9594 /* HHEventTrackingManager.h */,
+				5C5F87661BF6723F006F9594 /* HHEventTrackingManager.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1752,6 +1757,7 @@
 				5C4DA4631B93ADDA0098A93E /* RSADataSigner.m in Sources */,
 				5C4DA4671B93B11C0098A93E /* HHAlipayService.m in Sources */,
 				5C4DA45D1B93ADDA0098A93E /* base64.m in Sources */,
+				5C5F87671BF6723F006F9594 /* HHEventTrackingManager.m in Sources */,
 				5CD4E9F01B59CC7B003CF15E /* HHUser.m in Sources */,
 				5CA5B77A1B52CFF300312674 /* HHMobilePhoneViewController.m in Sources */,
 				5C93FA8B1B6F1DFE00D7FC86 /* HHReviewTableViewCell.m in Sources */,
