@@ -30,7 +30,7 @@
 #ifdef DEBUG
         
 #else
-        [MobClick startWithAppkey:@"5645831de0f55a1d0300031d" reportPolicy:BATCH channelId:@"iOS"];
+        [MobClick startWithAppkey:@"5645831de0f55a1d0300031d" reportPolicy:BATCH channelId:nil];
         NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         [MobClick setAppVersion:version];
 #endif
