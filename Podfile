@@ -17,3 +17,4 @@ pod "Appirater"
 pod 'Fabric'
 pod 'Crashlytics'
 pod 'Instabug'
+pod 'UMengAnalytics-NO-IDFA'
