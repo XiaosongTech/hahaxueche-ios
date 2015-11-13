@@ -154,8 +154,9 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
     self.explanationLabel.textColor = [UIColor HHGrayTextColor];
     self.explanationLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:12.0f];
     self.explanationLabel.numberOfLines = 0;
+    [self.explanationLabel sizeToFit];
     
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(10.0f, 5.0f, CGRectGetWidth(self.view.bounds)-20.0f, 60.0f)];
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(10.0f, 5.0f, CGRectGetWidth(self.view.bounds)-20.0f, CGRectGetHeight(self.explanationLabel.bounds))];
     footerView.backgroundColor = [UIColor clearColor];
     [footerView addSubview:self.explanationLabel];
     
