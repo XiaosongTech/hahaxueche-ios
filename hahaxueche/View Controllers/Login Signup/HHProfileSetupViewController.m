@@ -37,6 +37,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSString *selectedProvince;
 @property (nonatomic, strong) UIImage *originalImage;
 @property (nonatomic, strong) UILabel *remindLabel;
+@property (nonatomic, strong) UIBarButtonItem *doneButton;
 
 
 
@@ -56,10 +57,15 @@ typedef enum : NSUInteger {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if ([HHUserAuthenticator sharedInstance].currentStudent) {
+        self.student = [[HHUserAuthenticator sharedInstance].currentStudent mutableCopy];
+    } else {
+        self.student = [HHStudent object];
+    }
     self.view.backgroundColor = [UIColor HHOrange];
     self.navigationItem.hidesBackButton = YES;
-    UIBarButtonItem *doneButton = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"完成",nil) action:@selector(doneButtonPressed) target:self isLeft:NO];
-    self.navigationItem.rightBarButtonItem = doneButton;
+    self.doneButton = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"完成",nil) action:@selector(doneButtonPressed) target:self isLeft:NO];
+    self.navigationItem.rightBarButtonItem = self.doneButton;
     
      UIBarButtonItem *cancelButton = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"取消",nil) action:@selector(cancelButtonPressed) target:self isLeft:YES];
     self.navigationItem.leftBarButtonItem = cancelButton;
@@ -159,6 +165,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)doneButtonPressed {
+    __weak HHProfileSetupViewController *weakSelf = self;
     if (!self.originalImage && ![HHUserAuthenticator sharedInstance].currentStudent.avatarURL) {
         [HHToastUtility showToastWitiTitle:NSLocalizedString(@"请选择头像",nil) isError:YES];
         return;
@@ -174,20 +181,7 @@ typedef enum : NSUInteger {
     [self.nameTextView.textField resignFirstResponder];
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"加载中",nil)];
     
-    AVFile *imageFile = [AVFile fileWithData:UIImagePNGRepresentation([self normalizedImage:self.originalImage] )];
-    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (error) {
-            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"图片上传失败！",nil) isError:YES];
-            [[HHLoadingView sharedInstance] hideLoadingView];
-        } else {
-            self.student.avatarURL = imageFile.url;
-            [HHUserAuthenticator sharedInstance].currentStudent.avatarURL = imageFile.url;
-            [self.student saveInBackground];
-        }
-    }];
-    
     if ([HHUserAuthenticator sharedInstance].currentStudent) {
-        self.student = [[HHUserAuthenticator sharedInstance].currentStudent mutableCopy];
         self.student.fullName = self.nameTextView.textField.text;
         self.student.city = self.selectedCity;
         self.student.province = self.selectedProvince;
@@ -195,7 +189,8 @@ typedef enum : NSUInteger {
             [[HHLoadingView sharedInstance] hideLoadingView];
             if (!error) {
                 [HHToastUtility showToastWitiTitle:@"更新成功！" isError:NO];
-                [self dismissViewControllerAnimated:YES completion:nil];
+                [HHUserAuthenticator sharedInstance].currentStudent = weakSelf.student;
+                [weakSelf dismissViewControllerAnimated:YES completion:nil];
                
             } else {
                 [HHToastUtility showToastWitiTitle:@"更新失败！" isError:YES];
@@ -203,19 +198,18 @@ typedef enum : NSUInteger {
         }];
         
     } else {
-        self.student = [HHStudent object];
         self.student.fullName = self.nameTextView.textField.text;
         self.student.city = self.selectedCity;
         self.student.province = self.selectedProvince;
         [[HHUserAuthenticator sharedInstance] signupWithUser:self.user completion:^(NSError *error) {
             if (!error) {
-                [[HHUserAuthenticator sharedInstance] createStudentWithStudent:self.student completion:^(NSError *error) {
+                [[HHUserAuthenticator sharedInstance] createStudentWithStudent:weakSelf.student completion:^(NSError *error) {
                     [[HHLoadingView sharedInstance] hideLoadingView];
                     if (!error) {
                         HHSignupOtherInfoViewController *otherInfoVC = [[HHSignupOtherInfoViewController alloc] init];
-                        otherInfoVC.student = self.student;
+                        otherInfoVC.student = weakSelf.student;
                         UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:otherInfoVC];
-                        [self presentViewController:navVC animated:YES completion:nil];
+                        [weakSelf presentViewController:navVC animated:YES completion:nil];
                     } else {
                         [HHToastUtility showToastWitiTitle:NSLocalizedString(@"创建账户失败！",nil) isError:YES];
                     }
@@ -349,12 +343,25 @@ typedef enum : NSUInteger {
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    self.doneButton.enabled = NO;
     self.originalImage = info[UIImagePickerControllerEditedImage];
     if(!self.originalImage) {
         self.originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
      self.uploadImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.uploadImageView.image = self.originalImage;
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"上传图片中。。。",nil)];
+    AVFile *imageFile = [AVFile fileWithData:UIImagePNGRepresentation([self normalizedImage:self.originalImage] )];
+    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [[HHLoadingView sharedInstance] hideLoadingView];
+        self.doneButton.enabled = YES;
+        if (error) {
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"图片上传失败！",nil) isError:YES];
+        } else {
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"上传成功！",nil) isError:NO];
+            self.student.avatarURL = imageFile.url;
+        }
+    }];
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
 }
