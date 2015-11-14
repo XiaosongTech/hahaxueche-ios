@@ -37,6 +37,7 @@
     label.font = font;
     label.textColor = textColor;
     label.textAlignment = NSTextAlignmentCenter;
+    label.numberOfLines = 0;
     [self addSubview:label];
     return label;
 }
@@ -45,10 +46,10 @@
     NSArray *constraints = nil;
     if (self.rightLine) {
         constraints = @[
-                        [HHAutoLayoutUtility setCenterY:self.keyLabel multiplier:1.0f constant:-10.0f],
+                        [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.keyLabel constant:7.0f],
                         [HHAutoLayoutUtility setCenterX:self.keyLabel multiplier:1.0f constant:0],
                                  
-                        [HHAutoLayoutUtility setCenterY:self.valueLabel multiplier:1.0f constant:10.0f],
+                        [HHAutoLayoutUtility verticalNext:self.valueLabel toView:self.keyLabel constant:2.0f],
                         [HHAutoLayoutUtility setCenterX:self.valueLabel multiplier:1.0f constant:0],
                         [HHAutoLayoutUtility setViewWidth:self.valueLabel multiplier:1.0f constant:-20.0f],
                                  
@@ -59,11 +60,12 @@
                         ];
     } else {
         constraints = @[
-                        [HHAutoLayoutUtility setCenterY:self.keyLabel multiplier:1.0f constant:-10.0f],
+                        [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.keyLabel constant:7.0f],
                         [HHAutoLayoutUtility setCenterX:self.keyLabel multiplier:1.0f constant:0],
                         
-                        [HHAutoLayoutUtility setCenterY:self.valueLabel multiplier:1.0f constant:10.0f],
+                        [HHAutoLayoutUtility verticalNext:self.valueLabel toView:self.keyLabel constant:2.0f],
                         [HHAutoLayoutUtility setCenterX:self.valueLabel multiplier:1.0f constant:0],
+                        [HHAutoLayoutUtility setViewWidth:self.valueLabel multiplier:1.0f constant:-20.0f],
                         
                         ];
 

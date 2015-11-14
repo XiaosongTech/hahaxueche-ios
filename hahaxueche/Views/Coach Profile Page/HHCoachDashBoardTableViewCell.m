@@ -46,7 +46,6 @@
     [self.phoneNumberView addGestureRecognizer:phoneTap];
     
     self.addressView =[self createDashViewValueTextColor:[UIColor HHClickableBlue] rightLine:NO];
-    self.addressView.valueLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12.0f];
     UITapGestureRecognizer *addressTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addressPressed)];
     [self.addressView addGestureRecognizer:addressTap];
     
@@ -99,37 +98,37 @@
                              
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.priceView constant:0],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.priceView constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.priceView multiplier:0.25f constant:0],
+                             [HHAutoLayoutUtility setViewHeight:self.priceView multiplier:0 constant:55.0f],
                              [HHAutoLayoutUtility setViewWidth:self.priceView multiplier:0.33f constant:0],
                              
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.courseView constant:0],
                              [HHAutoLayoutUtility horizontalNext:self.courseView toView:self.priceView constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.courseView multiplier:0.25f constant:0],
+                             [HHAutoLayoutUtility setViewHeight:self.courseView multiplier:0 constant:55.0f],
                              [HHAutoLayoutUtility setViewWidth:self.courseView multiplier:0.33f constant:0],
                              
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.yearView constant:0],
                              [HHAutoLayoutUtility horizontalNext:self.yearView toView:self.courseView constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.yearView multiplier:0.25f constant:0],
+                             [HHAutoLayoutUtility setViewHeight:self.yearView multiplier:0 constant:55.0f],
                              [HHAutoLayoutUtility setViewWidth:self.yearView multiplier:0.33f constant:0],
                              
                              [HHAutoLayoutUtility verticalNext:self.passedStudentAmountView toView:self.priceView constant:0],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.passedStudentAmountView constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.passedStudentAmountView multiplier:0.25f constant:0],
+                             [HHAutoLayoutUtility setViewHeight:self.passedStudentAmountView multiplier:0 constant:55.0f],
                              [HHAutoLayoutUtility setViewWidth:self.passedStudentAmountView multiplier:0.5f constant:0],
                              
                              [HHAutoLayoutUtility verticalNext:self.currentStudentAmountView toView:self.priceView constant:0],
                              [HHAutoLayoutUtility horizontalNext:self.currentStudentAmountView toView:self.passedStudentAmountView constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.currentStudentAmountView multiplier:0.25f constant:0],
+                             [HHAutoLayoutUtility setViewHeight:self.currentStudentAmountView multiplier:0 constant:55.0f],
                              [HHAutoLayoutUtility setViewWidth:self.currentStudentAmountView multiplier:0.5f constant:0],
                              
                              [HHAutoLayoutUtility verticalNext:self.phoneNumberView toView:self.passedStudentAmountView constant:0],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.phoneNumberView constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.phoneNumberView multiplier:0.25f constant:0],
+                             [HHAutoLayoutUtility setViewHeight:self.phoneNumberView multiplier:0 constant:55.0f],
                              [HHAutoLayoutUtility setViewWidth:self.phoneNumberView multiplier:1.0f constant:0],
                              
                              [HHAutoLayoutUtility verticalNext:self.addressView toView:self.phoneNumberView constant:0],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.addressView constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.addressView multiplier:0.25f constant:0],
+                             [HHAutoLayoutUtility setViewHeight:self.addressView multiplier:1.0f constant:-165.0f],
                              [HHAutoLayoutUtility setViewWidth:self.addressView multiplier:1.0f constant:0],
                              
                              [HHAutoLayoutUtility verticalNext:self.firstHorizontalLine toView:self.priceView constant:0],
@@ -170,8 +169,8 @@
         [self.phoneNumberView setupViewWithKey:NSLocalizedString(@"手机号", nil) value:NSLocalizedString(@"付款后可见", nil)];
     }
     
-    
-    [self.addressView setupViewWithKey:NSLocalizedString(@"训练场地址", nil) value:field.address];
+    NSString *fullAddress = [NSString stringWithFormat:@"%@%@%@%@%@", field.province, field.city, field.district, field.address, field.name];
+    [self.addressView setupViewWithKey:NSLocalizedString(@"训练场地址", nil) value:fullAddress];
     
 }
 

@@ -571,7 +571,13 @@ typedef enum : NSUInteger {
             return self.desCellHeight;
         }
         case CoachProfileCellDashBoard: {
-            return 220.0f;
+            NSString *fullAddress = [NSString stringWithFormat:@"%@%@%@%@%@", self.field.province, self.field.city, self.field.district, self.field.address, self.field.name];
+            CGRect Rect = [fullAddress boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.tableView.bounds) - 20.0f, CGFLOAT_MAX)
+                                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                attributes:@{ NSFontAttributeName : [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f]}
+                                context:nil];
+            
+            return CGRectGetHeight(Rect) + 45.0f + 165.0f;
         }
         case CoachProfileCellCalendar: {
             return 50.0f;

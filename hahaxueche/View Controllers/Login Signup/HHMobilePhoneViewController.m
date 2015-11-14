@@ -209,6 +209,48 @@
 
 - (void)verifySMSCode {
     //如果是app store测试用户，不用验证
+    
+#ifdef DEBUG
+    if([self.numberFieldView.textField.text isEqualToString:@"18888888888"]) {
+        [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+        [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:@"564690fa60b2298f08fb5ba0" completion:^(HHStudent *student, NSError *error) {
+            [[HHLoadingView sharedInstance] hideLoadingView];
+            if (!error) {
+                [HHUserAuthenticator sharedInstance].currentStudent = student;
+                HHRootViewController *rootVC = [[HHRootViewController alloc] initForStudent];
+                [self presentViewController:rootVC animated:YES completion:nil];
+            } else if (error.code == 101) {
+                HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] initWithUser:[HHUserAuthenticator sharedInstance].currentUser];
+                [self.navigationController pushViewController:profileSetupVC animated:YES];
+            } else {
+                [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取用户信息失败",nil) isError:YES];
+            }
+        }];
+        return;
+    }
+#else
+    
+    if([self.numberFieldView.textField.text isEqualToString:@"18888888888"]) {
+        [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+        [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:@"5605732560b249ad1f22d232" completion:^(HHStudent *student, NSError *error) {
+            [[HHLoadingView sharedInstance] hideLoadingView];
+            if (!error) {
+                [HHUserAuthenticator sharedInstance].currentStudent = student;
+                HHRootViewController *rootVC = [[HHRootViewController alloc] initForStudent];
+                [self presentViewController:rootVC animated:YES completion:nil];
+            } else if (error.code == 101) {
+                HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] initWithUser:[HHUserAuthenticator sharedInstance].currentUser];
+                [self.navigationController pushViewController:profileSetupVC animated:YES];
+            } else {
+                [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取用户信息失败",nil) isError:YES];
+            }
+        }];
+        return;
+    }
+
+
+#endif
+   
     if([self.numberFieldView.textField.text isEqualToString:@"18888888888"]) {
         [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
         [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:@"5605732560b249ad1f22d232" completion:^(HHStudent *student, NSError *error) {
