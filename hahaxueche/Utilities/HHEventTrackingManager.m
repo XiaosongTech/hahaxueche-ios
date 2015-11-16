@@ -47,5 +47,9 @@
     [MobClick profileSignOff];
 }
 
+- (void)sendEventWithId:(NSString *)eventId attributes:(NSDictionary *)attributes {
+    [MobClick event:(NSString *)eventId attributes:(NSDictionary *)attributes];
+}
+
 
 @end

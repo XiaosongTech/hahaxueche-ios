@@ -122,6 +122,8 @@
 		5C8AA1EB1BA7AEAB006557E6 /* splash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8AA1E91BA7AEAB006557E6 /* splash@2x.png */; };
 		5C8AA1EC1BA7AEAB006557E6 /* splash@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8AA1EA1BA7AEAB006557E6 /* splash@3x.png */; };
 		5C9299A71BF9555400F245A5 /* HHSMSService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C9299A61BF9555400F245A5 /* HHSMSService.m */; };
+		5C9299AA1BFA5A5200F245A5 /* HHCoachSubmitCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C9299A91BFA5A5200F245A5 /* HHCoachSubmitCommentView.m */; };
+		5C9299AD1BFA620F00F245A5 /* HHTryCoachSubmitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C9299AC1BFA620F00F245A5 /* HHTryCoachSubmitView.m */; };
 		5C93666A1B9B3557007962A3 /* HHCoachMyProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C9366691B9B3557007962A3 /* HHCoachMyProfileViewController.m */; };
 		5C93666D1B9B40D1007962A3 /* HHCoachScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C93666C1B9B40D1007962A3 /* HHCoachScheduleViewController.m */; };
 		5C9366701B9B44AE007962A3 /* HHCoachAddTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C93666F1B9B44AE007962A3 /* HHCoachAddTimeViewController.m */; };
@@ -508,6 +510,10 @@
 		5C8AA1EA1BA7AEAB006557E6 /* splash@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash@3x.png"; sourceTree = "<group>"; };
 		5C9299A51BF9555400F245A5 /* HHSMSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSMSService.h; sourceTree = "<group>"; };
 		5C9299A61BF9555400F245A5 /* HHSMSService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSMSService.m; sourceTree = "<group>"; };
+		5C9299A81BFA5A5200F245A5 /* HHCoachSubmitCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachSubmitCommentView.h; sourceTree = "<group>"; };
+		5C9299A91BFA5A5200F245A5 /* HHCoachSubmitCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachSubmitCommentView.m; sourceTree = "<group>"; };
+		5C9299AB1BFA620F00F245A5 /* HHTryCoachSubmitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTryCoachSubmitView.h; sourceTree = "<group>"; };
+		5C9299AC1BFA620F00F245A5 /* HHTryCoachSubmitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHTryCoachSubmitView.m; sourceTree = "<group>"; };
 		5C9366681B9B3557007962A3 /* HHCoachMyProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachMyProfileViewController.h; sourceTree = "<group>"; };
 		5C9366691B9B3557007962A3 /* HHCoachMyProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachMyProfileViewController.m; sourceTree = "<group>"; };
 		5C93666B1B9B40D1007962A3 /* HHCoachScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachScheduleViewController.h; sourceTree = "<group>"; };
@@ -1292,6 +1298,10 @@
 				5C0127321B77A4B600780992 /* HHTimeSlotSectionTitleView.m */,
 				5C01272E1B779F7100780992 /* HHTimeSlotTableViewCell.h */,
 				5C01272F1B779F7100780992 /* HHTimeSlotTableViewCell.m */,
+				5C9299A81BFA5A5200F245A5 /* HHCoachSubmitCommentView.h */,
+				5C9299A91BFA5A5200F245A5 /* HHCoachSubmitCommentView.m */,
+				5C9299AB1BFA620F00F245A5 /* HHTryCoachSubmitView.h */,
+				5C9299AC1BFA620F00F245A5 /* HHTryCoachSubmitView.m */,
 			);
 			path = "Coach Profile Page";
 			sourceTree = "<group>";
@@ -1708,6 +1718,7 @@
 				5C5451911B4F67200025D19F /* HHSearchBar.m in Sources */,
 				5C69C7BD1B803DB800FDE709 /* HHMyProfileViewController.m in Sources */,
 				5C93666D1B9B40D1007962A3 /* HHCoachScheduleViewController.m in Sources */,
+				5C9299AD1BFA620F00F245A5 /* HHTryCoachSubmitView.m in Sources */,
 				5C93FA881B6F1CB400D7FC86 /* HHReview.m in Sources */,
 				5C504B701B98961D00149923 /* HHStudentListViewController.m in Sources */,
 				5C8AA1E81BA7A76C006557E6 /* HHStartAppLoadingViewController.m in Sources */,
@@ -1735,6 +1746,7 @@
 				5CD4E9ED1B5984FD003CF15E /* HHLoadingView.m in Sources */,
 				5CD4EA001B5AD60F003CF15E /* HHCoach.m in Sources */,
 				5C93FA8E1B6FEECC00D7FC86 /* HHReviewView.m in Sources */,
+				5C9299AA1BFA5A5200F245A5 /* HHCoachSubmitCommentView.m in Sources */,
 				5C5451C61B52A7760025D19F /* HHLoginSignupViewController.m in Sources */,
 				5C0126F11B70360800780992 /* HHReviewViewController.m in Sources */,
 				5C4DA45F1B93ADDA0098A93E /* DataVerifier.m in Sources */,

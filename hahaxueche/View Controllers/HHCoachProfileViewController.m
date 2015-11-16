@@ -37,6 +37,9 @@
 #import "HHTransfer.h"
 #import "KLCPopup.h"
 #import "HHSMSService.h"
+#import "HHEventTrackingManager.h"
+#import "HHCoachSubmitCommentView.h"
+#import "HHTryCoachSubmitView.h"
 
 
 typedef enum : NSUInteger {
@@ -52,7 +55,7 @@ typedef enum : NSUInteger {
 #define kScheduleCellId @"kScheduleCellId"
 #define kReviewCellId @"kReviewCellId"
 
-@interface HHCoachProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIScrollViewDelegate, HHScrollImageGalleryDelegate, UITextViewDelegate>
+@interface HHCoachProfileViewController ()<UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIScrollViewDelegate, HHScrollImageGalleryDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) HHScrollImageGallery *imageGalleryView;
@@ -64,10 +67,9 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIButton *commentButton;
 @property (nonatomic, strong) NSMutableAttributedString *coachDes;
 @property (nonatomic, strong) NSArray *reviews;
-@property (nonatomic, strong) KLCPopup *reviewPopupView;
-@property (nonatomic, strong) HHStarRatingView *ratingView;
-@property (nonatomic, strong) UILabel *placeholderLabel;
-@property (nonatomic, strong) UITextView *reviewTextView;
+@property (nonatomic, strong) KLCPopup *popupView;
+@property (nonatomic, strong) HHCoachSubmitCommentView *reviewView;
+@property (nonatomic, strong) HHTryCoachSubmitView *tryCoachView;
 
 
 @end
@@ -231,6 +233,9 @@ typedef enum : NSUInteger {
 }
 
 - (void)transactionSucceed:(HHTransaction *)transaction {
+    NSDictionary *attribute = @{@"coachId":self.coach.coachId ,@"studentId":[HHUserAuthenticator sharedInstance].currentStudent.studentId, @"price":self.coach.actualPrice};
+    [[HHEventTrackingManager sharedManager] sendEventWithId:kDidPurchaseCoachServiceEventId attributes:attribute];
+    
     [[HHSMSService sharedInstance] sendTransactionSucceedSMSToCoach:self.coach.phoneNumber studentName:[HHUserAuthenticator sharedInstance].currentStudent.fullName studentNumber:[HHUserAuthenticator sharedInstance].currentStudent.phoneNumber completion:nil];
     
     [[HHSMSService sharedInstance] sendTransactionSucceedSMSToStudent:[HHUserAuthenticator sharedInstance].currentStudent.phoneNumber studentName:[HHUserAuthenticator sharedInstance].currentStudent.fullName coachName:self.coach.fullName completion:nil];
@@ -281,13 +286,34 @@ typedef enum : NSUInteger {
         [HHToastUtility showToastWitiTitle:NSLocalizedString(@"您已经有教练，无需再试学。", nil) isError:YES];
         return;
     }
+    [self showTryCoachPopupView];
+}
+
+- (void)showTryCoachPopupView {
+     __weak HHCoachProfileViewController *weakSelf = self;
+    self.tryCoachView = [[HHTryCoachSubmitView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 200.0f)];
+    self.tryCoachView.cancelAction = ^(){
+        [weakSelf.popupView dismiss:YES];
+    };
+    self.tryCoachView.confirmAction = ^(){
+        [weakSelf sendSMSToCoach];
+    };
     
-    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"发送中。。。", ni)];
+    self.tryCoachView.nameField.text = [HHUserAuthenticator sharedInstance].currentStudent.fullName;
+    self.tryCoachView.numberField.text = [HHUserAuthenticator sharedInstance].currentStudent.phoneNumber;
+    self.popupView = [KLCPopup popupWithContentView:self.tryCoachView];
+    self.popupView.shouldDismissOnBackgroundTouch = NO;
+    [self.popupView showWithLayout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+}
+
+- (void)sendSMSToCoach {
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"发送中", ni)];
     [[HHSMSService sharedInstance] sendTryCoachSMSToCoach:self.coach.phoneNumber studentName:[HHUserAuthenticator sharedInstance].currentStudent.fullName studentNumber:[HHUserAuthenticator sharedInstance].currentStudent.phoneNumber completion:^(BOOL succeed) {
         [[HHLoadingView sharedInstance] hideLoadingView];
         if (succeed) {
             NSString *text = [NSString stringWithFormat:NSLocalizedString(@"已成功通知%@教练，%@教练会马上联系您！", nil), self.coach.fullName, self.coach.fullName];
             [HHToastUtility showToastWitiTitle:text isError:NO];
+            [self.popupView dismiss:YES];
         } else {
             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"发送失败！", nil) isError:YES];
         }
@@ -299,130 +325,27 @@ typedef enum : NSUInteger {
 }
 
 - (void)showReviewPopupView {
+    __weak HHCoachProfileViewController *weakSelf = self;
+    self.reviewView = [[HHCoachSubmitCommentView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, CGRectGetHeight(self.view.bounds) * 3.0f/7.0f)];
+    self.reviewView.cancelAction = ^(){
+        [weakSelf.popupView dismiss:YES];
+    };
     
-    UIView *reviewView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, CGRectGetHeight(self.view.bounds) * 3.0f/7.0f)];
-    reviewView.backgroundColor = [UIColor whiteColor];
-    self.reviewPopupView = [KLCPopup popupWithContentView:reviewView];
-    
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:16.0f];
-    titleLabel.textColor = [UIColor blackColor];
-    titleLabel.text = NSLocalizedString(@"给教练打分", nil);
-    titleLabel.textAlignment = NSTextAlignmentLeft;
-    [titleLabel sizeToFit];
-    [reviewView addSubview:titleLabel];
-    
-    UIView *line = [[UIView alloc] initWithFrame:CGRectZero];
-    line.translatesAutoresizingMaskIntoConstraints = NO;
-    line.backgroundColor = [UIColor HHGrayLineColor];
-    [reviewView addSubview:line];
-    
-    UIView *line2 = [[UIView alloc] initWithFrame:CGRectZero];
-    line2.translatesAutoresizingMaskIntoConstraints = NO;
-    line2.backgroundColor = [UIColor HHGrayLineColor];
-    [reviewView addSubview:line2];
-    
-    UIView *verticalLine = [[UIView alloc] initWithFrame:CGRectZero];
-    verticalLine.translatesAutoresizingMaskIntoConstraints = NO;
-    verticalLine.backgroundColor = [UIColor HHGrayLineColor];
-    [reviewView addSubview:verticalLine];
-    
-    self.reviewTextView = [[UITextView alloc] initWithFrame:CGRectZero];
-    self.reviewTextView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.reviewTextView.font = [UIFont fontWithName:@"STHeitiSC-Light" size:13.0f];
-    self.reviewTextView.showsHorizontalScrollIndicator = NO;
-    self.reviewTextView.delegate = self;
-    [reviewView addSubview:self.reviewTextView];
-    
-    self.placeholderLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.placeholderLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.placeholderLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:13.0f];
-    self.placeholderLabel.textColor = [UIColor lightGrayColor];
-    self.placeholderLabel.text = NSLocalizedString(@"牢骚或表扬，大胆说出来吧！", nil);
-    self.placeholderLabel.textAlignment = NSTextAlignmentLeft;
-    [self.placeholderLabel sizeToFit];
-    [self.reviewTextView addSubview:self.placeholderLabel];
-
-    
-    UIButton *dismissButton = [self createButtonWithTitle:NSLocalizedString(@"取消返回", nil) backgroundColor:[UIColor whiteColor] font:[UIFont fontWithName:@"STHeitiSC-Light" size:15.0f] action:@selector(dismissCommentPopupView)];
-    [dismissButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
-    [reviewView addSubview:dismissButton];
-    
-    UIButton *confirmButton = [self createButtonWithTitle:NSLocalizedString(@"确认评价", nil) backgroundColor:[UIColor whiteColor] font:[UIFont fontWithName:@"STHeitiSC-Light" size:15.0f] action:@selector(confirmButtonTapped)];
-    [confirmButton setTitleColor:[UIColor HHBlueButtonColor] forState:UIControlStateNormal];
-    [reviewView addSubview:confirmButton];
-    
-    self.ratingView = [[HHStarRatingView alloc] initWithFrame:CGRectZero rating:0];
-    self.ratingView.userInteractionEnabled = YES;
-    self.ratingView.translatesAutoresizingMaskIntoConstraints = NO;
-    [reviewView addSubview:self.ratingView];
-    
-    NSArray *constraints = @[
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:titleLabel constant:15.0f],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:titleLabel constant:15.0f],
-                             
-                             [HHAutoLayoutUtility setCenterY:self.ratingView toView:titleLabel multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.ratingView constant:-10.0f],
-                             [HHAutoLayoutUtility setViewHeight:self.ratingView multiplier:0 constant:45.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.ratingView multiplier:0 constant:110.0f],
-
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:line constant:45.0f],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:line constant:0],
-                             [HHAutoLayoutUtility setViewWidth:line multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:line multiplier:0 constant:1.0f],
-                             
-                             
-                             [HHAutoLayoutUtility verticalNext:self.reviewTextView toView:line constant:0],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.reviewTextView constant:10.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.reviewTextView multiplier:1.0f constant:-30.0f],
-                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.reviewTextView constant:-46.0f],
-                             
-                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:line2 constant:-45.0f],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:line2 constant:0],
-                             [HHAutoLayoutUtility setViewWidth:line2 multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:line2 multiplier:0 constant:1.0f],
-                             
-                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:dismissButton constant:0],
-                             [HHAutoLayoutUtility setCenterX:dismissButton multiplier:0.5f constant:0],
-                             [HHAutoLayoutUtility setViewWidth:dismissButton multiplier:0.5f constant:-1.0f],
-                             [HHAutoLayoutUtility setViewHeight:dismissButton multiplier:0 constant:45.0f],
-                             
-                             [HHAutoLayoutUtility verticalAlignToSuperViewBottom:confirmButton constant:0],
-                             [HHAutoLayoutUtility setCenterX:confirmButton multiplier:1.5f constant:0],
-                             [HHAutoLayoutUtility setViewWidth:confirmButton multiplier:0.5f constant:-1.0f],
-                             [HHAutoLayoutUtility setViewHeight:confirmButton multiplier:0 constant:45.0f],
-
-                             
-                             
-                             [HHAutoLayoutUtility setCenterY:verticalLine multiplier:2.0f constant:-45.0f/2.0f],
-                             [HHAutoLayoutUtility setCenterX:verticalLine multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewWidth:verticalLine multiplier:0 constant:1.0f],
-                             [HHAutoLayoutUtility setViewHeight:verticalLine multiplier:0 constant:30.0f],
-                             
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.placeholderLabel constant:10.0f],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.placeholderLabel constant:6.0f],
-                            
-                             ];
-        
-    
-    [reviewView addConstraints:constraints];
-    [self.reviewTextView becomeFirstResponder];
-    self.reviewPopupView.shouldDismissOnBackgroundTouch = NO;
-    [self.reviewPopupView showWithLayout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+    self.reviewView.confirmAction = ^(){
+        [weakSelf confirmComment];
+    };
+    self.popupView = [KLCPopup popupWithContentView:self.reviewView];
+    self.popupView.shouldDismissOnBackgroundTouch = NO;
+    [self.popupView showWithLayout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
 }
 
-- (void)dismissCommentPopupView {
-    [self.reviewPopupView dismiss:YES];
-}
-
-- (void)confirmButtonTapped {
+- (void)confirmComment {
     __weak HHCoachProfileViewController *weakSelf = self;
     HHReview *newReview = [[HHReview alloc] initWithClassName:@"Review"];
     newReview.studentId = [HHUserAuthenticator sharedInstance].currentStudent.studentId;
     newReview.coachId = self.coach.coachId;
-    newReview.rating = [NSNumber numberWithFloat:self.ratingView.value];
-    newReview.comment = self.reviewTextView.text;
+    newReview.rating = [NSNumber numberWithFloat:self.reviewView.ratingView.value];
+    newReview.comment = self.reviewView.reviewTextView.text;
     if([newReview.comment isEqualToString:@""]) {
         UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:NSLocalizedString(@"请输入评语，谢谢", nil)
                                                          message:nil
@@ -455,7 +378,7 @@ typedef enum : NSUInteger {
             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"提交数据出错！", nil) isError:YES];
         }
     }];
-    [self.reviewPopupView dismiss:YES];
+    [self.popupView dismiss:YES];
 }
 
 - (void)autolayoutSubview {
@@ -483,11 +406,7 @@ typedef enum : NSUInteger {
 
                         ];
 
-    
-    
     [self.view addConstraints:constraints];
-    
-    
 }
 
 - (UIButton *)createButtonWithTitle:(NSString *)title backgroundColor:(UIColor *)bgColor font:(UIFont *)font action:(SEL)action {
@@ -668,14 +587,5 @@ typedef enum : NSUInteger {
     [self presentViewController:fullImageVC animated:YES completion:nil];
 }
 
-#pragma -mark TextView Delegate
-
-- (void)textViewDidChange:(UITextView *)textView {
-    if ([textView.text isEqualToString:@""]) {
-        self.placeholderLabel.hidden = NO;
-    } else {
-        self.placeholderLabel.hidden = YES;
-    }
-}
 
 @end
