@@ -36,6 +36,7 @@
 #import "HHPaymentStatus.h"
 #import "HHTransfer.h"
 #import "KLCPopup.h"
+#import "HHSMSService.h"
 
 
 typedef enum : NSUInteger {
@@ -178,7 +179,7 @@ typedef enum : NSUInteger {
     self.payButton = [self createButtonWithTitle:NSLocalizedString(@"确认教练并付款", nil) backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f] action:@selector(payCoach)];
     [self.view addSubview:self.payButton];
     
-    self.bookTrialButton = [self createButtonWithTitle:NSLocalizedString(@"预约试学", nil) backgroundColor:[UIColor HHLightOrange] font:[UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f] action:@selector(callCoach)];
+    self.bookTrialButton = [self createButtonWithTitle:NSLocalizedString(@"预约试学", nil) backgroundColor:[UIColor HHLightOrange] font:[UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f] action:@selector(notifyCoach)];
     [self.view addSubview:self.bookTrialButton];
     
     self.commentButton = [self createButtonWithTitle:NSLocalizedString(@"评价教练", nil) backgroundColor:[UIColor HHOrange] font:[UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f] action:@selector(commentCoach)];
@@ -230,6 +231,10 @@ typedef enum : NSUInteger {
 }
 
 - (void)transactionSucceed:(HHTransaction *)transaction {
+    [[HHSMSService sharedInstance] sendTransactionSucceedSMSToCoach:self.coach.phoneNumber studentName:[HHUserAuthenticator sharedInstance].currentStudent.fullName studentNumber:[HHUserAuthenticator sharedInstance].currentStudent.phoneNumber completion:nil];
+    
+    [[HHSMSService sharedInstance] sendTransactionSucceedSMSToStudent:[HHUserAuthenticator sharedInstance].currentStudent.phoneNumber studentName:[HHUserAuthenticator sharedInstance].currentStudent.fullName coachName:self.coach.fullName completion:nil];
+
     __weak HHCoachProfileViewController *weakSelf = self;
     NSInteger newAmount = [self.coach.currentStudentAmount integerValue] + 1;
     self.coach.currentStudentAmount = [NSNumber numberWithInteger:newAmount];
@@ -271,14 +276,22 @@ typedef enum : NSUInteger {
 
 }
 
-- (void)callCoach {
+- (void)notifyCoach {
     if ([[HHUserAuthenticator sharedInstance].currentStudent.myCoachId length]) {
         [HHToastUtility showToastWitiTitle:NSLocalizedString(@"您已经有教练，无需再试学。", nil) isError:YES];
         return;
     }
-    NSString *phoneURLString = [NSString stringWithFormat:@"telprompt://%@", @"4000016006"];
-    NSURL *phoneURL = [NSURL URLWithString:phoneURLString];
-    [[UIApplication sharedApplication] openURL:phoneURL];
+    
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:NSLocalizedString(@"发送中。。。", ni)];
+    [[HHSMSService sharedInstance] sendTryCoachSMSToCoach:self.coach.phoneNumber studentName:[HHUserAuthenticator sharedInstance].currentStudent.fullName studentNumber:[HHUserAuthenticator sharedInstance].currentStudent.phoneNumber completion:^(BOOL succeed) {
+        [[HHLoadingView sharedInstance] hideLoadingView];
+        if (succeed) {
+            NSString *text = [NSString stringWithFormat:NSLocalizedString(@"已成功通知%@教练，%@教练会马上联系您！", nil), self.coach.fullName, self.coach.fullName];
+            [HHToastUtility showToastWitiTitle:text isError:NO];
+        } else {
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"发送失败！", nil) isError:YES];
+        }
+    }];
 }
 
 - (void)commentCoach {
