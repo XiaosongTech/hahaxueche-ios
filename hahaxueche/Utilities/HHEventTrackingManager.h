@@ -8,11 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+static NSString *const kDidPurchaseCoachServiceEventId = @"DidPurchaseCoachService";
+static NSString *const kDidTryCoachEventId = @"DidTryCoach";
+
 @interface HHEventTrackingManager : NSObject
 
 + (HHEventTrackingManager *)sharedManager;
 
 - (void)studentSignedUpOrLoggedIn:(NSString *)studentId;
 - (void)studentLoggedOff;
+
+- (void)sendEventWithId:(NSString *)eventId attributes:(NSDictionary *)attributes;
 
 @end
