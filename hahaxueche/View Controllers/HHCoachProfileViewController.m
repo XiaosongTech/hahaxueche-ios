@@ -313,6 +313,9 @@ typedef enum : NSUInteger {
         if (succeed) {
             NSString *text = [NSString stringWithFormat:NSLocalizedString(@"已成功通知%@教练，%@教练会马上联系您！", nil), self.coach.fullName, self.coach.fullName];
             [HHToastUtility showToastWitiTitle:text isError:NO];
+            
+            NSDictionary *attribute = @{@"studentId":[HHUserAuthenticator sharedInstance].currentStudent.studentId, @"coachId":self.coach.coachId};
+            [[HHEventTrackingManager sharedManager] sendEventWithId:kDidTryCoachEventId attributes:attribute];
             [self.popupView dismiss:YES];
         } else {
             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"发送失败！", nil) isError:YES];
