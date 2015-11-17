@@ -251,140 +251,68 @@
 
 #endif
     
-    if (self.type == PageTypeSignup) {
-        self.user = [HHUser user];
-        self.user.username = self.numberFieldView.textField.text;
-        self.user.password = self.numberFieldView.textField.text;
-        self.user.mobilePhoneNumber = self.numberFieldView.textField.text;
-        self.user.type = kStudentTypeValue;
-        [[HHLoadingView sharedInstance] hideLoadingView];
-        HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] initWithUser:self.user];
-        [self.navigationController pushViewController:profileSetupVC animated:YES];
-        
-    } else if (self.type == PageTypeLogin) {
-        [[HHUserAuthenticator sharedInstance] loginWithNumber:self.numberFieldView.textField.text completion:^(NSError *error) {
-            if (!error) {
-                if([[HHUserAuthenticator sharedInstance].currentUser.type isEqualToString:kStudentTypeValue]) {
-                    [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:[HHUserAuthenticator sharedInstance] .currentUser.objectId completion:^(HHStudent *student, NSError *error) {
-                        [[HHLoadingView sharedInstance] hideLoadingView];
-                        if (!error) {
-                            [[HHEventTrackingManager sharedManager] studentSignedUpOrLoggedIn:student.studentId];
-                            [HHUserAuthenticator sharedInstance].currentStudent = student;
-                            HHRootViewController *rootVC = [[HHRootViewController alloc] initForStudent];
-                            [self presentViewController:rootVC animated:YES completion:nil];
-                            
-                        } else if (error.code == 101) {
-                            HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] initWithUser:[HHUserAuthenticator sharedInstance].currentUser];
-                            [self.navigationController pushViewController:profileSetupVC animated:YES];
-                        } else {
-                            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取用户信息失败",nil) isError:YES];
-                        }
-                    }];
-                } else {
-                    [[HHUserAuthenticator sharedInstance] fetchAuthedCoachWithId:[HHUserAuthenticator sharedInstance].currentUser.objectId completion:^(HHCoach *coach, NSError *error) {
-                        [[HHLoadingView sharedInstance] hideLoadingView];
-                        if (!error) {
-                            [HHUserAuthenticator sharedInstance].currentCoach = coach;
-                            HHRootViewController *rootVC = [[HHRootViewController alloc] initForCoach];
-                            [self presentViewController:rootVC animated:YES completion:nil];
-                        } else if (error.code == 101) {
-                            HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] initWithUser:[HHUserAuthenticator sharedInstance].currentUser];
-                            [self.navigationController pushViewController:profileSetupVC animated:YES];
-                        } else {
-                            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取用户信息失败",nil) isError:YES];
-                        }
-                        
-                    }];
-                    
-                }
-            } else {
-                [HHToastUtility showToastWitiTitle:NSLocalizedString(@"登陆失败！",nil) isError:YES];
+    [self.numberFieldView.textField resignFirstResponder];
+    [self.verificationCodeFieldView.textField resignFirstResponder];
+    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+    [[HHUserAuthenticator sharedInstance] verifyPhoneNumberWith:self.verificationCodeFieldView.textField.text number:self.numberFieldView.textField.text completion:^(BOOL succeed) {
+        if (succeed) {
+            if (self.type == PageTypeSignup) {
+                self.user = [HHUser user];
+                self.user.username = self.numberFieldView.textField.text;
+                self.user.password = self.numberFieldView.textField.text;
+                self.user.mobilePhoneNumber = self.numberFieldView.textField.text;
+                self.user.type = kStudentTypeValue;
                 [[HHLoadingView sharedInstance] hideLoadingView];
-            }
-        }];
-    }
+                HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] initWithUser:self.user];
+                [self.navigationController pushViewController:profileSetupVC animated:YES];
+                
+            } else if (self.type == PageTypeLogin) {
+                [[HHUserAuthenticator sharedInstance] loginWithNumber:self.numberFieldView.textField.text completion:^(NSError *error) {
+                    if (!error) {
+                        if([[HHUserAuthenticator sharedInstance].currentUser.type isEqualToString:kStudentTypeValue]) {
+                            [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:[HHUserAuthenticator sharedInstance] .currentUser.objectId completion:^(HHStudent *student, NSError *error) {
+                                [[HHLoadingView sharedInstance] hideLoadingView];
+                                if (!error) {
+                                    [[HHEventTrackingManager sharedManager] studentSignedUpOrLoggedIn:student.studentId];
+                                    [HHUserAuthenticator sharedInstance].currentStudent = student;
+                                    HHRootViewController *rootVC = [[HHRootViewController alloc] initForStudent];
+                                    [self presentViewController:rootVC animated:YES completion:nil];
+                                    
+                                } else if (error.code == 101) {
+                                    HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] initWithUser:[HHUserAuthenticator sharedInstance].currentUser];
+                                    [self.navigationController pushViewController:profileSetupVC animated:YES];
+                                } else {
+                                    [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取用户信息失败",nil) isError:YES];
+                                }
+                            }];
+                        } else {
+                            [[HHUserAuthenticator sharedInstance] fetchAuthedCoachWithId:[HHUserAuthenticator sharedInstance].currentUser.objectId completion:^(HHCoach *coach, NSError *error) {
+                                [[HHLoadingView sharedInstance] hideLoadingView];
+                                if (!error) {
+                                    [HHUserAuthenticator sharedInstance].currentCoach = coach;
+                                    HHRootViewController *rootVC = [[HHRootViewController alloc] initForCoach];
+                                    [self presentViewController:rootVC animated:YES completion:nil];
+                                } else if (error.code == 101) {
+                                    HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] initWithUser:[HHUserAuthenticator sharedInstance].currentUser];
+                                    [self.navigationController pushViewController:profileSetupVC animated:YES];
+                                } else {
+                                    [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取用户信息失败",nil) isError:YES];
+                                }
 
-   
-//    if([self.numberFieldView.textField.text isEqualToString:@"18888888888"]) {
-//        [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
-//        [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:@"5605732560b249ad1f22d232" completion:^(HHStudent *student, NSError *error) {
-//            [[HHLoadingView sharedInstance] hideLoadingView];
-//            if (!error) {
-//                [HHUserAuthenticator sharedInstance].currentStudent = student;
-//                HHRootViewController *rootVC = [[HHRootViewController alloc] initForStudent];
-//                [self presentViewController:rootVC animated:YES completion:nil];
-//            } else if (error.code == 101) {
-//                HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] initWithUser:[HHUserAuthenticator sharedInstance].currentUser];
-//                [self.navigationController pushViewController:profileSetupVC animated:YES];
-//            } else {
-//                [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取用户信息失败",nil) isError:YES];
-//            }
-//        }];
-//        return;
-//    }
-//    
-//    [self.numberFieldView.textField resignFirstResponder];
-//    [self.verificationCodeFieldView.textField resignFirstResponder];
-//    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
-//    [[HHUserAuthenticator sharedInstance] verifyPhoneNumberWith:self.verificationCodeFieldView.textField.text number:self.numberFieldView.textField.text completion:^(BOOL succeed) {
-//        if (succeed) {
-//            if (self.type == PageTypeSignup) {
-//                self.user = [HHUser user];
-//                self.user.username = self.numberFieldView.textField.text;
-//                self.user.password = self.numberFieldView.textField.text;
-//                self.user.mobilePhoneNumber = self.numberFieldView.textField.text;
-//                self.user.type = kStudentTypeValue;
-//                [[HHLoadingView sharedInstance] hideLoadingView];
-//                HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] initWithUser:self.user];
-//                [self.navigationController pushViewController:profileSetupVC animated:YES];
-//                
-//            } else if (self.type == PageTypeLogin) {
-//                [[HHUserAuthenticator sharedInstance] loginWithNumber:self.numberFieldView.textField.text completion:^(NSError *error) {
-//                    if (!error) {
-//                        if([[HHUserAuthenticator sharedInstance].currentUser.type isEqualToString:kStudentTypeValue]) {
-//                            [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:[HHUserAuthenticator sharedInstance] .currentUser.objectId completion:^(HHStudent *student, NSError *error) {
-//                                [[HHLoadingView sharedInstance] hideLoadingView];
-//                                if (!error) {
-//                                    [[HHEventTrackingManager sharedManager] studentSignedUpOrLoggedIn:student.studentId];
-//                                    [HHUserAuthenticator sharedInstance].currentStudent = student;
-//                                    HHRootViewController *rootVC = [[HHRootViewController alloc] initForStudent];
-//                                    [self presentViewController:rootVC animated:YES completion:nil];
-//                                    
-//                                } else if (error.code == 101) {
-//                                    HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] initWithUser:[HHUserAuthenticator sharedInstance].currentUser];
-//                                    [self.navigationController pushViewController:profileSetupVC animated:YES];
-//                                } else {
-//                                    [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取用户信息失败",nil) isError:YES];
-//                                }
-//                            }];
-//                        } else {
-//                            [[HHUserAuthenticator sharedInstance] fetchAuthedCoachWithId:[HHUserAuthenticator sharedInstance].currentUser.objectId completion:^(HHCoach *coach, NSError *error) {
-//                                [[HHLoadingView sharedInstance] hideLoadingView];
-//                                if (!error) {
-//                                    [HHUserAuthenticator sharedInstance].currentCoach = coach;
-//                                    HHRootViewController *rootVC = [[HHRootViewController alloc] initForCoach];
-//                                    [self presentViewController:rootVC animated:YES completion:nil];
-//                                } else if (error.code == 101) {
-//                                    HHProfileSetupViewController *profileSetupVC = [[HHProfileSetupViewController alloc] initWithUser:[HHUserAuthenticator sharedInstance].currentUser];
-//                                    [self.navigationController pushViewController:profileSetupVC animated:YES];
-//                                } else {
-//                                    [HHToastUtility showToastWitiTitle:NSLocalizedString(@"获取用户信息失败",nil) isError:YES];
-//                                }
-//
-//                            }];
-//
-//                        }
-//                    } else {
-//                        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"登陆失败！",nil) isError:YES];
-//                        [[HHLoadingView sharedInstance] hideLoadingView];
-//                    }
-//                }];
-//            }
-//        } else {
-//            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"验证失败！",nil) isError:YES];
-//            [[HHLoadingView sharedInstance] hideLoadingView];
-//        }
-//    }];
+                            }];
+
+                        }
+                    } else {
+                        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"登陆失败！",nil) isError:YES];
+                        [[HHLoadingView sharedInstance] hideLoadingView];
+                    }
+                }];
+            }
+        } else {
+            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"验证失败！",nil) isError:YES];
+            [[HHLoadingView sharedInstance] hideLoadingView];
+        }
+    }];
     
 }
 
