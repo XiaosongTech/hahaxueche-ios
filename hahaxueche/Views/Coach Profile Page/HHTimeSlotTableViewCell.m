@@ -147,7 +147,13 @@
 - (void)setupAvatars {
     for (int i = 0; i < 4; i++) {
         HHAvatarView *avatarView = self.avatarViews[i];
-        avatarView.imageView.image = [UIImage imageNamed:@"ic_st_add"];
+        if (self.hidePlusImage) {
+            avatarView.imageView.image = nil;
+        } else {
+            avatarView.imageView.image = [UIImage imageNamed:@"ic_st_add"];
+        }
+        
+        
     }
     
     if ([self.schedule.reservedStudents count]) {
