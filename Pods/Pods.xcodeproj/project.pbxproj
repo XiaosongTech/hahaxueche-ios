@@ -550,7 +550,6 @@
 		754D46D5B4E4F60B4996CA9575F90A00 /* sv.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; path = sv.lproj; sourceTree = "<group>"; };
 		763EC6E0EEB2E4497E624514AD3FAD26 /* libAFNetworking.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAFNetworking.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7899493DC2263F6B234759E89A10CC09 /* MBProgressHUD-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD-prefix.pch"; sourceTree = "<group>"; };
-		794D6732BFC202317C24374E7EFEAD69 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		7A09606EF71FE0DBFBEABD989A0212BE /* ActionSheetPicker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ActionSheetPicker.h; path = Pickers/ActionSheetPicker.h; sourceTree = "<group>"; };
 		7B64F382F1E0A7E86917429C38330273 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		7BF88FF15BAC63173C7E472E08443CDF /* UIImage+GIF.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+GIF.m"; path = "SDWebImage/UIImage+GIF.m"; sourceTree = "<group>"; };
@@ -640,6 +639,7 @@
 		B25511D36AB3C52257D541034E696472 /* QRCodeReaderViewController-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "QRCodeReaderViewController-prefix.pch"; sourceTree = "<group>"; };
 		B30C8CFB364211EE33218CD5454D6CF0 /* AVGeoPoint.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = AVGeoPoint.h; sourceTree = "<group>"; };
 		B3164705EADDEE208D231B46600E1FB4 /* libAppirater.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppirater.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B33D3FF8BB196E22EEB82274BEFBEC64 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = iOS/Crashlytics.framework; sourceTree = "<group>"; };
 		B360F940658DFD3BDB7253B1E2B0F7AB /* pop-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "pop-dummy.m"; sourceTree = "<group>"; };
 		B5664A5F8E1437B7DE60A5533A4C29A9 /* MBProgressHUD.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		B5C21052C4432F6D4D3E89B6963D977C /* DTTimePeriodGroup.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DTTimePeriodGroup.m; path = DateTools/DTTimePeriodGroup.m; sourceTree = "<group>"; };
@@ -904,14 +904,6 @@
 			path = AFNetworking;
 			sourceTree = "<group>";
 		};
-		0E9C7A1C4DEEFA055E8CC580AB09DDE3 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				794D6732BFC202317C24374E7EFEAD69 /* Crashlytics.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		0F943A21536F33758B9B91ACCAEA3DAE /* HCSStarRatingView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1001,7 +993,7 @@
 		2C9B692B7FF74480C5B3DE47E1D2EBE4 /* Crashlytics */ = {
 			isa = PBXGroup;
 			children = (
-				0E9C7A1C4DEEFA055E8CC580AB09DDE3 /* Frameworks */,
+				893B4F4DEC0FC393B969A8538CC87D6C /* Frameworks */,
 			);
 			path = Crashlytics;
 			sourceTree = "<group>";
@@ -1268,6 +1260,14 @@
 			isa = PBXGroup;
 			children = (
 				8534710536A93902DF4678E6E3728C58 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		893B4F4DEC0FC393B969A8538CC87D6C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B33D3FF8BB196E22EEB82274BEFBEC64 /* Crashlytics.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

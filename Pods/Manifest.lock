@@ -24,7 +24,7 @@ PODS:
   - Appirater (2.0.5)
   - AVOSCloud (3.1.4)
   - CMPopTipView (2.2.0)
-  - Crashlytics (3.4.0):
+  - Crashlytics (3.4.1):
     - Fabric (~> 1.6.0)
   - CRToast (0.0.8)
   - DateTools (1.7.0)
@@ -69,7 +69,7 @@ SPEC CHECKSUMS:
   Appirater: e7c0a47fb67ee5041ce8479e6ba960927fb40264
   AVOSCloud: 2be1640178facaac8343d67ed4d5348f4dffecd7
   CMPopTipView: a0a88404b9f46a5cfc16ce54bdb1b9bf9acb9aff
-  Crashlytics: 1ee87895c37472eb3f01f409ea1654a464d2f8d4
+  Crashlytics: 41574a245bc6ae10c55d57f385ebd2004e5bee05
   CRToast: b087127369b4c603726ef6249d74d0d737629ab8
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   Fabric: d737eda3a26ac940a5430230eedb35f16b226131
