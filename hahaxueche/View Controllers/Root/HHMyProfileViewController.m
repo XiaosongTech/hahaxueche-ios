@@ -24,16 +24,16 @@
 #import "HHProfileSetupViewController.h"
 #import "HHTransfer.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "QRCodeReaderViewController.h"
 #import "HHCoachService.h"
 #import "Appirater.h"
 #import "HHEventTrackingManager.h"
+#import "HHQRCodeScannerViewController.h"
 
 #define kCellId @"HHReceiptTableViewCellId"
 
 static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
 
-@interface HHMyProfileViewController ()<UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, UIAlertViewDelegate, QRCodeReaderDelegate>
+@interface HHMyProfileViewController ()<UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UILabel *explanationLabel;
@@ -222,9 +222,41 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
 }
 
 - (void)showScanView {
-    QRCodeReaderViewController *scanVC = [[QRCodeReaderViewController alloc] init];
-    scanVC.delegate = self;
-    scanVC.view.backgroundColor = [UIColor HHOrange];
+    HHQRCodeScannerViewController *scanVC = [[HHQRCodeScannerViewController alloc] init];
+    scanVC.resultBlock = ^(NSArray<LBXScanResult *> *results) {
+        __weak HHMyProfileViewController *weakSelf = self;
+        [self dismissViewControllerAnimated:YES completion:^{
+            if (results) {
+                LBXScanResult *firstResult = [results firstObject];
+                NSString *coachId = firstResult.strScanned;
+                [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+                [[HHLoadingView sharedInstance] hideLoadingView];
+                [[HHCoachService sharedInstance] fetchCoachWithId:coachId completion:^(HHCoach *coach, NSError *error) {
+                    if (!error) {
+                        [HHUserAuthenticator sharedInstance].myCoach = coach;
+                        [HHUserAuthenticator sharedInstance].currentStudent.myCoachId = coach.coachId;
+                        [HHUserAuthenticator sharedInstance].myCoach.currentStudentAmount = @([[HHUserAuthenticator sharedInstance].myCoach.currentStudentAmount integerValue] + 1);
+                        [[HHUserAuthenticator sharedInstance].currentStudent saveInBackground];
+                        [[HHUserAuthenticator sharedInstance].myCoach saveInBackground];
+                        [weakSelf.coachImageView.imageView sd_setImageWithURL:[NSURL URLWithString:coach.avatarURL] placeholderImage:nil];
+                        [weakSelf.coachNameButton setTitle:coach.fullName forState:UIControlStateNormal];
+                        weakSelf.qrCodeImageView.hidden = YES;
+                        weakSelf.scanCodeLabel.hidden = YES;
+                        weakSelf.titleLabel.hidden = YES;
+                        weakSelf.coachNameButton.hidden = NO;
+                        weakSelf.coachImageView.hidden = NO;
+                        
+                    } else {
+                        [[HHLoadingView sharedInstance] hideLoadingView];
+                        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"扫描出错！", nil) isError:YES];
+                    }
+                }];
+            } else {
+                [HHToastUtility showToastWitiTitle:NSLocalizedString(@"扫描出错！", nil) isError:YES];
+            }
+        }];
+
+    };
     [self presentViewController:scanVC animated:YES completion:nil];
 
 }
@@ -403,44 +435,5 @@ static NSString *const TOUURL = @"http://www.hahaxueche.net/index/mz/";
     }
 }
 
-#pragma mark - QRCodeReader Delegate Methods
-
-- (void)reader:(QRCodeReaderViewController *)reader didScanResult:(NSString *)result {
-    __weak HHMyProfileViewController *weakSelf = self;
-    [self dismissViewControllerAnimated:YES completion:^{
-        if (result) {
-            [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
-            [[HHLoadingView sharedInstance] hideLoadingView];
-            [[HHCoachService sharedInstance] fetchCoachWithId:result completion:^(HHCoach *coach, NSError *error) {
-                if (!error) {
-                    [HHUserAuthenticator sharedInstance].myCoach = coach;
-                    [HHUserAuthenticator sharedInstance].currentStudent.myCoachId = coach.coachId;
-                    [HHUserAuthenticator sharedInstance].myCoach.currentStudentAmount = @([[HHUserAuthenticator sharedInstance].myCoach.currentStudentAmount integerValue] + 1);
-                    [[HHUserAuthenticator sharedInstance].currentStudent saveInBackground];
-                    [[HHUserAuthenticator sharedInstance].myCoach saveInBackground];
-                    [weakSelf.coachImageView.imageView sd_setImageWithURL:[NSURL URLWithString:coach.avatarURL] placeholderImage:nil];
-                    [weakSelf.coachNameButton setTitle:coach.fullName forState:UIControlStateNormal];
-                    weakSelf.qrCodeImageView.hidden = YES;
-                    weakSelf.scanCodeLabel.hidden = YES;
-                    weakSelf.titleLabel.hidden = YES;
-                    weakSelf.coachNameButton.hidden = NO;
-                    weakSelf.coachImageView.hidden = NO;
-                    
-                } else {
-                    [[HHLoadingView sharedInstance] hideLoadingView];
-                    [HHToastUtility showToastWitiTitle:NSLocalizedString(@"扫描出错！", nil) isError:YES];
-                }
-            }];
-        } else {
-            [HHToastUtility showToastWitiTitle:NSLocalizedString(@"扫描出错！", nil) isError:YES];
-        }
-        
-    }];
-}
-
-- (void)readerDidCancel:(QRCodeReaderViewController *)reader
-{
-    [self dismissViewControllerAnimated:YES completion:NULL];
-}
 
 @end

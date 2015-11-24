@@ -34,10 +34,20 @@ PODS:
   - HCSStarRatingView (1.4.2)
   - Instabug (4.1.7)
   - KLCPopup (1.0)
+  - LBXScan (1.0.6):
+    - LBXScan/LBXScan+UIKit (= 1.0.6)
+    - LBXScan/LBXScanCore (= 1.0.6)
+  - LBXScan/LBXScan+UIKit (1.0.6)
+  - LBXScan/LBXScanCore (1.0.6):
+    - LBXScan/LBXScanCore/LibZXing (= 1.0.6)
+  - LBXScan/LBXScanCore/LibZXing (1.0.6):
+    - LBXScan/LBXScanCore/LibZXing/ZXingObjC (= 1.0.6)
+    - LBXScan/LBXScanCore/LibZXing/ZXingWrapper (= 1.0.6)
+  - LBXScan/LBXScanCore/LibZXing/ZXingObjC (1.0.6)
+  - LBXScan/LBXScanCore/LibZXing/ZXingWrapper (1.0.6)
   - libPhoneNumber-iOS (0.8.7)
   - MBProgressHUD (0.9.1)
   - pop (1.0.8)
-  - QRCodeReaderViewController (3.5.2)
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
@@ -56,12 +66,21 @@ DEPENDENCIES:
   - HCSStarRatingView (~> 1.2)
   - Instabug
   - KLCPopup (~> 1.0)
+  - LBXScan (from `https://github.com/MxABC/LBXScan.git`)
   - libPhoneNumber-iOS (~> 0.8)
   - MBProgressHUD (~> 0.9.1)
   - pop (~> 1.0)
-  - QRCodeReaderViewController (~> 3.5.2)
   - SDWebImage (~> 3.7)
   - UMengAnalytics-NO-IDFA
+
+EXTERNAL SOURCES:
+  LBXScan:
+    :git: https://github.com/MxABC/LBXScan.git
+
+CHECKOUT OPTIONS:
+  LBXScan:
+    :commit: 87470cb226dd23be287ac57e2b02f42f2815d998
+    :git: https://github.com/MxABC/LBXScan.git
 
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: eeb47e64b7af3e09a50e1ce5dfee9c8c957490c6
@@ -76,10 +95,10 @@ SPEC CHECKSUMS:
   HCSStarRatingView: 6157471eff9fe3ec7240e131a5b0aba39f097e57
   Instabug: 58f773fcefe0dec9b1bd3fcf09c6e46560353f5d
   KLCPopup: 76c5a19227977f1e53d85236f9ef42257c168d98
+  LBXScan: e61dc430a3a6b76c4e9b65632a26320bee24314d
   libPhoneNumber-iOS: 1bccd3288375d954b0b904e26061cecaa0fb83d6
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
-  QRCodeReaderViewController: f20275985c41ae551099641493ab364691d9113e
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   UMengAnalytics-NO-IDFA: 279e28990a08efb56cff1821d2954bb00aa6975a
 
