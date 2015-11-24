@@ -15,15 +15,15 @@
 #import "HHRootViewController.h"
 #import "HHAvatarView.h"
 #import "HHCoachService.h"
-#import <QRCodeReaderViewController.h>
 #import "HHCoachService.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "HHUserAuthenticator.h"
 #import "HHLoadingView.h"
+#import "HHQRCodeScannerViewController.h"
 
 #define kAvatarRadius 30.0f
 
-@interface HHSignupOtherInfoViewController () <UITextFieldDelegate, QRCodeReaderDelegate>
+@interface HHSignupOtherInfoViewController () <UITextFieldDelegate>
 
 @property (nonatomic, strong) UILabel *subTitleLabel;
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -212,37 +212,30 @@
 }
 
 - (void)jumpToQRScanVC {
-    QRCodeReaderViewController *scanVC = [[QRCodeReaderViewController alloc] init];
-    scanVC.delegate = self;
-    scanVC.view.backgroundColor = [UIColor HHOrange];
+    __weak HHSignupOtherInfoViewController *weakSelf = self;
+    HHQRCodeScannerViewController *scanVC = [[HHQRCodeScannerViewController alloc] init];
+    scanVC.resultBlock = ^(NSArray<LBXScanResult *> *results) {
+        [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
+        [self dismissViewControllerAnimated:YES completion:^{
+            if (results) {
+                LBXScanResult *firstResult = [results firstObject];
+                NSString *coachId = firstResult.strScanned;
+                [[HHLoadingView sharedInstance] hideLoadingView];
+                [[HHCoachService sharedInstance] fetchCoachWithId:coachId completion:^(HHCoach *coach, NSError *error) {
+                    if (!error) {
+                        weakSelf.myCoach = coach;
+                        [weakSelf.avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:coach.avatarURL] placeholderImage:nil];
+                        weakSelf.nameLabel.text = coach.fullName;
+                    } else {
+                        weakSelf.myCoach = nil;
+                    }
+                }];
+            }
+        }];
+    };
     [self presentViewController:scanVC animated:YES completion:nil];
 }
 
-#pragma mark - QRCodeReader Delegate Methods
-
-- (void)reader:(QRCodeReaderViewController *)reader didScanResult:(NSString *)result {
-    __weak HHSignupOtherInfoViewController *weakSelf = self;
-    [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
-    [self dismissViewControllerAnimated:YES completion:^{
-        if (result) {
-            [[HHLoadingView sharedInstance] hideLoadingView];
-            [[HHCoachService sharedInstance] fetchCoachWithId:result completion:^(HHCoach *coach, NSError *error) {
-                if (!error) {
-                    weakSelf.myCoach = coach;
-                    [weakSelf.avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:coach.avatarURL] placeholderImage:nil];
-                    weakSelf.nameLabel.text = coach.fullName;
-                } else {
-                    weakSelf.myCoach = nil;
-                }
-            }];
-        }
-    }];
-}
-
-- (void)readerDidCancel:(QRCodeReaderViewController *)reader
-{
-    [self dismissViewControllerAnimated:YES completion:NULL];
-}
 
 
 @end
