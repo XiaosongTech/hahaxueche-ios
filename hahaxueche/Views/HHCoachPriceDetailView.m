@@ -48,7 +48,7 @@ static NSString *const explanationText = @"备注：以下费用根据个人实�
         self.item2.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:self.item2];
         
-        self.item3 = [[HHPriceItemView alloc] initWithKeyText:NSLocalizedString(@"考试费（您的教练）", nil) valueText:[NSString stringWithFormat:NSLocalizedString(@"%d元", nil), [price integerValue] - 850]];
+        self.item3 = [[HHPriceItemView alloc] initWithKeyText:NSLocalizedString(@"培训费（您的教练）", nil) valueText:[NSString stringWithFormat:NSLocalizedString(@"%d元", nil), [price integerValue] - 850]];
         self.item3.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:self.item3];
         
