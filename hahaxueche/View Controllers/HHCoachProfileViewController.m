@@ -40,6 +40,7 @@
 #import "HHEventTrackingManager.h"
 #import "HHCoachSubmitCommentView.h"
 #import "HHTryCoachSubmitView.h"
+#import "HHCoachPriceDetailView.h"
 
 
 typedef enum : NSUInteger {
@@ -448,15 +449,10 @@ typedef enum : NSUInteger {
             HHCoachDashBoardTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDashBoardCellId forIndexPath:indexPath];
             [cell setupViewsWithCoach:self.coach trainingFielf:self.field];
             cell.priceTappedCompletion = ^() {
-                UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 350.0f)];
-                if([weakSelf.coach.actualPrice integerValue] == 2850) {
-                    imageView.image = [UIImage imageNamed:@"fees"];
-                } else if ([weakSelf.coach.actualPrice integerValue] == 2800) {
-                    imageView.image = [UIImage imageNamed:@"fee2800"];
-                }
                 
-                imageView.contentMode = UIViewContentModeScaleAspectFit;
-                KLCPopup *feesPopup= [KLCPopup popupWithContentView:imageView];
+                HHCoachPriceDetailView *priceDetailView = [[HHCoachPriceDetailView alloc] initWithPrice:weakSelf.coach.actualPrice];
+                [priceDetailView setFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds) - 30.0f, 405.0f)];
+                KLCPopup *feesPopup= [KLCPopup popupWithContentView:priceDetailView];
                 feesPopup.shouldDismissOnContentTouch = YES;
                 [feesPopup showWithLayout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutCenter)];
 
