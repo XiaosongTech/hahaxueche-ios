@@ -451,7 +451,7 @@ typedef enum : NSUInteger {
             cell.priceTappedCompletion = ^() {
                 
                 HHCoachPriceDetailView *priceDetailView = [[HHCoachPriceDetailView alloc] initWithPrice:weakSelf.coach.actualPrice];
-                [priceDetailView setFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds) - 30.0f, 420.0f)];
+                [priceDetailView setFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds) - 30.0f, 405.0f)];
                 KLCPopup *feesPopup= [KLCPopup popupWithContentView:priceDetailView];
                 feesPopup.shouldDismissOnContentTouch = YES;
                 [feesPopup showWithLayout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutCenter)];

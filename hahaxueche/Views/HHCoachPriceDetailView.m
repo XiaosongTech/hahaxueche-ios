@@ -67,9 +67,9 @@ static NSString *const explanationText = @"备注：以下费用根据个人实�
         
         self.totalLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.totalLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        NSMutableAttributedString *totalString = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"合计：", nil) attributes:@{NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f], NSForegroundColorAttributeName : [UIColor colorWithRed:0.38 green:0.38 blue:0.38 alpha:1]}];
+        NSMutableAttributedString *totalString = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"合计：", nil) attributes:@{NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Medium" size:20.0f], NSForegroundColorAttributeName : [UIColor colorWithRed:0.38 green:0.38 blue:0.38 alpha:1]}];
         
-        NSMutableAttributedString *numberString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"%@元", nil), [price stringValue]] attributes:@{NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f], NSForegroundColorAttributeName : [UIColor HHOrange]}];
+        NSMutableAttributedString *numberString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"%@元", nil), [price stringValue]] attributes:@{NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Medium" size:20.0f], NSForegroundColorAttributeName : [UIColor HHOrange]}];
         
         [totalString appendAttributedString:numberString];
         self.totalLabel.attributedText = totalString;
