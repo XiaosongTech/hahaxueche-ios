@@ -181,7 +181,6 @@
                              [HHAutoLayoutUtility setCenterX:self.desLabel multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility verticalNext:self.desLabel toView:self.numberButton constant:20.0f],
                              [HHAutoLayoutUtility setViewWidth:self.desLabel multiplier:1.0f constant:-80.0f],
-                             //[HHAutoLayoutUtility setViewHeight:self.desLabel multiplier:0 constant:200],
 
                              ];
     [self.view addConstraints:constraints];
