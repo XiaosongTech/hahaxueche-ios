@@ -23,6 +23,7 @@
 		5C0E53E81C04D2BB0089F49C /* HHQRCodeScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C0E53E71C04D2BB0089F49C /* HHQRCodeScannerViewController.m */; };
 		5C0E53EB1C051DBF0089F49C /* HHCoachPriceDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C0E53EA1C051DBF0089F49C /* HHCoachPriceDetailView.m */; };
 		5C0E53EE1C051E870089F49C /* HHPriceItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C0E53ED1C051E870089F49C /* HHPriceItemView.m */; };
+		5C0E53F11C0654800089F49C /* HHCoachScheduleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C0E53F01C0654800089F49C /* HHCoachScheduleCell.m */; };
 		5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */; };
 		5C11B3991B6D2B3C0014A018 /* HHCoachSchedule.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B3981B6D2B3C0014A018 /* HHCoachSchedule.m */; };
 		5C11B39F1B6D9DA20014A018 /* HHScheduleService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B39E1B6D9DA20014A018 /* HHScheduleService.m */; };
@@ -297,6 +298,8 @@
 		5C0E53EA1C051DBF0089F49C /* HHCoachPriceDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachPriceDetailView.m; sourceTree = "<group>"; };
 		5C0E53EC1C051E870089F49C /* HHPriceItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPriceItemView.h; sourceTree = "<group>"; };
 		5C0E53ED1C051E870089F49C /* HHPriceItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPriceItemView.m; sourceTree = "<group>"; };
+		5C0E53EF1C0654800089F49C /* HHCoachScheduleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachScheduleCell.h; sourceTree = "<group>"; };
+		5C0E53F01C0654800089F49C /* HHCoachScheduleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachScheduleCell.m; sourceTree = "<group>"; };
 		5C10F92C1B49E85200992B63 /* UIColor+HHColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HHColor.h"; sourceTree = "<group>"; };
 		5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HHColor.m"; sourceTree = "<group>"; };
 		5C11B3971B6D2B3C0014A018 /* HHCoachSchedule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachSchedule.h; sourceTree = "<group>"; };
@@ -769,6 +772,8 @@
 				5C0E53EA1C051DBF0089F49C /* HHCoachPriceDetailView.m */,
 				5C0E53EC1C051E870089F49C /* HHPriceItemView.h */,
 				5C0E53ED1C051E870089F49C /* HHPriceItemView.m */,
+				5C0E53EF1C0654800089F49C /* HHCoachScheduleCell.h */,
+				5C0E53F01C0654800089F49C /* HHCoachScheduleCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1769,6 +1774,7 @@
 				5CBBA97C1B604762009398B8 /* HHDashView.m in Sources */,
 				5C0127331B77A4B600780992 /* HHTimeSlotSectionTitleView.m in Sources */,
 				5C4DA4641B93ADDA0098A93E /* RSADataVerifier.m in Sources */,
+				5C0E53F11C0654800089F49C /* HHCoachScheduleCell.m in Sources */,
 				5C0E53EE1C051E870089F49C /* HHPriceItemView.m in Sources */,
 				5CDFB9321BB31E760000AF6F /* HHBanner.m in Sources */,
 				5CB34F2D1B64455A007954DF /* HHTrainingFieldService.m in Sources */,

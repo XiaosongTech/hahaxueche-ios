@@ -333,8 +333,6 @@
         cell.selectedIndicatorView.hidden = YES;
     }
     cell.students = schedule.fullStudents;
-    [cell setupViews];
-    [cell setupAvatars];
     return cell;
 }
 

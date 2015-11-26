@@ -19,6 +19,9 @@ typedef enum : NSUInteger {
 @interface HHTimeSlotsViewController : UIViewController
 
 @property (nonatomic, strong) HHCoach *coach;
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSArray *groupedSchedules;
+@property (nonatomic, strong) NSArray *sectionTiltes;
 
 - (void)fetchSchedulesWithCompletion:(HHGenericCompletion)completion;
 

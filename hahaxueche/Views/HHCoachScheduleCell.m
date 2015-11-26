@@ -1,12 +1,12 @@
 //
-//  HHTimeSlotTableViewCell.m
+//  HHCoachScheduleCell.m
 //  hahaxueche
 //
-//  Created by Zixiao Wang on 8/9/15.
-//  Copyright (c) 2015 Zixiao Wang. All rights reserved.
+//  Created by Zixiao Wang on 11/25/15.
+//  Copyright © 2015 Zixiao Wang. All rights reserved.
 //
 
-#import "HHTimeSlotTableViewCell.h"
+#import "HHCoachScheduleCell.h"
 #import "HHAutoLayoutUtility.h"
 #import "UIColor+HHColor.h"
 #import "HHAvatarView.h"
@@ -15,9 +15,9 @@
 
 #define kCellTextColor [UIColor colorWithRed:0.38 green:0.38 blue:0.38 alpha:1]
 
-#define kAvatarRadius 20.0f
+#define kAvatarRadius 25.0f
 
-@implementation HHTimeSlotTableViewCell
+@implementation HHCoachScheduleCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -25,6 +25,7 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor clearColor];
         self.avatarViews = [NSMutableArray array];
+        self.nameButtons = [NSMutableArray array];
         [self initSubviews];
     }
     return self;
@@ -38,33 +39,15 @@
     self.containerView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:self.containerView];
     
-    self.selectedIndicatorView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.selectedIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.selectedIndicatorView.hidden = YES;
-    self.selectedIndicatorView.backgroundColor = [UIColor HHTransparentOrange];
-    [self.containerView addSubview:self.selectedIndicatorView];
-    
-    self.whiteLine = [[UIView alloc] initWithFrame:CGRectZero];
-    self.whiteLine.translatesAutoresizingMaskIntoConstraints = NO;
-    self.whiteLine.backgroundColor = [UIColor whiteColor];
-    [self.selectedIndicatorView addSubview:self.whiteLine];
-    
-    self.selectedInfoLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f] textColor:[UIColor whiteColor]];
-    self.selectedInfoLabel.numberOfLines = 0;
-    [self.selectedIndicatorView addSubview:self.selectedInfoLabel];
-    
-    self.selectedLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f] textColor:[UIColor whiteColor]];
-    [self.selectedIndicatorView addSubview:self.selectedLabel];
-    
     self.line = [self createLine];
     self.firstVerticalLine = [self createLine];
     self.secondVerticalLine = [self createLine];
     
-    self.timeLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f] textColor:kCellTextColor];
+    self.timeLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Light" size:18.0f] textColor:kCellTextColor];
     [self.containerView addSubview:self.timeLabel];
-    self.courseLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f] textColor:kCellTextColor];
+    self.courseLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Light" size:18.0f] textColor:kCellTextColor];
     [self.containerView addSubview:self.courseLabel];
-    self.amountLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f] textColor:kCellTextColor];
+    self.amountLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Light" size:18.0f] textColor:kCellTextColor];
     [self.containerView addSubview:self.amountLabel];
     
     for (int i = 0; i < 4; i++) {
@@ -75,8 +58,19 @@
         [avatarView addGestureRecognizer:tap];
         avatarView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.containerView addSubview:avatarView];
-        avatarView.imageView.image = [UIImage imageNamed:@"ic_st_add"];
         [self.avatarViews addObject:avatarView];
+    
+        
+        UIButton *nameButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        nameButton.frame = CGRectZero;
+        nameButton.translatesAutoresizingMaskIntoConstraints = NO;
+        [nameButton setTitleColor:[UIColor HHClickableBlue] forState:UIControlStateNormal];
+        nameButton.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f];
+        nameButton.tag = i;
+        [nameButton addTarget:self action:@selector(nameButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [self.containerView addSubview:nameButton];
+        [self.nameButtons addObject:nameButton];
+
         
         NSArray *constraints;
         if (i == 0) {
@@ -84,14 +78,22 @@
                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:avatarView constant:10.0f],
                             [HHAutoLayoutUtility setCenterX:avatarView multiplier:0.25f constant:0],
                             [HHAutoLayoutUtility setViewHeight:avatarView multiplier:0 constant:kAvatarRadius*2],
-                            [HHAutoLayoutUtility setViewWidth:avatarView multiplier:0 constant:kAvatarRadius*2]
+                            [HHAutoLayoutUtility setViewWidth:avatarView multiplier:0 constant:kAvatarRadius*2],
+                            
+                            [HHAutoLayoutUtility verticalNext:nameButton toView:avatarView constant:0],
+                            [HHAutoLayoutUtility setCenterX:nameButton multiplier:0.25f constant:0],
+                            [HHAutoLayoutUtility setViewHeight:nameButton multiplier:0 constant:30.0],
                             ];
         } else {
             constraints = @[
                             [HHAutoLayoutUtility setCenterY:avatarView toView:self.avatarViews[i-1] multiplier:1.0f constant:0],
                             [HHAutoLayoutUtility setCenterX:avatarView multiplier:0.25f+i*0.5f constant:0],
                             [HHAutoLayoutUtility setViewHeight:avatarView multiplier:0 constant:kAvatarRadius*2],
-                            [HHAutoLayoutUtility setViewWidth:avatarView multiplier:0 constant:kAvatarRadius*2]
+                            [HHAutoLayoutUtility setViewWidth:avatarView multiplier:0 constant:kAvatarRadius*2],
+                            
+                            [HHAutoLayoutUtility verticalNext:nameButton toView:avatarView constant:0],
+                            [HHAutoLayoutUtility setCenterX:nameButton multiplier:0.25f+i*0.5f constant:0],
+                            [HHAutoLayoutUtility setViewHeight:nameButton multiplier:0 constant:30.0],
                             ];
         }
         
@@ -100,7 +102,7 @@
     }
     
     [self autoLayoutSubviews];
-
+    
 }
 
 - (UIView *)createLine {
@@ -113,47 +115,22 @@
 
 - (void)avatarViewTapped:(UITapGestureRecognizer *)tap {
     HHAvatarView *view = (HHAvatarView *)tap.view;
-    if (view.tag + 1 > self.students.count) {
-        if (self.emptyAvatarblock) {
-            self.emptyAvatarblock();
-        }
-    } else {
+    if (view.tag + 1 <= self.students.count) {
         if (self.block) {
             HHStudent *student = self.students[view.tag];
             self.block(student);
         }
-
     }
 }
 
-- (void)setupViews {
-    NSString *startTimeString = [[HHFormatUtility timeFormatter] stringFromDate:self.schedule.startDateTime];
-    NSString *endTimeString = [[HHFormatUtility timeFormatter] stringFromDate:self.schedule.endDateTime];
-    NSString *timeString = [NSString stringWithFormat:@"%@ 到 %@", startTimeString, endTimeString];
-    self.timeLabel.text = timeString;
-    
-    self.courseLabel.text = self.schedule.course;
-    
-    NSString *amountString = [NSString stringWithFormat:NSLocalizedString(@"已有%ld人", nil), self.schedule.reservedStudents.count];
-    self.amountLabel.text = amountString;
-    
-    self.selectedLabel.text = NSLocalizedString(@"已选中", nil);
-    
-    NSString *string = [NSString stringWithFormat:@"%@ %@\n %@", [[HHFormatUtility dateFormatter] stringFromDate:self.schedule.startDateTime], timeString, self.schedule.course];
-    self.selectedInfoLabel.text = string;
-    
-}
 
 - (void)setupAvatars {
     for (int i = 0; i < 4; i++) {
         HHAvatarView *avatarView = self.avatarViews[i];
-        if (self.hidePlusImage) {
-            avatarView.imageView.image = nil;
-        } else {
-            avatarView.imageView.image = [UIImage imageNamed:@"ic_st_add"];
-        }
-        
-        
+        avatarView.imageView.image = nil;
+        UIButton *nameButton = self.nameButtons[i];
+        [nameButton setTitle:@"" forState:UIControlStateNormal];
+
     }
     
     if ([self.schedule.reservedStudents count]) {
@@ -163,11 +140,14 @@
             AVFile *file = [AVFile fileWithURL:student.avatarURL];
             NSString *thumbnailString = [file getThumbnailURLWithScaleToFit:YES width:kAvatarRadius * 4 height:kAvatarRadius * 4 quality:100 format:@"png"];
             [avatarView.imageView sd_setImageWithURL:[NSURL URLWithString:thumbnailString] placeholderImage:nil];
+        
+            UIButton *nameButton = self.nameButtons[i];
+            [nameButton setTitle:student.fullName forState:UIControlStateNormal];
+            [nameButton sizeToFit];
         }
-
+        
     }
 }
-
 
 - (void)autoLayoutSubviews {
     NSArray *constraints = @[
@@ -176,10 +156,6 @@
                              [HHAutoLayoutUtility setViewHeight:self.containerView multiplier:1.0f constant:-8.0f],
                              [HHAutoLayoutUtility setViewWidth:self.containerView multiplier:1.0f constant:-20.0f],
                              
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.selectedIndicatorView constant:0],
-                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.selectedIndicatorView constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.selectedIndicatorView multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewWidth:self.selectedIndicatorView multiplier:1.0f constant:0],
                              
                              [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.line constant:-40.0f],
                              [HHAutoLayoutUtility setCenterX:self.line multiplier:1.0f constant:0],
@@ -205,18 +181,6 @@
                              [HHAutoLayoutUtility setViewHeight:self.secondVerticalLine multiplier:0 constant:25.0f],
                              [HHAutoLayoutUtility setViewWidth:self.secondVerticalLine multiplier:0 constant:1.0f],
                              
-                             
-                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.selectedInfoLabel constant:15.0f],
-                             [HHAutoLayoutUtility setCenterX:self.selectedInfoLabel multiplier:1.0f constant:0],
-                             
-                             [HHAutoLayoutUtility verticalNext:self.whiteLine toView:self.selectedInfoLabel constant:5.0f],
-                             [HHAutoLayoutUtility setCenterX:self.whiteLine multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setViewHeight:self.whiteLine multiplier:0 constant:1.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.whiteLine multiplier:0.8f constant:0],
-                             
-                             [HHAutoLayoutUtility verticalNext:self.selectedLabel toView:self.whiteLine constant:5.0f],
-                             [HHAutoLayoutUtility setCenterX:self.selectedLabel multiplier:1.0f constant:0],
-                             
                              ];
     [self.contentView addConstraints:constraints];
 }
@@ -232,10 +196,35 @@
     return label;
 }
 
+- (void)nameButtonTapped:(UIButton *)button {
+    NSInteger tag = button.tag;
+    if (tag + 1 <= self.students.count) {
+        if (self.block) {
+            HHStudent *student = self.students[tag];
+            self.block(student);
+        }
+
+    }
+}
+
+- (void)setupViews {
+    NSString *startTimeString = [[HHFormatUtility timeFormatter] stringFromDate:self.schedule.startDateTime];
+    NSString *endTimeString = [[HHFormatUtility timeFormatter] stringFromDate:self.schedule.endDateTime];
+    NSString *timeString = [NSString stringWithFormat:@"%@ 到 %@", startTimeString, endTimeString];
+    self.timeLabel.text = timeString;
+    
+    self.courseLabel.text = self.schedule.course;
+    
+    NSString *amountString = [NSString stringWithFormat:NSLocalizedString(@"已有%ld人", nil), self.schedule.reservedStudents.count];
+    self.amountLabel.text = amountString;
+    
+}
+
 - (void)setStudents:(NSArray *)students {
     _students = students;
     [self setupViews];
     [self setupAvatars];
+    
 }
 
 @end

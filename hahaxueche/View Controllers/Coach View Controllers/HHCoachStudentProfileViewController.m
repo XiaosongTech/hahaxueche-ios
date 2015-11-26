@@ -28,6 +28,7 @@
 @property (nonatomic, strong) UIView *noTransactionView;
 @property (nonatomic, strong) HHAvatarView *avatarView;
 @property (nonatomic, strong) UILabel *nameLabel;
+@property (nonatomic, strong) UIButton *numberButton;
 @property (nonatomic, strong) UILabel *desLabel;
 
 @end
@@ -92,10 +93,19 @@
     self.nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.nameLabel.text = self.student.fullName;
-    self.nameLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f];
+    self.nameLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:25.0f];
     self.nameLabel.textColor = [UIColor HHDarkGrayTextColor];
     [self.nameLabel sizeToFit];
     [self.noTransactionView addSubview:self.nameLabel];
+    
+    self.numberButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.numberButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.numberButton setTitle:self.student.phoneNumber forState:UIControlStateNormal];
+    self.numberButton.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:20.0f];
+    [self.numberButton setTitleColor:[UIColor HHClickableBlue] forState:UIControlStateNormal];
+    [self.numberButton addTarget:self action:@selector(callUser) forControlEvents:UIControlEventTouchUpInside];
+    [self.numberButton sizeToFit];
+    [self.noTransactionView addSubview:self.numberButton];
     
     self.desLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.desLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -103,6 +113,7 @@
     self.desLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f];
     self.desLabel.textColor = [UIColor HHOrange];
     self.desLabel.numberOfLines = 0;
+    [self.desLabel sizeToFit];
     [self.noTransactionView addSubview:self.desLabel];
     
     
@@ -162,11 +173,15 @@
                              [HHAutoLayoutUtility setViewWidth:self.avatarView multiplier:0 constant:kAvatarRadius * 2.0f],
                              
                              [HHAutoLayoutUtility setCenterX:self.nameLabel multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility verticalNext:self.nameLabel toView:self.avatarView constant:20.0f],
+                             [HHAutoLayoutUtility verticalNext:self.nameLabel toView:self.avatarView constant:10.0f],
+                             
+                             [HHAutoLayoutUtility setCenterX:self.numberButton multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility verticalNext:self.numberButton toView:self.nameLabel constant:5.0f],
                              
                              [HHAutoLayoutUtility setCenterX:self.desLabel multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility verticalNext:self.desLabel toView:self.nameLabel constant:20.0f],
+                             [HHAutoLayoutUtility verticalNext:self.desLabel toView:self.numberButton constant:20.0f],
                              [HHAutoLayoutUtility setViewWidth:self.desLabel multiplier:1.0f constant:-80.0f],
+                             //[HHAutoLayoutUtility setViewHeight:self.desLabel multiplier:0 constant:200],
 
                              ];
     [self.view addConstraints:constraints];
@@ -198,7 +213,10 @@
     return 380.0f;
 }
 
-
+- (void)callUser {
+    NSString *phoneNumber = [@"telprompt://" stringByAppendingString:self.student.phoneNumber];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+}
 
 
 @end

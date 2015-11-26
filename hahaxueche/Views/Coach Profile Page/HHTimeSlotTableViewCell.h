@@ -37,8 +37,4 @@ typedef void (^EmptyAvatarTappedBlock)();
 @property (nonatomic, strong) UILabel *selectedLabel;
 @property (nonatomic) BOOL hidePlusImage;
 
-
-- (void)setupViews;
-- (void)setupAvatars;
-
 @end

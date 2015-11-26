@@ -31,9 +31,6 @@
 
 @interface HHTimeSlotsViewController ()<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 
-@property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSArray *groupedSchedules;
-@property (nonatomic, strong) NSArray *sectionTiltes;
 @property (nonatomic)         BOOL canSelectTime;
 @property (nonatomic, strong) UISegmentedControl *filterSegmentedControl;
 @property (nonatomic, strong) NSMutableArray *schedules;
@@ -266,26 +263,12 @@
     HHCoachSchedule *schedule = (HHCoachSchedule *)self.groupedSchedules[indexPath.section][indexPath.row];
     cell.schedule = schedule;
     __weak HHTimeSlotsViewController *weakSelf = self;
-    if ([HHUserAuthenticator sharedInstance].currentStudent) {
-        cell.block = ^(HHStudent *student) {
-            HHFullScreenImageViewController *vc = [[HHFullScreenImageViewController alloc] initWithImageURLArray:@[student.avatarURL] titleArray:@[student.fullName] initalIndex:0];
-            [weakSelf presentViewController:vc animated:YES completion:nil];
-        };
-    } else if ([HHUserAuthenticator sharedInstance].currentCoach) {
-        cell.block = ^(HHStudent *student) {
-            HHCoachStudentProfileViewController *studentVC = [[HHCoachStudentProfileViewController alloc] init];
-            studentVC.student = student;
-            studentVC.transactionArray = nil;
-            studentVC.hidesBottomBarWhenPushed = YES;
-            [weakSelf.navigationController pushViewController:studentVC animated:YES];
-        };
-
-    }
+    cell.block = ^(HHStudent *student) {
+        HHFullScreenImageViewController *vc = [[HHFullScreenImageViewController alloc] initWithImageURLArray:@[student.avatarURL] titleArray:@[student.fullName] initalIndex:0];
+        [weakSelf presentViewController:vc animated:YES completion:nil];
+    };
     
     cell.students = schedule.fullStudents;
-    [cell setupViews];
-    [cell setupAvatars];
-
     return cell;
 }
 
