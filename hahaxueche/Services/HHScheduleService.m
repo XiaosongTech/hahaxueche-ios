@@ -137,38 +137,67 @@ static NSInteger const daysGap = 14;
 - (void)submitSchedule:(HHCoachSchedule *)schedule completion:(HHScheduleCompletionBlock)completion {
     AVQuery *query = [AVQuery queryWithClassName:[HHCoachSchedule parseClassName]];
     query.limit = 50;
+    
+    [query whereKey:@"coachId" equalTo:schedule.coachId];
+    [query whereKey:@"startDateTime" equalTo:schedule.startDateTime];
+    [query whereKey:@"endDateTime" equalTo:schedule.endDateTime];
+    [query whereKey:@"course" equalTo:schedule.course];
+    if ([query getFirstObject]) {
+        [schedule saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (completion) {
+                completion(succeeded, error);
+            }
+        }];
+        return ;
+    }
+    
+    query = [AVQuery queryWithClassName:[HHCoachSchedule parseClassName]];
     [query whereKey:@"coachId" equalTo:schedule.coachId];
     [query whereKey:@"startDateTime" lessThanOrEqualTo:schedule.startDateTime];
-    [query orderByAscending:@"startDateTime"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        for (HHCoachSchedule *oldSchedule in objects) {
-            if ([oldSchedule.endDateTime isLaterThan:schedule.startDateTime]) {
-                if (completion) {
-                    completion (NO, nil);
-                    return;
-                }
-            }
+    [query whereKey:@"endDateTime" greaterThanOrEqualTo:schedule.endDateTime];
+    if ([query getFirstObject]) {
+        if (completion) {
+            completion (NO, nil);
         }
-        [query whereKey:@"coachId" equalTo:schedule.coachId];
-        [query whereKey:@"endDateTime" greaterThanOrEqualTo:schedule.endDateTime];
-        [query orderByAscending:@"endDateTime"];
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            for (HHCoachSchedule *oldSchedule in objects) {
-                if ([oldSchedule.startDateTime isEarlierThan:schedule.endDateTime]) {
-                    if (completion) {
-                        completion (NO, nil);
-                        return;
-                    }
-                }
-            }
-            [schedule saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (completion) {
-                    completion(succeeded, error);
-                }
-            }];
-            
-        }];
-        
+        return;
+    }
+    
+    query = [AVQuery queryWithClassName:[HHCoachSchedule parseClassName]];
+    [query whereKey:@"coachId" equalTo:schedule.coachId];
+    [query whereKey:@"startDateTime" lessThanOrEqualTo:schedule.startDateTime];
+    [query whereKey:@"endDateTime" greaterThanOrEqualTo:schedule.startDateTime];
+    if ([query getFirstObject]) {
+        if (completion) {
+            completion (NO, nil);
+        }
+        return;
+    }
+    
+    query = [AVQuery queryWithClassName:[HHCoachSchedule parseClassName]];
+    [query whereKey:@"coachId" equalTo:schedule.coachId];
+    [query whereKey:@"startDateTime" greaterThanOrEqualTo:schedule.startDateTime];
+    [query whereKey:@"endDateTime" lessThanOrEqualTo:schedule.endDateTime];
+    if ([query getFirstObject]) {
+        if (completion) {
+            completion (NO, nil);
+        }
+        return;
+    }
+    
+    query = [AVQuery queryWithClassName:[HHCoachSchedule parseClassName]];
+    [query whereKey:@"coachId" equalTo:schedule.coachId];
+    [query whereKey:@"startDateTime" lessThanOrEqualTo:schedule.endDateTime];
+    [query whereKey:@"endDateTime" greaterThanOrEqualTo:schedule.endDateTime];
+    if ([query getFirstObject]) {
+        if (completion) {
+            completion (NO, nil);
+        }
+        return;
+    }
+    [schedule saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (completion) {
+            completion(succeeded, error);
+        }
     }];
 }
 

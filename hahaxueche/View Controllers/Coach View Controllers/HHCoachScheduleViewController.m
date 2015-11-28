@@ -27,7 +27,7 @@ static NSString *const cellID = @"ScheduleCellId";
     self.navigationItem.leftBarButtonItems = nil;
     self.title = NSLocalizedString(@"练车时间", nil);
     
-    UIBarButtonItem *addTimeBarButton = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"添加时间", nil) action:@selector(addTime) target:self isLeft:NO];
+    UIBarButtonItem *addTimeBarButton = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"添加课程", nil) action:@selector(addTime) target:self isLeft:NO];
     self.navigationItem.rightBarButtonItem = addTimeBarButton;
     
     [self.tableView registerClass:[HHCoachScheduleCell class] forCellReuseIdentifier:cellID];
