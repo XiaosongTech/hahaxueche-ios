@@ -127,7 +127,24 @@
     __weak HHStudentListViewController *weakSelf = self;
     [self fetchStudentsWithCompletion:^{
         [weakSelf.refreshControl endRefreshing];
+        NSString *option1 = nil;
+        NSString *option2 = nil;
+        if (weakSelf.filterSegmentedControl.selectedSegmentIndex == 0) {
+            option1 = [NSString stringWithFormat:NSLocalizedString(@"当前学员（%d）", nil), [weakSelf.filteredStudents count]];
+            
+            option2 = [NSString stringWithFormat:NSLocalizedString(@"已通过学员（%d）", nil), [weakSelf.students count] - [weakSelf.filteredStudents count]];
+            
+        } else {
+            option1 = [NSString stringWithFormat:NSLocalizedString(@"当前学员（%d）", nil), [weakSelf.students count] - [weakSelf.filteredStudents count]];
+            
+            option2 = [NSString stringWithFormat:NSLocalizedString(@"已通过学员（%d）", nil), [weakSelf.filteredStudents count]];
+        }
+        
+        [weakSelf.filterSegmentedControl setTitle:option1 forSegmentAtIndex:0];
+        [weakSelf.filterSegmentedControl setTitle:option2 forSegmentAtIndex:1];
+        
     }];
+    
 }
 
 - (void)fetchStudentsWithCompletion:(HHGenericCompletion)completion {
