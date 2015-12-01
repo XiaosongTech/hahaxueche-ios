@@ -15,6 +15,7 @@
 @dynamic startDateTime;
 @dynamic endDateTime;
 @dynamic coachId;
+@dynamic progressNumber;
 
 + (NSString *)parseClassName {
     return @"Schedule";
@@ -28,6 +29,7 @@
     newSchedule.endDateTime = self.endDateTime;
     newSchedule.reservedStudents = [self.reservedStudents mutableCopy];;
     newSchedule.course = self.course;
+    newSchedule.progressNumber = self.progressNumber;
     return newSchedule;
 }
 

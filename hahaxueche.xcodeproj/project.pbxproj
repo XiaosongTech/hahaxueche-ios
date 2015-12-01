@@ -24,6 +24,10 @@
 		5C0E53EB1C051DBF0089F49C /* HHCoachPriceDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C0E53EA1C051DBF0089F49C /* HHCoachPriceDetailView.m */; };
 		5C0E53EE1C051E870089F49C /* HHPriceItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C0E53ED1C051E870089F49C /* HHPriceItemView.m */; };
 		5C0E53F11C0654800089F49C /* HHCoachScheduleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C0E53F01C0654800089F49C /* HHCoachScheduleCell.m */; };
+		5C0E54001C0DFA5A0089F49C /* ic_addtime_steps@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C0E53FE1C0DFA5A0089F49C /* ic_addtime_steps@2x.png */; };
+		5C0E54011C0DFA5A0089F49C /* ic_addtime_steps@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C0E53FF1C0DFA5A0089F49C /* ic_addtime_steps@3x.png */; };
+		5C0E54041C0DFC080089F49C /* HHCourseProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C0E54031C0DFC080089F49C /* HHCourseProgress.m */; };
+		5C0E54081C0DFDA50089F49C /* HHCourseProgressStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C0E54071C0DFDA50089F49C /* HHCourseProgressStore.m */; };
 		5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */; };
 		5C11B3991B6D2B3C0014A018 /* HHCoachSchedule.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B3981B6D2B3C0014A018 /* HHCoachSchedule.m */; };
 		5C11B39F1B6D9DA20014A018 /* HHScheduleService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C11B39E1B6D9DA20014A018 /* HHScheduleService.m */; };
@@ -300,6 +304,12 @@
 		5C0E53ED1C051E870089F49C /* HHPriceItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPriceItemView.m; sourceTree = "<group>"; };
 		5C0E53EF1C0654800089F49C /* HHCoachScheduleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachScheduleCell.h; sourceTree = "<group>"; };
 		5C0E53F01C0654800089F49C /* HHCoachScheduleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachScheduleCell.m; sourceTree = "<group>"; };
+		5C0E53FE1C0DFA5A0089F49C /* ic_addtime_steps@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_addtime_steps@2x.png"; sourceTree = "<group>"; };
+		5C0E53FF1C0DFA5A0089F49C /* ic_addtime_steps@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_addtime_steps@3x.png"; sourceTree = "<group>"; };
+		5C0E54021C0DFC080089F49C /* HHCourseProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCourseProgress.h; sourceTree = "<group>"; };
+		5C0E54031C0DFC080089F49C /* HHCourseProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCourseProgress.m; sourceTree = "<group>"; };
+		5C0E54061C0DFDA50089F49C /* HHCourseProgressStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCourseProgressStore.h; sourceTree = "<group>"; };
+		5C0E54071C0DFDA50089F49C /* HHCourseProgressStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCourseProgressStore.m; sourceTree = "<group>"; };
 		5C10F92C1B49E85200992B63 /* UIColor+HHColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HHColor.h"; sourceTree = "<group>"; };
 		5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HHColor.m"; sourceTree = "<group>"; };
 		5C11B3971B6D2B3C0014A018 /* HHCoachSchedule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachSchedule.h; sourceTree = "<group>"; };
@@ -746,6 +756,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5C0E54051C0DFD870089F49C /* Stores */ = {
+			isa = PBXGroup;
+			children = (
+				5C0E54061C0DFDA50089F49C /* HHCourseProgressStore.h */,
+				5C0E54071C0DFDA50089F49C /* HHCourseProgressStore.m */,
+			);
+			name = Stores;
+			sourceTree = "<group>";
+		};
 		5C10F9231B49618300992B63 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -805,6 +824,8 @@
 				5C4DA46F1B9401220098A93E /* HHTransfer.m */,
 				5CD4E9EE1B59CC7B003CF15E /* HHUser.h */,
 				5CD4E9EF1B59CC7B003CF15E /* HHUser.m */,
+				5C0E54021C0DFC080089F49C /* HHCourseProgress.h */,
+				5C0E54031C0DFC080089F49C /* HHCourseProgress.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1250,6 +1271,8 @@
 		5CB5505A1B4CC040005DE447 /* Tab Bar */ = {
 			isa = PBXGroup;
 			children = (
+				5C0E53FE1C0DFA5A0089F49C /* ic_addtime_steps@2x.png */,
+				5C0E53FF1C0DFA5A0089F49C /* ic_addtime_steps@3x.png */,
 				5CB5505B1B4CC055005DE447 /* calendar_grey@1x.png */,
 				5CB5505C1B4CC055005DE447 /* calendar_grey@2x.png */,
 				5CB5505D1B4CC055005DE447 /* calendar_grey@3x.png */,
@@ -1343,6 +1366,7 @@
 		5CC3B5FD1B48268A00D10DFB /* hahaxueche */ = {
 			isa = PBXGroup;
 			children = (
+				5C0E54051C0DFD870089F49C /* Stores */,
 				5C4DA3F61B93AD7C0098A93E /* Alipay */,
 				5C10F9271B49E6F100992B63 /* Assets */,
 				5C10F92B1B49E7CD00992B63 /* Categories */,
@@ -1534,6 +1558,7 @@
 				5CB34F0B1B63EA4B007954DF /* left_arrow@2x.png in Resources */,
 				5CD4E9621B55837A003CF15E /* calendar_selected@1x.png in Resources */,
 				5CD4EA121B5BEEBF003CF15E /* camera-alt@3x.png in Resources */,
+				5C0E54001C0DFA5A0089F49C /* ic_addtime_steps@2x.png in Resources */,
 				5CD4E96A1B558431003CF15E /* reservation_grey@3x.png in Resources */,
 				5CD4E94C1B5580DC003CF15E /* reservation_selected@3x.png in Resources */,
 				5C2E42B91BD28EEB00D9F1BD /* ic_qrcode_orange_btn@2x.png in Resources */,
@@ -1570,6 +1595,7 @@
 				5CB550801B4CC055005DE447 /* list_grey@2x.png in Resources */,
 				5C5451951B50B4AD0025D19F /* search_icon.png in Resources */,
 				5C2E42B81BD28EEB00D9F1BD /* ic_qrcode_orange_btn@1x.png in Resources */,
+				5C0E54011C0DFA5A0089F49C /* ic_addtime_steps@3x.png in Resources */,
 				5CD4E9441B55809B003CF15E /* car_selected@1x.png in Resources */,
 				5C6686B01BA4915D00F899FC /* guide3@3x.jpg in Resources */,
 				5CD4E9DA1B58B3B3003CF15E /* location_icon@2x.png in Resources */,
@@ -1750,6 +1776,7 @@
 				5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */,
 				5CD4EA361B5C2BA0003CF15E /* HHAvatarView.m in Sources */,
 				5C3980951B4C1A180057B049 /* HHHomePageViewController.m in Sources */,
+				5C0E54041C0DFC080089F49C /* HHCourseProgress.m in Sources */,
 				5C01272A1B7797B600780992 /* HHTimeSlotsViewController.m in Sources */,
 				5C9366A21B9DF8AB007962A3 /* HHCoachStudentProfileCell.m in Sources */,
 				5C4DA4611B93ADDA0098A93E /* NSDataEx.m in Sources */,
@@ -1769,6 +1796,7 @@
 				5C3980911B4C17900057B049 /* HHRootViewController.m in Sources */,
 				5C84E5C71B83F8EE00E70AD3 /* ParallaxHeaderView.m in Sources */,
 				5C93669C1B9CE5FC007962A3 /* HHStudentSearchViewController.m in Sources */,
+				5C0E54081C0DFDA50089F49C /* HHCourseProgressStore.m in Sources */,
 				5C9299A71BF9555400F245A5 /* HHSMSService.m in Sources */,
 				5C11B3A21B6DA0560014A018 /* HHStudentService.m in Sources */,
 				5CBBA97C1B604762009398B8 /* HHDashView.m in Sources */,

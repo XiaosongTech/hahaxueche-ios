@@ -40,6 +40,7 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import "HHEventTrackingManager.h"
+#import "HHCourseProgress.h"
 
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
@@ -218,6 +219,7 @@
     [HHTransfer registerSubclass];
     [HHReferral registerSubclass];
     [HHBanner registerSubclass];
+    [HHCourseProgress registerSubclass];
 }
 
 - (void)setupBackend {

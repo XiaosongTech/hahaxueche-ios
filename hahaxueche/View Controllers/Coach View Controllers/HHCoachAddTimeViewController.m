@@ -20,6 +20,8 @@
 #import "ActionSheetPicker.h"
 #import "KLCPopup.h"
 #import "HHScheduleService.h"
+#import "HHCourseProgressStore.h"
+#import "HHCourseProgress.h"
 
 #define kCellId  @"AddTimeCellId"
 
@@ -29,15 +31,19 @@
 @property (nonatomic, strong) HHScheduleCellView *startTimeView;
 @property (nonatomic, strong) HHScheduleCellView *endTimeView;
 @property (nonatomic, strong) HHScheduleCellView *courseView;
+@property (nonatomic, strong) HHScheduleCellView *progressView;
 @property (nonatomic, strong) HHCoachSchedule *schedule;
 @property (nonatomic, strong) ActionSheetDatePicker *datePicker;
 @property (nonatomic, strong) ActionSheetStringPicker *coursePicker;
+@property (nonatomic, strong) ActionSheetStringPicker *courseProgressPicker;
 @property (nonatomic, strong) NSDate *date;
 @property (nonatomic, strong) NSDate *startTime;
 @property (nonatomic, strong) NSDate *endTime;
 @property (nonatomic, strong) NSString *course;
+@property (nonatomic, strong) NSNumber *progressNumber;
 @property (nonatomic, strong) UILabel *explanationLabel;
 @property (nonatomic, strong) KLCPopup *confirmPopup;
+@property (nonatomic, strong) NSString *selectedProgressName;
 
 @end
 
@@ -47,6 +53,8 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor HHLightGrayBackgroundColor];
     self.schedule = [HHCoachSchedule object];
+    
+    
     
     UIBarButtonItem *backButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"left_arrow"] action:@selector(backButtonPressed) target:self];
     self.navigationItem.hidesBackButton = YES;
@@ -82,7 +90,9 @@
     
     self.endTimeView = [self createCellWithImage:[UIImage imageNamed:@"addtime_endtime"] title:NSLocalizedString(@"结束时间", nil) subTitle:NSLocalizedString(@"选择时间", nil) showLine:YES];
     
-    self.courseView = [self createCellWithImage:[UIImage imageNamed:@"addtime_class"] title:NSLocalizedString(@"训练科目", nil) subTitle:NSLocalizedString(@"选择科目", nil) showLine:NO];
+    self.courseView = [self createCellWithImage:[UIImage imageNamed:@"addtime_class"] title:NSLocalizedString(@"训练科目", nil) subTitle:NSLocalizedString(@"选择科目", nil) showLine:YES];
+    
+    self.progressView = [self createCellWithImage:[UIImage imageNamed:@"ic_addtime_steps"] title:NSLocalizedString(@"学习阶段", nil) subTitle:NSLocalizedString(@"选择阶段", nil) showLine:NO];
 }
 
 - (HHScheduleCellView *)createCellWithImage:(UIImage *)image title:(NSString *)title subTitle:(NSString *)subTilte showLine:(BOOL)showLine {
@@ -118,8 +128,13 @@
                              [HHAutoLayoutUtility setViewWidth:self.courseView multiplier:1.0f constant:-20.0f],
                              [HHAutoLayoutUtility setViewHeight:self.courseView multiplier:0 constant:50.0f],
                              
+                             [HHAutoLayoutUtility setCenterX:self.progressView multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility verticalNext:self.progressView toView:self.courseView constant:0],
+                             [HHAutoLayoutUtility setViewWidth:self.progressView multiplier:1.0f constant:-20.0f],
+                             [HHAutoLayoutUtility setViewHeight:self.progressView multiplier:0 constant:50.0f],
+                             
                              [HHAutoLayoutUtility setCenterX:self.explanationLabel multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility verticalNext:self.explanationLabel toView:self.courseView constant:10.0f],
+                             [HHAutoLayoutUtility verticalNext:self.explanationLabel toView:self.progressView constant:10.0f],
                              [HHAutoLayoutUtility setViewWidth:self.explanationLabel multiplier:1.0f constant:-20.0f],
                              
                              ];
@@ -131,8 +146,8 @@
 }
 
 - (void)confirmTime {
-    if (!self.date || !self.startTime || !self.endTime || !self.course) {
-        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"请务必填写所有4项信息", nil) isError:YES];
+    if (!self.date || !self.startTime || !self.endTime || !self.course || !self.progressNumber) {
+        [HHToastUtility showToastWitiTitle:NSLocalizedString(@"请务必填写所有5项信息", nil) isError:YES];
         return;
     }
     
@@ -207,11 +222,39 @@
             weakSelf.courseView.subTitleLabel.textColor = [UIColor blackColor];
             weakSelf.courseView.subTitleLabel.text = selectedValue;
             weakSelf.course = selectedValue;
+            
+            //reset progress
+            weakSelf.progressView.subTitleLabel.textColor = [UIColor HHGrayTextColor];
+            weakSelf.progressView.subTitleLabel.text = NSLocalizedString(@"选择阶段", nil);
+            weakSelf.progressNumber = nil;
 
         }
                                            options:@[NSLocalizedString(@"科目二", nil), NSLocalizedString(@"科目三", nil)]
                                             origin:self.courseView
                              initialSelectionIndex:prefillIndex];
+    } else if ([view isEqual:self.progressView]) {
+        [self buildCourseProgressDataWithCompletion:^(NSArray *courseProgressArray, NSError *error) {
+            if ([courseProgressArray count]) {
+                NSInteger prefillIndex = 0;
+                if (self.progressNumber) {
+                    prefillIndex = [self.progressNumber integerValue];
+                }
+                
+                NSMutableArray *progressNameArray = [NSMutableArray array];
+                for (HHCourseProgress *courseProgress in courseProgressArray) {
+                    [progressNameArray addObject:courseProgress.progressName];
+                }
+                
+                [weakSelf showCourseProgressPickerWithDoneButtonAction:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+                    weakSelf.progressView.subTitleLabel.textColor = [UIColor blackColor];
+                    weakSelf.progressView.subTitleLabel.text = selectedValue;
+                    weakSelf.progressNumber = courseProgressArray[selectedIndex][@"progressNumber"];
+                    weakSelf.selectedProgressName = selectedValue;
+                } options:progressNameArray origin:self.progressView initialSelectionIndex:prefillIndex];
+            } else {
+                [HHToastUtility showToastWitiTitle:NSLocalizedString(@"请先选择科目", nil) isError:YES];
+            }
+        }];
     }
     
 }
@@ -277,6 +320,31 @@
     [self.coursePicker showActionSheetPicker];
 }
 
+- (void)showCourseProgressPickerWithDoneButtonAction:(ActionStringDoneBlock)action options:(NSArray *)options origin:(UIView *)origin initialSelectionIndex:(NSInteger)initialSelectionIndex {
+    self.courseProgressPicker = [[ActionSheetStringPicker alloc] initWithTitle:NSLocalizedString(@"选择阶段", nil)
+                                                                  rows:options
+                                                      initialSelection:initialSelectionIndex
+                                                             doneBlock:action
+                                                           cancelBlock:nil
+                                                                origin:origin];
+    self.courseProgressPicker.tapDismissAction = TapActionCancel;
+    UIButton *cancelButton =  [UIButton buttonWithType:UIButtonTypeCustom];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"取消", nil)];
+    [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor HHGrayTextColor] range:NSMakeRange(0, 2)];
+    [cancelButton setAttributedTitle:attrString forState:UIControlStateNormal];
+    [cancelButton sizeToFit];
+    [self.courseProgressPicker setCancelButton:[[UIBarButtonItem alloc] initWithCustomView:cancelButton]];
+    
+    UIButton *doneButton =  [UIButton buttonWithType:UIButtonTypeCustom];
+    NSMutableAttributedString *attrDoneString = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"确认", nil)];
+    [attrDoneString addAttribute:NSForegroundColorAttributeName value:[UIColor HHOrange] range:NSMakeRange(0, 2)];
+    [doneButton setAttributedTitle:attrDoneString forState:UIControlStateNormal];
+    [doneButton sizeToFit];
+    [self.courseProgressPicker setDoneButton:[[UIBarButtonItem alloc] initWithCustomView:doneButton]];
+    
+    [self.courseProgressPicker showActionSheetPicker];
+}
+
 
 
 - (NSDate *)combineDate:(NSDate *)date withTime:(NSDate *)time {
@@ -309,8 +377,9 @@
     
     UILabel *titleLabel = [self createLabelWithTitle:NSLocalizedString(@"您要添加到时间段和科目为：", nil) font:[UIFont fontWithName:@"STHeitiSC-Medium" size:16.0f] textColor:[UIColor blackColor]];
     [confirmTimeView addSubview:titleLabel];
+
     
-    NSString *timeString = [NSString stringWithFormat:@"%@ %@ 到 %@\n %@", [[HHFormatUtility fullDateFormatter] stringFromDate:self.date], [[HHFormatUtility timeFormatter] stringFromDate:self.startTime], [[HHFormatUtility timeFormatter] stringFromDate:self.endTime], self.course];
+    NSString *timeString = [NSString stringWithFormat:@"%@ %@ 到 %@\n %@（%@）", [[HHFormatUtility fullDateFormatter] stringFromDate:self.date], [[HHFormatUtility timeFormatter] stringFromDate:self.startTime], [[HHFormatUtility timeFormatter] stringFromDate:self.endTime], self.course, self.selectedProgressName];
     
     UILabel *timeLabel = [self createLabelWithTitle:timeString font:[UIFont fontWithName:@"STHeitiSC-Medium" size:16.0f] textColor:[UIColor HHOrange]];
     timeLabel.numberOfLines = 0;
@@ -368,6 +437,7 @@
     self.schedule.startDateTime = [self combineDate:self.date withTime:self.startTime];
     self.schedule.endDateTime = [self combineDate:self.date withTime:self.endTime];
     self.schedule.course = self.course;
+    self.schedule.progressNumber = self.progressNumber;
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
     
     [[HHScheduleService sharedInstance] submitSchedule:self.schedule completion:^(BOOL succeed, NSError *error) {
@@ -410,6 +480,21 @@
     label.textColor = textColor;
     [label sizeToFit];
     return label;
+}
+
+
+- (void)buildCourseProgressDataWithCompletion:(HHCourseProgressCompletionBlock)completion {
+    if (![self.course length]) {
+        if (completion) {
+            completion(nil, nil);
+        }
+    } else {
+        [[HHCourseProgressStore sharedInstance] filterCourseProgressArrayWithCournseName:self.course Completion:^(NSArray *courseProgressArray, NSError *error) {
+            if (completion) {
+                completion (courseProgressArray, error);
+            }
+        }];
+    }
 }
 
 @end
