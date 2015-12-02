@@ -12,6 +12,8 @@
 #import "HHAvatarView.h"
 #import "HHFormatUtility.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "HHCourseProgressStore.h"
+#import "HHCourseProgress.h"
 
 #define kCellTextColor [UIColor colorWithRed:0.38 green:0.38 blue:0.38 alpha:1]
 
@@ -38,6 +40,12 @@
     self.containerView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:self.containerView];
     
+    self.progressLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f] textColor:[UIColor whiteColor]];
+    self.progressLabel.numberOfLines = 0;
+    self.progressLabel.lineBreakMode = NSLineBreakByCharWrapping;
+    [self.containerView addSubview:self.progressLabel];
+    
+    
     self.selectedIndicatorView = [[UIView alloc] initWithFrame:CGRectZero];
     self.selectedIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
     self.selectedIndicatorView.hidden = YES;
@@ -49,7 +57,7 @@
     self.whiteLine.backgroundColor = [UIColor whiteColor];
     [self.selectedIndicatorView addSubview:self.whiteLine];
     
-    self.selectedInfoLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f] textColor:[UIColor whiteColor]];
+    self.selectedInfoLabel = [self createLabelWithTitle:nil font:[UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f] textColor:[UIColor whiteColor]];
     self.selectedInfoLabel.numberOfLines = 0;
     [self.selectedIndicatorView addSubview:self.selectedInfoLabel];
     
@@ -82,14 +90,14 @@
         if (i == 0) {
             constraints = @[
                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:avatarView constant:10.0f],
-                            [HHAutoLayoutUtility setCenterX:avatarView multiplier:0.25f constant:0],
+                            [HHAutoLayoutUtility setCenterX:avatarView multiplier:0.25f constant:-30.0f * 0.125f],
                             [HHAutoLayoutUtility setViewHeight:avatarView multiplier:0 constant:kAvatarRadius*2],
                             [HHAutoLayoutUtility setViewWidth:avatarView multiplier:0 constant:kAvatarRadius*2]
                             ];
         } else {
             constraints = @[
                             [HHAutoLayoutUtility setCenterY:avatarView toView:self.avatarViews[i-1] multiplier:1.0f constant:0],
-                            [HHAutoLayoutUtility setCenterX:avatarView multiplier:0.25f+i*0.5f constant:0],
+                            [HHAutoLayoutUtility setCenterX:avatarView multiplier:(2*i + 1)*0.25f constant:-30.0f * (2*i + 1) * 0.125f],
                             [HHAutoLayoutUtility setViewHeight:avatarView multiplier:0 constant:kAvatarRadius*2],
                             [HHAutoLayoutUtility setViewWidth:avatarView multiplier:0 constant:kAvatarRadius*2]
                             ];
@@ -139,8 +147,34 @@
     
     self.selectedLabel.text = NSLocalizedString(@"已选中", nil);
     
-    NSString *string = [NSString stringWithFormat:@"%@ %@\n %@", [[HHFormatUtility dateFormatter] stringFromDate:self.schedule.startDateTime], timeString, self.schedule.course];
-    self.selectedInfoLabel.text = string;
+    [[HHCourseProgressStore sharedInstance] getCourseProgressArrayWithCompletion:^(NSArray *courseProgressArray, NSError *error) {
+        if (!error) {
+            if (self.schedule.progressNumber) {
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"progressNumber = %@", self.schedule.progressNumber];
+                NSArray *filterArray = [courseProgressArray filteredArrayUsingPredicate:predicate];
+                HHCourseProgress *progress = [filterArray firstObject];
+                self.progressLabel.text = progress.progressName;
+                if ([progress.progressNumber integerValue] % 3 == 0) {
+                    self.progressLabel.backgroundColor = [UIColor colorWithRed:0.6 green:0.86 blue:0.86 alpha:1];
+                    
+                } else if ([progress.progressNumber integerValue] % 3 == 1) {
+                    self.progressLabel.backgroundColor = [UIColor HHOrange];
+                    
+                } else if ([progress.progressNumber integerValue] % 3 == 2) {
+                    self.progressLabel.backgroundColor = [UIColor colorWithRed:1 green:0.41 blue:0.49 alpha:1];
+                }
+                NSString *string = [NSString stringWithFormat:@"%@ %@\n %@（%@）", [[HHFormatUtility dateFormatter] stringFromDate:self.schedule.startDateTime], timeString, self.schedule.course, progress.progressName];
+                self.selectedInfoLabel.text = string;
+                
+            } else {
+                self.progressLabel.text = NSLocalizedString(@"无限制", nil);
+                self.progressLabel.backgroundColor = [UIColor colorWithRed:0.7 green:0.43 blue:0.93 alpha:1];
+                NSString *string = [NSString stringWithFormat:@"%@ %@\n %@（%@）", [[HHFormatUtility dateFormatter] stringFromDate:self.schedule.startDateTime], timeString, self.schedule.course, NSLocalizedString(@"无限制", nil)];
+                self.selectedInfoLabel.text = string;
+            }
+            
+        }
+    }];
     
 }
 
@@ -176,32 +210,40 @@
                              [HHAutoLayoutUtility setViewHeight:self.containerView multiplier:1.0f constant:-8.0f],
                              [HHAutoLayoutUtility setViewWidth:self.containerView multiplier:1.0f constant:-20.0f],
                              
+                             [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.progressLabel constant:0],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewRight:self.progressLabel constant:0],
+                             [HHAutoLayoutUtility setViewHeight:self.progressLabel multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setViewWidth:self.progressLabel multiplier:0 constant:30.0f],
+                             
                              [HHAutoLayoutUtility verticalAlignToSuperViewTop:self.selectedIndicatorView constant:0],
                              [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.selectedIndicatorView constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.selectedIndicatorView multiplier:1.0f constant:0],
                              [HHAutoLayoutUtility setViewWidth:self.selectedIndicatorView multiplier:1.0f constant:0],
                              
                              [HHAutoLayoutUtility verticalAlignToSuperViewBottom:self.line constant:-40.0f],
-                             [HHAutoLayoutUtility setCenterX:self.line multiplier:1.0f constant:0],
+                             [HHAutoLayoutUtility setCenterX:self.line multiplier:1.0f constant:-10.0f],
                              [HHAutoLayoutUtility setViewHeight:self.line multiplier:0 constant:1.0f],
-                             [HHAutoLayoutUtility setViewWidth:self.line multiplier:1.0f constant:-20.0f],
+                             [HHAutoLayoutUtility setViewWidth:self.line multiplier:1.0f constant:-50.0f],
                              
                              [HHAutoLayoutUtility setCenterY:self.timeLabel multiplier:2.0f constant:-20.0f],
-                             [HHAutoLayoutUtility setCenterX:self.timeLabel multiplier:0.4f constant:0],
+                             [HHAutoLayoutUtility horizontalAlignToSuperViewLeft:self.timeLabel constant:0],
+                             [HHAutoLayoutUtility setViewWidth:self.timeLabel multiplier:0.5f constant:-20.0f],
                              
                              [HHAutoLayoutUtility setCenterY:self.courseLabel toView:self.timeLabel multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setCenterX:self.courseLabel multiplier:1.1f constant:0],
+                             [HHAutoLayoutUtility horizontalNext:self.courseLabel toView:self.timeLabel constant:0],
+                             [HHAutoLayoutUtility setViewWidth:self.courseLabel multiplier:0.25f constant:-5.0f],
                              
                              [HHAutoLayoutUtility setCenterY:self.amountLabel toView:self.timeLabel multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setCenterX:self.amountLabel multiplier:1.7f constant:0],
+                             [HHAutoLayoutUtility horizontalNext:self.amountLabel toView:self.courseLabel constant:0],
+                             [HHAutoLayoutUtility setViewWidth:self.amountLabel multiplier:0.25f constant:-5.0f],
                              
                              [HHAutoLayoutUtility setCenterY:self.firstVerticalLine toView:self.timeLabel multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setCenterX:self.firstVerticalLine multiplier:0.8f constant:0],
+                             [HHAutoLayoutUtility horizontalNext:self.firstVerticalLine toView:self.timeLabel constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.firstVerticalLine multiplier:0 constant:25.0f],
                              [HHAutoLayoutUtility setViewWidth:self.firstVerticalLine multiplier:0 constant:1.0f],
                              
                              [HHAutoLayoutUtility setCenterY:self.secondVerticalLine toView:self.timeLabel multiplier:1.0f constant:0],
-                             [HHAutoLayoutUtility setCenterX:self.secondVerticalLine multiplier:1.4f constant:0],
+                             [HHAutoLayoutUtility horizontalNext:self.secondVerticalLine toView:self.courseLabel constant:0],
                              [HHAutoLayoutUtility setViewHeight:self.secondVerticalLine multiplier:0 constant:25.0f],
                              [HHAutoLayoutUtility setViewWidth:self.secondVerticalLine multiplier:0 constant:1.0f],
                              

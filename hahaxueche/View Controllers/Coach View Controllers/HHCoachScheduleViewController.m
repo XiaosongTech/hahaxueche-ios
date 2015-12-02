@@ -27,7 +27,6 @@ static NSString *const cellID = @"ScheduleCellId";
     [super viewDidLoad];
     self.navigationItem.leftBarButtonItems = nil;
     self.title = NSLocalizedString(@"练车时间", nil);
-    [HHCourseProgressStore sharedInstance];
     
     UIBarButtonItem *addTimeBarButton = [UIBarButtonItem buttonItemWithTitle:NSLocalizedString(@"添加课程", nil) action:@selector(addTime) target:self isLeft:NO];
     self.navigationItem.rightBarButtonItem = addTimeBarButton;
