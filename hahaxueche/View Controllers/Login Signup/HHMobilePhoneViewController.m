@@ -185,17 +185,6 @@
         isSignup = NO;
     }
     
-    if (![[HHUserAuthenticator sharedInstance] isBetaUser:self.numberFieldView.textField.text] && isSignup) {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"非常抱歉", nil)
-                                                        message:NSLocalizedString(@"哈哈学车目前仅对内测用户开放。内测报名请通过哈哈学车微信公众号（hahaxueche-）进行提交。", nil)
-                                                       delegate:self
-                                              cancelButtonTitle:NSLocalizedString(@"我知道了", nil)
-                                              otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
-    
     [[HHUserAuthenticator sharedInstance] requestCodeWithNumber:self.numberFieldView.textField.text isSignup:isSignup completion:^(NSError *error) {
         if (error) {
             [HHToastUtility showToastWitiTitle:NSLocalizedString(@"发送失败，请过会重试",nil) isError:YES];
