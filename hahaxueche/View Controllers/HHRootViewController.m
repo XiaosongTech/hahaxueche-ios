@@ -18,6 +18,7 @@
 #import "HHCoachMyProfileViewController.h"
 #import "HHCoachScheduleViewController.h"
 #import "HHStudentListViewController.h"
+#import "HHCourseProgressStore.h"
 
 @interface HHRootViewController ()
 
@@ -30,6 +31,7 @@
     if (self) {
         self.delegate = self;
         self.view.backgroundColor = [UIColor clearColor];
+        [HHCourseProgressStore sharedInstance];
         [[HHTrainingFieldService sharedInstance] fetchTrainingFieldsForCity:[HHUserAuthenticator sharedInstance].currentStudent.city completion:nil];
         [self initViewControllersForStudent];
     }
@@ -41,6 +43,7 @@
     if (self) {
         self.delegate = self;
         self.view.backgroundColor = [UIColor clearColor];
+        [HHCourseProgressStore sharedInstance];
         [self initViewControllersForCoach];
     }
     return self;

@@ -168,14 +168,4 @@
     self.myCoach = nil;
 }
 
-- (BOOL)isBetaUser:(NSString *)phoneNumber {
-    AVQuery *query = [AVQuery queryWithClassName:@"BetaUser"];
-    [query whereKey:@"phoneNumber" equalTo:phoneNumber];
-    if ([query getFirstObject]) {
-        return YES;
-    } else {
-        return NO;
-    }
-}
-
 @end

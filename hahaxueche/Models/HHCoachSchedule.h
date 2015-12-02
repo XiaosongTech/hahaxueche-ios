@@ -16,5 +16,6 @@
 @property (nonatomic, copy) NSArray *reservedStudents;
 @property (nonatomic, copy) NSString *course;
 @property (nonatomic, copy) NSArray *fullStudents;
+@property (nonatomic, strong) NSNumber *progressNumber;
 
 @end

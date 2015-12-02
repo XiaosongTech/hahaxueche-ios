@@ -35,6 +35,7 @@ typedef void (^EmptyAvatarTappedBlock)();
 
 @property (nonatomic, strong) UIView *whiteLine;
 @property (nonatomic, strong) UILabel *selectedLabel;
+@property (nonatomic, strong) UILabel *progressLabel;
 @property (nonatomic) BOOL hidePlusImage;
 
 @end

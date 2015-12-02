@@ -13,6 +13,7 @@
 #import "HHCoachStudentProfileViewController.h"
 #import "HHTimeSlotSectionTitleView.h"
 #import "UIView+HHRect.h"
+#import "HHCourseProgressStore.h"
 
 static NSString *const cellID = @"ScheduleCellId";
 
@@ -34,12 +35,14 @@ static NSString *const cellID = @"ScheduleCellId";
 }
 
 - (void)addTime {
-    HHCoachAddTimeViewController *addTimeVC = [[HHCoachAddTimeViewController alloc] init];
-    addTimeVC.successCompletion = ^(){
-        [super fetchSchedulesWithCompletion:nil];
-    };
-    addTimeVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:addTimeVC animated:YES];
+    [[HHCourseProgressStore sharedInstance] getCourseProgressArrayWithCompletion:^(NSArray *courseProgressArray, NSError *error) {
+        HHCoachAddTimeViewController *addTimeVC = [[HHCoachAddTimeViewController alloc] init];
+        addTimeVC.successCompletion = ^(){
+            [super fetchSchedulesWithCompletion:nil];
+        };
+        addTimeVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:addTimeVC animated:YES];
+    }];
 }
 
 #pragma -mark TableView Delegate & DataSource Methods
