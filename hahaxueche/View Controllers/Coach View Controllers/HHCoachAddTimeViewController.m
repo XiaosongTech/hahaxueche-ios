@@ -183,12 +183,12 @@
         if (self.startTime) {
             prefillDate = self.startTime;
         } else {
-            prefillDate = [NSDate date];
+            prefillDate = [self dateWithZeroSeconds:[NSDate date]];
         }
         [self showDatePickerWithDoneButtonAction:^(ActionSheetDatePicker *picker, id selectedDate, id origin) {
             weakSelf.startTimeView.subTitleLabel.textColor = [UIColor blackColor];
             weakSelf.startTimeView.subTitleLabel.text = [[HHFormatUtility timeFormatter] stringFromDate:selectedDate];
-            weakSelf.startTime = selectedDate;
+            weakSelf.startTime = [self dateWithZeroSeconds:selectedDate];
         }
                                      prefillDate:prefillDate
                                           origin:self.startTimeView
@@ -199,12 +199,12 @@
         if (self.endTime) {
             prefillDate = self.endTime;
         } else {
-            prefillDate = [NSDate date];
+            prefillDate = [self dateWithZeroSeconds:[NSDate date]];
         }
         [self showDatePickerWithDoneButtonAction:^(ActionSheetDatePicker *picker, id selectedDate, id origin) {
             weakSelf.endTimeView.subTitleLabel.textColor = [UIColor blackColor];
             weakSelf.endTimeView.subTitleLabel.text = [[HHFormatUtility timeFormatter] stringFromDate:selectedDate];
-            weakSelf.endTime = selectedDate;
+            weakSelf.endTime = [self dateWithZeroSeconds:selectedDate];
         }
                                      prefillDate:prefillDate
                                           origin:self.endTimeView
@@ -434,8 +434,8 @@
     __weak HHCoachAddTimeViewController *weakSelf = self;
     self.schedule = [HHCoachSchedule object];
     self.schedule.coachId = [HHUserAuthenticator sharedInstance].currentCoach.coachId;
-    self.schedule.startDateTime = [self combineDate:self.date withTime:self.startTime];
-    self.schedule.endDateTime = [self combineDate:self.date withTime:self.endTime];
+    self.schedule.startDateTime = [self dateWithZeroSeconds:[self combineDate:self.date withTime:self.startTime]];
+    self.schedule.endDateTime = [self dateWithZeroSeconds:[self combineDate:self.date withTime:self.endTime]];
     self.schedule.course = self.course;
     self.schedule.progressNumber = self.progressNumber;
     [[HHLoadingView sharedInstance] showLoadingViewWithTilte:nil];
@@ -495,6 +495,11 @@
             }
         }];
     }
+}
+
+- (NSDate *)dateWithZeroSeconds:(NSDate *)date {
+    NSTimeInterval time = floor([date timeIntervalSinceReferenceDate] / 60.0) * 60.0;
+    return  [NSDate dateWithTimeIntervalSinceReferenceDate:time];
 }
 
 @end

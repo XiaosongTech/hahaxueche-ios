@@ -139,8 +139,11 @@ static NSInteger const daysGap = 14;
     query.limit = 50;
     
     [query whereKey:@"coachId" equalTo:schedule.coachId];
-    [query whereKey:@"startDateTime" equalTo:schedule.startDateTime];
-    [query whereKey:@"endDateTime" equalTo:schedule.endDateTime];
+    [query whereKey:@"startDateTime" greaterThanOrEqualTo:schedule.startDateTime];
+    [query whereKey:@"startDateTime" lessThanOrEqualTo:[schedule.startDateTime dateByAddingSeconds:59]];
+    
+    [query whereKey:@"endDateTime" greaterThanOrEqualTo:schedule.endDateTime];
+    [query whereKey:@"endDateTime" lessThanOrEqualTo:[schedule.endDateTime dateByAddingSeconds:59]];
     [query whereKey:@"course" equalTo:schedule.course];
     if ([query getFirstObject]) {
         [schedule saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

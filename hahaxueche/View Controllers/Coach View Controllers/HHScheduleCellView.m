@@ -32,8 +32,8 @@
     [self.arrowImageView sizeToFit];
     [self addSubview:self.arrowImageView];
     
-    self.titleLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Medium" size:15.0f] textColor:[UIColor colorWithRed:0.38 green:0.4 blue:0.44 alpha:1]];
-    self.subTitleLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Light" size:13.0f] textColor:[UIColor HHGrayTextColor]];
+    self.titleLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f] textColor:[UIColor colorWithRed:0.38 green:0.4 blue:0.44 alpha:1]];
+    self.subTitleLabel = [self createLabelWithFont:[UIFont fontWithName:@"STHeitiSC-Light" size:16.0f] textColor:[UIColor HHGrayTextColor]];
     
     self.line = [[UIView alloc] initWithFrame:CGRectZero];
     self.line.translatesAutoresizingMaskIntoConstraints = NO;
