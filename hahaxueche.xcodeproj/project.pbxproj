@@ -221,13 +221,14 @@
 		5CBBA9731B5FE714009398B8 /* HHCoachDesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBBA9721B5FE714009398B8 /* HHCoachDesTableViewCell.m */; };
 		5CBBA9791B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBBA9781B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m */; };
 		5CBBA97C1B604762009398B8 /* HHDashView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CBBA97B1B604762009398B8 /* HHDashView.m */; };
-		5CC34C681BD0C9D000C6D9A0 /* MOBFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CC34C651BD0C9D000C6D9A0 /* MOBFoundation.framework */; };
-		5CC34C691BD0C9D000C6D9A0 /* SMS_SDKLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5CC34C661BD0C9D000C6D9A0 /* SMS_SDKLocalizable.strings */; };
-		5CC34C6A1BD0C9D000C6D9A0 /* SMS_SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CC34C671BD0C9D000C6D9A0 /* SMS_SDK.framework */; };
 		5CC3B6011B48268A00D10DFB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6001B48268A00D10DFB /* main.m */; };
 		5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6031B48268A00D10DFB /* HHAppDelegate.m */; };
 		5CC3B60C1B48268A00D10DFB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CC3B60B1B48268A00D10DFB /* Images.xcassets */; };
 		5CC3B61B1B48268A00D10DFB /* hahaxuecheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B61A1B48268A00D10DFB /* hahaxuecheTests.m */; };
+		5CC542BC1C0FE83200297A93 /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 5CC542B81C0FE83200297A93 /* en.lproj */; };
+		5CC542BD1C0FE83200297A93 /* MOBFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CC542B91C0FE83200297A93 /* MOBFoundation.framework */; };
+		5CC542BE1C0FE83200297A93 /* SMS_SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CC542BA1C0FE83200297A93 /* SMS_SDK.framework */; };
+		5CC542BF1C0FE83200297A93 /* zh-Hans.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 5CC542BB1C0FE83200297A93 /* zh-Hans.lproj */; };
 		5CD4E9441B55809B003CF15E /* car_selected@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E93E1B55809B003CF15E /* car_selected@1x.png */; };
 		5CD4E9451B55809B003CF15E /* car_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E93F1B55809B003CF15E /* car_selected@2x.png */; };
 		5CD4E9461B55809B003CF15E /* car_selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CD4E9401B55809B003CF15E /* car_selected@3x.png */; };
@@ -653,9 +654,6 @@
 		5CBBA9781B6043A9009398B8 /* HHCoachDashBoardTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachDashBoardTableViewCell.m; sourceTree = "<group>"; };
 		5CBBA97A1B604762009398B8 /* HHDashView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHDashView.h; sourceTree = "<group>"; };
 		5CBBA97B1B604762009398B8 /* HHDashView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHDashView.m; sourceTree = "<group>"; };
-		5CC34C651BD0C9D000C6D9A0 /* MOBFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MOBFoundation.framework; sourceTree = "<group>"; };
-		5CC34C661BD0C9D000C6D9A0 /* SMS_SDKLocalizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = SMS_SDKLocalizable.strings; sourceTree = "<group>"; };
-		5CC34C671BD0C9D000C6D9A0 /* SMS_SDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SMS_SDK.framework; sourceTree = "<group>"; };
 		5CC3B5FB1B48268A00D10DFB /* hahaxueche.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hahaxueche.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CC3B5FF1B48268A00D10DFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CC3B6001B48268A00D10DFB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -665,6 +663,10 @@
 		5CC3B6141B48268A00D10DFB /* hahaxuecheTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = hahaxuecheTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CC3B6191B48268A00D10DFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CC3B61A1B48268A00D10DFB /* hahaxuecheTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = hahaxuecheTests.m; sourceTree = "<group>"; };
+		5CC542B81C0FE83200297A93 /* en.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = en.lproj; sourceTree = "<group>"; };
+		5CC542B91C0FE83200297A93 /* MOBFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MOBFoundation.framework; sourceTree = "<group>"; };
+		5CC542BA1C0FE83200297A93 /* SMS_SDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SMS_SDK.framework; sourceTree = "<group>"; };
+		5CC542BB1C0FE83200297A93 /* zh-Hans.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "zh-Hans.lproj"; sourceTree = "<group>"; };
 		5CD4E93E1B55809B003CF15E /* car_selected@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car_selected@1x.png"; sourceTree = "<group>"; };
 		5CD4E93F1B55809B003CF15E /* car_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car_selected@2x.png"; sourceTree = "<group>"; };
 		5CD4E9401B55809B003CF15E /* car_selected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car_selected@3x.png"; sourceTree = "<group>"; };
@@ -723,6 +725,7 @@
 				5C5F873A1BF16BEF006F9594 /* UIKit.framework in Frameworks */,
 				5CD4E9F81B5AA10C003CF15E /* SystemConfiguration.framework in Frameworks */,
 				5C5F87381BF16BD6006F9594 /* QuartzCore.framework in Frameworks */,
+				5CC542BE1C0FE83200297A93 /* SMS_SDK.framework in Frameworks */,
 				5C5F87361BF16BCE006F9594 /* OpenGLES.framework in Frameworks */,
 				5CD4E9FA1B5AA115003CF15E /* MessageUI.framework in Frameworks */,
 				5C5F87341BF16BBA006F9594 /* libc++.tbd in Frameworks */,
@@ -732,7 +735,7 @@
 				5C5F872E1BF16B98006F9594 /* CoreMotion.framework in Frameworks */,
 				5C5F872C1BF16B8F006F9594 /* CoreGraphics.framework in Frameworks */,
 				5C5F872A1BF16B80006F9594 /* AudioToolbox.framework in Frameworks */,
-				5CC34C681BD0C9D000C6D9A0 /* MOBFoundation.framework in Frameworks */,
+				5CC542BD1C0FE83200297A93 /* MOBFoundation.framework in Frameworks */,
 				5C7A4EF41BBCD7EF003DB168 /* MobileCoreServices.framework in Frameworks */,
 				5C7A4EF01BBCD345003DB168 /* libz.tbd in Frameworks */,
 				5C7A4EEE1BBCD2DE003DB168 /* libicucore.tbd in Frameworks */,
@@ -740,7 +743,6 @@
 				5C5451A81B51A7520025D19F /* CoreLocation.framework in Frameworks */,
 				5C4DA3FD1B93ADA30098A93E /* libcrypto.a in Frameworks */,
 				5C5451A61B51A7480025D19F /* MapKit.framework in Frameworks */,
-				5CC34C6A1BD0C9D000C6D9A0 /* SMS_SDK.framework in Frameworks */,
 				D68F0EFAEA66F3DCDFE972F8 /* libPods.a in Frameworks */,
 				5C4DA3FA1B93AD970098A93E /* AlipaySDK.framework in Frameworks */,
 			);
@@ -1422,6 +1424,10 @@
 		D888D3204AF4D3C403817A89 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5CC542B81C0FE83200297A93 /* en.lproj */,
+				5CC542B91C0FE83200297A93 /* MOBFoundation.framework */,
+				5CC542BA1C0FE83200297A93 /* SMS_SDK.framework */,
+				5CC542BB1C0FE83200297A93 /* zh-Hans.lproj */,
 				5C5F87391BF16BEF006F9594 /* UIKit.framework */,
 				5C5F87371BF16BD6006F9594 /* QuartzCore.framework */,
 				5C5F87351BF16BCE006F9594 /* OpenGLES.framework */,
@@ -1431,9 +1437,6 @@
 				5C5F872D1BF16B98006F9594 /* CoreMotion.framework */,
 				5C5F872B1BF16B8F006F9594 /* CoreGraphics.framework */,
 				5C5F87291BF16B80006F9594 /* AudioToolbox.framework */,
-				5CC34C651BD0C9D000C6D9A0 /* MOBFoundation.framework */,
-				5CC34C661BD0C9D000C6D9A0 /* SMS_SDKLocalizable.strings */,
-				5CC34C671BD0C9D000C6D9A0 /* SMS_SDK.framework */,
 				5C7A4EF51BBCD7FB003DB168 /* CoreTelephony.framework */,
 				5C7A4EF31BBCD7EF003DB168 /* MobileCoreServices.framework */,
 				5C7A4EEF1BBCD345003DB168 /* libz.tbd */,
@@ -1612,6 +1615,7 @@
 				5C69C7B71B7F7E9A00FDE709 /* ic_st_add@3x.png in Resources */,
 				5C6686881BA2707200F899FC /* qrcode_btn@2x.png in Resources */,
 				5C2DCCFF1B65ACE0007E8FA7 /* car_icon@1x.png in Resources */,
+				5CC542BF1C0FE83200297A93 /* zh-Hans.lproj in Resources */,
 				5C2DCD011B65ACE0007E8FA7 /* car_icon@3x.png in Resources */,
 				5CA5B7871B533A2200312674 /* austin2.jpg in Resources */,
 				5C93668B1B9B4E47007962A3 /* addtime_class@2x.png in Resources */,
@@ -1633,6 +1637,7 @@
 				5C9366871B9B4E47007962A3 /* addtime_calendar@1x.png in Resources */,
 				5C69C7D21B80432500FDE709 /* profile_gray@3x.png in Resources */,
 				5CB34F0A1B63EA4B007954DF /* left_arrow@1x.png in Resources */,
+				5CC542BC1C0FE83200297A93 /* en.lproj in Resources */,
 				5C6686B81BA52FE400F899FC /* guide4@3x.jpg in Resources */,
 				5C69C7B91B7F7E9A00FDE709 /* ic_time_title_left@2x.png in Resources */,
 				5C98B3921B8CBE05000D6032 /* star_half@2x.png in Resources */,
@@ -1641,7 +1646,6 @@
 				5C6686AF1BA4915D00F899FC /* guide3@2x.jpg in Resources */,
 				5C6686AE1BA4915D00F899FC /* guide2@3x.jpg in Resources */,
 				5CB34F0C1B63EA4B007954DF /* left_arrow@3x.png in Resources */,
-				5CC34C691BD0C9D000C6D9A0 /* SMS_SDKLocalizable.strings in Resources */,
 				5C69C7D31B80432500FDE709 /* profile_selected@1x.png in Resources */,
 				5C9366881B9B4E47007962A3 /* addtime_calendar@2x.png in Resources */,
 				5C69C7D51B80432500FDE709 /* profile_selected@3x.png in Resources */,
