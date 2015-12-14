@@ -119,8 +119,10 @@
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissVC)];
         [imageView addGestureRecognizer:tap];
         [self.imageViews addObject:imageView];
-        [imageView sd_setImageWithURL:[NSURL URLWithString:self.imageURLs[i]] placeholderImage:nil];
+        if ([self.imageURLs[i] length]) {
+            [imageView sd_setImageWithURL:[NSURL URLWithString:self.imageURLs[i]] placeholderImage:nil];
 
+        }
     }
     
     
