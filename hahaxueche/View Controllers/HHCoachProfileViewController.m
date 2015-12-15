@@ -440,8 +440,10 @@ typedef enum : NSUInteger {
             NSString *thumbnailString = [file getThumbnailURLWithScaleToFit:YES width:80.0f height:80.0f quality:100 format:@"png"];
             [cell setupViewWithURL:thumbnailString name:self.coach.fullName des:self.coachDes];
             cell.block = ^() {
-                HHFullScreenImageViewController *imageViewer = [[HHFullScreenImageViewController alloc] initWithImageURLArray:@[weakSelf.coach.avatarURL] titleArray:@[weakSelf.coach.fullName] initalIndex:0];
-                [weakSelf presentViewController:imageViewer animated:YES completion:nil];
+                if (weakSelf.coach.avatarURL) {
+                    HHFullScreenImageViewController *imageViewer = [[HHFullScreenImageViewController alloc] initWithImageURLArray:@[weakSelf.coach.avatarURL] titleArray:@[weakSelf.coach.fullName] initalIndex:0];
+                    [weakSelf presentViewController:imageViewer animated:YES completion:nil];
+                }
             };
             return cell;
         }

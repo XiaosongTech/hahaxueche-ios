@@ -264,8 +264,10 @@
     cell.schedule = schedule;
     __weak HHTimeSlotsViewController *weakSelf = self;
     cell.block = ^(HHStudent *student) {
-        HHFullScreenImageViewController *vc = [[HHFullScreenImageViewController alloc] initWithImageURLArray:@[student.avatarURL] titleArray:@[student.fullName] initalIndex:0];
-        [weakSelf presentViewController:vc animated:YES completion:nil];
+        if (student.avatarURL) {
+            HHFullScreenImageViewController *vc = [[HHFullScreenImageViewController alloc] initWithImageURLArray:@[student.avatarURL] titleArray:@[student.fullName] initalIndex:0];
+            [weakSelf presentViewController:vc animated:YES completion:nil];
+        }
     };
     
     cell.students = schedule.fullStudents;

@@ -32,7 +32,11 @@ static NSInteger const daysGap = 14;
     query.skip = skip;
     [query whereKey:@"coachId" equalTo:coachId];
     [query orderByAscending:@"startDateTime"];
-    [query whereKey:@"startDateTime" greaterThanOrEqualTo:[NSDate date]];
+    unsigned int flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:flags fromDate:[NSDate date]];
+    NSDate *dateOnly = [[calendar dateFromComponents:components] dateByAddingTimeInterval:[[NSTimeZone localTimeZone]secondsFromGMT]];
+    [query whereKey:@"startDateTime" greaterThanOrEqualTo:dateOnly];
     if ([HHUserAuthenticator sharedInstance].currentStudent) {
         NSDate *endDate = [[NSDate date] dateByAddingTimeInterval:60*60*24*daysGap];
         [query whereKey:@"startDateTime" lessThanOrEqualTo:endDate];
@@ -203,7 +207,5 @@ static NSInteger const daysGap = 14;
         }
     }];
 }
-
-
 
 @end
