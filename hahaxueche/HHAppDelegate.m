@@ -7,7 +7,6 @@
 //
 
 #import "HHAppDelegate.h"
-#import "Appirater.h"
 #import <Instabug/Instabug.h>
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
