@@ -1,1 +1,0 @@
-../../../LBXScan/LBXScan/LBXScanCore/LibZXing/ZXingObjC/common/ZXDetectorResult.h

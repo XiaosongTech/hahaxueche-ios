@@ -1,1 +1,0 @@
-../../../LBXScan/LBXScan/LBXScanCore/LibZXing/ZXingObjC/pdf417/decoder/ec/ZXModulusPoly.h

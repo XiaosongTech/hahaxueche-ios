@@ -10,15 +10,4 @@
 
 @interface UIColor (HHColor)
 
-+ (UIColor *)HHOrange;
-+ (UIColor *)HHTransparentOrange;
-+ (UIColor *)HHLightOrange;
-+ (UIColor *)HHTransparentWhite;
-+ (UIColor *)HHLightGrayBackgroundColor;
-+ (UIColor *)HHGrayTextColor;
-+ (UIColor *)HHGrayLineColor;
-+ (UIColor *)HHClickableBlue;
-+ (UIColor *)HHBlueButtonColor;
-+ (UIColor *)HHDarkGrayTextColor;
-
 @end

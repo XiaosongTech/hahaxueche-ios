@@ -10,44 +10,4 @@
 
 @implementation UIColor (HHColor)
 
-+ (UIColor *)HHOrange {
-    return [UIColor colorWithRed:0.88 green:0.48 blue:0.13 alpha:1];
-}
-
-+ (UIColor *)HHLightOrange {
-    return [UIColor colorWithRed:1 green:0.69 blue:0.25 alpha:1];
-}
-
-+ (UIColor *)HHTransparentWhite {
-    return [UIColor colorWithWhite:1.0f alpha:0.3f];
-}
-
-+ (UIColor *)HHLightGrayBackgroundColor {
-    return [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1];
-}
-
-+ (UIColor *)HHGrayTextColor {
-    return [UIColor colorWithRed:0.52 green:0.52 blue:0.52 alpha:1];
-}
-
-+ (UIColor *)HHGrayLineColor {
-    return [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1];
-}
-
-+ (UIColor *)HHTransparentOrange {
-    return [UIColor colorWithRed:0.88 green:0.48 blue:0.13 alpha:0.8f];
-}
-
-+ (UIColor *)HHClickableBlue {
-    return [UIColor colorWithRed:0.094 green:0.514 blue:1 alpha:1];
-}
-
-+ (UIColor *)HHBlueButtonColor {
-    return [UIColor colorWithRed:0.28 green:0.75 blue:0.9 alpha:1];
-}
-
-+ (UIColor *)HHDarkGrayTextColor {
-    return [UIColor colorWithRed:0.37 green:0.36 blue:0.38 alpha:1];
-}
-
 @end
