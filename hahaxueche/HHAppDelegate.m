@@ -11,6 +11,7 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import "HHEventTrackingManager.h"
+#import "SDWebImage/SDWebImageManager.h"
 
 
 @interface HHAppDelegate ()
@@ -60,6 +61,11 @@
     
     //Umeng
     [HHEventTrackingManager sharedManager];
+    
+    //SDWebImage
+    [SDWebImageManager sharedManager].imageCache.maxCacheSize = 20000000;
+    [[[SDWebImageManager sharedManager] imageDownloader] setMaxConcurrentDownloads:10];
+    [[[SDWebImageManager sharedManager] imageDownloader] setExecutionOrder:SDWebImageDownloaderLIFOExecutionOrder];
 }
 
 @end
