@@ -38,6 +38,7 @@
 		5CDE144B1C36EC570004778C /* HHButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE144A1C36EC570004778C /* HHButton.m */; };
 		5CDE14511C3715F90004778C /* HHRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE14501C3715F90004778C /* HHRegisterViewController.m */; };
 		5CDE14571C3723020004778C /* HHTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE14561C3723020004778C /* HHTextFieldView.m */; };
+		5CDE145A1C3737670004778C /* HHPhoneNumberUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE14591C3737670004778C /* HHPhoneNumberUtility.m */; };
 		D68F0EFAEA66F3DCDFE972F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B0110F2ECD81DF5CD4D72E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -99,6 +100,8 @@
 		5CDE14501C3715F90004778C /* HHRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHRegisterViewController.m; sourceTree = "<group>"; };
 		5CDE14551C3723020004778C /* HHTextFieldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHTextFieldView.h; path = hahaxueche/HHTextFieldView.h; sourceTree = SOURCE_ROOT; };
 		5CDE14561C3723020004778C /* HHTextFieldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHTextFieldView.m; path = hahaxueche/HHTextFieldView.m; sourceTree = SOURCE_ROOT; };
+		5CDE14581C3737670004778C /* HHPhoneNumberUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPhoneNumberUtility.h; sourceTree = "<group>"; };
+		5CDE14591C3737670004778C /* HHPhoneNumberUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPhoneNumberUtility.m; sourceTree = "<group>"; };
 		D5B0110F2ECD81DF5CD4D72E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8832576172C8DF34558C848 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		EFA148D80F7878EC1B2315C7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -169,6 +172,8 @@
 				5C5F87661BF6723F006F9594 /* HHEventTrackingManager.m */,
 				5CD4EA401B5DE6BC003CF15E /* HHFormatUtility.h */,
 				5CD4EA411B5DE6BC003CF15E /* HHFormatUtility.m */,
+				5CDE14581C3737670004778C /* HHPhoneNumberUtility.h */,
+				5CDE14591C3737670004778C /* HHPhoneNumberUtility.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -510,6 +515,7 @@
 				5C5451D21B52BE1D0025D19F /* UIImage+HHImage.m in Sources */,
 				5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */,
 				5CDE144B1C36EC570004778C /* HHButton.m in Sources */,
+				5CDE145A1C3737670004778C /* HHPhoneNumberUtility.m in Sources */,
 				5CDE14461C36E5FE0004778C /* HHIntroViewController.m in Sources */,
 				5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */,
 				5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */,

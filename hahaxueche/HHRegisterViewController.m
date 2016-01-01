@@ -11,6 +11,8 @@
 #import "HHTextFieldView.h"
 #import "Masonry.h"
 #import "HHButton.h"
+#import "HHPhoneNumberUtility.h"
+
 
 static CGFloat const kFieldViewHeight = 40.0f;
 static CGFloat const kFieldViewWidth = 280.0f;
@@ -70,7 +72,11 @@ static CGFloat const kFieldViewWidth = 280.0f;
 #pragma mark - Button Actions
 
 - (void)verifyPhoneNumber {
-    
+    if ([[HHPhoneNumberUtility sharedInstance] isValidPhoneNumber:self.phoneNumberField.textField.text]) {
+        
+    } else {
+        
+    }
 }
 
 @end
