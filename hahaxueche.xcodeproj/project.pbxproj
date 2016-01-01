@@ -34,6 +34,10 @@
 		5CD4E9F81B5AA10C003CF15E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD4E9F71B5AA10C003CF15E /* SystemConfiguration.framework */; };
 		5CD4E9FA1B5AA115003CF15E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD4E9F91B5AA115003CF15E /* MessageUI.framework */; };
 		5CD4EA421B5DE6BC003CF15E /* HHFormatUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA411B5DE6BC003CF15E /* HHFormatUtility.m */; };
+		5CDE14461C36E5FE0004778C /* HHIntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE14451C36E5FE0004778C /* HHIntroViewController.m */; };
+		5CDE144B1C36EC570004778C /* HHButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE144A1C36EC570004778C /* HHButton.m */; };
+		5CDE14511C3715F90004778C /* HHRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE14501C3715F90004778C /* HHRegisterViewController.m */; };
+		5CDE14571C3723020004778C /* HHTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE14561C3723020004778C /* HHTextFieldView.m */; };
 		D68F0EFAEA66F3DCDFE972F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B0110F2ECD81DF5CD4D72E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -86,6 +90,15 @@
 		5CD4E9F91B5AA115003CF15E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		5CD4EA401B5DE6BC003CF15E /* HHFormatUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHFormatUtility.h; sourceTree = "<group>"; };
 		5CD4EA411B5DE6BC003CF15E /* HHFormatUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHFormatUtility.m; sourceTree = "<group>"; };
+		5CDE14441C36E5FE0004778C /* HHIntroViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHIntroViewController.h; sourceTree = "<group>"; };
+		5CDE14451C36E5FE0004778C /* HHIntroViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHIntroViewController.m; sourceTree = "<group>"; };
+		5CDE14491C36EC570004778C /* HHButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHButton.h; path = hahaxueche/HHButton.h; sourceTree = SOURCE_ROOT; };
+		5CDE144A1C36EC570004778C /* HHButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHButton.m; path = hahaxueche/HHButton.m; sourceTree = SOURCE_ROOT; };
+		5CDE144D1C36F0520004778C /* hahaxueche-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "hahaxueche-Prefix.pch"; sourceTree = "<group>"; };
+		5CDE144F1C3715F90004778C /* HHRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHRegisterViewController.h; sourceTree = "<group>"; };
+		5CDE14501C3715F90004778C /* HHRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHRegisterViewController.m; sourceTree = "<group>"; };
+		5CDE14551C3723020004778C /* HHTextFieldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHTextFieldView.h; path = hahaxueche/HHTextFieldView.h; sourceTree = SOURCE_ROOT; };
+		5CDE14561C3723020004778C /* HHTextFieldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHTextFieldView.m; path = hahaxueche/HHTextFieldView.m; sourceTree = SOURCE_ROOT; };
 		D5B0110F2ECD81DF5CD4D72E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8832576172C8DF34558C848 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		EFA148D80F7878EC1B2315C7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -183,6 +196,7 @@
 		5CC3B5FD1B48268A00D10DFB /* hahaxueche */ = {
 			isa = PBXGroup;
 			children = (
+				5CDE14471C36E62C0004778C /* View Controllers */,
 				5CDE143C1C3300FB0004778C /* API */,
 				5C10F9271B49E6F100992B63 /* Assets */,
 				5C10F92B1B49E7CD00992B63 /* Categories */,
@@ -191,7 +205,6 @@
 				5CDE14381C32F8670004778C /* Services */,
 				5CC3B5FE1B48268A00D10DFB /* Supporting Files */,
 				5C10F94C1B49F2DE00992B63 /* Utilities */,
-				5CDE143A1C32F87A0004778C /* View Controllers */,
 				5CDE143B1C32F89C0004778C /* Views */,
 				5CC3B6021B48268A00D10DFB /* HHAppDelegate.h */,
 				5CC3B6031B48268A00D10DFB /* HHAppDelegate.m */,
@@ -205,6 +218,7 @@
 			children = (
 				5CC3B5FF1B48268A00D10DFB /* Info.plist */,
 				5CC3B6001B48268A00D10DFB /* main.m */,
+				5CDE144D1C36F0520004778C /* hahaxueche-Prefix.pch */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -229,7 +243,6 @@
 		5CDE14381C32F8670004778C /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				5CDE143E1C333CF50004778C /* Student */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -241,16 +254,13 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		5CDE143A1C32F87A0004778C /* View Controllers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "View Controllers";
-			sourceTree = "<group>";
-		};
 		5CDE143B1C32F89C0004778C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5CDE14491C36EC570004778C /* HHButton.h */,
+				5CDE144A1C36EC570004778C /* HHButton.m */,
+				5CDE14551C3723020004778C /* HHTextFieldView.h */,
+				5CDE14561C3723020004778C /* HHTextFieldView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -260,13 +270,6 @@
 			children = (
 			);
 			path = API;
-			sourceTree = "<group>";
-		};
-		5CDE143E1C333CF50004778C /* Student */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Student;
 			sourceTree = "<group>";
 		};
 		5CDE143F1C333F390004778C /* Facade */ = {
@@ -282,6 +285,25 @@
 			children = (
 			);
 			path = "User Facade";
+			sourceTree = "<group>";
+		};
+		5CDE14471C36E62C0004778C /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5CDE144E1C3715A90004778C /* Register Login */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		5CDE144E1C3715A90004778C /* Register Login */ = {
+			isa = PBXGroup;
+			children = (
+				5CDE14441C36E5FE0004778C /* HHIntroViewController.h */,
+				5CDE14451C36E5FE0004778C /* HHIntroViewController.m */,
+				5CDE144F1C3715F90004778C /* HHRegisterViewController.h */,
+				5CDE14501C3715F90004778C /* HHRegisterViewController.m */,
+			);
+			name = "Register Login";
 			sourceTree = "<group>";
 		};
 		9F9FAF418A99FA3C4406DAC1 /* Pods */ = {
@@ -483,12 +505,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CDE14571C3723020004778C /* HHTextFieldView.m in Sources */,
 				5CD4EA421B5DE6BC003CF15E /* HHFormatUtility.m in Sources */,
 				5C5451D21B52BE1D0025D19F /* UIImage+HHImage.m in Sources */,
 				5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */,
+				5CDE144B1C36EC570004778C /* HHButton.m in Sources */,
+				5CDE14461C36E5FE0004778C /* HHIntroViewController.m in Sources */,
 				5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */,
 				5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */,
 				5CC3B6011B48268A00D10DFB /* main.m in Sources */,
+				5CDE14511C3715F90004778C /* HHRegisterViewController.m in Sources */,
 				5C5F87671BF6723F006F9594 /* HHEventTrackingManager.m in Sources */,
 				5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */,
 			);
@@ -539,6 +565,8 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "hahaxueche/Supporting Files/hahaxueche-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -582,6 +610,8 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "hahaxueche/Supporting Files/hahaxueche-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -608,6 +638,7 @@
 					"$(PROJECT_DIR)/hahaxueche",
 					"$(PROJECT_DIR)/hahaxueche/Alipay",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
@@ -678,6 +709,7 @@
 					"$(PROJECT_DIR)/hahaxueche",
 					"$(PROJECT_DIR)/hahaxueche/Alipay",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",

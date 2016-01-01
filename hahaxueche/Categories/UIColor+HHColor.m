@@ -10,4 +10,8 @@
 
 @implementation UIColor (HHColor)
 
++ (UIColor *)HHOrange {
+    return [UIColor colorWithRed:1 green:0.62 blue:0.01 alpha:1];
+}
+
 @end

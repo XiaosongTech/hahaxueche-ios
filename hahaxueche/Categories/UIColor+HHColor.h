@@ -10,4 +10,6 @@
 
 @interface UIColor (HHColor)
 
++ (UIColor *)HHOrange;
+
 @end

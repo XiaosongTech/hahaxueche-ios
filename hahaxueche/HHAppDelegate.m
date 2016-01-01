@@ -12,6 +12,9 @@
 #import <Crashlytics/Crashlytics.h>
 #import "HHEventTrackingManager.h"
 #import "SDWebImage/SDWebImageManager.h"
+#import <SSKeychain/SSKeychain.h>
+#import "HHIntroViewController.h"
+#import "UIColor+HHColor.h"
 
 
 @interface HHAppDelegate ()
@@ -23,7 +26,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [self.window setRootViewController:nil];
+    HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+    [self.window setRootViewController:navVC];
     [self.window makeKeyAndVisible];
     [self setWindow:self.window];
     
@@ -36,6 +41,13 @@
 
 - (void)setAppearance {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [[UINavigationBar appearance] setBackgroundColor:[UIColor HHOrange]];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor HHOrange]];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    if([UIDevice currentDevice].systemVersion.floatValue >= 8.0) {
+        [[UINavigationBar appearance] setTranslucent:NO];
+    }
 }
 
 - (void)setupAllThirdPartyServices {
