@@ -71,12 +71,14 @@ static CGFloat const kFieldViewWidth = 280.0f;
     self.nameField.textField.delegate = self;
     [self.view addSubview:self.nameField];
     
-    HHButton *triangleButton = [[HHButton alloc] init];
-    [triangleButton setImage:[UIImage imageNamed:@"ic_triangle"] forState:UIControlStateNormal];
-    [triangleButton addTarget:self action:@selector(showCitySelectorView) forControlEvents:UIControlEventTouchUpInside];
-    self.cityField = [[HHTextFieldView alloc] initWithPlaceHolder:@"选择您的所在地" rightView:triangleButton showSeparator:NO];
+    UIImageView *triangle = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_triangle"]];
+    triangle.contentMode = UIViewContentModeCenter;
+    self.cityField = [[HHTextFieldView alloc] initWithPlaceHolder:@"选择您的所在地" rightView:triangle showSeparator:NO];
     self.cityField.layer.cornerRadius = kFieldViewHeight/2.0f;
     self.cityField.textField.enabled = NO;
+    self.cityField.userInteractionEnabled = YES;
+    UITapGestureRecognizer *cityTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showCitySelectorView)];
+    [self.cityField addGestureRecognizer:cityTapRecognizer];
     [self.view addSubview:self.cityField];
     
     self.finishButton = [[HHButton alloc] init];

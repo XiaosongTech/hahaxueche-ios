@@ -107,13 +107,13 @@
 		5CD4EA411B5DE6BC003CF15E /* HHFormatUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHFormatUtility.m; sourceTree = "<group>"; };
 		5CDE14441C36E5FE0004778C /* HHIntroViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHIntroViewController.h; sourceTree = "<group>"; };
 		5CDE14451C36E5FE0004778C /* HHIntroViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHIntroViewController.m; sourceTree = "<group>"; };
-		5CDE14491C36EC570004778C /* HHButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHButton.h; path = hahaxueche/HHButton.h; sourceTree = SOURCE_ROOT; };
-		5CDE144A1C36EC570004778C /* HHButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHButton.m; path = hahaxueche/HHButton.m; sourceTree = SOURCE_ROOT; };
+		5CDE14491C36EC570004778C /* HHButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHButton.h; sourceTree = "<group>"; };
+		5CDE144A1C36EC570004778C /* HHButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHButton.m; sourceTree = "<group>"; };
 		5CDE144D1C36F0520004778C /* hahaxueche-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "hahaxueche-Prefix.pch"; sourceTree = "<group>"; };
 		5CDE144F1C3715F90004778C /* HHRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHRegisterViewController.h; sourceTree = "<group>"; };
 		5CDE14501C3715F90004778C /* HHRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHRegisterViewController.m; sourceTree = "<group>"; };
-		5CDE14551C3723020004778C /* HHTextFieldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHTextFieldView.h; path = hahaxueche/HHTextFieldView.h; sourceTree = SOURCE_ROOT; };
-		5CDE14561C3723020004778C /* HHTextFieldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHTextFieldView.m; path = hahaxueche/HHTextFieldView.m; sourceTree = SOURCE_ROOT; };
+		5CDE14551C3723020004778C /* HHTextFieldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTextFieldView.h; sourceTree = "<group>"; };
+		5CDE14561C3723020004778C /* HHTextFieldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHTextFieldView.m; sourceTree = "<group>"; };
 		5CDE14581C3737670004778C /* HHPhoneNumberUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPhoneNumberUtility.h; sourceTree = "<group>"; };
 		5CDE14591C3737670004778C /* HHPhoneNumberUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPhoneNumberUtility.m; sourceTree = "<group>"; };
 		5CDE14651C3771880004778C /* ic_arrow_back@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_arrow_back@1x.png"; sourceTree = "<group>"; };
@@ -226,15 +226,15 @@
 		5CC3B5FD1B48268A00D10DFB /* hahaxueche */ = {
 			isa = PBXGroup;
 			children = (
-				5CDE14641C37717A0004778C /* Assets */,
-				5CDE14471C36E62C0004778C /* View Controllers */,
 				5CDE143C1C3300FB0004778C /* API */,
+				5CDE14641C37717A0004778C /* Assets */,
 				5C10F92B1B49E7CD00992B63 /* Categories */,
 				5CDE143F1C333F390004778C /* Facade */,
 				5CDE14391C32F8700004778C /* Models */,
 				5CDE14381C32F8670004778C /* Services */,
 				5CC3B5FE1B48268A00D10DFB /* Supporting Files */,
 				5C10F94C1B49F2DE00992B63 /* Utilities */,
+				5CDE14471C36E62C0004778C /* View Controllers */,
 				5CDE143B1C32F89C0004778C /* Views */,
 				5CC3B6021B48268A00D10DFB /* HHAppDelegate.h */,
 				5CC3B6031B48268A00D10DFB /* HHAppDelegate.m */,
@@ -247,8 +247,8 @@
 			isa = PBXGroup;
 			children = (
 				5CC3B5FF1B48268A00D10DFB /* Info.plist */,
-				5CC3B6001B48268A00D10DFB /* main.m */,
 				5CDE144D1C36F0520004778C /* hahaxueche-Prefix.pch */,
+				5CC3B6001B48268A00D10DFB /* main.m */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -322,25 +322,28 @@
 			children = (
 				5CDE144E1C3715A90004778C /* Register Login */,
 			);
-			name = "View Controllers";
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 		5CDE144E1C3715A90004778C /* Register Login */ = {
 			isa = PBXGroup;
 			children = (
+				5CDE146B1C3775C00004778C /* HHAccountSetupViewController.h */,
+				5CDE146C1C3775C00004778C /* HHAccountSetupViewController.m */,
 				5CDE14441C36E5FE0004778C /* HHIntroViewController.h */,
 				5CDE14451C36E5FE0004778C /* HHIntroViewController.m */,
 				5CDE144F1C3715F90004778C /* HHRegisterViewController.h */,
 				5CDE14501C3715F90004778C /* HHRegisterViewController.m */,
-				5CDE146B1C3775C00004778C /* HHAccountSetupViewController.h */,
-				5CDE146C1C3775C00004778C /* HHAccountSetupViewController.m */,
 			);
-			name = "Register Login";
+			path = "Register Login";
 			sourceTree = "<group>";
 		};
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5CDE14651C3771880004778C /* ic_arrow_back@1x.png */,
+				5CDE14661C3771880004778C /* ic_arrow_back@2x.png */,
+				5CDE14671C3771880004778C /* ic_arrow_back@3x.png */,
 				5CDE14781C3787CF0004778C /* ic_avatar_btn@1x.png */,
 				5CDE14791C3787CF0004778C /* ic_avatar_btn@2x.png */,
 				5CDE147A1C3787CF0004778C /* ic_avatar_btn@3x.png */,
@@ -350,11 +353,8 @@
 				5CDE146E1C3776E20004778C /* onboard_bg@1x.png */,
 				5CDE146F1C3776E20004778C /* onboard_bg@2x.png */,
 				5CDE14701C3776E20004778C /* onboard_bg@3x.png */,
-				5CDE14651C3771880004778C /* ic_arrow_back@1x.png */,
-				5CDE14661C3771880004778C /* ic_arrow_back@2x.png */,
-				5CDE14671C3771880004778C /* ic_arrow_back@3x.png */,
 			);
-			name = Assets;
+			path = Assets;
 			sourceTree = "<group>";
 		};
 		9F9FAF418A99FA3C4406DAC1 /* Pods */ = {

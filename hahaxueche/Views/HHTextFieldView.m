@@ -25,9 +25,10 @@
             self.verticalLine = [[UIView alloc] initWithFrame:CGRectZero];
             self.verticalLine.backgroundColor = [UIColor HHOrange];
             [self addSubview:self.verticalLine];
+            [self addSubview:rightView];
+        } else {
+            [self.textField addSubview:rightView];
         }
-        
-        [self addSubview:rightView];
         [self makeConstraintsWithRightView:rightView];
     }
     return self;
@@ -72,16 +73,15 @@
 }
 
 - (void)makeConstraintsWithRightView:(UIView *)rightView {
-    
-    [self.textField makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.top);
-        make.left.equalTo(self.left);
-        make.height.equalTo(self.height);
-        make.width.equalTo(self.width).offset(-60.0f);
-        make.centerY.equalTo(self.centerY);
-    }];
-    
     if (self.showSeparator) {
+        [self.textField makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.top);
+            make.left.equalTo(self.left);
+            make.height.equalTo(self.height);
+            make.width.equalTo(self.width).offset(-60.0f);
+            make.centerY.equalTo(self.centerY);
+        }];
+
         [self.verticalLine makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.top).offset(7.0f);
             make.left.equalTo(self.textField.right);
@@ -97,12 +97,21 @@
         }];
         
     } else {
-        [rightView makeConstraints:^(MASConstraintMaker *make) {
+        [self.textField makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.top);
-            make.left.equalTo(self.textField.right);
+            make.left.equalTo(self.left);
+            make.height.equalTo(self.height);
+            make.width.equalTo(self.width);
+            make.centerY.equalTo(self.centerY);
+        }];
+        
+        [rightView makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.right);
+            make.height.equalTo(self.height);
             make.width.mas_equalTo(60.0f);
             make.centerY.equalTo(self.centerY);
         }];
+
     }
     
     
