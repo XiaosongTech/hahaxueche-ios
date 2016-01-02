@@ -53,6 +53,8 @@
 		5CDE14811C3787CF0004778C /* ic_triangle@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CDE147B1C3787CF0004778C /* ic_triangle@1x.png */; };
 		5CDE14821C3787CF0004778C /* ic_triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CDE147C1C3787CF0004778C /* ic_triangle@2x.png */; };
 		5CDE14831C3787CF0004778C /* ic_triangle@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CDE147D1C3787CF0004778C /* ic_triangle@3x.png */; };
+		5CDE14861C3852E30004778C /* HHCitySelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE14851C3852E30004778C /* HHCitySelectView.m */; };
+		5CDE14891C3859290004778C /* HHPopupUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE14881C3859290004778C /* HHPopupUtility.m */; };
 		D68F0EFAEA66F3DCDFE972F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B0110F2ECD81DF5CD4D72E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -132,6 +134,10 @@
 		5CDE147B1C3787CF0004778C /* ic_triangle@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_triangle@1x.png"; sourceTree = "<group>"; };
 		5CDE147C1C3787CF0004778C /* ic_triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_triangle@2x.png"; sourceTree = "<group>"; };
 		5CDE147D1C3787CF0004778C /* ic_triangle@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_triangle@3x.png"; sourceTree = "<group>"; };
+		5CDE14841C3852E30004778C /* HHCitySelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCitySelectView.h; sourceTree = "<group>"; };
+		5CDE14851C3852E30004778C /* HHCitySelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCitySelectView.m; sourceTree = "<group>"; };
+		5CDE14871C3859290004778C /* HHPopupUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPopupUtility.h; sourceTree = "<group>"; };
+		5CDE14881C3859290004778C /* HHPopupUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPopupUtility.m; sourceTree = "<group>"; };
 		D5B0110F2ECD81DF5CD4D72E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8832576172C8DF34558C848 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		EFA148D80F7878EC1B2315C7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -199,6 +205,8 @@
 				5CDE14591C3737670004778C /* HHPhoneNumberUtility.m */,
 				5CDE14741C3778BD0004778C /* HHToastManager.h */,
 				5CDE14751C3778BD0004778C /* HHToastManager.m */,
+				5CDE14871C3859290004778C /* HHPopupUtility.h */,
+				5CDE14881C3859290004778C /* HHPopupUtility.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -291,6 +299,8 @@
 				5CDE144A1C36EC570004778C /* HHButton.m */,
 				5CDE14551C3723020004778C /* HHTextFieldView.h */,
 				5CDE14561C3723020004778C /* HHTextFieldView.m */,
+				5CDE14841C3852E30004778C /* HHCitySelectView.h */,
+				5CDE14851C3852E30004778C /* HHCitySelectView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -569,11 +579,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5CDE14571C3723020004778C /* HHTextFieldView.m in Sources */,
+				5CDE14861C3852E30004778C /* HHCitySelectView.m in Sources */,
 				5CD4EA421B5DE6BC003CF15E /* HHFormatUtility.m in Sources */,
 				5C5451D21B52BE1D0025D19F /* UIImage+HHImage.m in Sources */,
 				5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */,
 				5CDE144B1C36EC570004778C /* HHButton.m in Sources */,
 				5CDE145A1C3737670004778C /* HHPhoneNumberUtility.m in Sources */,
+				5CDE14891C3859290004778C /* HHPopupUtility.m in Sources */,
 				5CDE14461C36E5FE0004778C /* HHIntroViewController.m in Sources */,
 				5CDE14761C3778BD0004778C /* HHToastManager.m in Sources */,
 				5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */,

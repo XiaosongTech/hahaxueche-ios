@@ -14,4 +14,8 @@
 
 + (UIColor *)HHLightOrange;
 
++ (UIColor *)HHLightBackgroudGray;
+
++ (UIColor *)HHLightLineGray;
+
 @end

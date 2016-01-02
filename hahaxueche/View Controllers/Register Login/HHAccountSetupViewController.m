@@ -11,6 +11,8 @@
 #import "UIColor+HHColor.h"
 #import "HHButton.h"
 #import "Masonry.h"
+#import "HHPopupUtility.h"
+#import "HHCitySelectView.h"
 
 
 static CGFloat const avatarViewRadius = 50.0f;
@@ -27,6 +29,7 @@ static CGFloat const kFieldViewWidth = 280.0f;
 @property (nonatomic, strong) HHButton *finishButton;
 @property (nonatomic, strong) UIActionSheet *avatarOptionsSheet;
 @property (nonatomic, strong) UIImage *selectedAvatarImage;
+@property (nonatomic, strong) HHCitySelectView *citySelectView;
 
 @end
 
@@ -140,7 +143,9 @@ static CGFloat const kFieldViewWidth = 280.0f;
 #pragma mark - Button Actions 
 
 - (void)showCitySelectorView {
-    
+    CGFloat height = MAX(300.0f, CGRectGetHeight(self.view.bounds)/2.0f);
+    self.citySelectView = [[HHCitySelectView alloc] initWithCities:nil frame:CGRectMake(0, 0, 300.0f, height)];
+    [HHPopupUtility showPopupWithContentView:self.citySelectView];
 }
 
 - (void)finishButtonTapped {

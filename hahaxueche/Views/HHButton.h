@@ -11,5 +11,6 @@
 @interface HHButton : UIButton
 
 - (void)HHWhiteBorderButton;
+- (void)HHOrangeTextButton;
 
 @end
