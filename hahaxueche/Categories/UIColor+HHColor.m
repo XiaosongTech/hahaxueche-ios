@@ -14,4 +14,8 @@
     return [UIColor colorWithRed:1 green:0.62 blue:0.01 alpha:1];
 }
 
+
++ (UIColor *)HHLightOrange {
+    return [UIColor colorWithRed:1 green:0.88 blue:0.73 alpha:1];
+}
 @end

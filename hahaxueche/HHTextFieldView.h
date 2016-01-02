@@ -11,7 +11,10 @@
 @interface HHTextFieldView : UIView
 
 @property (nonatomic, strong) UITextField *textField;
+@property (nonatomic, strong) UIView *verticalLine;
 
 - (HHTextFieldView *)initWithPlaceHolder:(NSString *)placeHolder;
+
+- (HHTextFieldView *)initWithPlaceHolder:(NSString *)placeHolder leftView:(UIView *)leftView;
 
 @end
