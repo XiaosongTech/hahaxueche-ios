@@ -12,9 +12,10 @@
 
 @property (nonatomic, strong) UITextField *textField;
 @property (nonatomic, strong) UIView *verticalLine;
+@property (nonatomic) BOOL showSeparator;
 
 - (HHTextFieldView *)initWithPlaceHolder:(NSString *)placeHolder;
 
-- (HHTextFieldView *)initWithPlaceHolder:(NSString *)placeHolder leftView:(UIView *)leftView;
+- (HHTextFieldView *)initWithPlaceHolder:(NSString *)placeHolder rightView:(UIView *)rightView showSeparator:(BOOL)showSeparator;
 
 @end

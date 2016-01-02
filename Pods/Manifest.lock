@@ -23,6 +23,7 @@ PODS:
   - Appirater (2.0.5)
   - Crashlytics (3.4.1):
     - Fabric (~> 1.6.0)
+  - CRToast (0.0.9)
   - DateTools (1.7.0)
   - Fabric (1.6.0):
     - Fabric/Base (= 1.6.0)
@@ -45,6 +46,7 @@ DEPENDENCIES:
   - AFNetworking (~> 2.6.1)
   - Appirater
   - Crashlytics
+  - CRToast
   - DateTools
   - Fabric
   - Instabug
@@ -61,6 +63,7 @@ SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   Appirater: e7c0a47fb67ee5041ce8479e6ba960927fb40264
   Crashlytics: 41574a245bc6ae10c55d57f385ebd2004e5bee05
+  CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   Fabric: d737eda3a26ac940a5430230eedb35f16b226131
   Instabug: 58f773fcefe0dec9b1bd3fcf09c6e46560353f5d

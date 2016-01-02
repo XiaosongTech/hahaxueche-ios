@@ -12,19 +12,23 @@
 
 @implementation HHTextFieldView
 
-- (HHTextFieldView *)initWithPlaceHolder:(NSString *)placeHolder leftView:(UIView *)leftView {
+- (HHTextFieldView *)initWithPlaceHolder:(NSString *)placeHolder rightView:(UIView *)rightView showSeparator:(BOOL)showSeparator {
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
         self.layer.masksToBounds = YES;
         
         [self initTextFieldWithPlaceHolder:placeHolder];
-        self.verticalLine = [[UIView alloc] initWithFrame:CGRectZero];
-        self.verticalLine.backgroundColor = [UIColor HHOrange];
-        [self addSubview:self.verticalLine];
         
-        [self addSubview:leftView];
-        [self makeConstraintsWithLeftView:leftView];
+        self.showSeparator = showSeparator;
+        if (self.showSeparator) {
+            self.verticalLine = [[UIView alloc] initWithFrame:CGRectZero];
+            self.verticalLine.backgroundColor = [UIColor HHOrange];
+            [self addSubview:self.verticalLine];
+        }
+        
+        [self addSubview:rightView];
+        [self makeConstraintsWithRightView:rightView];
     }
     return self;
 }
@@ -67,7 +71,7 @@
     }];
 }
 
-- (void)makeConstraintsWithLeftView:(UIView *)leftView {
+- (void)makeConstraintsWithRightView:(UIView *)rightView {
     
     [self.textField makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.top);
@@ -77,19 +81,31 @@
         make.centerY.equalTo(self.centerY);
     }];
     
-    [self.verticalLine makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.top).offset(7.0f);
-        make.left.equalTo(self.textField.right);
-        make.width.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-        make.height.equalTo(self.height).offset(-14.0f);
-        make.centerY.equalTo(self.centerY);
-    }];
-    [leftView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.top);
-        make.left.equalTo(self.verticalLine.right);
-        make.width.mas_equalTo(59.0f);
-        make.centerY.equalTo(self.centerY);
-    }];
+    if (self.showSeparator) {
+        [self.verticalLine makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.top).offset(7.0f);
+            make.left.equalTo(self.textField.right);
+            make.width.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+            make.height.equalTo(self.height).offset(-14.0f);
+            make.centerY.equalTo(self.centerY);
+        }];
+        [rightView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.top);
+            make.left.equalTo(self.verticalLine.right);
+            make.width.mas_equalTo(59.0f);
+            make.centerY.equalTo(self.centerY);
+        }];
+        
+    } else {
+        [rightView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.top);
+            make.left.equalTo(self.textField.right);
+            make.width.mas_equalTo(60.0f);
+            make.centerY.equalTo(self.centerY);
+        }];
+    }
+    
+    
 }
 
 @end

@@ -12,11 +12,15 @@
 #import "Masonry.h"
 #import "HHButton.h"
 #import "HHPhoneNumberUtility.h"
+#import "UIBarButtonItem+HHCustomButton.h"
+#import "HHToastManager.h"
+#import "HHAccountSetupViewController.h"
 
 
 static CGFloat const kFieldViewHeight = 40.0f;
 static CGFloat const kFieldViewWidth = 280.0f;
-static NSInteger const kSendCodeGap = 5;
+static NSInteger const kSendCodeGap = 60;
+static NSInteger const pwdLimit = 20;
 
 @interface HHRegisterViewController () <UITextFieldDelegate>
 
@@ -25,6 +29,7 @@ static NSInteger const kSendCodeGap = 5;
 @property (nonatomic, strong) HHTextFieldView *pwdField;
 @property (nonatomic, strong) HHButton *nextButton;
 @property (nonatomic, strong) HHButton *sendCodeButton;
+@property (nonatomic, strong) UIImageView *bachgroudImageView;
 
 @property (nonatomic) NSInteger countDown;
 @property (nonatomic) NSTimer *timer;
@@ -40,6 +45,9 @@ static NSInteger const kSendCodeGap = 5;
     self.view.backgroundColor = [UIColor HHOrange];
     self.countDown = kSendCodeGap;
     
+    UIBarButtonItem *backBarButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(popupVC) target:self];
+    self.navigationItem.leftBarButtonItem = backBarButton;
+    
     [self initSubviews];
 }
 
@@ -52,6 +60,7 @@ static NSInteger const kSendCodeGap = 5;
     self.phoneNumberField = [[HHTextFieldView alloc] initWithPlaceHolder:@"请输入手机号"];
     self.phoneNumberField.layer.cornerRadius = kFieldViewHeight/2.0f;
     self.phoneNumberField.textField.returnKeyType = UIReturnKeyDone;
+    self.phoneNumberField.textField.keyboardType = UIKeyboardTypeNumberPad;
     self.phoneNumberField.textField.delegate = self;
     [self.view addSubview:self.phoneNumberField];
     
@@ -62,6 +71,10 @@ static NSInteger const kSendCodeGap = 5;
     [self.nextButton addTarget:self action:@selector(verifyPhoneNumber) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.nextButton];
     
+    self.bachgroudImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"onboard_bg"]];
+    [self.view addSubview:self.bachgroudImageView];
+    [self.view sendSubviewToBack:self.bachgroudImageView];
+    
     [self makeConstraints];
 }
 
@@ -69,7 +82,7 @@ static NSInteger const kSendCodeGap = 5;
     
     [self.nextButton setTitle:@"完成" forState:UIControlStateNormal];
     [self.nextButton removeTarget:self action:@selector(verifyPhoneNumber) forControlEvents:UIControlEventTouchUpInside];
-    [self.nextButton addTarget:self action:@selector(jumpToPersonalInfoSetupVC) forControlEvents:UIControlEventTouchUpInside];
+    [self.nextButton addTarget:self action:@selector(doneButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     
     self.sendCodeButton = [[HHButton alloc] init];
     NSString *countDownString = [NSString stringWithFormat:@"%ld 秒", self.countDown];
@@ -77,10 +90,11 @@ static NSInteger const kSendCodeGap = 5;
     self.sendCodeButton.titleLabel.font = [UIFont systemFontOfSize:13.0f];
     [self.sendCodeButton setTitleColor:[UIColor HHLightOrange] forState:UIControlStateNormal];
     [self.sendCodeButton addTarget:self action:@selector(sendCode) forControlEvents:UIControlEventTouchUpInside];
-    self.verificationCodeField = [[HHTextFieldView alloc] initWithPlaceHolder:@"请输入短信验证码" leftView:self.sendCodeButton];
+    self.verificationCodeField = [[HHTextFieldView alloc] initWithPlaceHolder:@"请输入短信验证码" rightView:self.sendCodeButton showSeparator:YES];
     self.timer = [NSTimer scheduledTimerWithTimeInterval: 1.0 target:self selector:@selector(updateCountdown) userInfo:nil repeats: YES];
     self.verificationCodeField.layer.cornerRadius = kFieldViewHeight/2.0f;
     self.verificationCodeField.textField.returnKeyType = UIReturnKeyNext;
+    self.verificationCodeField.textField.keyboardType = UIKeyboardTypeNumberPad;
     self.verificationCodeField.textField.delegate = self;
     [self.view addSubview:self.verificationCodeField];
 
@@ -110,6 +124,13 @@ static NSInteger const kSendCodeGap = 5;
         make.centerX.equalTo(self.view.centerX);
         make.width.mas_equalTo(kFieldViewWidth);
         make.height.mas_equalTo(kFieldViewHeight);
+    }];
+    
+    [self.bachgroudImageView makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.view.centerY);
+        make.centerX.equalTo(self.view.centerX);
+        make.width.equalTo(self.view);
+        make.height.equalTo(self.view);
     }];
 }
 
@@ -148,12 +169,14 @@ static NSInteger const kSendCodeGap = 5;
         [self.phoneNumberField.textField resignFirstResponder];
         [self.verificationCodeField.textField becomeFirstResponder];
     } else {
-        
+        [[HHToastManager sharedManager] showErrorToastWithText:@"无效手机号，请自己核对！"];
     }
 }
 
-- (void)jumpToPersonalInfoSetupVC {
-    [self createUser];
+- (void)doneButtonTapped {
+    HHAccountSetupViewController *setupVC = [[HHAccountSetupViewController alloc] init];
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:setupVC];
+    [self presentViewController:navVC animated:YES completion:nil];
 }
 
 - (void)updateCountdown {
@@ -189,13 +212,24 @@ static NSInteger const kSendCodeGap = 5;
         [self.verificationCodeField.textField resignFirstResponder];
         [self.pwdField.textField becomeFirstResponder];
     } else if ([textField isEqual:self.pwdField.textField]) {
-        [self createUser];
+        [self doneButtonTapped];
     }
     return YES;
 }
 
-
-- (void)createUser {
-    
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if ([textField isEqual:self.pwdField.textField]) {
+        if(range.length + range.location > textField.text.length) {
+            return NO;
+        }
+        NSUInteger newLength = [textField.text length] + [string length] - range.length;
+        return newLength <= pwdLimit;
+    }
+    return YES;
 }
+
+- (void)popupVC {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 @end

@@ -16,7 +16,6 @@
 #import "HHIntroViewController.h"
 #import "UIColor+HHColor.h"
 
-
 @interface HHAppDelegate ()
 
 @end
