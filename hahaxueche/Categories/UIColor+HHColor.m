@@ -28,4 +28,8 @@
     return [UIColor colorWithRed:0.91 green:0.91 blue:0.91 alpha:1];
 }
 
+
++ (UIColor *)HHLightTextGray {
+    return [UIColor colorWithRed:0.733 green:0.733 blue:0.733 alpha:1];
+}
 @end

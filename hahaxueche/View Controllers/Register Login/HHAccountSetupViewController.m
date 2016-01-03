@@ -144,7 +144,7 @@ static CGFloat const kFieldViewWidth = 280.0f;
 
 - (void)showCitySelectorView {
     CGFloat height = MAX(300.0f, CGRectGetHeight(self.view.bounds)/2.0f);
-    self.citySelectView = [[HHCitySelectView alloc] initWithCities:nil frame:CGRectMake(0, 0, 300.0f, height)];
+    self.citySelectView = [[HHCitySelectView alloc] initWithCities:@[@"武汉", @"长沙", @"其他", @"其他"] frame:CGRectMake(0, 0, 300.0f, height)];
     [HHPopupUtility showPopupWithContentView:self.citySelectView];
 }
 
