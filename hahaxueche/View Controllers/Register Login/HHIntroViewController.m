@@ -11,6 +11,7 @@
 #import "Masonry.h"
 #import "HHButton.h"
 #import "HHRegisterViewController.h"
+#import "HHLoginViewController.h"
 
 static CGFloat const kButtonHeight = 40.0f;
 static CGFloat const kButtonWidth = 235.0f;
@@ -177,7 +178,8 @@ static NSInteger const kBannerImageCount = 4;
 }
 
 - (void)jumpToLoginVC {
-    
+    HHLoginViewController *loginVC = [[HHLoginViewController alloc] init];
+    [self.navigationController pushViewController:loginVC animated:YES];
 }
 
 - (void)enterAsGuest {

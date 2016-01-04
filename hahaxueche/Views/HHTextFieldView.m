@@ -50,7 +50,7 @@
     self.textField.borderStyle = UITextBorderStyleNone;
     self.textField.attributedPlaceholder = [self buildAttributedPlaceholderWithString:placeHolder];
     self.textField.textColor = [UIColor HHOrange];
-    self.textField.font = [UIFont systemFontOfSize:15.0f];
+    self.textField.font = [UIFont systemFontOfSize:16.0f];
     self.textField.textAlignment = NSTextAlignmentCenter;
     self.textField.tintColor = [UIColor HHOrange];
     [self addSubview:self.textField];

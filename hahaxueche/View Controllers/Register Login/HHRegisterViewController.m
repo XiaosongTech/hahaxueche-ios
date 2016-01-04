@@ -166,6 +166,7 @@ static NSInteger const pwdLimit = 20;
 - (void)verifyPhoneNumber {
     if ([[HHPhoneNumberUtility sharedInstance] isValidPhoneNumber:self.phoneNumberField.textField.text]) {
         [self showMoreFields];
+        [self sendCode];
         [self.phoneNumberField.textField resignFirstResponder];
         [self.verificationCodeField.textField becomeFirstResponder];
     } else {
@@ -203,6 +204,10 @@ static NSInteger const pwdLimit = 20;
     self.sendCodeButton.enabled = NO;
 }
 
+- (void)popupVC {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - TextField Delegate
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -226,10 +231,6 @@ static NSInteger const pwdLimit = 20;
         return newLength <= pwdLimit;
     }
     return YES;
-}
-
-- (void)popupVC {
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
