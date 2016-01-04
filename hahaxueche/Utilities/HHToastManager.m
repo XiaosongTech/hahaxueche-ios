@@ -26,8 +26,8 @@
 - (void)showErrorToastWithText:(NSString *)text {
     NSMutableDictionary *options = [self buildBasicOptions];
     options[kCRToastTextKey] = text;
-    options[kCRToastTextColorKey] = [UIColor whiteColor];
-    options[kCRToastImageKey] = [UIImage imageNamed:@"ic_arrow_back"];
+    options[kCRToastBackgroundColorKey] = [UIColor colorWithRed:1 green:0.45 blue:0.01 alpha:1];
+    options[kCRToastImageKey] = [UIImage imageNamed:@"ic_toast_attention"];
     [CRToastManager showNotificationWithOptions:options
                                 completionBlock:nil];
     
@@ -36,8 +36,8 @@
 - (void)showSuccessToastWithText:(NSString *)text {
     NSMutableDictionary *options = [self buildBasicOptions];
     options[kCRToastTextKey] = text;
-    options[kCRToastTextColorKey] = [UIColor greenColor];
-    options[kCRToastImageKey] = nil;
+    options[kCRToastBackgroundColorKey] = [UIColor colorWithRed:0.18 green:0.8 blue:0.44 alpha:1];
+    options[kCRToastImageKey] = [UIImage imageNamed:@"ic_toast_right"];
     [CRToastManager showNotificationWithOptions:options
                                 completionBlock:nil]; [CRToastManager showNotificationWithOptions:options
                                 completionBlock:nil];
@@ -45,6 +45,7 @@
 
 - (NSMutableDictionary *)buildBasicOptions {
     NSDictionary *options = @{
+                              kCRToastTextColorKey: [UIColor whiteColor],
                               kCRToastFontKey : [UIFont systemFontOfSize:15.0f],
                               kCRToastTextAlignmentKey : @(NSTextAlignmentLeft),
                               kCRToastAnimationInTypeKey : @(CRToastAnimationTypeSpring),

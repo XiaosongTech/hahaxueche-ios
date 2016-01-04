@@ -13,7 +13,7 @@
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHToastManager.h"
 #import "HHAccountSetupViewController.h"
-
+#import "HHLoadingViewUtility.h"
 
 static CGFloat const kFieldViewHeight = 40.0f;
 static CGFloat const kFieldViewWidth = 280.0f;
@@ -159,12 +159,12 @@ static NSInteger const pwdLimit = 20;
 
 - (void)verifyPhoneNumber {
     if ([[HHPhoneNumberUtility sharedInstance] isValidPhoneNumber:self.phoneNumberField.textField.text]) {
-        [self showMoreFields];
         [self sendCode];
+        [self showMoreFields];
         [self.phoneNumberField.textField resignFirstResponder];
         [self.verificationCodeField.textField becomeFirstResponder];
     } else {
-        [[HHToastManager sharedManager] showErrorToastWithText:@"无效手机号，请自己核对！"];
+        [[HHToastManager sharedManager] showErrorToastWithText:@"手机号无效，请您仔细核对！"];
     }
 }
 
