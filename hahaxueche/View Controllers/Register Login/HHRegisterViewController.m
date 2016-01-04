@@ -8,9 +8,7 @@
 
 #import "HHRegisterViewController.h"
 #import "UIColor+HHColor.h"
-#import "HHTextFieldView.h"
 #import "Masonry.h"
-#import "HHButton.h"
 #import "HHPhoneNumberUtility.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHToastManager.h"
@@ -24,10 +22,6 @@ static NSInteger const pwdLimit = 20;
 
 @interface HHRegisterViewController () <UITextFieldDelegate>
 
-@property (nonatomic, strong) HHTextFieldView *phoneNumberField;
-@property (nonatomic, strong) HHTextFieldView *verificationCodeField;
-@property (nonatomic, strong) HHTextFieldView *pwdField;
-@property (nonatomic, strong) HHButton *nextButton;
 @property (nonatomic, strong) HHButton *sendCodeButton;
 @property (nonatomic, strong) UIImageView *bachgroudImageView;
 

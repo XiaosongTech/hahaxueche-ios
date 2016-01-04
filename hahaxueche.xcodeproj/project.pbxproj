@@ -23,6 +23,7 @@
 		5C5F87381BF16BD6006F9594 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5F87371BF16BD6006F9594 /* QuartzCore.framework */; };
 		5C5F873A1BF16BEF006F9594 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5F87391BF16BEF006F9594 /* UIKit.framework */; };
 		5C5F87671BF6723F006F9594 /* HHEventTrackingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C5F87661BF6723F006F9594 /* HHEventTrackingManager.m */; };
+		5C6D8C831C3A277F0055CB31 /* HHResetPWDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C6D8C821C3A277F0055CB31 /* HHResetPWDViewController.m */; };
 		5C7A4EEE1BBCD2DE003DB168 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7A4EED1BBCD2DE003DB168 /* libicucore.tbd */; };
 		5C7A4EF01BBCD345003DB168 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7A4EEF1BBCD345003DB168 /* libz.tbd */; };
 		5C7A4EF41BBCD7EF003DB168 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7A4EF31BBCD7EF003DB168 /* MobileCoreServices.framework */; };
@@ -91,6 +92,8 @@
 		5C5F87391BF16BEF006F9594 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5C5F87651BF6723F006F9594 /* HHEventTrackingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHEventTrackingManager.h; sourceTree = "<group>"; };
 		5C5F87661BF6723F006F9594 /* HHEventTrackingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHEventTrackingManager.m; sourceTree = "<group>"; };
+		5C6D8C811C3A277F0055CB31 /* HHResetPWDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHResetPWDViewController.h; sourceTree = "<group>"; };
+		5C6D8C821C3A277F0055CB31 /* HHResetPWDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHResetPWDViewController.m; sourceTree = "<group>"; };
 		5C7A4EED1BBCD2DE003DB168 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		5C7A4EEF1BBCD345003DB168 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		5C7A4EF31BBCD7EF003DB168 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -349,6 +352,8 @@
 				5CDE14501C3715F90004778C /* HHRegisterViewController.m */,
 				5CDE148A1C3A00AB0004778C /* HHLoginViewController.h */,
 				5CDE148B1C3A00AB0004778C /* HHLoginViewController.m */,
+				5C6D8C811C3A277F0055CB31 /* HHResetPWDViewController.h */,
+				5C6D8C821C3A277F0055CB31 /* HHResetPWDViewController.m */,
 			);
 			path = "Register Login";
 			sourceTree = "<group>";
@@ -600,6 +605,7 @@
 				5CDE14511C3715F90004778C /* HHRegisterViewController.m in Sources */,
 				5C5F87671BF6723F006F9594 /* HHEventTrackingManager.m in Sources */,
 				5CDE146D1C3775C00004778C /* HHAccountSetupViewController.m in Sources */,
+				5C6D8C831C3A277F0055CB31 /* HHResetPWDViewController.m in Sources */,
 				5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

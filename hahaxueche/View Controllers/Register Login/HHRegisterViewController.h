@@ -7,7 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HHButton.h"
+#import "HHTextFieldView.h"
 
 @interface HHRegisterViewController : UIViewController
+
+@property (nonatomic, strong) HHButton *nextButton;
+@property (nonatomic, strong) HHTextFieldView *phoneNumberField;
+@property (nonatomic, strong) HHTextFieldView *verificationCodeField;
+@property (nonatomic, strong) HHTextFieldView *pwdField;
+
+- (void)doneButtonTapped;
 
 @end

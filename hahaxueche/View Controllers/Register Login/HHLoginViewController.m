@@ -14,6 +14,7 @@
 #import "HHButton.h"
 #import "HHPhoneNumberUtility.h"
 #import "HHToastManager.h"
+#import "HHResetPWDViewController.h"
 
 typedef NS_ENUM(NSInteger, LoginMode) {
     LoginModeVerificationCode,
@@ -36,7 +37,8 @@ static NSInteger const pwdLimit = 20;
 @property (nonatomic) LoginMode currentLoginMode;
 @property (nonatomic, strong) HHButton *sendCodeButton;
 @property (nonatomic) NSInteger countDown;
-@property (nonatomic) NSTimer *timer;
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) UIImageView *bgImageView;
 
 @end
 
@@ -135,6 +137,10 @@ static NSInteger const pwdLimit = 20;
     self.pwdField.textField.delegate = self;
     [self.view addSubview:self.pwdField];
 
+    
+    self.bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"onboard_bg"]];
+    [self.view addSubview:self.bgImageView];
+    [self.view sendSubviewToBack:self.bgImageView];
     [self makeConstraints];
 }
 
@@ -168,6 +174,12 @@ static NSInteger const pwdLimit = 20;
         make.centerX.equalTo(self.view.centerX);
     }];
 
+    [self.bgImageView makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.view.centerY);
+        make.centerX.equalTo(self.view.centerX);
+        make.width.equalTo(self.view);
+        make.height.equalTo(self.view);
+    }];
 }
 
 - (void)updateConstraints {
@@ -234,7 +246,8 @@ static NSInteger const pwdLimit = 20;
 }
 
 - (void)forgetPWD {
-    
+    HHResetPWDViewController *resetVC = [[HHResetPWDViewController alloc] init];
+    [self.navigationController pushViewController:resetVC animated:YES];
 }
 
 - (void)finishButtonTapped {
@@ -276,7 +289,7 @@ static NSInteger const pwdLimit = 20;
 }
 
 - (void)login {
-    
+
 }
 
 - (void)updateCountdown {
