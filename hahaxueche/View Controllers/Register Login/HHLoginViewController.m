@@ -278,7 +278,7 @@ static NSInteger const pwdLimit = 20;
         [self.verificationCodeField.textField becomeFirstResponder];
         [self sendCode];
     } else {
-        [[HHToastManager sharedManager] showErrorToastWithText:@"无效手机号，请自己核对！"];
+        [[HHToastManager sharedManager] showErrorToastWithText:@"无效手机号，请仔细核对！"];
     }
 }
 
