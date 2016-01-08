@@ -14,10 +14,11 @@
 #import "HHToastManager.h"
 #import "HHAccountSetupViewController.h"
 #import "HHLoadingViewUtility.h"
+#import "HHUserAuthService.h"
 
 static CGFloat const kFieldViewHeight = 40.0f;
 static CGFloat const kFieldViewWidth = 280.0f;
-static NSInteger const kSendCodeGap = 60;
+static NSInteger const kSendCodeGap = 5;
 static NSInteger const pwdLimit = 20;
 
 @interface HHRegisterViewController () <UITextFieldDelegate>
@@ -159,10 +160,12 @@ static NSInteger const pwdLimit = 20;
 
 - (void)verifyPhoneNumber {
     if ([[HHPhoneNumberUtility sharedInstance] isValidPhoneNumber:self.phoneNumberField.textField.text]) {
-        [self sendCode];
-        [self showMoreFields];
-        [self.phoneNumberField.textField resignFirstResponder];
-        [self.verificationCodeField.textField becomeFirstResponder];
+        __weak HHRegisterViewController *weakSelf = self;
+        [self sendCodeWithCompletion:^{
+            [weakSelf showMoreFields];
+            [weakSelf.phoneNumberField.textField resignFirstResponder];
+            [weakSelf.verificationCodeField.textField becomeFirstResponder];
+        }];
     } else {
         [[HHToastManager sharedManager] showErrorToastWithText:@"手机号无效，请仔细核对！"];
     }
@@ -191,11 +194,34 @@ static NSInteger const pwdLimit = 20;
 }
 
 - (void)sendCode {
-    NSString *countDownString = [NSString stringWithFormat:@"%ld 秒", self.countDown];
-    [self.sendCodeButton setTitle:countDownString forState:UIControlStateNormal];
-    [self.sendCodeButton setTitleColor:[UIColor HHLightOrange] forState:UIControlStateNormal];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval: 1.0 target:self selector:@selector(updateCountdown) userInfo:nil repeats: YES];
-    self.sendCodeButton.enabled = NO;
+    [self sendCodeWithCompletion:nil];
+}
+
+- (void)sendCodeWithCompletion:(HHGenericCompletion)completion {
+    self.phoneNumberField.textField.userInteractionEnabled = NO;
+    self.nextButton.enabled = NO;
+    [[HHUserAuthService sharedInstance] sendVeriCodeToNumber:self.phoneNumberField.textField.text completion:^(NSError *error) {
+        if (!error) {
+            NSString *countDownString = [NSString stringWithFormat:@"%ld 秒", self.countDown];
+            [self.sendCodeButton setTitle:countDownString forState:UIControlStateNormal];
+            [self.sendCodeButton setTitleColor:[UIColor HHLightOrange] forState:UIControlStateNormal];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (!self.timer) {
+                    self.timer = [NSTimer scheduledTimerWithTimeInterval: 1.0 target:self selector:@selector(updateCountdown) userInfo:nil repeats: YES];
+                }
+            });
+            
+            self.sendCodeButton.enabled = NO;
+            if (completion) {
+                completion();
+            }
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"发送失败，请重试！"];
+        }
+        self.phoneNumberField.textField.userInteractionEnabled = YES;
+        self.nextButton.enabled = YES;
+    }];
 }
 
 - (void)popupVC {

@@ -31,6 +31,8 @@
 		5C6D8C8E1C3AD6840055CB31 /* ic_toast_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C6D8C881C3AD6840055CB31 /* ic_toast_right@2x.png */; };
 		5C6D8C8F1C3AD6840055CB31 /* ic_toast_right@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C6D8C891C3AD6840055CB31 /* ic_toast_right@3x.png */; };
 		5C6D8C951C3AE38C0055CB31 /* HHLoadingViewUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C6D8C941C3AE38C0055CB31 /* HHLoadingViewUtility.m */; };
+		5C6D8C991C3F4D2A0055CB31 /* HHAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C6D8C981C3F4D2A0055CB31 /* HHAPIClient.m */; };
+		5C6D8C9D1C40125D0055CB31 /* HHUserAuthService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C6D8C9C1C40125D0055CB31 /* HHUserAuthService.m */; };
 		5C7A4EEE1BBCD2DE003DB168 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7A4EED1BBCD2DE003DB168 /* libicucore.tbd */; };
 		5C7A4EF01BBCD345003DB168 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7A4EEF1BBCD345003DB168 /* libz.tbd */; };
 		5C7A4EF41BBCD7EF003DB168 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7A4EF31BBCD7EF003DB168 /* MobileCoreServices.framework */; };
@@ -39,6 +41,7 @@
 		5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6031B48268A00D10DFB /* HHAppDelegate.m */; };
 		5CC3B60C1B48268A00D10DFB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CC3B60B1B48268A00D10DFB /* Images.xcassets */; };
 		5CC3B61B1B48268A00D10DFB /* hahaxuecheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B61A1B48268A00D10DFB /* hahaxuecheTests.m */; };
+		5CC738451C402BD600FFFBED /* HHUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC738441C402BD600FFFBED /* HHUser.m */; };
 		5CD4E9F81B5AA10C003CF15E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD4E9F71B5AA10C003CF15E /* SystemConfiguration.framework */; };
 		5CD4E9FA1B5AA115003CF15E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD4E9F91B5AA115003CF15E /* MessageUI.framework */; };
 		5CD4EA421B5DE6BC003CF15E /* HHFormatUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4EA411B5DE6BC003CF15E /* HHFormatUtility.m */; };
@@ -109,6 +112,12 @@
 		5C6D8C891C3AD6840055CB31 /* ic_toast_right@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_toast_right@3x.png"; sourceTree = "<group>"; };
 		5C6D8C931C3AE38C0055CB31 /* HHLoadingViewUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHLoadingViewUtility.h; sourceTree = "<group>"; };
 		5C6D8C941C3AE38C0055CB31 /* HHLoadingViewUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHLoadingViewUtility.m; sourceTree = "<group>"; };
+		5C6D8C971C3F4D2A0055CB31 /* HHAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHAPIClient.h; path = hahaxueche/Utilities/HHAPIClient.h; sourceTree = SOURCE_ROOT; };
+		5C6D8C981C3F4D2A0055CB31 /* HHAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHAPIClient.m; path = hahaxueche/Utilities/HHAPIClient.m; sourceTree = SOURCE_ROOT; };
+		5C6D8C9A1C3F6B920055CB31 /* APIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APIConstants.h; path = hahaxueche/Utilities/APIConstants.h; sourceTree = SOURCE_ROOT; };
+		5C6D8C9B1C40125D0055CB31 /* HHUserAuthService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHUserAuthService.h; path = hahaxueche/Utilities/HHUserAuthService.h; sourceTree = SOURCE_ROOT; };
+		5C6D8C9C1C40125D0055CB31 /* HHUserAuthService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHUserAuthService.m; path = hahaxueche/Utilities/HHUserAuthService.m; sourceTree = SOURCE_ROOT; };
+		5C6D8C9E1C40156C0055CB31 /* APIPaths.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APIPaths.h; path = hahaxueche/Utilities/APIPaths.h; sourceTree = SOURCE_ROOT; };
 		5C7A4EED1BBCD2DE003DB168 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		5C7A4EEF1BBCD345003DB168 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		5C7A4EF31BBCD7EF003DB168 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -122,6 +131,8 @@
 		5CC3B6141B48268A00D10DFB /* hahaxuecheTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = hahaxuecheTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CC3B6191B48268A00D10DFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CC3B61A1B48268A00D10DFB /* hahaxuecheTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = hahaxuecheTests.m; sourceTree = "<group>"; };
+		5CC738431C402BD600FFFBED /* HHUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHUser.h; sourceTree = SOURCE_ROOT; };
+		5CC738441C402BD600FFFBED /* HHUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHUser.m; sourceTree = SOURCE_ROOT; };
 		5CD4E9F71B5AA10C003CF15E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		5CD4E9F91B5AA115003CF15E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		5CD4EA401B5DE6BC003CF15E /* HHFormatUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHFormatUtility.h; sourceTree = "<group>"; };
@@ -301,9 +312,20 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		5CC738421C402B4B00FFFBED /* User */ = {
+			isa = PBXGroup;
+			children = (
+				5CC738431C402BD600FFFBED /* HHUser.h */,
+				5CC738441C402BD600FFFBED /* HHUser.m */,
+			);
+			name = User;
+			sourceTree = "<group>";
+		};
 		5CDE14381C32F8670004778C /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				5C6D8C9B1C40125D0055CB31 /* HHUserAuthService.h */,
+				5C6D8C9C1C40125D0055CB31 /* HHUserAuthService.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -311,6 +333,7 @@
 		5CDE14391C32F8700004778C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5CC738421C402B4B00FFFBED /* User */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -331,6 +354,10 @@
 		5CDE143C1C3300FB0004778C /* API */ = {
 			isa = PBXGroup;
 			children = (
+				5C6D8C971C3F4D2A0055CB31 /* HHAPIClient.h */,
+				5C6D8C981C3F4D2A0055CB31 /* HHAPIClient.m */,
+				5C6D8C9A1C3F6B920055CB31 /* APIConstants.h */,
+				5C6D8C9E1C40156C0055CB31 /* APIPaths.h */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -627,7 +654,9 @@
 				5CDE145A1C3737670004778C /* HHPhoneNumberUtility.m in Sources */,
 				5CDE14891C3859290004778C /* HHPopupUtility.m in Sources */,
 				5CDE14461C36E5FE0004778C /* HHIntroViewController.m in Sources */,
+				5C6D8C991C3F4D2A0055CB31 /* HHAPIClient.m in Sources */,
 				5C6D8C951C3AE38C0055CB31 /* HHLoadingViewUtility.m in Sources */,
+				5C6D8C9D1C40125D0055CB31 /* HHUserAuthService.m in Sources */,
 				5CDE14761C3778BD0004778C /* HHToastManager.m in Sources */,
 				5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */,
 				5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */,
@@ -637,6 +666,7 @@
 				5CDE146D1C3775C00004778C /* HHAccountSetupViewController.m in Sources */,
 				5C6D8C831C3A277F0055CB31 /* HHResetPWDViewController.m in Sources */,
 				5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */,
+				5CC738451C402BD600FFFBED /* HHUser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

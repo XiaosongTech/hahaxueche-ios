@@ -10,6 +10,8 @@
 #import "HHButton.h"
 #import "HHTextFieldView.h"
 
+typedef void (^HHGenericCompletion)();
+
 @interface HHRegisterViewController : UIViewController
 
 @property (nonatomic, strong) HHButton *nextButton;
