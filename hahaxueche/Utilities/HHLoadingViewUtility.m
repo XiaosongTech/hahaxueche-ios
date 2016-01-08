@@ -34,7 +34,11 @@
 }
 
 - (void)showLoadingViewWithText:(NSString *)text {
-    [SVProgressHUD showErrorWithStatus:text];
+    [SVProgressHUD showWithStatus:text];
+}
+
+- (void)dismissLoadingView {
+    [SVProgressHUD dismiss];
 }
 
 @end

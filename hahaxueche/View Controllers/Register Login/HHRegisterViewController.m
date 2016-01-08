@@ -15,10 +15,11 @@
 #import "HHAccountSetupViewController.h"
 #import "HHLoadingViewUtility.h"
 #import "HHUserAuthService.h"
+#import "HHLoadingViewUtility.h"
 
 static CGFloat const kFieldViewHeight = 40.0f;
 static CGFloat const kFieldViewWidth = 280.0f;
-static NSInteger const kSendCodeGap = 5;
+static NSInteger const kSendCodeGap = 60;
 static NSInteger const pwdLimit = 20;
 
 @interface HHRegisterViewController () <UITextFieldDelegate>
@@ -198,8 +199,7 @@ static NSInteger const pwdLimit = 20;
 }
 
 - (void)sendCodeWithCompletion:(HHGenericCompletion)completion {
-    self.phoneNumberField.textField.userInteractionEnabled = NO;
-    self.nextButton.enabled = NO;
+    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"验证码发送中"];
     [[HHUserAuthService sharedInstance] sendVeriCodeToNumber:self.phoneNumberField.textField.text completion:^(NSError *error) {
         if (!error) {
             NSString *countDownString = [NSString stringWithFormat:@"%ld 秒", self.countDown];
@@ -219,8 +219,7 @@ static NSInteger const pwdLimit = 20;
         } else {
             [[HHToastManager sharedManager] showErrorToastWithText:@"发送失败，请重试！"];
         }
-        self.phoneNumberField.textField.userInteractionEnabled = YES;
-        self.nextButton.enabled = YES;
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
     }];
 }
 
