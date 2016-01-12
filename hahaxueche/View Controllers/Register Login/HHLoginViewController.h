@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HHRegisterViewController.h"
 
 @interface HHLoginViewController : UIViewController
+
+@property (nonatomic, strong) HHGenericCompletion jumpToRegisterViewBlock;
 
 @end

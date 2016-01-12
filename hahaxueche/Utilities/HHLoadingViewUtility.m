@@ -30,7 +30,7 @@
 }
 
 - (void)showLoadingView {
-    [SVProgressHUD show];
+    [self showLoadingViewWithText:@"加载中"];
 }
 
 - (void)showLoadingViewWithText:(NSString *)text {

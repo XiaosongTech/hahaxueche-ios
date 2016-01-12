@@ -10,4 +10,6 @@
 
 @interface HHAccountSetupViewController : UIViewController
 
+- (instancetype)initWithStudentId:(NSString *)studentId;
+
 @end

@@ -15,6 +15,9 @@
 #import "HHPhoneNumberUtility.h"
 #import "HHToastManager.h"
 #import "HHResetPWDViewController.h"
+#import "HHLoadingViewUtility.h"
+#import "HHUserAuthService.h"
+#import "HHRootViewController.h"
 
 typedef NS_ENUM(NSInteger, LoginMode) {
     LoginModeVerificationCode,
@@ -23,7 +26,7 @@ typedef NS_ENUM(NSInteger, LoginMode) {
 
 static CGFloat const kFieldViewHeight = 40.0f;
 static CGFloat const kFieldViewWidth = 280.0f;
-static NSInteger const kSendCodeGap = 5;
+static NSInteger const kSendCodeGap = 60;
 static NSInteger const pwdLimit = 20;
 
 @interface HHLoginViewController () <UITextFieldDelegate>
@@ -270,31 +273,102 @@ static NSInteger const pwdLimit = 20;
     }
 }
 
-- (void)verifyPhoneNumber{
+- (void)verifyPhoneNumber {
     if ([[HHPhoneNumberUtility sharedInstance] isValidPhoneNumber:self.phoneNumberField.textField.text]) {
-        [self showVerificationCodeField];
-        [self updateConstraints];
-        [self.phoneNumberField.textField resignFirstResponder];
-        [self.verificationCodeField.textField becomeFirstResponder];
-        [self sendCode];
+        __weak HHLoginViewController *weakSelf = self;
+        [self sendCodeWithCompletion:^{
+            [weakSelf.phoneNumberField.textField resignFirstResponder];
+            [weakSelf.verificationCodeField.textField becomeFirstResponder];
+            [weakSelf showVerificationCodeField];
+        }];
     } else {
-        [[HHToastManager sharedManager] showErrorToastWithText:@"无效手机号，请仔细核对！"];
+        [[HHToastManager sharedManager] showErrorToastWithText:@"手机号无效，请仔细核对！"];
     }
+}
+
+- (void)sendCode {
+    [self sendCodeWithCompletion:nil];
 }
 
 - (void)showVerificationCodeField {
     [self.finishButton setTitle:@"登录" forState:UIControlStateNormal];
     self.verificationCodeField.hidden = NO;
     self.timer = [NSTimer scheduledTimerWithTimeInterval: 1.0 target:self selector:@selector(updateCountdown) userInfo:nil repeats: YES];
+    [self updateConstraints];
 }
 
 - (void)login {
+    if (![self areAllFieldsValid]) {
+        return;
+    }
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    if (self.currentLoginMode == LoginModeVerificationCode) {
+        [[HHUserAuthService sharedInstance] loginWithCellphone:self.phoneNumberField.textField.text veriCode:self.verificationCodeField.textField.text completion:^(HHStudent *student, NSError *error) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            if (!error) {
+                HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+                [self presentViewController:rootVC animated:YES completion:nil];
+            } else {
+                // if the user has not registered yet, lead him to register view to register.
+//                [self.navigationController popToRootViewControllerAnimated:YES];
+//                if(self.jumpToRegisterViewBlock) {
+//                    self.jumpToRegisterViewBlock();
+                //return ;
+//                }
+                [[HHToastManager sharedManager] showErrorToastWithText:@"登陆失败，请重试！"];
+                [self resetCountdown];
+            }
+        }];
+    } else {
+        [[HHUserAuthService sharedInstance] loginWithCellphone:self.phoneNumberField.textField.text password:self.pwdField.textField.text completion:^(HHStudent *student, NSError *error) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            if (!error) {
+                HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+                [self presentViewController:rootVC animated:YES completion:nil];
+            } else {
+                // if the user has not registered yet, lead him to register view to register.
+                //                [self.navigationController popToRootViewControllerAnimated:YES];
+                //                if(self.jumpToRegisterViewBlock) {
+                //                    self.jumpToRegisterViewBlock();
+                //                      return;
+                //                }
+                [[HHToastManager sharedManager] showErrorToastWithText:@"登陆失败，请重试！"];
+                [self resetCountdown];
+            }
+        }];
 
+    }
+    
+}
+
+- (BOOL)areAllFieldsValid {
+    if (![[HHPhoneNumberUtility sharedInstance] isValidPhoneNumber:self.phoneNumberField.textField.text]) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"手机号无效，请仔细核对！"];
+        return NO;
+    }
+    
+    if (self.currentLoginMode == LoginModePWD) {
+        if ([self.pwdField.textField.text length] < 6 || [self.pwdField.textField.text length] >20) {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"请输入6-20位密码"];
+            return NO;
+        }
+    } else {
+        if ([self.verificationCodeField.textField.text length] <= 0) {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"请填写验证码！"];
+            return NO;
+        }
+    }
+    return YES;
+}
+
+- (void)resetCountdown {
+    self.countDown = 0;
+    [self updateCountdown];
 }
 
 - (void)updateCountdown {
     self.countDown--;
-    if (self.countDown == 0) {
+    if (self.countDown <= 0) {
         self.sendCodeButton.enabled = YES;
         [self.sendCodeButton setTitle:@"重发" forState:UIControlStateNormal];
         [self.sendCodeButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
@@ -309,15 +383,31 @@ static NSInteger const pwdLimit = 20;
     
 }
 
-- (void)sendCode {
-    NSString *countDownString = [NSString stringWithFormat:@"%ld 秒", self.countDown];
-    [self.sendCodeButton setTitle:countDownString forState:UIControlStateNormal];
-    [self.sendCodeButton setTitleColor:[UIColor HHLightOrange] forState:UIControlStateNormal];
-    if (!self.timer) {
-        self.timer = [NSTimer scheduledTimerWithTimeInterval: 1.0 target:self selector:@selector(updateCountdown) userInfo:nil repeats: YES];
-    }
-    self.sendCodeButton.enabled = NO;
+- (void)sendCodeWithCompletion:(HHGenericCompletion)completion {
+    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"验证码发送中"];
+    [[HHUserAuthService sharedInstance] sendVeriCodeToNumber:self.phoneNumberField.textField.text completion:^(NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (!error) {
+            NSString *countDownString = [NSString stringWithFormat:@"%ld 秒", self.countDown];
+            [self.sendCodeButton setTitle:countDownString forState:UIControlStateNormal];
+            [self.sendCodeButton setTitleColor:[UIColor HHLightOrange] forState:UIControlStateNormal];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (!self.timer) {
+                    self.timer = [NSTimer scheduledTimerWithTimeInterval: 1.0 target:self selector:@selector(updateCountdown) userInfo:nil repeats: YES];
+                }
+            });
+            
+            self.sendCodeButton.enabled = NO;
+            if (completion) {
+                completion();
+            }
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"发送失败，请重试！"];
+        }
+    }];
 }
+
 
 - (void)swithMode {
     if (self.currentLoginMode == LoginModePWD) {
@@ -332,7 +422,7 @@ static NSInteger const pwdLimit = 20;
 #pragma mark - UITextField Delegate
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
-    if ([textField isEqual:self.phoneNumberField.textField]) {
+    if ([textField isEqual:self.phoneNumberField.textField] && self.currentLoginMode == LoginModeVerificationCode) {
         [self verifyPhoneNumber];
     } 
     return YES;

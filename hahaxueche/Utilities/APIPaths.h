@@ -9,7 +9,16 @@
 #ifndef APIPaths_h
 #define APIPaths_h
 
+#pragma mark User Auth
+
 #define kAPISendVeriCodePath @"send_auth_token"
 #define kAPIUserPath @"users"
+#define kAPIStudentPath @"students/%@"
+#define kAPILoginPath @"sessions"
+
+
+#pragma mark Constants
+
+#define kAPIConstantsPath @"constants"
 
 #endif /* APIPaths_h */

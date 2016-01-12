@@ -14,11 +14,12 @@ static CGFloat const kCityButtonWidth = 85.0f;
 
 @implementation HHCitySelectView
 
-- (instancetype)initWithCities:(NSArray *)cities frame:(CGRect)frame {
+- (instancetype)initWithCities:(NSArray *)cities frame:(CGRect)frame selectedCity:(HHCity *)selectedCity {
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor HHLightBackgroudGray];
         self.cities = cities;
+        self.selectedCity = selectedCity;
         self.cityButtons = [NSMutableArray array];
         [self initSubviews];
     }
@@ -50,10 +51,24 @@ static CGFloat const kCityButtonWidth = 85.0f;
     
     for (int i = 0; i < self.cities.count; i++) {
         HHButton *cityButton = [[HHButton alloc] init];
-        cityButton.backgroundColor = [UIColor whiteColor];
-        [cityButton setTitleColor:[UIColor colorWithRed:0.573 green:0.573 blue:0.573 alpha:1] forState:UIControlStateNormal];
+        HHCity *city = self.cities[i];
+        if(self.selectedCity) {
+            if (city.cityId == self.selectedCity.cityId) {
+                cityButton.backgroundColor = [UIColor HHOrange];
+                [cityButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                
+            } else {
+                cityButton.backgroundColor = [UIColor whiteColor];
+                [cityButton setTitleColor:[UIColor colorWithRed:0.573 green:0.573 blue:0.573 alpha:1] forState:UIControlStateNormal];
+                
+            }
+
+        } else {
+            cityButton.backgroundColor = [UIColor whiteColor];
+            [cityButton setTitleColor:[UIColor colorWithRed:0.573 green:0.573 blue:0.573 alpha:1] forState:UIControlStateNormal];
+        }
         cityButton.titleLabel.font = [UIFont systemFontOfSize:16.0f];
-        [cityButton setTitle:self.cities[i] forState:UIControlStateNormal];
+        [cityButton setTitle:city.cityName forState:UIControlStateNormal];
         cityButton.tag = i;
         [cityButton addTarget:self action:@selector(cityButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
         [self.scrollView addSubview:cityButton];
@@ -114,7 +129,9 @@ static CGFloat const kCityButtonWidth = 85.0f;
 #pragma mark - Button Actions 
 
 - (void)confirmButtonTapped {
-    
+    if (self.completion) {
+        self.completion(self.selectedCity);
+    }
 }
 
 - (void)cityButtonSelected:(HHButton *)button {
@@ -122,11 +139,13 @@ static CGFloat const kCityButtonWidth = 85.0f;
         if (cityButton.tag == button.tag) {
             cityButton.backgroundColor = [UIColor HHOrange];
             [cityButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            self.selectedCity = self.cities[button.tag];
         } else {
             cityButton.backgroundColor = [UIColor whiteColor];
             [cityButton setTitleColor:[UIColor colorWithRed:0.573 green:0.573 blue:0.573 alpha:1] forState:UIControlStateNormal];
         }
     }
 }
+
 
 @end

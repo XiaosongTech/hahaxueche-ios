@@ -15,6 +15,12 @@
 #import <SSKeychain/SSKeychain.h>
 #import "HHIntroViewController.h"
 #import "UIColor+HHColor.h"
+#import "HHConstantsStore.h"
+#import "HHKeychainStore.h"
+#import "HHUserAuthService.h"
+#import "HHStudentStore.h"
+#import "HHRootViewController.h"
+#import "HHAccountSetupViewController.h"
 
 @interface HHAppDelegate ()
 
@@ -25,15 +31,35 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
-    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
-    [self.window setRootViewController:navVC];
+    if ([[HHUserAuthService sharedInstance] getSavedStudent] && [HHKeychainStore getSavedAccessToken]) {
+        HHStudent *student = [[HHUserAuthService sharedInstance] getSavedStudent];
+        if (!student.name || !student.cityId) {
+            HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
+            [self.window setRootViewController:navVC];
+        } else {
+            // Get the saved student object, we lead user to rootVC
+            [HHStudentStore sharedInstance].currentStudent = [[HHUserAuthService sharedInstance] getSavedStudent];
+            HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+            [self.window setRootViewController:rootVC];
+        }
+        
+        
+    } else {
+        HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+        [self.window setRootViewController:navVC];
+       
+    }
+    
     [self.window makeKeyAndVisible];
     [self setWindow:self.window];
     
-    
     [self setupAllThirdPartyServices];
     [self setAppearance];
+    
+    //pre-fetch constants
+    [[HHConstantsStore sharedInstance] getConstantsWithCompletion:nil];
     return YES;
 }
 

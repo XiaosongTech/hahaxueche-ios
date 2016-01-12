@@ -11,6 +11,10 @@
 
 @interface HHPopupUtility : NSObject
 
-+ (void)showPopupWithContentView:(UIView *)contentView;
++ (KLCPopup *)createPopupWithContentView:(UIView *)contentView;
+
++ (void)showPopup:(KLCPopup *)popup;
+
++ (void)dismissPopup:(KLCPopup *)popup;
 
 @end

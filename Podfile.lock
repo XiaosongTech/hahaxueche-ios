@@ -36,6 +36,7 @@ PODS:
   - Mantle/extobjc (2.0.6)
   - Masonry (0.6.4)
   - MJRefresh (3.0.8)
+  - pop (1.0.8)
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
@@ -56,6 +57,7 @@ DEPENDENCIES:
   - Mantle
   - Masonry
   - MJRefresh
+  - pop (~> 1.0)
   - SDWebImage (~> 3.7)
   - SSKeychain
   - SVProgressHUD
@@ -74,6 +76,7 @@ SPEC CHECKSUMS:
   Mantle: 299966b00759634931699f69cb6a30b9239b944d
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MJRefresh: fafde8f18f4afd66b434331a9beb67a6c0264056
+  pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SSKeychain: 04c4ec40f4c3deda524e269bc76e5f30e638a174
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1

@@ -8,6 +8,7 @@
 
 #import "HHAPIClient.h"
 #import "AFNetworkActivityIndicatorManager.h"
+#import "HHKeychainStore.h"
 
 
 @implementation HHAPIClient
@@ -18,15 +19,12 @@
         [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
         self.APIPath = path;
         self.requestManager = manager;
-#ifdef DEBUG
-        self.APIKey = kStagingAPIKey;
-#else
-        self.APIKey = kProductionAPIKey;
-#endif
         [self.requestManager.requestSerializer setValue:kContentTypeHeaderValue forHTTPHeaderField:kContentTypeHeaderKey];
-        [self.requestManager.requestSerializer setValue:kAccessTokenHeaderKey forHTTPHeaderField:self.APIKey];
         self.requestManager.requestSerializer = [AFJSONRequestSerializer serializer];
         [self.requestManager.reachabilityManager startMonitoring];
+        if ([[HHKeychainStore getSavedAccessToken] length]) {
+            [self.requestManager.requestSerializer setValue:[HHKeychainStore getSavedAccessToken] forHTTPHeaderField:kAccessTokenHeaderKey];
+        }
 }
     
     return self;
@@ -72,12 +70,10 @@
 }
 
 - (void)handleError:(NSError **)error requestOperation:(AFHTTPRequestOperation *)requestOperation {
-//    if (requestOperation.responseObject[@"error"]) {
-//        NSMutableDictionary *userInfo = [[*error userInfo] mutableCopy];
-//        userInfo[NSLocalizedDescriptionKey] = requestOperation.responseObject[@"error"];
-//        userInfo[NSLocalizedFailureReasonErrorKey] = (requestOperation.responseObject[@"error_id"]) ? requestOperation.responseObject[@"error_id"] : @"UNKOWN_ERROR";
-//        *error = [NSError errorWithDomain:[*error domain] code:[*error code] userInfo:userInfo];
-//    }
+    NSMutableDictionary *userInfo = [[*error userInfo] mutableCopy];
+    userInfo[NSLocalizedDescriptionKey] = requestOperation.responseObject[@"message"];
+    userInfo[NSLocalizedFailureReasonErrorKey] = requestOperation.responseObject[@"code"];
+    *error = [NSError errorWithDomain:[*error domain] code:[*error code] userInfo:userInfo];
 }
 
 #pragma mark - Methods
@@ -101,6 +97,15 @@
         [self handleError:error requestOperation:operation completion:completion];
     }];
     
+    return requestOperation;
+}
+
+- (AFHTTPRequestOperation *)putWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion {
+    AFHTTPRequestOperation *requestOperation = [self.requestManager PUT:self.APIPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self parseResponse:responseObject fromOperation:operation completion:completion];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self handleError:error requestOperation:operation completion:completion];
+    }];
     return requestOperation;
 }
 

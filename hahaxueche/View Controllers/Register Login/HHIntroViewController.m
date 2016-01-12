@@ -12,10 +12,14 @@
 #import "HHButton.h"
 #import "HHRegisterViewController.h"
 #import "HHLoginViewController.h"
+#import "UIView+HHRect.h"
+#import "HHRootViewController.h"
+
 
 static CGFloat const kButtonHeight = 40.0f;
 static CGFloat const kButtonWidth = 235.0f;
 static NSInteger const kBannerImageCount = 4;
+static CGFloat const kFloatButtonHeight = 40.0f;
 
 @interface HHIntroViewController () <UIScrollViewDelegate>
 
@@ -26,6 +30,7 @@ static NSInteger const kBannerImageCount = 4;
 @property (nonatomic, strong) UIView *bottomLine;
 @property (nonatomic, strong) NSMutableArray *bannerImageViews;
 @property (nonatomic, strong) UIPageControl * pageControl;
+
 
 @end
 
@@ -91,6 +96,8 @@ static NSInteger const kBannerImageCount = 4;
     }
     
     [self makeConstraints];
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -173,17 +180,23 @@ static NSInteger const kBannerImageCount = 4;
 #pragma mark - Button Actions
 
 - (void)jumpToRegisterVC {
+    __weak HHIntroViewController *weakSelf = self;
     HHRegisterViewController *registerVC = [[HHRegisterViewController alloc] init];
+    registerVC.jumpToLoginViewBlock = ^(){
+        [weakSelf jumpToLoginVC];
+    };
     [self.navigationController pushViewController:registerVC animated:YES];
 }
 
 - (void)jumpToLoginVC {
+    __weak HHIntroViewController *weakSelf = self;
     HHLoginViewController *loginVC = [[HHLoginViewController alloc] init];
     [self.navigationController pushViewController:loginVC animated:YES];
 }
 
 - (void)enterAsGuest {
-    
+    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+    [self presentViewController:rootVC animated:YES completion:nil];
 }
 
 #pragma mark - UIScrollView Delegate

@@ -11,17 +11,16 @@
 @implementation HHUser
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return @{};
+    return @{
+             @"cellPhone": @"cell_phone",
+             @"userId": @"id",
+             @"accessToken": @"session.access_token",
+             @"student": @"student"
+             };
 }
 
-
-- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError **)error {
-    self = [super initWithDictionary:dictionaryValue error:error];
-    if (!self) {
-        return nil;
-    } else {
-        return self;
-    }
++ (NSValueTransformer *)studentJSONTransformer {
+    return [MTLJSONAdapter dictionaryTransformerWithModelClass:[HHStudent class]];
 }
 
 @end

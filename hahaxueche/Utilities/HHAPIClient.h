@@ -18,7 +18,6 @@ typedef void (^HHAPIClientCompletionBlock)(NSDictionary *response, NSError *erro
 + (HHAPIClient *)apiClientWithPath:(NSString *)path;
 
 @property (nonatomic, strong)   AFHTTPRequestOperationManager *requestManager;
-@property (nonatomic, copy)     NSString *APIKey;
 @property (nonatomic, copy)     NSString *APIPath;
 
 
@@ -26,5 +25,7 @@ typedef void (^HHAPIClientCompletionBlock)(NSDictionary *response, NSError *erro
 - (AFHTTPRequestOperation *)postWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion;
 
 - (AFHTTPRequestOperation *)getWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion;
+
+- (AFHTTPRequestOperation *)putWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion;
 
 @end

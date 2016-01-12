@@ -16,6 +16,7 @@
 #import "HHLoadingViewUtility.h"
 #import "HHUserAuthService.h"
 #import "HHLoadingViewUtility.h"
+#import "HHStudentStore.h"
 
 static CGFloat const kFieldViewHeight = 40.0f;
 static CGFloat const kFieldViewWidth = 280.0f;
@@ -173,9 +174,48 @@ static NSInteger const pwdLimit = 20;
 }
 
 - (void)doneButtonTapped {
-    HHAccountSetupViewController *setupVC = [[HHAccountSetupViewController alloc] init];
-    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:setupVC];
-    [self presentViewController:navVC animated:YES completion:nil];
+    
+    if (![self areAllFieldsValid]) {
+        return;
+    }
+    
+    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"创建中"];
+    [[HHUserAuthService sharedInstance] createUserWithNumber:self.phoneNumberField.textField.text veriCode:self.verificationCodeField.textField.text password:self.pwdField.textField.text completion:^(HHUser *user, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (!error) {
+            HHAccountSetupViewController *setupVC = [[HHAccountSetupViewController alloc] initWithStudentId:[HHStudentStore sharedInstance].currentStudent.studentId];
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:setupVC];
+            [self presentViewController:navVC animated:YES completion:nil];
+        } else {
+            // if the cell phone has already registerd, lead the user to login view
+//            [self.navigationController popToRootViewControllerAnimated:YES];
+//            if (self.jumpToLoginViewBlock) {
+//                self.jumpToLoginViewBlock();
+            //return ;
+//
+//            }
+
+            [[HHToastManager sharedManager] showErrorToastWithText:@"注册失败"];
+        }
+    }];
+
+    
+}
+
+- (BOOL)areAllFieldsValid {
+    if (![[HHPhoneNumberUtility sharedInstance] isValidPhoneNumber:self.phoneNumberField.textField.text]) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"无效手机号，请仔细核对！"];
+        return NO;
+    }
+    if (self.verificationCodeField.textField.text.length <= 0) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"无效手机号，请仔细核对！"];
+        return NO;
+    }
+    if (self.pwdField.textField.text.length < 6 || self.pwdField.textField.text.length > 20) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"请设置6-20位密码"];
+        return NO;
+    }
+    return YES;
 }
 
 - (void)updateCountdown {

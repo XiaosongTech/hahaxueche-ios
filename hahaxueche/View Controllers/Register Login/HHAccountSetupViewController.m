@@ -13,6 +13,12 @@
 #import "Masonry.h"
 #import "HHPopupUtility.h"
 #import "HHCitySelectView.h"
+#import "HHConstantsStore.h"
+#import "HHCity.h"
+#import "HHUserAuthService.h"
+#import "HHToastManager.h"
+#import "HHRootViewController.h"
+#import "HHLoadingViewUtility.h"
 
 
 static CGFloat const avatarViewRadius = 50.0f;
@@ -30,10 +36,21 @@ static CGFloat const kFieldViewWidth = 280.0f;
 @property (nonatomic, strong) UIActionSheet *avatarOptionsSheet;
 @property (nonatomic, strong) UIImage *selectedAvatarImage;
 @property (nonatomic, strong) HHCitySelectView *citySelectView;
+@property (nonatomic, strong) HHCity *selectedCity;
+@property (nonatomic, strong) KLCPopup *popup;
+@property (nonatomic, strong) NSString *studentId;
 
 @end
 
 @implementation HHAccountSetupViewController
+
+- (instancetype)initWithStudentId:(NSString *)studentId {
+    self = [super init];
+    if (self) {
+        self.studentId = studentId;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -143,12 +160,34 @@ static CGFloat const kFieldViewWidth = 280.0f;
 #pragma mark - Button Actions 
 
 - (void)showCitySelectorView {
-    CGFloat height = MAX(300.0f, CGRectGetHeight(self.view.bounds)/2.0f);
-    self.citySelectView = [[HHCitySelectView alloc] initWithCities:@[@"武汉", @"长沙", @"其他", @"其他"] frame:CGRectMake(0, 0, 300.0f, height)];
-    [HHPopupUtility showPopupWithContentView:self.citySelectView];
+    __weak HHAccountSetupViewController *weakSelf = self;
+    [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
+        if ([constants.cities count]) {
+            CGFloat height = MAX(300.0f, CGRectGetHeight(self.view.bounds)/2.0f);
+            self.citySelectView = [[HHCitySelectView alloc] initWithCities:constants.cities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:self.selectedCity];
+            self.citySelectView.completion = ^(HHCity *selectedCity) {
+                weakSelf.selectedCity = selectedCity;
+                weakSelf.cityField.textField.text = selectedCity.cityName;
+                [HHPopupUtility dismissPopup:weakSelf.popup];
+            };
+            self.popup = [HHPopupUtility createPopupWithContentView:self.citySelectView];
+            [self.popup show];
+            
+        }
+    }];
 }
 
 - (void)finishButtonTapped {
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    [[HHUserAuthService sharedInstance] setupStudentInfoWithStudentId:self.studentId userName:self.nameField.textField.text cityId:self.selectedCity.cityId avatarURL:nil completion:^(HHStudent *student, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (!error) {
+            HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+            [self presentViewController:rootVC animated:YES completion:nil];
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了，请重试！"];
+        }
+    }];
     
 }
 

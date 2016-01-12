@@ -10,14 +10,21 @@
 
 @implementation HHPopupUtility
 
-+ (void)showPopupWithContentView:(UIView *)contentView {
-    [[KLCPopup popupWithContentView:contentView
++ (KLCPopup *)createPopupWithContentView:(UIView *)contentView {
+    return [KLCPopup popupWithContentView:contentView
                           showType:KLCPopupShowTypeGrowIn
                        dismissType:KLCPopupDismissTypeGrowOut
                           maskType:KLCPopupMaskTypeDimmed
           dismissOnBackgroundTouch:YES
-              dismissOnContentTouch:NO] show];
-    
+              dismissOnContentTouch:NO];
+}
+
++ (void)dismissPopup:(KLCPopup *)popup {
+    [popup dismiss:YES];
+}
+
++ (void)showPopup:(KLCPopup *)popup {
+    [popup show];
 }
 
 @end
