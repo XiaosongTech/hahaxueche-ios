@@ -28,4 +28,7 @@ typedef void (^HHAPIClientCompletionBlock)(NSDictionary *response, NSError *erro
 
 - (AFHTTPRequestOperation *)putWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion;
 
+
+- (void)deleteWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion;
+
 @end

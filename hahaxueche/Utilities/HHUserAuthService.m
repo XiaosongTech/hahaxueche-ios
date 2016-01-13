@@ -10,7 +10,7 @@
 #import "HHKeychainStore.h"
 #import "HHStudentStore.h"
 
-static NSString *const kStduentObjectKey = @"kStduentObjectKey";
+static NSString *const kUserObjectKey = @"kUserObjectKey";
 
 @implementation HHUserAuthService
 
@@ -25,7 +25,7 @@ static NSString *const kStduentObjectKey = @"kStduentObjectKey";
     return sharedInstance;
 }
 
-- (void)sendVeriCodeToNumber:(NSString *)number completion:(HHSendVeriCodeCompletion)completion {
+- (void)sendVeriCodeToNumber:(NSString *)number completion:(HHUserErrorCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPISendVeriCodePath];
     [APIClient postWithParameters:@{@"cell_phone":number} completion:^(NSDictionary *response, NSError *error) {
         if (completion) {
@@ -58,7 +58,9 @@ static NSString *const kStduentObjectKey = @"kStduentObjectKey";
     [APIClient putWithParameters:@{@"name":userName, @"city":cityId} completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             HHStudent *student = [MTLJSONAdapter modelOfClass:[HHStudent class] fromJSONDictionary:response error:nil];
-            [self saveAuthedStudent:student];
+            HHUser *authedUser = [self getSavedUser];
+            authedUser.student = student;
+            [self saveAuthedUser:authedUser];
             [HHStudentStore sharedInstance].currentStudent = student;
             if (completion) {
                 completion(student, nil);
@@ -106,27 +108,45 @@ static NSString *const kStduentObjectKey = @"kStduentObjectKey";
     }];
 }
 
-- (void)logOut {
-    
+- (void)logOutWithCompletion:(HHUserErrorCompletion)completion {
+     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPILogoutPath, [self getSavedUser].session.sessionId]];
+    [APIClient deleteWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            [HHKeychainStore deleteSavedUser];
+            [self deleteSavedUser];
+            if (completion) {
+                completion(nil);
+            }
+        } else {
+            completion(error);
+        }
+    }];
 }
 
 - (void)postAuthActionsWithUser:(HHUser *)user {
-    [HHKeychainStore saveAccessToken:user.accessToken forStudentId:user.student.studentId];
-    [self saveAuthedStudent:user.student];
+    [HHKeychainStore saveAccessToken:user.session.accessToken forUserId:user.userId];
+    //just save token in keychain, not user default
+    user.session.accessToken = nil;
+    [self saveAuthedUser:user];
     [HHStudentStore sharedInstance].currentStudent = user.student;
 }
 
-- (HHStudent *)getSavedStudent {
+- (HHUser *)getSavedUser {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSData *studentData = [defaults objectForKey:kStduentObjectKey];
-    HHStudent *savedStudent = [MTLJSONAdapter modelOfClass:[HHStudent class] fromJSONDictionary:[NSKeyedUnarchiver unarchiveObjectWithData:studentData] error:nil];
-    return savedStudent;
+    NSData *studentData = [defaults objectForKey:kUserObjectKey];
+    HHUser *savedUser = [MTLJSONAdapter modelOfClass:[HHUser class] fromJSONDictionary:[NSKeyedUnarchiver unarchiveObjectWithData:studentData] error:nil];
+    return savedUser;
 }
 
-- (void)saveAuthedStudent:(HHStudent *)student {
+- (void)saveAuthedUser:(HHUser *)user {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *studentDic = [MTLJSONAdapter JSONDictionaryFromModel:student error:nil];
-    [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:studentDic] forKey:kStduentObjectKey];
+    NSDictionary *userDic = [MTLJSONAdapter JSONDictionaryFromModel:user error:nil];
+    [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:userDic] forKey:kUserObjectKey];
+}
+
+- (void)deleteSavedUser {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:nil forKey:kUserObjectKey];
 }
 
 

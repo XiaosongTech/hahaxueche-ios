@@ -43,6 +43,7 @@
 		5C36D39A1C4311FF00443545 /* HHConstantsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C36D3991C4311FF00443545 /* HHConstantsStore.m */; };
 		5C36D39D1C4360FE00443545 /* HHStudent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C36D39C1C4360FE00443545 /* HHStudent.m */; };
 		5C36D3A01C442A6300443545 /* HHStudentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C36D39F1C442A6300443545 /* HHStudentStore.m */; };
+		5C36D3B01C46B68700443545 /* HHSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C36D3AF1C46B68700443545 /* HHSession.m */; };
 		5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C3980791B4ACA2B0057B049 /* UIView+HHRect.m */; };
 		5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C54517A1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m */; };
 		5C5451A61B51A7480025D19F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5451A51B51A7480025D19F /* MapKit.framework */; };
@@ -164,6 +165,8 @@
 		5C36D39C1C4360FE00443545 /* HHStudent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHStudent.m; sourceTree = SOURCE_ROOT; };
 		5C36D39E1C442A6300443545 /* HHStudentStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHStudentStore.h; sourceTree = "<group>"; };
 		5C36D39F1C442A6300443545 /* HHStudentStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHStudentStore.m; sourceTree = "<group>"; };
+		5C36D3AE1C46B68700443545 /* HHSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSession.h; sourceTree = SOURCE_ROOT; };
+		5C36D3AF1C46B68700443545 /* HHSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSession.m; sourceTree = SOURCE_ROOT; };
 		5C3980781B4ACA2B0057B049 /* UIView+HHRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+HHRect.h"; sourceTree = "<group>"; };
 		5C3980791B4ACA2B0057B049 /* UIView+HHRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+HHRect.m"; sourceTree = "<group>"; };
 		5C5451791B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+HHCustomButton.h"; sourceTree = "<group>"; };
@@ -367,6 +370,15 @@
 			name = Stores;
 			sourceTree = "<group>";
 		};
+		5C36D3AD1C46B66500443545 /* Student */ = {
+			isa = PBXGroup;
+			children = (
+				5C36D39B1C4360FE00443545 /* HHStudent.h */,
+				5C36D39C1C4360FE00443545 /* HHStudent.m */,
+			);
+			name = Student;
+			sourceTree = "<group>";
+		};
 		5CC3B5F21B48268A00D10DFB = {
 			isa = PBXGroup;
 			children = (
@@ -439,8 +451,8 @@
 			children = (
 				5CC738431C402BD600FFFBED /* HHUser.h */,
 				5CC738441C402BD600FFFBED /* HHUser.m */,
-				5C36D39B1C4360FE00443545 /* HHStudent.h */,
-				5C36D39C1C4360FE00443545 /* HHStudent.m */,
+				5C36D3AE1C46B68700443545 /* HHSession.h */,
+				5C36D3AF1C46B68700443545 /* HHSession.m */,
 			);
 			name = User;
 			sourceTree = "<group>";
@@ -457,6 +469,7 @@
 		5CDE14391C32F8700004778C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5C36D3AD1C46B66500443545 /* Student */,
 				5C36D38A1C43014E00443545 /* Others */,
 				5CC738421C402B4B00FFFBED /* User */,
 			);
@@ -830,6 +843,7 @@
 				5CC3B6011B48268A00D10DFB /* main.m in Sources */,
 				5CDE14511C3715F90004778C /* HHRegisterViewController.m in Sources */,
 				5C5F87671BF6723F006F9594 /* HHEventTrackingManager.m in Sources */,
+				5C36D3B01C46B68700443545 /* HHSession.m in Sources */,
 				5C36D38D1C43016900443545 /* HHCity.m in Sources */,
 				5C36D3561C42D81F00443545 /* HHMyPageViewController.m in Sources */,
 				5CDE146D1C3775C00004778C /* HHAccountSetupViewController.m in Sources */,

@@ -15,6 +15,7 @@
 #define kAPIUserPath @"users"
 #define kAPIStudentPath @"students/%@"
 #define kAPILoginPath @"sessions"
+#define kAPILogoutPath @"sessions/%@"
 
 
 #pragma mark Constants

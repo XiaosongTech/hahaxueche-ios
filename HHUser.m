@@ -14,7 +14,7 @@
     return @{
              @"cellPhone": @"cell_phone",
              @"userId": @"id",
-             @"accessToken": @"session.access_token",
+             @"session": @"session",
              @"student": @"student"
              };
 }
@@ -22,5 +22,10 @@
 + (NSValueTransformer *)studentJSONTransformer {
     return [MTLJSONAdapter dictionaryTransformerWithModelClass:[HHStudent class]];
 }
+
++ (NSValueTransformer *)sessionJSONTransformer {
+    return [MTLJSONAdapter dictionaryTransformerWithModelClass:[HHSession class]];
+}
+
 
 @end

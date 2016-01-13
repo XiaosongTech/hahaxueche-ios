@@ -109,4 +109,15 @@
     return requestOperation;
 }
 
+- (void)deleteWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion {
+    
+    AFHTTPRequestOperation *requestOperation = [self.requestManager DELETE:self.APIPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self parseResponse:responseObject fromOperation:operation completion:completion];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self handleError:error requestOperation:operation completion:completion];
+    }];
+    
+}
+
+
 @end

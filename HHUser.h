@@ -8,12 +8,13 @@
 
 #import <Mantle/Mantle.h>
 #import "HHStudent.h"
+#import "HHSession.h"
 
 @interface HHUser : MTLModel <MTLJSONSerializing>
 
 @property (nonatomic, copy) NSString *cellPhone;
 @property (nonatomic, copy) NSString *userId;
-@property (nonatomic, copy) NSString *accessToken;
+@property (nonatomic, strong) HHSession *session;
 @property (nonatomic, strong) HHStudent *student;
 
 @end

@@ -13,7 +13,7 @@
 #import "HHStudent.h"
 #import "HHConstants.h"
 
-typedef void (^HHSendVeriCodeCompletion)(NSError *error);
+typedef void (^HHUserErrorCompletion)(NSError *error);
 typedef void (^HHUserCompletion)(HHUser *user, NSError *error);
 typedef void (^HHStudentCompletion)(HHStudent *student, NSError *error);
 
@@ -27,7 +27,7 @@ typedef void (^HHStudentCompletion)(HHStudent *student, NSError *error);
  @param number The number we send code to
  @param completion The completion block to execute on completion
  */
-- (void)sendVeriCodeToNumber:(NSString *)number completion:(HHSendVeriCodeCompletion)completion;
+- (void)sendVeriCodeToNumber:(NSString *)number completion:(HHUserErrorCompletion)completion;
 
 /**
  Create a user
@@ -69,20 +69,20 @@ typedef void (^HHStudentCompletion)(HHStudent *student, NSError *error);
 /**
  Log out the authed student
 */
-- (void)logOut;
+- (void)logOutWithCompletion:(HHUserErrorCompletion)completion;
 
 
 /**
- Return a HHStudent object that is saved locally
+ Return a HHUser object that is saved locally
 */
-- (HHStudent *)getSavedStudent;
+- (HHUser *)getSavedUser;
 
 
 /**
- Save a HHStudent object locally
- @param student The authed student object
+ Save a HHUSer object locally
+ @param user The authed user object
  */
-- (void)saveAuthedStudent:(HHStudent *)student;
+- (void)saveAuthedUser:(HHUser *)user;
 
 
 

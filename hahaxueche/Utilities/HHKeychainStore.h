@@ -11,9 +11,9 @@
 
 @interface HHKeychainStore : NSObject
 
-+ (BOOL)saveAccessToken:(NSString *)accessToken forStudentId:(NSString *)studentId;
++ (BOOL)saveAccessToken:(NSString *)accessToken forUserId:(NSString *)userId;
 
-+ (BOOL)deleteSavedStudent;
++ (BOOL)deleteSavedUser;
 
 + (NSString *)getSavedAccessToken;
 
