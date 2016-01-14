@@ -55,7 +55,7 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
 
 - (void)setupStudentInfoWithStudentId:(NSString *)studentId userName:(NSString *)userName cityId:(NSNumber *)cityId avatarURL:(NSString *)url completion:(HHStudentCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentPath, studentId]];
-    [APIClient putWithParameters:@{@"name":userName, @"city":cityId} completion:^(NSDictionary *response, NSError *error) {
+    [APIClient putWithParameters:@{@"name":userName, @"city_id":cityId} completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             HHStudent *student = [MTLJSONAdapter modelOfClass:[HHStudent class] fromJSONDictionary:response error:nil];
             HHUser *authedUser = [self getSavedUser];

@@ -178,6 +178,9 @@ static CGFloat const kFieldViewWidth = 280.0f;
 }
 
 - (void)finishButtonTapped {
+    if (![self areAllFieldsValid]) {
+        return;
+    }
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
     [[HHUserAuthService sharedInstance] setupStudentInfoWithStudentId:self.studentId userName:self.nameField.textField.text cityId:self.selectedCity.cityId avatarURL:nil completion:^(HHStudent *student, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
@@ -189,6 +192,18 @@ static CGFloat const kFieldViewWidth = 280.0f;
         }
     }];
     
+}
+
+- (BOOL)areAllFieldsValid {
+    if (!self.selectedCity.cityId) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"请选择您所在城市"];
+        return NO;
+    }
+    if (![self.nameField.textField.text length]) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"请填写您的名字"];
+        return NO;
+    }
+    return YES;
 }
 
 - (void)showImageOptions {
