@@ -29,6 +29,9 @@ static CGFloat const kCellHeight = 60.0f;
 @property (nonatomic, strong) UIView *horizontalLine;
 @property (nonatomic, strong) UIView *verticalLine;
 
+@property (nonatomic, strong) NSArray *priceValues;
+@property (nonatomic, strong) NSArray *distanceValues;
+
 @end
 
 @implementation HHFiltersView
@@ -38,10 +41,13 @@ static CGFloat const kCellHeight = 60.0f;
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
         self.coachFilters = coachFilters;
-        self.distanceSliderView = [[HHSliderView alloc] initWithTilte:@"距离筛选" values:@[@(2), @(2.5), @(3), @(3.5)] defaultValue:self.coachFilters.distance sliderValueMode:SliderValueModeDistance];
+        
+        self.distanceValues = @[@(2), @(2.5), @(3), @(3.5)];
+        self.priceValues = @[@(2000), @(2500), @(3000), @(3500)];
+        self.distanceSliderView = [[HHSliderView alloc] initWithTilte:@"距离筛选" values:self.distanceValues defaultValue:self.coachFilters.distance sliderValueMode:SliderValueModeDistance];
         [self addSubview:self.distanceSliderView];
         
-        self.priceSliderView = [[HHSliderView alloc] initWithTilte:@"价格筛选" values:@[@(2000), @(2500), @(3000), @(3500)] defaultValue:self.coachFilters.price sliderValueMode:SliderValueModePrice];
+        self.priceSliderView = [[HHSliderView alloc] initWithTilte:@"价格筛选" values:self.priceValues defaultValue:self.coachFilters.price sliderValueMode:SliderValueModePrice];
         [self addSubview:self.priceSliderView];
         
         self.goldenCoachSwitchView = [[HHSwitchView alloc] initWithTitle:@"只显示金牌教练" isToggleOn:[self.coachFilters.onlyGoldenCoach boolValue]];
@@ -59,10 +65,12 @@ static CGFloat const kCellHeight = 60.0f;
         
         self.confirmButton = [[HHButton alloc] init];
         [self.confirmButton HHConfirmButton];
+        [self.confirmButton addTarget:self action:@selector(confirmTapped) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.confirmButton];
         
         self.cancelButton = [[HHButton alloc] init];
         [self.cancelButton HHCancelButton];
+        [self.cancelButton addTarget:self action:@selector(cancelTapped) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.cancelButton];
         
         self.verticalLine = [[UIView alloc] init];
@@ -136,8 +144,22 @@ static CGFloat const kCellHeight = 60.0f;
         make.width.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
         make.height.mas_equalTo(kCellHeight/2.0f);
     }];
-    
-    
+}
+
+- (void)confirmTapped {
+    self.coachFilters.price = self.priceValues[self.priceSliderView.slider.index];
+    self.coachFilters.distance = self.distanceValues[self.distanceSliderView.slider.index];
+    self.coachFilters.onlyGoldenCoach = @(self.goldenCoachSwitchView.toggle.isOn);
+    //self.coachFilters.licenseType =
+    if (self.confirmBlock) {
+        self.confirmBlock(self.coachFilters);
+    }
+}
+
+- (void)cancelTapped {
+    if (self.cancelBlock) {
+        self.cancelBlock();
+    }
 }
 
 @end

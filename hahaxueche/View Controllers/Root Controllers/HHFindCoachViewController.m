@@ -15,6 +15,7 @@
 #import "HHPopupUtility.h"
 #import "HHFiltersView.h"
 #import "HHCoachFilters.h"
+#import "HHSortView.h"
 
 @interface HHFindCoachViewController ()
 
@@ -29,6 +30,9 @@
 @property (nonatomic, strong) HHFiltersView *filtersView;
 @property (nonatomic, strong) HHCoachFilters *coachFilters;
 
+@property (nonatomic, strong) HHSortView *sortView;
+@property (nonatomic) SortOption currentSortOption;
+
 @end
 
 @implementation HHFindCoachViewController
@@ -36,12 +40,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.coachFilters = [HHCoachFilters sharedInstance];
+    self.coachFilters = [[HHCoachFilters alloc] init];
     self.coachFilters.price = @(3000);
     self.coachFilters.distance = @(3);
     self.coachFilters.onlyGoldenCoach = @(1);
     self.coachFilters.licenseType = @(1);
     
+    
+    self.currentSortOption = SortOptionSmartSort;
     [self initSubviews];
 }
 
@@ -63,6 +69,7 @@
     [self.topButtonsView addSubview:self.filterButton];
     
     self.sortButton = [self createTopButtonWithTitle:@"排序" image:[UIImage imageNamed:@"ic_sort_normal_btn"]];
+    [self.sortButton addTarget:self action:@selector(sortTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.topButtonsView addSubview:self.sortButton];
     
     [self makeConstraints];
@@ -120,8 +127,31 @@
 #pragma mark - Button Actions 
 
 - (void)filterTapped {
-    self.filtersView = [[HHFiltersView alloc] initWithFilters:self.coachFilters frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 380.0f)];
-    [HHPopupUtility showPopup:[HHPopupUtility createPopupWithContentView:self.filtersView]];
+    __weak HHFindCoachViewController *weakSelf = self;
+    self.filtersView = [[HHFiltersView alloc] initWithFilters:[self.coachFilters copy] frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 380.0f)];
+    self.filtersView.confirmBlock = ^(HHCoachFilters *filters){
+        weakSelf.coachFilters = filters;
+        [weakSelf.popup dismiss:YES];
+    };
+    self.filtersView.cancelBlock = ^(){
+        [weakSelf.popup dismiss:YES];
+    };
+    self.popup = [HHPopupUtility createPopupWithContentView:self.filtersView];
+    [HHPopupUtility showPopup:self.popup];
+}
+
+- (void)sortTapped {
+     __weak HHFindCoachViewController *weakSelf = self;
+    self.sortView = [[HHSortView alloc] initWithDefaultSortOption:self.currentSortOption];
+    self.sortView.frame = CGRectMake(0, 0, 130.0f, 200.0f);
+    self.sortView.selectedOptionBlock = ^(SortOption sortOption){
+        weakSelf.currentSortOption = sortOption;
+        [weakSelf.popup dismiss:YES];
+    };
+    self.popup = [HHPopupUtility createPopupWithContentView:self.sortView];
+    CGPoint center = CGPointMake(CGRectGetMidX(self.sortButton.frame), 150.0f);
+    [HHPopupUtility showPopup:self.popup AtCenter:center inView:self.view];
+
 }
 
 @end

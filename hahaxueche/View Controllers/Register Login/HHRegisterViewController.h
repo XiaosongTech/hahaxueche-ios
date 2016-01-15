@@ -18,7 +18,6 @@ typedef void (^HHGenericCompletion)();
 @property (nonatomic, strong) HHTextFieldView *phoneNumberField;
 @property (nonatomic, strong) HHTextFieldView *verificationCodeField;
 @property (nonatomic, strong) HHTextFieldView *pwdField;
-@property (nonatomic, strong) HHGenericCompletion jumpToLoginViewBlock;
 
 - (void)doneButtonTapped;
 

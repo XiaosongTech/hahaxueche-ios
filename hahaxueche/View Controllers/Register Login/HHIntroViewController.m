@@ -180,16 +180,11 @@ static CGFloat const kFloatButtonHeight = 40.0f;
 #pragma mark - Button Actions
 
 - (void)jumpToRegisterVC {
-    __weak HHIntroViewController *weakSelf = self;
     HHRegisterViewController *registerVC = [[HHRegisterViewController alloc] init];
-    registerVC.jumpToLoginViewBlock = ^(){
-        [weakSelf jumpToLoginVC];
-    };
     [self.navigationController pushViewController:registerVC animated:YES];
 }
 
 - (void)jumpToLoginVC {
-    __weak HHIntroViewController *weakSelf = self;
     HHLoginViewController *loginVC = [[HHLoginViewController alloc] init];
     [self.navigationController pushViewController:loginVC animated:YES];
 }

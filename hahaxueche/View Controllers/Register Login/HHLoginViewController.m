@@ -82,7 +82,7 @@ static NSInteger const pwdLimit = 20;
         case LoginModePWD: {
             self.pwdField.hidden = NO;
             self.verificationCodeField.hidden = YES;
-            UIBarButtonItem *forgetPWDButton = [UIBarButtonItem buttonItemWithTitle:@"忘记密码" titleColor:[UIColor colorWithRed:1 green:0.89 blue:0.75 alpha:1] action:@selector(forgetPWD) target:self isLeft:NO];
+            UIBarButtonItem *forgetPWDButton = [UIBarButtonItem buttonItemWithTitle:@"忘记密码" titleColor:[UIColor whiteColor] action:@selector(forgetPWD) target:self isLeft:NO];
             self.navigationItem.rightBarButtonItem = forgetPWDButton;
             self.title = @"密码登陆";
             [self.swichLoginModeButton setTitle:@"使用验证码登陆" forState:UIControlStateNormal];
@@ -309,14 +309,14 @@ static NSInteger const pwdLimit = 20;
                 HHRootViewController *rootVC = [[HHRootViewController alloc] init];
                 [self presentViewController:rootVC animated:YES completion:nil];
             } else {
-                // if the user has not registered yet, lead him to register view to register.
-//                [self.navigationController popToRootViewControllerAnimated:YES];
-//                if(self.jumpToRegisterViewBlock) {
-//                    self.jumpToRegisterViewBlock();
-                //return ;
-//                }
-                [[HHToastManager sharedManager] showErrorToastWithText:@"登陆失败，请重试！"];
+                if ([error.localizedFailureReason isEqual:@(40044)]) {
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"该手机号还未注册，请先注册！"];
+                } else {
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"登陆失败，请重试！"];
+                }
+                
                 [self resetCountdown];
+
             }
         }];
     } else {
@@ -326,13 +326,12 @@ static NSInteger const pwdLimit = 20;
                 HHRootViewController *rootVC = [[HHRootViewController alloc] init];
                 [self presentViewController:rootVC animated:YES completion:nil];
             } else {
-                // if the user has not registered yet, lead him to register view to register.
-                //                [self.navigationController popToRootViewControllerAnimated:YES];
-                //                if(self.jumpToRegisterViewBlock) {
-                //                    self.jumpToRegisterViewBlock();
-                //                      return;
-                //                }
-                [[HHToastManager sharedManager] showErrorToastWithText:@"登陆失败，请重试！"];
+                if ([error.localizedFailureReason isEqual:@(40044)]) {
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"该手机号还未注册，请先注册！"];
+                } else {
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"登陆失败，请重试！"];
+                }
+                
                 [self resetCountdown];
             }
         }];
@@ -403,7 +402,12 @@ static NSInteger const pwdLimit = 20;
                 completion();
             }
         } else {
-            [[HHToastManager sharedManager] showErrorToastWithText:@"发送失败，请重试！"];
+            if ([error.localizedFailureReason isEqual:@(40044)]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"该手机号还未注册，请先注册！"];
+            } else {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"发送失败，请重试！"];
+            }
+           
         }
     }];
 }

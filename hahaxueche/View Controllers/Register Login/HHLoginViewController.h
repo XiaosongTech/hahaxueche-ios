@@ -11,6 +11,4 @@
 
 @interface HHLoginViewController : UIViewController
 
-@property (nonatomic, strong) HHGenericCompletion jumpToRegisterViewBlock;
-
 @end

@@ -10,15 +10,22 @@
 
 @implementation HHCoachFilters
 
-+ (instancetype)sharedInstance {
-    static HHCoachFilters *sharedInstance = nil;
-    static dispatch_once_t predicate = 0;
-    
-    dispatch_once(&predicate, ^() {
-        sharedInstance = [[HHCoachFilters alloc] init];
-    });
-    
-    return sharedInstance;
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{
+             @"price": @"price",
+             @"distance": @"distance",
+             @"onlyGoldenCoach": @"onlyGoldenCoach",
+             @"licenseType": @"licenseType",
+             };
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    HHCoachFilters *newObject = [[HHCoachFilters alloc] init];
+    newObject.price = self.price;
+    newObject.distance = self.distance;
+    newObject.onlyGoldenCoach = self.onlyGoldenCoach;
+    newObject.licenseType = self.licenseType;
+    return newObject;
 }
 
 @end

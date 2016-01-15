@@ -187,14 +187,6 @@ static NSInteger const pwdLimit = 20;
             UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:setupVC];
             [self presentViewController:navVC animated:YES completion:nil];
         } else {
-            // if the cell phone has already registerd, lead the user to login view
-//            [self.navigationController popToRootViewControllerAnimated:YES];
-//            if (self.jumpToLoginViewBlock) {
-//                self.jumpToLoginViewBlock();
-            //return ;
-//
-//            }
-
             [[HHToastManager sharedManager] showErrorToastWithText:@"注册失败"];
         }
     }];
@@ -241,6 +233,7 @@ static NSInteger const pwdLimit = 20;
 - (void)sendCodeWithCompletion:(HHGenericCompletion)completion {
     [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"验证码发送中"];
     [[HHUserAuthService sharedInstance] sendVeriCodeToNumber:self.phoneNumberField.textField.text type:@"register" completion:^(NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
             NSString *countDownString = [NSString stringWithFormat:@"%ld 秒", self.countDown];
             [self.sendCodeButton setTitle:countDownString forState:UIControlStateNormal];
@@ -257,9 +250,13 @@ static NSInteger const pwdLimit = 20;
                 completion();
             }
         } else {
-            [[HHToastManager sharedManager] showErrorToastWithText:@"发送失败，请重试！"];
+            //if the cell phone has already registerd, lead the user to login view
+            if ([error.localizedFailureReason isEqual:@(40022)]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"该手机号已经注册成功，请直接登陆！"];
+            } else {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"发送失败，请重试！"];
+            }
         }
-        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
     }];
 }
 

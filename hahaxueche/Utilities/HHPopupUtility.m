@@ -27,4 +27,8 @@
     [popup show];
 }
 
++ (void)showPopup:(KLCPopup *)popup AtCenter:(CGPoint)center inView:(UIView *)view {
+    [popup showAtCenter:center inView:view];
+}
+
 @end

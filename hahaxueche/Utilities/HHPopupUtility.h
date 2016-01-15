@@ -15,6 +15,8 @@
 
 + (void)showPopup:(KLCPopup *)popup;
 
++ (void)showPopup:(KLCPopup *)popup AtCenter:(CGPoint)center inView:(UIView *)view;
+
 + (void)dismissPopup:(KLCPopup *)popup;
 
 @end

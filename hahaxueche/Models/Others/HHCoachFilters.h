@@ -6,11 +6,9 @@
 //  Copyright © 2016 Zixiao Wang. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <Mantle/Mantle.h>
 
-@interface HHCoachFilters : NSObject
-
-+ (instancetype)sharedInstance;
+@interface HHCoachFilters : MTLModel <MTLJSONSerializing>
 
 @property (nonatomic, copy) NSNumber *distance;
 @property (nonatomic, copy) NSNumber *price;
