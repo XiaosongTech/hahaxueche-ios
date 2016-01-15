@@ -13,4 +13,7 @@
 - (void)HHWhiteBorderButton;
 - (void)HHOrangeTextButton;
 
+- (void)HHConfirmButton;
+- (void)HHCancelButton;
+
 @end

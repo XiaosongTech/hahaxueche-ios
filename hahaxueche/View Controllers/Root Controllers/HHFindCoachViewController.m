@@ -10,6 +10,11 @@
 #import "Masonry.h"
 #import "UIColor+HHColor.h"
 #import "HHButton.h"
+#import "HHSliderView.h"
+#import "KLCPopup.h"
+#import "HHPopupUtility.h"
+#import "HHFiltersView.h"
+#import "HHCoachFilters.h"
 
 @interface HHFindCoachViewController ()
 
@@ -20,6 +25,10 @@
 @property (nonatomic, strong) HHButton *filterButton;
 @property (nonatomic, strong) HHButton *sortButton;
 
+@property (nonatomic, strong) KLCPopup *popup;
+@property (nonatomic, strong) HHFiltersView *filtersView;
+@property (nonatomic, strong) HHCoachFilters *coachFilters;
+
 @end
 
 @implementation HHFindCoachViewController
@@ -27,6 +36,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    self.coachFilters = [HHCoachFilters sharedInstance];
+    self.coachFilters.price = @(3000);
+    self.coachFilters.distance = @(3);
+    self.coachFilters.onlyGoldenCoach = @(1);
+    self.coachFilters.licenseType = @(1);
     
     [self initSubviews];
 }
@@ -45,6 +59,7 @@
     [self.topButtonsView addSubview:self.horizontalLine];
     
     self.filterButton = [self createTopButtonWithTitle:@"筛选" image:[UIImage imageNamed:@"ic_screen_normal_btn"]];
+    [self.filterButton addTarget:self action:@selector(filterTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.topButtonsView addSubview:self.filterButton];
     
     self.sortButton = [self createTopButtonWithTitle:@"排序" image:[UIImage imageNamed:@"ic_sort_normal_btn"]];
@@ -99,6 +114,14 @@
         make.height.equalTo(self.topButtonsView);
         make.top.equalTo(self.topButtonsView.top);
     }];
+}
+
+
+#pragma mark - Button Actions 
+
+- (void)filterTapped {
+    self.filtersView = [[HHFiltersView alloc] initWithFilters:self.coachFilters frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 380.0f)];
+    [HHPopupUtility showPopup:[HHPopupUtility createPopupWithContentView:self.filtersView]];
 }
 
 @end

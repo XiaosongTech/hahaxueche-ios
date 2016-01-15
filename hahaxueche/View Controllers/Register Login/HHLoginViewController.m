@@ -385,7 +385,7 @@ static NSInteger const pwdLimit = 20;
 
 - (void)sendCodeWithCompletion:(HHGenericCompletion)completion {
     [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"验证码发送中"];
-    [[HHUserAuthService sharedInstance] sendVeriCodeToNumber:self.phoneNumberField.textField.text completion:^(NSError *error) {
+    [[HHUserAuthService sharedInstance] sendVeriCodeToNumber:self.phoneNumberField.textField.text type:@"login" completion:^(NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
             NSString *countDownString = [NSString stringWithFormat:@"%ld 秒", self.countDown];

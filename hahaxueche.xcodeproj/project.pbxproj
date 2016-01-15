@@ -57,6 +57,10 @@
 		5C36D3C71C47500700443545 /* ic_sort_normal_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C36D3C11C47500700443545 /* ic_sort_normal_btn@2x.png */; };
 		5C36D3C81C47500700443545 /* ic_sort_normal_btn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C36D3C21C47500700443545 /* ic_sort_normal_btn@3x.png */; };
 		5C36D3CB1C47615000443545 /* HHFiltersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C36D3CA1C47615000443545 /* HHFiltersView.m */; };
+		5C36D3CF1C47642400443545 /* HHSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C36D3CE1C47642400443545 /* HHSliderView.m */; };
+		5C36D3D21C48506300443545 /* HHSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C36D3D11C48506300443545 /* HHSwitchView.m */; };
+		5C36D3D51C486B3700443545 /* HHCheckBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C36D3D41C486B3700443545 /* HHCheckBoxView.m */; };
+		5C36D3DB1C48951F00443545 /* HHCoachFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C36D3DA1C48951F00443545 /* HHCoachFilters.m */; };
 		5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C3980791B4ACA2B0057B049 /* UIView+HHRect.m */; };
 		5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C54517A1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m */; };
 		5C5451A61B51A7480025D19F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5451A51B51A7480025D19F /* MapKit.framework */; };
@@ -194,6 +198,14 @@
 		5C36D3C21C47500700443545 /* ic_sort_normal_btn@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_sort_normal_btn@3x.png"; sourceTree = "<group>"; };
 		5C36D3C91C47615000443545 /* HHFiltersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHFiltersView.h; sourceTree = "<group>"; };
 		5C36D3CA1C47615000443545 /* HHFiltersView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHFiltersView.m; sourceTree = "<group>"; };
+		5C36D3CD1C47642400443545 /* HHSliderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSliderView.h; sourceTree = "<group>"; };
+		5C36D3CE1C47642400443545 /* HHSliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSliderView.m; sourceTree = "<group>"; };
+		5C36D3D01C48506300443545 /* HHSwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSwitchView.h; sourceTree = "<group>"; };
+		5C36D3D11C48506300443545 /* HHSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSwitchView.m; sourceTree = "<group>"; };
+		5C36D3D31C486B3700443545 /* HHCheckBoxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCheckBoxView.h; sourceTree = "<group>"; };
+		5C36D3D41C486B3700443545 /* HHCheckBoxView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCheckBoxView.m; sourceTree = "<group>"; };
+		5C36D3D91C48951F00443545 /* HHCoachFilters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachFilters.h; sourceTree = "<group>"; };
+		5C36D3DA1C48951F00443545 /* HHCoachFilters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachFilters.m; sourceTree = "<group>"; };
 		5C3980781B4ACA2B0057B049 /* UIView+HHRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+HHRect.h"; sourceTree = "<group>"; };
 		5C3980791B4ACA2B0057B049 /* UIView+HHRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+HHRect.m"; sourceTree = "<group>"; };
 		5C5451791B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+HHCustomButton.h"; sourceTree = "<group>"; };
@@ -380,6 +392,8 @@
 				5C36D38C1C43016900443545 /* HHCity.m */,
 				5C36D3941C430DD700443545 /* HHConstants.h */,
 				5C36D3951C430DD700443545 /* HHConstants.m */,
+				5C36D3D91C48951F00443545 /* HHCoachFilters.h */,
+				5C36D3DA1C48951F00443545 /* HHCoachFilters.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -411,6 +425,12 @@
 			children = (
 				5C36D3C91C47615000443545 /* HHFiltersView.h */,
 				5C36D3CA1C47615000443545 /* HHFiltersView.m */,
+				5C36D3CD1C47642400443545 /* HHSliderView.h */,
+				5C36D3CE1C47642400443545 /* HHSliderView.m */,
+				5C36D3D01C48506300443545 /* HHSwitchView.h */,
+				5C36D3D11C48506300443545 /* HHSwitchView.m */,
+				5C36D3D31C486B3700443545 /* HHCheckBoxView.h */,
+				5C36D3D41C486B3700443545 /* HHCheckBoxView.m */,
 			);
 			name = FiltersView;
 			sourceTree = "<group>";
@@ -891,6 +911,7 @@
 				5CDE14461C36E5FE0004778C /* HHIntroViewController.m in Sources */,
 				5C6D8C991C3F4D2A0055CB31 /* HHAPIClient.m in Sources */,
 				5C6D8C951C3AE38C0055CB31 /* HHLoadingViewUtility.m in Sources */,
+				5C36D3D21C48506300443545 /* HHSwitchView.m in Sources */,
 				5C6D8C9D1C40125D0055CB31 /* HHUserAuthService.m in Sources */,
 				5CDE14761C3778BD0004778C /* HHToastManager.m in Sources */,
 				5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */,
@@ -909,8 +930,11 @@
 				5C36D38D1C43016900443545 /* HHCity.m in Sources */,
 				5C36D3561C42D81F00443545 /* HHMyPageViewController.m in Sources */,
 				5CDE146D1C3775C00004778C /* HHAccountSetupViewController.m in Sources */,
+				5C36D3D51C486B3700443545 /* HHCheckBoxView.m in Sources */,
+				5C36D3DB1C48951F00443545 /* HHCoachFilters.m in Sources */,
 				5C6D8C831C3A277F0055CB31 /* HHResetPWDViewController.m in Sources */,
 				5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */,
+				5C36D3CF1C47642400443545 /* HHSliderView.m in Sources */,
 				5CC738451C402BD600FFFBED /* HHUser.m in Sources */,
 				5C36D3501C42D7D600443545 /* HHFindCoachViewController.m in Sources */,
 			);

@@ -25,9 +25,10 @@ typedef void (^HHStudentCompletion)(HHStudent *student, NSError *error);
 /**
  Send verification code to a phone number
  @param number The number we send code to
+ @param type Register or Login
  @param completion The completion block to execute on completion
  */
-- (void)sendVeriCodeToNumber:(NSString *)number completion:(HHUserErrorCompletion)completion;
+- (void)sendVeriCodeToNumber:(NSString *)number type:(NSString *)type completion:(HHUserErrorCompletion)completion;
 
 /**
  Create a user

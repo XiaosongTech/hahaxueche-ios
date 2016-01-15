@@ -24,4 +24,16 @@
     [self setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
 }
 
+- (void)HHConfirmButton {
+    self.backgroundColor = [UIColor clearColor];
+    [self setTitle:@"确定" forState:UIControlStateNormal];
+    [self setTitleColor:[UIColor HHGreen] forState:UIControlStateNormal];
+}
+
+- (void)HHCancelButton {
+    self.backgroundColor = [UIColor clearColor];
+    [self setTitle:@"取消" forState:UIControlStateNormal];
+    [self setTitleColor:[UIColor colorWithRed:1 green:0.447 blue:0 alpha:1] forState:UIControlStateNormal];
+}
+
 @end

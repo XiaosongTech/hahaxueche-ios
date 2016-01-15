@@ -25,9 +25,9 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     return sharedInstance;
 }
 
-- (void)sendVeriCodeToNumber:(NSString *)number completion:(HHUserErrorCompletion)completion {
+- (void)sendVeriCodeToNumber:(NSString *)number type:(NSString *)type completion:(HHUserErrorCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPISendVeriCodePath];
-    [APIClient postWithParameters:@{@"cell_phone":number} completion:^(NSDictionary *response, NSError *error) {
+    [APIClient postWithParameters:@{@"cell_phone":number, @"type":type} completion:^(NSDictionary *response, NSError *error) {
         if (completion) {
             completion(error);
         }

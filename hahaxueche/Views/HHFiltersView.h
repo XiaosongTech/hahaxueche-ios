@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HHCoachFilters.h"
 
 @interface HHFiltersView : UIView
+
+@property (nonatomic, strong) HHCoachFilters *coachFilters;
+- (instancetype)initWithFilters:(HHCoachFilters *)coachFilters frame:(CGRect)frame;
 
 @end

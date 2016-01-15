@@ -20,4 +20,6 @@
 
 + (UIColor *)HHLightTextGray;
 
++ (UIColor *)HHGreen;
+
 @end
