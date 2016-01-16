@@ -45,10 +45,20 @@ static CGFloat const kSliderLeftRightPadding = 30.0f;
             UILabel *valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             switch (sliderValueMode) {
                 case SliderValueModeDistance: {
-                    valueLabel.text = [NSString stringWithFormat:@"%@km", [value stringValue]];
+                    if ([self.values indexOfObject:value] == self.values.count - 1) {
+                        valueLabel.text = [NSString stringWithFormat:@"%@+km", [value stringValue]];
+                    } else {
+                        valueLabel.text = [NSString stringWithFormat:@"%@km", [value stringValue]];
+                    }
+                    
                 } break;
                 case SliderValueModePrice: {
-                    valueLabel.text = [[HHFormatUtility moneyFormatter] stringFromNumber:value];
+                    if ([self.values indexOfObject:value] == self.values.count - 1) {
+                        valueLabel.text = [NSString stringWithFormat:@"%@+", [[HHFormatUtility moneyFormatter] stringFromNumber:value]];
+                    } else {
+                        valueLabel.text = [[HHFormatUtility moneyFormatter] stringFromNumber:value];
+                    }
+                    
                 } break;
                     
                 default:

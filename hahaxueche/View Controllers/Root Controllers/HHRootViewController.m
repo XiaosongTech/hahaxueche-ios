@@ -54,8 +54,8 @@
         HHMyPageViewController *myPageVC = [[HHMyPageViewController alloc] init];
         UINavigationController *myPageNavVC = [[UINavigationController alloc] initWithRootViewController:myPageVC];
         UITabBarItem *myPageItem = [[UITabBarItem alloc] init];
-        myPageItem.image = [[UIImage imageNamed:@"ic_bottombar_date_normal_btn"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        myPageItem.selectedImage = [[UIImage imageNamed:@"ic_bottombar_date_hold_btn"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        myPageItem.image = [[UIImage imageNamed:@"ic_bottombar_mypage_normal_btn"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        myPageItem.selectedImage = [[UIImage imageNamed:@"ic_bottombar_mypage_hold_btn"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         myPageItem.title = @"我的页面";
         myPageNavVC.tabBarItem = myPageItem;
         
