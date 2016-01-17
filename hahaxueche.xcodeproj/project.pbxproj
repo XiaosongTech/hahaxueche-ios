@@ -93,6 +93,14 @@
 		5C36D41F1C496ECD00443545 /* ic_sort_price_normal_btn@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C36D4011C496ECD00443545 /* ic_sort_price_normal_btn@1x.png */; };
 		5C36D4201C496ECD00443545 /* ic_sort_price_normal_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C36D4021C496ECD00443545 /* ic_sort_price_normal_btn@2x.png */; };
 		5C36D4211C496ECD00443545 /* ic_sort_price_normal_btn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C36D4031C496ECD00443545 /* ic_sort_price_normal_btn@3x.png */; };
+		5C36D4251C4C2B8700443545 /* ic_maplist_btn@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C36D4221C4C2B8700443545 /* ic_maplist_btn@1x.png */; };
+		5C36D4261C4C2B8700443545 /* ic_maplist_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C36D4231C4C2B8700443545 /* ic_maplist_btn@2x.png */; };
+		5C36D4271C4C2B8700443545 /* ic_maplist_btn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C36D4241C4C2B8700443545 /* ic_maplist_btn@3x.png */; };
+		5C36D42B1C4C2F4100443545 /* HHFieldsMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C36D42A1C4C2F4100443545 /* HHFieldsMapViewController.m */; };
+		5C36D42E1C4C31A100443545 /* HHAskLocationPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C36D42D1C4C31A100443545 /* HHAskLocationPermissionViewController.m */; };
+		5C36D4321C4C39A000443545 /* pic_local@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C36D42F1C4C39A000443545 /* pic_local@1x.png */; };
+		5C36D4331C4C39A000443545 /* pic_local@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C36D4301C4C39A000443545 /* pic_local@2x.png */; };
+		5C36D4341C4C39A000443545 /* pic_local@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C36D4311C4C39A000443545 /* pic_local@3x.png */; };
 		5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C3980791B4ACA2B0057B049 /* UIView+HHRect.m */; };
 		5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C54517A1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m */; };
 		5C5451A61B51A7480025D19F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5451A51B51A7480025D19F /* MapKit.framework */; };
@@ -272,6 +280,16 @@
 		5C36D4011C496ECD00443545 /* ic_sort_price_normal_btn@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_sort_price_normal_btn@1x.png"; sourceTree = "<group>"; };
 		5C36D4021C496ECD00443545 /* ic_sort_price_normal_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_sort_price_normal_btn@2x.png"; sourceTree = "<group>"; };
 		5C36D4031C496ECD00443545 /* ic_sort_price_normal_btn@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_sort_price_normal_btn@3x.png"; sourceTree = "<group>"; };
+		5C36D4221C4C2B8700443545 /* ic_maplist_btn@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_maplist_btn@1x.png"; sourceTree = "<group>"; };
+		5C36D4231C4C2B8700443545 /* ic_maplist_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_maplist_btn@2x.png"; sourceTree = "<group>"; };
+		5C36D4241C4C2B8700443545 /* ic_maplist_btn@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_maplist_btn@3x.png"; sourceTree = "<group>"; };
+		5C36D4291C4C2F4100443545 /* HHFieldsMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHFieldsMapViewController.h; sourceTree = "<group>"; };
+		5C36D42A1C4C2F4100443545 /* HHFieldsMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHFieldsMapViewController.m; sourceTree = "<group>"; };
+		5C36D42C1C4C31A100443545 /* HHAskLocationPermissionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAskLocationPermissionViewController.h; sourceTree = "<group>"; };
+		5C36D42D1C4C31A100443545 /* HHAskLocationPermissionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHAskLocationPermissionViewController.m; sourceTree = "<group>"; };
+		5C36D42F1C4C39A000443545 /* pic_local@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_local@1x.png"; sourceTree = "<group>"; };
+		5C36D4301C4C39A000443545 /* pic_local@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_local@2x.png"; sourceTree = "<group>"; };
+		5C36D4311C4C39A000443545 /* pic_local@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_local@3x.png"; sourceTree = "<group>"; };
 		5C3980781B4ACA2B0057B049 /* UIView+HHRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+HHRect.h"; sourceTree = "<group>"; };
 		5C3980791B4ACA2B0057B049 /* UIView+HHRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+HHRect.m"; sourceTree = "<group>"; };
 		5C5451791B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+HHCustomButton.h"; sourceTree = "<group>"; };
@@ -512,6 +530,17 @@
 			path = SortView;
 			sourceTree = "<group>";
 		};
+		5C36D4281C4C2EF000443545 /* Find Coach */ = {
+			isa = PBXGroup;
+			children = (
+				5C36D4291C4C2F4100443545 /* HHFieldsMapViewController.h */,
+				5C36D42A1C4C2F4100443545 /* HHFieldsMapViewController.m */,
+				5C36D42C1C4C31A100443545 /* HHAskLocationPermissionViewController.h */,
+				5C36D42D1C4C31A100443545 /* HHAskLocationPermissionViewController.m */,
+			);
+			path = "Find Coach";
+			sourceTree = "<group>";
+		};
 		5CC3B5F21B48268A00D10DFB = {
 			isa = PBXGroup;
 			children = (
@@ -638,6 +667,7 @@
 		5CDE14471C36E62C0004778C /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5C36D4281C4C2EF000443545 /* Find Coach */,
 				5CDE144E1C3715A90004778C /* Register Login */,
 				5C36D3471C42D64000443545 /* Root Controllers */,
 			);
@@ -664,6 +694,9 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5C36D42F1C4C39A000443545 /* pic_local@1x.png */,
+				5C36D4301C4C39A000443545 /* pic_local@2x.png */,
+				5C36D4311C4C39A000443545 /* pic_local@3x.png */,
 				5CDE14651C3771880004778C /* ic_arrow_back@1x.png */,
 				5CDE14661C3771880004778C /* ic_arrow_back@2x.png */,
 				5CDE14671C3771880004778C /* ic_arrow_back@3x.png */,
@@ -694,6 +727,9 @@
 				5C36D36C1C42D9F800443545 /* ic_bottombar_mypage_normal_btn@1x.png */,
 				5C36D36D1C42D9F800443545 /* ic_bottombar_mypage_normal_btn@2x.png */,
 				5C36D36E1C42D9F800443545 /* ic_bottombar_mypage_normal_btn@3x.png */,
+				5C36D4221C4C2B8700443545 /* ic_maplist_btn@1x.png */,
+				5C36D4231C4C2B8700443545 /* ic_maplist_btn@2x.png */,
+				5C36D4241C4C2B8700443545 /* ic_maplist_btn@3x.png */,
 				5C36D3B11C474FF600443545 /* ic_screen_hold_btn@1X.png */,
 				5C36D3B21C474FF600443545 /* ic_screen_hold_btn@2x.png */,
 				5C36D3B31C474FF600443545 /* ic_screen_hold_btn@3x.png */,
@@ -872,9 +908,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C36D4261C4C2B8700443545 /* ic_maplist_btn@2x.png in Resources */,
+				5C36D4341C4C39A000443545 /* pic_local@3x.png in Resources */,
 				5C36D37C1C42D9F800443545 /* ic_bottombar_list_hold_btn@2x.png in Resources */,
 				5C36D3B91C474FF600443545 /* ic_screen_hold_btn@3x.png in Resources */,
 				5CDE14811C3787CF0004778C /* ic_triangle@1x.png in Resources */,
+				5C36D4251C4C2B8700443545 /* ic_maplist_btn@1x.png in Resources */,
 				5C36D37E1C42D9F800443545 /* ic_bottombar_list_normal_btn@1x.png in Resources */,
 				5C36D3C81C47500700443545 /* ic_sort_normal_btn@3x.png in Resources */,
 				5C6D8C8B1C3AD6840055CB31 /* ic_toast_attention@2x.png in Resources */,
@@ -905,6 +944,7 @@
 				5C36D3851C42D9F800443545 /* ic_bottombar_mypage_normal_btn@2x.png in Resources */,
 				5C36D40F1C496ECD00443545 /* ic_sort_hot_normal_btn@3x.png in Resources */,
 				5C36D3781C42D9F800443545 /* ic_bottombar_haha_normal_btn@1x.png in Resources */,
+				5C36D4271C4C2B8700443545 /* ic_maplist_btn@3x.png in Resources */,
 				5CDE14721C3776E20004778C /* onboard_bg@2x.png in Resources */,
 				5C36D4041C496ECD00443545 /* ic_sort_auto_hold_btn@1x.png in Resources */,
 				5C36D41E1C496ECD00443545 /* ic_sort_price_hold_btn@3x.png in Resources */,
@@ -923,6 +963,7 @@
 				5C36D40E1C496ECD00443545 /* ic_sort_hot_normal_btn@2x.png in Resources */,
 				5C36D3C61C47500700443545 /* ic_sort_normal_btn@1X.png in Resources */,
 				5CDE14681C3771880004778C /* ic_arrow_back@1x.png in Resources */,
+				5C36D4321C4C39A000443545 /* pic_local@1x.png in Resources */,
 				5C6D8C8D1C3AD6840055CB31 /* ic_toast_right@1x.png in Resources */,
 				5C36D3B71C474FF600443545 /* ic_screen_hold_btn@1X.png in Resources */,
 				5C6D8C8E1C3AD6840055CB31 /* ic_toast_right@2x.png in Resources */,
@@ -939,6 +980,7 @@
 				5C36D4101C496ECD00443545 /* ic_sort_local_hold_btn@1x.png in Resources */,
 				5C36D4131C496ECD00443545 /* ic_sort_local_normal_btn@1x.png in Resources */,
 				5CDE147E1C3787CF0004778C /* ic_avatar_btn@1x.png in Resources */,
+				5C36D4331C4C39A000443545 /* pic_local@2x.png in Resources */,
 				5C36D3811C42D9F800443545 /* ic_bottombar_mypage_hold_btn@1x.png in Resources */,
 				5C36D37D1C42D9F800443545 /* ic_bottombar_list_hold_btn@3x.png in Resources */,
 				5C36D3751C42D9F800443545 /* ic_bottombar_haha_hold_btn@1x.png in Resources */,
@@ -1046,6 +1088,7 @@
 				5CDE148C1C3A00AB0004778C /* HHLoginViewController.m in Sources */,
 				5CDE145A1C3737670004778C /* HHPhoneNumberUtility.m in Sources */,
 				5CDE14891C3859290004778C /* HHPopupUtility.m in Sources */,
+				5C36D42B1C4C2F4100443545 /* HHFieldsMapViewController.m in Sources */,
 				5CDE14461C36E5FE0004778C /* HHIntroViewController.m in Sources */,
 				5C6D8C991C3F4D2A0055CB31 /* HHAPIClient.m in Sources */,
 				5C6D8C951C3AE38C0055CB31 /* HHLoadingViewUtility.m in Sources */,
@@ -1068,6 +1111,7 @@
 				5C36D38D1C43016900443545 /* HHCity.m in Sources */,
 				5C36D3561C42D81F00443545 /* HHMyPageViewController.m in Sources */,
 				5CDE146D1C3775C00004778C /* HHAccountSetupViewController.m in Sources */,
+				5C36D42E1C4C31A100443545 /* HHAskLocationPermissionViewController.m in Sources */,
 				5C36D3D51C486B3700443545 /* HHCheckBoxView.m in Sources */,
 				5C36D3DE1C48B4D500443545 /* HHCoachFilters.m in Sources */,
 				5C36D3E51C4969B400443545 /* HHSortOptionView.m in Sources */,

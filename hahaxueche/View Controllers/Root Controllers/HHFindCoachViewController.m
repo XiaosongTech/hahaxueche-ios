@@ -16,6 +16,10 @@
 #import "HHFiltersView.h"
 #import "HHCoachFilters.h"
 #import "HHSortView.h"
+#import "UIBarButtonItem+HHCustomButton.h"
+#import "INTULocationManager.h"
+#import "HHAskLocationPermissionViewController.h"
+#import "HHLoadingViewUtility.h"
 
 @interface HHFindCoachViewController ()
 
@@ -40,14 +44,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    // Setup default filters and sort
     self.coachFilters = [[HHCoachFilters alloc] init];
     self.coachFilters.price = @(3000);
     self.coachFilters.distance = @(3);
     self.coachFilters.onlyGoldenCoach = @(1);
     self.coachFilters.licenseType = @(1);
     
-    
     self.currentSortOption = SortOptionSmartSort;
+    
+    
+    UIBarButtonItem *mapButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_maplist_btn"] action:@selector(getUserLocation) target:self];
+    self.navigationItem.leftBarButtonItem = mapButton;
     [self initSubviews];
 }
 
@@ -152,6 +161,30 @@
     CGPoint center = CGPointMake(CGRectGetMidX(self.sortButton.frame), 150.0f);
     [HHPopupUtility showPopup:self.popup AtCenter:center inView:self.view];
 
+}
+
+- (void)jumpToMapViewWithUserLocation:(CLLocation *)userLocation {
+}
+
+
+- (void)getUserLocation {
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyNeighborhood timeout:10.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        
+        if (status == INTULocationStatusSuccess) {
+            //[self jumpToMapViewWithUserLocation:currentLocation];
+            HHAskLocationPermissionViewController *vc = [[HHAskLocationPermissionViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+
+        } else {
+            HHAskLocationPermissionViewController *vc = [[HHAskLocationPermissionViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+
+    }];
 }
 
 @end

@@ -30,6 +30,7 @@ PODS:
     - Fabric/Base (= 1.6.0)
   - Fabric/Base (1.6.0)
   - Instabug (4.1.7)
+  - INTULocationManager (4.1.1)
   - KLCPopup (1.0)
   - libPhoneNumber-iOS (0.8.7)
   - Mantle (2.0.6):
@@ -55,6 +56,7 @@ DEPENDENCIES:
   - DateTools
   - Fabric
   - Instabug
+  - INTULocationManager
   - KLCPopup
   - libPhoneNumber-iOS (~> 0.8)
   - Mantle
@@ -76,6 +78,7 @@ SPEC CHECKSUMS:
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   Fabric: d737eda3a26ac940a5430230eedb35f16b226131
   Instabug: 58f773fcefe0dec9b1bd3fcf09c6e46560353f5d
+  INTULocationManager: 83c7373048d583cda57e25eefb9bb8a3675acf16
   KLCPopup: 76c5a19227977f1e53d85236f9ef42257c168d98
   libPhoneNumber-iOS: 1bccd3288375d954b0b904e26061cecaa0fb83d6
   Mantle: 299966b00759634931699f69cb6a30b9239b944d
