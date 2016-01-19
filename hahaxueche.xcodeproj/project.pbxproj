@@ -1210,7 +1210,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zixiao Wang (56T5B8L6FJ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zixiao Wang (56T5B8L6FJ)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
@@ -1232,9 +1233,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = NO;
+				PROVISIONING_PROFILE = "e49b0cdf-b233-45d8-9fcb-17eab4361d62";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1256,7 +1258,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zixiao Wang (56T5B8L6FJ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zixiao Wang (56T5B8L6FJ)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
@@ -1272,9 +1275,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
+				PROVISIONING_PROFILE = "e49b0cdf-b233-45d8-9fcb-17eab4361d62";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1297,17 +1301,12 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/AVOSCloud\"",
-					"\"${PODS_ROOT}/Headers/Public/CMPopTipView\"",
 					"\"${PODS_ROOT}/Headers/Public/CRToast\"",
 					"\"${PODS_ROOT}/Headers/Public/DateTools\"",
-					"\"${PODS_ROOT}/Headers/Public/HCSStarRatingView\"",
 					"\"${PODS_ROOT}/Headers/Public/KLCPopup\"",
-					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
 					"\"${PODS_ROOT}/Headers/Public/libPhoneNumber-iOS\"",
 					"\"${PODS_ROOT}/Headers/Public/pop\"",
-					"$(PROJECT_DIR)/hahaxueche/Alipay/**",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "hahaxueche/Supporting Files/Info.plist";
@@ -1323,13 +1322,9 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
-					"-l\"ActionSheetPicker-3.0\"",
-					"-l\"CMPopTipView\"",
 					"-l\"CRToast\"",
 					"-l\"DateTools\"",
-					"-l\"HCSStarRatingView\"",
 					"-l\"KLCPopup\"",
-					"-l\"MBProgressHUD\"",
 					"-l\"SDWebImage\"",
 					"-l\"c++\"",
 					"-l\"libPhoneNumber-iOS\"",
@@ -1368,17 +1363,12 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/AVOSCloud\"",
-					"\"${PODS_ROOT}/Headers/Public/CMPopTipView\"",
 					"\"${PODS_ROOT}/Headers/Public/CRToast\"",
 					"\"${PODS_ROOT}/Headers/Public/DateTools\"",
-					"\"${PODS_ROOT}/Headers/Public/HCSStarRatingView\"",
 					"\"${PODS_ROOT}/Headers/Public/KLCPopup\"",
-					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
 					"\"${PODS_ROOT}/Headers/Public/libPhoneNumber-iOS\"",
 					"\"${PODS_ROOT}/Headers/Public/pop\"",
-					"$(PROJECT_DIR)/hahaxueche/Alipay/**",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "hahaxueche/Supporting Files/Info.plist";
@@ -1394,13 +1384,9 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
-					"-l\"ActionSheetPicker-3.0\"",
-					"-l\"CMPopTipView\"",
 					"-l\"CRToast\"",
 					"-l\"DateTools\"",
-					"-l\"HCSStarRatingView\"",
 					"-l\"KLCPopup\"",
-					"-l\"MBProgressHUD\"",
 					"-l\"SDWebImage\"",
 					"-l\"c++\"",
 					"-l\"libPhoneNumber-iOS\"",
