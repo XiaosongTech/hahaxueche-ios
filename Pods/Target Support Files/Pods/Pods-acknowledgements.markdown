@@ -24,6 +24,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+## AMap2DMap
+
+Copyright © 2014 AutoNavi. All Rights Reserved.
+
+
 ## Appirater
 
 Copyright 2015. Arash Payan. This library is distributed under the terms of the MIT/X11.

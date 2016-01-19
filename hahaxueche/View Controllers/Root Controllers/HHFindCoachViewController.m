@@ -20,8 +20,14 @@
 #import "INTULocationManager.h"
 #import "HHAskLocationPermissionViewController.h"
 #import "HHLoadingViewUtility.h"
+#import "HHFieldsMapViewController.h"
+#import <MJRefresh/MJRefresh.h>
+#import "HHCoachListViewCell.h"
 
-@interface HHFindCoachViewController ()
+static NSString *const kCellId = @"kCoachListCellId";
+static CGFloat const kCellHeightNormal = 100.0f;
+
+@interface HHFindCoachViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UIView *topButtonsView;
 @property (nonatomic, strong) UIView *verticalLine;
@@ -36,6 +42,11 @@
 
 @property (nonatomic, strong) HHSortView *sortView;
 @property (nonatomic) SortOption currentSortOption;
+
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
+@property (nonatomic, strong) MJRefreshAutoNormalFooter *loadMoreFooter;
+
 
 @end
 
@@ -80,6 +91,30 @@
     self.sortButton = [self createTopButtonWithTitle:@"排序" image:[UIImage imageNamed:@"ic_sort_normal_btn"]];
     [self.sortButton addTarget:self action:@selector(sortTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.topButtonsView addSubview:self.sortButton];
+    
+    self.tableView = [[UITableView alloc] init];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    self.refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
+    self.refreshHeader.stateLabel.font = [UIFont systemFontOfSize:14.0f];
+    [self.refreshHeader setTitle:@"正在刷新教练列表" forState:MJRefreshStateRefreshing];
+    self.refreshHeader.stateLabel.textColor = [UIColor HHLightTextGray];
+    self.refreshHeader.automaticallyChangeAlpha = YES;
+    self.refreshHeader.lastUpdatedTimeLabel.hidden = YES;
+    self.tableView.mj_header = self.refreshHeader;
+    
+    self.loadMoreFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    [self.loadMoreFooter setTitle:@"加载更多教练" forState:MJRefreshStateIdle];
+    [self.loadMoreFooter setTitle:@"正在加载更多教练" forState:MJRefreshStateRefreshing];
+    self.loadMoreFooter.stateLabel.font = [UIFont systemFontOfSize:14.0f];
+    self.loadMoreFooter.stateLabel.textColor = [UIColor HHLightTextGray];
+    self.tableView.tableFooterView = self.loadMoreFooter;
+    
+    [self.tableView registerClass:[HHCoachListViewCell class] forCellReuseIdentifier:kCellId];
+    
+    [self.view addSubview:self.tableView];
     
     [self makeConstraints];
 }
@@ -130,6 +165,28 @@
         make.height.equalTo(self.topButtonsView);
         make.top.equalTo(self.topButtonsView.top);
     }];
+    
+    [self.tableView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.horizontalLine.bottom);
+        make.left.equalTo(self.view.left);
+        make.bottom.equalTo(self.view.bottom);
+        make.width.equalTo(self.view.width);
+    }];
+}
+
+#pragma mark - TableView Delegate & Datasource Methods
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    HHCoachListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
+    return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 2;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return kCellHeightNormal;
 }
 
 
@@ -164,20 +221,20 @@
 }
 
 - (void)jumpToMapViewWithUserLocation:(CLLocation *)userLocation {
+    
+    HHFieldsMapViewController *mapVC = [[HHFieldsMapViewController alloc] initWithUserLocation:userLocation];
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:mapVC];
+    [self presentViewController:navVC animated:YES completion:nil];
 }
 
 
 - (void)getUserLocation {
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
-    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyNeighborhood timeout:10.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
+    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyBlock timeout:10.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         
         if (status == INTULocationStatusSuccess) {
-            //[self jumpToMapViewWithUserLocation:currentLocation];
-            HHAskLocationPermissionViewController *vc = [[HHAskLocationPermissionViewController alloc] init];
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
-
+            [self jumpToMapViewWithUserLocation:currentLocation];
         } else {
             HHAskLocationPermissionViewController *vc = [[HHAskLocationPermissionViewController alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
@@ -185,6 +242,15 @@
         }
 
     }];
+}
+
+
+- (void)refreshData {
+    [self.refreshHeader endRefreshing];
+}
+
+- (void)loadMoreData {
+    [self.loadMoreFooter endRefreshing];
 }
 
 @end

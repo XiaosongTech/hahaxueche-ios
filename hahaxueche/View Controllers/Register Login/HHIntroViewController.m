@@ -137,6 +137,7 @@ static CGFloat const kFloatButtonHeight = 40.0f;
     
     [self.enterAsGuestButton makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.bottomLine.bottom).offset(5.0f);
+        make.width.mas_equalTo(150.0f);
         make.centerX.equalTo(self.view.centerX);
     }];
 

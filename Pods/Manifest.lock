@@ -20,6 +20,7 @@ PODS:
   - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - AMap2DMap (3.2.0)
   - Appirater (2.0.5)
   - BEMCheckBox (1.1.1)
   - Crashlytics (3.4.1):
@@ -49,6 +50,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 2.6.1)
+  - AMap2DMap
   - Appirater
   - BEMCheckBox
   - Crashlytics
@@ -71,6 +73,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
+  AMap2DMap: 02c73a3e55ac033e3b0b8ec35d3d21ffcac5aae3
   Appirater: e7c0a47fb67ee5041ce8479e6ba960927fb40264
   BEMCheckBox: e1dd80417e0a9f1db4b55d8b8d2f3f477d120795
   Crashlytics: 41574a245bc6ae10c55d57f385ebd2004e5bee05
