@@ -16,7 +16,8 @@
              @"userId": @"user_id",
              @"cellPhone": @"cell_phone",
              @"name": @"name",
-             @"cityId": @"city_id"
+             @"cityId": @"city_id",
+             @"avatarURL": @"avatar"
              };
 }
 

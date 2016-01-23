@@ -9,7 +9,7 @@
 #import "HHAPIClient.h"
 #import "AFNetworkActivityIndicatorManager.h"
 #import "HHKeychainStore.h"
-
+#import "APIConstants.h"
 
 @implementation HHAPIClient
 
@@ -117,6 +117,19 @@
         [self handleError:error requestOperation:operation completion:completion];
     }];
     
+}
+
+- (void)uploadImage:(UIImage *)image completion:(HHAPIClientCompletionBlock)completion progress:(void (^)(NSUInteger, long long, long long))progress {
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.6f);
+    
+    [self.requestManager POST:self.APIPath parameters:@{@"file":imageData} constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:imageData name:@"file" fileName:@"profile.jpeg" mimeType:@"image/jpeg"];
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        completion(responseObject, nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        completion(nil,error);
+    }];
+
 }
 
 

@@ -31,4 +31,6 @@ typedef void (^HHAPIClientCompletionBlock)(NSDictionary *response, NSError *erro
 
 - (void)deleteWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion;
 
+- (void)uploadImage:(UIImage *)image completion:(HHAPIClientCompletionBlock)completion progress:(void (^)(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite))progress;
+
 @end

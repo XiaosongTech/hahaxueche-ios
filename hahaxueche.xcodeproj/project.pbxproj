@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */; };
+		5C2D1A4A1C51EAA80056E0D0 /* HHStudentService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2D1A491C51EAA80056E0D0 /* HHStudentService.m */; };
 		5C36D34A1C42D69700443545 /* HHRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C36D3491C42D69700443545 /* HHRootViewController.m */; };
 		5C36D34D1C42D7B800443545 /* HHHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C36D34C1C42D7B800443545 /* HHHomePageViewController.m */; };
 		5C36D3501C42D7D600443545 /* HHFindCoachViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C36D34F1C42D7D600443545 /* HHFindCoachViewController.m */; };
@@ -186,6 +187,8 @@
 /* Begin PBXFileReference section */
 		5C10F92C1B49E85200992B63 /* UIColor+HHColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HHColor.h"; sourceTree = "<group>"; };
 		5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HHColor.m"; sourceTree = "<group>"; };
+		5C2D1A481C51EAA80056E0D0 /* HHStudentService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHStudentService.h; sourceTree = "<group>"; };
+		5C2D1A491C51EAA80056E0D0 /* HHStudentService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHStudentService.m; sourceTree = "<group>"; };
 		5C36D3481C42D69700443545 /* HHRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHRootViewController.h; sourceTree = "<group>"; };
 		5C36D3491C42D69700443545 /* HHRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHRootViewController.m; sourceTree = "<group>"; };
 		5C36D34B1C42D7B800443545 /* HHHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHHomePageViewController.h; sourceTree = "<group>"; };
@@ -473,6 +476,24 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		5C2D1A461C51EA750056E0D0 /* Auth Service */ = {
+			isa = PBXGroup;
+			children = (
+				5C6D8C9B1C40125D0055CB31 /* HHUserAuthService.h */,
+				5C6D8C9C1C40125D0055CB31 /* HHUserAuthService.m */,
+			);
+			name = "Auth Service";
+			sourceTree = "<group>";
+		};
+		5C2D1A471C51EA830056E0D0 /* Student Service */ = {
+			isa = PBXGroup;
+			children = (
+				5C2D1A481C51EAA80056E0D0 /* HHStudentService.h */,
+				5C2D1A491C51EAA80056E0D0 /* HHStudentService.m */,
+			);
+			name = "Student Service";
+			sourceTree = "<group>";
+		};
 		5C36D3471C42D64000443545 /* Root Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -652,8 +673,8 @@
 		5CDE14381C32F8670004778C /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				5C6D8C9B1C40125D0055CB31 /* HHUserAuthService.h */,
-				5C6D8C9C1C40125D0055CB31 /* HHUserAuthService.m */,
+				5C2D1A471C51EA830056E0D0 /* Student Service */,
+				5C2D1A461C51EA750056E0D0 /* Auth Service */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1157,6 +1178,7 @@
 				5CC3B6011B48268A00D10DFB /* main.m in Sources */,
 				5CDE14511C3715F90004778C /* HHRegisterViewController.m in Sources */,
 				5C5F87671BF6723F006F9594 /* HHEventTrackingManager.m in Sources */,
+				5C2D1A4A1C51EAA80056E0D0 /* HHStudentService.m in Sources */,
 				5C36D3B01C46B68700443545 /* HHSession.m in Sources */,
 				5C36D38D1C43016900443545 /* HHCity.m in Sources */,
 				5C36D3561C42D81F00443545 /* HHMyPageViewController.m in Sources */,

@@ -19,6 +19,7 @@
 #import "HHToastManager.h"
 #import "HHRootViewController.h"
 #import "HHLoadingViewUtility.h"
+#import "HHStudentService.h"
 
 
 static CGFloat const avatarViewRadius = 50.0f;
@@ -161,6 +162,7 @@ static CGFloat const kFieldViewWidth = 280.0f;
 
 - (void)showCitySelectorView {
     __weak HHAccountSetupViewController *weakSelf = self;
+    [self.nameField.textField resignFirstResponder];
     [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
         if ([constants.cities count]) {
             CGFloat height = MAX(300.0f, CGRectGetHeight(self.view.bounds)/2.0f);
@@ -203,10 +205,16 @@ static CGFloat const kFieldViewWidth = 280.0f;
         [[HHToastManager sharedManager] showErrorToastWithText:@"请填写您的名字"];
         return NO;
     }
+    
+    if (!self.selectedAvatarImage) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"请选择上传的头像"];
+        return NO;
+    }
     return YES;
 }
 
 - (void)showImageOptions {
+    [self.nameField.textField resignFirstResponder];
     self.avatarOptionsSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"从相册中选取", @"拍照", nil];
     [self.avatarOptionsSheet showInView:self.view];
 }
@@ -255,9 +263,22 @@ static CGFloat const kFieldViewWidth = 280.0f;
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [picker dismissViewControllerAnimated:YES completion:nil];
     if ([info objectForKey:@"UIImagePickerControllerOriginalImage"]) {
-        self.avatarImageView.contentMode = UIViewContentModeScaleToFill;
+        self.avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
         self.avatarImageView.image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
         self.selectedAvatarImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    }
+    
+    if (self.selectedAvatarImage) {
+        [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"上传图片中"];
+        [[HHStudentService sharedInstance] uploadStudentAvatarWithImage:self.selectedAvatarImage completion:^(HHStudent *student, NSError *error) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            if (error) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败，请您重试！"];
+                self.selectedAvatarImage = nil;
+                self.avatarImageView.image = [UIImage imageNamed:@"ic_avatar_btn"];
+                self.avatarImageView.contentMode = UIViewContentModeCenter;
+            }
+        }];
     }
     
 }

@@ -15,5 +15,6 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *cellPhone;
 @property (nonatomic, copy) NSNumber *cityId;
+@property (nonatomic, copy) NSString *avatarURL;
 
 @end
