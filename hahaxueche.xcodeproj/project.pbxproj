@@ -112,6 +112,7 @@
 		5C36D4481C4DAE3D00443545 /* ic_auth_golden@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C36D4451C4DAE3D00443545 /* ic_auth_golden@1x.png */; };
 		5C36D4491C4DAE3D00443545 /* ic_auth_golden@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C36D4461C4DAE3D00443545 /* ic_auth_golden@2x.png */; };
 		5C36D44A1C4DAE3D00443545 /* ic_auth_golden@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C36D4471C4DAE3D00443545 /* ic_auth_golden@3x.png */; };
+		5C37C1CB1C55D0D80073970F /* HHField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C37C1CA1C55D0D80073970F /* HHField.m */; };
 		5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C3980791B4ACA2B0057B049 /* UIView+HHRect.m */; };
 		5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C54517A1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m */; };
 		5C5451A61B51A7480025D19F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5451A51B51A7480025D19F /* MapKit.framework */; };
@@ -314,6 +315,8 @@
 		5C36D4451C4DAE3D00443545 /* ic_auth_golden@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_auth_golden@1x.png"; sourceTree = "<group>"; };
 		5C36D4461C4DAE3D00443545 /* ic_auth_golden@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_auth_golden@2x.png"; sourceTree = "<group>"; };
 		5C36D4471C4DAE3D00443545 /* ic_auth_golden@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_auth_golden@3x.png"; sourceTree = "<group>"; };
+		5C37C1C91C55D0D80073970F /* HHField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHField.h; sourceTree = "<group>"; };
+		5C37C1CA1C55D0D80073970F /* HHField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHField.m; sourceTree = "<group>"; };
 		5C3980781B4ACA2B0057B049 /* UIView+HHRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+HHRect.h"; sourceTree = "<group>"; };
 		5C3980791B4ACA2B0057B049 /* UIView+HHRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+HHRect.m"; sourceTree = "<group>"; };
 		5C5451791B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+HHCustomButton.h"; sourceTree = "<group>"; };
@@ -520,6 +523,8 @@
 				5C36D3DD1C48B4D500443545 /* HHCoachFilters.m */,
 				5C36D3941C430DD700443545 /* HHConstants.h */,
 				5C36D3951C430DD700443545 /* HHConstants.m */,
+				5C37C1C91C55D0D80073970F /* HHField.h */,
+				5C37C1CA1C55D0D80073970F /* HHField.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -1180,6 +1185,7 @@
 				5C5F87671BF6723F006F9594 /* HHEventTrackingManager.m in Sources */,
 				5C2D1A4A1C51EAA80056E0D0 /* HHStudentService.m in Sources */,
 				5C36D3B01C46B68700443545 /* HHSession.m in Sources */,
+				5C37C1CB1C55D0D80073970F /* HHField.m in Sources */,
 				5C36D38D1C43016900443545 /* HHCity.m in Sources */,
 				5C36D3561C42D81F00443545 /* HHMyPageViewController.m in Sources */,
 				5CDE146D1C3775C00004778C /* HHAccountSetupViewController.m in Sources */,

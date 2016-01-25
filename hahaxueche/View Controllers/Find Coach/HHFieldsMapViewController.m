@@ -65,6 +65,7 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
     self.bottomButton = [[HHButton alloc] init];
     [self.bottomButton setTitle:@"查看训练场教练（已选0个）" forState:UIControlStateNormal];
     [self.bottomButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.bottomButton addTarget:self action:@selector(confirmSelectedFields) forControlEvents:UIControlEventTouchUpInside];
     self.bottomButton.titleLabel.font = [UIFont systemFontOfSize:16.0f];
     [self.bottomButton setBackgroundColor:[UIColor HHOrange]];
     [self.view addSubview:self.bottomButton];
@@ -143,6 +144,13 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
     [self.mapView selectAnnotation:annotationView.annotation animated:YES];
     NSString *buttonTitle = [NSString stringWithFormat:@"查看训练场教练（已选%ld个）", self.selectedFields.count];
     [self.bottomButton setTitle:buttonTitle forState:UIControlStateNormal];
+}
+
+- (void)confirmSelectedFields {
+    [self dismissVC];
+    if (self.conformBlock) {
+        self.conformBlock(self.selectedFields);
+    }
 }
 
 #pragma mark - Others

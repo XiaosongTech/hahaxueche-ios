@@ -10,6 +10,10 @@
 #import <MAMapKit/MAMapKit.h>
 #import "HHButton.h"
 #import "UIColor+HHColor.h"
+#import "HHField.h"
+
+
+typedef void (^HHFieldsConfirmBlock)(NSMutableArray *selectedFields);
 
 @interface HHFieldsMapViewController : UIViewController <MAMapViewDelegate>
 
@@ -17,6 +21,7 @@
 @property (nonatomic, strong) UIView *explanationView;
 @property (nonatomic, strong) UILabel *explanationLabel;
 @property (nonatomic, strong) HHButton *bottomButton;
+@property (nonatomic, strong) HHFieldsConfirmBlock conformBlock;
 
 @property (nonatomic, strong) CLLocation *userLocation;
 

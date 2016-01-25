@@ -47,6 +47,7 @@ static CGFloat const kCellHeightNormal = 100.0f;
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 @property (nonatomic, strong) MJRefreshAutoNormalFooter *loadMoreFooter;
 
+@property (nonatomic, strong) NSMutableArray *selectedFields;
 
 @end
 
@@ -223,8 +224,11 @@ static CGFloat const kCellHeightNormal = 100.0f;
 }
 
 - (void)jumpToMapViewWithUserLocation:(CLLocation *)userLocation {
-    
+     __weak HHFindCoachViewController *weakSelf = self;
     HHFieldsMapViewController *mapVC = [[HHFieldsMapViewController alloc] initWithUserLocation:userLocation];
+    mapVC.conformBlock = ^(NSMutableArray *selectedFields) {
+        weakSelf.selectedFields = selectedFields;
+    };
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:mapVC];
     [self presentViewController:navVC animated:YES completion:nil];
 }
