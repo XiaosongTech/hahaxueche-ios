@@ -54,9 +54,16 @@ static CGFloat const kCellHeightNormal = 100.0f;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"寻找教练";
     self.view.backgroundColor = [UIColor whiteColor];
+    [self setupDefaultSortAndFilter];
     
-    // Setup default filters and sort
+    UIBarButtonItem *mapButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_maplist_btn"] action:@selector(getUserLocation) target:self];
+    self.navigationItem.leftBarButtonItem = mapButton;
+    [self initSubviews];
+}
+
+- (void)setupDefaultSortAndFilter {
     self.coachFilters = [[HHCoachFilters alloc] init];
     self.coachFilters.price = @(3000);
     self.coachFilters.distance = @(3);
@@ -64,11 +71,6 @@ static CGFloat const kCellHeightNormal = 100.0f;
     self.coachFilters.licenseType = @(1);
     
     self.currentSortOption = SortOptionSmartSort;
-    
-    
-    UIBarButtonItem *mapButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_maplist_btn"] action:@selector(getUserLocation) target:self];
-    self.navigationItem.leftBarButtonItem = mapButton;
-    [self initSubviews];
 }
 
 - (void)initSubviews {

@@ -11,7 +11,7 @@
 #import "Masonry.h"
 
 static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
-static NSString *const kExplanationCopy = @"图标可多选，请选择地图上的图标，选中后点击下方“查看训练场教练”，可以查看查看训练场教练列表";
+static NSString *const kExplanationCopy = @"图标可多选，请选择地图上的图标，选中后点击下方“查看训练场教练”，可以查看已选训练场教练列表";
 
 @interface HHFieldsMapViewController ()
 
@@ -37,7 +37,7 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
     [MAMapServices sharedServices].apiKey = kMapServiceKey;
     
     self.title = @"训练场地图";
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithTitle:@"返回" titleColor:[UIColor whiteColor] action:@selector(dismissVC) target:self isLeft:YES];
     
     self.selectedFields = [NSMutableArray array];
     self.allFields = @[@"训练场1"];
@@ -109,13 +109,14 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
         MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc] init];
         pointAnnotation.coordinate = CLLocationCoordinate2DMake(39.989631, 116.481018);
         pointAnnotation.title = field;
+        pointAnnotation.subtitle = @"武汉市洪山区";
         [self.mapView addAnnotation:pointAnnotation];
     }
     
     MACoordinateRegion mapRegion;
     mapRegion.center = self.userLocation.coordinate;
-    mapRegion.span.latitudeDelta = 0.2;
-    mapRegion.span.longitudeDelta = 0.2;
+    mapRegion.span.latitudeDelta = 0.08;
+    mapRegion.span.longitudeDelta = 0.08;
     
     [self.mapView setRegion:mapRegion animated: YES];
     [self.mapView setCenterCoordinate:self.userLocation.coordinate animated:NO];
@@ -138,6 +139,8 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
         [self.selectedFields addObject:self.allFields[annotationView.tag]];
     }
     
+    //popup the callout
+    [self.mapView selectAnnotation:annotationView.annotation animated:YES];
     NSString *buttonTitle = [NSString stringWithFormat:@"查看训练场教练（已选%ld个）", self.selectedFields.count];
     [self.bottomButton setTitle:buttonTitle forState:UIControlStateNormal];
 }
@@ -145,11 +148,15 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
 #pragma mark - Others
 
 - (NSMutableAttributedString *)generateString {
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:kExplanationCopy attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:kExplanationCopy attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
     NSRange range1 = [kExplanationCopy rangeOfString:@"图标可多选"];
     NSRange range2 = [kExplanationCopy rangeOfString:@"“查看训练场教练”"];
     [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor HHOrange] range:range1];
     [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor HHOrange] range:range2];
+    
     return attrString;
 }
 
@@ -177,12 +184,12 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
         if ([view.annotation isKindOfClass:[MAUserLocation class]]) {
             continue;
         }
-        [mapView selectAnnotation:view.annotation animated:NO];
         view.tag = i;
         UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(annotationViewTapped:)];
         [view addGestureRecognizer:tapRecognizer];
         i++;
     }
 }
+
 
 @end

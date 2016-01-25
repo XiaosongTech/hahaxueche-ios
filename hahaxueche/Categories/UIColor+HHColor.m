@@ -25,7 +25,7 @@
 }
 
 + (UIColor *)HHLightLineGray {
-    return [UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1];
+    return [UIColor colorWithWhite:0.86 alpha:1.0];
 }
 
 

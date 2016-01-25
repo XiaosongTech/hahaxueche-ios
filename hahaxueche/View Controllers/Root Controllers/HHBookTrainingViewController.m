@@ -12,6 +12,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"预约学车";
     self.view.backgroundColor = [UIColor whiteColor];
 }
 

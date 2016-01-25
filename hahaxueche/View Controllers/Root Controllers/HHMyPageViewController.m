@@ -12,6 +12,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"我的页面";
     self.view.backgroundColor = [UIColor whiteColor];
 }
 
