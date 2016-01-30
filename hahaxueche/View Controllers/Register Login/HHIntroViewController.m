@@ -14,23 +14,19 @@
 #import "HHLoginViewController.h"
 #import "UIView+HHRect.h"
 #import "HHRootViewController.h"
+#import <SDCycleScrollView/SDCycleScrollView.h>
 
 
 static CGFloat const kButtonHeight = 40.0f;
 static CGFloat const kButtonWidth = 235.0f;
-static NSInteger const kBannerImageCount = 4;
-static CGFloat const kFloatButtonHeight = 40.0f;
 
-@interface HHIntroViewController () <UIScrollViewDelegate>
+@interface HHIntroViewController () <SDCycleScrollViewDelegate>
 
-@property (nonatomic, strong) UIScrollView *bannerScrollView;
 @property (nonatomic, strong) HHButton *registerButton;
 @property (nonatomic, strong) HHButton *loginButton;
 @property (nonatomic, strong) HHButton *enterAsGuestButton;
 @property (nonatomic, strong) UIView *bottomLine;
-@property (nonatomic, strong) NSMutableArray *bannerImageViews;
-@property (nonatomic, strong) UIPageControl * pageControl;
-
+@property (nonatomic, strong) SDCycleScrollView *bannerView;
 
 @end
 
@@ -40,26 +36,16 @@ static CGFloat const kFloatButtonHeight = 40.0f;
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor HHOrange];
     self.navigationController.navigationBarHidden = YES;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     [self initSubviews];
 }
 
 - (void)initSubviews {
-    self.bannerScrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
-    self.bannerScrollView.backgroundColor = [UIColor clearColor];
-    self.bannerScrollView.delegate = self;
-    self.bannerScrollView.backgroundColor = [UIColor blackColor];
-    self.bannerScrollView.scrollEnabled = YES;
-    self.bannerScrollView.userInteractionEnabled = YES;
-    self.bannerScrollView.pagingEnabled = YES;
-    self.bannerScrollView.bounces = NO;
-    self.bannerScrollView.showsHorizontalScrollIndicator = NO;
-    [self.view addSubview:self.bannerScrollView];
-    
-    self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectZero];
-    self.pageControl.numberOfPages = kBannerImageCount;
-    self.pageControl.currentPage = 0;
-    self.pageControl.userInteractionEnabled = NO;
-    [self.view addSubview:self.pageControl];
+    self.bannerView = [[SDCycleScrollView alloc] init];
+    self.bannerView.delegate = self;
+    self.bannerView.imageURLStringsGroup = @[@"http://i.forbesimg.com/media/lists/companies/facebook_416x416.jpg",@"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Facebook_icon.svg/2000px-Facebook_icon.svg.png"];
+    self.bannerView.autoScroll = NO;
+    [self.view addSubview:self.bannerView];
     
     self.registerButton = [[HHButton alloc] initWithFrame:CGRectZero];
     [self.registerButton HHWhiteBorderButton];
@@ -87,14 +73,6 @@ static CGFloat const kFloatButtonHeight = 40.0f;
     [self.enterAsGuestButton addTarget:self action:@selector(enterAsGuest) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.enterAsGuestButton];
     
-    self.bannerImageViews = [NSMutableArray arrayWithCapacity:kBannerImageCount];
-    for (int i = 0; i < kBannerImageCount; i++) {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        imageView.backgroundColor = [UIColor clearColor];
-        [self.bannerScrollView addSubview:imageView];
-        [self.bannerImageViews addObject:imageView];
-    }
-    
     [self makeConstraints];
     
     
@@ -108,12 +86,14 @@ static CGFloat const kFloatButtonHeight = 40.0f;
 #pragma mark - Auto Layout
 
 - (void)makeConstraints {
-    [self.pageControl remakeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.bannerScrollView.bottom).offset(-10.0f);
-        make.width.mas_equalTo(80.0f);
-        make.height.mas_equalTo(30.0f);
-        make.centerX.equalTo(self.view.centerX);
+    CGFloat height = MIN(CGRectGetHeight(self.view.bounds) - 240.0f, CGRectGetWidth(self.view.bounds));
+    [self.bannerView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(CGRectGetHeight([UIApplication sharedApplication].statusBarFrame));
+        make.width.equalTo(self.view.width);
+        make.height.mas_equalTo(height);
+        make.left.equalTo(self.view.left);
     }];
+    
     [self.registerButton makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.bottom).offset(-180.0f);
         make.width.mas_equalTo(kButtonWidth);
@@ -141,40 +121,6 @@ static CGFloat const kFloatButtonHeight = 40.0f;
         make.centerX.equalTo(self.view.centerX);
     }];
 
-    [self.view setNeedsUpdateConstraints];
-}
-
-- (void)updateViewConstraints {
-    for (int i = 0; i < kBannerImageCount; i++) {
-        UIImageView *imageView = self.bannerImageViews[i];
-        if (i == 0) {
-            [imageView makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.bannerScrollView.top);
-                make.width.equalTo(self.bannerScrollView.width);
-                make.height.equalTo(self.bannerScrollView.height);
-                make.left.equalTo(self.bannerScrollView.left);
-            }];
-        } else {
-            UIImageView *preImageView = self.bannerImageViews[i - 1];
-            [imageView makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.bannerScrollView.top);
-                make.width.equalTo(self.bannerScrollView.width);
-                make.height.equalTo(self.bannerScrollView.height);
-                make.left.equalTo(preImageView.right);
-            }];
-        }
-    }
-    
-    CGFloat height = MIN(CGRectGetHeight(self.view.bounds) - 240.0f, CGRectGetWidth(self.view.bounds));
-    UIImageView *lastImageView = self.bannerImageViews[kBannerImageCount - 1];
-    [self.bannerScrollView remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(CGRectGetHeight([UIApplication sharedApplication].statusBarFrame));
-        make.width.equalTo(self.view.width);
-        make.height.mas_equalTo(height);
-        make.right.equalTo(lastImageView.right);
-    }];
-    
-    [super updateViewConstraints];
 }
 
 
@@ -195,13 +141,10 @@ static CGFloat const kFloatButtonHeight = 40.0f;
     [self presentViewController:rootVC animated:YES completion:nil];
 }
 
-#pragma mark - UIScrollView Delegate
+#pragma mark - Banner View Delegate Method
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat pageWidth = CGRectGetWidth(self.bannerScrollView.bounds);
-    float fractionalPage = self.bannerScrollView.contentOffset.x / pageWidth;
-    NSInteger page = lround(fractionalPage);
-    self.pageControl.currentPage = page;
+- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
+    
 }
 
 @end
