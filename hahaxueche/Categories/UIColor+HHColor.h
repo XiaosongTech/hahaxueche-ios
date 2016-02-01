@@ -10,4 +10,18 @@
 
 @interface UIColor (HHColor)
 
++ (UIColor *)HHOrange;
+
++ (UIColor *)HHLightOrange;
+
++ (UIColor *)HHLightBackgroudGray;
+
++ (UIColor *)HHLightLineGray;
+
++ (UIColor *)HHLightTextGray;
+
++ (UIColor *)HHLightestTextGray;
+
++ (UIColor *)HHGreen;
+
 @end

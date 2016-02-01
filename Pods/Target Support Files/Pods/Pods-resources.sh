@@ -58,6 +58,7 @@ install_resource()
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_resource "AMap2DMap/MAMapKit.framework/Versions/3.2.0.163b642/Resources/AMap.bundle"
   install_resource "DateTools/DateTools/DateTools.bundle"
   install_resource "Instabug/Instabug.bundle"
   install_resource "MJRefresh/MJRefresh/MJRefresh.bundle"
@@ -66,6 +67,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${BUILT_PRODUCTS_DIR}/Appirater.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_resource "AMap2DMap/MAMapKit.framework/Versions/3.2.0.163b642/Resources/AMap.bundle"
   install_resource "DateTools/DateTools/DateTools.bundle"
   install_resource "Instabug/Instabug.bundle"
   install_resource "MJRefresh/MJRefresh/MJRefresh.bundle"

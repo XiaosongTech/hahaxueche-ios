@@ -20,56 +20,81 @@ PODS:
   - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - AMap2DMap (3.2.0)
   - Appirater (2.0.5)
+  - BEMCheckBox (1.1.1)
   - Crashlytics (3.4.1):
     - Fabric (~> 1.6.0)
+  - CRToast (0.0.9)
   - DateTools (1.7.0)
   - Fabric (1.6.0):
     - Fabric/Base (= 1.6.0)
   - Fabric/Base (1.6.0)
   - Instabug (4.1.7)
+  - INTULocationManager (4.1.1)
+  - KLCPopup (1.0)
   - libPhoneNumber-iOS (0.8.7)
   - Mantle (2.0.6):
     - Mantle/extobjc (= 2.0.6)
   - Mantle/extobjc (2.0.6)
   - Masonry (0.6.4)
   - MJRefresh (3.0.8)
+  - pop (1.0.8)
+  - SDCycleScrollView (1.61):
+    - SDWebImage (~> 3.7)
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
   - SSKeychain (1.3.1)
+  - StepSlider (0.0.2)
   - SVProgressHUD (1.1.3)
   - UMengAnalytics-NO-IDFA (3.6.5)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.6.1)
+  - AMap2DMap
   - Appirater
+  - BEMCheckBox
   - Crashlytics
+  - CRToast
   - DateTools
   - Fabric
   - Instabug
+  - INTULocationManager
+  - KLCPopup
   - libPhoneNumber-iOS (~> 0.8)
   - Mantle
   - Masonry
   - MJRefresh
+  - pop (~> 1.0)
+  - SDCycleScrollView (~> 1.6)
   - SDWebImage (~> 3.7)
   - SSKeychain
+  - StepSlider
   - SVProgressHUD
   - UMengAnalytics-NO-IDFA
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
+  AMap2DMap: 02c73a3e55ac033e3b0b8ec35d3d21ffcac5aae3
   Appirater: e7c0a47fb67ee5041ce8479e6ba960927fb40264
+  BEMCheckBox: e1dd80417e0a9f1db4b55d8b8d2f3f477d120795
   Crashlytics: 41574a245bc6ae10c55d57f385ebd2004e5bee05
+  CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   Fabric: d737eda3a26ac940a5430230eedb35f16b226131
   Instabug: 58f773fcefe0dec9b1bd3fcf09c6e46560353f5d
+  INTULocationManager: 83c7373048d583cda57e25eefb9bb8a3675acf16
+  KLCPopup: 76c5a19227977f1e53d85236f9ef42257c168d98
   libPhoneNumber-iOS: 1bccd3288375d954b0b904e26061cecaa0fb83d6
   Mantle: 299966b00759634931699f69cb6a30b9239b944d
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MJRefresh: fafde8f18f4afd66b434331a9beb67a6c0264056
+  pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
+  SDCycleScrollView: a002d85b30cfa9d0ac74069cd3973ca19ff4f22f
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SSKeychain: 04c4ec40f4c3deda524e269bc76e5f30e638a174
+  StepSlider: e058cc630ea1e88098fa168e2575c233ea3d6d3d
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   UMengAnalytics-NO-IDFA: 279e28990a08efb56cff1821d2954bb00aa6975a
 
