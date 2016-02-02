@@ -123,6 +123,16 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     }];
 }
 
+- (void)resetPWDWithCellphone:(NSString *)cellPhone veriCode:(NSString *)veriCode newPWD:(NSString *)newPWD completion:(HHUserErrorCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIResetPWDPath];
+    NSDictionary *param = @{@"cell_phone":cellPhone, @"auth_token":veriCode, @"password":newPWD, @"password_confirmation":newPWD};
+    [APIClient postWithParameters:param completion:^(NSDictionary *response, NSError *error) {
+        if (completion) {
+            completion(error);
+        }
+    }];
+}
+
 - (void)postAuthActionsWithUser:(HHUser *)user {
     [HHKeychainStore saveAccessToken:user.session.accessToken forUserId:user.userId];
     //just save token in keychain, not user default

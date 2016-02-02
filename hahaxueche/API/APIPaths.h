@@ -16,6 +16,7 @@
 #define kAPIStudentPath @"students/%@"
 #define kAPILoginPath @"sessions"
 #define kAPILogoutPath @"sessions/%@"
+#define kAPIResetPWDPath @"users/reset_password"
 
 #pragma mark Student
 

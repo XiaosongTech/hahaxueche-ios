@@ -25,12 +25,6 @@ static NSInteger const pwdLimit = 20;
 
 @interface HHRegisterViewController () <UITextFieldDelegate>
 
-@property (nonatomic, strong) HHButton *sendCodeButton;
-@property (nonatomic, strong) UIImageView *bachgroudImageView;
-
-@property (nonatomic) NSInteger countDown;
-@property (nonatomic) NSTimer *timer;
-
 @end
 
 @implementation HHRegisterViewController

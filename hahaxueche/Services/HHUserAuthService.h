@@ -68,6 +68,15 @@ typedef void (^HHStudentCompletion)(HHStudent *student, NSError *error);
 - (void)loginWithCellphone:(NSString *)cellPhone password:(NSString *)password completion:(HHStudentCompletion)completion;
 
 /**
+ Reset PWD for a student
+ @param cellPhone The cell phone of the student
+ @param veriCode The SMS code we sent to the user
+ @param newPWD The newPWD the student sets
+ @param completion The completion block to execute on completion
+ */
+- (void)resetPWDWithCellphone:(NSString *)cellPhone veriCode:(NSString *)veriCode newPWD:(NSString *)newPWD completion:(HHUserErrorCompletion)completion;
+
+/**
  Log out the authed student
 */
 - (void)logOutWithCompletion:(HHUserErrorCompletion)completion;
