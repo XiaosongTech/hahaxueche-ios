@@ -72,10 +72,10 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     
     self.selectedFields = [NSMutableArray array];
     self.expandedCellIndexPath = [NSMutableArray array];
-    self.coaches = [NSMutableArray array];
     
     [[HHCoachService sharedInstance] fetchCoachListWithCityId:nil filters:nil sortOption:0 fields:nil completion:^(NSArray *coaches, NSError *error) {
-        
+        self.coaches = [NSMutableArray arrayWithArray:coaches];
+        [self.tableView reloadData];
     }];
     [self initSubviews];
 }
