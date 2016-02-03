@@ -21,6 +21,10 @@
 #import "HHStudentStore.h"
 #import "HHRootViewController.h"
 #import "HHAccountSetupViewController.h"
+#import "HHLaunchImageViewController.h"
+#import <MAMapKit/MAMapKit.h>
+
+static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
 @interface HHAppDelegate ()
 
@@ -31,36 +35,37 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    if ([[HHUserAuthService sharedInstance] getSavedUser] && [HHKeychainStore getSavedAccessToken]) {
-        HHStudent *student = [[[HHUserAuthService sharedInstance] getSavedUser] student];
-        [HHStudentStore sharedInstance].currentStudent = student;
-        if (!student.name || !student.cityId) {
-            // Student created, but not set up yet
-            HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
-            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
-            [self.window setRootViewController:navVC];
-        } else {
-            // Get the saved student object, we lead user to rootVC
-            HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-            [self.window setRootViewController:rootVC];
-        }
-        
-        
-    } else {
-        HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
-        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
-        [self.window setRootViewController:navVC];
-       
-    }
+    HHLaunchImageViewController *launchVC = [[HHLaunchImageViewController alloc] init];
+    [self.window setRootViewController:launchVC];
     
+    [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
+        if ([[HHUserAuthService sharedInstance] getSavedUser] && [HHKeychainStore getSavedAccessToken]) {
+            HHStudent *student = [[[HHUserAuthService sharedInstance] getSavedUser] student];
+            [HHStudentStore sharedInstance].currentStudent = student;
+            if (!student.name || !student.cityId) {
+                // Student created, but not set up yet
+                HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
+                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
+                [self.window setRootViewController:navVC];
+            } else {
+                // Get the saved student object, we lead user to rootVC
+                HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+                [self.window setRootViewController:rootVC];
+            }
+            
+            
+        } else {
+            HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+            [self.window setRootViewController:navVC];
+            
+        }
+       
+    }];
     [self.window makeKeyAndVisible];
     [self setWindow:self.window];
-    
     [self setupAllThirdPartyServices];
     [self setAppearance];
-    
-    //pre-fetch constants
-    [[HHConstantsStore sharedInstance] getConstantsWithCompletion:nil];
     return YES;
 }
 
@@ -104,6 +109,8 @@
     [SDWebImageManager sharedManager].imageCache.maxCacheSize = 20000000;
     [[[SDWebImageManager sharedManager] imageDownloader] setMaxConcurrentDownloads:10];
     [[[SDWebImageManager sharedManager] imageDownloader] setExecutionOrder:SDWebImageDownloaderLIFOExecutionOrder];
+    
+    [MAMapServices sharedServices].apiKey = kMapServiceKey;
 }
 
 @end

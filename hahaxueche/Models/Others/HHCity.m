@@ -14,6 +14,9 @@
     return @{
              @"cityId": @"id",
              @"cityName": @"name",
+             @"priceRanges":@"filters.prices",
+             @"distanceRanges":@"filters.radius",
+             @"zipCode":@"zip_code",
              };
 }
 

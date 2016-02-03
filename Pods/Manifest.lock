@@ -30,6 +30,7 @@ PODS:
   - Fabric (1.6.0):
     - Fabric/Base (= 1.6.0)
   - Fabric/Base (1.6.0)
+  - HCSStarRatingView (1.4.3)
   - Instabug (4.1.7)
   - INTULocationManager (4.1.1)
   - KLCPopup (1.0)
@@ -59,6 +60,7 @@ DEPENDENCIES:
   - CRToast
   - DateTools
   - Fabric
+  - HCSStarRatingView (~> 1.4)
   - Instabug
   - INTULocationManager
   - KLCPopup
@@ -83,6 +85,7 @@ SPEC CHECKSUMS:
   CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   Fabric: d737eda3a26ac940a5430230eedb35f16b226131
+  HCSStarRatingView: bada6ae98258c3019531e0218030e2d5ad10765a
   Instabug: 58f773fcefe0dec9b1bd3fcf09c6e46560353f5d
   INTULocationManager: 83c7373048d583cda57e25eefb9bb8a3675acf16
   KLCPopup: 76c5a19227977f1e53d85236f9ef42257c168d98

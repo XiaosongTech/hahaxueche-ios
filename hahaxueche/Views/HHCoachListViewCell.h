@@ -7,8 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HHStarRatingView.h"
+#import <MAMapKit/MAMapKit.h>
+#import "HHField.h"
+#import "HHCoach.h"
 
-@interface HHCoachListViewCell : UITableViewCell
+typedef void (^HHMapButtonActionBlock)();
+
+@interface HHCoachListViewCell : UITableViewCell <MAMapViewDelegate>
 
 @property (nonatomic, strong) UIImageView *avatarView;
 @property (nonatomic, strong) UILabel *nameLabel;
@@ -17,6 +23,16 @@
 @property (nonatomic, strong) UILabel *priceLabel;
 @property (nonatomic, strong) UILabel *marketPriceLabel;
 @property (nonatomic, strong) UIView *bottomLine;
+@property (nonatomic, strong) HHStarRatingView *starRatingView;
+@property (nonatomic, strong) UILabel *ratingLabel;
+@property (nonatomic, strong) UIButton *mapButton;
+@property (nonatomic, strong) MAMapView *mapView;
+
+@property (nonatomic, strong) HHField *field;
+
+@property (nonatomic, strong) HHMapButtonActionBlock mapButtonBlock;
+
+- (void)setupCellWithCoach:(HHCoach *)coach field:(HHField *)field;
 
 
 @end

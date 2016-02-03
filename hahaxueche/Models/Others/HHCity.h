@@ -10,7 +10,10 @@
 
 @interface HHCity : MTLModel <MTLJSONSerializing>
 
-@property (nonatomic) NSNumber *cityId;
+@property (nonatomic, copy) NSNumber *cityId;
 @property (nonatomic, copy) NSString *cityName;
+@property (nonatomic, copy) NSString *zipCode;
+@property (nonatomic, copy) NSArray *priceRanges;
+@property (nonatomic, copy) NSArray *distanceRanges;
 
 @end

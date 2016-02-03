@@ -9,38 +9,49 @@
 #import "HHFieldsMapViewController.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "Masonry.h"
+#import "HHConstantsStore.h"
+#import "HHStudentStore.h"
 
-static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 static NSString *const kExplanationCopy = @"图标可多选，请选择地图上的图标，选中后点击下方“查看训练场教练”，可以查看已选训练场教练列表";
 
 @interface HHFieldsMapViewController ()
 
 @property (nonatomic, strong) NSMutableArray *selectedFields;
 @property (nonatomic, strong) NSArray *allFields;
-
+@property (nonatomic, strong) NSMutableDictionary *dic;
 
 @end
 
 @implementation HHFieldsMapViewController
 
 
-- (instancetype)initWithUserLocation:(CLLocation *)userLocation {
+- (instancetype)initWithUserLocation:(CLLocation *)userLocation selectedFields:(NSMutableArray *)selectedFields {
     self = [super init];
     if (self) {
         self.userLocation = userLocation;
+        self.selectedFields = [NSMutableArray arrayWithArray:selectedFields];
+        self.dic = [NSMutableDictionary dictionary];
+        
     }
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [MAMapServices sharedServices].apiKey = kMapServiceKey;
     
     self.title = @"训练场地图";
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithTitle:@"返回" titleColor:[UIColor whiteColor] action:@selector(dismissVC) target:self isLeft:YES];
-    
-    self.selectedFields = [NSMutableArray array];
-    self.allFields = @[@"训练场1"];
+
+    HHStudent *currentStudent = [[HHStudentStore sharedInstance] currentStudent];
+    [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
+        if (currentStudent) {
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"cityId == %ld", [currentStudent.cityId integerValue]];
+            self.allFields = [constants.fields filteredArrayUsingPredicate:predicate];
+        } else {
+            
+        }
+        
+    }];
     
     [self initSubviews];
 }
@@ -59,11 +70,11 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
     self.explanationLabel.numberOfLines = 0;
     self.explanationLabel.attributedText = [self generateString];
     [self.explanationLabel sizeToFit];
-    //self.explanationLabel.backgroundColor = [UIColor clearColor];
     [self.explanationView addSubview:self.explanationLabel];
     
     self.bottomButton = [[HHButton alloc] init];
-    [self.bottomButton setTitle:@"查看训练场教练（已选0个）" forState:UIControlStateNormal];
+    NSString *buttonTitle = [NSString stringWithFormat:@"查看训练场教练（已选%ld个）", self.selectedFields.count];
+    [self.bottomButton setTitle:buttonTitle forState:UIControlStateNormal];
     [self.bottomButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.bottomButton addTarget:self action:@selector(confirmSelectedFields) forControlEvents:UIControlEventTouchUpInside];
     self.bottomButton.titleLabel.font = [UIFont systemFontOfSize:16.0f];
@@ -105,20 +116,21 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-    for (NSString *field in self.allFields) {
+    for (HHField *field in self.allFields) {
         MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc] init];
-        pointAnnotation.coordinate = CLLocationCoordinate2DMake(39.989631, 116.481018);
-        pointAnnotation.title = field;
-        pointAnnotation.subtitle = @"武汉市洪山区";
+        pointAnnotation.coordinate = CLLocationCoordinate2DMake([field.latitude doubleValue], [field.longitude doubleValue]);
+        pointAnnotation.title = field.name;
+        pointAnnotation.subtitle = field.address;
         [self.mapView addAnnotation:pointAnnotation];
+        
+        NSValue *key = [NSValue valueWithNonretainedObject:pointAnnotation];
+        self.dic[key] = field;
     }
     
     MACoordinateRegion mapRegion;
-    mapRegion.center = self.userLocation.coordinate;
     mapRegion.span.latitudeDelta = 0.08;
     mapRegion.span.longitudeDelta = 0.08;
-    
+    mapRegion.center = self.userLocation.coordinate;
     [self.mapView setRegion:mapRegion animated: YES];
     [self.mapView setCenterCoordinate:self.userLocation.coordinate animated:NO];
 }
@@ -132,12 +144,14 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
 
 - (void)annotationViewTapped:(UITapGestureRecognizer *)recognizer {
     MAAnnotationView *annotationView = (MAAnnotationView *)recognizer.view;
-    if ([self.selectedFields containsObject:self.allFields[annotationView.tag]]) {
+    NSValue *key = [NSValue valueWithNonretainedObject:annotationView.annotation];
+    HHField *field = self.dic[key];
+    if ([self.selectedFields containsObject:field]) {
         annotationView.image = [UIImage imageNamed:@"ic_map_local_choseoff"];
-        [self.selectedFields removeObject:self.allFields[annotationView.tag]];
+        [self.selectedFields removeObject:field];
     } else {
         annotationView.image = [UIImage imageNamed:@"ic_map_local_choseon"];
-        [self.selectedFields addObject:self.allFields[annotationView.tag]];
+        [self.selectedFields addObject:field];
     }
     
     //popup the callout
@@ -179,7 +193,7 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
             annotationView = [[MAAnnotationView alloc] initWithAnnotation:annotation
                                                           reuseIdentifier:reuseIndetifier];
         }
-        annotationView.image = [UIImage imageNamed:@"ic_map_local_choseoff"];
+       
         annotationView.canShowCallout = YES;
         return annotationView;
 
@@ -187,17 +201,24 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
 }
 
 - (void)mapView:(MAMapView *)mapView didAddAnnotationViews:(NSArray *)views {
-    int i = 0;
     for (MAAnnotationView *view in views) {
         if ([view.annotation isKindOfClass:[MAUserLocation class]]) {
             continue;
         }
-        view.tag = i;
+        
+        NSValue *key = [NSValue valueWithNonretainedObject:view.annotation];
+        HHField *field = self.dic[key];
+
+        if ([self.selectedFields containsObject:field]) {
+            view.image = [UIImage imageNamed:@"ic_map_local_choseon"];
+        } else {
+            view.image = [UIImage imageNamed:@"ic_map_local_choseoff"];
+        }
         UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(annotationViewTapped:)];
         [view addGestureRecognizer:tapRecognizer];
-        i++;
     }
 }
 
+#pragma  mark Others 
 
 @end

@@ -18,9 +18,16 @@
 #define kAPILogoutPath @"sessions/%@"
 #define kAPIResetPWDPath @"users/reset_password"
 
+
+
 #pragma mark Student
 
 #define kAPIStudentAvatar @"students/%@/avatar"
+
+
+#pragma mark Coach
+
+#define kAPICoaches @"coaches"
 
 
 #pragma mark Constants

@@ -23,9 +23,14 @@
 #import "HHFieldsMapViewController.h"
 #import <MJRefresh/MJRefresh.h>
 #import "HHCoachListViewCell.h"
+#import <MAMapKit/MAMapKit.h>
+#import "HHConstantsStore.h"
+#import "HHToastManager.h"
+#import "HHCoachService.h"
 
 static NSString *const kCellId = @"kCoachListCellId";
 static CGFloat const kCellHeightNormal = 100.0f;
+static CGFloat const kCellHeightExpanded = 300.0f;
 
 @interface HHFindCoachViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -48,6 +53,9 @@ static CGFloat const kCellHeightNormal = 100.0f;
 @property (nonatomic, strong) MJRefreshAutoNormalFooter *loadMoreFooter;
 
 @property (nonatomic, strong) NSMutableArray *selectedFields;
+@property (nonatomic, strong) NSMutableArray *expandedCellIndexPath;
+
+@property (nonatomic, strong) NSMutableArray *coaches;
 
 @end
 
@@ -61,6 +69,14 @@ static CGFloat const kCellHeightNormal = 100.0f;
     
     UIBarButtonItem *mapButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_maplist_btn"] action:@selector(getUserLocation) target:self];
     self.navigationItem.leftBarButtonItem = mapButton;
+    
+    self.selectedFields = [NSMutableArray array];
+    self.expandedCellIndexPath = [NSMutableArray array];
+    self.coaches = [NSMutableArray array];
+    
+    [[HHCoachService sharedInstance] fetchCoachListWithCityId:nil filters:nil sortOption:0 fields:nil completion:^(NSArray *coaches, NSError *error) {
+        
+    }];
     [self initSubviews];
 }
 
@@ -181,6 +197,26 @@ static CGFloat const kCellHeightNormal = 100.0f;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HHCoachListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
+    __weak HHFindCoachViewController *weakSelf = self;
+    __weak HHCoachListViewCell *weakCell = cell;
+    
+    [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
+        [cell setupCellWithCoach:nil field:[constants.fields firstObject]];
+    }];
+    
+    cell.mapButtonBlock = ^(){
+        if ([weakSelf.expandedCellIndexPath containsObject:indexPath]) {
+            [weakSelf.expandedCellIndexPath removeObject:indexPath];
+            weakCell.mapView.hidden = YES;
+            
+        } else {
+            weakCell.mapView.hidden = NO;
+            [weakSelf.expandedCellIndexPath addObject:indexPath];
+        }
+        [weakSelf.tableView reloadData];
+    };
+    
+    
     return cell;
 }
 
@@ -189,7 +225,11 @@ static CGFloat const kCellHeightNormal = 100.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return kCellHeightNormal;
+    if ([self.expandedCellIndexPath containsObject:indexPath]) {
+        return kCellHeightExpanded;
+    } else {
+        return kCellHeightNormal;
+    }
 }
 
 
@@ -225,7 +265,7 @@ static CGFloat const kCellHeightNormal = 100.0f;
 
 - (void)jumpToMapViewWithUserLocation:(CLLocation *)userLocation {
      __weak HHFindCoachViewController *weakSelf = self;
-    HHFieldsMapViewController *mapVC = [[HHFieldsMapViewController alloc] initWithUserLocation:userLocation];
+    HHFieldsMapViewController *mapVC = [[HHFieldsMapViewController alloc] initWithUserLocation:userLocation selectedFields:self.selectedFields];
     mapVC.conformBlock = ^(NSMutableArray *selectedFields) {
         weakSelf.selectedFields = selectedFields;
     };
@@ -241,10 +281,12 @@ static CGFloat const kCellHeightNormal = 100.0f;
         
         if (status == INTULocationStatusSuccess) {
             [self jumpToMapViewWithUserLocation:currentLocation];
-        } else {
+        } else if (status == INTULocationStatusServicesDenied){
             HHAskLocationPermissionViewController *vc = [[HHAskLocationPermissionViewController alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
+        } else if (status == INTULocationStatusError) {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了，请重试"];
         }
 
     }];
@@ -258,5 +300,6 @@ static CGFloat const kCellHeightNormal = 100.0f;
 - (void)loadMoreData {
     [self.loadMoreFooter endRefreshing];
 }
+
 
 @end
