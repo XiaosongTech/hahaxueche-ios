@@ -39,26 +39,28 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [self.window setRootViewController:launchVC];
     
     [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
-        if ([[HHUserAuthService sharedInstance] getSavedUser] && [HHKeychainStore getSavedAccessToken]) {
-            HHStudent *student = [[[HHUserAuthService sharedInstance] getSavedUser] student];
-            [HHStudentStore sharedInstance].currentStudent = student;
-            if (!student.name || !student.cityId) {
-                // Student created, but not set up yet
-                HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
-                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
-                [self.window setRootViewController:navVC];
+        if (constants) {
+            if ([[HHUserAuthService sharedInstance] getSavedUser] && [HHKeychainStore getSavedAccessToken]) {
+                HHStudent *student = [[[HHUserAuthService sharedInstance] getSavedUser] student];
+                [HHStudentStore sharedInstance].currentStudent = student;
+                if (!student.name || !student.cityId) {
+                    // Student created, but not set up yet
+                    HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
+                    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
+                    [self.window setRootViewController:navVC];
+                } else {
+                    // Get the saved student object, we lead user to rootVC
+                    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+                    [self.window setRootViewController:rootVC];
+                }
+                
+                
             } else {
-                // Get the saved student object, we lead user to rootVC
-                HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-                [self.window setRootViewController:rootVC];
+                HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+                [self.window setRootViewController:navVC];
+                
             }
-            
-            
-        } else {
-            HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
-            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
-            [self.window setRootViewController:navVC];
-            
         }
        
     }];
