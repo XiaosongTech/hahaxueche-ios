@@ -27,6 +27,10 @@
 #import "HHConstantsStore.h"
 #import "HHToastManager.h"
 #import "HHCoachService.h"
+#import "HHStudentStore.h"
+#import "HHCitySelectView.h"
+#import "HHPopupUtility.h"
+#import <KLCPopup/KLCPopup.h>
 
 static NSString *const kCellId = @"kCoachListCellId";
 static CGFloat const kCellHeightNormal = 100.0f;
@@ -56,6 +60,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 @property (nonatomic, strong) NSMutableArray *expandedCellIndexPath;
 
 @property (nonatomic, strong) NSMutableArray *coaches;
+@property (nonatomic, strong) HHCitySelectView *citySelectView;
 
 @end
 
@@ -73,11 +78,35 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     self.selectedFields = [NSMutableArray array];
     self.expandedCellIndexPath = [NSMutableArray array];
     
-    [[HHCoachService sharedInstance] fetchCoachListWithCityId:nil filters:nil sortOption:0 fields:nil completion:^(NSArray *coaches, NSError *error) {
-        self.coaches = [NSMutableArray arrayWithArray:coaches];
-        [self.tableView reloadData];
-    }];
     [self initSubviews];
+    
+    // Enter as a guest
+    if (![HHStudentStore sharedInstance].currentStudent.cityId) {
+        __weak HHFindCoachViewController *weakSelf = self;
+        [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
+            if ([constants.cities count]) {
+                CGFloat height = MAX(300.0f, CGRectGetHeight(weakSelf.view.bounds)/2.0f);
+                weakSelf.citySelectView = [[HHCitySelectView alloc] initWithCities:constants.cities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:nil];
+                weakSelf.citySelectView.completion = ^(HHCity *selectedCity) {
+                    [HHStudentStore sharedInstance].currentStudent.cityId = selectedCity.cityId;
+                    [HHPopupUtility dismissPopup:weakSelf.popup];
+                    [weakSelf updateCoachList];
+                };
+                weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.citySelectView];
+                [weakSelf.popup show];
+            }
+        }];
+
+    }
+
+}
+
+- (void)updateCoachList {
+    __weak HHFindCoachViewController *weakSelf = self;
+    [[HHCoachService sharedInstance] fetchCoachListWithCityId:nil filters:nil sortOption:self.currentSortOption fields:nil completion:^(NSArray *coaches, NSError *error) {
+        weakSelf.coaches = [NSMutableArray arrayWithArray:coaches];
+        [weakSelf.tableView reloadData];
+    }];
 }
 
 - (void)setupDefaultSortAndFilter {
@@ -221,7 +250,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return 10;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

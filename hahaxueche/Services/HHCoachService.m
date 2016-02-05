@@ -27,7 +27,9 @@
 - (void)fetchCoachListWithCityId:(NSNumber *)cityId filters:(HHCoachFilters *)filters sortOption:(SortOption)sortOption fields:(NSArray *)selectedFields completion:(HHCoachListCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICoaches];
     [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
-        
+        if (!error) {
+            
+        }
     }];
 }
 

@@ -10,6 +10,7 @@
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
 #import "UIView+HHRect.h"
+#import "HHFormatUtility.h"
 
 static CGFloat const kAvatarRadius = 30.0f;
 
@@ -29,32 +30,25 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.avatarView.contentMode = UIViewContentModeScaleAspectFill;
     self.avatarView.layer.cornerRadius = kAvatarRadius;
     self.avatarView.layer.masksToBounds = YES;
-    self.avatarView.image = [UIImage imageNamed:@"pic_local"];
     [self.contentView addSubview:self.avatarView];
     
     self.nameLabel = [self createLabelWithFont:[UIFont systemFontOfSize:20.0f] textColor:[UIColor colorWithRed:0.43 green:0.43 blue:0.43 alpha:1]];
-    self.nameLabel.text = @"老张";
     [self.nameLabel sizeToFit];
     [self.contentView addSubview:self.nameLabel];
     
-    self.goldenCoachIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_auth_golden"]];
+    self.goldenCoachIcon = [[UIImageView alloc] init];
     self.goldenCoachIcon.contentMode = UIViewContentModeCenter;
     [self.contentView addSubview:self.goldenCoachIcon];
     
     self.trainingYearLabel = [self createLabelWithFont:[UIFont systemFontOfSize:16.0f] textColor:[UIColor HHLightTextGray]];
-    self.trainingYearLabel.text = @"11年教龄";
     [self.trainingYearLabel sizeToFit];
     [self.contentView addSubview:self.trainingYearLabel];
     
     self.priceLabel = [self createLabelWithFont:[UIFont systemFontOfSize:20.0f] textColor:[UIColor HHOrange]];
-    self.priceLabel.text = @"2000";
     [self.priceLabel sizeToFit];
     [self.contentView addSubview:self.priceLabel];
     
     self.marketPriceLabel = [[UILabel alloc] init];;
-    self.marketPriceLabel.attributedText = [[NSMutableAttributedString alloc] initWithString:@"2500" attributes:@{NSStrikethroughStyleAttributeName:@(1), NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
-    
-    [self.marketPriceLabel sizeToFit];
     [self.contentView addSubview:self.marketPriceLabel];
     
     self.starRatingView = [[HHStarRatingView alloc] initWithInteraction:NO];
@@ -62,7 +56,6 @@ static CGFloat const kAvatarRadius = 30.0f;
     [self.contentView addSubview:self.starRatingView];
     
     self.ratingLabel = [self createLabelWithFont:[UIFont systemFontOfSize:14.0f] textColor:[UIColor HHOrange]];
-    self.ratingLabel.text = @"5.0分";
     [self.contentView addSubview:self.ratingLabel];
     
     self.mapButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -71,7 +64,6 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.mapButton.titleEdgeInsets = UIEdgeInsetsMake(0, insetAmount, 0, -insetAmount);
     self.mapButton.contentEdgeInsets = UIEdgeInsetsMake(0, insetAmount, 0, insetAmount);
     [self.mapButton setImage:[UIImage imageNamed:@"ic_list_local_btn"] forState:UIControlStateNormal];
-    [self.mapButton setTitle:@"武汉市洪山区" forState:UIControlStateNormal];
     [self.mapButton setTitleColor:[UIColor HHLightTextGray] forState:UIControlStateNormal];
     self.mapButton.titleLabel.font = [UIFont systemFontOfSize:12.0f];
     [self.mapButton sizeToFit];
@@ -195,6 +187,19 @@ static CGFloat const kAvatarRadius = 30.0f;
 
 - (void)setupCellWithCoach:(HHCoach *)coach field:(HHField *)field {
     self.field = field;
+    self.ratingLabel.text = @"5.0分";
+    [self.mapButton setTitle:@"武汉市洪山区" forState:UIControlStateNormal];
+    self.avatarView.image = [UIImage imageNamed:@"pic_local"];
+    self.nameLabel.text = @"老张";
+    self.trainingYearLabel.text = @"11年教龄";
+    self.goldenCoachIcon.image = [UIImage imageNamed:@"ic_auth_golden"];
+    
+    
+    self.priceLabel.text = [[HHFormatUtility moneyFormatter] stringFromNumber:@(2000)];
+    
+    self.marketPriceLabel.attributedText = [[NSMutableAttributedString alloc] initWithString:[[HHFormatUtility moneyFormatter] stringFromNumber:@(2500)] attributes:@{NSStrikethroughStyleAttributeName:@(1), NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+    
+    [self.marketPriceLabel sizeToFit];
 }
 
 #pragma mark - MapView Delegate Methods

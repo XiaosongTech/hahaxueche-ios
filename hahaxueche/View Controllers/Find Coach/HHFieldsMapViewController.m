@@ -47,10 +47,7 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
         if (currentStudent) {
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"cityId == %ld", [currentStudent.cityId integerValue]];
             self.allFields = [constants.fields filteredArrayUsingPredicate:predicate];
-        } else {
-            
-        }
-        
+        }        
     }];
     
     [self initSubviews];
