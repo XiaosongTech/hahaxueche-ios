@@ -44,10 +44,8 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
 
     HHStudent *currentStudent = [[HHStudentStore sharedInstance] currentStudent];
     [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
-        if (currentStudent) {
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"cityId == %ld", [currentStudent.cityId integerValue]];
-            self.allFields = [constants.fields filteredArrayUsingPredicate:predicate];
-        }        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"cityId == %ld", [currentStudent.cityId integerValue]];
+        self.allFields = [constants.fields filteredArrayUsingPredicate:predicate];
     }];
     
     [self initSubviews];

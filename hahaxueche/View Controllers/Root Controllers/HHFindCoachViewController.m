@@ -80,24 +80,21 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     
     [self initSubviews];
     
-    // Enter as a guest
-    if (![HHStudentStore sharedInstance].currentStudent.cityId) {
-        __weak HHFindCoachViewController *weakSelf = self;
-        [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
-            if ([constants.cities count]) {
-                CGFloat height = MAX(300.0f, CGRectGetHeight(weakSelf.view.bounds)/2.0f);
-                weakSelf.citySelectView = [[HHCitySelectView alloc] initWithCities:constants.cities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:nil];
-                weakSelf.citySelectView.completion = ^(HHCity *selectedCity) {
-                    [HHStudentStore sharedInstance].currentStudent.cityId = selectedCity.cityId;
-                    [HHPopupUtility dismissPopup:weakSelf.popup];
-                    [weakSelf updateCoachList];
-                };
-                weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.citySelectView];
-                [weakSelf.popup show];
-            }
-        }];
-
-    }
+    __weak HHFindCoachViewController *weakSelf = self;
+    [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
+        if ([constants.cities count]) {
+            CGFloat height = MAX(300.0f, CGRectGetHeight(weakSelf.view.bounds)/2.0f);
+            weakSelf.citySelectView = [[HHCitySelectView alloc] initWithCities:constants.cities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:nil];
+            weakSelf.citySelectView.completion = ^(HHCity *selectedCity) {
+                [HHStudentStore sharedInstance].currentStudent.cityId = selectedCity.cityId;
+                [HHPopupUtility dismissPopup:weakSelf.popup];
+                [weakSelf updateCoachList];
+            };
+            weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.citySelectView];
+            [weakSelf.popup show];
+            [weakSelf updateCoachList];
+        }
+    }];
 
 }
 

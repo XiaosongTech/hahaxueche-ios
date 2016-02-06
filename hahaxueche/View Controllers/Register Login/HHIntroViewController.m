@@ -15,6 +15,7 @@
 #import "UIView+HHRect.h"
 #import "HHRootViewController.h"
 #import <SDCycleScrollView/SDCycleScrollView.h>
+#import "HHStudentStore.h"
 
 
 static CGFloat const kButtonHeight = 40.0f;
@@ -137,6 +138,7 @@ static CGFloat const kButtonWidth = 235.0f;
 }
 
 - (void)enterAsGuest {
+    [[HHStudentStore sharedInstance] createGuestStudent];
     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
     [self presentViewController:rootVC animated:YES completion:nil];
 }

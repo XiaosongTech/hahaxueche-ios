@@ -21,4 +21,10 @@
     return sharedInstance;
 }
 
+- (void)createGuestStudent {
+    HHStudent *guestStudent = [[HHStudent alloc] init];
+    guestStudent.cityId = @(0);
+    self.currentStudent = guestStudent;
+}
+
 @end
