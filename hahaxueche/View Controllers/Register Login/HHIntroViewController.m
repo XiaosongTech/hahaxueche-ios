@@ -46,6 +46,7 @@ static CGFloat const kButtonWidth = 235.0f;
     self.bannerView.delegate = self;
     self.bannerView.imageURLStringsGroup = @[@"http://i.forbesimg.com/media/lists/companies/facebook_416x416.jpg",@"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Facebook_icon.svg/2000px-Facebook_icon.svg.png"];
     self.bannerView.autoScroll = NO;
+    self.bannerView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
     [self.view addSubview:self.bannerView];
     
     self.registerButton = [[HHButton alloc] initWithFrame:CGRectZero];

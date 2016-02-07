@@ -22,14 +22,14 @@
         
         self.titleLabel = [[UILabel alloc] init];
         self.titleLabel.text = title;
-        self.titleLabel.font = [UIFont systemFontOfSize:25.0f];
         self.titleLabel.textColor = [UIColor HHOrange];
+        self.titleLabel.font = [UIFont systemFontOfSize:16.0f];
         [self.titleLabel sizeToFit];
         [self addSubview:self.titleLabel];
         
         self.subTitleLabel = [[UILabel alloc] init];
         self.subTitleLabel.text = subTitle;
-        self.subTitleLabel.font = [UIFont systemFontOfSize:18.0f];
+        self.subTitleLabel.font = [UIFont systemFontOfSize:12.0f];
         self.subTitleLabel.textColor = [UIColor HHLightTextGray];
         [self.subTitleLabel sizeToFit];
         [self addSubview:self.subTitleLabel];
@@ -45,17 +45,17 @@
 - (void)makeConstraints {
     [self.imageView makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.centerY);
-        make.centerX.equalTo(self.centerX).multipliedBy(0.5f).offset(5.0f);
+        make.centerX.equalTo(self.centerX).multipliedBy(0.5f);
     }];
     
     [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.centerY).offset(-15.0f);
-        make.centerX.equalTo(self.centerX).multipliedBy(1.5f).offset(-5.0f);
+        make.centerY.equalTo(self.centerY).offset(-10.0f);
+        make.centerX.equalTo(self.centerX).multipliedBy(1.5f);
     }];
     
     [self.subTitleLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.centerY).offset(15.0f);
-        make.centerX.equalTo(self.centerX).multipliedBy(1.5f).offset(-5.0f);
+        make.left.equalTo(self.titleLabel.left);
     }];
 }
 
