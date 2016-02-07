@@ -11,6 +11,11 @@
 #import "HHHomePageTapView.h"
 #import "Masonry.h"
 #import "UIColor+HHColor.h"
+#import "HHStudentStore.h"
+#import "HHCitySelectView.h"
+#include "HHConstantsStore.h"
+#import "HHPopupUtility.h"
+#import <KLCPopup/KLCPopup.h>
 
 @interface HHHomePageViewController ()
 
@@ -18,6 +23,8 @@
 @property (nonatomic, strong) HHHomePageTapView *leftView;
 @property (nonatomic, strong) HHHomePageTapView *rightView;
 @property (nonatomic, strong) UIButton *oneTapButton;
+@property (nonatomic, strong) HHCitySelectView *citySelectView;
+@property (nonatomic, strong) KLCPopup *popup;
 
 @end
 
@@ -29,6 +36,27 @@
     self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1];
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self initSubviews];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    __weak HHHomePageViewController *weakSelf = self;
+    [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
+        if ([constants.cities count]) {
+            // Guest Student
+            if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+                CGFloat height = MAX(300.0f, CGRectGetHeight(weakSelf.view.bounds)/2.0f);
+                weakSelf.citySelectView = [[HHCitySelectView alloc] initWithCities:constants.cities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:nil];
+                weakSelf.citySelectView.completion = ^(HHCity *selectedCity) {
+                    [HHStudentStore sharedInstance].currentStudent.cityId = selectedCity.cityId;
+                    [HHPopupUtility dismissPopup:weakSelf.popup];
+                };
+                weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.citySelectView];
+                [weakSelf.popup show];
+                
+            }
+        }
+    }];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
