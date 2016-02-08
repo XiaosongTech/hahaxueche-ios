@@ -28,7 +28,9 @@
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICoaches];
     [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
-            
+            if (completion) {
+                completion (nil, nil);
+            }
         }
     }];
 }

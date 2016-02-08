@@ -84,7 +84,9 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 
 - (void)updateCoachList {
     __weak HHFindCoachViewController *weakSelf = self;
+    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];
     [[HHCoachService sharedInstance] fetchCoachListWithCityId:nil filters:nil sortOption:self.currentSortOption fields:nil completion:^(NSArray *coaches, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         weakSelf.coaches = [NSMutableArray arrayWithArray:coaches];
         [weakSelf.tableView reloadData];
     }];

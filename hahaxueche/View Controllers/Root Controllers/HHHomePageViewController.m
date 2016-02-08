@@ -40,6 +40,12 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *citySelectShowed = [defaults objectForKey:@"kGuestUserCitySelectShowed"];
+    if ([citySelectShowed boolValue]) {
+        return;
+    }
     __weak HHHomePageViewController *weakSelf = self;
     [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
         if ([constants.cities count]) {
@@ -53,7 +59,7 @@
                 };
                 weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.citySelectView];
                 [weakSelf.popup show];
-                
+                [defaults setObject:@(1) forKey:@"kGuestUserCitySelectShowed"];
             }
         }
     }];
