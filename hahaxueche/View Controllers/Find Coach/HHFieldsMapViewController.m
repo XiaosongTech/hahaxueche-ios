@@ -40,13 +40,10 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
     [super viewDidLoad];
     
     self.title = @"训练场地图";
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithTitle:@"返回" titleColor:[UIColor whiteColor] action:@selector(dismissVC) target:self isLeft:YES];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
 
     HHStudent *currentStudent = [[HHStudentStore sharedInstance] currentStudent];
-    [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"cityId == %ld", [currentStudent.cityId integerValue]];
-        self.allFields = [constants.fields filteredArrayUsingPredicate:predicate];
-    }];
+    self.allFields = [[HHConstantsStore sharedInstance] getAllFieldsForCity:currentStudent.cityId];
     
     [self initSubviews];
 }

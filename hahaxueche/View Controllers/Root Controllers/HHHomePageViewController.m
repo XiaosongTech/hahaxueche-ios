@@ -47,22 +47,21 @@
         return;
     }
     __weak HHHomePageViewController *weakSelf = self;
-    [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
-        if ([constants.cities count]) {
-            // Guest Student
-            if (![HHStudentStore sharedInstance].currentStudent.studentId) {
-                CGFloat height = MAX(300.0f, CGRectGetHeight(weakSelf.view.bounds)/2.0f);
-                weakSelf.citySelectView = [[HHCitySelectView alloc] initWithCities:constants.cities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:nil];
-                weakSelf.citySelectView.completion = ^(HHCity *selectedCity) {
-                    [HHStudentStore sharedInstance].currentStudent.cityId = selectedCity.cityId;
-                    [HHPopupUtility dismissPopup:weakSelf.popup];
-                };
-                weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.citySelectView];
-                [weakSelf.popup show];
-                [defaults setObject:@(1) forKey:@"kGuestUserCitySelectShowed"];
-            }
+    NSArray *cities = [[HHConstantsStore sharedInstance] getSupporteCities];
+    if ([cities count]) {
+        // Guest Student
+        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+            CGFloat height = MAX(300.0f, CGRectGetHeight(weakSelf.view.bounds)/2.0f);
+            weakSelf.citySelectView = [[HHCitySelectView alloc] initWithCities:cities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:nil];
+            weakSelf.citySelectView.completion = ^(HHCity *selectedCity) {
+                [HHStudentStore sharedInstance].currentStudent.cityId = selectedCity.cityId;
+                [HHPopupUtility dismissPopup:weakSelf.popup];
+            };
+            weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.citySelectView];
+            [weakSelf.popup show];
+            [defaults setObject:@(1) forKey:@"kGuestUserCitySelectShowed"];
         }
-    }];
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{

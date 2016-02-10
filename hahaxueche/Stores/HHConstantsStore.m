@@ -49,4 +49,33 @@
     }
 }
 
+- (NSArray *)getAllFieldsForCity:(NSNumber *)cityId {
+    NSArray *fields = [HHConstantsStore sharedInstance].constants.fields;
+    if ([fields count]) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"cityId == %ld", [cityId integerValue]];
+        return [fields filteredArrayUsingPredicate:predicate];
+    }
+    return nil;
+}
+
+- (NSArray *)getSupporteCities {
+    if ([HHConstantsStore sharedInstance].constants.cities) {
+        return [HHConstantsStore sharedInstance].constants.cities;
+    }
+    return nil;
+}
+
+- (HHField *)getFieldWithId:(NSString *)fieldId {
+    NSArray *fields = [HHConstantsStore sharedInstance].constants.fields;
+    if ([fields count]) {
+        for (HHField *field in fields) {
+            if ([field.fieldId isEqualToString:fieldId]) {
+                return field;
+            }
+        }
+        
+    }
+    return nil;
+}
+
 @end

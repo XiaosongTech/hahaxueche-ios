@@ -40,4 +40,8 @@
 + (UIColor *)HHLightestTextGray {
     return [UIColor colorWithRed:0.733 green:0.733 blue:0.733 alpha:1];
 }
+
++ (UIColor *)HHTextDarkGray {
+    return [UIColor colorWithRed:0.38 green:0.38 blue:0.38 alpha:1];
+}
 @end

@@ -32,6 +32,10 @@
 		141FA0F11C6925C900113B1A /* ic_homepage_knowmore_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 141FA0EE1C6925C800113B1A /* ic_homepage_knowmore_arrow.png */; };
 		141FA0F21C6925C900113B1A /* ic_homepage_knowmore_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 141FA0EF1C6925C800113B1A /* ic_homepage_knowmore_arrow@2x.png */; };
 		141FA0F31C6925C900113B1A /* ic_homepage_knowmore_arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 141FA0F01C6925C800113B1A /* ic_homepage_knowmore_arrow@3x.png */; };
+		141FA0F61C6BACCE00113B1A /* HHCoachDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FA0F51C6BACCE00113B1A /* HHCoachDetailViewController.m */; };
+		141FA0FA1C6BAD1A00113B1A /* ParallaxHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FA0F91C6BAD1A00113B1A /* ParallaxHeaderView.m */; };
+		141FA0FE1C6BAF6600113B1A /* HHCoachDetailDescriptionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FA0FD1C6BAF6600113B1A /* HHCoachDetailDescriptionCell.m */; };
+		141FA1011C6BB0CE00113B1A /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 141FA1001C6BB0CE00113B1A /* UIImage+ImageEffects.m */; };
 		143778EF1C6125C300339D20 /* HHLaunchImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 143778EE1C6125C300339D20 /* HHLaunchImageViewController.m */; };
 		143778F11C6127FB00339D20 /* launchImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 143778F01C6127FB00339D20 /* launchImage.png */; };
 		5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */; };
@@ -242,6 +246,14 @@
 		141FA0EE1C6925C800113B1A /* ic_homepage_knowmore_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_homepage_knowmore_arrow.png; sourceTree = "<group>"; };
 		141FA0EF1C6925C800113B1A /* ic_homepage_knowmore_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_homepage_knowmore_arrow@2x.png"; sourceTree = "<group>"; };
 		141FA0F01C6925C800113B1A /* ic_homepage_knowmore_arrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_homepage_knowmore_arrow@3x.png"; sourceTree = "<group>"; };
+		141FA0F41C6BACCE00113B1A /* HHCoachDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachDetailViewController.h; sourceTree = "<group>"; };
+		141FA0F51C6BACCE00113B1A /* HHCoachDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachDetailViewController.m; sourceTree = "<group>"; };
+		141FA0F81C6BAD1A00113B1A /* ParallaxHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParallaxHeaderView.h; sourceTree = "<group>"; };
+		141FA0F91C6BAD1A00113B1A /* ParallaxHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParallaxHeaderView.m; sourceTree = "<group>"; };
+		141FA0FC1C6BAF6600113B1A /* HHCoachDetailDescriptionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachDetailDescriptionCell.h; sourceTree = "<group>"; };
+		141FA0FD1C6BAF6600113B1A /* HHCoachDetailDescriptionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachDetailDescriptionCell.m; sourceTree = "<group>"; };
+		141FA0FF1C6BB0CE00113B1A /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		141FA1001C6BB0CE00113B1A /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		143778ED1C6125C300339D20 /* HHLaunchImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHLaunchImageViewController.h; sourceTree = "<group>"; };
 		143778EE1C6125C300339D20 /* HHLaunchImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHLaunchImageViewController.m; sourceTree = "<group>"; };
 		143778F01C6127FB00339D20 /* launchImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launchImage.png; sourceTree = "<group>"; };
@@ -522,6 +534,24 @@
 			name = "Coach Service";
 			sourceTree = "<group>";
 		};
+		141FA0F71C6BAD0C00113B1A /* Third Party Libs */ = {
+			isa = PBXGroup;
+			children = (
+				141FA0F81C6BAD1A00113B1A /* ParallaxHeaderView.h */,
+				141FA0F91C6BAD1A00113B1A /* ParallaxHeaderView.m */,
+			);
+			name = "Third Party Libs";
+			sourceTree = "<group>";
+		};
+		141FA0FB1C6BAF4300113B1A /* Coach Detail */ = {
+			isa = PBXGroup;
+			children = (
+				141FA0FC1C6BAF6600113B1A /* HHCoachDetailDescriptionCell.h */,
+				141FA0FD1C6BAF6600113B1A /* HHCoachDetailDescriptionCell.m */,
+			);
+			name = "Coach Detail";
+			sourceTree = "<group>";
+		};
 		143778EC1C6125A700339D20 /* Others */ = {
 			isa = PBXGroup;
 			children = (
@@ -534,6 +564,8 @@
 		5C10F92B1B49E7CD00992B63 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				141FA0FF1C6BB0CE00113B1A /* UIImage+ImageEffects.h */,
+				141FA1001C6BB0CE00113B1A /* UIImage+ImageEffects.m */,
 				5C5451791B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.h */,
 				5C54517A1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m */,
 				5C10F92C1B49E85200992B63 /* UIColor+HHColor.h */,
@@ -670,6 +702,8 @@
 				5C36D42A1C4C2F4100443545 /* HHFieldsMapViewController.m */,
 				5C36D42C1C4C31A100443545 /* HHAskLocationPermissionViewController.h */,
 				5C36D42D1C4C31A100443545 /* HHAskLocationPermissionViewController.m */,
+				141FA0F41C6BACCE00113B1A /* HHCoachDetailViewController.h */,
+				141FA0F51C6BACCE00113B1A /* HHCoachDetailViewController.m */,
 			);
 			path = "Find Coach";
 			sourceTree = "<group>";
@@ -706,6 +740,7 @@
 		5CC3B5FD1B48268A00D10DFB /* hahaxueche */ = {
 			isa = PBXGroup;
 			children = (
+				141FA0F71C6BAD0C00113B1A /* Third Party Libs */,
 				5CDE143C1C3300FB0004778C /* API */,
 				5CDE14641C37717A0004778C /* Assets */,
 				5C10F92B1B49E7CD00992B63 /* Categories */,
@@ -785,6 +820,7 @@
 		5CDE143B1C32F89C0004778C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				141FA0FB1C6BAF4300113B1A /* Coach Detail */,
 				5C36D4411C4DA50E00443545 /* Coach */,
 				5C36D3CC1C47624000443545 /* FiltersView */,
 				5C36D3DF1C49652400443545 /* SortView */,
@@ -1289,6 +1325,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				141FA0FA1C6BAD1A00113B1A /* ParallaxHeaderView.m in Sources */,
 				5CDE14571C3723020004778C /* HHTextFieldView.m in Sources */,
 				141F7C131C626118003278C6 /* HHCoachService.m in Sources */,
 				5CDE14861C3852E30004778C /* HHCitySelectView.m in Sources */,
@@ -1304,7 +1341,9 @@
 				5C36D42B1C4C2F4100443545 /* HHFieldsMapViewController.m in Sources */,
 				5CDE14461C36E5FE0004778C /* HHIntroViewController.m in Sources */,
 				5C6D8C991C3F4D2A0055CB31 /* HHAPIClient.m in Sources */,
+				141FA1011C6BB0CE00113B1A /* UIImage+ImageEffects.m in Sources */,
 				5C36D4441C4DA54000443545 /* HHCoachListViewCell.m in Sources */,
+				141FA0FE1C6BAF6600113B1A /* HHCoachDetailDescriptionCell.m in Sources */,
 				5C6D8C951C3AE38C0055CB31 /* HHLoadingViewUtility.m in Sources */,
 				5C36D3D21C48506300443545 /* HHSwitchView.m in Sources */,
 				5C6D8C9D1C40125D0055CB31 /* HHUserAuthService.m in Sources */,
@@ -1313,6 +1352,7 @@
 				5C36D3531C42D7F400443545 /* HHBookTrainingViewController.m in Sources */,
 				143778EF1C6125C300339D20 /* HHLaunchImageViewController.m in Sources */,
 				5C36D3CB1C47615000443545 /* HHFiltersView.m in Sources */,
+				141FA0F61C6BACCE00113B1A /* HHCoachDetailViewController.m in Sources */,
 				5C36D34D1C42D7B800443545 /* HHHomePageViewController.m in Sources */,
 				5C36D34A1C42D69700443545 /* HHRootViewController.m in Sources */,
 				5C36D39A1C4311FF00443545 /* HHConstantsStore.m in Sources */,

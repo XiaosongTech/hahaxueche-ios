@@ -163,20 +163,16 @@ static CGFloat const kFieldViewWidth = 280.0f;
 - (void)showCitySelectorView {
     __weak HHAccountSetupViewController *weakSelf = self;
     [self.nameField.textField resignFirstResponder];
-    [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
-        if ([constants.cities count]) {
-            CGFloat height = MAX(300.0f, CGRectGetHeight(self.view.bounds)/2.0f);
-            self.citySelectView = [[HHCitySelectView alloc] initWithCities:constants.cities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:self.selectedCity];
-            self.citySelectView.completion = ^(HHCity *selectedCity) {
-                weakSelf.selectedCity = selectedCity;
-                weakSelf.cityField.textField.text = selectedCity.cityName;
-                [HHPopupUtility dismissPopup:weakSelf.popup];
-            };
-            self.popup = [HHPopupUtility createPopupWithContentView:self.citySelectView];
-            [self.popup show];
-            
-        }
-    }];
+    NSArray *cities = [[HHConstantsStore sharedInstance] getSupporteCities];
+    CGFloat height = MAX(300.0f, CGRectGetHeight(self.view.bounds)/2.0f);
+    self.citySelectView = [[HHCitySelectView alloc] initWithCities:cities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:self.selectedCity];
+    self.citySelectView.completion = ^(HHCity *selectedCity) {
+        weakSelf.selectedCity = selectedCity;
+        weakSelf.cityField.textField.text = selectedCity.cityName;
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+    };
+    self.popup = [HHPopupUtility createPopupWithContentView:self.citySelectView];
+    [self.popup show];
 }
 
 - (void)finishButtonTapped {

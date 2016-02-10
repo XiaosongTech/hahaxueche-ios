@@ -24,4 +24,6 @@
 
 + (UIColor *)HHGreen;
 
++ (UIColor *)HHTextDarkGray;;
+
 @end

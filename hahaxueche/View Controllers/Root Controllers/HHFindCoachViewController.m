@@ -30,6 +30,7 @@
 #import "HHStudentStore.h"
 #import "HHPopupUtility.h"
 #import <KLCPopup/KLCPopup.h>
+#import "HHCoachDetailViewController.h"
 
 static NSString *const kCellId = @"kCoachListCellId";
 static CGFloat const kCellHeightNormal = 100.0f;
@@ -212,9 +213,9 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     __weak HHFindCoachViewController *weakSelf = self;
     __weak HHCoachListViewCell *weakCell = cell;
     
-    [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
-        [cell setupCellWithCoach:nil field:[constants.fields firstObject]];
-    }];
+    
+    [cell setupCellWithCoach:nil field:nil];
+
     
     cell.mapButtonBlock = ^(){
         if ([weakSelf.expandedCellIndexPath containsObject:indexPath]) {
@@ -242,6 +243,11 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     } else {
         return kCellHeightNormal;
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    HHCoachDetailViewController *coachDetailVC = [[HHCoachDetailViewController alloc] initWithCoach:nil];
+    [self.navigationController pushViewController:coachDetailVC animated:YES];
 }
 
 
