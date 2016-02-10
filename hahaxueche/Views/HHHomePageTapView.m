@@ -34,6 +34,9 @@
         [self.subTitleLabel sizeToFit];
         [self addSubview:self.subTitleLabel];
         
+        self.arrowIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_knowmore_arrow"]];
+        [self addSubview:self.arrowIcon];
+        
         [self makeConstraints];
         
         UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped)];
@@ -56,6 +59,11 @@
     [self.subTitleLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.centerY).offset(15.0f);
         make.left.equalTo(self.titleLabel.left);
+    }];
+    
+    [self.arrowIcon makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.subTitleLabel.right).offset(5.0f);
+        make.centerY.equalTo(self.subTitleLabel.centerY);
     }];
 }
 
