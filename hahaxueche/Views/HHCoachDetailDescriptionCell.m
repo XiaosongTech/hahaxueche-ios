@@ -44,7 +44,7 @@ static CGFloat const avatarRadius = 30.0f;
     
     self.descriptionLabel = [[UILabel alloc] init];
     self.descriptionLabel.textColor = [UIColor HHLightTextGray];
-    self.descriptionLabel.font = [UIFont systemFontOfSize:16.0f];
+    self.descriptionLabel.font = [UIFont systemFontOfSize:14.0f];
     self.descriptionLabel.numberOfLines = 0;
     [self.contentView addSubview:self.descriptionLabel];
     
@@ -54,7 +54,7 @@ static CGFloat const avatarRadius = 30.0f;
 - (void)makeConstraints {
     [self.avatarBackgroungView makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.contentView.top);
-        make.left.mas_equalTo(20.0f);
+        make.left.mas_equalTo(30.0f);
         make.width.mas_equalTo(avatarRadius * 2.0f);
         make.height.mas_equalTo(avatarRadius * 2.0);
     }];
@@ -72,8 +72,8 @@ static CGFloat const avatarRadius = 30.0f;
     
     [self.descriptionLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.avatarBackgroungView.bottom).offset(8.0f);
-        make.left.equalTo(self.contentView.left).offset(15.0f);
-        make.width.equalTo(self.contentView.width).offset(-30.0f);
+        make.left.equalTo(self.contentView.left).offset(20.0f);
+        make.width.equalTo(self.contentView.width).offset(-40.0f);
     }];
 }
 

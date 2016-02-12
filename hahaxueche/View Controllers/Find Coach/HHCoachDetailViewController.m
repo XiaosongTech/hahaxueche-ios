@@ -12,12 +12,20 @@
 #import "ParallaxHeaderView.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHCoachDetailDescriptionCell.h"
+#import "PBViewController.h"
+#import "PBViewControllerDataSource.h"
+#import "PBImageScrollerViewController.h"
+#import "PBViewControllerDelegate.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "HHCoachDetailSectionOneCell.h"
+#import "HHCoachDetailSectionTwoCell.h"
+#import "HHCoachDetailBottomBarView.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
     CoachCellInfoOne,
     CoachCellInfoTwo,
-    CoachCellComments,
+    //CoachCellComments,
     CoachCellCount,
 };
 
@@ -26,11 +34,12 @@ static NSString *const kInfoOneCellID = @"kInfoOneCellId";
 static NSString *const kInfoTwoCellID = @"kInfoTwoCellID";
 static NSString *const kCommentsCellID = @"kCommentsCellID";
 
-@interface HHCoachDetailViewController () <UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIScrollViewDelegate>
+@interface HHCoachDetailViewController () <UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIScrollViewDelegate,PBViewControllerDataSource, PBViewControllerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) SDCycleScrollView *coachImagesView;
 @property (nonatomic, strong) HHCoach *coach;
+@property (nonatomic, strong) HHCoachDetailBottomBarView *bottomBar;
 
 @end
 
@@ -55,7 +64,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 }
 
 - (void)initSubviews {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)-50.0f - CGRectGetHeight([UIApplication sharedApplication].statusBarFrame) - CGRectGetHeight(self.navigationController.navigationBar.bounds))];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -68,6 +77,8 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     self.coachImagesView.autoScroll = NO;
     
     [self.tableView registerClass:[HHCoachDetailDescriptionCell class] forCellReuseIdentifier:kDescriptionCellID];
+    [self.tableView registerClass:[HHCoachDetailSectionOneCell class] forCellReuseIdentifier:kInfoOneCellID];
+    [self.tableView registerClass:[HHCoachDetailSectionTwoCell class] forCellReuseIdentifier:kInfoTwoCellID];
     
     ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithSubView:self.coachImagesView];
     [self.tableView setTableHeaderView:headerView];
@@ -75,6 +86,9 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 
     
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
+    self.bottomBar = [[HHCoachDetailBottomBarView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.tableView.bounds), CGRectGetWidth(self.view.bounds), 50.0f)];
+    [self.view addSubview:self.bottomBar];
     
 }
 
@@ -93,19 +107,21 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         } break;
             
         case CoachCellInfoOne: {
-            UITableViewCell *cell = [[UITableViewCell alloc] init];
+            HHCoachDetailSectionOneCell *cell = [tableView dequeueReusableCellWithIdentifier:kInfoOneCellID forIndexPath:indexPath];
+            [cell setupWithCoach:nil];
             return cell;
         } break;
             
         case CoachCellInfoTwo: {
-            UITableViewCell *cell = [[UITableViewCell alloc] init];
+            HHCoachDetailSectionTwoCell *cell = [tableView dequeueReusableCellWithIdentifier:kInfoTwoCellID forIndexPath:indexPath];
+            [cell setupWithCoach:nil];
             return cell;
         } break;
             
-        case CoachCellComments: {
-            UITableViewCell *cell = [[UITableViewCell alloc] init];
-            return cell;
-        } break;
+//        case CoachCellComments: {
+//            UITableViewCell *cell = [[UITableViewCell alloc] init];
+//            return cell;
+//        } break;
             
         default: {
             UITableViewCell *cell = [[UITableViewCell alloc] init];
@@ -118,25 +134,22 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     switch (indexPath.row) {
         case CoachCellDescription: {
             NSString *text = @"ddshfkashjfhaskdhakjhfjashskhkfhsajkhdfjakshdjfaddkhfkshkjdfhjsfsjhfdkjshdkfhkasdhfjkashdkfhakshdfjkahsdfhakhfjahdkjahkdsjh";
-            CGRect rect = [text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.bounds)-30.0f, CGFLOAT_MAX)
-                                             options:NSStringDrawingUsesLineFragmentOrigin| NSStringDrawingUsesFontLeading
-                                          attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f]}
-                                             context:nil];
             
-            return CGRectGetHeight(rect) + 50.0f;
+            
+            return CGRectGetHeight([self getDescriptionTextSizeWithText:text]) + 50.0f;
         } break;
             
         case CoachCellInfoOne: {
-            return 100.0f;
+            return 195.0f;
         } break;
             
         case CoachCellInfoTwo: {
-            return 100.0f;
+            return 195.0f + 140.0f + 36.0f;
         } break;
             
-        case CoachCellComments: {
-            return 100.0f;
-        } break;
+//        case CoachCellComments: {
+//            return 100.0f;
+//        } break;
             
         default: {
             return 0;
@@ -148,7 +161,12 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 #pragma mark SDCycleScrollViewDelegate Method
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
-    
+    PBViewController *pbViewController = [PBViewController new];
+    pbViewController.pb_dataSource = self;
+    pbViewController.pb_delegate = self;
+    [pbViewController setInitializePageIndex:index];
+    pbViewController.modalTransitionStyle   = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:pbViewController animated:YES completion:nil];
 }
 
 #pragma mark - UIScrollView Delegate Methods
@@ -165,6 +183,34 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 
 - (void)popupVC {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - PBViewControllerDataSource
+
+- (NSInteger)numberOfPagesInViewController:(PBViewController *)viewController {
+    return 2;
+}
+
+- (void)viewController:(PBViewController *)viewController presentImageView:(UIImageView *)imageView forPageAtIndex:(NSInteger)index {
+    NSArray *images = @[@"https://i.ytimg.com/vi/eOifa1WrOnQ/maxresdefault.jpg",@"https://i.ytimg.com/vi/eOifa1WrOnQ/maxresdefault.jpg"];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:images[index]]];
+}
+
+#pragma mark - PBViewControllerDelegate
+
+- (void)viewController:(PBViewController *)viewController didSingleTapedPageAtIndex:(NSInteger)index presentedImage:(UIImage *)presentedImage {
+    [viewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+#pragma mark - Others 
+
+- (CGRect)getDescriptionTextSizeWithText:(NSString *)text {
+    CGRect rect = [text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.bounds)-40.0f, CGFLOAT_MAX)
+                                     options:NSStringDrawingUsesLineFragmentOrigin| NSStringDrawingUsesFontLeading
+                                  attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f]}
+                                     context:nil];
+    return rect;
 }
 
 

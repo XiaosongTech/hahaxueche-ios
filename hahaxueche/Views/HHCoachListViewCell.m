@@ -92,23 +92,23 @@ static CGFloat const kAvatarRadius = 30.0f;
 - (void)makeConstraints {
     [self.avatarView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView.top).offset(20.0f);
-        make.left.equalTo(self.contentView.left).offset(20.0f);
+        make.left.equalTo(self.contentView.left).offset(15.0f);
         make.width.mas_equalTo(kAvatarRadius * 2.0f);
         make.height.mas_equalTo(kAvatarRadius * 2.0f);
     }];
     
     [self.nameLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.avatarView.right).offset(20.0f);
+        make.left.equalTo(self.avatarView.right).offset(15.0f);
         make.top.equalTo(self.contentView.top).offset(16.0f);
     }];
     
     [self.goldenCoachIcon makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.nameLabel.right).offset(5.0f);
+        make.left.equalTo(self.nameLabel.right).offset(3.0f);
         make.centerY.equalTo(self.nameLabel.centerY);
     }];
     
     [self.trainingYearLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.goldenCoachIcon.right).offset(5.0f);
+        make.left.equalTo(self.goldenCoachIcon.right).offset(3.0f);
         make.bottom.equalTo(self.nameLabel.bottom);
     }];
     
@@ -120,7 +120,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     }];
     
     [self.ratingLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.starRatingView.right).offset(5.0f);
+        make.left.equalTo(self.starRatingView.right).offset(3.0f);
         make.centerY.equalTo(self.starRatingView.centerY);
     }];
     
@@ -131,25 +131,25 @@ static CGFloat const kAvatarRadius = 30.0f;
     
     [self.priceLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.avatarView.centerY).offset(-12.0f);
-        make.right.equalTo(self.contentView.right).offset(-20.0f);
+        make.right.equalTo(self.contentView.right).offset(-15.0f);
     }];
     
     [self.marketPriceLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.avatarView.centerY).offset(12.0f);
-        make.right.equalTo(self.contentView.right).offset(-20.0f);
+        make.right.equalTo(self.contentView.right).offset(-15.0f);
     }];
     
     [self.mapView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.mapButton.bottom).offset(5.0f);
-        make.left.equalTo(self.contentView.left).offset(20.0f);
-        make.width.equalTo(self.contentView.width).offset(-40.0f);
+        make.left.equalTo(self.contentView.left).offset(15.0f);
+        make.width.equalTo(self.contentView.width).offset(-30.0f);
         make.height.mas_equalTo(200.0f);
     }];
     
     [self.bottomLine makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.contentView.bottom);
-        make.left.equalTo(self.avatarView.right).offset(20.0f);
-        make.right.equalTo(self.contentView.right).offset(-20.0f);
+        make.left.equalTo(self.avatarView.right).offset(15.0f);
+        make.right.equalTo(self.contentView.right);
         make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
     }];
     

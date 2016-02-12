@@ -36,6 +36,8 @@ static NSString *const kCellId = @"kCoachListCellId";
 static CGFloat const kCellHeightNormal = 100.0f;
 static CGFloat const kCellHeightExpanded = 300.0f;
 
+typedef void (^HHUpdateCoachCompletionBlock)();
+
 @interface HHFindCoachViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UIView *topButtonsView;
@@ -76,20 +78,21 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     
     self.selectedFields = [NSMutableArray array];
     self.expandedCellIndexPath = [NSMutableArray array];
-    
+    [self updateCoachListWithCompletion:nil];
     [self initSubviews];
     
-    [self updateCoachList];
-
 }
 
-- (void)updateCoachList {
+- (void)updateCoachListWithCompletion:(HHUpdateCoachCompletionBlock)completion {
     __weak HHFindCoachViewController *weakSelf = self;
     [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];
     [[HHCoachService sharedInstance] fetchCoachListWithCityId:nil filters:nil sortOption:self.currentSortOption fields:nil completion:^(NSArray *coaches, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         weakSelf.coaches = [NSMutableArray arrayWithArray:coaches];
         [weakSelf.tableView reloadData];
+        if (completion) {
+            completion();
+        }
     }];
 }
 
@@ -247,6 +250,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     HHCoachDetailViewController *coachDetailVC = [[HHCoachDetailViewController alloc] initWithCoach:nil];
+    coachDetailVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:coachDetailVC animated:YES];
 }
 
@@ -312,7 +316,9 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 
 
 - (void)refreshData {
-    [self.refreshHeader endRefreshing];
+    [self updateCoachListWithCompletion:^{
+        [self.refreshHeader endRefreshing];
+    }];
 }
 
 - (void)loadMoreData {
