@@ -24,6 +24,7 @@ pod 'INTULocationManager'
 pod 'AMap2DMap'
 pod 'SDCycleScrollView','~> 1.6'
 pod 'HCSStarRatingView', '~> 1.4'
+pod 'ActionSheetPicker-3.0'
 
 # Update the project / pod settings after pod install. Keep in mind please don't run Pod install when Xcode is open.
 post_install do |installer_representation|

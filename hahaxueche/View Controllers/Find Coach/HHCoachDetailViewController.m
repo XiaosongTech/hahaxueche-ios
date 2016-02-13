@@ -20,12 +20,16 @@
 #import "HHCoachDetailSectionOneCell.h"
 #import "HHCoachDetailSectionTwoCell.h"
 #import "HHCoachDetailBottomBarView.h"
+#import "HHCoachDetailCommentsCell.h"
+#import <KLCPopup.h>
+#import "HHTryCoachView.h"
+#import "HHPopupUtility.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
     CoachCellInfoOne,
     CoachCellInfoTwo,
-    //CoachCellComments,
+    CoachCellComments,
     CoachCellCount,
 };
 
@@ -40,6 +44,8 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 @property (nonatomic, strong) SDCycleScrollView *coachImagesView;
 @property (nonatomic, strong) HHCoach *coach;
 @property (nonatomic, strong) HHCoachDetailBottomBarView *bottomBar;
+@property (nonatomic, strong) NSArray *comments;
+@property (nonatomic, strong) KLCPopup *popup;
 
 @end
 
@@ -59,7 +65,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     self.title = @"教练详情";
     
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(popupVC) target:self];
-    
+    self.comments = @[];
     [self initSubviews];
 }
 
@@ -79,6 +85,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     [self.tableView registerClass:[HHCoachDetailDescriptionCell class] forCellReuseIdentifier:kDescriptionCellID];
     [self.tableView registerClass:[HHCoachDetailSectionOneCell class] forCellReuseIdentifier:kInfoOneCellID];
     [self.tableView registerClass:[HHCoachDetailSectionTwoCell class] forCellReuseIdentifier:kInfoTwoCellID];
+    [self.tableView registerClass:[HHCoachDetailCommentsCell class] forCellReuseIdentifier:kCommentsCellID];
     
     ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithSubView:self.coachImagesView];
     [self.tableView setTableHeaderView:headerView];
@@ -89,6 +96,32 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     
     self.bottomBar = [[HHCoachDetailBottomBarView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.tableView.bounds), CGRectGetWidth(self.view.bounds), 50.0f)];
     [self.view addSubview:self.bottomBar];
+    
+    
+    __weak HHCoachDetailViewController *weakSelf = self;
+    self.bottomBar.shareAction = ^(){
+        
+    };
+    
+    self.bottomBar.followAction = ^(){
+        
+    };
+    
+    self.bottomBar.tryCoachAction = ^(){
+        HHTryCoachView *tryCoachView = [[HHTryCoachView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 420.0f)];
+        tryCoachView.cancelBlock = ^(){
+            [HHPopupUtility dismissPopup:weakSelf.popup];
+        };
+        tryCoachView.confirmBlock = ^(NSString *name, NSString *number, NSDate *firstDate, NSDate *secDate) {
+            
+        };
+        weakSelf.popup = [HHPopupUtility createPopupWithContentView:tryCoachView];
+        [HHPopupUtility showPopup:weakSelf.popup];
+    };
+    
+    self.bottomBar.purchaseCoachAction = ^(){
+        
+    };
     
 }
 
@@ -118,10 +151,11 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             return cell;
         } break;
             
-//        case CoachCellComments: {
-//            UITableViewCell *cell = [[UITableViewCell alloc] init];
-//            return cell;
-//        } break;
+        case CoachCellComments: {
+            HHCoachDetailCommentsCell *cell = [tableView dequeueReusableCellWithIdentifier:kCommentsCellID forIndexPath:indexPath];
+            [cell setupCellWithCoach:nil comments:self.comments];
+            return cell;
+        } break;
             
         default: {
             UITableViewCell *cell = [[UITableViewCell alloc] init];
@@ -147,9 +181,16 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             return 195.0f + 140.0f + 36.0f;
         } break;
             
-//        case CoachCellComments: {
-//            return 100.0f;
-//        } break;
+        case CoachCellComments: {
+            CGFloat height = 130.0f;
+            if (self.comments.count >= 3) {
+                return height + 90 * 3;
+            } else if (self.comments.count < 3 && self.comments.count > 0){
+                return height + 90 * self.comments.count;
+            } else {
+                return height;
+            }
+        } break;
             
         default: {
             return 0;

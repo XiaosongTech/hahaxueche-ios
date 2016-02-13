@@ -24,6 +24,10 @@
 
 + (UIColor *)HHGreen;
 
-+ (UIColor *)HHTextDarkGray;;
++ (UIColor *)HHTextDarkGray;
+
++ (UIColor *)HHConfirmGreen;
+
++ (UIColor *)HHCancelRed;
 
 @end

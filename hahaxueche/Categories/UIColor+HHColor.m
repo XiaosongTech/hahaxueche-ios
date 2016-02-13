@@ -44,4 +44,12 @@
 + (UIColor *)HHTextDarkGray {
     return [UIColor colorWithRed:0.38 green:0.38 blue:0.38 alpha:1];
 }
+
++ (UIColor *)HHConfirmGreen {
+    return [UIColor colorWithRed:0.52 green:0.85 blue:0.2 alpha:1];
+}
+
++ (UIColor *)HHCancelRed {
+    return [UIColor colorWithRed:0.99 green:0.46 blue:0.33 alpha:1];
+}
 @end
