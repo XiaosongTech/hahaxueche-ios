@@ -63,6 +63,8 @@ typedef void (^HHUpdateCoachCompletionBlock)();
 
 @property (nonatomic, strong) NSMutableArray *coaches;
 
+@property (nonatomic, strong) HHCity *userCity;
+
 @end
 
 @implementation HHFindCoachViewController
@@ -97,9 +99,12 @@ typedef void (^HHUpdateCoachCompletionBlock)();
 }
 
 - (void)setupDefaultSortAndFilter {
+    self.userCity = [[HHConstantsStore sharedInstance] getCityWithId:[HHStudentStore sharedInstance].currentStudent.cityId];
+    NSNumber *defaultDistance = [self.userCity.distanceRanges lastObject];
+    NSNumber *defaultPrice = [self.userCity.priceRanges lastObject];
     self.coachFilters = [[HHCoachFilters alloc] init];
-    self.coachFilters.price = @(3000);
-    self.coachFilters.distance = @(3);
+    self.coachFilters.price = defaultPrice;
+    self.coachFilters.distance = defaultDistance;
     self.coachFilters.onlyGoldenCoach = @(1);
     self.coachFilters.licenseType = @(1);
     
@@ -259,7 +264,7 @@ typedef void (^HHUpdateCoachCompletionBlock)();
 
 - (void)filterTapped {
     __weak HHFindCoachViewController *weakSelf = self;
-    self.filtersView = [[HHFiltersView alloc] initWithFilters:[self.coachFilters copy] frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 380.0f)];
+    self.filtersView = [[HHFiltersView alloc] initWithFilters:[self.coachFilters copy] frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 380.0f) city:self.userCity];
     self.filtersView.confirmBlock = ^(HHCoachFilters *filters){
         weakSelf.coachFilters = filters;
         [weakSelf.popup dismiss:YES];

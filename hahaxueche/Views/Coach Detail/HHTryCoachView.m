@@ -41,7 +41,7 @@
     self.infoLabel = [[UILabel alloc] init];
     self.infoLabel.text = @"学员可直接拨打客服热线400-001-6006\n或联系QQ客服:123456789免费预约试学";
     self.infoLabel.numberOfLines = 2;
-    self.infoLabel.textColor = [UIColor HHLightTextGray];
+    self.infoLabel.textColor = [UIColor HHOrange];
     self.infoLabel.font = [UIFont systemFontOfSize:12.0f];
     [self addSubview:self.infoLabel];
     
@@ -129,13 +129,14 @@
     textField.placeholder = placehHolder;
     textField.textAlignment = NSTextAlignmentCenter;
     textField.tintColor = [UIColor HHOrange];
-    textField.textColor = [UIColor HHLightTextGray];
+    textField.textColor = [UIColor HHOrange];
     textField.layer.masksToBounds = YES;
     textField.layer.cornerRadius = 20.0f;
     textField.font = [UIFont systemFontOfSize:15.0f];
     textField.layer.borderColor = [UIColor HHLightLineGray].CGColor;
     textField.layer.borderWidth = 1.0f/[UIScreen mainScreen].scale;
     textField.delegate = self;
+    [textField addTarget:self action:@selector(textFieldChanged:) forControlEvents:UIControlEventEditingChanged];
     return textField;
 }
 
@@ -170,11 +171,13 @@
         if ([button isEqual:self.firstDateButton]) {
             self.firstDate = selectedDate;
             [self.firstDateButton setTitle:[[HHFormatUtility fullDateFormatter] stringFromDate:self.firstDate] forState:UIControlStateNormal];
-            [self.firstDateButton setTitleColor:[UIColor HHLightTextGray] forState:UIControlStateNormal];
+            [self.firstDateButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
+            self.firstDateButton.layer.borderColor = [UIColor HHOrange].CGColor;
         } else {
             self.secDate = selectedDate;
             [self.secDateButton setTitle:[[HHFormatUtility fullDateFormatter] stringFromDate:self.secDate] forState:UIControlStateNormal];
-            [self.secDateButton setTitleColor:[UIColor HHLightTextGray] forState:UIControlStateNormal];
+            [self.secDateButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
+            self.secDateButton.layer.borderColor = [UIColor HHOrange].CGColor;
         }
     } cancelBlock:nil origin:self];
 }
@@ -201,6 +204,15 @@
 - (void)cancelButtonTapped {
     if (self.cancelBlock) {
         self.cancelBlock();
+    }
+}
+
+- (void)textFieldChanged:(UITextField *)textField {
+    NSString *text = [textField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+    if ([text isEqualToString:@""]) {
+        textField.layer.borderColor = [UIColor HHLightLineGray].CGColor;
+    } else {
+        textField.layer.borderColor = [UIColor HHOrange].CGColor;
     }
 }
 

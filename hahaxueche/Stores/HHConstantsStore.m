@@ -78,4 +78,17 @@
     return nil;
 }
 
+- (HHCity *)getCityWithId:(NSNumber *)cityId {
+    NSArray *cities = [HHConstantsStore sharedInstance].constants.cities;
+    if ([cities count]) {
+        for (HHCity *city in cities) {
+            if ([city.cityId integerValue] == [cityId integerValue]) {
+                return city;
+            }
+        }
+        
+    }
+    return nil;
+}
+
 @end

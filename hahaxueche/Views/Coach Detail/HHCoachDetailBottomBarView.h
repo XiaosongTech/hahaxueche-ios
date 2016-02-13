@@ -22,9 +22,14 @@ typedef void (^HHCoachDetailBottomBarActionBlock)();
 
 @property (nonatomic, strong) UIView *topLine;
 
+@property (nonatomic) BOOL followed;
+
 @property (nonatomic, strong) HHCoachDetailBottomBarActionBlock shareAction;
 @property (nonatomic, strong) HHCoachDetailBottomBarActionBlock followAction;
+@property (nonatomic, strong) HHCoachDetailBottomBarActionBlock unFollowAction;
 @property (nonatomic, strong) HHCoachDetailBottomBarActionBlock tryCoachAction;
 @property (nonatomic, strong) HHCoachDetailBottomBarActionBlock purchaseCoachAction;
+
+- (instancetype)initWithFrame:(CGRect)frame followed:(BOOL)followed;
 
 @end

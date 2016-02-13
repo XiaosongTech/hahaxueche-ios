@@ -10,15 +10,13 @@
 #import "Masonry.h"
 #import "UIColor+HHColor.h"
 
-@interface HHCoachDetailBottomBarView ()
-
-@end
 
 @implementation HHCoachDetailBottomBarView
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame followed:(BOOL)followed {
     self = [super initWithFrame:frame];
     if (self) {
+        self.followed = followed;
         [self initSubviews];
     }
     return self;
@@ -26,7 +24,12 @@
 
 - (void)initSubviews {
     self.followButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.followButton setImage:[UIImage imageNamed:@"ic_coachmsg_attention_hold"] forState:UIControlStateNormal];
+    if (self.followed) {
+         [self.followButton setImage:[UIImage imageNamed:@"ic_coachmsg_attention_on"] forState:UIControlStateNormal];
+    } else {
+         [self.followButton setImage:[UIImage imageNamed:@"ic_coachmsg_attention_hold"] forState:UIControlStateNormal];
+    }
+   
     [self.followButton addTarget:self action:@selector(followButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.followButton sizeToFit];
     [self addSubview:self.followButton];
@@ -58,8 +61,14 @@
     [self addSubview:self.shareLabel];
     
     self.followLabel = [[UILabel alloc] init];
-    self.followLabel.text = @"关注";
-    self.followLabel.textColor = [UIColor HHLightTextGray];
+    if (self.followed) {
+        self.followLabel.text = @"已关注";
+        self.followLabel.textColor = [UIColor HHOrange];
+    } else {
+        self.followLabel.text = @"关注";
+        self.followLabel.textColor = [UIColor HHLightTextGray];
+    }
+
     self.followLabel.font = [UIFont systemFontOfSize:10];
     [self addSubview:self.followLabel];
     
@@ -114,12 +123,33 @@
     }];
 }
 
+- (void)setFollowed:(BOOL)followed {
+    _followed = followed;
+    if (self.followed) {
+        self.followLabel.text = @"已关注";
+        self.followLabel.textColor = [UIColor HHOrange];
+        [self.followButton setImage:[UIImage imageNamed:@"ic_coachmsg_attention_on"] forState:UIControlStateNormal];
+    } else {
+        self.followLabel.text = @"关注";
+        self.followLabel.textColor = [UIColor HHLightTextGray];
+        [self.followButton setImage:[UIImage imageNamed:@"ic_coachmsg_attention_hold"] forState:UIControlStateNormal];
+    }
+}
+
 #pragma mark - Button Actions 
 
 - (void)followButtonTapped {
-    if (self.followAction) {
-        self.followAction();
+    if (self.followed) {
+        if (self.unFollowAction) {
+            self.unFollowAction();
+        }
+    } else {
+        if (self.followAction) {
+            self.followAction();
+        }
     }
+    
+    self.followed = !self.followed;
 }
 
 - (void)shareButtonTapped {

@@ -24,6 +24,7 @@
 #import <KLCPopup.h>
 #import "HHTryCoachView.h"
 #import "HHPopupUtility.h"
+#import "HHShareView.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -94,17 +95,26 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
-    self.bottomBar = [[HHCoachDetailBottomBarView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.tableView.bounds), CGRectGetWidth(self.view.bounds), 50.0f)];
+    self.bottomBar = [[HHCoachDetailBottomBarView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.tableView.bounds), CGRectGetWidth(self.view.bounds), 50.0f) followed:YES];
     [self.view addSubview:self.bottomBar];
     
     
     __weak HHCoachDetailViewController *weakSelf = self;
     self.bottomBar.shareAction = ^(){
-        
+        HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds), 0)];
+        shareView.dismissBlock = ^() {
+            [HHPopupUtility dismissPopup:weakSelf.popup];
+        };
+        weakSelf.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
+        [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
     };
     
     self.bottomBar.followAction = ^(){
-        
+       
+    };
+    
+    self.bottomBar.unFollowAction = ^(){
+
     };
     
     self.bottomBar.tryCoachAction = ^(){

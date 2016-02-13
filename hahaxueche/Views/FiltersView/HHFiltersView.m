@@ -32,18 +32,21 @@ static CGFloat const kCellHeight = 60.0f;
 @property (nonatomic, strong) NSArray *priceValues;
 @property (nonatomic, strong) NSArray *distanceValues;
 
+@property (nonatomic, strong) HHCity *city;
+
 @end
 
 @implementation HHFiltersView
 
-- (instancetype)initWithFilters:(HHCoachFilters *)coachFilters frame:(CGRect)frame {
+- (instancetype)initWithFilters:(HHCoachFilters *)coachFilters frame:(CGRect)frame city:(HHCity *)city {
     self = [super initWithFrame:frame];
     if (self) {
+        self.city = city;
         self.backgroundColor = [UIColor whiteColor];
         self.coachFilters = coachFilters;
         
-        self.distanceValues = @[@(2), @(2.5), @(3), @(3.5)];
-        self.priceValues = @[@(2000), @(2500), @(3000), @(3500)];
+        self.distanceValues = self.city.distanceRanges;
+        self.priceValues = self.city.priceRanges;
         self.distanceSliderView = [[HHSliderView alloc] initWithTilte:@"距离筛选" values:self.distanceValues defaultValue:self.coachFilters.distance sliderValueMode:SliderValueModeDistance];
         [self addSubview:self.distanceSliderView];
         
