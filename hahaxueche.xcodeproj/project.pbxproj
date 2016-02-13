@@ -638,7 +638,7 @@
 				140EC6391C6E730000DA634D /* HHCoachComment.h */,
 				140EC63A1C6E730000DA634D /* HHCoachComment.m */,
 			);
-			name = Coach;
+			path = Coach;
 			sourceTree = "<group>";
 		};
 		141F7C101C6260C6003278C6 /* Coach Service */ = {
@@ -647,45 +647,45 @@
 				141F7C111C626118003278C6 /* HHCoachService.h */,
 				141F7C121C626118003278C6 /* HHCoachService.m */,
 			);
-			name = "Coach Service";
+			path = "Coach Service";
 			sourceTree = "<group>";
 		};
 		141FA0F71C6BAD0C00113B1A /* Third Party Libs */ = {
 			isa = PBXGroup;
 			children = (
-				143F57B91C6D39D800835AA4 /* Photo Browser */,
 				143F57B81C6D39C400835AA4 /* ParallaxHeaderView */,
+				143F57B91C6D39D800835AA4 /* Photo Browser */,
 			);
-			name = "Third Party Libs";
+			path = "Third Party Libs";
 			sourceTree = "<group>";
 		};
 		141FA0FB1C6BAF4300113B1A /* Coach Detail */ = {
 			isa = PBXGroup;
 			children = (
-				141FA0FC1C6BAF6600113B1A /* HHCoachDetailDescriptionCell.h */,
-				141FA0FD1C6BAF6600113B1A /* HHCoachDetailDescriptionCell.m */,
-				141FA1021C6BF64800113B1A /* HHCoachDetailSectionOneCell.h */,
-				141FA1031C6BF64800113B1A /* HHCoachDetailSectionOneCell.m */,
-				141FA1111C6BF88400113B1A /* HHCoachDetailSingleInfoView.h */,
-				141FA1121C6BF88400113B1A /* HHCoachDetailSingleInfoView.m */,
-				140EC5FA1C6D64C400DA634D /* HHCoachDetailSectionTwoCell.h */,
-				140EC5FB1C6D64C400DA634D /* HHCoachDetailSectionTwoCell.m */,
-				140EC6151C6D73CE00DA634D /* HHCollaborateCoachesView.h */,
-				140EC6161C6D73CE00DA634D /* HHCollaborateCoachesView.m */,
 				140EC61E1C6D776400DA634D /* HHCoachCellView.h */,
 				140EC61F1C6D776400DA634D /* HHCoachCellView.m */,
+				140EC6421C6E9A6100DA634D /* HHCoachCommentView.h */,
+				140EC6431C6E9A6100DA634D /* HHCoachCommentView.m */,
 				140EC6211C6D878D00DA634D /* HHCoachDetailBottomBarView.h */,
 				140EC6221C6D878D00DA634D /* HHCoachDetailBottomBarView.m */,
 				140EC6361C6E694500DA634D /* HHCoachDetailCommentsCell.h */,
 				140EC6371C6E694500DA634D /* HHCoachDetailCommentsCell.m */,
-				140EC6421C6E9A6100DA634D /* HHCoachCommentView.h */,
-				140EC6431C6E9A6100DA634D /* HHCoachCommentView.m */,
-				140EC6451C6ED10600DA634D /* HHTryCoachView.h */,
-				140EC6461C6ED10600DA634D /* HHTryCoachView.m */,
+				141FA0FC1C6BAF6600113B1A /* HHCoachDetailDescriptionCell.h */,
+				141FA0FD1C6BAF6600113B1A /* HHCoachDetailDescriptionCell.m */,
+				141FA1021C6BF64800113B1A /* HHCoachDetailSectionOneCell.h */,
+				141FA1031C6BF64800113B1A /* HHCoachDetailSectionOneCell.m */,
+				140EC5FA1C6D64C400DA634D /* HHCoachDetailSectionTwoCell.h */,
+				140EC5FB1C6D64C400DA634D /* HHCoachDetailSectionTwoCell.m */,
+				141FA1111C6BF88400113B1A /* HHCoachDetailSingleInfoView.h */,
+				141FA1121C6BF88400113B1A /* HHCoachDetailSingleInfoView.m */,
+				140EC6151C6D73CE00DA634D /* HHCollaborateCoachesView.h */,
+				140EC6161C6D73CE00DA634D /* HHCollaborateCoachesView.m */,
 				14604F421C6EF064009DBE10 /* HHConfirmCancelButtonsView.h */,
 				14604F431C6EF064009DBE10 /* HHConfirmCancelButtonsView.m */,
+				140EC6451C6ED10600DA634D /* HHTryCoachView.h */,
+				140EC6461C6ED10600DA634D /* HHTryCoachView.m */,
 			);
-			name = "Coach Detail";
+			path = "Coach Detail";
 			sourceTree = "<group>";
 		};
 		143778EC1C6125A700339D20 /* Others */ = {
@@ -694,7 +694,7 @@
 				143778ED1C6125C300339D20 /* HHLaunchImageViewController.h */,
 				143778EE1C6125C300339D20 /* HHLaunchImageViewController.m */,
 			);
-			name = Others;
+			path = Others;
 			sourceTree = "<group>";
 		};
 		143F57B81C6D39C400835AA4 /* ParallaxHeaderView */ = {
@@ -703,7 +703,7 @@
 				141FA0F81C6BAD1A00113B1A /* ParallaxHeaderView.h */,
 				141FA0F91C6BAD1A00113B1A /* ParallaxHeaderView.m */,
 			);
-			name = ParallaxHeaderView;
+			path = ParallaxHeaderView;
 			sourceTree = "<group>";
 		};
 		143F57B91C6D39D800835AA4 /* Photo Browser */ = {
@@ -717,20 +717,20 @@
 				143F57BF1C6D39E600835AA4 /* PBViewControllerDelegate.h */,
 				143F57C01C6D39E600835AA4 /* PhotoBrowser.h */,
 			);
-			name = "Photo Browser";
+			path = "Photo Browser";
 			sourceTree = "<group>";
 		};
 		5C10F92B1B49E7CD00992B63 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				141FA0FF1C6BB0CE00113B1A /* UIImage+ImageEffects.h */,
-				141FA1001C6BB0CE00113B1A /* UIImage+ImageEffects.m */,
 				5C5451791B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.h */,
 				5C54517A1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m */,
 				5C10F92C1B49E85200992B63 /* UIColor+HHColor.h */,
 				5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */,
 				5C5451D01B52BE1D0025D19F /* UIImage+HHImage.h */,
 				5C5451D11B52BE1D0025D19F /* UIImage+HHImage.m */,
+				141FA0FF1C6BB0CE00113B1A /* UIImage+ImageEffects.h */,
+				141FA1001C6BB0CE00113B1A /* UIImage+ImageEffects.m */,
 				5C3980781B4ACA2B0057B049 /* UIView+HHRect.h */,
 				5C3980791B4ACA2B0057B049 /* UIView+HHRect.m */,
 			);
@@ -762,7 +762,7 @@
 				5C6D8C9B1C40125D0055CB31 /* HHUserAuthService.h */,
 				5C6D8C9C1C40125D0055CB31 /* HHUserAuthService.m */,
 			);
-			name = "Auth Service";
+			path = "Auth Service";
 			sourceTree = "<group>";
 		};
 		5C2D1A471C51EA830056E0D0 /* Student Service */ = {
@@ -771,7 +771,7 @@
 				5C2D1A481C51EAA80056E0D0 /* HHStudentService.h */,
 				5C2D1A491C51EAA80056E0D0 /* HHStudentService.m */,
 			);
-			name = "Student Service";
+			path = "Student Service";
 			sourceTree = "<group>";
 		};
 		5C36D3471C42D64000443545 /* Root Controllers */ = {
@@ -857,12 +857,12 @@
 		5C36D4281C4C2EF000443545 /* Find Coach */ = {
 			isa = PBXGroup;
 			children = (
-				5C36D4291C4C2F4100443545 /* HHFieldsMapViewController.h */,
-				5C36D42A1C4C2F4100443545 /* HHFieldsMapViewController.m */,
 				5C36D42C1C4C31A100443545 /* HHAskLocationPermissionViewController.h */,
 				5C36D42D1C4C31A100443545 /* HHAskLocationPermissionViewController.m */,
 				141FA0F41C6BACCE00113B1A /* HHCoachDetailViewController.h */,
 				141FA0F51C6BACCE00113B1A /* HHCoachDetailViewController.m */,
+				5C36D4291C4C2F4100443545 /* HHFieldsMapViewController.h */,
+				5C36D42A1C4C2F4100443545 /* HHFieldsMapViewController.m */,
 			);
 			path = "Find Coach";
 			sourceTree = "<group>";
@@ -873,7 +873,7 @@
 				5C36D4421C4DA54000443545 /* HHCoachListViewCell.h */,
 				5C36D4431C4DA54000443545 /* HHCoachListViewCell.m */,
 			);
-			name = Coach;
+			path = Coach;
 			sourceTree = "<group>";
 		};
 		5CC3B5F21B48268A00D10DFB = {
@@ -899,7 +899,6 @@
 		5CC3B5FD1B48268A00D10DFB /* hahaxueche */ = {
 			isa = PBXGroup;
 			children = (
-				141FA0F71C6BAD0C00113B1A /* Third Party Libs */,
 				5CDE143C1C3300FB0004778C /* API */,
 				5CDE14641C37717A0004778C /* Assets */,
 				5C10F92B1B49E7CD00992B63 /* Categories */,
@@ -907,6 +906,7 @@
 				5CDE14381C32F8670004778C /* Services */,
 				5C36D3971C43119A00443545 /* Stores */,
 				5CC3B5FE1B48268A00D10DFB /* Supporting Files */,
+				141FA0F71C6BAD0C00113B1A /* Third Party Libs */,
 				5C10F94C1B49F2DE00992B63 /* Utilities */,
 				5CDE14471C36E62C0004778C /* View Controllers */,
 				5CDE143B1C32F89C0004778C /* Views */,
@@ -958,9 +958,9 @@
 		5CDE14381C32F8670004778C /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				5C2D1A461C51EA750056E0D0 /* Auth Service */,
 				141F7C101C6260C6003278C6 /* Coach Service */,
 				5C2D1A471C51EA830056E0D0 /* Student Service */,
-				5C2D1A461C51EA750056E0D0 /* Auth Service */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -979,20 +979,20 @@
 		5CDE143B1C32F89C0004778C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				141FA0FB1C6BAF4300113B1A /* Coach Detail */,
 				5C36D4411C4DA50E00443545 /* Coach */,
+				141FA0FB1C6BAF4300113B1A /* Coach Detail */,
 				5C36D3CC1C47624000443545 /* FiltersView */,
 				5C36D3DF1C49652400443545 /* SortView */,
 				5CDE14491C36EC570004778C /* HHButton.h */,
 				5CDE144A1C36EC570004778C /* HHButton.m */,
 				5CDE14841C3852E30004778C /* HHCitySelectView.h */,
 				5CDE14851C3852E30004778C /* HHCitySelectView.m */,
-				5CDE14551C3723020004778C /* HHTextFieldView.h */,
-				5CDE14561C3723020004778C /* HHTextFieldView.m */,
-				141F7BED1C617E54003278C6 /* HHStarRatingView.h */,
-				141F7BEE1C617E54003278C6 /* HHStarRatingView.m */,
 				141FA0DF1C66CB1100113B1A /* HHHomePageTapView.h */,
 				141FA0E01C66CB1100113B1A /* HHHomePageTapView.m */,
+				141F7BED1C617E54003278C6 /* HHStarRatingView.h */,
+				141F7BEE1C617E54003278C6 /* HHStarRatingView.m */,
+				5CDE14551C3723020004778C /* HHTextFieldView.h */,
+				5CDE14561C3723020004778C /* HHTextFieldView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1011,8 +1011,8 @@
 		5CDE14471C36E62C0004778C /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				143778EC1C6125A700339D20 /* Others */,
 				5C36D4281C4C2EF000443545 /* Find Coach */,
+				143778EC1C6125A700339D20 /* Others */,
 				5CDE144E1C3715A90004778C /* Register Login */,
 				5C36D3471C42D64000443545 /* Root Controllers */,
 			);
@@ -1039,51 +1039,6 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				140EC63C1C6E764100DA634D /* ic_coachmsg_pingjia.png */,
-				140EC63D1C6E764100DA634D /* ic_coachmsg_pingjia@2x.png */,
-				140EC63E1C6E764100DA634D /* ic_coachmsg_pingjia@3x.png */,
-				140EC6241C6E3CFC00DA634D /* ic_coachmsg_attention_hold.png */,
-				140EC6251C6E3CFC00DA634D /* ic_coachmsg_attention_hold@2x.png */,
-				140EC6261C6E3CFC00DA634D /* ic_coachmsg_attention_hold@3x.png */,
-				140EC6271C6E3CFC00DA634D /* ic_coachmsg_attention_on.png */,
-				140EC6281C6E3CFC00DA634D /* ic_coachmsg_attention_on@2x.png */,
-				140EC6291C6E3CFC00DA634D /* ic_coachmsg_attention_on@3x.png */,
-				140EC62A1C6E3CFC00DA634D /* ic_coachmsg_sharecoach.png */,
-				140EC62B1C6E3CFC00DA634D /* ic_coachmsg_sharecoach@2x.png */,
-				140EC62C1C6E3CFC00DA634D /* ic_coachmsg_sharecoach@3x.png */,
-				140EC6181C6D76DC00DA634D /* ic_coachmsg_partner.png */,
-				140EC6191C6D76DC00DA634D /* ic_coachmsg_partner@2x.png */,
-				140EC61A1C6D76DC00DA634D /* ic_coachmsg_partner@3x.png */,
-				140EC60F1C6D732D00DA634D /* ic_coachmsg_more_arrow.png */,
-				140EC6101C6D732D00DA634D /* ic_coachmsg_more_arrow@2x.png */,
-				140EC6111C6D732D00DA634D /* ic_coachmsg_more_arrow@3x.png */,
-				140EC5FD1C6D68D000DA634D /* ic_coachmsg_coachlevel.png */,
-				140EC5FE1C6D68D000DA634D /* ic_coachmsg_coachlevel@2x.png */,
-				140EC5FF1C6D68D000DA634D /* ic_coachmsg_coachlevel@3x.png */,
-				140EC6001C6D68D000DA634D /* ic_coachmsg_manyidu.png */,
-				140EC6011C6D68D000DA634D /* ic_coachmsg_manyidu@2x.png */,
-				140EC6021C6D68D000DA634D /* ic_coachmsg_manyidu@3x.png */,
-				140EC6031C6D68D000DA634D /* ic_coachmsg_time.png */,
-				140EC6041C6D68D000DA634D /* ic_coachmsg_time@2x.png */,
-				140EC6051C6D68D000DA634D /* ic_coachmsg_time@3x.png */,
-				140EC5F41C6D543600DA634D /* ic_coachmsg_localtion.png */,
-				140EC5F51C6D543600DA634D /* ic_coachmsg_localtion@2x.png */,
-				140EC5F61C6D543600DA634D /* ic_coachmsg_localtion@3x.png */,
-				140EC5E81C6D542700DA634D /* ic_coachmsg_charge.png */,
-				140EC5E91C6D542700DA634D /* ic_coachmsg_charge@2x.png */,
-				140EC5EA1C6D542700DA634D /* ic_coachmsg_charge@3x.png */,
-				140EC5EB1C6D542700DA634D /* ic_coachmsg_classtype.png */,
-				140EC5EC1C6D542700DA634D /* ic_coachmsg_classtype@2x.png */,
-				140EC5ED1C6D542700DA634D /* ic_coachmsg_classtype@3x.png */,
-				141FA0EE1C6925C800113B1A /* ic_homepage_knowmore_arrow.png */,
-				141FA0EF1C6925C800113B1A /* ic_homepage_knowmore_arrow@2x.png */,
-				141FA0F01C6925C800113B1A /* ic_homepage_knowmore_arrow@3x.png */,
-				141FA0E21C66CB6300113B1A /* ic_homepage_coachhere.png */,
-				141FA0E31C66CB6300113B1A /* ic_homepage_coachhere@2x.png */,
-				141FA0E41C66CB6300113B1A /* ic_homepage_coachhere@3x.png */,
-				141FA0E51C66CB6300113B1A /* ic_homepage_hahahere.png */,
-				141FA0E61C66CB6300113B1A /* ic_homepage_hahahere@2x.png */,
-				141FA0E71C66CB6300113B1A /* ic_homepage_hahahere@3x.png */,
 				141F7BF61C617EC7003278C6 /* ic_Star_grey.png */,
 				141F7BF71C617EC7003278C6 /* ic_Star_grey@2x.png */,
 				141F7BF81C617EC7003278C6 /* ic_Star_grey@3x.png */,
@@ -1093,25 +1048,12 @@
 				141F7BFC1C617EC7003278C6 /* ic_Star_light.png */,
 				141F7BFD1C617EC7003278C6 /* ic_Star_light@2x.png */,
 				141F7BFE1C617EC7003278C6 /* ic_Star_light@3x.png */,
-				141F7BF01C617EB2003278C6 /* ic_list_local_btn.png */,
-				141F7BF11C617EB2003278C6 /* ic_list_local_btn@2x.png */,
-				141F7BF21C617EB2003278C6 /* ic_list_local_btn@3x.png */,
-				143778F01C6127FB00339D20 /* launchImage.png */,
-				5C36D4451C4DAE3D00443545 /* ic_auth_golden@1x.png */,
-				5C36D4461C4DAE3D00443545 /* ic_auth_golden@2x.png */,
-				5C36D4471C4DAE3D00443545 /* ic_auth_golden@3x.png */,
-				5C36D4351C4C743700443545 /* ic_map_local_choseoff@1x.png */,
-				5C36D4361C4C743700443545 /* ic_map_local_choseoff@2x.png */,
-				5C36D4371C4C743700443545 /* ic_map_local_choseoff@3x.png */,
-				5C36D4381C4C743700443545 /* ic_map_local_choseon@1x.png */,
-				5C36D4391C4C743700443545 /* ic_map_local_choseon@2x.png */,
-				5C36D43A1C4C743700443545 /* ic_map_local_choseon@3x.png */,
-				5C36D42F1C4C39A000443545 /* pic_local@1x.png */,
-				5C36D4301C4C39A000443545 /* pic_local@2x.png */,
-				5C36D4311C4C39A000443545 /* pic_local@3x.png */,
 				5CDE14651C3771880004778C /* ic_arrow_back@1x.png */,
 				5CDE14661C3771880004778C /* ic_arrow_back@2x.png */,
 				5CDE14671C3771880004778C /* ic_arrow_back@3x.png */,
+				5C36D4451C4DAE3D00443545 /* ic_auth_golden@1x.png */,
+				5C36D4461C4DAE3D00443545 /* ic_auth_golden@2x.png */,
+				5C36D4471C4DAE3D00443545 /* ic_auth_golden@3x.png */,
 				5CDE14781C3787CF0004778C /* ic_avatar_btn@1x.png */,
 				5CDE14791C3787CF0004778C /* ic_avatar_btn@2x.png */,
 				5CDE147A1C3787CF0004778C /* ic_avatar_btn@3x.png */,
@@ -1139,6 +1081,60 @@
 				5C36D36C1C42D9F800443545 /* ic_bottombar_mypage_normal_btn@1x.png */,
 				5C36D36D1C42D9F800443545 /* ic_bottombar_mypage_normal_btn@2x.png */,
 				5C36D36E1C42D9F800443545 /* ic_bottombar_mypage_normal_btn@3x.png */,
+				140EC6241C6E3CFC00DA634D /* ic_coachmsg_attention_hold.png */,
+				140EC6251C6E3CFC00DA634D /* ic_coachmsg_attention_hold@2x.png */,
+				140EC6261C6E3CFC00DA634D /* ic_coachmsg_attention_hold@3x.png */,
+				140EC6271C6E3CFC00DA634D /* ic_coachmsg_attention_on.png */,
+				140EC6281C6E3CFC00DA634D /* ic_coachmsg_attention_on@2x.png */,
+				140EC6291C6E3CFC00DA634D /* ic_coachmsg_attention_on@3x.png */,
+				140EC5E81C6D542700DA634D /* ic_coachmsg_charge.png */,
+				140EC5E91C6D542700DA634D /* ic_coachmsg_charge@2x.png */,
+				140EC5EA1C6D542700DA634D /* ic_coachmsg_charge@3x.png */,
+				140EC5EB1C6D542700DA634D /* ic_coachmsg_classtype.png */,
+				140EC5EC1C6D542700DA634D /* ic_coachmsg_classtype@2x.png */,
+				140EC5ED1C6D542700DA634D /* ic_coachmsg_classtype@3x.png */,
+				140EC5FD1C6D68D000DA634D /* ic_coachmsg_coachlevel.png */,
+				140EC5FE1C6D68D000DA634D /* ic_coachmsg_coachlevel@2x.png */,
+				140EC5FF1C6D68D000DA634D /* ic_coachmsg_coachlevel@3x.png */,
+				140EC5F41C6D543600DA634D /* ic_coachmsg_localtion.png */,
+				140EC5F51C6D543600DA634D /* ic_coachmsg_localtion@2x.png */,
+				140EC5F61C6D543600DA634D /* ic_coachmsg_localtion@3x.png */,
+				140EC6001C6D68D000DA634D /* ic_coachmsg_manyidu.png */,
+				140EC6011C6D68D000DA634D /* ic_coachmsg_manyidu@2x.png */,
+				140EC6021C6D68D000DA634D /* ic_coachmsg_manyidu@3x.png */,
+				140EC60F1C6D732D00DA634D /* ic_coachmsg_more_arrow.png */,
+				140EC6101C6D732D00DA634D /* ic_coachmsg_more_arrow@2x.png */,
+				140EC6111C6D732D00DA634D /* ic_coachmsg_more_arrow@3x.png */,
+				140EC6181C6D76DC00DA634D /* ic_coachmsg_partner.png */,
+				140EC6191C6D76DC00DA634D /* ic_coachmsg_partner@2x.png */,
+				140EC61A1C6D76DC00DA634D /* ic_coachmsg_partner@3x.png */,
+				140EC63C1C6E764100DA634D /* ic_coachmsg_pingjia.png */,
+				140EC63D1C6E764100DA634D /* ic_coachmsg_pingjia@2x.png */,
+				140EC63E1C6E764100DA634D /* ic_coachmsg_pingjia@3x.png */,
+				140EC62A1C6E3CFC00DA634D /* ic_coachmsg_sharecoach.png */,
+				140EC62B1C6E3CFC00DA634D /* ic_coachmsg_sharecoach@2x.png */,
+				140EC62C1C6E3CFC00DA634D /* ic_coachmsg_sharecoach@3x.png */,
+				140EC6031C6D68D000DA634D /* ic_coachmsg_time.png */,
+				140EC6041C6D68D000DA634D /* ic_coachmsg_time@2x.png */,
+				140EC6051C6D68D000DA634D /* ic_coachmsg_time@3x.png */,
+				141FA0E21C66CB6300113B1A /* ic_homepage_coachhere.png */,
+				141FA0E31C66CB6300113B1A /* ic_homepage_coachhere@2x.png */,
+				141FA0E41C66CB6300113B1A /* ic_homepage_coachhere@3x.png */,
+				141FA0E51C66CB6300113B1A /* ic_homepage_hahahere.png */,
+				141FA0E61C66CB6300113B1A /* ic_homepage_hahahere@2x.png */,
+				141FA0E71C66CB6300113B1A /* ic_homepage_hahahere@3x.png */,
+				141FA0EE1C6925C800113B1A /* ic_homepage_knowmore_arrow.png */,
+				141FA0EF1C6925C800113B1A /* ic_homepage_knowmore_arrow@2x.png */,
+				141FA0F01C6925C800113B1A /* ic_homepage_knowmore_arrow@3x.png */,
+				141F7BF01C617EB2003278C6 /* ic_list_local_btn.png */,
+				141F7BF11C617EB2003278C6 /* ic_list_local_btn@2x.png */,
+				141F7BF21C617EB2003278C6 /* ic_list_local_btn@3x.png */,
+				5C36D4351C4C743700443545 /* ic_map_local_choseoff@1x.png */,
+				5C36D4361C4C743700443545 /* ic_map_local_choseoff@2x.png */,
+				5C36D4371C4C743700443545 /* ic_map_local_choseoff@3x.png */,
+				5C36D4381C4C743700443545 /* ic_map_local_choseon@1x.png */,
+				5C36D4391C4C743700443545 /* ic_map_local_choseon@2x.png */,
+				5C36D43A1C4C743700443545 /* ic_map_local_choseon@3x.png */,
 				5C36D4221C4C2B8700443545 /* ic_maplist_btn@1x.png */,
 				5C36D4231C4C2B8700443545 /* ic_maplist_btn@2x.png */,
 				5C36D4241C4C2B8700443545 /* ic_maplist_btn@3x.png */,
@@ -1193,9 +1189,13 @@
 				5CDE147B1C3787CF0004778C /* ic_triangle@1x.png */,
 				5CDE147C1C3787CF0004778C /* ic_triangle@2x.png */,
 				5CDE147D1C3787CF0004778C /* ic_triangle@3x.png */,
+				143778F01C6127FB00339D20 /* launchImage.png */,
 				5CDE146E1C3776E20004778C /* onboard_bg@1x.png */,
 				5CDE146F1C3776E20004778C /* onboard_bg@2x.png */,
 				5CDE14701C3776E20004778C /* onboard_bg@3x.png */,
+				5C36D42F1C4C39A000443545 /* pic_local@1x.png */,
+				5C36D4301C4C39A000443545 /* pic_local@2x.png */,
+				5C36D4311C4C39A000443545 /* pic_local@3x.png */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
