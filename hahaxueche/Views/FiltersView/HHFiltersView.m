@@ -13,6 +13,7 @@
 #import "HHCheckBoxView.h"
 #import "HHButton.h"
 #import "UIColor+HHColor.h"
+#import "HHToastManager.h"
 
 static CGFloat const kCellHeight = 60.0f;
 
@@ -56,10 +57,17 @@ static CGFloat const kCellHeight = 60.0f;
         self.goldenCoachSwitchView = [[HHSwitchView alloc] initWithTitle:@"只显示金牌教练" isToggleOn:[self.coachFilters.onlyGoldenCoach boolValue]];
         [self addSubview:self.goldenCoachSwitchView];
         
-        self.c1CheckBoxView = [[HHCheckBoxView alloc] initWithTilte:@"手动档（C1）" isChecked:NO];
+        BOOL c1Checked = YES;
+        BOOL c2Checked = YES;
+        if ([coachFilters.licenseType integerValue] == 1) {
+            c2Checked = NO;
+        } else if ([coachFilters.licenseType integerValue] == 2) {
+            c1Checked = NO;
+        }
+        self.c1CheckBoxView = [[HHCheckBoxView alloc] initWithTilte:@"手动档（C1）" isChecked:c1Checked];
         [self addSubview:self.c1CheckBoxView];
         
-        self.c2CheckBoxView = [[HHCheckBoxView alloc] initWithTilte:@"自动档（C2）" isChecked:YES];
+        self.c2CheckBoxView = [[HHCheckBoxView alloc] initWithTilte:@"自动档（C2）" isChecked:c2Checked];
         [self addSubview:self.c2CheckBoxView];
         
         self.horizontalLine = [[UIView alloc] init];
@@ -150,11 +158,23 @@ static CGFloat const kCellHeight = 60.0f;
 }
 
 - (void)confirmTapped {
+    if (self.c1CheckBoxView.checkBox.on && self.c2CheckBoxView.checkBox.on) {
+        self.coachFilters.licenseType = @(3);
+        
+    } else if (self.c1CheckBoxView.checkBox.on && !self.c2CheckBoxView.checkBox.on) {
+        self.coachFilters.licenseType = @(1);
+        
+    } else if (!self.c1CheckBoxView.checkBox.on && self.c2CheckBoxView.checkBox.on) {
+        self.coachFilters.licenseType = @(2);
+    } else {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"请在C1手动档和C2自动挡中至少选择一个"];
+        return;
+    }
+
     self.coachFilters.price = self.priceValues[self.priceSliderView.slider.index];
     self.coachFilters.distance = self.distanceValues[self.distanceSliderView.slider.index];
     self.coachFilters.onlyGoldenCoach = @(self.goldenCoachSwitchView.toggle.isOn);
-    //self.coachFilters.licenseType =
-    if (self.confirmBlock) {
+        if (self.confirmBlock) {
         self.confirmBlock(self.coachFilters);
     }
 }

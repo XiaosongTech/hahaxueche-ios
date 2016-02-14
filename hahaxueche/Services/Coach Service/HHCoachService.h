@@ -10,8 +10,9 @@
 #import "HHCoach.h"
 #import "HHCoachFilters.h"
 #import "HHSortView.h"
+#import "HHCoaches.h"
 
-typedef void (^HHCoachListCompletion)(NSArray *coaches, NSError *error);
+typedef void (^HHCoachListCompletion)(HHCoaches *coaches, NSError *error);
 
 @interface HHCoachService : NSObject
 
@@ -22,6 +23,6 @@ typedef void (^HHCoachListCompletion)(NSArray *coaches, NSError *error);
  
  @param completion The completion block to execute on completion
  */
-- (void)fetchCoachListWithCityId:(NSNumber *)cityId filters:(HHCoachFilters *)filters sortOption:(SortOption)sortOption fields:(NSArray *)selectedFields completion:(HHCoachListCompletion)completion;
+- (void)fetchCoachListWithCityId:(NSNumber *)cityId filters:(HHCoachFilters *)filters sortOption:(SortOption)sortOption fields:(NSArray *)selectedFields userLocation:(NSArray *)userLocation completion:(HHCoachListCompletion)completion;
 
 @end

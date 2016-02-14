@@ -101,6 +101,7 @@
 		14604F5F1C6FEE10009DBE10 /* HHPriceDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14604F5E1C6FEE10009DBE10 /* HHPriceDetailView.m */; };
 		14604F651C6FF926009DBE10 /* NSNumber+HHNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 14604F641C6FF926009DBE10 /* NSNumber+HHNumber.m */; };
 		147BFEE81C70F00800FE3524 /* HHSocialMediaShareUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 147BFEE71C70F00800FE3524 /* HHSocialMediaShareUtility.m */; };
+		14F9D4901C71223E0010F3FA /* HHCoaches.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F9D48F1C71223E0010F3FA /* HHCoaches.m */; };
 		5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */; };
 		5C2D1A4A1C51EAA80056E0D0 /* HHStudentService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2D1A491C51EAA80056E0D0 /* HHStudentService.m */; };
 		5C36D34A1C42D69700443545 /* HHRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C36D3491C42D69700443545 /* HHRootViewController.m */; };
@@ -404,6 +405,8 @@
 		14604F641C6FF926009DBE10 /* NSNumber+HHNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+HHNumber.m"; sourceTree = "<group>"; };
 		147BFEE61C70F00800FE3524 /* HHSocialMediaShareUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSocialMediaShareUtility.h; sourceTree = "<group>"; };
 		147BFEE71C70F00800FE3524 /* HHSocialMediaShareUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSocialMediaShareUtility.m; sourceTree = "<group>"; };
+		14F9D48E1C71223E0010F3FA /* HHCoaches.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoaches.h; sourceTree = "<group>"; };
+		14F9D48F1C71223E0010F3FA /* HHCoaches.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoaches.m; sourceTree = "<group>"; };
 		5C10F92C1B49E85200992B63 /* UIColor+HHColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HHColor.h"; sourceTree = "<group>"; };
 		5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HHColor.m"; sourceTree = "<group>"; };
 		5C2D1A481C51EAA80056E0D0 /* HHStudentService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHStudentService.h; sourceTree = "<group>"; };
@@ -670,6 +673,8 @@
 				141F7C0E1C61B074003278C6 /* HHCoach.m */,
 				140EC6391C6E730000DA634D /* HHCoachComment.h */,
 				140EC63A1C6E730000DA634D /* HHCoachComment.m */,
+				14F9D48E1C71223E0010F3FA /* HHCoaches.h */,
+				14F9D48F1C71223E0010F3FA /* HHCoaches.m */,
 			);
 			path = Coach;
 			sourceTree = "<group>";
@@ -1666,6 +1671,7 @@
 				5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */,
 				5C36D3961C430DD700443545 /* HHConstants.m in Sources */,
 				140EC6441C6E9A6100DA634D /* HHCoachCommentView.m in Sources */,
+				14F9D4901C71223E0010F3FA /* HHCoaches.m in Sources */,
 				5CC3B6011B48268A00D10DFB /* main.m in Sources */,
 				141F7BEF1C617E54003278C6 /* HHStarRatingView.m in Sources */,
 				5CDE14511C3715F90004778C /* HHRegisterViewController.m in Sources */,

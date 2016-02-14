@@ -36,7 +36,8 @@ static NSString *const kCellId = @"kCoachListCellId";
 static CGFloat const kCellHeightNormal = 100.0f;
 static CGFloat const kCellHeightExpanded = 300.0f;
 
-typedef void (^HHUpdateCoachCompletionBlock)();
+typedef void (^HHRefreshCoachCompletionBlock)();
+typedef void (^HHUserLocationCompletionBlock)();
 
 @interface HHFindCoachViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -64,6 +65,7 @@ typedef void (^HHUpdateCoachCompletionBlock)();
 @property (nonatomic, strong) NSMutableArray *coaches;
 
 @property (nonatomic, strong) HHCity *userCity;
+@property (nonatomic, strong) CLLocation *userLocation;
 
 @end
 
@@ -75,38 +77,68 @@ typedef void (^HHUpdateCoachCompletionBlock)();
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupDefaultSortAndFilter];
     
-    UIBarButtonItem *mapButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_maplist_btn"] action:@selector(getUserLocation) target:self];
+    UIBarButtonItem *mapButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_maplist_btn"] action:@selector(jumpToFieldsMapView) target:self];
     self.navigationItem.leftBarButtonItem = mapButton;
     
     self.selectedFields = [NSMutableArray array];
     self.expandedCellIndexPath = [NSMutableArray array];
-    [self updateCoachListWithCompletion:nil];
     [self initSubviews];
-    
+    [self refreshCoachListWithCompletion:nil];
+
 }
 
-- (void)updateCoachListWithCompletion:(HHUpdateCoachCompletionBlock)completion {
+- (void)refreshCoachListWithCompletion:(HHRefreshCoachCompletionBlock)completion {
     __weak HHFindCoachViewController *weakSelf = self;
-    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];
-    [[HHCoachService sharedInstance] fetchCoachListWithCityId:nil filters:nil sortOption:self.currentSortOption fields:nil completion:^(NSArray *coaches, NSError *error) {
-        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-        weakSelf.coaches = [NSMutableArray arrayWithArray:coaches];
-        [weakSelf.tableView reloadData];
-        if (completion) {
-            completion();
+    if (!self.userLocation) {
+        [self getUserLocationWithCompletion:^{
+            if (weakSelf.userLocation) {
+                if (!completion) {
+                    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];
+                }
+                NSNumber *lat = @(weakSelf.userLocation.coordinate.latitude);
+                NSNumber *lon = @(weakSelf.userLocation.coordinate.longitude);
+                NSArray *locationArray = @[lat, lon];
+                [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].currentStudent.cityId filters:weakSelf.coachFilters sortOption:weakSelf.currentSortOption fields:weakSelf.selectedFields userLocation:locationArray completion:^(HHCoaches *coaches, NSError *error) {
+                    [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+                    if (completion) {
+                        completion();
+                    }
+                    weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coachesArray];
+                    [weakSelf.tableView reloadData];
+                }];
+
+            }
+        }];
+    } else {
+        if (!completion) {
+            [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];
         }
-    }];
+        NSNumber *lat = @(weakSelf.userLocation.coordinate.latitude);
+        NSNumber *lon = @(weakSelf.userLocation.coordinate.longitude);
+        NSArray *locationArray = @[lat, lon];
+        [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].currentStudent.cityId filters:weakSelf.coachFilters sortOption:weakSelf.currentSortOption fields:weakSelf.selectedFields userLocation:locationArray completion:^(HHCoaches *coaches, NSError *error) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            if (completion) {
+                completion();
+            }
+            weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coachesArray];
+            [weakSelf.tableView reloadData];
+        }];
+
+    }
 }
+
 
 - (void)setupDefaultSortAndFilter {
     self.userCity = [[HHConstantsStore sharedInstance] getCityWithId:[HHStudentStore sharedInstance].currentStudent.cityId];
     NSNumber *defaultDistance = [self.userCity.distanceRanges lastObject];
     NSNumber *defaultPrice = [self.userCity.priceRanges lastObject];
-    self.coachFilters = [[HHCoachFilters alloc] init];
-    self.coachFilters.price = defaultPrice;
-    self.coachFilters.distance = defaultDistance;
-    self.coachFilters.onlyGoldenCoach = @(1);
-    self.coachFilters.licenseType = @(1);
+    HHCoachFilters *defailtFilters = [[HHCoachFilters alloc] init];
+    defailtFilters.price = defaultPrice;
+    defailtFilters.distance = defaultDistance;
+    defailtFilters.onlyGoldenCoach = @(0);
+    defailtFilters.licenseType = @(3);
+    self.coachFilters = defailtFilters;
     
     self.currentSortOption = SortOptionSmartSort;
 }
@@ -242,7 +274,7 @@ typedef void (^HHUpdateCoachCompletionBlock)();
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.coaches.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -267,6 +299,7 @@ typedef void (^HHUpdateCoachCompletionBlock)();
     self.filtersView = [[HHFiltersView alloc] initWithFilters:[self.coachFilters copy] frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 380.0f) city:self.userCity];
     self.filtersView.confirmBlock = ^(HHCoachFilters *filters){
         weakSelf.coachFilters = filters;
+        [weakSelf refreshCoachListWithCompletion:nil];
         [weakSelf.popup dismiss:YES];
     };
     self.filtersView.cancelBlock = ^(){
@@ -282,6 +315,7 @@ typedef void (^HHUpdateCoachCompletionBlock)();
     self.sortView.frame = CGRectMake(0, 0, 130.0f, 200.0f);
     self.sortView.selectedOptionBlock = ^(SortOption sortOption){
         weakSelf.currentSortOption = sortOption;
+        [weakSelf refreshCoachListWithCompletion:nil];
         [weakSelf.popup dismiss:YES];
     };
     self.popup = [HHPopupUtility createPopupWithContentView:self.sortView];
@@ -290,30 +324,57 @@ typedef void (^HHUpdateCoachCompletionBlock)();
 
 }
 
-- (void)jumpToMapViewWithUserLocation:(CLLocation *)userLocation {
-     __weak HHFindCoachViewController *weakSelf = self;
-    HHFieldsMapViewController *mapVC = [[HHFieldsMapViewController alloc] initWithUserLocation:userLocation selectedFields:self.selectedFields];
-    mapVC.conformBlock = ^(NSMutableArray *selectedFields) {
-        weakSelf.selectedFields = selectedFields;
-    };
-    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:mapVC];
-    [self presentViewController:navVC animated:YES completion:nil];
+
+- (void)jumpToFieldsMapView {
+    __weak HHFindCoachViewController *weakSelf = self;
+    if (self.userLocation) {
+        __weak HHFindCoachViewController *weakSelf = self;
+        HHFieldsMapViewController *mapVC = [[HHFieldsMapViewController alloc] initWithUserLocation:self.userLocation selectedFields:self.selectedFields];
+        mapVC.conformBlock = ^(NSMutableArray *selectedFields) {
+            weakSelf.selectedFields = selectedFields;
+            [weakSelf refreshCoachListWithCompletion:nil];
+        };
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:mapVC];
+        [self presentViewController:navVC animated:YES completion:nil];
+    } else {
+        [self getUserLocationWithCompletion:^() {
+            if (weakSelf.userLocation) {
+                HHFieldsMapViewController *mapVC = [[HHFieldsMapViewController alloc] initWithUserLocation:weakSelf.userLocation selectedFields:weakSelf.selectedFields];
+                mapVC.conformBlock = ^(NSMutableArray *selectedFields) {
+                    weakSelf.selectedFields = selectedFields;
+                    [weakSelf refreshCoachListWithCompletion:nil];
+                };
+                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:mapVC];
+                [weakSelf presentViewController:navVC animated:YES completion:nil];
+            }
+        }];
+    }
 }
 
 
-- (void)getUserLocation {
-    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+
+- (void)getUserLocationWithCompletion:(HHUserLocationCompletionBlock)completion {
     [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyBlock timeout:10.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
-        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         
         if (status == INTULocationStatusSuccess) {
-            [self jumpToMapViewWithUserLocation:currentLocation];
+            self.userLocation = currentLocation;
+            if (completion) {
+                completion();
+            }
         } else if (status == INTULocationStatusServicesDenied){
             HHAskLocationPermissionViewController *vc = [[HHAskLocationPermissionViewController alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
+            self.userLocation = nil;
+            if (completion) {
+                completion(nil);
+            }
         } else if (status == INTULocationStatusError) {
             [[HHToastManager sharedManager] showErrorToastWithText:@"出错了，请重试"];
+            self.userLocation = nil;
+            if (completion) {
+                completion();
+            }
         }
 
     }];
@@ -321,7 +382,7 @@ typedef void (^HHUpdateCoachCompletionBlock)();
 
 
 - (void)refreshData {
-    [self updateCoachListWithCompletion:^{
+    [self refreshCoachListWithCompletion:^{
         [self.refreshHeader endRefreshing];
     }];
 }
@@ -329,6 +390,7 @@ typedef void (^HHUpdateCoachCompletionBlock)();
 - (void)loadMoreData {
     [self.loadMoreFooter endRefreshing];
 }
+
 
 
 @end
