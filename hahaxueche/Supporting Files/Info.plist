@@ -30,6 +30,9 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>hhxc</string>
+                <string>tencent1104872131</string>
+                <string>tencent1104872131.content</string>
+                <string>QQ41DB02C3</string>
 			</array>
 		</dict>
 	</array>
@@ -54,6 +57,8 @@
 		<string>alipay</string>
 		<string>baidumap</string>
 		<string>iosamap</string>
+        <string>mqqapi</string>
+        <string>weixin</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

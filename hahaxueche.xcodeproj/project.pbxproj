@@ -100,6 +100,7 @@
 		14604F5C1C6FB0E3009DBE10 /* ic_coachmsg_sharecoach_wechat@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14604F531C6FB0E3009DBE10 /* ic_coachmsg_sharecoach_wechat@3x.png */; };
 		14604F5F1C6FEE10009DBE10 /* HHPriceDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14604F5E1C6FEE10009DBE10 /* HHPriceDetailView.m */; };
 		14604F651C6FF926009DBE10 /* NSNumber+HHNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 14604F641C6FF926009DBE10 /* NSNumber+HHNumber.m */; };
+		147BFEE81C70F00800FE3524 /* HHSocialMediaShareUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 147BFEE71C70F00800FE3524 /* HHSocialMediaShareUtility.m */; };
 		5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */; };
 		5C2D1A4A1C51EAA80056E0D0 /* HHStudentService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2D1A491C51EAA80056E0D0 /* HHStudentService.m */; };
 		5C36D34A1C42D69700443545 /* HHRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C36D3491C42D69700443545 /* HHRootViewController.m */; };
@@ -401,6 +402,8 @@
 		14604F5E1C6FEE10009DBE10 /* HHPriceDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPriceDetailView.m; sourceTree = "<group>"; };
 		14604F631C6FF926009DBE10 /* NSNumber+HHNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+HHNumber.h"; sourceTree = "<group>"; };
 		14604F641C6FF926009DBE10 /* NSNumber+HHNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+HHNumber.m"; sourceTree = "<group>"; };
+		147BFEE61C70F00800FE3524 /* HHSocialMediaShareUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSocialMediaShareUtility.h; sourceTree = "<group>"; };
+		147BFEE71C70F00800FE3524 /* HHSocialMediaShareUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSocialMediaShareUtility.m; sourceTree = "<group>"; };
 		5C10F92C1B49E85200992B63 /* UIColor+HHColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HHColor.h"; sourceTree = "<group>"; };
 		5C10F92D1B49E85200992B63 /* UIColor+HHColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HHColor.m"; sourceTree = "<group>"; };
 		5C2D1A481C51EAA80056E0D0 /* HHStudentService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHStudentService.h; sourceTree = "<group>"; };
@@ -790,6 +793,8 @@
 				5CDE14881C3859290004778C /* HHPopupUtility.m */,
 				5CDE14741C3778BD0004778C /* HHToastManager.h */,
 				5CDE14751C3778BD0004778C /* HHToastManager.m */,
+				147BFEE61C70F00800FE3524 /* HHSocialMediaShareUtility.h */,
+				147BFEE71C70F00800FE3524 /* HHSocialMediaShareUtility.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1622,6 +1627,7 @@
 				5C5451D21B52BE1D0025D19F /* UIImage+HHImage.m in Sources */,
 				5C36D39D1C4360FE00443545 /* HHStudent.m in Sources */,
 				5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */,
+				147BFEE81C70F00800FE3524 /* HHSocialMediaShareUtility.m in Sources */,
 				5CDE144B1C36EC570004778C /* HHButton.m in Sources */,
 				5CDE148C1C3A00AB0004778C /* HHLoginViewController.m in Sources */,
 				5CDE145A1C3737670004778C /* HHPhoneNumberUtility.m in Sources */,

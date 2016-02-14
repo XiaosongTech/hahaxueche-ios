@@ -23,6 +23,7 @@
 #import "HHAccountSetupViewController.h"
 #import "HHLaunchImageViewController.h"
 #import <MAMapKit/MAMapKit.h>
+#import "HHSocialMediaShareUtility.h"
 
 static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
@@ -113,6 +114,8 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [[[SDWebImageManager sharedManager] imageDownloader] setExecutionOrder:SDWebImageDownloaderLIFOExecutionOrder];
     
     [MAMapServices sharedServices].apiKey = kMapServiceKey;
+    
+    [HHSocialMediaShareUtility configure];
 }
 
 @end

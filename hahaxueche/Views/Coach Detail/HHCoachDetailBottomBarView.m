@@ -23,21 +23,17 @@
 }
 
 - (void)initSubviews {
-    self.followButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.followIconView = [[UIImageView alloc] init];
     if (self.followed) {
-         [self.followButton setImage:[UIImage imageNamed:@"ic_coachmsg_attention_on"] forState:UIControlStateNormal];
+        self.followIconView.image = [UIImage imageNamed:@"ic_coachmsg_attention_on"];
     } else {
-         [self.followButton setImage:[UIImage imageNamed:@"ic_coachmsg_attention_hold"] forState:UIControlStateNormal];
+        self.followIconView.image = [UIImage imageNamed:@"ic_coachmsg_attention_hold"];
     }
-   
-    [self.followButton addTarget:self action:@selector(followButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.followButton sizeToFit];
-    [self addSubview:self.followButton];
+    [self addSubview:self.followIconView];
     
-    self.shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.shareButton setImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach"] forState:UIControlStateNormal];
-    [self.shareButton addTarget:self action:@selector(shareButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:self.shareButton];
+    self.shareIconView = [[UIImageView alloc] init];
+    self.shareIconView.image = [UIImage imageNamed:@"ic_coachmsg_sharecoach"];
+    [self addSubview:self.shareIconView];
     
     self.tryCoachButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.tryCoachButton setTitle:@"免费试学" forState:UIControlStateNormal];
@@ -54,11 +50,27 @@
     [self.purchaseCoachButton addTarget:self action:@selector(purchaseCoachButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.purchaseCoachButton];
     
+    
+    self.followContainerView = [[UIView alloc] init];
+    self.followContainerView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tapRecignizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(followButtonTapped)];
+    [self.followContainerView addGestureRecognizer:tapRecignizer];
+
+    [self addSubview:self.followContainerView];
+    
+    
+    self.shareContainerView = [[UIView alloc] init];
+    self.shareContainerView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tapRecignizer2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(shareButtonTapped)];
+    [self.shareContainerView addGestureRecognizer:tapRecignizer2];
+    [self addSubview:self.shareContainerView];
+    
     self.shareLabel = [[UILabel alloc] init];
     self.shareLabel.text = @"分享";
     self.shareLabel.textColor = [UIColor HHLightTextGray];
     self.shareLabel.font = [UIFont systemFontOfSize:10];
-    [self addSubview:self.shareLabel];
+    
+    [self.shareContainerView addSubview:self.shareLabel];
     
     self.followLabel = [[UILabel alloc] init];
     if (self.followed) {
@@ -70,7 +82,7 @@
     }
 
     self.followLabel.font = [UIFont systemFontOfSize:10];
-    [self addSubview:self.followLabel];
+    [self.followContainerView addSubview:self.followLabel];
     
     self.topLine = [[UIView alloc] init];
     self.topLine.backgroundColor = [UIColor HHLightLineGray];
@@ -81,24 +93,39 @@
 }
 
 - (void)makeConstraints {
-    [self.followButton makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(20.0f);
+    
+    [self.followContainerView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.left);
+        make.top.equalTo(self.top);
+        make.width.mas_equalTo(62.0f);
+        make.height.equalTo(self.height);
+    }];
+    
+    [self.shareContainerView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(62.0f);
+        make.top.equalTo(self.top);
+        make.width.mas_equalTo(62.0f);
+        make.height.equalTo(self.height);
+    }];
+    
+    [self.followIconView makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.followContainerView.centerX);
         make.top.equalTo(self.top).offset(6.0f);
     }];
     
     [self.followLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.followButton.centerX);
-        make.top.equalTo(self.followButton.bottom).offset(4.0f);
+        make.centerX.equalTo(self.followIconView.centerX);
+        make.top.equalTo(self.followIconView.bottom).offset(4.0f);
     }];
     
-    [self.shareButton makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.followButton.right).offset(35.0f);
+    [self.shareIconView makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.shareContainerView.centerX);
         make.top.equalTo(self.top).offset(6.0f);
     }];
     
     [self.shareLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.shareButton.centerX);
-        make.top.equalTo(self.shareButton.bottom).offset(4.0f);
+        make.centerX.equalTo(self.shareIconView.centerX);
+        make.top.equalTo(self.shareIconView.bottom).offset(4.0f);
     }];
     
     [self.tryCoachButton makeConstraints:^(MASConstraintMaker *make) {
@@ -128,11 +155,11 @@
     if (self.followed) {
         self.followLabel.text = @"已关注";
         self.followLabel.textColor = [UIColor HHOrange];
-        [self.followButton setImage:[UIImage imageNamed:@"ic_coachmsg_attention_on"] forState:UIControlStateNormal];
+        self.followIconView.image = [UIImage imageNamed:@"ic_coachmsg_attention_on"];
     } else {
         self.followLabel.text = @"关注";
         self.followLabel.textColor = [UIColor HHLightTextGray];
-        [self.followButton setImage:[UIImage imageNamed:@"ic_coachmsg_attention_hold"] forState:UIControlStateNormal];
+        self.followIconView.image = [UIImage imageNamed:@"ic_coachmsg_attention_hold"];
     }
 }
 

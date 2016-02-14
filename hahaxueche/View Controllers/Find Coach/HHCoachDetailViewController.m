@@ -26,6 +26,7 @@
 #import "HHPopupUtility.h"
 #import "HHShareView.h"
 #import "HHPriceDetailView.h"
+#import "HHSocialMediaShareUtility.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -105,6 +106,28 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds), 0)];
         shareView.dismissBlock = ^() {
             [HHPopupUtility dismissPopup:weakSelf.popup];
+        };
+        shareView.actionBlock = ^(SocialMedia selecteItem) {
+            switch (selecteItem) {
+                case SocialMediaQQFriend: {
+                    [HHSocialMediaShareUtility shareToQQFriendsWithSuccess:nil Fail:nil];
+                } break;
+                    
+                case SocialMediaQQZone: {
+                    [HHSocialMediaShareUtility shareToQQZoneWithSuccess:nil Fail:nil];
+                } break;
+                    
+                case SocialMediaWeChatFriend: {
+                    [HHSocialMediaShareUtility shareToWeixinSessionWithSuccess:nil Fail:nil];
+                } break;
+                    
+                case SocialMediaWeChaPYQ: {
+                    [HHSocialMediaShareUtility shareToWeixinTimelineWithSuccess:nil Fail:nil];
+                } break;
+                    
+                default:
+                    break;
+            }
         };
         weakSelf.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
         [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];

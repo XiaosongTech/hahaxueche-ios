@@ -51,16 +51,20 @@ static CGFloat const kItemViewHeight = 100.0f;
     for (int i = 0; i < SocialMediaCount; i++) {
         HHShareViewItem *item;
         switch (i) {
-            case SocialMediaQQ: {
-                item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_qq"] title:@"QQ"];
+            case SocialMediaQQFriend: {
+                item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_qq"] title:@"QQ好友"];
             } break;
                 
-            case SocialMediaWechat: {
-               item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_wechat"] title:@"微信"];
+            case SocialMediaQQZone: {
+                item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_friendgroup"] title:@"QQ空间"];
             } break;
                 
-            case SocialMediaPYQ: {
-                item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_friendgroup"] title:@"朋友圈"];
+            case SocialMediaWeChatFriend: {
+               item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_wechat"] title:@"微信好友"];
+            } break;
+                
+            case SocialMediaWeChaPYQ: {
+                item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_friendgroup"] title:@"微信朋友圈"];
             } break;
                 
             default:
@@ -68,6 +72,8 @@ static CGFloat const kItemViewHeight = 100.0f;
         }
                  
         item.tag = i;
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(itemSelected:)];
+        [item addGestureRecognizer:tapRecognizer];
         [self.itemsView addSubview:item];
         [self.items addObject:item];
     
@@ -109,6 +115,12 @@ static CGFloat const kItemViewHeight = 100.0f;
 - (void)dismissView {
     if (self.dismissBlock) {
         self.dismissBlock();
+    }
+}
+
+- (void)itemSelected:(UITapGestureRecognizer *)recognizer {
+    if (self.actionBlock) {
+        self.actionBlock(recognizer.view.tag);
     }
 }
 

@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSInteger, SocialMedia) {
-    SocialMediaQQ, // QQ
-    SocialMediaWechat, // 微信
-    SocialMediaPYQ,    // 微信朋友圈
+    SocialMediaQQFriend, // QQ好友
+    SocialMediaQQZone, // QQ空间
+    SocialMediaWeChatFriend, // 微信好友
+    SocialMediaWeChaPYQ,    // 微信朋友圈
     SocialMediaCount
 };
 

@@ -41,6 +41,7 @@ PODS:
   - Mantle/extobjc (2.0.6)
   - Masonry (0.6.4)
   - MJRefresh (3.0.8)
+  - OpenShare (0.0.1)
   - pop (1.0.8)
   - SDCycleScrollView (1.61):
     - SDWebImage (~> 3.7)
@@ -70,6 +71,7 @@ DEPENDENCIES:
   - Mantle
   - Masonry
   - MJRefresh
+  - OpenShare (~> 0.0)
   - pop (~> 1.0)
   - SDCycleScrollView (~> 1.6)
   - SDWebImage (~> 3.7)
@@ -96,6 +98,7 @@ SPEC CHECKSUMS:
   Mantle: 299966b00759634931699f69cb6a30b9239b944d
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MJRefresh: fafde8f18f4afd66b434331a9beb67a6c0264056
+  OpenShare: a560580dbb729d5c0c3cc1ee84cd6aa4a07e94c6
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   SDCycleScrollView: a002d85b30cfa9d0ac74069cd3973ca19ff4f22f
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84

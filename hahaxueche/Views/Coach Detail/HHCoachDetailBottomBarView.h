@@ -12,8 +12,8 @@ typedef void (^HHCoachDetailBottomBarActionBlock)();
 
 @interface HHCoachDetailBottomBarView : UIView
 
-@property (nonatomic, strong) UIButton *followButton;
-@property (nonatomic, strong) UIButton *shareButton;
+@property (nonatomic, strong) UIImageView *followIconView;
+@property (nonatomic, strong) UIImageView *shareIconView;
 @property (nonatomic, strong) UIButton *tryCoachButton;
 @property (nonatomic, strong) UIButton *purchaseCoachButton;
 
@@ -21,6 +21,9 @@ typedef void (^HHCoachDetailBottomBarActionBlock)();
 @property (nonatomic, strong) UILabel *shareLabel;
 
 @property (nonatomic, strong) UIView *topLine;
+
+@property (nonatomic, strong) UIView *followContainerView;
+@property (nonatomic, strong) UIView *shareContainerView;
 
 @property (nonatomic) BOOL followed;
 
