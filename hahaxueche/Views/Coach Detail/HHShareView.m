@@ -40,7 +40,7 @@ static CGFloat const kItemViewHeight = 100.0f;
     self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.cancelButton.titleLabel.font = [UIFont systemFontOfSize:16.0f];
     [self.cancelButton setTitle:@"取消" forState:UIControlStateNormal];
-    [self.cancelButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
+    [self.cancelButton setTitleColor:[UIColor HHCancelRed] forState:UIControlStateNormal];
     [self.cancelButton addTarget:self action:@selector(dismissView) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.cancelButton];
     

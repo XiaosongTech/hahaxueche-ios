@@ -9,6 +9,7 @@
 #import "HHCoachDetailSectionOneCell.h"
 #import "Masonry.h"
 #import "UIColor+HHColor.h"
+#import "NSNumber+HHNumber.h"
 
 @implementation HHCoachDetailSectionOneCell
 
@@ -82,7 +83,7 @@
 
 
 - (void)setupWithCoach:(HHCoach *)coach {
-    [self.priceCell setupViewWithTitle:@"拿证价格" image:[UIImage imageNamed:@"ic_coachmsg_charge"] value:@"2850元" showArrowImage:YES actionBlock:nil];
+    [self.priceCell setupViewWithTitle:@"拿证价格" image:[UIImage imageNamed:@"ic_coachmsg_charge"] value:[@(2850) generateMoneyString] showArrowImage:YES actionBlock:nil];
     
     [self.courseTypeCell setupViewWithTitle:@"课程类型" image:[UIImage imageNamed:@"ic_coachmsg_classtype"] value:@"C1 手动档" showArrowImage:NO actionBlock:nil];
     

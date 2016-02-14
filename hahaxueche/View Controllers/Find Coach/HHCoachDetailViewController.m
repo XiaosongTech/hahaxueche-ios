@@ -25,6 +25,7 @@
 #import "HHTryCoachView.h"
 #import "HHPopupUtility.h"
 #import "HHShareView.h"
+#import "HHPriceDetailView.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -130,7 +131,17 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.purchaseCoachAction = ^(){
+        HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, 300.0f) title:@"付款明细" totalPrice:@(2850) priceParts:nil];
+        priceView.cancelBlock = ^() {
+            [HHPopupUtility dismissPopup:weakSelf.popup];
+        };
         
+        priceView.confirmBlock = ^(){
+            
+        };
+        weakSelf.popup = [HHPopupUtility createPopupWithContentView:priceView];
+        [HHPopupUtility showPopup:weakSelf.popup];
+
     };
     
 }

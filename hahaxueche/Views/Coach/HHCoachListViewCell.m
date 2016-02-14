@@ -11,6 +11,7 @@
 #import "Masonry.h"
 #import "UIView+HHRect.h"
 #import "HHFormatUtility.h"
+#import "NSNumber+HHNumber.h"
 
 static CGFloat const kAvatarRadius = 30.0f;
 
@@ -195,9 +196,9 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.goldenCoachIcon.image = [UIImage imageNamed:@"ic_auth_golden"];
     
     
-    self.priceLabel.text = [[HHFormatUtility moneyFormatter] stringFromNumber:@(2000)];
+    self.priceLabel.text = [@(2000) generateMoneyString];
     
-    self.marketPriceLabel.attributedText = [[NSMutableAttributedString alloc] initWithString:[[HHFormatUtility moneyFormatter] stringFromNumber:@(2500)] attributes:@{NSStrikethroughStyleAttributeName:@(1), NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+    self.marketPriceLabel.attributedText = [[NSMutableAttributedString alloc] initWithString:[@(2500) generateMoneyString] attributes:@{NSStrikethroughStyleAttributeName:@(1), NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
     
     [self.marketPriceLabel sizeToFit];
 }
