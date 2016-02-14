@@ -57,12 +57,12 @@
 - (void)makeConstraints {
     [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.top).offset(15.0f);
-        make.left.equalTo(self.left).offset(15.0f);
+        make.left.equalTo(self.left).offset(20.0f);
     }];
     
     [self.totalPriceLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.top).offset(15.0f);
-        make.right.equalTo(self.right).offset(-15.0f);
+        make.right.equalTo(self.right).offset(-20.0f);
     }];
     
     [self.topLine makeConstraints:^(MASConstraintMaker *make) {
@@ -97,12 +97,12 @@
     [view addSubview:valueLabel];
     
     [titleLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(view.left).offset(15.0f);
+        make.left.equalTo(view.left).offset(20.0f);
         make.centerY.equalTo(view.centerY);
     }];
     
     [valueLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(view.right).offset(-15.0f);
+        make.right.equalTo(view.right).offset(-20.0f);
         make.centerY.equalTo(view.centerY);
     }];
     
