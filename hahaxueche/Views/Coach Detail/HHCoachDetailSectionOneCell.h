@@ -10,6 +10,8 @@
 #import "HHCoachDetailSingleInfoView.h"
 #import "HHCoach.h"
 
+typedef void (^HHCellTappedAction)();
+
 @interface HHCoachDetailSectionOneCell : UITableViewCell
 
 @property (nonatomic, strong) HHCoachDetailSingleInfoView *priceCell;
@@ -18,6 +20,9 @@
 
 @property (nonatomic, strong) UIView *verticalLine;
 @property (nonatomic, strong) UIView *horizontalLine;
+
+@property (nonatomic, strong) HHCellTappedAction priceCellAction;
+@property (nonatomic, strong) HHCellTappedAction addressCellAction;
 
 
 - (void)setupWithCoach:(HHCoach *)coach;

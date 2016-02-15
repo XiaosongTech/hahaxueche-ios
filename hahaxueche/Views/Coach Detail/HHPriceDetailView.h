@@ -17,13 +17,15 @@ typedef void (^HHPriceDetailViewBlock)();
 @property (nonatomic, strong) UILabel *totalPriceLabel;
 
 @property (nonatomic, strong) UIView *topLine;
+@property (nonatomic, strong) UIView *botLine;
 @property (nonatomic, strong) HHConfirmCancelButtonsView *buttonsView;
+@property (nonatomic, strong) UIButton *okButton;
 
 @property (nonatomic, strong) HHPriceDetailViewBlock cancelBlock;
 @property (nonatomic, strong) HHPriceDetailViewBlock confirmBlock;
 
 
 
-- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title totalPrice:(NSNumber *)totalPrice priceParts:(NSArray *)priceParts;
+- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title totalPrice:(NSNumber *)totalPrice priceParts:(NSArray *)priceParts showOKButton:(BOOL)showOKButton;
 
 @end

@@ -25,12 +25,16 @@
 
 - (void)initSubviews {
     self.priceCell = [[HHCoachDetailSingleInfoView alloc] init];
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(priceCellTapped)];
+    [self.priceCell addGestureRecognizer:tapRecognizer];
     [self.contentView addSubview:self.priceCell];
     
     self.courseTypeCell = [[HHCoachDetailSingleInfoView alloc] init];
     [self.contentView addSubview:self.courseTypeCell];
     
     self.fieldAddressCell= [[HHCoachDetailSingleInfoView alloc] init];
+    UITapGestureRecognizer *tapRecognizer2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fieldAddressCellTapped)];
+    [self.fieldAddressCell addGestureRecognizer:tapRecognizer2];
     [self.contentView addSubview:self.fieldAddressCell];
     
     self.verticalLine = [[UIView alloc] init];
@@ -89,6 +93,18 @@
     
     [self.fieldAddressCell setupViewWithTitle:@"训练场地址" image:[UIImage imageNamed:@"ic_coachmsg_localtion"] value:@"湖北省武汉市xx区xx路" showArrowImage:YES actionBlock:nil];
 
+}
+
+- (void)priceCellTapped {
+    if (self.priceCellAction) {
+        self.priceCellAction();
+    }
+}
+
+- (void)fieldAddressCellTapped {
+    if (self.addressCellAction) {
+        self.addressCellAction();
+    }
 }
 
 @end

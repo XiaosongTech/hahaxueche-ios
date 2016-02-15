@@ -24,6 +24,9 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
 
 @implementation HHFieldsMapViewController
 
+- (void)dealloc {
+    self.mapView.delegate = nil;
+}
 
 - (instancetype)initWithUserLocation:(CLLocation *)userLocation selectedFields:(NSMutableArray *)selectedFields {
     self = [super init];
@@ -41,7 +44,6 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
     
     self.title = @"训练场地图";
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
-    self.navigationItem.leftBarButtonItem.enabled = NO;
 
     HHStudent *currentStudent = [[HHStudentStore sharedInstance] currentStudent];
     self.allFields = [[HHConstantsStore sharedInstance] getAllFieldsForCity:currentStudent.cityId];
@@ -210,7 +212,6 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
         UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(annotationViewTapped:)];
         [view addGestureRecognizer:tapRecognizer];
     }
-    self.navigationItem.leftBarButtonItem.enabled = YES;
 }
 
 #pragma  mark Others 

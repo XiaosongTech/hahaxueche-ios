@@ -22,5 +22,6 @@
 @property (nonatomic, strong) NSNumber *skillLevel;
 @property (nonatomic, strong) NSNumber *totalStudentCount;
 @property (nonatomic, strong) NSNumber *activeStudentCount;
+@property (nonatomic, strong) NSNumber *satisfactionRate;
 
 @end

@@ -13,6 +13,7 @@
 #import "HHShareViewItem.h"
 
 static CGFloat const kItemViewHeight = 100.0f;
+static NSInteger const kCountPerLine = 4;
 
 @implementation HHShareView
 
@@ -20,7 +21,7 @@ static CGFloat const kItemViewHeight = 100.0f;
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
-        [self setFrameWithHeight:100 + kItemViewHeight *((SocialMediaCount + 3 -1)/3)];
+        [self setFrameWithHeight:100 + kItemViewHeight *((SocialMediaCount + kCountPerLine -1)/kCountPerLine)];
         [self initSubviews];
     }
     return self;
@@ -52,19 +53,19 @@ static CGFloat const kItemViewHeight = 100.0f;
         HHShareViewItem *item;
         switch (i) {
             case SocialMediaQQFriend: {
-                item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_qq"] title:@"QQ好友"];
+                item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_qq"] title:@"QQ"];
             } break;
                 
             case SocialMediaQQZone: {
-                item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_friendgroup"] title:@"QQ空间"];
+                item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_kongjian"] title:@"空间"];
             } break;
                 
             case SocialMediaWeChatFriend: {
-               item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_wechat"] title:@"微信好友"];
+               item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_wechat"] title:@"微信"];
             } break;
                 
             case SocialMediaWeChaPYQ: {
-                item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_friendgroup"] title:@"微信朋友圈"];
+                item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_friendgroup"] title:@"朋友圈"];
             } break;
                 
             default:
@@ -77,7 +78,7 @@ static CGFloat const kItemViewHeight = 100.0f;
         [self.itemsView addSubview:item];
         [self.items addObject:item];
     
-        [item setFrame:CGRectMake((i%3) * CGRectGetWidth(self.bounds)/3.0f, (i/3) * kItemViewHeight, CGRectGetWidth(self.bounds)/3.0f, kItemViewHeight)];
+        [item setFrame:CGRectMake((i%kCountPerLine) * CGRectGetWidth(self.bounds)/kCountPerLine, (i/kCountPerLine) * kItemViewHeight, CGRectGetWidth(self.bounds)/kCountPerLine, kItemViewHeight)];
     }
     [self makeConstraints];
 }

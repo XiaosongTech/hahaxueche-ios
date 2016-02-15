@@ -27,6 +27,8 @@
 #import "HHShareView.h"
 #import "HHPriceDetailView.h"
 #import "HHSocialMediaShareUtility.h"
+#import "HHSingleFieldMapViewController.h"
+#import "HHConstantsStore.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -154,7 +156,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.purchaseCoachAction = ^(){
-        HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, 300.0f) title:@"付款明细" totalPrice:@(2850) priceParts:nil];
+        HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, 300.0f) title:@"付款明细" totalPrice:@(2850) priceParts:nil showOKButton:NO];
         priceView.cancelBlock = ^() {
             [HHPopupUtility dismissPopup:weakSelf.popup];
         };
@@ -176,6 +178,8 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    __weak HHCoachDetailViewController *weakSelf = self;
     switch (indexPath.row) {
         case CoachCellDescription: {
             HHCoachDetailDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:kDescriptionCellID forIndexPath:indexPath];
@@ -185,6 +189,19 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             
         case CoachCellInfoOne: {
             HHCoachDetailSectionOneCell *cell = [tableView dequeueReusableCellWithIdentifier:kInfoOneCellID forIndexPath:indexPath];
+            cell.priceCellAction = ^() {
+                HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, 300.0f) title:@"价格明细" totalPrice:@(2850) priceParts:nil showOKButton:YES];
+                priceView.cancelBlock = ^() {
+                    [HHPopupUtility dismissPopup:weakSelf.popup];
+                };
+                weakSelf.popup = [HHPopupUtility createPopupWithContentView:priceView];
+                [HHPopupUtility showPopup:weakSelf.popup];
+
+            };
+            cell.addressCellAction = ^() {
+                HHSingleFieldMapViewController *vc = [[HHSingleFieldMapViewController alloc] initWithField:[[[HHConstantsStore sharedInstance] getAllFieldsForCity:0] firstObject]];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
             [cell setupWithCoach:nil];
             return cell;
         } break;

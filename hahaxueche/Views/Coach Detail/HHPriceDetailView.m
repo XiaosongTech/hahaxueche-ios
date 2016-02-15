@@ -13,7 +13,7 @@
 
 @implementation HHPriceDetailView
 
-- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title totalPrice:(NSNumber *)totalPrice priceParts:(NSArray *)priceParts {
+- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title totalPrice:(NSNumber *)totalPrice priceParts:(NSArray *)priceParts showOKButton:(BOOL)showOKButton {
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
@@ -33,11 +33,25 @@
         
         [self addPriceItemViewWithTitle:@"报名费" value:[@(200) generateMoneyString] index:0];
         
-        self.buttonsView = [[HHConfirmCancelButtonsView alloc] initWithLeftTitle:@"确认付款" rightTitle:@"取消返回"];
-        [self addSubview:self.buttonsView];
+        if (!showOKButton) {
+            self.buttonsView = [[HHConfirmCancelButtonsView alloc] initWithLeftTitle:@"确认付款" rightTitle:@"取消返回"];
+            [self addSubview:self.buttonsView];
+            
+            [self.buttonsView.leftButton addTarget:self action:@selector(confirmButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+            [self.buttonsView.rightButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+        } else {
+            self.okButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            [self.okButton setTitle:@"知道了" forState:UIControlStateNormal];
+            [self.okButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
+            self.okButton.titleLabel.font = [UIFont systemFontOfSize:18.0f];
+            [self.okButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+            [self addSubview:self.okButton];
+            
+            self.botLine = [[UIView alloc] init];
+            self.botLine.backgroundColor = [UIColor HHLightLineGray];
+            [self addSubview:self.botLine];
+        }
         
-        [self.buttonsView.leftButton addTarget:self action:@selector(confirmButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-        [self.buttonsView.rightButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
         
         [self makeConstraints];
         
@@ -72,12 +86,28 @@
         make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
     }];
     
-    [self.buttonsView makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.bottom);
-        make.left.equalTo(self.left);
-        make.width.equalTo(self.width);
-        make.height.mas_equalTo(50.0f);
-    }];
+    if (self.buttonsView) {
+        [self.buttonsView makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.bottom);
+            make.left.equalTo(self.left);
+            make.width.equalTo(self.width);
+            make.height.mas_equalTo(50.0f);
+        }];
+    } else {
+        [self.okButton makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.bottom);
+            make.left.equalTo(self.left);
+            make.width.equalTo(self.width);
+            make.height.mas_equalTo(50.0f);
+        }];
+        [self.botLine makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.okButton.top);
+            make.left.equalTo(self.left);
+            make.width.equalTo(self.width);
+            make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+        }];
+    }
+    
 }
 
 - (void)addPriceItemViewWithTitle:(NSString *)title value:(NSString *)value index:(NSInteger) index {
