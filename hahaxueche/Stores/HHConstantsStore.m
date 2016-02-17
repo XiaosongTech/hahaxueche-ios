@@ -9,6 +9,7 @@
 #import "HHConstantsStore.h"
 #import "HHAPIClient.h"
 #import "APIPaths.h"
+#import "HHStudentStore.h"
 
 @interface HHConstantsStore ()
 
@@ -78,8 +79,9 @@
     return nil;
 }
 
-- (HHCity *)getCityWithId:(NSNumber *)cityId {
+- (HHCity *)getAuthedUserCity {
     NSArray *cities = [HHConstantsStore sharedInstance].constants.cities;
+    NSNumber *cityId = [HHStudentStore sharedInstance].currentStudent.cityId;
     if ([cities count]) {
         for (HHCity *city in cities) {
             if ([city.cityId integerValue] == [cityId integerValue]) {

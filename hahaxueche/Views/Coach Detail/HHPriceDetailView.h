@@ -26,6 +26,6 @@ typedef void (^HHPriceDetailViewBlock)();
 
 
 
-- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title totalPrice:(NSNumber *)totalPrice priceParts:(NSArray *)priceParts showOKButton:(BOOL)showOKButton;
+- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title totalPrice:(NSNumber *)totalPrice showOKButton:(BOOL)showOKButton;
 
 @end

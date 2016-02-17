@@ -130,7 +130,7 @@ typedef void (^HHUserLocationCompletionBlock)();
 
 
 - (void)setupDefaultSortAndFilter {
-    self.userCity = [[HHConstantsStore sharedInstance] getCityWithId:[HHStudentStore sharedInstance].currentStudent.cityId];
+    self.userCity = [[HHConstantsStore sharedInstance] getAuthedUserCity];
     NSNumber *defaultDistance = [self.userCity.distanceRanges lastObject];
     NSNumber *defaultPrice = [self.userCity.priceRanges lastObject];
     HHCoachFilters *defailtFilters = [[HHCoachFilters alloc] init];

@@ -15,5 +15,6 @@
 @property (nonatomic, copy) NSString *zipCode;
 @property (nonatomic, copy) NSArray *priceRanges;
 @property (nonatomic, copy) NSArray *distanceRanges;
+@property (nonatomic, copy) NSArray *cityFixedFees;
 
 @end

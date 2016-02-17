@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1405CC5C1C74E4330030B114 /* HHCityFixedFee.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405CC5B1C74E4330030B114 /* HHCityFixedFee.m */; };
 		140EC5EE1C6D542700DA634D /* ic_coachmsg_charge.png in Resources */ = {isa = PBXBuildFile; fileRef = 140EC5E81C6D542700DA634D /* ic_coachmsg_charge.png */; };
 		140EC5EF1C6D542700DA634D /* ic_coachmsg_charge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 140EC5E91C6D542700DA634D /* ic_coachmsg_charge@2x.png */; };
 		140EC5F01C6D542700DA634D /* ic_coachmsg_charge@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 140EC5EA1C6D542700DA634D /* ic_coachmsg_charge@3x.png */; };
@@ -285,6 +286,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1405CC5A1C74E4330030B114 /* HHCityFixedFee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCityFixedFee.h; sourceTree = "<group>"; };
+		1405CC5B1C74E4330030B114 /* HHCityFixedFee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCityFixedFee.m; sourceTree = "<group>"; };
 		140EC5E81C6D542700DA634D /* ic_coachmsg_charge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_coachmsg_charge.png; sourceTree = "<group>"; };
 		140EC5E91C6D542700DA634D /* ic_coachmsg_charge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_coachmsg_charge@2x.png"; sourceTree = "<group>"; };
 		140EC5EA1C6D542700DA634D /* ic_coachmsg_charge@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_coachmsg_charge@3x.png"; sourceTree = "<group>"; };
@@ -859,6 +862,8 @@
 				5C36D3951C430DD700443545 /* HHConstants.m */,
 				5C37C1C91C55D0D80073970F /* HHField.h */,
 				5C37C1CA1C55D0D80073970F /* HHField.m */,
+				1405CC5A1C74E4330030B114 /* HHCityFixedFee.h */,
+				1405CC5B1C74E4330030B114 /* HHCityFixedFee.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -1669,6 +1674,7 @@
 				5C6D8C9D1C40125D0055CB31 /* HHUserAuthService.m in Sources */,
 				140EC5FC1C6D64C400DA634D /* HHCoachDetailSectionTwoCell.m in Sources */,
 				5CDE14761C3778BD0004778C /* HHToastManager.m in Sources */,
+				1405CC5C1C74E4330030B114 /* HHCityFixedFee.m in Sources */,
 				5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */,
 				140EC6201C6D776400DA634D /* HHCoachCellView.m in Sources */,
 				143F57C21C6D39E600835AA4 /* PBViewController.m in Sources */,

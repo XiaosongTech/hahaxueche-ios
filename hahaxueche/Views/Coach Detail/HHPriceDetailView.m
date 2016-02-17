@@ -10,10 +10,13 @@
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
 #import "NSNumber+HHNumber.h"
+#import "HHConstantsStore.h"
+#import "HHCity.h"
+#import "HHCityFixedFee.h"
 
 @implementation HHPriceDetailView
 
-- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title totalPrice:(NSNumber *)totalPrice priceParts:(NSArray *)priceParts showOKButton:(BOOL)showOKButton {
+- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title totalPrice:(NSNumber *)totalPrice showOKButton:(BOOL)showOKButton {
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
@@ -31,7 +34,20 @@
         self.topLine.backgroundColor = [UIColor HHLightLineGray];
         [self addSubview:self.topLine];
         
-        [self addPriceItemViewWithTitle:@"报名费" value:[@(200) generateMoneyString] index:0];
+        HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
+        int i = 0;
+        NSInteger traningFee = [totalPrice integerValue];
+        for (HHCityFixedFee *fee in city.cityFixedFees) {
+            NSString *value = [fee.feeAmount generateMoneyString];
+            if ([fee.feeAmount integerValue] == 0) {
+                value = @"免费赠送";
+            }
+            [self addPriceItemViewWithTitle:fee.feeName value:value index:i];
+            traningFee = traningFee - [fee.feeAmount integerValue];
+            i++;
+        }
+        
+        [self addPriceItemViewWithTitle:@"培训费（您的教练）" value:[@(traningFee) generateMoneyString] index:i];
         
         if (!showOKButton) {
             self.buttonsView = [[HHConfirmCancelButtonsView alloc] initWithLeftTitle:@"确认付款" rightTitle:@"取消返回"];

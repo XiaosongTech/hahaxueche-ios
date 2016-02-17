@@ -21,7 +21,7 @@ typedef void (^HHConstantsCompletion)(HHConstants *constants);
 - (NSArray *)getAllFieldsForCity:(NSNumber *)cityId;
 - (NSArray *)getSupporteCities;
 - (HHField *)getFieldWithId:(NSString *)fieldId;
-- (HHCity *)getCityWithId:(NSNumber *)cityId;
+- (HHCity *)getAuthedUserCity;
 
 
 @end

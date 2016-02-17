@@ -156,7 +156,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.purchaseCoachAction = ^(){
-        HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, 300.0f) title:@"付款明细" totalPrice:@(2850) priceParts:nil showOKButton:NO];
+        HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, 300.0f) title:@"付款明细" totalPrice:@(2850) showOKButton:NO];
         priceView.cancelBlock = ^() {
             [HHPopupUtility dismissPopup:weakSelf.popup];
         };
@@ -190,7 +190,9 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         case CoachCellInfoOne: {
             HHCoachDetailSectionOneCell *cell = [tableView dequeueReusableCellWithIdentifier:kInfoOneCellID forIndexPath:indexPath];
             cell.priceCellAction = ^() {
-                HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, 300.0f) title:@"价格明细" totalPrice:@(2850) priceParts:nil showOKButton:YES];
+                HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
+                CGFloat height = 100.0f + (city.cityFixedFees.count + 1) * 50.0f;
+                HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"价格明细" totalPrice:@(2850) showOKButton:YES];
                 priceView.cancelBlock = ^() {
                     [HHPopupUtility dismissPopup:weakSelf.popup];
                 };
