@@ -30,4 +30,6 @@
 
 + (UIColor *)HHCancelRed;
 
++ (UIColor *)HHBackgroundGary;
+
 @end

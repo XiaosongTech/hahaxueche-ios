@@ -52,4 +52,8 @@
 + (UIColor *)HHCancelRed {
     return [UIColor colorWithRed:0.99 green:0.46 blue:0.33 alpha:1];
 }
+
++ (UIColor *)HHBackgroundGary {
+    return [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1];
+}
 @end
