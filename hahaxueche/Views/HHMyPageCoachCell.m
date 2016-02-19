@@ -43,27 +43,28 @@
         make.left.equalTo(self.left);
         make.width.equalTo(self.width);
         make.height.mas_equalTo(kTitleViewHeight);
+        
     }];
+    
+    [self.myCoachView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.titleView.bottom);
+        make.left.equalTo(self.left);
+        make.width.equalTo(self.width);
+        make.height.mas_equalTo(kItemViewHeight);
+        
+    }];
+    
+    [self.followedCoachView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.myCoachView.bottom);
+        make.left.equalTo(self.left);
+        make.width.equalTo(self.width);
+        make.height.mas_equalTo(kItemViewHeight);
+        
+    }];
+
 }
 
 - (void)setupCellWithCoach:(HHCoach *)coach coachList:(NSArray *)coachList {
-    if (coach) {
-        [self.myCoachView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.titleView.bottom);
-            make.left.equalTo(self.left);
-            make.width.equalTo(self.width);
-            make.height.mas_equalTo(kItemViewHeight);
-            
-        }];
-    } else {
-        [self.followedCoachView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.titleView.bottom);
-            make.left.equalTo(self.left);
-            make.width.equalTo(self.width);
-            make.height.mas_equalTo(kItemViewHeight);
-            
-        }];
-    }
 }
 
 @end

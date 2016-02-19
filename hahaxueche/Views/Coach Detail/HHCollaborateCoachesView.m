@@ -19,6 +19,7 @@
     if (self) {
         [self initSubviews];
         self.backgroundColor = [UIColor whiteColor];
+        self.viewsArray = [NSMutableArray array];
     }
     return self;
 }
@@ -51,17 +52,19 @@
 }
 
 - (void)setupCellWithCoaches:(NSArray *)coaches {
-    NSMutableArray *viewArrays = [NSMutableArray array];
 //    for (HHCoach *coach in coaches) {
 //        HHCoachCellView *view = [[HHCoachCellView alloc] initWithCoach:coach];
 //        [self addSubview:view];
 //        [viewArrays addObject:view];
 //    }
-    
+    for (HHCoachCellView *view in self.viewsArray) {
+        [view removeFromSuperview];
+    }
+    [self.viewsArray removeAllObjects];
     for (int i = 0; i< 2; i++) {
         HHCoachCellView *view = [[HHCoachCellView alloc] initWithCoach:nil];
         [self addSubview:view];
-        [viewArrays addObject:view];
+        [self.self.viewsArray addObject:view];
         
         if (i == 0) {
             [view makeConstraints:^(MASConstraintMaker *make) {
@@ -71,7 +74,7 @@
                 make.height.mas_equalTo(70.0f);
             }];
         } else {
-            HHCoachCellView *preView = viewArrays[i-1];
+            HHCoachCellView *preView = self.viewsArray[i-1];
             [view makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(preView.bottom);
                 make.width.equalTo(self.width);

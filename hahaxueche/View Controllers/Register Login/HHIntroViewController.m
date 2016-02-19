@@ -16,6 +16,7 @@
 #import "HHRootViewController.h"
 #import <SDCycleScrollView/SDCycleScrollView.h>
 #import "HHStudentStore.h"
+#import "UIBarButtonItem+HHCustomButton.h"
 
 
 static CGFloat const kButtonHeight = 40.0f;
@@ -29,6 +30,7 @@ static CGFloat const kButtonWidth = 235.0f;
 @property (nonatomic, strong) UIView *bottomLine;
 @property (nonatomic, strong) SDCycleScrollView *bannerView;
 
+
 @end
 
 @implementation HHIntroViewController
@@ -39,6 +41,13 @@ static CGFloat const kButtonWidth = 235.0f;
     self.navigationController.navigationBarHidden = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self initSubviews];
+    
+    if ([self.navigationController.viewControllers count] > 1) {
+        self.backButton.hidden = NO;
+    } else {
+        self.backButton.hidden = YES;
+    }
+
 }
 
 - (void)initSubviews {
@@ -74,6 +83,11 @@ static CGFloat const kButtonWidth = 235.0f;
     [self.enterAsGuestButton sizeToFit];
     [self.enterAsGuestButton addTarget:self action:@selector(enterAsGuest) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.enterAsGuestButton];
+
+    self.backButton = [[UIButton alloc] init];
+    [self.backButton setImage:[UIImage imageNamed:@"ic_arrow_back"] forState:UIControlStateNormal];
+    [self.backButton addTarget:self action:@selector(popupVC) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.backButton];
     
     [self makeConstraints];
     
@@ -83,6 +97,11 @@ static CGFloat const kButtonWidth = 235.0f;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
 }
 
 #pragma mark - Auto Layout
@@ -122,6 +141,12 @@ static CGFloat const kButtonWidth = 235.0f;
         make.width.mas_equalTo(150.0f);
         make.centerX.equalTo(self.view.centerX);
     }];
+    
+    [self.backButton makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.top).offset(30.0f);
+        make.left.equalTo(self.view.left).offset(20.0f);
+    }];
+
 
 }
 
@@ -141,7 +166,11 @@ static CGFloat const kButtonWidth = 235.0f;
 - (void)enterAsGuest {
     [[HHStudentStore sharedInstance] createGuestStudent];
     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-    [self presentViewController:rootVC animated:YES completion:nil];
+    [self presentViewController:rootVC animated:NO completion:nil];
+}
+
+- (void)popupVC {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Banner View Delegate Method

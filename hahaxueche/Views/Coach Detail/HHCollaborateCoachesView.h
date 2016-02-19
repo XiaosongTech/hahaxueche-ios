@@ -12,6 +12,8 @@
 
 @property (nonatomic, strong) UILabel *titleLabel;
 
+@property (nonatomic, strong) NSMutableArray *viewsArray;
+
 - (void)setupCellWithCoaches:(NSArray *)coaches;
 
 @end

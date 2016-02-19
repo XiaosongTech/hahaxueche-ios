@@ -15,6 +15,9 @@
 #import "HHMyPageHelpCell.h"
 #import "HHMyPageLogoutCell.h"
 #import "HHMyCoachDetailViewController.h"
+#import "HHStudentStore.h"
+#import "Masonry.h"
+#import "HHIntroViewController.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -31,9 +34,10 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellCount,
 };
 
-@interface HHMyPageViewController() <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
+@interface HHMyPageViewController() <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UITextViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UITextView *guestLoginSignupTextView;
 
 @end
 
@@ -48,26 +52,47 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 }
 
 - (void)initSubviews {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)- CGRectGetHeight([UIApplication sharedApplication].statusBarFrame) - CGRectGetHeight(self.navigationController.navigationBar.bounds))];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.backgroundColor = [UIColor HHBackgroundGary];
-    [self.view addSubview:self.tableView];
-    
-    [self.tableView registerClass:[HHMyPageUserInfoCell class] forCellReuseIdentifier:kUserInfoCell];
-    [self.tableView registerClass:[HHMyPageCoachCell class] forCellReuseIdentifier:kCoachCell];
-    [self.tableView registerClass:[HHMyPageSupportCell class] forCellReuseIdentifier:kSupportCell];
-    [self.tableView registerClass:[HHMyPageHelpCell class] forCellReuseIdentifier:kHelpCell];
-    [self.tableView registerClass:[HHMyPageLogoutCell class] forCellReuseIdentifier:kLogoutCell];
-
-    UIImageView *topBackgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 150.0f)];
-    topBackgroundView.backgroundColor = [UIColor blackColor];
-    //topBackgroundView.image = [UIImage imageNamed:@"pic_local"];
-    
-    ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithImage:[UIImage imageNamed:@"pic_local"] forSize:CGSizeMake(CGRectGetWidth(self.view.bounds), 150.0f)];
-    [self.tableView setTableHeaderView:headerView];
-    [self.tableView sendSubviewToBack:self.tableView.tableHeaderView];
+    // Guest
+    if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+        self.guestLoginSignupTextView = [[UITextView alloc] init];
+        self.guestLoginSignupTextView.delegate = self;
+        self.guestLoginSignupTextView.editable = NO;
+        self.guestLoginSignupTextView.textAlignment = NSTextAlignmentCenter;
+        self.guestLoginSignupTextView.attributedText = [self buildGuestString];
+        self.guestLoginSignupTextView.tintColor = [UIColor HHOrange];
+        self.guestLoginSignupTextView.backgroundColor = [UIColor clearColor];
+        [self.guestLoginSignupTextView sizeToFit];
+        [self.view addSubview:self.guestLoginSignupTextView];
+        
+        [self.guestLoginSignupTextView makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.view.centerX);
+            make.centerY.equalTo(self.view.centerY);
+            make.width.equalTo(self.view).offset(-40.0f);
+            make.height.mas_equalTo(50.0f);
+        }];
+        
+    } else {
+        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)- CGRectGetHeight([UIApplication sharedApplication].statusBarFrame) - CGRectGetHeight(self.navigationController.navigationBar.bounds))];
+        self.tableView.delegate = self;
+        self.tableView.dataSource = self;
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        self.tableView.backgroundColor = [UIColor HHBackgroundGary];
+        [self.view addSubview:self.tableView];
+        
+        [self.tableView registerClass:[HHMyPageUserInfoCell class] forCellReuseIdentifier:kUserInfoCell];
+        [self.tableView registerClass:[HHMyPageCoachCell class] forCellReuseIdentifier:kCoachCell];
+        [self.tableView registerClass:[HHMyPageSupportCell class] forCellReuseIdentifier:kSupportCell];
+        [self.tableView registerClass:[HHMyPageHelpCell class] forCellReuseIdentifier:kHelpCell];
+        [self.tableView registerClass:[HHMyPageLogoutCell class] forCellReuseIdentifier:kLogoutCell];
+        
+        UIImageView *topBackgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 150.0f)];
+        topBackgroundView.backgroundColor = [UIColor blackColor];
+        //topBackgroundView.image = [UIImage imageNamed:@"pic_local"];
+        
+        ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithImage:[UIImage imageNamed:@"pic_local"] forSize:CGSizeMake(CGRectGetWidth(self.view.bounds), 150.0f)];
+        [self.tableView setTableHeaderView:headerView];
+        [self.tableView sendSubviewToBack:self.tableView.tableHeaderView];
+    }
 }
 
 #pragma mark - TableView Delegate & Datasource Methods
@@ -135,7 +160,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             return 150.0f;
             
         case MyPageCellCoach:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight;
+            return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
             
         case MyPageCellSupport:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
@@ -161,6 +186,32 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         // pass the current offset of the UITableView so that the ParallaxHeaderView layouts the subViews.
         [(ParallaxHeaderView *)self.tableView.tableHeaderView layoutHeaderViewForScrollViewOffset:self.tableView.contentOffset];
     }
+}
+
+#pragma mark - Others
+
+- (NSMutableAttributedString *)buildGuestString {
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"您还没有登陆, 请先" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+    
+    NSMutableAttributedString *attributedString2 = [[NSMutableAttributedString alloc] initWithString:@"登陆或注册" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f], NSForegroundColorAttributeName:[UIColor HHOrange], NSParagraphStyleAttributeName:paragraphStyle, NSLinkAttributeName:@"fakeString"}];
+    
+    [attributedString appendAttributedString:attributedString2];
+    
+    return attributedString;
+}
+
+#pragma mark UITextView Delegate
+
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
+    if ([URL.absoluteString isEqualToString:@"fakeString"]) {
+        HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+        introVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:introVC animated:YES];
+    }
+    return NO;
 }
 
 @end
