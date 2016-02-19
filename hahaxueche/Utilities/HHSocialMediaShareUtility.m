@@ -14,7 +14,7 @@
 + (void)configure {
     [OpenShare connectQQWithAppId:@"1104872131"];
     [OpenShare connectWeiboWithAppKey:@"4933du6PHdo8FYl9"];
-    //[OpenShare connectWeixinWithAppId:@"wxd930ea5d5a258f4f"];
+    [OpenShare connectWeixinWithAppId:@"wxdf5f23aa517b1a96"];
 }
 
 + (void)shareToQQFriendsWithSuccess:(shareSuccess)success Fail:(shareFail)fail {
@@ -50,14 +50,16 @@
 
 }
 
+
 + (OSMessage *)generateShareMessage {
     OSMessage *msg = [[OSMessage alloc] init];
     msg.title = @"哈哈学车";
     msg.link = @"http://a.app.qq.com/o/simple.jsp?pkgname=com.hahaxueche";
     msg.desc = @"开启快乐学车之旅吧～";
-    NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"launchImage"]);
+    NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"ic_coachmsg_sharecoach_friendgroup"]);
     msg.image = imageData;
     msg.thumbnail = imageData;
+    msg.multimediaType = OSMultimediaTypeApp;
     return msg;
 }
 
