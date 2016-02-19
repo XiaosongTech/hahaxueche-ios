@@ -14,6 +14,18 @@
 		1405CC681C7523560030B114 /* ic_nolist_bk_pic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1405CC651C7523560030B114 /* ic_nolist_bk_pic@2x.png */; };
 		1405CC691C7523560030B114 /* ic_nolist_bk_pic@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1405CC661C7523560030B114 /* ic_nolist_bk_pic@3x.png */; };
 		1405CC6D1C7523CE0030B114 /* HHEmptyScheduleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405CC6C1C7523CE0030B114 /* HHEmptyScheduleCell.m */; };
+		1405CC741C762CE80030B114 /* HHMyPageUserInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405CC731C762CE80030B114 /* HHMyPageUserInfoCell.m */; };
+		1405CC7D1C7637B60030B114 /* HHMyPageUserInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405CC7C1C7637B60030B114 /* HHMyPageUserInfoView.m */; };
+		1405CC801C7641690030B114 /* HHMyPageItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405CC7F1C7641690030B114 /* HHMyPageItemView.m */; };
+		1405CC831C7645910030B114 /* HHMyPageCoachCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405CC821C7645910030B114 /* HHMyPageCoachCell.m */; };
+		1405CC861C76460C0030B114 /* HHMyPageItemTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405CC851C76460C0030B114 /* HHMyPageItemTitleView.m */; };
+		1405CC891C765FD60030B114 /* HHMyPageSupportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405CC881C765FD60030B114 /* HHMyPageSupportCell.m */; };
+		1405CC8C1C7662C60030B114 /* HHMyPageHelpCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405CC8B1C7662C60030B114 /* HHMyPageHelpCell.m */; };
+		1405CC8F1C7664080030B114 /* HHMyPageLogoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405CC8E1C7664080030B114 /* HHMyPageLogoutCell.m */; };
+		1405CC931C768A2A0030B114 /* HHMyCoachDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405CC921C768A2A0030B114 /* HHMyCoachDetailViewController.m */; };
+		1405CC971C7693E40030B114 /* HHMyCoachBasicInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405CC961C7693E40030B114 /* HHMyCoachBasicInfoCell.m */; };
+		1405CC9A1C7699900030B114 /* HHMyCoachCourseInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405CC991C7699900030B114 /* HHMyCoachCourseInfoCell.m */; };
+		1405CC9D1C76A1060030B114 /* HHMyCoachPartnerCoachCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1405CC9C1C76A1060030B114 /* HHMyCoachPartnerCoachCell.m */; };
 		140EC5EE1C6D542700DA634D /* ic_coachmsg_charge.png in Resources */ = {isa = PBXBuildFile; fileRef = 140EC5E81C6D542700DA634D /* ic_coachmsg_charge.png */; };
 		140EC5EF1C6D542700DA634D /* ic_coachmsg_charge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 140EC5E91C6D542700DA634D /* ic_coachmsg_charge@2x.png */; };
 		140EC5F01C6D542700DA634D /* ic_coachmsg_charge@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 140EC5EA1C6D542700DA634D /* ic_coachmsg_charge@3x.png */; };
@@ -303,6 +315,30 @@
 		1405CC661C7523560030B114 /* ic_nolist_bk_pic@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_nolist_bk_pic@3x.png"; sourceTree = "<group>"; };
 		1405CC6B1C7523CE0030B114 /* HHEmptyScheduleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHEmptyScheduleCell.h; sourceTree = "<group>"; };
 		1405CC6C1C7523CE0030B114 /* HHEmptyScheduleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHEmptyScheduleCell.m; sourceTree = "<group>"; };
+		1405CC721C762CE80030B114 /* HHMyPageUserInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyPageUserInfoCell.h; sourceTree = "<group>"; };
+		1405CC731C762CE80030B114 /* HHMyPageUserInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyPageUserInfoCell.m; sourceTree = "<group>"; };
+		1405CC7B1C7637B60030B114 /* HHMyPageUserInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyPageUserInfoView.h; sourceTree = "<group>"; };
+		1405CC7C1C7637B60030B114 /* HHMyPageUserInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyPageUserInfoView.m; sourceTree = "<group>"; };
+		1405CC7E1C7641690030B114 /* HHMyPageItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyPageItemView.h; sourceTree = "<group>"; };
+		1405CC7F1C7641690030B114 /* HHMyPageItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyPageItemView.m; sourceTree = "<group>"; };
+		1405CC811C7645910030B114 /* HHMyPageCoachCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyPageCoachCell.h; sourceTree = "<group>"; };
+		1405CC821C7645910030B114 /* HHMyPageCoachCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyPageCoachCell.m; sourceTree = "<group>"; };
+		1405CC841C76460C0030B114 /* HHMyPageItemTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyPageItemTitleView.h; sourceTree = "<group>"; };
+		1405CC851C76460C0030B114 /* HHMyPageItemTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyPageItemTitleView.m; sourceTree = "<group>"; };
+		1405CC871C765FD60030B114 /* HHMyPageSupportCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyPageSupportCell.h; sourceTree = "<group>"; };
+		1405CC881C765FD60030B114 /* HHMyPageSupportCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyPageSupportCell.m; sourceTree = "<group>"; };
+		1405CC8A1C7662C60030B114 /* HHMyPageHelpCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyPageHelpCell.h; sourceTree = "<group>"; };
+		1405CC8B1C7662C60030B114 /* HHMyPageHelpCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyPageHelpCell.m; sourceTree = "<group>"; };
+		1405CC8D1C7664080030B114 /* HHMyPageLogoutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyPageLogoutCell.h; sourceTree = "<group>"; };
+		1405CC8E1C7664080030B114 /* HHMyPageLogoutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyPageLogoutCell.m; sourceTree = "<group>"; };
+		1405CC911C768A2A0030B114 /* HHMyCoachDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyCoachDetailViewController.h; sourceTree = "<group>"; };
+		1405CC921C768A2A0030B114 /* HHMyCoachDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyCoachDetailViewController.m; sourceTree = "<group>"; };
+		1405CC951C7693E40030B114 /* HHMyCoachBasicInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyCoachBasicInfoCell.h; sourceTree = "<group>"; };
+		1405CC961C7693E40030B114 /* HHMyCoachBasicInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyCoachBasicInfoCell.m; sourceTree = "<group>"; };
+		1405CC981C7699900030B114 /* HHMyCoachCourseInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyCoachCourseInfoCell.h; sourceTree = "<group>"; };
+		1405CC991C7699900030B114 /* HHMyCoachCourseInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyCoachCourseInfoCell.m; sourceTree = "<group>"; };
+		1405CC9B1C76A1060030B114 /* HHMyCoachPartnerCoachCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyCoachPartnerCoachCell.h; sourceTree = "<group>"; };
+		1405CC9C1C76A1060030B114 /* HHMyCoachPartnerCoachCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyCoachPartnerCoachCell.m; sourceTree = "<group>"; };
 		140EC5E81C6D542700DA634D /* ic_coachmsg_charge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_coachmsg_charge.png; sourceTree = "<group>"; };
 		140EC5E91C6D542700DA634D /* ic_coachmsg_charge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_coachmsg_charge@2x.png"; sourceTree = "<group>"; };
 		140EC5EA1C6D542700DA634D /* ic_coachmsg_charge@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_coachmsg_charge@3x.png"; sourceTree = "<group>"; };
@@ -711,6 +747,44 @@
 			name = "Training Schedule";
 			sourceTree = "<group>";
 		};
+		1405CC6E1C762C940030B114 /* My Page */ = {
+			isa = PBXGroup;
+			children = (
+				1405CC721C762CE80030B114 /* HHMyPageUserInfoCell.h */,
+				1405CC731C762CE80030B114 /* HHMyPageUserInfoCell.m */,
+				1405CC7B1C7637B60030B114 /* HHMyPageUserInfoView.h */,
+				1405CC7C1C7637B60030B114 /* HHMyPageUserInfoView.m */,
+				1405CC7E1C7641690030B114 /* HHMyPageItemView.h */,
+				1405CC7F1C7641690030B114 /* HHMyPageItemView.m */,
+				1405CC811C7645910030B114 /* HHMyPageCoachCell.h */,
+				1405CC821C7645910030B114 /* HHMyPageCoachCell.m */,
+				1405CC841C76460C0030B114 /* HHMyPageItemTitleView.h */,
+				1405CC851C76460C0030B114 /* HHMyPageItemTitleView.m */,
+				1405CC871C765FD60030B114 /* HHMyPageSupportCell.h */,
+				1405CC881C765FD60030B114 /* HHMyPageSupportCell.m */,
+				1405CC8A1C7662C60030B114 /* HHMyPageHelpCell.h */,
+				1405CC8B1C7662C60030B114 /* HHMyPageHelpCell.m */,
+				1405CC8D1C7664080030B114 /* HHMyPageLogoutCell.h */,
+				1405CC8E1C7664080030B114 /* HHMyPageLogoutCell.m */,
+				1405CC951C7693E40030B114 /* HHMyCoachBasicInfoCell.h */,
+				1405CC961C7693E40030B114 /* HHMyCoachBasicInfoCell.m */,
+				1405CC981C7699900030B114 /* HHMyCoachCourseInfoCell.h */,
+				1405CC991C7699900030B114 /* HHMyCoachCourseInfoCell.m */,
+				1405CC9B1C76A1060030B114 /* HHMyCoachPartnerCoachCell.h */,
+				1405CC9C1C76A1060030B114 /* HHMyCoachPartnerCoachCell.m */,
+			);
+			name = "My Page";
+			sourceTree = "<group>";
+		};
+		1405CC901C76899E0030B114 /* My Page */ = {
+			isa = PBXGroup;
+			children = (
+				1405CC911C768A2A0030B114 /* HHMyCoachDetailViewController.h */,
+				1405CC921C768A2A0030B114 /* HHMyCoachDetailViewController.m */,
+			);
+			name = "My Page";
+			sourceTree = "<group>";
+		};
 		141F7C0C1C61B060003278C6 /* Coach */ = {
 			isa = PBXGroup;
 			children = (
@@ -1077,6 +1151,7 @@
 		5CDE143B1C32F89C0004778C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1405CC6E1C762C940030B114 /* My Page */,
 				1405CC6A1C75238F0030B114 /* Training Schedule */,
 				5C36D4411C4DA50E00443545 /* Coach */,
 				141FA0FB1C6BAF4300113B1A /* Coach Detail */,
@@ -1112,6 +1187,7 @@
 		5CDE14471C36E62C0004778C /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				1405CC901C76899E0030B114 /* My Page */,
 				5C36D4281C4C2EF000443545 /* Find Coach */,
 				143778EC1C6125A700339D20 /* Others */,
 				5CDE144E1C3715A90004778C /* Register Login */,
@@ -1688,6 +1764,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				141FA0FA1C6BAD1A00113B1A /* ParallaxHeaderView.m in Sources */,
+				1405CC9A1C7699900030B114 /* HHMyCoachCourseInfoCell.m in Sources */,
 				5CDE14571C3723020004778C /* HHTextFieldView.m in Sources */,
 				14604F4A1C6FAA04009DBE10 /* HHShareViewItem.m in Sources */,
 				141F7C131C626118003278C6 /* HHCoachService.m in Sources */,
@@ -1713,12 +1790,15 @@
 				141FA0FE1C6BAF6600113B1A /* HHCoachDetailDescriptionCell.m in Sources */,
 				141FA1041C6BF64800113B1A /* HHCoachDetailSectionOneCell.m in Sources */,
 				5C6D8C951C3AE38C0055CB31 /* HHLoadingViewUtility.m in Sources */,
+				1405CC801C7641690030B114 /* HHMyPageItemView.m in Sources */,
 				143F57C11C6D39E600835AA4 /* PBImageScrollerViewController.m in Sources */,
+				1405CC8F1C7664080030B114 /* HHMyPageLogoutCell.m in Sources */,
 				5C36D3D21C48506300443545 /* HHSwitchView.m in Sources */,
 				5C6D8C9D1C40125D0055CB31 /* HHUserAuthService.m in Sources */,
 				140EC5FC1C6D64C400DA634D /* HHCoachDetailSectionTwoCell.m in Sources */,
 				5CDE14761C3778BD0004778C /* HHToastManager.m in Sources */,
 				1405CC5C1C74E4330030B114 /* HHCityFixedFee.m in Sources */,
+				1405CC741C762CE80030B114 /* HHMyPageUserInfoCell.m in Sources */,
 				5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */,
 				140EC6201C6D776400DA634D /* HHCoachCellView.m in Sources */,
 				143F57C21C6D39E600835AA4 /* PBViewController.m in Sources */,
@@ -1736,6 +1816,8 @@
 				140EC63B1C6E730000DA634D /* HHCoachComment.m in Sources */,
 				5C36D3A01C442A6300443545 /* HHStudentStore.m in Sources */,
 				5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */,
+				1405CC931C768A2A0030B114 /* HHMyCoachDetailViewController.m in Sources */,
+				1405CC831C7645910030B114 /* HHMyPageCoachCell.m in Sources */,
 				5C36D3961C430DD700443545 /* HHConstants.m in Sources */,
 				140EC6441C6E9A6100DA634D /* HHCoachCommentView.m in Sources */,
 				14F9D4901C71223E0010F3FA /* HHCoaches.m in Sources */,
@@ -1751,10 +1833,15 @@
 				5C36D3B01C46B68700443545 /* HHSession.m in Sources */,
 				140EC6381C6E694500DA634D /* HHCoachDetailCommentsCell.m in Sources */,
 				141FA0E11C66CB1100113B1A /* HHHomePageTapView.m in Sources */,
+				1405CC7D1C7637B60030B114 /* HHMyPageUserInfoView.m in Sources */,
+				1405CC891C765FD60030B114 /* HHMyPageSupportCell.m in Sources */,
+				1405CC971C7693E40030B114 /* HHMyCoachBasicInfoCell.m in Sources */,
 				5C37C1CB1C55D0D80073970F /* HHField.m in Sources */,
 				5C36D38D1C43016900443545 /* HHCity.m in Sources */,
 				5C36D3561C42D81F00443545 /* HHMyPageViewController.m in Sources */,
+				1405CC9D1C76A1060030B114 /* HHMyCoachPartnerCoachCell.m in Sources */,
 				141F7C0F1C61B074003278C6 /* HHCoach.m in Sources */,
+				1405CC8C1C7662C60030B114 /* HHMyPageHelpCell.m in Sources */,
 				14F9D4991C7170380010F3FA /* HHSingleFieldMapViewController.m in Sources */,
 				5CDE146D1C3775C00004778C /* HHAccountSetupViewController.m in Sources */,
 				5C36D42E1C4C31A100443545 /* HHAskLocationPermissionViewController.m in Sources */,
@@ -1764,6 +1851,7 @@
 				5C6D8C831C3A277F0055CB31 /* HHResetPWDViewController.m in Sources */,
 				5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */,
 				5C36D3CF1C47642400443545 /* HHSliderView.m in Sources */,
+				1405CC861C76460C0030B114 /* HHMyPageItemTitleView.m in Sources */,
 				5CC738451C402BD600FFFBED /* HHUser.m in Sources */,
 				5C36D3E21C49668900443545 /* HHSortView.m in Sources */,
 				5C36D3501C42D7D600443545 /* HHFindCoachViewController.m in Sources */,

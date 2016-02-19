@@ -185,7 +185,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             HHCoachDetailDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:kDescriptionCellID forIndexPath:indexPath];
             [cell setupCellWithCoach:nil];
             return cell;
-        } break;
+        }
             
         case CoachCellInfoOne: {
             HHCoachDetailSectionOneCell *cell = [tableView dequeueReusableCellWithIdentifier:kInfoOneCellID forIndexPath:indexPath];
@@ -206,24 +206,24 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             };
             [cell setupWithCoach:nil];
             return cell;
-        } break;
+        }
             
         case CoachCellInfoTwo: {
             HHCoachDetailSectionTwoCell *cell = [tableView dequeueReusableCellWithIdentifier:kInfoTwoCellID forIndexPath:indexPath];
             [cell setupWithCoach:nil];
             return cell;
-        } break;
+        }
             
         case CoachCellComments: {
             HHCoachDetailCommentsCell *cell = [tableView dequeueReusableCellWithIdentifier:kCommentsCellID forIndexPath:indexPath];
             [cell setupCellWithCoach:nil comments:self.comments];
             return cell;
-        } break;
+        }
             
         default: {
             UITableViewCell *cell = [[UITableViewCell alloc] init];
             return cell;
-        } break;
+        }
     }
 }
 
@@ -234,15 +234,15 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             
             
             return CGRectGetHeight([self getDescriptionTextSizeWithText:text]) + 50.0f;
-        } break;
+        }
             
         case CoachCellInfoOne: {
             return 195.0f;
-        } break;
+        }
             
         case CoachCellInfoTwo: {
             return 195.0f + 140.0f + 36.0f;
-        } break;
+        }
             
         case CoachCellComments: {
             CGFloat height = 130.0f;
@@ -253,11 +253,11 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             } else {
                 return height;
             }
-        } break;
+        }
             
         default: {
             return 0;
-        } break;
+        }
     }
     
 }
