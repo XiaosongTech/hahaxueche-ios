@@ -28,15 +28,12 @@
     [self.contentView addSubview:self.titleView];
     
     self.licenseTypeView = [[HHMyPageItemView alloc] initWitTitle:@"课程类型" showLine:YES];
-    self.licenseTypeView.arrowImageView.hidden = NO;
     [self.contentView addSubview:self.licenseTypeView];
     
     self.courseTypesView = [[HHMyPageItemView alloc] initWitTitle:@"教授科目" showLine:YES];
-    self.courseTypesView.arrowImageView.hidden = NO;
     [self.contentView addSubview:self.courseTypesView];
     
     self.feeTypeView = [[HHMyPageItemView alloc] initWitTitle:@"培训费类型" showLine:YES];
-    self.feeTypeView.arrowImageView.hidden = NO;
     [self.contentView addSubview:self.feeTypeView];
     
     self.feeDetailView = [[HHMyPageItemView alloc] initWitTitle:@"费用及明细" showLine:NO];
@@ -83,6 +80,10 @@
         make.height.mas_equalTo(kItemViewHeight);
         
     }];
+}
+
+- (void)setupCellWithCoach:(HHCoach *)coach {
+    
 }
 
 @end

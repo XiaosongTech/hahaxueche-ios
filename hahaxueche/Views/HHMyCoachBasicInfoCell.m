@@ -61,4 +61,8 @@
     }];
 }
 
+- (void)setupCellWithCoach:(HHCoach *)coach {
+    
+}
+
 @end

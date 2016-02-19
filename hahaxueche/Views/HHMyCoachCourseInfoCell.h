@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HHMyPageItemTitleView.h"
 #import "HHMyPageItemView.h"
+#import "HHCoach.h"
 
 @interface HHMyCoachCourseInfoCell : UITableViewCell
 
@@ -18,5 +19,6 @@
 @property (nonatomic, strong) HHMyPageItemView *feeTypeView;
 @property (nonatomic, strong) HHMyPageItemView *feeDetailView;
 
+- (void)setupCellWithCoach:(HHCoach *)coach;
 
 @end

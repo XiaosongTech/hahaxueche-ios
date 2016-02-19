@@ -94,11 +94,21 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 myCoachVC.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:myCoachVC animated:YES];
             };
+            cell.followedCoachView.actionBlock = ^(){
+                
+            };
+            [cell setupCellWithCoach:nil coachList:nil];
             return cell;
         } break;
             
         case MyPageCellSupport: {
             HHMyPageSupportCell *cell = [tableView dequeueReusableCellWithIdentifier:kSupportCell];
+            cell.supportQQView.actionBlock = ^() {
+                
+            };
+            cell.supportNumberView.actionBlock = ^() {
+                
+            };
             return cell;
         } break;
             
@@ -125,7 +135,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             return 150.0f;
             
         case MyPageCellCoach:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
+            return kTopPadding + kTitleViewHeight + kItemViewHeight;
             
         case MyPageCellSupport:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;

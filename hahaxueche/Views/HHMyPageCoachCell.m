@@ -27,9 +27,11 @@
     [self.contentView addSubview:self.titleView];
     
     self.myCoachView = [[HHMyPageItemView alloc] initWitTitle:@"我的教练" showLine:YES];
+    self.myCoachView.arrowImageView.hidden = NO;
     [self.contentView addSubview:self.myCoachView];
     
     self.followedCoachView = [[HHMyPageItemView alloc] initWitTitle:@"我关注的教练" showLine:NO];
+    self.followedCoachView.arrowImageView.hidden = NO;
     [self.contentView addSubview:self.followedCoachView];
     
     [self makeConstraints];
@@ -42,22 +44,26 @@
         make.width.equalTo(self.width);
         make.height.mas_equalTo(kTitleViewHeight);
     }];
-    
-    [self.myCoachView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleView.bottom);
-        make.left.equalTo(self.left);
-        make.width.equalTo(self.width);
-        make.height.mas_equalTo(kItemViewHeight);
-
-    }];
-    [self.followedCoachView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.myCoachView.bottom);
-        make.left.equalTo(self.left);
-        make.width.equalTo(self.width);
-        make.height.mas_equalTo(kItemViewHeight);
-        
-    }];
 }
 
+- (void)setupCellWithCoach:(HHCoach *)coach coachList:(NSArray *)coachList {
+    if (coach) {
+        [self.myCoachView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.titleView.bottom);
+            make.left.equalTo(self.left);
+            make.width.equalTo(self.width);
+            make.height.mas_equalTo(kItemViewHeight);
+            
+        }];
+    } else {
+        [self.followedCoachView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.titleView.bottom);
+            make.left.equalTo(self.left);
+            make.width.equalTo(self.width);
+            make.height.mas_equalTo(kItemViewHeight);
+            
+        }];
+    }
+}
 
 @end

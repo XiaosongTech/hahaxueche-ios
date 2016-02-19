@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HHMyPageItemTitleView.h"
 #import "HHMyPageItemView.h"
+#import "HHCoach.h"
 
 static CGFloat const kTitleViewHeight = 40.0f;
 static CGFloat const kItemViewHeight = 50.0f;
@@ -20,5 +21,6 @@ static CGFloat const kTopPadding = 15.0f;
 @property (nonatomic, strong) HHMyPageItemView *myCoachView;
 @property (nonatomic, strong) HHMyPageItemView *followedCoachView;
 
+- (void)setupCellWithCoach:(HHCoach *)coach coachList:(NSArray *)coachList;
 
 @end

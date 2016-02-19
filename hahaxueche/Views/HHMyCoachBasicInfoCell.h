@@ -9,11 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "HHMyPageItemTitleView.h"
 #import "HHMyPageItemView.h"
+#import "HHCoach.h"
 
 @interface HHMyCoachBasicInfoCell : UITableViewCell
 
 @property (nonatomic, strong) HHMyPageItemTitleView *titleView;
 @property (nonatomic, strong) HHMyPageItemView *phoneNumberView;
 @property (nonatomic, strong) HHMyPageItemView *addressView;
+
+- (void)setupCellWithCoach:(HHCoach *)coach;
 
 @end
