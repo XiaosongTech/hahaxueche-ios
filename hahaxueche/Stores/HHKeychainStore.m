@@ -9,7 +9,7 @@
 #import "HHKeychainStore.h"
 #import "HHUserAuthService.h"
 
-static NSString *const serviceName = @"hahaxueche";
+static NSString *const serviceName = @"ren.xiaosong.hahaxueche";
 
 @implementation HHKeychainStore
 

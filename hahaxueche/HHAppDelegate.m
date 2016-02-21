@@ -79,9 +79,15 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [[UINavigationBar appearance] setBarTintColor:[UIColor HHOrange]];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-    if([UIDevice currentDevice].systemVersion.floatValue >= 8.0) {
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 8.0) {
         [[UINavigationBar appearance] setTranslucent:NO];
     }
+    
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage new]
+                       forBarPosition:UIBarPositionAny
+                           barMetrics:UIBarMetricsDefault];
+    
+    [[UINavigationBar appearance] setShadowImage:[UIImage new]];
 }
 
 - (void)setupAllThirdPartyServices {
@@ -116,6 +122,8 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [MAMapServices sharedServices].apiKey = kMapServiceKey;
     
     [HHSocialMediaShareUtility configure];
+    
+    [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
 }
 
 @end

@@ -13,10 +13,13 @@
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
+             @"prePage":@"links.previous",
+             @"nextPage":@"links.next",
+             @"coaches":@"data"
              };
 }
 
-+ (NSValueTransformer *)coachesArrayJSONTransformer {
++ (NSValueTransformer *)coachesJSONTransformer {
     return [MTLJSONAdapter arrayTransformerWithModelClass:[HHCoach class]];
 }
 

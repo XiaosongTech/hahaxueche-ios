@@ -15,8 +15,8 @@
 
 // QQ
 + (void)shareToQQFriendsWithSuccess:(shareSuccess)success Fail:(shareFail)fail;
-
-+(void)shareToQQZoneWithSuccess:(shareSuccess)success Fail:(shareFail)fail;
++ (void)shareToQQZoneWithSuccess:(shareSuccess)success Fail:(shareFail)fail;
++ (void)talkToSupportThroughQQ;
 
 
 // WeChat

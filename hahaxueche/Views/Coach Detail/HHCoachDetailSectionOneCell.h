@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HHCoachDetailSingleInfoView.h"
 #import "HHCoach.h"
+#import "HHField.h"
 
 typedef void (^HHCellTappedAction)();
 
@@ -25,6 +26,6 @@ typedef void (^HHCellTappedAction)();
 @property (nonatomic, strong) HHCellTappedAction addressCellAction;
 
 
-- (void)setupWithCoach:(HHCoach *)coach;
+- (void)setupWithCoach:(HHCoach *)coach field:(HHField *)field;
 
 @end

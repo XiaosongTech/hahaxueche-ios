@@ -23,6 +23,7 @@
 #pragma mark Student
 
 #define kAPIStudentAvatar @"students/%@/avatar"
+#define kAPIStudentFollows @"users/follows/%@"
 
 
 #pragma mark Coach

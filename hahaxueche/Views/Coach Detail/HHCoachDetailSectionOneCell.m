@@ -30,9 +30,11 @@
     [self.contentView addSubview:self.priceCell];
     
     self.courseTypeCell = [[HHCoachDetailSingleInfoView alloc] init];
+    self.courseTypeCell.valueLabel.font = [UIFont systemFontOfSize:16.0f];
     [self.contentView addSubview:self.courseTypeCell];
     
     self.fieldAddressCell= [[HHCoachDetailSingleInfoView alloc] init];
+    self.fieldAddressCell.valueLabel.font = [UIFont systemFontOfSize:16.0f];
     UITapGestureRecognizer *tapRecognizer2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fieldAddressCellTapped)];
     [self.fieldAddressCell addGestureRecognizer:tapRecognizer2];
     [self.contentView addSubview:self.fieldAddressCell];
@@ -86,12 +88,12 @@
 }
 
 
-- (void)setupWithCoach:(HHCoach *)coach {
-    [self.priceCell setupViewWithTitle:@"拿证价格" image:[UIImage imageNamed:@"ic_coachmsg_charge"] value:[@(2850) generateMoneyString] showArrowImage:YES actionBlock:nil];
+- (void)setupWithCoach:(HHCoach *)coach field:(HHField *)field {
+    [self.priceCell setupViewWithTitle:@"拿证价格" image:[UIImage imageNamed:@"ic_coachmsg_charge"] value:[coach.price generateMoneyString] showArrowImage:YES actionBlock:nil];
     
-    [self.courseTypeCell setupViewWithTitle:@"课程类型" image:[UIImage imageNamed:@"ic_coachmsg_classtype"] value:@"C1 手动档" showArrowImage:NO actionBlock:nil];
+    [self.courseTypeCell setupViewWithTitle:@"课程类型" image:[UIImage imageNamed:@"ic_coachmsg_classtype"] value:[coach licenseTypesName] showArrowImage:NO actionBlock:nil];
     
-    [self.fieldAddressCell setupViewWithTitle:@"训练场地址" image:[UIImage imageNamed:@"ic_coachmsg_localtion"] value:@"湖北省武汉市xx区xx路" showArrowImage:YES actionBlock:nil];
+    [self.fieldAddressCell setupViewWithTitle:@"训练场地址" image:[UIImage imageNamed:@"ic_coachmsg_localtion"] value:[field fullAddress] showArrowImage:YES actionBlock:nil];
 
 }
 

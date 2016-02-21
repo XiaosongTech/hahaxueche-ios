@@ -9,6 +9,8 @@
 #import "HHSocialMediaShareUtility.h"
 #import "HHToastManager.h"
 
+static NSString *const kSupportQQ = @"3319762526";
+
 @implementation HHSocialMediaShareUtility
 
 + (void)configure {
@@ -61,6 +63,15 @@
     msg.thumbnail = imageData;
     msg.multimediaType = OSMultimediaTypeApp;
     return msg;
+}
+
+
++ (void)talkToSupportThroughQQ {
+    if (![OpenShare isQQInstalled]) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
+        return;
+    }
+    [OpenShare chatWithQQNumber:kSupportQQ];
 }
 
 

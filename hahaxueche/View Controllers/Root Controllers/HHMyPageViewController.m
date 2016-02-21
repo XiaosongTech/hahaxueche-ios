@@ -18,6 +18,9 @@
 #import "HHStudentStore.h"
 #import "Masonry.h"
 #import "HHIntroViewController.h"
+#import "HHSocialMediaShareUtility.h"
+#import "HHUserAuthService.h"
+#import "HHPaymentStatusViewController.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -93,6 +96,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         [self.tableView setTableHeaderView:headerView];
         [self.tableView sendSubviewToBack:self.tableView.tableHeaderView];
     }
+    
 }
 
 #pragma mark - TableView Delegate & Datasource Methods
@@ -107,7 +111,12 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     switch (indexPath.row) {
         case MyPageCellUserInfo: {
             HHMyPageUserInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kUserInfoCell];
-            [cell setupCellWithStudent:nil];
+            cell.paymentViewActionBlock = ^(){
+                HHPaymentStatusViewController *vc = [[HHPaymentStatusViewController alloc] initWithPurchasedService:nil];
+                vc.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
+            [cell setupCellWithStudent:[HHStudentStore sharedInstance].currentStudent];
             return cell;
             
         } break;
@@ -129,10 +138,14 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellSupport: {
             HHMyPageSupportCell *cell = [tableView dequeueReusableCellWithIdentifier:kSupportCell];
             cell.supportQQView.actionBlock = ^() {
-                
+                [HHSocialMediaShareUtility talkToSupportThroughQQ];
             };
             cell.supportNumberView.actionBlock = ^() {
-                
+                NSString *phNo = @"4000016006";
+                NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",phNo]];
+                if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
+                    [[UIApplication sharedApplication] openURL:phoneUrl];
+                }
             };
             return cell;
         } break;
@@ -144,6 +157,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
           
         case MyPageCellLogout: {
             HHMyPageLogoutCell *cell = [tableView dequeueReusableCellWithIdentifier:kLogoutCell];
+            [cell.button addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
             return cell;
         } break;
             
@@ -201,6 +215,27 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     [attributedString appendAttributedString:attributedString2];
     
     return attributedString;
+}
+
+- (void)logout {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"您确认要退出？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确认退出" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [[HHUserAuthService sharedInstance] logOutWithCompletion:^(NSError *error) {
+            if (!error) {
+                HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+                [self presentViewController:navVC animated:YES completion:nil];
+            }
+        }];
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消返回" style:UIAlertActionStyleDefault handler:nil];
+    
+    [alertController addAction:confirmAction];
+    [alertController addAction:cancelAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark UITextView Delegate

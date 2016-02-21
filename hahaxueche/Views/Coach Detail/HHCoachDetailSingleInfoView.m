@@ -35,6 +35,11 @@
     self.arrowImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_more_arrow"]];
     [self addSubview:self.arrowImageView];
     
+    self.iconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_auth_golden"]];
+    self.iconView.hidden = YES;
+    [self addSubview:self.iconView];
+
+    
     [self makeConstraints];
 }
 
@@ -53,6 +58,11 @@
         make.centerY.equalTo(self.centerY);
         make.right.equalTo(self.right).offset(-12.0f);
     }];
+    
+    [self.iconView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.valueLabel.right).offset(5.0f);
+        make.centerY.equalTo(self.valueLabel.centerY);
+    }];
 }
 
 - (void)setupViewWithTitle:(NSString *)title image:(UIImage *)image value:(NSString *)value showArrowImage:(BOOL)showArrowImage actionBlock:(HHCoachDetailCellActionBlock)actionBlock {
@@ -63,7 +73,6 @@
         self.arrowImageView.hidden = YES;
     }
     self.actionBlock = actionBlock;
-    
     
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentNatural;

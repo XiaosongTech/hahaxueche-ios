@@ -134,11 +134,11 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
 }
 
 - (void)postAuthActionsWithUser:(HHUser *)user {
-    [HHKeychainStore saveAccessToken:user.session.accessToken forUserId:user.userId];
-    //just save token in keychain, not user default
-    user.session.accessToken = nil;
-    [self saveAuthedUser:user];
-    [HHStudentStore sharedInstance].currentStudent = user.student;
+    if ([HHKeychainStore saveAccessToken:user.session.accessToken forUserId:user.userId]) {
+        [self saveAuthedUser:user];
+        [HHStudentStore sharedInstance].currentStudent = user.student;
+    }
+    
 }
 
 - (HHUser *)getSavedUser {

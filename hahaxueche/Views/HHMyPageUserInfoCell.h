@@ -11,6 +11,8 @@
 #import "HHMyPageUserInfoView.h"
 
 
+typedef void (^HHPaymentViewActionBlock)();
+
 @interface HHMyPageUserInfoCell : UITableViewCell
 
 @property (nonatomic, strong) UIView *avatarBackgroungView;
@@ -19,6 +21,7 @@
 
 @property (nonatomic, strong) HHMyPageUserInfoView *balanceView;
 @property (nonatomic, strong) HHMyPageUserInfoView *paymentView;
+@property (nonatomic, strong) HHPaymentViewActionBlock paymentViewActionBlock;
 
 @property (nonatomic, strong) UIView *verticalLine;
 

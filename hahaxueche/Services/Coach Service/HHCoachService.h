@@ -25,4 +25,6 @@ typedef void (^HHCoachListCompletion)(HHCoaches *coaches, NSError *error);
  */
 - (void)fetchCoachListWithCityId:(NSNumber *)cityId filters:(HHCoachFilters *)filters sortOption:(SortOption)sortOption fields:(NSArray *)selectedFields userLocation:(NSArray *)userLocation completion:(HHCoachListCompletion)completion;
 
+
+
 @end

@@ -10,7 +10,7 @@
 
 @interface HHCoaches : MTLModel <MTLJSONSerializing>
 
-@property (nonatomic, copy) NSArray *coachesArray;
+@property (nonatomic, copy) NSArray *coaches;
 @property (nonatomic, copy) NSString *nextPage;
 @property (nonatomic, copy) NSString *prePage;
 

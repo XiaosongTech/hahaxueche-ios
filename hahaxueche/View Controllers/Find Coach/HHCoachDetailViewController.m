@@ -29,6 +29,9 @@
 #import "HHSocialMediaShareUtility.h"
 #import "HHSingleFieldMapViewController.h"
 #import "HHConstantsStore.h"
+#import "HHStudentService.h"
+#import "HHStudentStore.h"
+#import "HHIntroViewController.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -99,7 +102,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
-    self.bottomBar = [[HHCoachDetailBottomBarView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.tableView.bounds), CGRectGetWidth(self.view.bounds), 50.0f) followed:YES];
+    self.bottomBar = [[HHCoachDetailBottomBarView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.tableView.bounds), CGRectGetWidth(self.view.bounds), 50.0f) followed:NO];
     [self.view addSubview:self.bottomBar];
     
     
@@ -136,11 +139,30 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.followAction = ^(){
-       
+        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+            [weakSelf showLoginSignupAlertView];
+            return ;
+        }
+        
+        [[HHStudentService sharedInstance] followCoach:weakSelf.coach.userId completion:^(NSError *error) {
+            if (!error) {
+                weakSelf.bottomBar.followed = YES;
+            }
+            
+        }];
     };
     
     self.bottomBar.unFollowAction = ^(){
-
+        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+            [weakSelf showLoginSignupAlertView];
+            return ;
+        }
+        
+        [[HHStudentService sharedInstance] unfollowCoach:weakSelf.coach.userId completion:^(NSError *error) {
+            if (!error) {
+                weakSelf.bottomBar.followed = NO;
+            }
+        }];
     };
     
     self.bottomBar.tryCoachAction = ^(){
@@ -156,18 +178,29 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.purchaseCoachAction = ^(){
+        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+            [weakSelf showLoginSignupAlertView];
+            return ;
+        }
+        
+        [[HHStudentService sharedInstance] unfollowCoach:weakSelf.coach.userId completion:nil];
+        
         HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, 300.0f) title:@"付款明细" totalPrice:@(2850) showOKButton:NO];
         priceView.cancelBlock = ^() {
             [HHPopupUtility dismissPopup:weakSelf.popup];
         };
         
         priceView.confirmBlock = ^(){
-            
+            [HHPopupUtility dismissPopup:weakSelf.popup];
         };
         weakSelf.popup = [HHPopupUtility createPopupWithContentView:priceView];
         [HHPopupUtility showPopup:weakSelf.popup];
 
     };
+    
+    [[HHStudentService sharedInstance] checkFollowedCoach:self.coach.userId completion:^(BOOL followed) {
+        weakSelf.bottomBar.followed = followed;
+    }];
     
 }
 
@@ -183,7 +216,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     switch (indexPath.row) {
         case CoachCellDescription: {
             HHCoachDetailDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:kDescriptionCellID forIndexPath:indexPath];
-            [cell setupCellWithCoach:nil];
+            [cell setupCellWithCoach:self.coach];
             return cell;
         }
             
@@ -192,7 +225,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             cell.priceCellAction = ^() {
                 HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
                 CGFloat height = 100.0f + (city.cityFixedFees.count + 1) * 50.0f;
-                HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"价格明细" totalPrice:@(2850) showOKButton:YES];
+                HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"价格明细" totalPrice:weakSelf.coach.price showOKButton:YES];
                 priceView.cancelBlock = ^() {
                     [HHPopupUtility dismissPopup:weakSelf.popup];
                 };
@@ -204,19 +237,19 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
                 HHSingleFieldMapViewController *vc = [[HHSingleFieldMapViewController alloc] initWithField:[[[HHConstantsStore sharedInstance] getAllFieldsForCity:0] firstObject]];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             };
-            [cell setupWithCoach:nil];
+            [cell setupWithCoach:self.coach field:[[HHConstantsStore sharedInstance] getFieldWithId:self.coach.fieldId]];
             return cell;
         }
             
         case CoachCellInfoTwo: {
             HHCoachDetailSectionTwoCell *cell = [tableView dequeueReusableCellWithIdentifier:kInfoTwoCellID forIndexPath:indexPath];
-            [cell setupWithCoach:nil];
+            [cell setupWithCoach:self.coach];
             return cell;
         }
             
         case CoachCellComments: {
             HHCoachDetailCommentsCell *cell = [tableView dequeueReusableCellWithIdentifier:kCommentsCellID forIndexPath:indexPath];
-            [cell setupCellWithCoach:nil comments:self.comments];
+            [cell setupCellWithCoach:self.coach comments:self.comments];
             return cell;
         }
             
@@ -230,10 +263,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case CoachCellDescription: {
-            NSString *text = @"ddshfkashjfhaskdhakjhfjashskhkfhsajkhdfjakshdjfaddkhfkshkjdfhjsfsjhfdkjshdkfhkasdhfjkashdkfhakshdfjkahsdfhakhfjahdkjahkdsjh";
-            
-            
-            return CGRectGetHeight([self getDescriptionTextSizeWithText:text]) + 50.0f;
+            return CGRectGetHeight([self getDescriptionTextSizeWithText:self.coach.bio]) + 50.0f;
         }
             
         case CoachCellInfoOne: {
@@ -241,7 +271,11 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         }
             
         case CoachCellInfoTwo: {
-            return 195.0f + 140.0f + 36.0f;
+            CGFloat height = 195.0f;
+            if ([self.coach.peerCoaches count]) {
+                height = height + 70.0f * self.coach.peerCoaches.count + 36.0f;
+            }
+            return height ;
         }
             
         case CoachCellComments: {
@@ -289,7 +323,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - PBViewControllerDataSource
+#pragma mark - PBViewControllerDataSource & PBViewControllerDelegate
 
 - (NSInteger)numberOfPagesInViewController:(PBViewController *)viewController {
     return 2;
@@ -299,8 +333,6 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     NSArray *images = @[@"https://i.ytimg.com/vi/eOifa1WrOnQ/maxresdefault.jpg",@"https://i.ytimg.com/vi/eOifa1WrOnQ/maxresdefault.jpg"];
     [imageView sd_setImageWithURL:[NSURL URLWithString:images[index]]];
 }
-
-#pragma mark - PBViewControllerDelegate
 
 - (void)viewController:(PBViewController *)viewController didSingleTapedPageAtIndex:(NSInteger)index presentedImage:(UIImage *)presentedImage {
     [viewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
@@ -315,6 +347,23 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
                                   attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f]}
                                      context:nil];
     return rect;
+}
+
+- (void)showLoginSignupAlertView {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请先登陆或者注册" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"现在就去" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+        [self presentViewController:navVC animated:YES completion:nil];
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"再看看" style:UIAlertActionStyleDefault handler:nil];
+    
+    [alertController addAction:confirmAction];
+    [alertController addAction:cancelAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 

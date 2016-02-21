@@ -9,6 +9,7 @@
 #import "HHCoachDetailDescriptionCell.h"
 #import "Masonry.h"
 #import "UIColor+HHColor.h"
+#import <UIImageView+WebCache.h>
 
 static CGFloat const avatarRadius = 30.0f;
 
@@ -78,11 +79,11 @@ static CGFloat const avatarRadius = 30.0f;
 }
 
 - (void)setupCellWithCoach:(HHCoach *)coach {
-    self.nameLabel.text = @"老张";
+    self.nameLabel.text = coach.name;
     [self.nameLabel sizeToFit];
     
-    self.descriptionLabel.text = @"ddshfkashjfhaskdhakjhfjashskhkfhsajkhdfjakshdjfaddkhfkshkjdfhjsfsjhfdkjshdkfhkasdhfjkashdkfhakshdfjkahsdfhakhfjahdkjahkdsjh";
-    self.avatarView.image = [UIImage imageNamed:@"ic_homepage_coachhere"];
+    self.descriptionLabel.text = coach.bio;
+    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl]];
 }
 
 @end

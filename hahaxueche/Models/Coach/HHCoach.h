@@ -10,18 +10,31 @@
 
 @interface HHCoach : MTLModel <MTLJSONSerializing>
 
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *userId;
-@property (nonatomic, strong) NSString *coachId;
-@property (nonatomic, strong) NSString *avatarUrl;
-@property (nonatomic, strong) NSNumber *averageRatig;
-@property (nonatomic, strong) NSNumber *price;
-@property (nonatomic, strong) NSNumber *marketPrice;
-@property (nonatomic, strong) NSString *experienceYear;
-@property (nonatomic, strong) NSNumber *reviewCount;
-@property (nonatomic, strong) NSNumber *skillLevel;
-@property (nonatomic, strong) NSNumber *totalStudentCount;
-@property (nonatomic, strong) NSNumber *activeStudentCount;
-@property (nonatomic, strong) NSNumber *satisfactionRate;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *userId;
+@property (nonatomic, copy) NSString *coachId;
+@property (nonatomic, copy) NSString *avatarUrl;
+@property (nonatomic, copy) NSNumber *averageRating;
+@property (nonatomic, copy) NSNumber *price;
+@property (nonatomic, copy) NSNumber *marketPrice;
+@property (nonatomic, copy) NSNumber *experienceYear;
+@property (nonatomic, copy) NSNumber *reviewCount;
+@property (nonatomic, copy) NSNumber *skillLevel;
+@property (nonatomic, copy) NSNumber *totalStudentCount;
+@property (nonatomic, copy) NSNumber *activeStudentCount;
+@property (nonatomic, copy) NSNumber *satisfactionRate;
+@property (nonatomic, copy) NSNumber *serviceType;
+@property (nonatomic, copy) NSNumber *licenseType;
+@property (nonatomic, copy) NSString *consultant;
+@property (nonatomic, copy) NSArray *peerCoaches;
+@property (nonatomic, copy) NSString *bio;
+@property (nonatomic, copy) NSString *cellPhone;
+@property (nonatomic, copy) NSNumber *cityId;
+@property (nonatomic, copy) NSString *fieldId;
+
+- (BOOL)isGoldenCoach;
+- (NSString *)licenseTypesName;
+- (NSString *)satistactionString;
+- (NSString *)skillLevelString;
 
 @end

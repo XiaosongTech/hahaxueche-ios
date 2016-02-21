@@ -52,20 +52,15 @@
 }
 
 - (void)setupCellWithCoaches:(NSArray *)coaches {
-//    for (HHCoach *coach in coaches) {
-//        HHCoachCellView *view = [[HHCoachCellView alloc] initWithCoach:coach];
-//        [self addSubview:view];
-//        [viewArrays addObject:view];
-//    }
     for (HHCoachCellView *view in self.viewsArray) {
         [view removeFromSuperview];
     }
     [self.viewsArray removeAllObjects];
-    for (int i = 0; i< 2; i++) {
-        HHCoachCellView *view = [[HHCoachCellView alloc] initWithCoach:nil];
+    
+    int i = 0;
+    for (HHCoach *coach in coaches) {
+        HHCoachCellView *view = [[HHCoachCellView alloc] initWithCoach:coach];
         [self addSubview:view];
-        [self.self.viewsArray addObject:view];
-        
         if (i == 0) {
             [view makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(self.titleLabel.bottom);
@@ -82,9 +77,11 @@
                 make.height.mas_equalTo(70.0f);
             }];
         }
-
+        [self.viewsArray addObject:view];
+        
+        i++;
     }
-    
+   
 }
 
 @end

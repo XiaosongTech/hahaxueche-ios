@@ -104,13 +104,24 @@
 
 
 - (void)setupWithCoach:(HHCoach *)coach {
-    [self.satisfactionCell setupViewWithTitle:@"学员满意度" image:[UIImage imageNamed:@"ic_coachmsg_manyidu"] value:@"100%" showArrowImage:NO actionBlock:nil];
+    [self.satisfactionCell setupViewWithTitle:@"学员满意度" image:[UIImage imageNamed:@"ic_coachmsg_manyidu"] value:[coach satistactionString] showArrowImage:NO actionBlock:nil];
     
-    [self.coachLevelCell setupViewWithTitle:@"教练等级认证" image:[UIImage imageNamed:@"ic_coachmsg_coachlevel"] value:@"金牌教练" showArrowImage:NO actionBlock:nil];
+    [self.coachLevelCell setupViewWithTitle:@"教练等级认证" image:[UIImage imageNamed:@"ic_coachmsg_coachlevel"] value:[coach skillLevelString] showArrowImage:NO actionBlock:nil];
+    if ([coach isGoldenCoach]) {
+        self.coachLevelCell.iconView.hidden = NO;
+    } else {
+        self.coachLevelCell.iconView.hidden = YES;
+    }
     
     [self.coachTimeCell setupViewWithTitle:@"教练练车时间" image:[UIImage imageNamed:@"ic_coachmsg_time"] value:@"周一至周日全天可选，具体情况以实际发布为准" showArrowImage:NO actionBlock:nil];
     
-    [self.coachesListCell setupCellWithCoaches:nil];
+    if ([coach.peerCoaches count]) {
+         self.coachesListCell.hidden = NO;
+        [self.coachesListCell setupCellWithCoaches:coach.peerCoaches];
+    } else {
+        self.coachesListCell.hidden = YES;
+    }
+    
     
 }
 

@@ -78,7 +78,7 @@
 - (NSMutableAttributedString *)buildPriceTextWithPrice:(NSNumber *)price {
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"合计: "] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f], NSForegroundColorAttributeName:[UIColor HHTextDarkGray]}];
     
-     NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:[@(2850) generateMoneyString] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f], NSForegroundColorAttributeName:[UIColor HHOrange]}];
+     NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:[price generateMoneyString] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.0f], NSForegroundColorAttributeName:[UIColor HHOrange]}];
     
     [attrString appendAttributedString:attrString2];
     return attrString;

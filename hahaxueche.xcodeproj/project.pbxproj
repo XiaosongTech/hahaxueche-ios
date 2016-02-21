@@ -119,6 +119,11 @@
 		14604F5C1C6FB0E3009DBE10 /* ic_coachmsg_sharecoach_wechat@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14604F531C6FB0E3009DBE10 /* ic_coachmsg_sharecoach_wechat@3x.png */; };
 		14604F5F1C6FEE10009DBE10 /* HHPriceDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14604F5E1C6FEE10009DBE10 /* HHPriceDetailView.m */; };
 		14604F651C6FF926009DBE10 /* NSNumber+HHNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 14604F641C6FF926009DBE10 /* NSNumber+HHNumber.m */; };
+		14700D901C781AAF00660989 /* HHPaymentStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14700D8F1C781AAF00660989 /* HHPaymentStatusViewController.m */; };
+		14700D921C79550700660989 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14700D911C79550600660989 /* Security.framework */; };
+		14700D951C795FBF00660989 /* HHPurchasedService.m in Sources */ = {isa = PBXBuildFile; fileRef = 14700D941C795FBF00660989 /* HHPurchasedService.m */; };
+		14700D981C797AE400660989 /* HHPaymentStatusTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14700D971C797AE400660989 /* HHPaymentStatusTopView.m */; };
+		14700D9B1C797C7600660989 /* HHMoneyAmountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14700D9A1C797C7600660989 /* HHMoneyAmountView.m */; };
 		147BFEE81C70F00800FE3524 /* HHSocialMediaShareUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 147BFEE71C70F00800FE3524 /* HHSocialMediaShareUtility.m */; };
 		14F9D4901C71223E0010F3FA /* HHCoaches.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F9D48F1C71223E0010F3FA /* HHCoaches.m */; };
 		14F9D4941C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F9D4911C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian.png */; };
@@ -461,6 +466,15 @@
 		14604F5E1C6FEE10009DBE10 /* HHPriceDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPriceDetailView.m; sourceTree = "<group>"; };
 		14604F631C6FF926009DBE10 /* NSNumber+HHNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+HHNumber.h"; sourceTree = "<group>"; };
 		14604F641C6FF926009DBE10 /* NSNumber+HHNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+HHNumber.m"; sourceTree = "<group>"; };
+		14700D8E1C781AAF00660989 /* HHPaymentStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPaymentStatusViewController.h; sourceTree = "<group>"; };
+		14700D8F1C781AAF00660989 /* HHPaymentStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPaymentStatusViewController.m; sourceTree = "<group>"; };
+		14700D911C79550600660989 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		14700D931C795FBF00660989 /* HHPurchasedService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPurchasedService.h; sourceTree = "<group>"; };
+		14700D941C795FBF00660989 /* HHPurchasedService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPurchasedService.m; sourceTree = "<group>"; };
+		14700D961C797AE400660989 /* HHPaymentStatusTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPaymentStatusTopView.h; sourceTree = "<group>"; };
+		14700D971C797AE400660989 /* HHPaymentStatusTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPaymentStatusTopView.m; sourceTree = "<group>"; };
+		14700D991C797C7600660989 /* HHMoneyAmountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMoneyAmountView.h; sourceTree = "<group>"; };
+		14700D9A1C797C7600660989 /* HHMoneyAmountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMoneyAmountView.m; sourceTree = "<group>"; };
 		147BFEE61C70F00800FE3524 /* HHSocialMediaShareUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSocialMediaShareUtility.h; sourceTree = "<group>"; };
 		147BFEE71C70F00800FE3524 /* HHSocialMediaShareUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSocialMediaShareUtility.m; sourceTree = "<group>"; };
 		14F9D48E1C71223E0010F3FA /* HHCoaches.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoaches.h; sourceTree = "<group>"; };
@@ -698,6 +712,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14700D921C79550700660989 /* Security.framework in Frameworks */,
 				5C5F873A1BF16BEF006F9594 /* UIKit.framework in Frameworks */,
 				5CD4E9F81B5AA10C003CF15E /* SystemConfiguration.framework in Frameworks */,
 				5C5F87381BF16BD6006F9594 /* QuartzCore.framework in Frameworks */,
@@ -772,6 +787,10 @@
 				1405CC991C7699900030B114 /* HHMyCoachCourseInfoCell.m */,
 				1405CC9B1C76A1060030B114 /* HHMyCoachPartnerCoachCell.h */,
 				1405CC9C1C76A1060030B114 /* HHMyCoachPartnerCoachCell.m */,
+				14700D961C797AE400660989 /* HHPaymentStatusTopView.h */,
+				14700D971C797AE400660989 /* HHPaymentStatusTopView.m */,
+				14700D991C797C7600660989 /* HHMoneyAmountView.h */,
+				14700D9A1C797C7600660989 /* HHMoneyAmountView.m */,
 			);
 			name = "My Page";
 			sourceTree = "<group>";
@@ -781,6 +800,8 @@
 			children = (
 				1405CC911C768A2A0030B114 /* HHMyCoachDetailViewController.h */,
 				1405CC921C768A2A0030B114 /* HHMyCoachDetailViewController.m */,
+				14700D8E1C781AAF00660989 /* HHPaymentStatusViewController.h */,
+				14700D8F1C781AAF00660989 /* HHPaymentStatusViewController.m */,
 			);
 			name = "My Page";
 			sourceTree = "<group>";
@@ -994,6 +1015,8 @@
 			children = (
 				5C36D39B1C4360FE00443545 /* HHStudent.h */,
 				5C36D39C1C4360FE00443545 /* HHStudent.m */,
+				14700D931C795FBF00660989 /* HHPurchasedService.h */,
+				14700D941C795FBF00660989 /* HHPurchasedService.m */,
 			);
 			path = Student;
 			sourceTree = "<group>";
@@ -1404,6 +1427,7 @@
 		D888D3204AF4D3C403817A89 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				14700D911C79550600660989 /* Security.framework */,
 				5C5F87391BF16BEF006F9594 /* UIKit.framework */,
 				5C5F87371BF16BD6006F9594 /* QuartzCore.framework */,
 				5C5F87351BF16BCE006F9594 /* OpenGLES.framework */,
@@ -1778,6 +1802,7 @@
 				5CDE144B1C36EC570004778C /* HHButton.m in Sources */,
 				5CDE148C1C3A00AB0004778C /* HHLoginViewController.m in Sources */,
 				5CDE145A1C3737670004778C /* HHPhoneNumberUtility.m in Sources */,
+				14700D981C797AE400660989 /* HHPaymentStatusTopView.m in Sources */,
 				14604F471C6F8BED009DBE10 /* HHShareView.m in Sources */,
 				14604F651C6FF926009DBE10 /* NSNumber+HHNumber.m in Sources */,
 				5CDE14891C3859290004778C /* HHPopupUtility.m in Sources */,
@@ -1815,6 +1840,7 @@
 				5C36D39A1C4311FF00443545 /* HHConstantsStore.m in Sources */,
 				140EC63B1C6E730000DA634D /* HHCoachComment.m in Sources */,
 				5C36D3A01C442A6300443545 /* HHStudentStore.m in Sources */,
+				14700D9B1C797C7600660989 /* HHMoneyAmountView.m in Sources */,
 				5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */,
 				1405CC931C768A2A0030B114 /* HHMyCoachDetailViewController.m in Sources */,
 				1405CC831C7645910030B114 /* HHMyPageCoachCell.m in Sources */,
@@ -1826,6 +1852,7 @@
 				141F7BEF1C617E54003278C6 /* HHStarRatingView.m in Sources */,
 				5CDE14511C3715F90004778C /* HHRegisterViewController.m in Sources */,
 				5C5F87671BF6723F006F9594 /* HHEventTrackingManager.m in Sources */,
+				14700D951C795FBF00660989 /* HHPurchasedService.m in Sources */,
 				140EC6471C6ED10600DA634D /* HHTryCoachView.m in Sources */,
 				5C2D1A4A1C51EAA80056E0D0 /* HHStudentService.m in Sources */,
 				140EC6171C6D73CE00DA634D /* HHCollaborateCoachesView.m in Sources */,
@@ -1855,6 +1882,7 @@
 				5CC738451C402BD600FFFBED /* HHUser.m in Sources */,
 				5C36D3E21C49668900443545 /* HHSortView.m in Sources */,
 				5C36D3501C42D7D600443545 /* HHFindCoachViewController.m in Sources */,
+				14700D901C781AAF00660989 /* HHPaymentStatusViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

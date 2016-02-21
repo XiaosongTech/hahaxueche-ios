@@ -21,6 +21,8 @@
 #import "HHMyPageCoachCell.h"
 #import "HHMyCoachCourseInfoCell.h"
 #import "HHMyCoachPartnerCoachCell.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "Masonry.h"
 
 
 static NSString *const kDescriptionCellID = @"kDescriptionCellID";
@@ -35,6 +37,7 @@ static NSString *const kPartnersCellId = @"kPartnersCellId";
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) SDCycleScrollView *coachImagesView;
+@property (nonatomic, strong) UIButton *reviewCoachButton;
 
 @end
 
@@ -58,7 +61,7 @@ static NSString *const kPartnersCellId = @"kPartnersCellId";
 }
 
 - (void)initSubviews {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)-50.0f - CGRectGetHeight([UIApplication sharedApplication].statusBarFrame) - CGRectGetHeight(self.navigationController.navigationBar.bounds))];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds) - CGRectGetHeight([UIApplication sharedApplication].statusBarFrame) - CGRectGetHeight(self.navigationController.navigationBar.bounds))];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -81,7 +84,7 @@ static NSString *const kPartnersCellId = @"kPartnersCellId";
     
     
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-
+    
 }
 
 
@@ -171,6 +174,22 @@ static NSString *const kPartnersCellId = @"kPartnersCellId";
         [(ParallaxHeaderView *)self.tableView.tableHeaderView layoutHeaderViewForScrollViewOffset:self.tableView.contentOffset];
     }
 }
+
+#pragma mark - PBViewControllerDataSource & PBViewControllerDelegate
+
+- (NSInteger)numberOfPagesInViewController:(PBViewController *)viewController {
+    return 2;
+}
+
+- (void)viewController:(PBViewController *)viewController presentImageView:(UIImageView *)imageView forPageAtIndex:(NSInteger)index {
+    NSArray *images = @[@"https://i.ytimg.com/vi/eOifa1WrOnQ/maxresdefault.jpg",@"https://i.ytimg.com/vi/eOifa1WrOnQ/maxresdefault.jpg"];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:images[index]]];
+}
+
+- (void)viewController:(PBViewController *)viewController didSingleTapedPageAtIndex:(NSInteger)index presentedImage:(UIImage *)presentedImage {
+    [viewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 
 #pragma mark Button Actions

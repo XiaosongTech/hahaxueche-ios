@@ -15,6 +15,7 @@ typedef void (^HHCoachDetailCellActionBlock)();
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *valueLabel;
 @property (nonatomic, strong) UIImageView *arrowImageView;
+@property (nonatomic, strong) UIImageView *iconView;
 @property (nonatomic, strong) HHCoachDetailCellActionBlock actionBlock;
 
 - (void)setupViewWithTitle:(NSString *)title image:(UIImage *)image value:(NSString *)value showArrowImage:(BOOL)showArrowImage actionBlock:(HHCoachDetailCellActionBlock)actionBlock;

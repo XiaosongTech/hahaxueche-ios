@@ -19,15 +19,15 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.contentView.backgroundColor = [UIColor HHBackgroundGary];
         
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button setTitle:@"退出账号" forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor HHCancelRed] forState:UIControlStateNormal];;
-        button.titleLabel.font = [UIFont systemFontOfSize:14.0f];
-        button.backgroundColor = [UIColor whiteColor];
-        [button addTarget:self action:@selector(buttonTapped) forControlEvents:UIControlEventTouchUpInside];
-        [self.contentView addSubview:button];
+        self.button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.button setTitle:@"退出账号" forState:UIControlStateNormal];
+        [self.button setTitleColor:[UIColor HHCancelRed] forState:UIControlStateNormal];;
+        self.button.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+        self.button.backgroundColor = [UIColor whiteColor];
+        [self.button addTarget:self action:@selector(buttonTapped) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:self.button];
         
-        [button makeConstraints:^(MASConstraintMaker *make) {
+        [self.button makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(self.contentView);
             make.height.equalTo(self.contentView.height).offset(-2.0 * kTopPadding);
             make.width.equalTo(self.contentView.width);

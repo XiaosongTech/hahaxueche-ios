@@ -18,5 +18,8 @@
 @property(nonatomic, copy) NSNumber *latitude;
 @property(nonatomic, copy) NSNumber *cityId;
 
+- (NSString *)fullAddress;
+- (NSString *)cityAndDistrict;
+
 
 @end

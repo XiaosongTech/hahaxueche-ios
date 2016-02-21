@@ -7,6 +7,7 @@
 //
 
 #import "HHField.h"
+#import "HHConstantsStore.h"
 
 @implementation HHField
 
@@ -36,6 +37,16 @@
     } else {
         return nil;
     }
+}
+
+- (NSString *)fullAddress {
+    NSString *string = [NSString stringWithFormat:@"%@%@%@", [[[HHConstantsStore sharedInstance] getAuthedUserCity] cityName], self.district, self.address];
+    return string;
+}
+
+- (NSString *)cityAndDistrict {
+    NSString *string = [NSString stringWithFormat:@"%@%@",[[[HHConstantsStore sharedInstance] getAuthedUserCity] cityName] , self.district];
+    return string;
 }
 
 @end

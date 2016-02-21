@@ -28,12 +28,11 @@ static CGFloat const kAvatarRadius = 20.0f;
     self.avatarView = [[UIImageView alloc] init];
     self.avatarView.layer.cornerRadius = kAvatarRadius;
     self.avatarView.layer.masksToBounds = YES;
-    self.avatarView.image = [UIImage imageNamed:@"pic_local"];
-    //[self.avatarView sd_setImageWithURL:[NSURL URLWithString:self.coach.avatarUrl]];
+    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:self.coach.avatarUrl]];
     [self addSubview:self.avatarView];
     
     self.nameLabel = [[UILabel alloc] init];
-    self.nameLabel.text = @"老张";
+    self.nameLabel.text = self.coach.name;
     self.nameLabel.textColor = [UIColor HHLightTextGray];
     self.nameLabel.font = [UIFont systemFontOfSize:14.0f];
     [self addSubview:self.nameLabel];

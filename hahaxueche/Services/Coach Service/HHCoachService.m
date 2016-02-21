@@ -26,7 +26,14 @@
 
 - (void)fetchCoachListWithCityId:(NSNumber *)cityId filters:(HHCoachFilters *)filters sortOption:(SortOption)sortOption fields:(NSArray *)selectedFields userLocation:(NSArray *)userLocation completion:(HHCoachListCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICoaches];
-    [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+    NSDictionary *filtersParam = [MTLJSONAdapter JSONDictionaryFromModel:filters error:nil];
+    NSMutableDictionary *param = [NSMutableDictionary dictionaryWithDictionary:filtersParam];
+    param[@"city_id"] = cityId;
+    //param[@"sort_by"] = @(sortOption);
+    param[@"training_field_ids"] = selectedFields;
+    param[@"user_location"] = userLocation;
+                           
+    [APIClient getWithParameters:param completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             HHCoaches *coaches = [MTLJSONAdapter modelOfClass:[HHCoaches class] fromJSONDictionary:response error:nil];
             if (completion) {

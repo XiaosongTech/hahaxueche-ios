@@ -141,12 +141,12 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
     MAAnnotationView *annotationView = (MAAnnotationView *)recognizer.view;
     NSValue *key = [NSValue valueWithNonretainedObject:annotationView.annotation];
     HHField *field = self.dic[key];
-    if ([self.selectedFields containsObject:field]) {
+    if ([self.selectedFields containsObject:field.fieldId]) {
         annotationView.image = [UIImage imageNamed:@"ic_map_local_choseoff"];
-        [self.selectedFields removeObject:field];
+        [self.selectedFields removeObject:field.fieldId];
     } else {
         annotationView.image = [UIImage imageNamed:@"ic_map_local_choseon"];
-        [self.selectedFields addObject:field];
+        [self.selectedFields addObject:field.fieldId];
     }
     
     //popup the callout
@@ -204,7 +204,7 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
         NSValue *key = [NSValue valueWithNonretainedObject:view.annotation];
         HHField *field = self.dic[key];
 
-        if ([self.selectedFields containsObject:field]) {
+        if ([self.selectedFields containsObject:field.fieldId]) {
             view.image = [UIImage imageNamed:@"ic_map_local_choseon"];
         } else {
             view.image = [UIImage imageNamed:@"ic_map_local_choseoff"];
@@ -213,7 +213,5 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
         [view addGestureRecognizer:tapRecognizer];
     }
 }
-
-#pragma  mark Others 
 
 @end

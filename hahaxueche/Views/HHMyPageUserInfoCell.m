@@ -9,6 +9,7 @@
 #import "HHMyPageUserInfoCell.h"
 #import "Masonry.h"
 #import "UIColor+HHColor.h"
+#import <UIImageView+WebCache.h>
 
 static CGFloat const avatarRadius = 40.0f;
 
@@ -47,6 +48,11 @@ static CGFloat const avatarRadius = 40.0f;
     
     self.paymentView = [[HHMyPageUserInfoView alloc] init];
     [self addSubview:self.paymentView];
+    
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(paymentViewTapped)];
+    [self.paymentView addGestureRecognizer:tapRecognizer];
+    
+    
     
     self.verticalLine = [[UIView alloc] init];
     self.verticalLine.backgroundColor = [UIColor HHLightLineGray];
@@ -97,11 +103,17 @@ static CGFloat const avatarRadius = 40.0f;
 }
 
 - (void)setupCellWithStudent:(HHStudent *)student {
-    self.avatarView.image = [UIImage imageNamed:@"pic_local"];
-    self.nameLabel.text = @"老张";
+    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:student.avatarURL]];;
+    self.nameLabel.text = student.name;
     
     [self.balanceView setupViewWithTitle:@"账户余额" value:@"￥2000" showArrow:NO];
     [self.paymentView setupViewWithTitle:@"打款状态" value:@"未购买教练" showArrow:YES];
+}
+
+- (void)paymentViewTapped {
+    if (self.paymentViewActionBlock) {
+        self.paymentViewActionBlock();
+    }
 }
 
 @end

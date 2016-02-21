@@ -42,4 +42,34 @@
     } progress:nil];
 }
 
+- (void)followCoach:(NSString *)coachUserId completion:(HHStudentGenericCompletion)completion {
+     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentFollows, coachUserId]];
+    [APIClient postWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (completion) {
+            completion(error);
+        }
+    }];
+}
+
+- (void)unfollowCoach:(NSString *)coachUserId completion:(HHStudentGenericCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentFollows, coachUserId]];
+    [APIClient deleteWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (completion) {
+            completion(error);
+        }
+    }];
+}
+
+- (void)checkFollowedCoach:(NSString *)coachUserId completion:(HHStudentCheckFollowedCompletion)completion {
+     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentFollows, coachUserId]];
+    [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            NSNumber *succeed = response[@"result"];
+            if (completion) {
+                completion([succeed boolValue]);
+            }
+        }
+    }];
+}
+
 @end

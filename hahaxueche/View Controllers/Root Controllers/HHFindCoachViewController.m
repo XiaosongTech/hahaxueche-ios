@@ -54,6 +54,7 @@ typedef void (^HHUserLocationCompletionBlock)();
 
 @property (nonatomic, strong) HHSortView *sortView;
 @property (nonatomic) SortOption currentSortOption;
+@property (nonatomic) BOOL hasMoreCoaches;
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
@@ -77,6 +78,7 @@ typedef void (^HHUserLocationCompletionBlock)();
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupDefaultSortAndFilter];
     
+    
     UIBarButtonItem *mapButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_maplist_btn"] action:@selector(jumpToFieldsMapView) target:self];
     self.navigationItem.leftBarButtonItem = mapButton;
     
@@ -84,6 +86,8 @@ typedef void (^HHUserLocationCompletionBlock)();
     self.expandedCellIndexPath = [NSMutableArray array];
     [self initSubviews];
     [self refreshCoachListWithCompletion:nil];
+    
+    self.hasMoreCoaches = YES;
 
 }
 
@@ -103,7 +107,13 @@ typedef void (^HHUserLocationCompletionBlock)();
                     if (completion) {
                         completion();
                     }
-                    weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coachesArray];
+                    weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
+                    if (coaches.nextPage) {
+                        weakSelf.hasMoreCoaches = YES;
+                    } else {
+                        weakSelf.hasMoreCoaches = NO;
+                    }
+                    
                     [weakSelf.tableView reloadData];
                 }];
 
@@ -121,10 +131,24 @@ typedef void (^HHUserLocationCompletionBlock)();
             if (completion) {
                 completion();
             }
-            weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coachesArray];
+            weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
+            if (coaches.nextPage) {
+                weakSelf.hasMoreCoaches = YES;
+            } else {
+                weakSelf.hasMoreCoaches = NO;
+            }
             [weakSelf.tableView reloadData];
         }];
 
+    }
+}
+
+- (void)setHasMoreCoaches:(BOOL)hasMoreCoaches {
+    _hasMoreCoaches = hasMoreCoaches;
+    if (!hasMoreCoaches) {
+        self.tableView.tableFooterView = nil;
+    } else {
+        self.tableView.tableFooterView = self.loadMoreFooter;
     }
 }
 
@@ -253,8 +277,8 @@ typedef void (^HHUserLocationCompletionBlock)();
     __weak HHFindCoachViewController *weakSelf = self;
     __weak HHCoachListViewCell *weakCell = cell;
     
-    
-    [cell setupCellWithCoach:nil field:nil];
+    HHCoach *coach = self.coaches[indexPath.row];
+    [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId]];
 
     
     cell.mapButtonBlock = ^(){
@@ -274,7 +298,7 @@ typedef void (^HHUserLocationCompletionBlock)();
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.coaches.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -286,7 +310,7 @@ typedef void (^HHUserLocationCompletionBlock)();
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    HHCoachDetailViewController *coachDetailVC = [[HHCoachDetailViewController alloc] initWithCoach:nil];
+    HHCoachDetailViewController *coachDetailVC = [[HHCoachDetailViewController alloc] initWithCoach:self.coaches[indexPath.row]];
     coachDetailVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:coachDetailVC animated:YES];
 }

@@ -12,6 +12,7 @@
 #import "UIView+HHRect.h"
 #import "HHFormatUtility.h"
 #import "NSNumber+HHNumber.h"
+#import <UIImageView+WebCache.h>
 
 static CGFloat const kAvatarRadius = 30.0f;
 
@@ -188,17 +189,20 @@ static CGFloat const kAvatarRadius = 30.0f;
 
 - (void)setupCellWithCoach:(HHCoach *)coach field:(HHField *)field {
     self.field = field;
-    self.ratingLabel.text = @"5.0分";
-    [self.mapButton setTitle:@"武汉市洪山区" forState:UIControlStateNormal];
-    self.avatarView.image = [UIImage imageNamed:@"pic_local"];
-    self.nameLabel.text = @"老张";
-    self.trainingYearLabel.text = @"11年教龄";
-    self.goldenCoachIcon.image = [UIImage imageNamed:@"ic_auth_golden"];
+    self.ratingLabel.text = [NSString stringWithFormat:@"%@分", [coach.averageRating stringValue]];
+    [self.mapButton setTitle:[field cityAndDistrict] forState:UIControlStateNormal];
+    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl]];
+    self.nameLabel.text = coach.name;
+    self.trainingYearLabel.text = [NSString stringWithFormat:@"%@年教龄", [coach.experienceYear stringValue]];
+    if ([coach isGoldenCoach]) {
+        self.goldenCoachIcon.image = [UIImage imageNamed:@"ic_auth_golden"];
+    }
+    self.starRatingView.value = [coach.averageRating floatValue];
     
     
-    self.priceLabel.text = [@(2000) generateMoneyString];
+    self.priceLabel.text = [coach.price generateMoneyString];
     
-    self.marketPriceLabel.attributedText = [[NSMutableAttributedString alloc] initWithString:[@(2500) generateMoneyString] attributes:@{NSStrikethroughStyleAttributeName:@(1), NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+    self.marketPriceLabel.attributedText = [[NSMutableAttributedString alloc] initWithString:[coach.marketPrice generateMoneyString] attributes:@{NSStrikethroughStyleAttributeName:@(1), NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
     
     [self.marketPriceLabel sizeToFit];
 }

@@ -175,8 +175,6 @@
             self.followAction();
         }
     }
-    
-    self.followed = !self.followed;
 }
 
 - (void)shareButtonTapped {

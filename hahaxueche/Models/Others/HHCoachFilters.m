@@ -14,8 +14,8 @@
     return @{
              @"price": @"price",
              @"distance": @"distance",
-             @"onlyGoldenCoach": @"onlyGoldenCoach",
-             @"licenseType": @"licenseType",
+             @"onlyGoldenCoach": @"golden_coach_only",
+             @"licenseType": @"license_type",
              };
 }
 
