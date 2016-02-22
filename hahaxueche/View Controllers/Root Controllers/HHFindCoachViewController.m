@@ -68,6 +68,8 @@ typedef void (^HHUserLocationCompletionBlock)();
 @property (nonatomic, strong) HHCity *userCity;
 @property (nonatomic, strong) CLLocation *userLocation;
 
+@property (nonatomic, strong) HHCoaches *coachesObject;
+
 @end
 
 @implementation HHFindCoachViewController
@@ -85,7 +87,10 @@ typedef void (^HHUserLocationCompletionBlock)();
     self.selectedFields = [NSMutableArray array];
     self.expandedCellIndexPath = [NSMutableArray array];
     [self initSubviews];
-    [self refreshCoachListWithCompletion:nil];
+     __weak HHFindCoachViewController *weakSelf = self;
+    [self getUserLocationWithCompletion:^{
+        [weakSelf refreshCoachListWithCompletion:nil];
+    }];
     
     self.hasMoreCoaches = YES;
 
@@ -93,65 +98,61 @@ typedef void (^HHUserLocationCompletionBlock)();
 
 - (void)refreshCoachListWithCompletion:(HHRefreshCoachCompletionBlock)completion {
     __weak HHFindCoachViewController *weakSelf = self;
-    if (!self.userLocation) {
-        [self getUserLocationWithCompletion:^{
-            if (weakSelf.userLocation) {
-                if (!completion) {
-                    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];
-                }
-                NSNumber *lat = @(weakSelf.userLocation.coordinate.latitude);
-                NSNumber *lon = @(weakSelf.userLocation.coordinate.longitude);
-                NSArray *locationArray = @[lat, lon];
-                [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].currentStudent.cityId filters:weakSelf.coachFilters sortOption:weakSelf.currentSortOption fields:weakSelf.selectedFields userLocation:locationArray completion:^(HHCoaches *coaches, NSError *error) {
-                    [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-                    if (completion) {
-                        completion();
-                    }
-                    weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
-                    if (coaches.nextPage) {
-                        weakSelf.hasMoreCoaches = YES;
-                    } else {
-                        weakSelf.hasMoreCoaches = NO;
-                    }
-                    
-                    [weakSelf.tableView reloadData];
-                }];
-
-            }
-        }];
-    } else {
-        if (!completion) {
-            [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];
+    if (!completion) {
+        [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];
+    }
+    NSNumber *lat = @(weakSelf.userLocation.coordinate.latitude);
+    NSNumber *lon = @(weakSelf.userLocation.coordinate.longitude);
+    NSArray *locationArray = @[lat, lon];
+    [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].currentStudent.cityId filters:weakSelf.coachFilters sortOption:weakSelf.currentSortOption fields:weakSelf.selectedFields userLocation:locationArray completion:^(HHCoaches *coaches, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (completion) {
+            completion();
         }
-        NSNumber *lat = @(weakSelf.userLocation.coordinate.latitude);
-        NSNumber *lon = @(weakSelf.userLocation.coordinate.longitude);
-        NSArray *locationArray = @[lat, lon];
-        [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].currentStudent.cityId filters:weakSelf.coachFilters sortOption:weakSelf.currentSortOption fields:weakSelf.selectedFields userLocation:locationArray completion:^(HHCoaches *coaches, NSError *error) {
-            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-            if (completion) {
-                completion();
-            }
+        if (!error) {
+            weakSelf.coachesObject = coaches;
             weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
             if (coaches.nextPage) {
                 weakSelf.hasMoreCoaches = YES;
             } else {
                 weakSelf.hasMoreCoaches = NO;
             }
+            
             [weakSelf.tableView reloadData];
-        }];
+        }
+        
+    }];
+}
 
-    }
+- (void)loadMoreCoachesWithCompletion:(HHRefreshCoachCompletionBlock)completion {
+   [[HHCoachService sharedInstance] fetchNextPageCoachListWithURL:self.coachesObject.nextPage completion:^(HHCoaches *coaches, NSError *error) {
+       if (completion) {
+           completion();
+       }
+       if (!error) {
+           self.coachesObject = coaches;
+           [self.coaches addObjectsFromArray:coaches.coaches];
+           if (coaches.nextPage) {
+               self.hasMoreCoaches = YES;
+           } else {
+               self.hasMoreCoaches = NO;
+           }
+           
+           [self.tableView reloadData];
+       }
+       
+
+   }];
 }
 
 - (void)setHasMoreCoaches:(BOOL)hasMoreCoaches {
     _hasMoreCoaches = hasMoreCoaches;
     if (!hasMoreCoaches) {
-        self.tableView.tableFooterView = nil;
+        [self.loadMoreFooter setState:MJRefreshStateNoMoreData];
     } else {
-        self.tableView.tableFooterView = self.loadMoreFooter;
+        [self.loadMoreFooter setState:MJRefreshStateIdle];
     }
 }
-
 
 - (void)setupDefaultSortAndFilter {
     self.userCity = [[HHConstantsStore sharedInstance] getAuthedUserCity];
@@ -204,9 +205,11 @@ typedef void (^HHUserLocationCompletionBlock)();
     self.loadMoreFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     [self.loadMoreFooter setTitle:@"加载更多教练" forState:MJRefreshStateIdle];
     [self.loadMoreFooter setTitle:@"正在加载更多教练" forState:MJRefreshStateRefreshing];
+    [self.loadMoreFooter setTitle:@"没有更多教练" forState:MJRefreshStateNoMoreData];
+    self.loadMoreFooter.automaticallyRefresh = NO;
     self.loadMoreFooter.stateLabel.font = [UIFont systemFontOfSize:14.0f];
     self.loadMoreFooter.stateLabel.textColor = [UIColor HHLightTextGray];
-    self.tableView.tableFooterView = self.loadMoreFooter;
+    self.tableView.mj_footer = self.loadMoreFooter;
     
     [self.tableView registerClass:[HHCoachListViewCell class] forCellReuseIdentifier:kCellId];
     
@@ -265,7 +268,7 @@ typedef void (^HHUserLocationCompletionBlock)();
     [self.tableView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.horizontalLine.bottom);
         make.left.equalTo(self.view.left);
-        make.bottom.equalTo(self.view.bottom);
+        make.bottom.equalTo(self.view.bottom).offset(-CGRectGetHeight(self.tabBarController.tabBar.bounds));
         make.width.equalTo(self.view.width);
     }];
 }
@@ -314,6 +317,7 @@ typedef void (^HHUserLocationCompletionBlock)();
     coachDetailVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:coachDetailVC animated:YES];
 }
+
 
 
 #pragma mark - Button Actions 
@@ -382,23 +386,19 @@ typedef void (^HHUserLocationCompletionBlock)();
         
         if (status == INTULocationStatusSuccess) {
             self.userLocation = currentLocation;
-            if (completion) {
-                completion();
-            }
+            
         } else if (status == INTULocationStatusServicesDenied){
             HHAskLocationPermissionViewController *vc = [[HHAskLocationPermissionViewController alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
             self.userLocation = nil;
-            if (completion) {
-                completion(nil);
-            }
+            
         } else if (status == INTULocationStatusError) {
             [[HHToastManager sharedManager] showErrorToastWithText:@"出错了，请重试"];
             self.userLocation = nil;
-            if (completion) {
-                completion();
-            }
+        }
+        if (completion) {
+            completion();
         }
 
     }];
@@ -406,12 +406,17 @@ typedef void (^HHUserLocationCompletionBlock)();
 
 
 - (void)refreshData {
+    __weak HHFindCoachViewController *weakSelf = self;
     [self refreshCoachListWithCompletion:^{
-        [self.refreshHeader endRefreshing];
+        [weakSelf.refreshHeader endRefreshing];
     }];
 }
 
 - (void)loadMoreData {
+//    __weak HHFindCoachViewController *weakSelf = self;
+//    [self loadMoreCoachesWithCompletion:^{
+//        [weakSelf.loadMoreFooter endRefreshing];
+//    }];
     [self.loadMoreFooter endRefreshing];
 }
 

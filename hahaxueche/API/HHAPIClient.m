@@ -36,6 +36,13 @@
     return client;
 }
 
++ (HHAPIClient *)apiClient {
+    HHAPIClient *client = [[self alloc] initWithManager:[AFHTTPRequestOperationManager manager] path:nil];
+    client.requestManager.responseSerializer = [AFJSONResponseSerializer serializer];
+    return client;
+}
+
+
 + (AFHTTPRequestOperationManager *)sharedRequestManager {
     static dispatch_once_t predicate = 0;
     static AFHTTPRequestOperationManager *requestManager = nil;
@@ -129,6 +136,17 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         completion(nil,error);
     }];
+
+}
+
+- (AFHTTPRequestOperation *)getWithURL:(NSString *)URL completion:(HHAPIClientCompletionBlock)completion {
+    AFHTTPRequestOperation *requestOperation = [self.requestManager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self parseResponse:responseObject fromOperation:operation completion:completion];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self handleError:error requestOperation:operation completion:completion];
+    }];
+    
+    return requestOperation;
 
 }
 

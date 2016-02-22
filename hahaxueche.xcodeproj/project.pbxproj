@@ -124,6 +124,7 @@
 		14700D951C795FBF00660989 /* HHPurchasedService.m in Sources */ = {isa = PBXBuildFile; fileRef = 14700D941C795FBF00660989 /* HHPurchasedService.m */; };
 		14700D981C797AE400660989 /* HHPaymentStatusTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14700D971C797AE400660989 /* HHPaymentStatusTopView.m */; };
 		14700D9B1C797C7600660989 /* HHMoneyAmountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14700D9A1C797C7600660989 /* HHMoneyAmountView.m */; };
+		147A9FED1C7A73F3000DED3B /* HHPaymentStatusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 147A9FEC1C7A73F3000DED3B /* HHPaymentStatusCell.m */; };
 		147BFEE81C70F00800FE3524 /* HHSocialMediaShareUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 147BFEE71C70F00800FE3524 /* HHSocialMediaShareUtility.m */; };
 		14F9D4901C71223E0010F3FA /* HHCoaches.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F9D48F1C71223E0010F3FA /* HHCoaches.m */; };
 		14F9D4941C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F9D4911C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian.png */; };
@@ -475,6 +476,8 @@
 		14700D971C797AE400660989 /* HHPaymentStatusTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPaymentStatusTopView.m; sourceTree = "<group>"; };
 		14700D991C797C7600660989 /* HHMoneyAmountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMoneyAmountView.h; sourceTree = "<group>"; };
 		14700D9A1C797C7600660989 /* HHMoneyAmountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMoneyAmountView.m; sourceTree = "<group>"; };
+		147A9FEB1C7A73F3000DED3B /* HHPaymentStatusCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPaymentStatusCell.h; sourceTree = "<group>"; };
+		147A9FEC1C7A73F3000DED3B /* HHPaymentStatusCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPaymentStatusCell.m; sourceTree = "<group>"; };
 		147BFEE61C70F00800FE3524 /* HHSocialMediaShareUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSocialMediaShareUtility.h; sourceTree = "<group>"; };
 		147BFEE71C70F00800FE3524 /* HHSocialMediaShareUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSocialMediaShareUtility.m; sourceTree = "<group>"; };
 		14F9D48E1C71223E0010F3FA /* HHCoaches.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoaches.h; sourceTree = "<group>"; };
@@ -791,6 +794,8 @@
 				14700D971C797AE400660989 /* HHPaymentStatusTopView.m */,
 				14700D991C797C7600660989 /* HHMoneyAmountView.h */,
 				14700D9A1C797C7600660989 /* HHMoneyAmountView.m */,
+				147A9FEB1C7A73F3000DED3B /* HHPaymentStatusCell.h */,
+				147A9FEC1C7A73F3000DED3B /* HHPaymentStatusCell.m */,
 			);
 			name = "My Page";
 			sourceTree = "<group>";
@@ -1787,6 +1792,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				147A9FED1C7A73F3000DED3B /* HHPaymentStatusCell.m in Sources */,
 				141FA0FA1C6BAD1A00113B1A /* ParallaxHeaderView.m in Sources */,
 				1405CC9A1C7699900030B114 /* HHMyCoachCourseInfoCell.m in Sources */,
 				5CDE14571C3723020004778C /* HHTextFieldView.m in Sources */,

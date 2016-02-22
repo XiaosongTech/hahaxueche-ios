@@ -43,9 +43,9 @@
 
 - (BOOL)isGoldenCoach {
     if ([self.skillLevel integerValue] == 0) {
-        return YES;
-    } else {
         return NO;
+    } else {
+        return YES;
     }
 }
 
@@ -60,7 +60,7 @@
 }
 
 - (NSString *)satistactionString {
-    return [NSString stringWithFormat:@"%@%%", self.satisfactionRate];
+    return [NSString stringWithFormat:@"%@%%", [self.satisfactionRate stringValue]];
 }
 
 - (NSString *)skillLevelString {

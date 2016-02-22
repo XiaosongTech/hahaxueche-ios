@@ -32,6 +32,7 @@
 @property (nonatomic, copy) NSNumber *cityId;
 @property (nonatomic, copy) NSString *fieldId;
 
+// 0 = 优秀教练; 1 = 金牌教练
 - (BOOL)isGoldenCoach;
 - (NSString *)licenseTypesName;
 - (NSString *)satistactionString;

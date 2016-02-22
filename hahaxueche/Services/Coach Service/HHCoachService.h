@@ -25,6 +25,13 @@ typedef void (^HHCoachListCompletion)(HHCoaches *coaches, NSError *error);
  */
 - (void)fetchCoachListWithCityId:(NSNumber *)cityId filters:(HHCoachFilters *)filters sortOption:(SortOption)sortOption fields:(NSArray *)selectedFields userLocation:(NSArray *)userLocation completion:(HHCoachListCompletion)completion;
 
+/**
+ Fetch Next Page Coach List
+ @param URL The next page path from backend
+ @param completion The completion block to execute on completion
+ */
+- (void)fetchNextPageCoachListWithURL:(NSString *)URL completion:(HHCoachListCompletion)completion;
+
 
 
 @end
