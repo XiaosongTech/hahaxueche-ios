@@ -125,6 +125,15 @@
 		14700D981C797AE400660989 /* HHPaymentStatusTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14700D971C797AE400660989 /* HHPaymentStatusTopView.m */; };
 		14700D9B1C797C7600660989 /* HHMoneyAmountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14700D9A1C797C7600660989 /* HHMoneyAmountView.m */; };
 		147A9FED1C7A73F3000DED3B /* HHPaymentStatusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 147A9FEC1C7A73F3000DED3B /* HHPaymentStatusCell.m */; };
+		147A9FF01C7AA8B1000DED3B /* HHPaymentStage.m in Sources */ = {isa = PBXBuildFile; fileRef = 147A9FEF1C7AA8B1000DED3B /* HHPaymentStage.m */; };
+		147A9FF41C7AAA29000DED3B /* ic_paylist_message_btn_unfocus.png in Resources */ = {isa = PBXBuildFile; fileRef = 147A9FF11C7AAA29000DED3B /* ic_paylist_message_btn_unfocus.png */; };
+		147A9FF51C7AAA29000DED3B /* ic_paylist_message_btn_unfocus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 147A9FF21C7AAA29000DED3B /* ic_paylist_message_btn_unfocus@2x.png */; };
+		147A9FF61C7AAA29000DED3B /* ic_paylist_message_btn_unfocus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 147A9FF31C7AAA29000DED3B /* ic_paylist_message_btn_unfocus@3x.png */; };
+		147A9FF91C7AB56C000DED3B /* HHOkButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 147A9FF81C7AB56C000DED3B /* HHOkButtonView.m */; };
+		147A9FFC1C7AB74C000DED3B /* HHPaymentStageInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 147A9FFB1C7AB74C000DED3B /* HHPaymentStageInfoView.m */; };
+		147AA0001C7ABB6D000DED3B /* ic_havenotpay.png in Resources */ = {isa = PBXBuildFile; fileRef = 147A9FFD1C7ABB6D000DED3B /* ic_havenotpay.png */; };
+		147AA0011C7ABB6D000DED3B /* ic_havenotpay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 147A9FFE1C7ABB6D000DED3B /* ic_havenotpay@2x.png */; };
+		147AA0021C7ABB6D000DED3B /* ic_havenotpay@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 147A9FFF1C7ABB6D000DED3B /* ic_havenotpay@3x.png */; };
 		147BFEE81C70F00800FE3524 /* HHSocialMediaShareUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 147BFEE71C70F00800FE3524 /* HHSocialMediaShareUtility.m */; };
 		14F9D4901C71223E0010F3FA /* HHCoaches.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F9D48F1C71223E0010F3FA /* HHCoaches.m */; };
 		14F9D4941C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F9D4911C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian.png */; };
@@ -478,6 +487,18 @@
 		14700D9A1C797C7600660989 /* HHMoneyAmountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMoneyAmountView.m; sourceTree = "<group>"; };
 		147A9FEB1C7A73F3000DED3B /* HHPaymentStatusCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPaymentStatusCell.h; sourceTree = "<group>"; };
 		147A9FEC1C7A73F3000DED3B /* HHPaymentStatusCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPaymentStatusCell.m; sourceTree = "<group>"; };
+		147A9FEE1C7AA8B1000DED3B /* HHPaymentStage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPaymentStage.h; sourceTree = "<group>"; };
+		147A9FEF1C7AA8B1000DED3B /* HHPaymentStage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPaymentStage.m; sourceTree = "<group>"; };
+		147A9FF11C7AAA29000DED3B /* ic_paylist_message_btn_unfocus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paylist_message_btn_unfocus.png; sourceTree = "<group>"; };
+		147A9FF21C7AAA29000DED3B /* ic_paylist_message_btn_unfocus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_paylist_message_btn_unfocus@2x.png"; sourceTree = "<group>"; };
+		147A9FF31C7AAA29000DED3B /* ic_paylist_message_btn_unfocus@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_paylist_message_btn_unfocus@3x.png"; sourceTree = "<group>"; };
+		147A9FF71C7AB56C000DED3B /* HHOkButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHOkButtonView.h; sourceTree = "<group>"; };
+		147A9FF81C7AB56C000DED3B /* HHOkButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHOkButtonView.m; sourceTree = "<group>"; };
+		147A9FFA1C7AB74C000DED3B /* HHPaymentStageInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPaymentStageInfoView.h; sourceTree = "<group>"; };
+		147A9FFB1C7AB74C000DED3B /* HHPaymentStageInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPaymentStageInfoView.m; sourceTree = "<group>"; };
+		147A9FFD1C7ABB6D000DED3B /* ic_havenotpay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_havenotpay.png; sourceTree = "<group>"; };
+		147A9FFE1C7ABB6D000DED3B /* ic_havenotpay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_havenotpay@2x.png"; sourceTree = "<group>"; };
+		147A9FFF1C7ABB6D000DED3B /* ic_havenotpay@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_havenotpay@3x.png"; sourceTree = "<group>"; };
 		147BFEE61C70F00800FE3524 /* HHSocialMediaShareUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSocialMediaShareUtility.h; sourceTree = "<group>"; };
 		147BFEE71C70F00800FE3524 /* HHSocialMediaShareUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSocialMediaShareUtility.m; sourceTree = "<group>"; };
 		14F9D48E1C71223E0010F3FA /* HHCoaches.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoaches.h; sourceTree = "<group>"; };
@@ -796,6 +817,10 @@
 				14700D9A1C797C7600660989 /* HHMoneyAmountView.m */,
 				147A9FEB1C7A73F3000DED3B /* HHPaymentStatusCell.h */,
 				147A9FEC1C7A73F3000DED3B /* HHPaymentStatusCell.m */,
+				147A9FF71C7AB56C000DED3B /* HHOkButtonView.h */,
+				147A9FF81C7AB56C000DED3B /* HHOkButtonView.m */,
+				147A9FFA1C7AB74C000DED3B /* HHPaymentStageInfoView.h */,
+				147A9FFB1C7AB74C000DED3B /* HHPaymentStageInfoView.m */,
 			);
 			name = "My Page";
 			sourceTree = "<group>";
@@ -1022,6 +1047,8 @@
 				5C36D39C1C4360FE00443545 /* HHStudent.m */,
 				14700D931C795FBF00660989 /* HHPurchasedService.h */,
 				14700D941C795FBF00660989 /* HHPurchasedService.m */,
+				147A9FEE1C7AA8B1000DED3B /* HHPaymentStage.h */,
+				147A9FEF1C7AA8B1000DED3B /* HHPaymentStage.m */,
 			);
 			path = Student;
 			sourceTree = "<group>";
@@ -1244,6 +1271,12 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				147A9FFD1C7ABB6D000DED3B /* ic_havenotpay.png */,
+				147A9FFE1C7ABB6D000DED3B /* ic_havenotpay@2x.png */,
+				147A9FFF1C7ABB6D000DED3B /* ic_havenotpay@3x.png */,
+				147A9FF11C7AAA29000DED3B /* ic_paylist_message_btn_unfocus.png */,
+				147A9FF21C7AAA29000DED3B /* ic_paylist_message_btn_unfocus@2x.png */,
+				147A9FF31C7AAA29000DED3B /* ic_paylist_message_btn_unfocus@3x.png */,
 				1405CC641C7523560030B114 /* ic_nolist_bk_pic.png */,
 				1405CC651C7523560030B114 /* ic_nolist_bk_pic@2x.png */,
 				1405CC661C7523560030B114 /* ic_nolist_bk_pic@3x.png */,
@@ -1560,6 +1593,7 @@
 				5C36D43B1C4C743700443545 /* ic_map_local_choseoff@1x.png in Resources */,
 				5C36D3C81C47500700443545 /* ic_sort_normal_btn@3x.png in Resources */,
 				5C6D8C8B1C3AD6840055CB31 /* ic_toast_attention@2x.png in Resources */,
+				147AA0011C7ABB6D000DED3B /* ic_havenotpay@2x.png in Resources */,
 				5C36D3771C42D9F800443545 /* ic_bottombar_haha_hold_btn@3x.png in Resources */,
 				140EC5F91C6D543600DA634D /* ic_coachmsg_localtion@3x.png in Resources */,
 				5C6D8C8C1C3AD6840055CB31 /* ic_toast_attention@3x.png in Resources */,
@@ -1586,6 +1620,7 @@
 				5C36D43E1C4C743700443545 /* ic_map_local_choseon@1x.png in Resources */,
 				140EC5F11C6D542700DA634D /* ic_coachmsg_classtype.png in Resources */,
 				141FA0F31C6925C900113B1A /* ic_homepage_knowmore_arrow@3x.png in Resources */,
+				147AA0001C7ABB6D000DED3B /* ic_havenotpay.png in Resources */,
 				140EC5F31C6D542700DA634D /* ic_coachmsg_classtype@3x.png in Resources */,
 				140EC6091C6D68D000DA634D /* ic_coachmsg_manyidu.png in Resources */,
 				5C36D43F1C4C743700443545 /* ic_map_local_choseon@2x.png in Resources */,
@@ -1608,6 +1643,7 @@
 				5C36D41A1C496ECD00443545 /* ic_sort_nice_normal_btn@2x.png in Resources */,
 				5C36D3851C42D9F800443545 /* ic_bottombar_mypage_normal_btn@2x.png in Resources */,
 				140EC5EE1C6D542700DA634D /* ic_coachmsg_charge.png in Resources */,
+				147A9FF51C7AAA29000DED3B /* ic_paylist_message_btn_unfocus@2x.png in Resources */,
 				5C36D40F1C496ECD00443545 /* ic_sort_hot_normal_btn@3x.png in Resources */,
 				5C36D3781C42D9F800443545 /* ic_bottombar_haha_normal_btn@1x.png in Resources */,
 				141F7BF51C617EB2003278C6 /* ic_list_local_btn@3x.png in Resources */,
@@ -1617,6 +1653,7 @@
 				5CDE14721C3776E20004778C /* onboard_bg@2x.png in Resources */,
 				5C36D4041C496ECD00443545 /* ic_sort_auto_hold_btn@1x.png in Resources */,
 				141F7C051C617EC7003278C6 /* ic_Star_light.png in Resources */,
+				147A9FF61C7AAA29000DED3B /* ic_paylist_message_btn_unfocus@3x.png in Resources */,
 				5C36D44A1C4DAE3D00443545 /* ic_auth_golden@3x.png in Resources */,
 				5C36D41E1C496ECD00443545 /* ic_sort_price_hold_btn@3x.png in Resources */,
 				14604F551C6FB0E3009DBE10 /* ic_coachmsg_sharecoach_friendgroup@2x.png in Resources */,
@@ -1632,6 +1669,7 @@
 				14F9D4961C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian@3x.png in Resources */,
 				141F7BF31C617EB2003278C6 /* ic_list_local_btn.png in Resources */,
 				5C36D4191C496ECD00443545 /* ic_sort_nice_normal_btn@1x.png in Resources */,
+				147AA0021C7ABB6D000DED3B /* ic_havenotpay@3x.png in Resources */,
 				5C36D3731C42D9F800443545 /* ic_bottombar_date_normal_btn@2x.png in Resources */,
 				14604F581C6FB0E3009DBE10 /* ic_coachmsg_sharecoach_qq@2x.png in Resources */,
 				5C36D3C31C47500700443545 /* ic_sort_hold_btn@1X.png in Resources */,
@@ -1650,6 +1688,7 @@
 				5CDE14681C3771880004778C /* ic_arrow_back@1x.png in Resources */,
 				141F7C031C617EC7003278C6 /* ic_Star_half@2x.png in Resources */,
 				5C36D4321C4C39A000443545 /* pic_local@1x.png in Resources */,
+				147A9FF41C7AAA29000DED3B /* ic_paylist_message_btn_unfocus.png in Resources */,
 				5C6D8C8D1C3AD6840055CB31 /* ic_toast_right@1x.png in Resources */,
 				5C36D3B71C474FF600443545 /* ic_screen_hold_btn@1X.png in Resources */,
 				141FA0E81C66CB6300113B1A /* ic_homepage_coachhere.png in Resources */,
@@ -1840,6 +1879,7 @@
 				143778EF1C6125C300339D20 /* HHLaunchImageViewController.m in Sources */,
 				5C36D3CB1C47615000443545 /* HHFiltersView.m in Sources */,
 				14604F441C6EF064009DBE10 /* HHConfirmCancelButtonsView.m in Sources */,
+				147A9FFC1C7AB74C000DED3B /* HHPaymentStageInfoView.m in Sources */,
 				141FA0F61C6BACCE00113B1A /* HHCoachDetailViewController.m in Sources */,
 				5C36D34D1C42D7B800443545 /* HHHomePageViewController.m in Sources */,
 				5C36D34A1C42D69700443545 /* HHRootViewController.m in Sources */,
@@ -1848,9 +1888,11 @@
 				5C36D3A01C442A6300443545 /* HHStudentStore.m in Sources */,
 				14700D9B1C797C7600660989 /* HHMoneyAmountView.m in Sources */,
 				5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */,
+				147A9FF01C7AA8B1000DED3B /* HHPaymentStage.m in Sources */,
 				1405CC931C768A2A0030B114 /* HHMyCoachDetailViewController.m in Sources */,
 				1405CC831C7645910030B114 /* HHMyPageCoachCell.m in Sources */,
 				5C36D3961C430DD700443545 /* HHConstants.m in Sources */,
+				147A9FF91C7AB56C000DED3B /* HHOkButtonView.m in Sources */,
 				140EC6441C6E9A6100DA634D /* HHCoachCommentView.m in Sources */,
 				14F9D4901C71223E0010F3FA /* HHCoaches.m in Sources */,
 				5CC3B6011B48268A00D10DFB /* main.m in Sources */,

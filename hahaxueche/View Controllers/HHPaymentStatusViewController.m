@@ -12,9 +12,13 @@
 #import "Masonry.h"
 #import "UIColor+HHColor.h"
 #import "UIView+HHRect.h"
+#import "HHPaymentStatusCell.h"
+#import "HHPopupUtility.h"
+#import "HHPaymentStageInfoView.h"
 
 
 static NSString *const kExplanationText = @"注：学员支付的学费将由平台保管，每个阶段结束后，学员可以根据情况，点击确认打款按钮。点击后，平台将阶段对应金额打给教练，然后进入下个阶段。每个阶段的金额会在点击付款后的第一个周二转到教练账户。";
+static NSString *const kCellId = @"CellId";
 
 @interface HHPaymentStatusViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -24,6 +28,8 @@ static NSString *const kExplanationText = @"注：学员支付的学费将由平
 @property (nonatomic, strong) UIButton *confirmPayButton;
 @property (nonatomic, strong) UILabel *bottomLabel;
 @property (nonatomic, strong) UIView *bottomLine;
+@property (nonatomic, strong) KLCPopup *popup;
+@property (nonatomic, strong) HHPaymentStageInfoView *infoView;
 
 @end
 
@@ -55,6 +61,8 @@ static NSString *const kExplanationText = @"注：学员支付的学费将由平
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = [UIColor HHBackgroundGary];
     [self.view addSubview:self.tableView];
+    
+    [self.tableView registerClass:[HHPaymentStatusCell class] forCellReuseIdentifier:kCellId];
     
     
     UILabel *explanationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, CGRectGetWidth(self.view.bounds)-20.0f, 100)];
@@ -128,7 +136,20 @@ static NSString *const kExplanationText = @"注：学员支付的学费将由平
 #pragma mark - TableView Delegate & Datasource Methods
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    __weak HHPaymentStatusViewController *weakSelf = self;
+    HHPaymentStatusCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
+    cell.rightButtonBlock = ^() {
+        weakSelf.infoView = [[HHPaymentStageInfoView alloc] initWithImage:[UIImage imageNamed:@"ic_havenotpay"] title:@"科目二带打款" text:@"确认通过科目二考试后，点击确认打款按钮，我们会将￥200打给教练确认通过科目二考试后，点击确认打款按钮，我们会将￥200打给教练"];
+        weakSelf.infoView.frame = CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds) - 80.0f, 160.0f);
+        weakSelf.infoView.okAction = ^(){
+            [HHPopupUtility dismissPopup:weakSelf.popup];
+        };
+        
+        weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.infoView];
+        [HHPopupUtility showPopup:weakSelf.popup];
+    };
+    
+    [cell setupCellWithPaymentStatus:nil];
     return cell;
 }
 

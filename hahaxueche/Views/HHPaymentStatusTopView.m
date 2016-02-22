@@ -78,7 +78,7 @@ static CGFloat const kAvatarRadius = 30.0f;
 
 - (void)makeConstraints {
     [self.nameLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.top).offset(35.0f);
+        make.top.equalTo(self.top).offset(25.0f);
         make.left.equalTo(self.left).offset(20.0f);
     }];
     

@@ -7,6 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HHPaymentStage.h"
+
+
+typedef void (^HHPaymentStatusRightButtonActionBlock)();
 
 @interface HHPaymentStatusCell : UITableViewCell
 
@@ -15,5 +19,9 @@
 @property (nonatomic, strong) UILabel *feeAmountLabel;
 @property (nonatomic, strong) UILabel *statusLabel;
 @property (nonatomic, strong) UIButton *rightButton;
+
+@property (nonatomic, strong) HHPaymentStatusRightButtonActionBlock rightButtonBlock;
+
+- (void)setupCellWithPaymentStatus:(HHPaymentStage *)paymentStatus;
 
 @end
