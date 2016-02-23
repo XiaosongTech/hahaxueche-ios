@@ -49,12 +49,26 @@
         
         [self addPriceItemViewWithTitle:@"培训费（您的教练）" value:[@(traningFee) generateMoneyString] index:i];
         
+        self.midLine = [[UIView alloc] init];
+        self.midLine.backgroundColor = [UIColor HHLightLineGray];
+        [self addSubview:self.midLine];
+        
+        self.otherFeesLabel = [[UILabel alloc] init];
+        self.otherFeesLabel.text = title;
+        self.otherFeesLabel.numberOfLines = 0;
+        self.otherFeesLabel.text = @"备注：以下费用根据个人实际情况需要另外缴纳\n\n补考费（车管所）——按车管所公示价格收取\n模拟考试费（考场）——按考场公示价格收取";
+        self.otherFeesLabel.textColor = [UIColor HHLightTextGray];
+        self.otherFeesLabel.font = [UIFont systemFontOfSize:12.0f];
+        [self addSubview:self.otherFeesLabel];
+        
         if (!showOKButton) {
             self.buttonsView = [[HHConfirmCancelButtonsView alloc] initWithLeftTitle:@"确认付款" rightTitle:@"取消返回"];
             [self addSubview:self.buttonsView];
             
             [self.buttonsView.leftButton addTarget:self action:@selector(confirmButtonTapped) forControlEvents:UIControlEventTouchUpInside];
             [self.buttonsView.rightButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+            self.otherFeesLabel.hidden = YES;
+            self.midLine.hidden = YES;
         } else {
             self.okButton = [UIButton buttonWithType:UIButtonTypeCustom];
             [self.okButton setTitle:@"知道了" forState:UIControlStateNormal];
@@ -66,6 +80,9 @@
             self.botLine = [[UIView alloc] init];
             self.botLine.backgroundColor = [UIColor HHLightLineGray];
             [self addSubview:self.botLine];
+            
+            self.otherFeesLabel.hidden = NO;
+            self.midLine.hidden = NO;
         }
         
         
@@ -100,6 +117,19 @@
         make.left.equalTo(self.left);
         make.width.equalTo(self.width);
         make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+    }];
+    HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
+    [self.midLine makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.topLine.bottom).offset((city.cityFixedFees.count + 1) * 50.0f);
+        make.left.equalTo(self.left).offset(20.0f);
+        make.width.equalTo(self.width).offset(-40.0f);
+        make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+    }];
+    
+    [self.otherFeesLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.midLine.bottom).offset(10.0f);
+        make.left.equalTo(self.left).offset(20.0f);
+        make.width.equalTo(self.width).offset(-40.0f);
     }];
     
     if (self.buttonsView) {

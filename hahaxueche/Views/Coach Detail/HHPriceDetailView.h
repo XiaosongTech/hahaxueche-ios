@@ -18,8 +18,12 @@ typedef void (^HHPriceDetailViewBlock)();
 
 @property (nonatomic, strong) UIView *topLine;
 @property (nonatomic, strong) UIView *botLine;
+@property (nonatomic, strong) UIView *midLine;
+@property (nonatomic, strong) UILabel *otherFeesLabel;
 @property (nonatomic, strong) HHConfirmCancelButtonsView *buttonsView;
 @property (nonatomic, strong) UIButton *okButton;
+
+
 
 @property (nonatomic, strong) HHPriceDetailViewBlock cancelBlock;
 @property (nonatomic, strong) HHPriceDetailViewBlock confirmBlock;

@@ -21,6 +21,7 @@
 #import "HHSocialMediaShareUtility.h"
 #import "HHUserAuthService.h"
 #import "HHPaymentStatusViewController.h"
+#import "HHFollowedCoachListViewController.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -88,11 +89,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         [self.tableView registerClass:[HHMyPageHelpCell class] forCellReuseIdentifier:kHelpCell];
         [self.tableView registerClass:[HHMyPageLogoutCell class] forCellReuseIdentifier:kLogoutCell];
         
-        UIImageView *topBackgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 150.0f)];
-        topBackgroundView.backgroundColor = [UIColor blackColor];
-        //topBackgroundView.image = [UIImage imageNamed:@"pic_local"];
-        
-        ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithImage:[UIImage imageNamed:@"pic_local"] forSize:CGSizeMake(CGRectGetWidth(self.view.bounds), 150.0f)];
+        ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithImage:[UIImage imageNamed:@"ic_mypage_bk"] forSize:CGSizeMake(CGRectGetWidth(self.view.bounds), 150.0f)];
         [self.tableView setTableHeaderView:headerView];
         [self.tableView sendSubviewToBack:self.tableView.tableHeaderView];
     }
@@ -129,7 +126,9 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 [weakSelf.navigationController pushViewController:myCoachVC animated:YES];
             };
             cell.followedCoachView.actionBlock = ^(){
-                
+                HHFollowedCoachListViewController *vc = [[HHFollowedCoachListViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
             };
             [cell setupCellWithCoach:nil coachList:nil];
             return cell;

@@ -36,9 +36,6 @@ static NSString *const kCellId = @"kCoachListCellId";
 static CGFloat const kCellHeightNormal = 100.0f;
 static CGFloat const kCellHeightExpanded = 300.0f;
 
-typedef void (^HHRefreshCoachCompletionBlock)();
-typedef void (^HHUserLocationCompletionBlock)();
-
 @interface HHFindCoachViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UIView *topButtonsView;
@@ -283,6 +280,11 @@ typedef void (^HHUserLocationCompletionBlock)();
     HHCoach *coach = self.coaches[indexPath.row];
     [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId]];
 
+    if ([self.expandedCellIndexPath containsObject:indexPath]) {
+        cell.mapView.hidden = NO;
+    } else {
+        cell.mapView.hidden = YES;
+    }
     
     cell.mapButtonBlock = ^(){
         if ([weakSelf.expandedCellIndexPath containsObject:indexPath]) {
@@ -418,6 +420,7 @@ typedef void (^HHUserLocationCompletionBlock)();
         [weakSelf.loadMoreFooter endRefreshing];
     }];
 }
+
 
 
 

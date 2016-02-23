@@ -239,7 +239,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             HHCoachDetailSectionOneCell *cell = [tableView dequeueReusableCellWithIdentifier:kInfoOneCellID forIndexPath:indexPath];
             cell.priceCellAction = ^() {
                 HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
-                CGFloat height = 110.0f + (city.cityFixedFees.count + 1) * 50.0f;
+                CGFloat height = 190.0f + (city.cityFixedFees.count + 1) * 50.0f;
                 HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"价格明细" totalPrice:weakSelf.coach.price showOKButton:YES];
                 priceView.cancelBlock = ^() {
                     [HHPopupUtility dismissPopup:weakSelf.popup];

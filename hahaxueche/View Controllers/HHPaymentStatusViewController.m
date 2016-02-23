@@ -149,7 +149,7 @@ static NSString *const kCellId = @"CellId";
         [HHPopupUtility showPopup:weakSelf.popup];
     };
     
-    [cell setupCellWithPaymentStatus:nil];
+    [cell setupCellWithPaymentStage:nil currentStatge:0];
     return cell;
 }
 
