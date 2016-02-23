@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HHCoachFilters.h"
+#import "HHCity.h"
 
 typedef void (^HHFiltersViewConfirmCompletion)(HHCoachFilters *filters);
 typedef void (^HHFiltersViewCancelCompletion)();
@@ -18,6 +19,6 @@ typedef void (^HHFiltersViewCancelCompletion)();
 @property (nonatomic, strong) HHFiltersViewConfirmCompletion confirmBlock;
 @property (nonatomic, strong) HHFiltersViewCancelCompletion cancelBlock;
 
-- (instancetype)initWithFilters:(HHCoachFilters *)coachFilters frame:(CGRect)frame;
+- (instancetype)initWithFilters:(HHCoachFilters *)coachFilters frame:(CGRect)frame city:(HHCity *)city;
 
 @end

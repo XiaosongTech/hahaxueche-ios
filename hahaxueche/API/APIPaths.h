@@ -16,10 +16,19 @@
 #define kAPIStudentPath @"students/%@"
 #define kAPILoginPath @"sessions"
 #define kAPILogoutPath @"sessions/%@"
+#define kAPIResetPWDPath @"users/reset_password"
+
+
 
 #pragma mark Student
 
 #define kAPIStudentAvatar @"students/%@/avatar"
+#define kAPIStudentFollows @"users/follows/%@"
+
+
+#pragma mark Coach
+
+#define kAPICoaches @"coaches"
 
 
 #pragma mark Constants

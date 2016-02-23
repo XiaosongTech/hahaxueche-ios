@@ -15,18 +15,20 @@ typedef void (^HHAPIClientCompletionBlock)(NSDictionary *response, NSError *erro
 
 @interface HHAPIClient : NSObject
 
-+ (HHAPIClient *)apiClientWithPath:(NSString *)path;
-
 @property (nonatomic, strong)   AFHTTPRequestOperationManager *requestManager;
 @property (nonatomic, copy)     NSString *APIPath;
 
 
++ (HHAPIClient *)apiClientWithPath:(NSString *)path;
++ (HHAPIClient *)apiClient;
 
 - (AFHTTPRequestOperation *)postWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion;
 
 - (AFHTTPRequestOperation *)getWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion;
 
 - (AFHTTPRequestOperation *)putWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion;
+
+- (AFHTTPRequestOperation *)getWithURL:(NSString *)URL completion:(HHAPIClientCompletionBlock)completion;
 
 
 - (void)deleteWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion;

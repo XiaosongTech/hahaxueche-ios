@@ -13,7 +13,11 @@
 
 + (KLCPopup *)createPopupWithContentView:(UIView *)contentView;
 
++ (KLCPopup *)createPopupWithContentView:(UIView *)contentView showType:(KLCPopupShowType)showType dismissType:(KLCPopupDismissType)dismissType;
+
 + (void)showPopup:(KLCPopup *)popup;
+
++ (void)showPopup:(KLCPopup *)popup layout:(KLCPopupLayout)layout;
 
 + (void)showPopup:(KLCPopup *)popup AtCenter:(CGPoint)center inView:(UIView *)view;
 

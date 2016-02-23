@@ -9,6 +9,7 @@
 #import "HHConstantsStore.h"
 #import "HHAPIClient.h"
 #import "APIPaths.h"
+#import "HHStudentStore.h"
 
 @interface HHConstantsStore ()
 
@@ -47,6 +48,49 @@
         }];
 
     }
+}
+
+- (NSArray *)getAllFieldsForCity:(NSNumber *)cityId {
+    NSArray *fields = [HHConstantsStore sharedInstance].constants.fields;
+    if ([fields count]) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"cityId == %ld", [cityId integerValue]];
+        return [fields filteredArrayUsingPredicate:predicate];
+    }
+    return nil;
+}
+
+- (NSArray *)getSupporteCities {
+    if ([HHConstantsStore sharedInstance].constants.cities) {
+        return [HHConstantsStore sharedInstance].constants.cities;
+    }
+    return nil;
+}
+
+- (HHField *)getFieldWithId:(NSString *)fieldId {
+    NSArray *fields = [HHConstantsStore sharedInstance].constants.fields;
+    if ([fields count]) {
+        for (HHField *field in fields) {
+            if ([field.fieldId isEqualToString:fieldId]) {
+                return field;
+            }
+        }
+        
+    }
+    return nil;
+}
+
+- (HHCity *)getAuthedUserCity {
+    NSArray *cities = [HHConstantsStore sharedInstance].constants.cities;
+    NSNumber *cityId = [HHStudentStore sharedInstance].currentStudent.cityId;
+    if ([cities count]) {
+        for (HHCity *city in cities) {
+            if ([city.cityId integerValue] == [cityId integerValue]) {
+                return city;
+            }
+        }
+        
+    }
+    return nil;
 }
 
 @end

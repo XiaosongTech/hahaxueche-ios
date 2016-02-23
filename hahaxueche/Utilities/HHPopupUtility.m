@@ -10,13 +10,18 @@
 
 @implementation HHPopupUtility
 
-+ (KLCPopup *)createPopupWithContentView:(UIView *)contentView {
++ (KLCPopup *)createPopupWithContentView:(UIView *)contentView showType:(KLCPopupShowType)showType dismissType:(KLCPopupDismissType)dismissType {
     return [KLCPopup popupWithContentView:contentView
-                          showType:KLCPopupShowTypeGrowIn
-                       dismissType:KLCPopupDismissTypeGrowOut
-                          maskType:KLCPopupMaskTypeDimmed
-          dismissOnBackgroundTouch:YES
-              dismissOnContentTouch:NO];
+                                 showType:showType
+                              dismissType:dismissType
+                                 maskType:KLCPopupMaskTypeDimmed
+                 dismissOnBackgroundTouch:YES
+                    dismissOnContentTouch:NO];
+}
+
++ (KLCPopup *)createPopupWithContentView:(UIView *)contentView {
+    
+    return [HHPopupUtility createPopupWithContentView:contentView showType:KLCPopupShowTypeGrowIn dismissType:KLCPopupDismissTypeGrowOut];
 }
 
 + (void)dismissPopup:(KLCPopup *)popup {
@@ -24,7 +29,11 @@
 }
 
 + (void)showPopup:(KLCPopup *)popup {
-    [popup show];
+    [HHPopupUtility showPopup:popup layout:KLCPopupLayoutCenter];
+}
+
++ (void)showPopup:(KLCPopup *)popup layout:(KLCPopupLayout)layout {
+    [popup showWithLayout:layout];
 }
 
 + (void)showPopup:(KLCPopup *)popup AtCenter:(CGPoint)center inView:(UIView *)view {

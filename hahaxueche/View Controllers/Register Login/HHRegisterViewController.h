@@ -18,7 +18,12 @@ typedef void (^HHGenericCompletion)();
 @property (nonatomic, strong) HHTextFieldView *phoneNumberField;
 @property (nonatomic, strong) HHTextFieldView *verificationCodeField;
 @property (nonatomic, strong) HHTextFieldView *pwdField;
+@property (nonatomic, strong) HHButton *sendCodeButton;
+@property (nonatomic, strong) UIImageView *bachgroudImageView;
+@property (nonatomic) NSInteger countDown;
+@property (nonatomic) NSTimer *timer;
 
-- (void)doneButtonTapped;
+- (void)showMoreFields;
+- (BOOL)areAllFieldsValid;
 
 @end

@@ -11,6 +11,7 @@
 @interface HHConstants : MTLModel <MTLJSONSerializing>
 
 @property (nonatomic, copy) NSArray *cities;
+@property (nonatomic, copy) NSArray *fields;
 
 
 @end

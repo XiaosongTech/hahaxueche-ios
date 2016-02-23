@@ -1,0 +1,74 @@
+//
+//  HHCoach.m
+//  hahaxueche
+//
+//  Created by Zixiao Wang on 2/2/16.
+//  Copyright © 2016 Zixiao Wang. All rights reserved.
+//
+
+#import "HHCoach.h"
+
+@implementation HHCoach
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{
+             @"name": @"name",
+             @"userId": @"user_id",
+             @"coachId": @"id",
+             @"avatarUrl": @"avatar_url",
+             @"cityId": @"city_id",
+             @"averageRating": @"average_rating",
+             @"price":@"coach_group.traing_cost",
+             @"marketPrice":@"coach_group.market_price",
+             @"experienceYear":@"experiences",
+             @"reviewCount":@"review_count",
+             @"skillLevel":@"skill_level",
+             @"totalStudentCount":@"total_student_count",
+             @"activeStudentCount": @"active_student_count",
+             @"satisfactionRate":@"satisfaction_rate",
+             @"consultant":@"consultant",
+             @"peerCoaches":@"peer_coaches",
+             @"bio":@"bio",
+             @"cellPhone":@"cell_phone",
+             @"fieldId":@"coach_group.field_id",
+             @"licenseType":@"license_type",
+             @"serviceType":@"service_type",
+             
+             };
+}
+
++ (NSValueTransformer *)peerCoachesJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[HHCoach class]];
+}
+
+- (BOOL)isGoldenCoach {
+    if ([self.skillLevel integerValue] == 0) {
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
+- (NSString *)licenseTypesName {
+    if ([self.licenseType integerValue] == 1) {
+        return @"C1手动档";
+    } else if ([self.licenseType integerValue] == 2) {
+        return @"C2自动档";
+    } else {
+        return @"C1手动档和C2自动挡";
+    }
+}
+
+- (NSString *)satistactionString {
+    return [NSString stringWithFormat:@"%@%%", [self.satisfactionRate stringValue]];
+}
+
+- (NSString *)skillLevelString {
+    if ([self isGoldenCoach]) {
+        return @"金牌教练";
+    } else {
+        return @"优秀教练";
+    }
+}
+
+@end

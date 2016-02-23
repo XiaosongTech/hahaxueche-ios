@@ -1,4 +1,5 @@
 PODS:
+  - ActionSheetPicker-3.0 (2.0.5)
   - AFNetworking (2.6.3):
     - AFNetworking/NSURLConnection (= 2.6.3)
     - AFNetworking/NSURLSession (= 2.6.3)
@@ -30,6 +31,7 @@ PODS:
   - Fabric (1.6.0):
     - Fabric/Base (= 1.6.0)
   - Fabric/Base (1.6.0)
+  - HCSStarRatingView (1.4.3)
   - Instabug (4.1.7)
   - INTULocationManager (4.1.1)
   - KLCPopup (1.0)
@@ -39,6 +41,7 @@ PODS:
   - Mantle/extobjc (2.0.6)
   - Masonry (0.6.4)
   - MJRefresh (3.0.8)
+  - OpenShare (0.0.1)
   - pop (1.0.8)
   - SDCycleScrollView (1.61):
     - SDWebImage (~> 3.7)
@@ -51,6 +54,7 @@ PODS:
   - UMengAnalytics-NO-IDFA (3.6.5)
 
 DEPENDENCIES:
+  - ActionSheetPicker-3.0
   - AFNetworking (~> 2.6.1)
   - AMap2DMap
   - Appirater
@@ -59,6 +63,7 @@ DEPENDENCIES:
   - CRToast
   - DateTools
   - Fabric
+  - HCSStarRatingView (~> 1.4)
   - Instabug
   - INTULocationManager
   - KLCPopup
@@ -66,6 +71,7 @@ DEPENDENCIES:
   - Mantle
   - Masonry
   - MJRefresh
+  - OpenShare (~> 0.0)
   - pop (~> 1.0)
   - SDCycleScrollView (~> 1.6)
   - SDWebImage (~> 3.7)
@@ -75,6 +81,7 @@ DEPENDENCIES:
   - UMengAnalytics-NO-IDFA
 
 SPEC CHECKSUMS:
+  ActionSheetPicker-3.0: 8312778b6815578e6a86d630fbcf31dc94c534e7
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   AMap2DMap: 02c73a3e55ac033e3b0b8ec35d3d21ffcac5aae3
   Appirater: e7c0a47fb67ee5041ce8479e6ba960927fb40264
@@ -83,6 +90,7 @@ SPEC CHECKSUMS:
   CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   Fabric: d737eda3a26ac940a5430230eedb35f16b226131
+  HCSStarRatingView: bada6ae98258c3019531e0218030e2d5ad10765a
   Instabug: 58f773fcefe0dec9b1bd3fcf09c6e46560353f5d
   INTULocationManager: 83c7373048d583cda57e25eefb9bb8a3675acf16
   KLCPopup: 76c5a19227977f1e53d85236f9ef42257c168d98
@@ -90,6 +98,7 @@ SPEC CHECKSUMS:
   Mantle: 299966b00759634931699f69cb6a30b9239b944d
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MJRefresh: fafde8f18f4afd66b434331a9beb67a6c0264056
+  OpenShare: a560580dbb729d5c0c3cc1ee84cd6aa4a07e94c6
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   SDCycleScrollView: a002d85b30cfa9d0ac74069cd3973ca19ff4f22f
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84

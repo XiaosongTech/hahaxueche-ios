@@ -16,5 +16,7 @@
 
 + (instancetype)sharedInstance;
 
+- (void)createGuestStudent;
+
 
 @end

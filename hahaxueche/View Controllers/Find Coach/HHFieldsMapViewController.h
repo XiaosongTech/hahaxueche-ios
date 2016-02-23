@@ -25,6 +25,6 @@ typedef void (^HHFieldsConfirmBlock)(NSMutableArray *selectedFields);
 
 @property (nonatomic, strong) CLLocation *userLocation;
 
-- (instancetype)initWithUserLocation:(CLLocation *)userLocation;
+- (instancetype)initWithUserLocation:(CLLocation *)userLocation selectedFields:(NSMutableArray *)selectedFields;
 
 @end

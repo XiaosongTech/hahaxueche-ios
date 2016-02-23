@@ -23,9 +23,21 @@
 #import "HHFieldsMapViewController.h"
 #import <MJRefresh/MJRefresh.h>
 #import "HHCoachListViewCell.h"
+#import <MAMapKit/MAMapKit.h>
+#import "HHConstantsStore.h"
+#import "HHToastManager.h"
+#import "HHCoachService.h"
+#import "HHStudentStore.h"
+#import "HHPopupUtility.h"
+#import <KLCPopup/KLCPopup.h>
+#import "HHCoachDetailViewController.h"
 
 static NSString *const kCellId = @"kCoachListCellId";
 static CGFloat const kCellHeightNormal = 100.0f;
+static CGFloat const kCellHeightExpanded = 300.0f;
+
+typedef void (^HHRefreshCoachCompletionBlock)();
+typedef void (^HHUserLocationCompletionBlock)();
 
 @interface HHFindCoachViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -42,12 +54,21 @@ static CGFloat const kCellHeightNormal = 100.0f;
 
 @property (nonatomic, strong) HHSortView *sortView;
 @property (nonatomic) SortOption currentSortOption;
+@property (nonatomic) BOOL hasMoreCoaches;
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 @property (nonatomic, strong) MJRefreshAutoNormalFooter *loadMoreFooter;
 
 @property (nonatomic, strong) NSMutableArray *selectedFields;
+@property (nonatomic, strong) NSMutableArray *expandedCellIndexPath;
+
+@property (nonatomic, strong) NSMutableArray *coaches;
+
+@property (nonatomic, strong) HHCity *userCity;
+@property (nonatomic, strong) CLLocation *userLocation;
+
+@property (nonatomic, strong) HHCoaches *coachesObject;
 
 @end
 
@@ -59,17 +80,90 @@ static CGFloat const kCellHeightNormal = 100.0f;
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupDefaultSortAndFilter];
     
-    UIBarButtonItem *mapButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_maplist_btn"] action:@selector(getUserLocation) target:self];
+    
+    UIBarButtonItem *mapButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_maplist_btn"] action:@selector(jumpToFieldsMapView) target:self];
     self.navigationItem.leftBarButtonItem = mapButton;
+    
+    self.selectedFields = [NSMutableArray array];
+    self.expandedCellIndexPath = [NSMutableArray array];
     [self initSubviews];
+     __weak HHFindCoachViewController *weakSelf = self;
+    [self getUserLocationWithCompletion:^{
+        [weakSelf refreshCoachListWithCompletion:nil];
+    }];
+    
+    self.hasMoreCoaches = YES;
+
+}
+
+- (void)refreshCoachListWithCompletion:(HHRefreshCoachCompletionBlock)completion {
+    __weak HHFindCoachViewController *weakSelf = self;
+    if (!completion) {
+        [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];
+    }
+    NSNumber *lat = @(weakSelf.userLocation.coordinate.latitude);
+    NSNumber *lon = @(weakSelf.userLocation.coordinate.longitude);
+    NSArray *locationArray = @[lat, lon];
+    [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].currentStudent.cityId filters:weakSelf.coachFilters sortOption:weakSelf.currentSortOption fields:weakSelf.selectedFields userLocation:locationArray completion:^(HHCoaches *coaches, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (completion) {
+            completion();
+        }
+        if (!error) {
+            weakSelf.coachesObject = coaches;
+            weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
+            if (coaches.nextPage) {
+                weakSelf.hasMoreCoaches = YES;
+            } else {
+                weakSelf.hasMoreCoaches = NO;
+            }
+            
+            [weakSelf.tableView reloadData];
+        }
+        
+    }];
+}
+
+- (void)loadMoreCoachesWithCompletion:(HHRefreshCoachCompletionBlock)completion {
+   [[HHCoachService sharedInstance] fetchNextPageCoachListWithURL:self.coachesObject.nextPage completion:^(HHCoaches *coaches, NSError *error) {
+       if (completion) {
+           completion();
+       }
+       if (!error) {
+           self.coachesObject = coaches;
+           [self.coaches addObjectsFromArray:coaches.coaches];
+           if (coaches.nextPage) {
+               self.hasMoreCoaches = YES;
+           } else {
+               self.hasMoreCoaches = NO;
+           }
+           
+           [self.tableView reloadData];
+       }
+       
+
+   }];
+}
+
+- (void)setHasMoreCoaches:(BOOL)hasMoreCoaches {
+    _hasMoreCoaches = hasMoreCoaches;
+    if (!hasMoreCoaches) {
+        [self.loadMoreFooter setState:MJRefreshStateNoMoreData];
+    } else {
+        [self.loadMoreFooter setState:MJRefreshStateIdle];
+    }
 }
 
 - (void)setupDefaultSortAndFilter {
-    self.coachFilters = [[HHCoachFilters alloc] init];
-    self.coachFilters.price = @(3000);
-    self.coachFilters.distance = @(3);
-    self.coachFilters.onlyGoldenCoach = @(1);
-    self.coachFilters.licenseType = @(1);
+    self.userCity = [[HHConstantsStore sharedInstance] getAuthedUserCity];
+    NSNumber *defaultDistance = [self.userCity.distanceRanges lastObject];
+    NSNumber *defaultPrice = [self.userCity.priceRanges lastObject];
+    HHCoachFilters *defailtFilters = [[HHCoachFilters alloc] init];
+    defailtFilters.price = defaultPrice;
+    defailtFilters.distance = defaultDistance;
+    defailtFilters.onlyGoldenCoach = @(0);
+    defailtFilters.licenseType = @(3);
+    self.coachFilters = defailtFilters;
     
     self.currentSortOption = SortOptionSmartSort;
 }
@@ -111,9 +205,11 @@ static CGFloat const kCellHeightNormal = 100.0f;
     self.loadMoreFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     [self.loadMoreFooter setTitle:@"加载更多教练" forState:MJRefreshStateIdle];
     [self.loadMoreFooter setTitle:@"正在加载更多教练" forState:MJRefreshStateRefreshing];
+    [self.loadMoreFooter setTitle:@"没有更多教练" forState:MJRefreshStateNoMoreData];
+    self.loadMoreFooter.automaticallyRefresh = NO;
     self.loadMoreFooter.stateLabel.font = [UIFont systemFontOfSize:14.0f];
     self.loadMoreFooter.stateLabel.textColor = [UIColor HHLightTextGray];
-    self.tableView.tableFooterView = self.loadMoreFooter;
+    self.tableView.mj_footer = self.loadMoreFooter;
     
     [self.tableView registerClass:[HHCoachListViewCell class] forCellReuseIdentifier:kCellId];
     
@@ -172,7 +268,7 @@ static CGFloat const kCellHeightNormal = 100.0f;
     [self.tableView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.horizontalLine.bottom);
         make.left.equalTo(self.view.left);
-        make.bottom.equalTo(self.view.bottom);
+        make.bottom.equalTo(self.view.bottom).offset(-CGRectGetHeight(self.tabBarController.tabBar.bounds));
         make.width.equalTo(self.view.width);
     }];
 }
@@ -181,25 +277,57 @@ static CGFloat const kCellHeightNormal = 100.0f;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HHCoachListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
+    __weak HHFindCoachViewController *weakSelf = self;
+    __weak HHCoachListViewCell *weakCell = cell;
+    
+    HHCoach *coach = self.coaches[indexPath.row];
+    [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId]];
+
+    
+    cell.mapButtonBlock = ^(){
+        if ([weakSelf.expandedCellIndexPath containsObject:indexPath]) {
+            [weakSelf.expandedCellIndexPath removeObject:indexPath];
+            weakCell.mapView.hidden = YES;
+            
+        } else {
+            weakCell.mapView.hidden = NO;
+            [weakSelf.expandedCellIndexPath addObject:indexPath];
+        }
+        [weakSelf.tableView reloadData];
+    };
+    
+    
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return self.coaches.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return kCellHeightNormal;
+    if ([self.expandedCellIndexPath containsObject:indexPath]) {
+        return kCellHeightExpanded;
+    } else {
+        return kCellHeightNormal;
+    }
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    HHCoachDetailViewController *coachDetailVC = [[HHCoachDetailViewController alloc] initWithCoach:self.coaches[indexPath.row]];
+    coachDetailVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:coachDetailVC animated:YES];
+}
+
 
 
 #pragma mark - Button Actions 
 
 - (void)filterTapped {
     __weak HHFindCoachViewController *weakSelf = self;
-    self.filtersView = [[HHFiltersView alloc] initWithFilters:[self.coachFilters copy] frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 380.0f)];
+    self.filtersView = [[HHFiltersView alloc] initWithFilters:[self.coachFilters copy] frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 380.0f) city:self.userCity];
     self.filtersView.confirmBlock = ^(HHCoachFilters *filters){
         weakSelf.coachFilters = filters;
+        [weakSelf refreshCoachListWithCompletion:nil];
         [weakSelf.popup dismiss:YES];
     };
     self.filtersView.cancelBlock = ^(){
@@ -215,6 +343,7 @@ static CGFloat const kCellHeightNormal = 100.0f;
     self.sortView.frame = CGRectMake(0, 0, 130.0f, 200.0f);
     self.sortView.selectedOptionBlock = ^(SortOption sortOption){
         weakSelf.currentSortOption = sortOption;
+        [weakSelf refreshCoachListWithCompletion:nil];
         [weakSelf.popup dismiss:YES];
     };
     self.popup = [HHPopupUtility createPopupWithContentView:self.sortView];
@@ -223,28 +352,53 @@ static CGFloat const kCellHeightNormal = 100.0f;
 
 }
 
-- (void)jumpToMapViewWithUserLocation:(CLLocation *)userLocation {
-     __weak HHFindCoachViewController *weakSelf = self;
-    HHFieldsMapViewController *mapVC = [[HHFieldsMapViewController alloc] initWithUserLocation:userLocation];
-    mapVC.conformBlock = ^(NSMutableArray *selectedFields) {
-        weakSelf.selectedFields = selectedFields;
-    };
-    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:mapVC];
-    [self presentViewController:navVC animated:YES completion:nil];
+
+- (void)jumpToFieldsMapView {
+    __weak HHFindCoachViewController *weakSelf = self;
+    if (self.userLocation) {
+        __weak HHFindCoachViewController *weakSelf = self;
+        HHFieldsMapViewController *mapVC = [[HHFieldsMapViewController alloc] initWithUserLocation:self.userLocation selectedFields:self.selectedFields];
+        mapVC.conformBlock = ^(NSMutableArray *selectedFields) {
+            weakSelf.selectedFields = selectedFields;
+            [weakSelf refreshCoachListWithCompletion:nil];
+        };
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:mapVC];
+        [self presentViewController:navVC animated:YES completion:nil];
+    } else {
+        [self getUserLocationWithCompletion:^() {
+            if (weakSelf.userLocation) {
+                HHFieldsMapViewController *mapVC = [[HHFieldsMapViewController alloc] initWithUserLocation:weakSelf.userLocation selectedFields:weakSelf.selectedFields];
+                mapVC.conformBlock = ^(NSMutableArray *selectedFields) {
+                    weakSelf.selectedFields = selectedFields;
+                    [weakSelf refreshCoachListWithCompletion:nil];
+                };
+                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:mapVC];
+                [weakSelf presentViewController:navVC animated:YES completion:nil];
+            }
+        }];
+    }
 }
 
 
-- (void)getUserLocation {
-    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+
+- (void)getUserLocationWithCompletion:(HHUserLocationCompletionBlock)completion {
     [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyBlock timeout:10.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
-        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         
         if (status == INTULocationStatusSuccess) {
-            [self jumpToMapViewWithUserLocation:currentLocation];
-        } else {
+            self.userLocation = currentLocation;
+            
+        } else if (status == INTULocationStatusServicesDenied){
             HHAskLocationPermissionViewController *vc = [[HHAskLocationPermissionViewController alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
+            self.userLocation = nil;
+            
+        } else if (status == INTULocationStatusError) {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了，请重试"];
+            self.userLocation = nil;
+        }
+        if (completion) {
+            completion();
         }
 
     }];
@@ -252,11 +406,19 @@ static CGFloat const kCellHeightNormal = 100.0f;
 
 
 - (void)refreshData {
-    [self.refreshHeader endRefreshing];
+    __weak HHFindCoachViewController *weakSelf = self;
+    [self refreshCoachListWithCompletion:^{
+        [weakSelf.refreshHeader endRefreshing];
+    }];
 }
 
 - (void)loadMoreData {
-    [self.loadMoreFooter endRefreshing];
+    __weak HHFindCoachViewController *weakSelf = self;
+    [self loadMoreCoachesWithCompletion:^{
+        [weakSelf.loadMoreFooter endRefreshing];
+    }];
 }
+
+
 
 @end

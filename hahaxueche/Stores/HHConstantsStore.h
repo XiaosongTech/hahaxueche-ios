@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "HHConstants.h"
+#import "HHField.h"
+#import "HHCity.h"
 
 typedef void (^HHConstantsCompletion)(HHConstants *constants);
 
@@ -15,6 +17,11 @@ typedef void (^HHConstantsCompletion)(HHConstants *constants);
 
 + (instancetype)sharedInstance;
 - (void)getConstantsWithCompletion:(HHConstantsCompletion)completion;
+
+- (NSArray *)getAllFieldsForCity:(NSNumber *)cityId;
+- (NSArray *)getSupporteCities;
+- (HHField *)getFieldWithId:(NSString *)fieldId;
+- (HHCity *)getAuthedUserCity;
 
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "HHCity.h"
+#import "HHCityFixedFee.h"
 
 @implementation HHCity
 
@@ -14,7 +15,16 @@
     return @{
              @"cityId": @"id",
              @"cityName": @"name",
+             @"priceRanges":@"filters.prices",
+             @"distanceRanges":@"filters.radius",
+             @"zipCode":@"zip_code",
+             @"cityFixedFees":@"fixed_cost_itemizer",
              };
+}
+
+
++ (NSValueTransformer *)cityFixedFeesJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[HHCityFixedFee class]];
 }
 
 @end
