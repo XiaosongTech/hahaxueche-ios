@@ -32,6 +32,8 @@
 #import "HHStudentService.h"
 #import "HHStudentStore.h"
 #import "HHIntroViewController.h"
+#import "HHPaymentService.h"
+#import "HHToastManager.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -54,6 +56,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 @property (nonatomic, strong) HHCoachDetailBottomBarView *bottomBar;
 @property (nonatomic, strong) NSArray *comments;
 @property (nonatomic, strong) KLCPopup *popup;
+@property (nonatomic, strong) HHStudent *currentStudent;
 
 @end
 
@@ -63,6 +66,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     self = [super init];
     if (self) {
         self.coach = coach;
+        self.currentStudent = [HHStudentStore sharedInstance].currentStudent;
     }
     return self;
 }
@@ -139,7 +143,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.followAction = ^(){
-        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+        if (!weakSelf.currentStudent.studentId) {
             [weakSelf showLoginSignupAlertView];
             return ;
         }
@@ -153,7 +157,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.unFollowAction = ^(){
-        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+        if (!weakSelf.currentStudent.studentId) {
             [weakSelf showLoginSignupAlertView];
             return ;
         }
@@ -178,20 +182,31 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.purchaseCoachAction = ^(){
-        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+        if (!weakSelf.currentStudent.studentId) {
             [weakSelf showLoginSignupAlertView];
             return ;
         }
         
         [[HHStudentService sharedInstance] unfollowCoach:weakSelf.coach.userId completion:nil];
         
-        HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, 300.0f) title:@"付款明细" totalPrice:@(2850) showOKButton:NO];
+        HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
+        CGFloat height = 110.0f + (city.cityFixedFees.count + 1) * 50.0f;
+        HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"付款明细" totalPrice:weakSelf.coach.price showOKButton:NO];
+        
         priceView.cancelBlock = ^() {
             [HHPopupUtility dismissPopup:weakSelf.popup];
         };
         
         priceView.confirmBlock = ^(){
             [HHPopupUtility dismissPopup:weakSelf.popup];
+            [[HHPaymentService sharedInstance] payWithCoachId:weakSelf.coach.coachId studentId:weakSelf.currentStudent.studentId inController:weakSelf completion:^(BOOL succeed) {
+                if (succeed) {
+                    [[HHToastManager sharedManager] showSuccessToastWithText:@"支付成功! 请到我的页面查看具体信息."];
+                } else {
+                    
+                }
+            }];
+            
         };
         weakSelf.popup = [HHPopupUtility createPopupWithContentView:priceView];
         [HHPopupUtility showPopup:weakSelf.popup];
@@ -224,7 +239,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             HHCoachDetailSectionOneCell *cell = [tableView dequeueReusableCellWithIdentifier:kInfoOneCellID forIndexPath:indexPath];
             cell.priceCellAction = ^() {
                 HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
-                CGFloat height = 100.0f + (city.cityFixedFees.count + 1) * 50.0f;
+                CGFloat height = 110.0f + (city.cityFixedFees.count + 1) * 50.0f;
                 HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"价格明细" totalPrice:weakSelf.coach.price showOKButton:YES];
                 priceView.cancelBlock = ^() {
                     [HHPopupUtility dismissPopup:weakSelf.popup];

@@ -24,6 +24,7 @@
 #import "HHLaunchImageViewController.h"
 #import <MAMapKit/MAMapKit.h>
 #import "HHSocialMediaShareUtility.h"
+#import <Pingpp/Pingpp.h>
 
 static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
@@ -72,6 +73,11 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     return YES;
 }
 
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary *)options {
+    BOOL canHandleURL = [Pingpp handleOpenURL:url withCompletion:nil];
+    return canHandleURL;
+}
+
 
 - (void)setAppearance {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
@@ -96,6 +102,7 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 #ifdef DEBUG
     [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventShake];
     [Instabug setIsTrackingCrashes:NO];
+    [Pingpp setDebugMode:YES];
 #else
     NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
     NSString *receiptURLString = [receiptURL path];

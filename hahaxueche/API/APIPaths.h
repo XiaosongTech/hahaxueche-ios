@@ -18,7 +18,8 @@
 #define kAPILogoutPath @"sessions/%@"
 #define kAPIResetPWDPath @"users/reset_password"
 
-
+#pragma mark Payment
+#define kAPICharges @"charges"
 
 #pragma mark Student
 

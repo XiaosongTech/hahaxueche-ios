@@ -135,6 +135,7 @@
 		147AA0011C7ABB6D000DED3B /* ic_havenotpay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 147A9FFE1C7ABB6D000DED3B /* ic_havenotpay@2x.png */; };
 		147AA0021C7ABB6D000DED3B /* ic_havenotpay@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 147A9FFF1C7ABB6D000DED3B /* ic_havenotpay@3x.png */; };
 		147BFEE81C70F00800FE3524 /* HHSocialMediaShareUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 147BFEE71C70F00800FE3524 /* HHSocialMediaShareUtility.m */; };
+		14B5EB761C7C0D6800A37669 /* HHPaymentService.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EB751C7C0D6800A37669 /* HHPaymentService.m */; };
 		14F9D4901C71223E0010F3FA /* HHCoaches.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F9D48F1C71223E0010F3FA /* HHCoaches.m */; };
 		14F9D4941C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F9D4911C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian.png */; };
 		14F9D4951C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F9D4921C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian@2x.png */; };
@@ -501,6 +502,8 @@
 		147A9FFF1C7ABB6D000DED3B /* ic_havenotpay@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_havenotpay@3x.png"; sourceTree = "<group>"; };
 		147BFEE61C70F00800FE3524 /* HHSocialMediaShareUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSocialMediaShareUtility.h; sourceTree = "<group>"; };
 		147BFEE71C70F00800FE3524 /* HHSocialMediaShareUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSocialMediaShareUtility.m; sourceTree = "<group>"; };
+		14B5EB741C7C0D6800A37669 /* HHPaymentService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPaymentService.h; sourceTree = "<group>"; };
+		14B5EB751C7C0D6800A37669 /* HHPaymentService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPaymentService.m; sourceTree = "<group>"; };
 		14F9D48E1C71223E0010F3FA /* HHCoaches.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoaches.h; sourceTree = "<group>"; };
 		14F9D48F1C71223E0010F3FA /* HHCoaches.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoaches.m; sourceTree = "<group>"; };
 		14F9D4911C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_coachmsg_sharecoach_kongjian.png; sourceTree = "<group>"; };
@@ -935,6 +938,22 @@
 			path = "Photo Browser";
 			sourceTree = "<group>";
 		};
+		14B5EB731C7C0D4D00A37669 /* Payment Service */ = {
+			isa = PBXGroup;
+			children = (
+				14B5EB741C7C0D6800A37669 /* HHPaymentService.h */,
+				14B5EB751C7C0D6800A37669 /* HHPaymentService.m */,
+			);
+			name = "Payment Service";
+			sourceTree = "<group>";
+		};
+		14B5EB771C7C0EFD00A37669 /* Payment */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Payment;
+			sourceTree = "<group>";
+		};
 		5C10F92B1B49E7CD00992B63 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -1185,6 +1204,7 @@
 		5CDE14381C32F8670004778C /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				14B5EB731C7C0D4D00A37669 /* Payment Service */,
 				5C2D1A461C51EA750056E0D0 /* Auth Service */,
 				141F7C101C6260C6003278C6 /* Coach Service */,
 				5C2D1A471C51EA830056E0D0 /* Student Service */,
@@ -1195,6 +1215,7 @@
 		5CDE14391C32F8700004778C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				14B5EB771C7C0EFD00A37669 /* Payment */,
 				141F7C0C1C61B060003278C6 /* Coach */,
 				5C36D38A1C43014E00443545 /* Others */,
 				5C36D3AD1C46B66500443545 /* Student */,
@@ -1860,6 +1881,7 @@
 				141FA0FE1C6BAF6600113B1A /* HHCoachDetailDescriptionCell.m in Sources */,
 				141FA1041C6BF64800113B1A /* HHCoachDetailSectionOneCell.m in Sources */,
 				5C6D8C951C3AE38C0055CB31 /* HHLoadingViewUtility.m in Sources */,
+				14B5EB761C7C0D6800A37669 /* HHPaymentService.m in Sources */,
 				1405CC801C7641690030B114 /* HHMyPageItemView.m in Sources */,
 				143F57C11C6D39E600835AA4 /* PBImageScrollerViewController.m in Sources */,
 				1405CC8F1C7664080030B114 /* HHMyPageLogoutCell.m in Sources */,
