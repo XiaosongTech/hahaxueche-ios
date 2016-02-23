@@ -34,7 +34,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.dateLabel = [self buildLabelWithText:@"2016-02-01"];
     [self addSubview:self.dateLabel];
     
-    self.transactionIdLabel = [self buildLabelWithText:@"收据编号：222938812738283720shd"];
+    self.transactionIdLabel = [self buildLabelWithText:@"订单编号：222938812738283720shd"];
     [self addSubview:self.transactionIdLabel];
     
     self.avatarView = [[UIImageView alloc] init];

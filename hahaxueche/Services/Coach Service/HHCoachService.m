@@ -51,7 +51,6 @@
         param[@"license_type"] = filters.licenseType;
     }
     
-    
     [APIClient getWithParameters:param completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             HHCoaches *coaches = [MTLJSONAdapter modelOfClass:[HHCoaches class] fromJSONDictionary:response error:nil];
@@ -68,7 +67,8 @@
 
 - (void)fetchNextPageCoachListWithURL:(NSString *)URL completion:(HHCoachListCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClient];
-    [APIClient getWithURL:URL completion:^(NSDictionary *response, NSError *error) {
+    NSString *encodeURL = [URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [APIClient getWithURL:encodeURL completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             HHCoaches *coaches = [MTLJSONAdapter modelOfClass:[HHCoaches class] fromJSONDictionary:response error:nil];
             if (completion) {

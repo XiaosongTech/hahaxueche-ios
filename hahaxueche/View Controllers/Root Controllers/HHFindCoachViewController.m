@@ -413,11 +413,10 @@ typedef void (^HHUserLocationCompletionBlock)();
 }
 
 - (void)loadMoreData {
-//    __weak HHFindCoachViewController *weakSelf = self;
-//    [self loadMoreCoachesWithCompletion:^{
-//        [weakSelf.loadMoreFooter endRefreshing];
-//    }];
-    [self.loadMoreFooter endRefreshing];
+    __weak HHFindCoachViewController *weakSelf = self;
+    [self loadMoreCoachesWithCompletion:^{
+        [weakSelf.loadMoreFooter endRefreshing];
+    }];
 }
 
 

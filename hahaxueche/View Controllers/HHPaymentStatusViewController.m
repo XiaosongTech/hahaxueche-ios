@@ -65,13 +65,13 @@ static NSString *const kCellId = @"CellId";
     [self.tableView registerClass:[HHPaymentStatusCell class] forCellReuseIdentifier:kCellId];
     
     
-    UILabel *explanationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, CGRectGetWidth(self.view.bounds)-20.0f, 100)];
+    UILabel *explanationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, CGRectGetWidth(self.view.bounds)-20.0f, 80)];
     explanationLabel.text = kExplanationText;
     explanationLabel.textColor = [UIColor HHLightTextGray];
     explanationLabel.font =[UIFont systemFontOfSize:12.0f];
     explanationLabel.numberOfLines = 0;
     
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 100.0f)];
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 80.0f)];
     footerView.backgroundColor = [UIColor HHBackgroundGary];
     [footerView addSubview:explanationLabel];
     
@@ -114,7 +114,7 @@ static NSString *const kCellId = @"CellId";
     [self.confirmPayButton makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.view.right);
         make.bottom.equalTo(self.view.bottom);
-        make.width.mas_equalTo(150.0f);
+        make.width.mas_equalTo(140.0f);
         make.height.mas_equalTo(50.0f);
     }];
     
@@ -139,7 +139,7 @@ static NSString *const kCellId = @"CellId";
     __weak HHPaymentStatusViewController *weakSelf = self;
     HHPaymentStatusCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
     cell.rightButtonBlock = ^() {
-        weakSelf.infoView = [[HHPaymentStageInfoView alloc] initWithImage:[UIImage imageNamed:@"ic_havenotpay"] title:@"科目二带打款" text:@"确认通过科目二考试后，点击确认打款按钮，我们会将￥200打给教练确认通过科目二考试后，点击确认打款按钮，我们会将￥200打给教练"];
+        weakSelf.infoView = [[HHPaymentStageInfoView alloc] initWithImage:[UIImage imageNamed:@"ic_havenotpay"] title:@"科目二待打款" text:@"确认通过科目二考试后，点击确认打款按钮，我们会将￥200打给教练确认通过科目二考试后，点击确认打款按钮，我们会将￥200打给教练"];
         weakSelf.infoView.frame = CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds) - 80.0f, 160.0f);
         weakSelf.infoView.okAction = ^(){
             [HHPopupUtility dismissPopup:weakSelf.popup];
@@ -173,7 +173,7 @@ static NSString *const kCellId = @"CellId";
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentCenter;
     
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"本期待打款金额：" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHTextDarkGray], NSParagraphStyleAttributeName:paragraphStyle}];
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"本期待打款金额：" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSForegroundColorAttributeName:[UIColor HHTextDarkGray], NSParagraphStyleAttributeName:paragraphStyle}];
     NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:@"￥500" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f], NSForegroundColorAttributeName:[UIColor HHOrange],NSParagraphStyleAttributeName:paragraphStyle}];
     
     [string appendAttributedString:string2];
