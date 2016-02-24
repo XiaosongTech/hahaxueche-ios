@@ -9,7 +9,7 @@
 #import "HHSliderView.h"
 #import "Masonry.h"
 #import "UIColor+HHColor.h"
-#import "HHFormatUtility.h"
+#import "NSNumber+HHNumber.h"
 
 static CGFloat const kBigCircleRadius = 12.0f;
 static CGFloat const kSmallCircleRadius = 5.0f;
@@ -54,9 +54,9 @@ static CGFloat const kSliderLeftRightPadding = 30.0f;
                 } break;
                 case SliderValueModePrice: {
                     if ([self.values indexOfObject:value] == self.values.count - 1) {
-                        valueLabel.text = [NSString stringWithFormat:@"%@+", [[HHFormatUtility moneyFormatter] stringFromNumber:value]];
+                        valueLabel.text = [NSString stringWithFormat:@"%@+", [value generateMoneyString]];
                     } else {
-                        valueLabel.text = [[HHFormatUtility moneyFormatter] stringFromNumber:value];
+                        valueLabel.text = [value generateMoneyString];
                     }
                     
                 } break;

@@ -82,4 +82,20 @@
     }];
 }
 
+- (void)fetchReviewsWithUserId:(NSString *)coachUserId completion:(HHCoachReviewListCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIUserReviews, coachUserId]];
+    [APIClient getWithParameters:@{@"coach_user_id":coachUserId} completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHReviews *reviews = [MTLJSONAdapter modelOfClass:[HHReviews class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(reviews, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
 @end

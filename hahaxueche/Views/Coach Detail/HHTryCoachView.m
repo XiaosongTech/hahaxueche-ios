@@ -13,6 +13,7 @@
 #import "HHFormatUtility.h"
 #import "HHPhoneNumberUtility.h"
 #import "HHToastManager.h"
+#import "HHStudentStore.h"
 
 @implementation HHTryCoachView
 
@@ -46,10 +47,16 @@
     [self addSubview:self.infoLabel];
     
     self.nameField = [self buildFieldWithPlaceHolder:@"您的真实姓名"];
-    self.numberField.returnKeyType = UIReturnKeyNext;
+    if ([HHStudentStore sharedInstance].currentStudent.name) {
+        self.nameField.text = [HHStudentStore sharedInstance].currentStudent.name;
+    }
+    self.nameField.returnKeyType = UIReturnKeyNext;
     [self addSubview:self.nameField];
     
     self.numberField = [self buildFieldWithPlaceHolder:@"您的联系方式"];
+    if ([HHStudentStore sharedInstance].currentStudent.cellPhone) {
+        self.numberField.text = [HHStudentStore sharedInstance].currentStudent.cellPhone;
+    }
     self.numberField.returnKeyType = UIReturnKeyDone;
     [self addSubview:self.numberField];
     
@@ -167,6 +174,8 @@
 #pragma mark - Button Actions
 
 - (void)showDatePicker:(UIButton *)button {
+    [self.nameField resignFirstResponder];
+    [self.numberField resignFirstResponder];
     [ActionSheetDatePicker showPickerWithTitle:nil datePickerMode:UIDatePickerModeDate selectedDate:[NSDate date] minimumDate:[NSDate date] maximumDate:nil doneBlock:^(ActionSheetDatePicker *picker, id selectedDate, id origin) {
         if ([button isEqual:self.firstDateButton]) {
             self.firstDate = selectedDate;

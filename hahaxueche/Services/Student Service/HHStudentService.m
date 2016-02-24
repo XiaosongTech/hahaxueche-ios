@@ -72,4 +72,30 @@
     }];
 }
 
+-(void)tryCoachWithId:(NSString *)coachId name:(NSString *)name number:(NSString *)number firstDate:(NSString *)firstDate secondDate:(NSString *)secondDate completion:(HHStudentGenericCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentTryCoach, coachId]];
+    NSDictionary *param = @{@"coach_id":coachId, @"name":name, @"phone_number":number, @"first_time_option":firstDate, @"second_time_option":secondDate};
+    [APIClient postWithParameters:param completion:^(NSDictionary *response, NSError *error) {
+        if (completion) {
+            completion(error);
+        }
+    }];
+}
+
+- (void)fetchPurchasedServiceWithCompletion:(HHStudentPurchasedServiceCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIStudentPurchasedService];
+    [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHPurchasedService *purchasedService = [MTLJSONAdapter modelOfClass:[HHPurchasedService class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(purchasedService, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
 @end

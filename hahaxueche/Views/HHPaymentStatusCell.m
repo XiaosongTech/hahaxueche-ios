@@ -92,6 +92,7 @@ static CGFloat kNumberLabelRadius = 12.0f;
 }
 
 - (void)setupCellWithPaymentStage:(HHPaymentStage *)paymentStage currentStatge:(NSInteger)currentStage {
+    
     self.stepNumberLabel.text = @"1";
     self.stepNumberLabel.layer.masksToBounds = YES;
     self.stepNumberLabel.layer.borderWidth = 1.0f;

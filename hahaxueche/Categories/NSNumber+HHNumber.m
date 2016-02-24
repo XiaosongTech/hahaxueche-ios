@@ -11,7 +11,8 @@
 @implementation NSNumber (HHNumber)
 
 - (NSString *)generateMoneyString {
-    return [NSString stringWithFormat:@"￥%@", [self stringValue]];
+    NSNumber *number = @([self floatValue] / 100);
+    return [NSString stringWithFormat:@"￥%@", [number stringValue]];
 }
 
 @end

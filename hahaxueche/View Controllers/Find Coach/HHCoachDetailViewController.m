@@ -34,6 +34,7 @@
 #import "HHIntroViewController.h"
 #import "HHPaymentService.h"
 #import "HHToastManager.h"
+#import "HHFormatUtility.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -175,7 +176,17 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             [HHPopupUtility dismissPopup:weakSelf.popup];
         };
         tryCoachView.confirmBlock = ^(NSString *name, NSString *number, NSDate *firstDate, NSDate *secDate) {
-            
+            [[HHStudentService sharedInstance] tryCoachWithId:weakSelf.coach.coachId
+                                                         name:name
+                                                       number:number
+                                                    firstDate:[[HHFormatUtility fullDateFormatter] stringFromDate:firstDate]
+                                                   secondDate:[[HHFormatUtility fullDateFormatter] stringFromDate:secDate]
+                                                   completion:^(NSError *error) {
+                if (!error) {
+                    [[HHToastManager sharedManager] showSuccessToastWithText:@"免费试学预约成功！教练会尽快联系您！"];
+                    [HHPopupUtility dismissPopup:weakSelf.popup];
+                }
+            }];
         };
         weakSelf.popup = [HHPopupUtility createPopupWithContentView:tryCoachView];
         [HHPopupUtility showPopup:weakSelf.popup];

@@ -36,32 +36,24 @@
     self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1];
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self initSubviews];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSNumber *citySelectShowed = [defaults objectForKey:@"kGuestUserCitySelectShowed"];
-    if ([citySelectShowed boolValue]) {
-        return;
-    }
     __weak HHHomePageViewController *weakSelf = self;
     NSArray *cities = [[HHConstantsStore sharedInstance] getSupporteCities];
     if ([cities count]) {
         // Guest Student
-        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+        if (![HHStudentStore sharedInstance].currentStudent.cityId) {
             CGFloat height = MAX(300.0f, CGRectGetHeight(weakSelf.view.bounds)/2.0f);
             weakSelf.citySelectView = [[HHCitySelectView alloc] initWithCities:cities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:nil];
             weakSelf.citySelectView.completion = ^(HHCity *selectedCity) {
                 [HHStudentStore sharedInstance].currentStudent.cityId = selectedCity.cityId;
                 [HHPopupUtility dismissPopup:weakSelf.popup];
             };
+            [HHStudentStore sharedInstance].currentStudent.cityId = @(0);
             weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.citySelectView];
             [weakSelf.popup show];
-            [defaults setObject:@(1) forKey:@"kGuestUserCitySelectShowed"];
         }
     }
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{

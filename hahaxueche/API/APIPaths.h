@@ -17,6 +17,7 @@
 #define kAPILoginPath @"sessions"
 #define kAPILogoutPath @"sessions/%@"
 #define kAPIResetPWDPath @"users/reset_password"
+#define kAPIUserReviews @"users/reviews/%@"
 
 #pragma mark Payment
 #define kAPICharges @"charges"
@@ -25,6 +26,8 @@
 
 #define kAPIStudentAvatar @"students/%@/avatar"
 #define kAPIStudentFollows @"users/follows/%@"
+#define kAPIStudentTryCoach @"students/trial/%@"
+#define kAPIStudentPurchasedService @"students/purchased_service"
 
 
 #pragma mark Coach

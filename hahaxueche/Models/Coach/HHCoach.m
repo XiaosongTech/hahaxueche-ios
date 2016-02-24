@@ -18,7 +18,7 @@
              @"avatarUrl": @"avatar_url",
              @"cityId": @"city_id",
              @"averageRating": @"average_rating",
-             @"price":@"coach_group.traing_cost",
+             @"price":@"coach_group.training_cost",
              @"marketPrice":@"coach_group.market_price",
              @"experienceYear":@"experiences",
              @"reviewCount":@"review_count",
