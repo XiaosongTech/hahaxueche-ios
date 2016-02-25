@@ -15,6 +15,7 @@
 #import "HHReview.h"
 
 typedef void (^HHCoachListCompletion)(HHCoaches *coaches, NSError *error);
+typedef void (^HHCoachCompletion)(HHCoach *coach, NSError *error);
 typedef void (^HHCoachReviewListCompletion)(HHReviews *reviews, NSError *error);
 
 @interface HHCoachService : NSObject
@@ -42,6 +43,14 @@ typedef void (^HHCoachReviewListCompletion)(HHReviews *reviews, NSError *error);
  @param completion The completion block to execute on completion
  */
 - (void)fetchReviewsWithUserId:(NSString *)coachUserId completion:(HHCoachReviewListCompletion)completion;
+
+
+/**
+ Fetch Coach
+ @param coachId The coachId of the coach 
+ @param completion The completion block to execute on completion
+ */
+- (void)fetchCoachWithId:(NSString *)coachId completion:(HHCoachCompletion)completion;
 
 
 @end

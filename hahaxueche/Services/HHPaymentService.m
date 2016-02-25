@@ -9,6 +9,7 @@
 #import "HHPaymentService.h"
 #import "HHAPIClient.h"
 #import "APIPaths.h"
+#import "HHToastManager.h"
 
 @implementation HHPaymentService
 
@@ -25,7 +26,7 @@
 
 - (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICharges];
-    [APIClient postWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+    [APIClient postWithParameters:@{@"coach_id":coachId} completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             [Pingpp createPayment:response
                    viewController:viewController

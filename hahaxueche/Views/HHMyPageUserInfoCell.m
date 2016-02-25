@@ -25,6 +25,9 @@ static CGFloat const avatarRadius = 40.0f;
 }
 
 - (void)initSubviews {
+    self.topImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_mypage_bk"]];
+    [self.contentView addSubview:self.topImageView];
+    
     self.avatarBackgroungView = [[UIView alloc] init];
     self.avatarBackgroungView.backgroundColor = [UIColor whiteColor];
     self.avatarBackgroungView.layer.cornerRadius = avatarRadius;
@@ -35,7 +38,12 @@ static CGFloat const avatarRadius = 40.0f;
     self.avatarView.contentMode = UIViewContentModeScaleAspectFill;
     self.avatarView.layer.cornerRadius = avatarRadius-2.0f;
     self.avatarView.layer.masksToBounds = YES;
+    self.avatarView.userInteractionEnabled = YES;
     [self.avatarBackgroungView addSubview:self.avatarView];
+    
+    UITapGestureRecognizer *tapRecognizer2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avatarViewTapped)];
+    [self.avatarView addGestureRecognizer:tapRecognizer2];
+    [self.contentView bringSubviewToFront:self.avatarBackgroungView];
     
     self.nameLabel = [[UILabel alloc] init];
     self.nameLabel.textColor = [UIColor HHTextDarkGray];
@@ -62,8 +70,15 @@ static CGFloat const avatarRadius = 40.0f;
 }
 
 - (void)makeConstraints {
+    [self.topImageView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView.top);
+        make.left.equalTo(self.contentView.left);
+        make.width.equalTo(self.contentView.width);
+        make.height.mas_equalTo(150.0f);
+    }];
+    
     [self.avatarBackgroungView makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.contentView.top).offset(-10.0f);
+        make.centerY.equalTo(self.topImageView.bottom).offset(-10.0f);
         make.centerX.equalTo(self.contentView.centerX);
         make.width.mas_equalTo(avatarRadius * 2.0f);
         make.height.mas_equalTo(avatarRadius * 2.0);
@@ -81,29 +96,29 @@ static CGFloat const avatarRadius = 40.0f;
     }];
     
     [self.balanceView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.left);
-        make.bottom.equalTo(self.bottom);
-        make.width.equalTo(self.width).multipliedBy(0.5f);
-        make.height.equalTo(self.height).multipliedBy(0.5f);
+        make.left.equalTo(self.contentView.left);
+        make.bottom.equalTo(self.contentView.bottom);
+        make.width.equalTo(self.contentView.width).multipliedBy(0.5f);
+        make.top.equalTo(self.nameLabel.bottom).offset(10.0f);
     }];
     
     [self.paymentView makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.balanceView.right);
-        make.bottom.equalTo(self.bottom);
-        make.width.equalTo(self.width).multipliedBy(0.5f);
-        make.height.equalTo(self.height).multipliedBy(0.5f);
+        make.bottom.equalTo(self.contentView.bottom);
+        make.width.equalTo(self.contentView.width).multipliedBy(0.5f);
+        make.top.equalTo(self.nameLabel.bottom).offset(10.0f);
     }];
     
     [self.verticalLine makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.centerY);
+        make.top.equalTo(self.nameLabel.bottom).offset(10.0f);
         make.centerX.equalTo(self.centerX);
         make.width.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-        make.height.equalTo(self.height).multipliedBy(0.5f);
+        make.bottom.equalTo(self.contentView.bottom);
     }];
 }
 
 - (void)setupCellWithStudent:(HHStudent *)student {
-    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:student.avatarURL]];;
+    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:student.avatarURL]];
     self.nameLabel.text = student.name;
     
     [self.balanceView setupViewWithTitle:@"账户余额" value:@"￥2000" showArrow:NO];
@@ -113,6 +128,12 @@ static CGFloat const avatarRadius = 40.0f;
 - (void)paymentViewTapped {
     if (self.paymentViewActionBlock) {
         self.paymentViewActionBlock();
+    }
+}
+
+- (void)avatarViewTapped {
+    if (self.avatarViewActionBlock) {
+        self.avatarViewActionBlock();
     }
 }
 

@@ -35,6 +35,7 @@
 #import "HHPaymentService.h"
 #import "HHToastManager.h"
 #import "HHFormatUtility.h"
+#import "HHCoachService.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -54,6 +55,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) SDCycleScrollView *coachImagesView;
 @property (nonatomic, strong) HHCoach *coach;
+@property (nonatomic, strong) NSString *coachId;
 @property (nonatomic, strong) HHCoachDetailBottomBarView *bottomBar;
 @property (nonatomic, strong) NSArray *comments;
 @property (nonatomic, strong) KLCPopup *popup;
@@ -68,6 +70,21 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     if (self) {
         self.coach = coach;
         self.currentStudent = [HHStudentStore sharedInstance].currentStudent;
+    }
+    return self;
+}
+
+- (instancetype)initWithCoachId:(NSString *)coachId {
+    self = [super init];
+    if (self) {
+        self.coachId = coachId;
+        self.currentStudent = [HHStudentStore sharedInstance].currentStudent;
+        [[HHCoachService sharedInstance] fetchCoachWithId:self.coachId completion:^(HHCoach *coach, NSError *error) {
+            if (!error) {
+                self.coach = coach;
+                [self.tableView reloadData];
+            }
+        }];
     }
     return self;
 }
@@ -214,7 +231,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
                 if (succeed) {
                     [[HHToastManager sharedManager] showSuccessToastWithText:@"支付成功! 请到我的页面查看具体信息."];
                 } else {
-                    
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"抱歉，支付失败或者您取消了支付。请重试！"];
                 }
             }];
             
@@ -270,6 +287,11 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         case CoachCellInfoTwo: {
             HHCoachDetailSectionTwoCell *cell = [tableView dequeueReusableCellWithIdentifier:kInfoTwoCellID forIndexPath:indexPath];
             [cell setupWithCoach:self.coach];
+            cell.coachesListCell.peerCoachTappedAction = ^(NSInteger index) {
+                HHCoach *coach = self.coach.peerCoaches[index];
+                HHCoachDetailViewController *detailVC = [[HHCoachDetailViewController alloc] initWithCoachId:coach.coachId];
+                [weakSelf.navigationController pushViewController:detailVC animated:YES];
+            };
             return cell;
         }
             

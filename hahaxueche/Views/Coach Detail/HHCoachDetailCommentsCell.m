@@ -115,7 +115,7 @@
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentNatural;
     
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@" 学员评价 (12)" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHOrange], NSParagraphStyleAttributeName:paragraphStyle}];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" 学员评价 (%ld)", [comments count]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHOrange], NSParagraphStyleAttributeName:paragraphStyle}];
     
     NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
     textAttachment.image = [UIImage imageNamed:@"ic_coachmsg_pingjia"];
@@ -127,8 +127,8 @@
     self.titleLabel.attributedText = attributedString;
     
     
-    self.aveRatingView.value = 4.5f;
-    self.aveRatingLabel.text = @"4.5分";
+    self.aveRatingView.value = [coach.averageRating floatValue];;
+    self.aveRatingLabel.text = [coach.averageRating stringValue];
     
     if (![comments count]) {
         self.botLabel.text = @"老张教练目前还没有评价";

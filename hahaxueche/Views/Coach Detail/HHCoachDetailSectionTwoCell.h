@@ -10,7 +10,7 @@
 #import "HHCoachDetailSectionOneCell.h"
 #import "HHCollaborateCoachesView.h"
 
-typedef void (^HHCoachDetailCellActionBlock)();
+typedef void (^HHCoachDetailPeerCoachActionBlock)(NSInteger index);
 
 @interface HHCoachDetailSectionTwoCell : UITableViewCell
 
@@ -22,6 +22,8 @@ typedef void (^HHCoachDetailCellActionBlock)();
 @property (nonatomic, strong) UIView *verticalLine;
 @property (nonatomic, strong) UIView *horizontalLine;
 @property (nonatomic, strong) UIView *secHorizontalLine;
+
+@property (nonatomic, strong) HHCoachDetailCellActionBlock peerCoachAction;
 
 
 - (void)setupWithCoach:(HHCoach *)coach;

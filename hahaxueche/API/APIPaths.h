@@ -28,11 +28,12 @@
 #define kAPIStudentFollows @"users/follows/%@"
 #define kAPIStudentTryCoach @"students/trial/%@"
 #define kAPIStudentPurchasedService @"students/purchased_service"
-
+#define kAPIStudent @"students/%@"
 
 #pragma mark Coach
 
 #define kAPICoaches @"coaches"
+#define kAPICoach @"coaches/%@"
 
 
 #pragma mark Constants

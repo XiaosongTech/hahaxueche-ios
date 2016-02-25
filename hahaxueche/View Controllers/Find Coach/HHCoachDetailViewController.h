@@ -12,5 +12,6 @@
 @interface HHCoachDetailViewController : UIViewController
 
 - (instancetype)initWithCoach:(HHCoach *)coach;
+- (instancetype)initWithCoachId:(NSString *)coachId;
 
 @end

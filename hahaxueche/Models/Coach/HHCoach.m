@@ -55,7 +55,7 @@
     } else if ([self.licenseType integerValue] == 2) {
         return @"C2自动档";
     } else {
-        return @"C1手动档和C2自动挡";
+        return @"C1手动档，C2自动挡";
     }
 }
 
