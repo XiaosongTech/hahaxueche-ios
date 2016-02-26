@@ -1,5 +1,5 @@
 //
-//  HHCoachCommentView.h
+//  HHCoachReviewView.h
 //  hahaxueche
 //
 //  Created by Zixiao Wang on 2/12/16.
@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "HHStarRatingView.h"
-#import "HHCoachComment.h"
+#import "HHReview.h"
 
-@interface HHCoachCommentView : UIView
+@interface HHCoachReviewView : UIView
 
 @property (nonatomic, strong) UIImageView *avatarView;
 @property (nonatomic, strong) UILabel *nameLabel;
@@ -20,7 +20,7 @@
 
 @property (nonatomic, strong) UIView *botLine;
 
-- (void)setupViewWithComment:(HHCoachComment *)comment;
+- (void)setupViewWithReview:(HHReview *)review;
 
 
 

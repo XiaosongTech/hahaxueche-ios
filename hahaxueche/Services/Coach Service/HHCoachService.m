@@ -171,4 +171,22 @@
     }];
 }
 
+- (void)fetchNextPageReviewsWithURL:(NSString *)URL completion:(HHCoachReviewListCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClient];
+    NSString *encodeURL = [URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [APIClient getWithURL:encodeURL completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHReviews *reviews = [MTLJSONAdapter modelOfClass:[HHReviews class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion (reviews, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+
+}
+
 @end

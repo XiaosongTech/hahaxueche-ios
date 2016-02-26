@@ -9,7 +9,7 @@
 #import "HHCoachDetailCommentsCell.h"
 #import "Masonry.h"
 #import "UIColor+HHColor.h"
-#import "HHCoachCommentView.h"
+#import "HHCoachReviewView.h"
 
 @implementation HHCoachDetailCommentsCell
 
@@ -51,10 +51,11 @@
     self.botLine.backgroundColor = [UIColor HHLightLineGray];
     [self.botBackgroudView addSubview:self.botLine];
     
-    self.botLabel = [[UILabel alloc] init];
-    self.botLabel.font = [UIFont systemFontOfSize:15.0f];
-    self.botLabel.textColor = [UIColor HHOrange];
-    [self.botBackgroudView addSubview:self.botLabel];
+    self.botButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.botButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    [self.botButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
+    [self.botButton addTarget:self action:@selector(botButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:self.botButton];
     
     [self makeConstraints];
 }
@@ -106,7 +107,7 @@
         make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
     }];
     
-    [self.botLabel makeConstraints:^(MASConstraintMaker *make) {
+    [self.botButton makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.botBackgroudView);
     }];
 }
@@ -130,24 +131,31 @@
     self.aveRatingView.value = [coach.averageRating floatValue];;
     self.aveRatingLabel.text = [coach.averageRating stringValue];
     
-    if (![reviews count]) {
-        self.botLabel.text = @"老张教练目前还没有评价";
-        self.botLabel.textColor = [UIColor HHLightTextGray];
-        self.botLine.hidden = YES;
-    } else {
-        
-        self.botLine.hidden = NO;
-        self.botLabel.text = @"点击查看全部";
-        self.botLabel.textColor = [UIColor HHOrange];
-        [self addReviewCellsWithReviews:reviews];
-    }
+    [self.botButton setTitle:@"点击查看全部" forState:UIControlStateNormal];
+            [self.botButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
+            self.botButton.enabled = YES;
+            self.botLine.hidden = NO;
+            [self addReviewCellsWithReviews:reviews];
+    
+//    if (![reviews count]) {
+//        [self.botButton setTitle:@"老张教练目前还没有评价" forState:UIControlStateNormal];
+//        [self.botButton setTitleColor:[UIColor HHLightTextGray] forState:UIControlStateNormal];
+//        self.botButton.enabled = NO;
+//        self.botLine.hidden = YES;
+//    } else {
+//        [self.botButton setTitle:@"点击查看全部" forState:UIControlStateNormal];
+//        [self.botButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
+//        self.botButton.enabled = YES;
+//        self.botLine.hidden = NO;
+//        [self addReviewCellsWithReviews:reviews];
+//    }
 }
 
 - (void)addReviewCellsWithReviews:(NSArray *)reviews {
     NSMutableArray *array = [NSMutableArray array];
     for (int i = 0; i < reviews.count; i++) {
-        HHCoachCommentView *view = [[HHCoachCommentView alloc] init];
-        [view setupViewWithComment:reviews[i]];
+        HHCoachReviewView *view = [[HHCoachReviewView alloc] init];
+        [view setupViewWithReview:reviews[i]];
         [self.contentView addSubview:view];
         [array addObject:view];
         
@@ -163,7 +171,7 @@
                 make.height.mas_equalTo(90.0f);
             }];
         } else {
-            HHCoachCommentView *preView = array[i - 1];
+            HHCoachReviewView *preView = array[i - 1];
             [view makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(preView.bottom);
                 make.left.equalTo(self.contentView.left);
@@ -173,6 +181,12 @@
         }
     }
 
+}
+
+- (void)botButtonTapped {
+    if (self.tapBlock) {
+        self.tapBlock();
+    }
 }
 
 @end

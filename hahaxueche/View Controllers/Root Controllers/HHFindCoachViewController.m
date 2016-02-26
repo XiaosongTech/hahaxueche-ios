@@ -51,7 +51,6 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 
 @property (nonatomic, strong) HHSortView *sortView;
 @property (nonatomic) SortOption currentSortOption;
-@property (nonatomic) BOOL hasMoreCoaches;
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
@@ -88,8 +87,6 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     [self getUserLocationWithCompletion:^{
         [weakSelf refreshCoachListWithCompletion:nil];
     }];
-    
-    self.hasMoreCoaches = YES;
 
 }
 
@@ -109,12 +106,6 @@ static CGFloat const kCellHeightExpanded = 300.0f;
         if (!error) {
             weakSelf.coachesObject = coaches;
             weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
-            if (coaches.nextPage) {
-                weakSelf.hasMoreCoaches = YES;
-            } else {
-                weakSelf.hasMoreCoaches = NO;
-            }
-            
             [weakSelf.tableView reloadData];
         }
         
@@ -129,12 +120,6 @@ static CGFloat const kCellHeightExpanded = 300.0f;
        if (!error) {
            self.coachesObject = coaches;
            [self.coaches addObjectsFromArray:coaches.coaches];
-           if (coaches.nextPage) {
-               self.hasMoreCoaches = YES;
-           } else {
-               self.hasMoreCoaches = NO;
-           }
-           
            [self.tableView reloadData];
        }
        
@@ -142,9 +127,9 @@ static CGFloat const kCellHeightExpanded = 300.0f;
    }];
 }
 
-- (void)setHasMoreCoaches:(BOOL)hasMoreCoaches {
-    _hasMoreCoaches = hasMoreCoaches;
-    if (!hasMoreCoaches) {
+- (void)setCoachesObject:(HHCoaches *)coachesObject {
+    _coachesObject = coachesObject;
+    if (!coachesObject.nextPage) {
         [self.loadMoreFooter setState:MJRefreshStateNoMoreData];
     } else {
         [self.loadMoreFooter setState:MJRefreshStateIdle];

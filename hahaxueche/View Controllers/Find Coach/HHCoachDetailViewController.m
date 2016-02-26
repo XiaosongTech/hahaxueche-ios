@@ -38,6 +38,7 @@
 #import "HHCoachService.h"
 #import "HHReviews.h"
 #import "HHReview.h"
+#import "HHReviewListViewController.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -316,6 +317,11 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         case CoachCellComments: {
             HHCoachDetailCommentsCell *cell = [tableView dequeueReusableCellWithIdentifier:kCommentsCellID forIndexPath:indexPath];
             [cell setupCellWithCoach:self.coach reviews:self.reviews];
+            cell.tapBlock = ^() {
+                HHReviewListViewController *vc = [[HHReviewListViewController alloc] initWithReviews:weakSelf.reviewsObject coach:weakSelf.coach];
+                vc.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
             return cell;
         }
             

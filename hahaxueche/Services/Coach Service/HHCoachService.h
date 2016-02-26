@@ -46,6 +46,13 @@ typedef void (^HHCoachGenericCompletion)(NSError *error);
  */
 - (void)fetchReviewsWithUserId:(NSString *)coachUserId completion:(HHCoachReviewListCompletion)completion;
 
+/**
+ Fetch Coach's Next page reviews
+ @param URL The URL of next page
+ @param completion The completion block to execute on completion
+ */
+- (void)fetchNextPageReviewsWithURL:(NSString *)URL completion:(HHCoachReviewListCompletion)completion;
+
 
 /**
  Fetch Coach

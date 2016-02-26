@@ -10,10 +10,11 @@
 #import "HHStarRatingView.h"
 #import "HHCoach.h"
 
+typedef void (^HHReviewCellTappedBlock)();
+
 @interface HHCoachDetailCommentsCell : UITableViewCell
 
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UILabel *botLabel;
 @property (nonatomic, strong) HHStarRatingView *aveRatingView;
 @property (nonatomic, strong) UILabel *aveRatingLabel;
 
@@ -22,7 +23,9 @@
 @property (nonatomic, strong) UIView *botBackgroudView;
 @property (nonatomic, strong) UIView *botLine;
 
-@property (nonatomic, strong) UIButton *seeMoreButton;
+@property (nonatomic, strong) UIButton *botButton;
+
+@property (nonatomic, strong) HHReviewCellTappedBlock tapBlock;
 
 - (void)setupCellWithCoach:(HHCoach *)coach reviews:(NSArray *)reviews;
 
