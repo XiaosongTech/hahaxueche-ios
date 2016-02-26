@@ -67,7 +67,7 @@
     NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.locale = locale;
-    [formatter setDateFormat:@"yyyy年M月d日"];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
     return formatter;
 }
 

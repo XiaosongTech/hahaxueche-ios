@@ -20,6 +20,7 @@
 #import "HHLoadingViewUtility.h"
 #import "HHFindCoachViewController.h"
 #import "HHStudentStore.h"
+#import "HHCoachService.h"
 
 static NSString *const kCellId = @"kCoachListCellId";
 static CGFloat const kCellHeightNormal = 100.0f;
@@ -165,7 +166,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
         [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];
     }
 
-    [[HHCoachService sharedInstance] fetchCoachListWithCityId:0 filters:nil sortOption:0 fields:nil userLocation:nil completion:^(HHCoaches *coaches, NSError *error) {
+    [[HHCoachService sharedInstance] fetchFollowedCoachListWithCompletion:^(HHCoaches *coaches, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (completion) {
             completion();
@@ -181,7 +182,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
             
             [weakSelf.tableView reloadData];
         }
-        
+
     }];
 }
 

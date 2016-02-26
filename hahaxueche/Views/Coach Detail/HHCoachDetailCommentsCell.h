@@ -24,6 +24,6 @@
 
 @property (nonatomic, strong) UIButton *seeMoreButton;
 
-- (void)setupCellWithCoach:(HHCoach *)coach comments:(NSArray *)comments;
+- (void)setupCellWithCoach:(HHCoach *)coach reviews:(NSArray *)reviews;
 
 @end

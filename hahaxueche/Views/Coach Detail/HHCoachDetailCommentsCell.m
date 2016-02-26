@@ -111,11 +111,11 @@
     }];
 }
 
-- (void)setupCellWithCoach:(HHCoach *)coach comments:(NSArray *)comments {
+- (void)setupCellWithCoach:(HHCoach *)coach reviews:(NSArray *)reviews {
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentNatural;
     
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" 学员评价 (%ld)", [comments count]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHOrange], NSParagraphStyleAttributeName:paragraphStyle}];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" 学员评价 (%ld)", [reviews count]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHOrange], NSParagraphStyleAttributeName:paragraphStyle}];
     
     NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
     textAttachment.image = [UIImage imageNamed:@"ic_coachmsg_pingjia"];
@@ -130,7 +130,7 @@
     self.aveRatingView.value = [coach.averageRating floatValue];;
     self.aveRatingLabel.text = [coach.averageRating stringValue];
     
-    if (![comments count]) {
+    if (![reviews count]) {
         self.botLabel.text = @"老张教练目前还没有评价";
         self.botLabel.textColor = [UIColor HHLightTextGray];
         self.botLine.hidden = YES;
@@ -139,19 +139,19 @@
         self.botLine.hidden = NO;
         self.botLabel.text = @"点击查看全部";
         self.botLabel.textColor = [UIColor HHOrange];
-        [self addCommentCellsWithComments:comments];
+        [self addReviewCellsWithReviews:reviews];
     }
 }
 
-- (void)addCommentCellsWithComments:(NSArray *)comments {
+- (void)addReviewCellsWithReviews:(NSArray *)reviews {
     NSMutableArray *array = [NSMutableArray array];
-    for (int i = 0; i < comments.count; i++) {
+    for (int i = 0; i < reviews.count; i++) {
         HHCoachCommentView *view = [[HHCoachCommentView alloc] init];
-        [view setupViewWithComment:comments[i]];
+        [view setupViewWithComment:reviews[i]];
         [self.contentView addSubview:view];
         [array addObject:view];
         
-        if (i == comments.count - 1) {
+        if (i == reviews.count - 1) {
             view.botLine.hidden = YES;
         }
         

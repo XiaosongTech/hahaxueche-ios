@@ -7,7 +7,20 @@
 //
 
 #import "HHReviews.h"
+#import "HHReview.h"
 
 @implementation HHReviews
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{
+             @"prePage":@"links.previous",
+             @"nextPage":@"links.next",
+             @"reviews":@"data"
+             };
+}
+
++ (NSValueTransformer *)reviewsJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[HHReview class]];
+}
 
 @end

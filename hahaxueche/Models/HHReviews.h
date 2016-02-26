@@ -10,4 +10,8 @@
 
 @interface HHReviews : MTLModel <MTLJSONSerializing>
 
+@property (nonatomic, copy) NSArray *reviews;
+@property (nonatomic, copy) NSString *nextPage;
+@property (nonatomic, copy) NSString *prePage;
+
 @end

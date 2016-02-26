@@ -114,4 +114,61 @@
     }];
 }
 
+- (void)followCoach:(NSString *)coachUserId completion:(HHCoachGenericCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentFollows, coachUserId]];
+    [APIClient postWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (completion) {
+            completion(error);
+        }
+    }];
+}
+
+- (void)unfollowCoach:(NSString *)coachUserId completion:(HHCoachGenericCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentFollows, coachUserId]];
+    [APIClient deleteWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (completion) {
+            completion(error);
+        }
+    }];
+}
+
+- (void)checkFollowedCoach:(NSString *)coachUserId completion:(HHCoachCheckFollowedCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentFollows, coachUserId]];
+    [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            NSNumber *succeed = response[@"result"];
+            if (completion) {
+                completion([succeed boolValue]);
+            }
+        }
+    }];
+}
+
+-(void)tryCoachWithId:(NSString *)coachId name:(NSString *)name number:(NSString *)number firstDate:(NSString *)firstDate secondDate:(NSString *)secondDate completion:(HHCoachGenericCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentTryCoach, coachId]];
+    NSDictionary *param = @{@"name":name, @"phone_number":number, @"first_time_option":firstDate, @"second_time_option":secondDate};
+    [APIClient postWithParameters:param completion:^(NSDictionary *response, NSError *error) {
+        if (completion) {
+            completion(error);
+        }
+    }];
+}
+
+- (void)fetchFollowedCoachListWithCompletion:(HHCoachListCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIUserFollows];
+    [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHCoaches *coaches = [MTLJSONAdapter modelOfClass:[HHCoaches class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion (coaches, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+
+    }];
+}
+
 @end

@@ -18,6 +18,7 @@
 #define kAPILogoutPath @"sessions/%@"
 #define kAPIResetPWDPath @"users/reset_password"
 #define kAPIUserReviews @"users/reviews/%@"
+#define kAPIUserFollows @"users/follows/"
 
 #pragma mark Payment
 #define kAPICharges @"charges"
