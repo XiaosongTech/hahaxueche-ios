@@ -93,6 +93,17 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     return self;
 }
 
+- (void)setCoach:(HHCoach *)coach {
+    _coach = coach;
+    [[HHCoachService sharedInstance] fetchReviewsWithUserId:self.coach.userId completion:^(HHReviews *reviews, NSError *error) {
+        if (!error) {
+            self.reviewsObject = reviews;
+            self.reviews = reviews.reviews;
+            [self.tableView reloadData];
+        }
+    }];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -101,19 +112,6 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(popupVC) target:self];
     [self initSubviews];
     
-}
-
-- (void)setCoach:(HHCoach *)coach {
-    _coach = coach;
-    
-    __weak HHCoachDetailViewController *weakSelf = self;
-    [[HHCoachService sharedInstance] fetchReviewsWithUserId:coach.userId completion:^(HHReviews *reviews, NSError *error) {
-        if (!error) {
-            weakSelf.reviewsObject = reviews;
-            weakSelf.reviews = reviews.reviews;
-            [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:CoachCellComments inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-        }
-    }];
 }
 
 - (void)initSubviews {

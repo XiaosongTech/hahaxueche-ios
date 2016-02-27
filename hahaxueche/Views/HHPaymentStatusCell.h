@@ -22,6 +22,6 @@ typedef void (^HHPaymentStatusRightButtonActionBlock)();
 
 @property (nonatomic, strong) HHPaymentStatusRightButtonActionBlock rightButtonBlock;
 
-- (void)setupCellWithPaymentStage:(HHPaymentStage *)paymentStage currentStatge:(NSInteger)currentStage;
+- (void)setupCellWithPaymentStage:(HHPaymentStage *)paymentStage currentStatge:(NSNumber *)currentStage;
 
 @end

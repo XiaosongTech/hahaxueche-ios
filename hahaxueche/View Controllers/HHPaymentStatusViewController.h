@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "HHPurchasedService.h"
+#import "HHCoach.h"
 
 @interface HHPaymentStatusViewController : UIViewController
 
-- (instancetype)initWithPurchasedService:(HHPurchasedService *)purchasedService;
+- (instancetype)initWithPurchasedService:(HHPurchasedService *)purchasedService coach:(HHCoach *)coach;
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <Mantle/Mantle.h>
+#import "HHField.h"
 
 @interface HHCoach : MTLModel <MTLJSONSerializing>
 
@@ -35,7 +36,10 @@
 // 0 = 优秀教练; 1 = 金牌教练
 - (BOOL)isGoldenCoach;
 - (NSString *)licenseTypesName;
+- (NSString *)serviceTypesName;
 - (NSString *)satistactionString;
 - (NSString *)skillLevelString;
+
+- (HHField *)getCoachField;
 
 @end

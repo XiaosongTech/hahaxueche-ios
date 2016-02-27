@@ -12,13 +12,13 @@
 
 @implementation HHPaymentStageInfoView
 
-- (instancetype)initWithImage:(UIImage *)image title:(NSString *)title text:(NSString *)text {
+- (instancetype)initWithImage:(UIImage *)image title:(NSString *)title text:(NSString *)text textColor:(UIColor *)textColor {
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
         
         self.titleLabel = [[UILabel alloc] init];
-        self.titleLabel.attributedText = [self buildTitle:title image:image];
+        self.titleLabel.attributedText = [self buildTitle:title image:image textColor:textColor];
         [self addSubview:self.titleLabel];
         
         self.textLabel = [[UILabel alloc] init];
@@ -61,11 +61,11 @@
     self.okButton.okAction = self.okAction;
 }
 
-- (NSMutableAttributedString *)buildTitle:(NSString *)title image:(UIImage *)image {
+- (NSMutableAttributedString *)buildTitle:(NSString *)title image:(UIImage *)image textColor:(UIColor *)textColor {
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentNatural;
     
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", title] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHOrange], NSParagraphStyleAttributeName:paragraphStyle}];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", title] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:textColor, NSParagraphStyleAttributeName:paragraphStyle}];
     
     NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
     textAttachment.image = image;

@@ -9,15 +9,18 @@
 #import "HHPaymentStatusTopView.h"
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
+#import <UIImageView+WebCache.h>
+#import "NSNumber+HHNumber.h"
 
 static CGFloat const kAvatarRadius = 30.0f;
 
 @implementation HHPaymentStatusTopView
 
-- (instancetype)initWithPurchasedService:(HHPurchasedService *)purchasedService {
+- (instancetype)initWithPurchasedService:(HHPurchasedService *)purchasedService coach:(HHCoach *)coach {
     self = [super init];
     if (self) {
         self.purchasedService = purchasedService;
+        self.coach = coach;
         [self initSubviews];
     }
     
@@ -34,11 +37,11 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.dateLabel = [self buildLabelWithText:@"2016-02-01"];
     [self addSubview:self.dateLabel];
     
-    self.transactionIdLabel = [self buildLabelWithText:@"订单编号：222938812738283720shd"];
+    self.transactionIdLabel = [self buildLabelWithText:[NSString stringWithFormat:@"订单编号：%@", self.purchasedService.chargeId]];
     [self addSubview:self.transactionIdLabel];
     
     self.avatarView = [[UIImageView alloc] init];
-    self.avatarView.image = [UIImage imageNamed:@"pic_local"];
+    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:self.coach.avatarUrl]];
     self.avatarView.layer.masksToBounds = YES;
     self.avatarView.layer.cornerRadius = kAvatarRadius;
     [self addSubview:self.avatarView];
@@ -47,13 +50,13 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.midLine.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.midLine];
     
-    self.totalAmountView = [[HHMoneyAmountView alloc] initWithTitle:@"总金额" value:@"￥2800"];
+    self.totalAmountView = [[HHMoneyAmountView alloc] initWithTitle:@"总金额" value:[self.purchasedService.totalAmount generateMoneyString]];
     [self addSubview:self.totalAmountView];
     
-    self.payedAmountView = [[HHMoneyAmountView alloc] initWithTitle:@"已打款" value:@"￥2000"];
+    self.payedAmountView = [[HHMoneyAmountView alloc] initWithTitle:@"已打款" value:[self.purchasedService.paidAmount generateMoneyString]];
     [self addSubview:self.payedAmountView];
     
-    self.leftAmountView = [[HHMoneyAmountView alloc] initWithTitle:@"待打款" value:@"￥800"];
+    self.leftAmountView = [[HHMoneyAmountView alloc] initWithTitle:@"待打款" value:[self.purchasedService.unpaidAmount generateMoneyString]];
     [self addSubview:self.leftAmountView];
     
     [self makeConstraints];
@@ -69,7 +72,7 @@ static CGFloat const kAvatarRadius = 30.0f;
 }
 
 - (NSMutableAttributedString *)buildCoachString {
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"老张" attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}];
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self.coach.name attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:20.0f]}];
 
      NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:@" 教练" attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:13.0f]}];
     [string appendAttributedString:string2];

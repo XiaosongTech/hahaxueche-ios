@@ -21,6 +21,8 @@
 #import "HHUserAuthService.h"
 #import "HHPaymentStatusViewController.h"
 #import "HHFollowedCoachListViewController.h"
+#import "HHToastManager.h"
+#import "HHCoachService.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -42,6 +44,9 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UITextView *guestLoginSignupTextView;
 @property (nonatomic, strong) UIActionSheet *avatarOptionsSheet;
+@property (nonatomic, strong) HHStudent *currentStudent;
+
+@property (nonatomic, strong) HHCoach *myCoach;
 
 @end
 
@@ -51,8 +56,17 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     [super viewDidLoad];
     self.title = @"我的页面";
     self.view.backgroundColor = [UIColor HHBackgroundGary];
-    
+    self.currentStudent = [HHStudentStore sharedInstance].currentStudent;
     [self initSubviews];
+    
+    HHPurchasedService *ps = [self.currentStudent.purchasedServiceArray firstObject];
+    HHCoachAssignment *ca = [ps.assignments firstObject];
+    [[HHCoachService sharedInstance] fetchCoachWithId:ca.coachId completion:^(HHCoach *coach, NSError *error) {
+        if (!error) {
+            self.myCoach = coach;
+            [self.tableView reloadData];
+        }
+    }];
 }
 
 - (void)initSubviews {
@@ -105,14 +119,14 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellUserInfo: {
             HHMyPageUserInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kUserInfoCell];
             cell.paymentViewActionBlock = ^(){
-                HHPaymentStatusViewController *vc = [[HHPaymentStatusViewController alloc] initWithPurchasedService:nil];
+                HHPaymentStatusViewController *vc = [[HHPaymentStatusViewController alloc] initWithPurchasedService:[self.currentStudent.purchasedServiceArray firstObject] coach:weakSelf.myCoach];
                 vc.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             };
             cell.avatarViewActionBlock = ^() {
                 [weakSelf showImageOptions];
             };
-            [cell setupCellWithStudent:[HHStudentStore sharedInstance].currentStudent];
+            [cell setupCellWithStudent:self.currentStudent];
             return cell;
             
         } break;
@@ -120,16 +134,19 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellCoach: {
             HHMyPageCoachCell *cell = [tableView dequeueReusableCellWithIdentifier:kCoachCell];
             cell.myCoachView.actionBlock = ^(){
-                HHMyCoachDetailViewController *myCoachVC = [[HHMyCoachDetailViewController alloc] initWithCoachId:nil];
-                myCoachVC.hidesBottomBarWhenPushed = YES;
-                [weakSelf.navigationController pushViewController:myCoachVC animated:YES];
+                if ([weakSelf.currentStudent.purchasedServiceArray count]) {
+                    HHMyCoachDetailViewController *myCoachVC = [[HHMyCoachDetailViewController alloc] initWithCoach:weakSelf.myCoach];
+                    myCoachVC.hidesBottomBarWhenPushed = YES;
+                    [weakSelf.navigationController pushViewController:myCoachVC animated:YES];
+                } else {
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"您还没有购买的教练"];
+                }
             };
             cell.followedCoachView.actionBlock = ^(){
                 HHFollowedCoachListViewController *vc = [[HHFollowedCoachListViewController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             };
-            [cell setupCellWithCoach:nil coachList:nil];
             return cell;
         } break;
             

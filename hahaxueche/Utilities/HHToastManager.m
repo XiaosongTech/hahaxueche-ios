@@ -39,7 +39,6 @@
     options[kCRToastImageKey] = [UIImage imageNamed:@"ic_toast_right"];
     options[kCRToastBackgroundColorKey] = [UIColor colorWithRed:0.47 green:0.87 blue:0.01 alpha:1];
     [CRToastManager showNotificationWithOptions:options
-                                completionBlock:nil]; [CRToastManager showNotificationWithOptions:options
                                 completionBlock:nil];
 }
 

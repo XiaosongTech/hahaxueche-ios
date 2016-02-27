@@ -7,18 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HHCoach.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
     CoachCellBasicInfo,
     CoachCellCourseInfo,
-    CoachCellPartnerCoach,
     CoachCellCount,
 };
 
 @interface HHMyCoachDetailViewController : UIViewController
 
-- (instancetype)initWithCoachId:(NSString *)coachId;
+- (instancetype)initWithCoach:(HHCoach *)coach;
 
 
 

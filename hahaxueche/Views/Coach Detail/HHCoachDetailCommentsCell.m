@@ -130,25 +130,20 @@
     
     self.aveRatingView.value = [coach.averageRating floatValue];;
     self.aveRatingLabel.text = [coach.averageRating stringValue];
+
     
-    [self.botButton setTitle:@"点击查看全部" forState:UIControlStateNormal];
-            [self.botButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
-            self.botButton.enabled = YES;
-            self.botLine.hidden = NO;
-            [self addReviewCellsWithReviews:reviews];
-    
-//    if (![reviews count]) {
-//        [self.botButton setTitle:@"老张教练目前还没有评价" forState:UIControlStateNormal];
-//        [self.botButton setTitleColor:[UIColor HHLightTextGray] forState:UIControlStateNormal];
-//        self.botButton.enabled = NO;
-//        self.botLine.hidden = YES;
-//    } else {
-//        [self.botButton setTitle:@"点击查看全部" forState:UIControlStateNormal];
-//        [self.botButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
-//        self.botButton.enabled = YES;
-//        self.botLine.hidden = NO;
-//        [self addReviewCellsWithReviews:reviews];
-//    }
+    if (![reviews count]) {
+        [self.botButton setTitle:@"老张教练目前还没有评价" forState:UIControlStateNormal];
+        [self.botButton setTitleColor:[UIColor HHLightTextGray] forState:UIControlStateNormal];
+        self.botButton.enabled = NO;
+        self.botLine.hidden = YES;
+    } else {
+        [self.botButton setTitle:@"点击查看全部" forState:UIControlStateNormal];
+        [self.botButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
+        self.botButton.enabled = YES;
+        self.botLine.hidden = NO;
+        [self addReviewCellsWithReviews:reviews];
+    }
 }
 
 - (void)addReviewCellsWithReviews:(NSArray *)reviews {

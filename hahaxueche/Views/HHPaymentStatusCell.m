@@ -9,6 +9,8 @@
 #import "HHPaymentStatusCell.h"
 #import "Masonry.h"
 #import "UIColor+HHColor.h"
+#import "NSNumber+HHNumber.h"
+#import "HHFormatUtility.h"
 
 static CGFloat kNumberLabelRadius = 12.0f;
 
@@ -91,17 +93,48 @@ static CGFloat kNumberLabelRadius = 12.0f;
     }
 }
 
-- (void)setupCellWithPaymentStage:(HHPaymentStage *)paymentStage currentStatge:(NSInteger)currentStage {
+- (void)setupCellWithPaymentStage:(HHPaymentStage *)paymentStage currentStatge:(NSNumber *)currentStage {
     
-    self.stepNumberLabel.text = @"1";
-    self.stepNumberLabel.layer.masksToBounds = YES;
-    self.stepNumberLabel.layer.borderWidth = 1.0f;
-    self.stepNumberLabel.layer.cornerRadius = kNumberLabelRadius;
-    self.stepNumberLabel.layer.borderColor = [UIColor HHOrange].CGColor;
+    self.stepNumberLabel.text = [paymentStage.stageNumber stringValue];
+    self.feeNameLabel.text = paymentStage.stageName;
+    self.feeAmountLabel.text = [paymentStage.stageAmount generateMoneyString];
     
-    self.feeNameLabel.text = @"科目二";
-    self.feeAmountLabel.text = @"￥300";
-    self.statusLabel.text = @"待打款";
+    if ([currentStage integerValue] == [paymentStage.stageNumber integerValue]) {
+        self.stepNumberLabel.layer.masksToBounds = YES;
+        self.stepNumberLabel.layer.borderWidth = 1.0f/[UIScreen mainScreen].scale;
+        self.stepNumberLabel.layer.cornerRadius = kNumberLabelRadius;
+        self.stepNumberLabel.layer.borderColor = [UIColor HHOrange].CGColor;
+        
+        self.stepNumberLabel.textColor = [UIColor HHOrange];
+        self.feeNameLabel.textColor = [UIColor HHOrange];
+        self.feeAmountLabel.textColor = [UIColor HHOrange];
+        self.statusLabel.textColor = [UIColor HHOrange];
+        
+        self.statusLabel.text = @"待打款";
+        
+    } else if ([currentStage integerValue] < [paymentStage.stageNumber integerValue] ) {
+        self.stepNumberLabel.layer.masksToBounds = YES;
+        self.stepNumberLabel.layer.borderWidth = 1.0f/[UIScreen mainScreen].scale;
+        self.stepNumberLabel.layer.cornerRadius = kNumberLabelRadius;
+        self.stepNumberLabel.layer.borderColor = [UIColor HHTextDarkGray].CGColor;
+        
+        self.stepNumberLabel.textColor = [UIColor HHTextDarkGray];
+        self.feeNameLabel.textColor = [UIColor HHTextDarkGray];
+        self.feeAmountLabel.textColor = [UIColor HHTextDarkGray];
+        self.statusLabel.textColor = [UIColor HHTextDarkGray];
+        
+        self.statusLabel.text = @"待打款";
+
+
+    } else {
+        self.stepNumberLabel.layer.borderWidth = 0;
+        self.stepNumberLabel.textColor = [UIColor HHLightestTextGray];
+        self.feeNameLabel.textColor = [UIColor HHLightestTextGray];
+        self.feeAmountLabel.textColor = [UIColor HHLightestTextGray];
+        self.statusLabel.textColor = [UIColor HHLightestTextGray];
+        
+        self.statusLabel.text = [NSString stringWithFormat:@"%@ 已打款", [[HHFormatUtility fullDateFormatter] stringFromDate:paymentStage.paidAt]];
+    }
     [self.rightButton setImage:[UIImage imageNamed:@"ic_paylist_message_btn_unfocus"] forState:UIControlStateNormal];
 }
 

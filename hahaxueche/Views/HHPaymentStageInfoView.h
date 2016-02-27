@@ -17,6 +17,6 @@
 
 @property (nonatomic, strong) HHOKButtonActionBlock okAction;
 
-- (instancetype)initWithImage:(UIImage *)image title:(NSString *)title text:(NSString *)text;
+- (instancetype)initWithImage:(UIImage *)image title:(NSString *)title text:(NSString *)text textColor:(UIColor *)textColor;
 
 @end

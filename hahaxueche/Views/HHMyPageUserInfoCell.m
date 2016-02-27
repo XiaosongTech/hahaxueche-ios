@@ -10,6 +10,7 @@
 #import "Masonry.h"
 #import "UIColor+HHColor.h"
 #import <UIImageView+WebCache.h>
+#import "NSNumber+HHNumber.h"
 
 static CGFloat const avatarRadius = 40.0f;
 
@@ -121,8 +122,24 @@ static CGFloat const avatarRadius = 40.0f;
     [self.avatarView sd_setImageWithURL:[NSURL URLWithString:student.avatarURL]];
     self.nameLabel.text = student.name;
     
-    [self.balanceView setupViewWithTitle:@"账户余额" value:@"￥2000" showArrow:NO];
-    [self.paymentView setupViewWithTitle:@"打款状态" value:@"未购买教练" showArrow:YES];
+    HHPurchasedService *purchasedService;
+    if ([student.purchasedServiceArray count]) {
+        purchasedService = [student.purchasedServiceArray firstObject];
+    }
+    
+    NSString *balanceString = [@(0) generateMoneyString];
+    NSString *stageString = @"未购买教练";
+    BOOL showStageArrow = NO;
+    if (purchasedService) {
+        balanceString = [purchasedService.unpaidAmount generateMoneyString];
+        showStageArrow = YES;
+        HHPaymentStage *stage = [purchasedService getCurrentPaymentStage];
+        stageString = stage.stageName;
+    }
+    
+    [self.balanceView setupViewWithTitle:@"账户余额" value:balanceString showArrow:NO];
+
+    [self.paymentView setupViewWithTitle:@"打款状态" value:stageString showArrow:showStageArrow];
 }
 
 - (void)paymentViewTapped {

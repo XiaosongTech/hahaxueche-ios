@@ -21,6 +21,4 @@ static CGFloat const kTopPadding = 15.0f;
 @property (nonatomic, strong) HHMyPageItemView *myCoachView;
 @property (nonatomic, strong) HHMyPageItemView *followedCoachView;
 
-- (void)setupCellWithCoach:(HHCoach *)coach coachList:(NSArray *)coachList;
-
 @end

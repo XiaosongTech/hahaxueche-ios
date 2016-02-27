@@ -10,4 +10,19 @@
 
 @implementation HHReview
 
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{
+             @"reviewId":@"id",
+             @"reviewer": @"reviewer",
+             @"comment": @"comment",
+             @"rating": @"rating",
+             @"date": @"updated_at",
+            };
+}
+
++ (NSValueTransformer *)reviewerJSONTransformer {
+    return [MTLJSONAdapter dictionaryTransformerWithModelClass:[HHStudent class]];
+}
+
+
 @end

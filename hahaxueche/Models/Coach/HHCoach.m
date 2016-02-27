@@ -7,6 +7,7 @@
 //
 
 #import "HHCoach.h"
+#import "HHConstantsStore.h"
 
 @implementation HHCoach
 
@@ -68,6 +69,22 @@
         return @"金牌教练";
     } else {
         return @"优秀教练";
+    }
+}
+
+- (HHField *)getCoachField {
+    return [[HHConstantsStore sharedInstance] getFieldWithId:self.fieldId];
+}
+
+- (NSString *)serviceTypesName {
+    if ([self.serviceType integerValue] == 1) {
+        return @"科目二";
+    } else if ([self.serviceType integerValue] == 2) {
+        return @"科目三";
+    } else if ([self.serviceType integerValue] == 3) {
+        return @"科目二，科目三";
+    } else {
+        return nil;
     }
 }
 
