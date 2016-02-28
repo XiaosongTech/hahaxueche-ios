@@ -58,15 +58,14 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     self.view.backgroundColor = [UIColor HHBackgroundGary];
     self.currentStudent = [HHStudentStore sharedInstance].currentStudent;
     [self initSubviews];
-    
-    HHPurchasedService *ps = [self.currentStudent.purchasedServiceArray firstObject];
-    HHCoachAssignment *ca = [ps.assignments firstObject];
-    [[HHCoachService sharedInstance] fetchCoachWithId:ca.coachId completion:^(HHCoach *coach, NSError *error) {
-        if (!error) {
-            self.myCoach = coach;
-            [self.tableView reloadData];
-        }
-    }];
+    if (self.currentStudent.currentCoachId) {
+        [[HHCoachService sharedInstance] fetchCoachWithId:self.currentStudent.currentCoachId completion:^(HHCoach *coach, NSError *error) {
+            if (!error) {
+                self.myCoach = coach;
+                [self.tableView reloadData];
+            }
+        }];
+    }
 }
 
 - (void)initSubviews {
