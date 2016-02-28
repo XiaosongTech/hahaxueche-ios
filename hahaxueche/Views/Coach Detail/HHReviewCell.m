@@ -9,6 +9,8 @@
 #import "HHReviewCell.h"
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
+#import <UIImageView+WebCache.h>
+#import "HHFormatUtility.h"
 
 static CGFloat const kAvatarRadius = 25.0f;
 
@@ -95,10 +97,10 @@ static CGFloat const kAvatarRadius = 25.0f;
 }
 
 - (void)setupViewWithReview:(HHReview *)review {
-    self.avatarView.image = [UIImage imageNamed:@"pic_local"];
-    self.nameLabel.text = @"老张";
-    self.dateLabel.text = @"2016-01-01";
-    self.starRatingView.value = 4.5;
-    self.commentLabel.text = @"太好了太好了实在太好了太好了实在太好了太好了太好了实在太好了太好了实在太好了太好了太好了实在太好了太好了实在太好了太好了太好了实在太好了太好了实在太好了太好了实在太好了太好了实在太好了太好了太好了实在太好了太好了实在太好了太好了太好了实在太好了太好了实在太好了太好了太好了实在太好了太好了实在太好了";
+    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:review.reviewer.avatarUrl]];
+    self.nameLabel.text = review.reviewer.reviewerName;
+    self.dateLabel.text = [[HHFormatUtility fullDateFormatter] stringFromDate:review.updatedAt];;
+    self.starRatingView.value = [review.rating integerValue];
+    self.commentLabel.text = review.comment;
 }
 @end

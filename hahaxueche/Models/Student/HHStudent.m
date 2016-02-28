@@ -18,7 +18,8 @@
              @"name": @"name",
              @"cityId": @"city_id",
              @"avatarURL": @"avatar",
-             @"purchasedServiceArray":@"purchased_services"
+             @"purchasedServiceArray":@"purchased_services",
+             @"currentCoachId":@"current_coach_id"
              };
 }
 

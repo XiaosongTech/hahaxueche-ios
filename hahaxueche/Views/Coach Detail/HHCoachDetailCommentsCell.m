@@ -133,7 +133,7 @@
 
     
     if (![reviews count]) {
-        [self.botButton setTitle:@"老张教练目前还没有评价" forState:UIControlStateNormal];
+        [self.botButton setTitle:[NSString stringWithFormat:@"%@教练目前还没有评价", coach.name] forState:UIControlStateNormal];
         [self.botButton setTitleColor:[UIColor HHLightTextGray] forState:UIControlStateNormal];
         self.botButton.enabled = NO;
         self.botLine.hidden = YES;
@@ -148,13 +148,14 @@
 
 - (void)addReviewCellsWithReviews:(NSArray *)reviews {
     NSMutableArray *array = [NSMutableArray array];
-    for (int i = 0; i < reviews.count; i++) {
+    NSInteger count = MIN(reviews.count, 3);
+    for (int i = 0; i < count; i++) {
         HHCoachReviewView *view = [[HHCoachReviewView alloc] init];
         [view setupViewWithReview:reviews[i]];
         [self.contentView addSubview:view];
         [array addObject:view];
         
-        if (i == reviews.count - 1) {
+        if (i == count - 1) {
             view.botLine.hidden = YES;
         }
         

@@ -232,7 +232,7 @@ static NSString *const kCellId = @"CellId";
     mainString = @"确认通过科目二考试后，点击确认打款按钮，我们会将￥200打给教练确认通过科目二考试后，点击确认打款按钮，我们会将￥200打给教练";
     
    HHPaymentStageInfoView *infoView = [[HHPaymentStageInfoView alloc] initWithImage:image title:titleString text:mainString textColor:textColor];
-    infoView.frame = CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds) - 80.0f, 160.0f);
+    infoView.frame = CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds) - 80.0f, 170.0f);
     infoView.okAction = ^(){
         [HHPopupUtility dismissPopup:weakSelf.popup];
     };

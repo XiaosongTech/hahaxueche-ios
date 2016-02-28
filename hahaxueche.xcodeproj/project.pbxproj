@@ -143,6 +143,7 @@
 		1482A9B51C8236D2007F9019 /* ic_paynotice.png in Resources */ = {isa = PBXBuildFile; fileRef = 1482A9AF1C8236D2007F9019 /* ic_paynotice.png */; };
 		1482A9B61C8236D2007F9019 /* ic_paynotice@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1482A9B01C8236D2007F9019 /* ic_paynotice@2x.png */; };
 		1482A9B71C8236D2007F9019 /* ic_paynotice@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1482A9B11C8236D2007F9019 /* ic_paynotice@3x.png */; };
+		1482A9BA1C829CEC007F9019 /* HHReviewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1482A9B91C829CEC007F9019 /* HHReviewer.m */; };
 		14B5EB761C7C0D6800A37669 /* HHPaymentService.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EB751C7C0D6800A37669 /* HHPaymentService.m */; };
 		14B5EB7D1C7CCE0D00A37669 /* HHFollowedCoachListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EB7C1C7CCE0D00A37669 /* HHFollowedCoachListViewController.m */; };
 		14B5EB811C7CE69800A37669 /* ic_mypage_bk.png in Resources */ = {isa = PBXBuildFile; fileRef = 14B5EB7E1C7CE69800A37669 /* ic_mypage_bk.png */; };
@@ -526,6 +527,8 @@
 		1482A9AF1C8236D2007F9019 /* ic_paynotice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paynotice.png; sourceTree = "<group>"; };
 		1482A9B01C8236D2007F9019 /* ic_paynotice@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_paynotice@2x.png"; sourceTree = "<group>"; };
 		1482A9B11C8236D2007F9019 /* ic_paynotice@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_paynotice@3x.png"; sourceTree = "<group>"; };
+		1482A9B81C829CEC007F9019 /* HHReviewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHReviewer.h; sourceTree = "<group>"; };
+		1482A9B91C829CEC007F9019 /* HHReviewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReviewer.m; sourceTree = "<group>"; };
 		14B5EB741C7C0D6800A37669 /* HHPaymentService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPaymentService.h; sourceTree = "<group>"; };
 		14B5EB751C7C0D6800A37669 /* HHPaymentService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPaymentService.m; sourceTree = "<group>"; };
 		14B5EB7B1C7CCE0D00A37669 /* HHFollowedCoachListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHFollowedCoachListViewController.h; sourceTree = "<group>"; };
@@ -1002,6 +1005,8 @@
 				14B5EB871C7E0ED600A37669 /* HHReview.m */,
 				14B5EB891C7E0EE600A37669 /* HHReviews.h */,
 				14B5EB8A1C7E0EE600A37669 /* HHReviews.m */,
+				1482A9B81C829CEC007F9019 /* HHReviewer.h */,
+				1482A9B91C829CEC007F9019 /* HHReviewer.m */,
 			);
 			name = Review;
 			sourceTree = "<group>";
@@ -1942,6 +1947,7 @@
 				14604F471C6F8BED009DBE10 /* HHShareView.m in Sources */,
 				14604F651C6FF926009DBE10 /* NSNumber+HHNumber.m in Sources */,
 				5CDE14891C3859290004778C /* HHPopupUtility.m in Sources */,
+				1482A9BA1C829CEC007F9019 /* HHReviewer.m in Sources */,
 				5C36D42B1C4C2F4100443545 /* HHFieldsMapViewController.m in Sources */,
 				5CDE14461C36E5FE0004778C /* HHIntroViewController.m in Sources */,
 				5C6D8C991C3F4D2A0055CB31 /* HHAPIClient.m in Sources */,

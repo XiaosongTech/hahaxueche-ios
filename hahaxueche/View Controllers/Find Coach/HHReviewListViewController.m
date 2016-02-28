@@ -161,17 +161,18 @@ static NSString *kCellID = @"kCellId";
 #pragma mark - TableView Delegate & Datasource Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    return self.reviews.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HHReviewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kCellID forIndexPath:indexPath];
-    [cell setupViewWithReview:nil];
+    [cell setupViewWithReview:self.reviews[indexPath.row]];
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGRect rect = [self getDescriptionTextSizeWithText:@"太好了太好了实在太好了太好了实在太好了太好了太好了实在太好了太好了实在太好了太好了太好了实在太好了太好了实在太好了太好了太好了实在太好了太好了实在太好了太好了实在太好了太好了实在太好了太好了太好了实在太好了太好了实在太好了太好了太好了实在太好了太好了实在太好了太好了太好了实在太好了太好了实在太好了"];
+    HHReview *review = self.reviews[indexPath.row];
+    CGRect rect = [self getDescriptionTextSizeWithText:review.comment];
     
     return CGRectGetHeight(rect) + 70.0f;
 }

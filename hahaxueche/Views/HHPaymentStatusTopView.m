@@ -11,6 +11,7 @@
 #import "Masonry.h"
 #import <UIImageView+WebCache.h>
 #import "NSNumber+HHNumber.h"
+#import "HHFormatUtility.h"
 
 static CGFloat const kAvatarRadius = 30.0f;
 
@@ -34,7 +35,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.nameLabel.attributedText = [self buildCoachString];
     [self addSubview:self.nameLabel];
     
-    self.dateLabel = [self buildLabelWithText:@"2016-02-01"];
+    self.dateLabel = [self buildLabelWithText:[[HHFormatUtility fullDateFormatter] stringFromDate:self.purchasedService.paidAt]];
     [self addSubview:self.dateLabel];
     
     self.transactionIdLabel = [self buildLabelWithText:[NSString stringWithFormat:@"订单编号：%@", self.purchasedService.chargeId]];

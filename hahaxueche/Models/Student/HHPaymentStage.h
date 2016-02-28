@@ -14,6 +14,7 @@
 @property (nonatomic, copy) NSDate *paidAt;
 @property (nonatomic, copy) NSString *paymentMethodId;
 @property (nonatomic, copy) NSNumber *reviewable;
+@property (nonatomic, copy) NSNumber *reviewed;
 @property (nonatomic, copy) NSNumber *stageAmount;
 @property (nonatomic, copy) NSString *stageName;
 @property (nonatomic, copy) NSNumber *stageNumber;

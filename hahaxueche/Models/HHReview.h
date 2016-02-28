@@ -7,15 +7,15 @@
 //
 
 #import <Mantle/Mantle.h>
-#import "HHStudent.h"
+#import "HHReviewer.h"
 
 @interface HHReview : MTLModel <MTLJSONSerializing>
 
-@property (nonatomic, strong) HHStudent *reviewer;
+@property (nonatomic, strong) HHReviewer *reviewer;
 @property (nonatomic, copy) NSString *comment;
 @property (nonatomic, copy) NSString *reviewId;
 @property (nonatomic, copy) NSNumber *rating;
-@property (nonatomic, copy) NSDate *date;
+@property (nonatomic, copy) NSDate *updatedAt;
 
 
 @end

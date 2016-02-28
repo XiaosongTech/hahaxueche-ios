@@ -19,6 +19,7 @@
              @"stageAmount":@"stage_amount",
              @"stageNumber":@"stage_number",
              @"stageName":@"stage_name",
+             @"reviewed":@"reviewed",
              };
 }
 

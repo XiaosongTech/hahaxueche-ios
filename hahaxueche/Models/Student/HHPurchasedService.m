@@ -7,6 +7,7 @@
 //
 
 #import "HHPurchasedService.h"
+#import "HHFormatUtility.h"
 
 @implementation HHPurchasedService
 
@@ -20,6 +21,7 @@
              @"totalAmount":@"total_amount",
              @"unpaidAmount":@"unpaid_amount",
              @"paymentStages":@"payment_stages",
+             @"paidAt":@"paid_at",
              };
 }
 
@@ -29,6 +31,14 @@
 
 + (NSValueTransformer *)paymentStagesJSONTransformer {
     return [MTLJSONAdapter arrayTransformerWithModelClass:[HHPaymentStage class]];
+}
+
++ (NSValueTransformer *)paidAtJSONTransformer {
+    return [MTLValueTransformer transformerUsingForwardBlock:^id(NSString *dateString, BOOL *success, NSError *__autoreleasing *error) {
+        return [[HHFormatUtility backendDateFormatter] dateFromString:dateString];
+    } reverseBlock:^id(NSDate *date, BOOL *success, NSError *__autoreleasing *error) {
+        return [[HHFormatUtility backendDateFormatter] stringFromDate:date];
+    }];
 }
 
 - (HHPaymentStage *)getCurrentPaymentStage {

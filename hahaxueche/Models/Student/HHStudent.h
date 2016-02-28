@@ -18,5 +18,6 @@
 @property (nonatomic, copy) NSNumber *cityId;
 @property (nonatomic, copy) NSString *avatarURL;
 @property (nonatomic, strong) NSArray *purchasedServiceArray;
+@property (nonatomic, copy) NSString *currentCoachId;
 
 @end

@@ -13,7 +13,7 @@
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
              @"coachId":@"coach_id",
-             //@"serviceType":@"service_type"
+             @"serviceType":@"service_type_id"
              };
 }
 

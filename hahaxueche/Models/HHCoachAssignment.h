@@ -11,6 +11,6 @@
 @interface HHCoachAssignment : MTLModel <MTLJSONSerializing>
 
 @property (nonatomic, copy) NSString *coachId;
-@property (nonatomic, copy) NSNumber *serviceType;
+@property (nonatomic, copy) NSString *serviceType;
 
 @end

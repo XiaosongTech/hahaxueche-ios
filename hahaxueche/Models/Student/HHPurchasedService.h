@@ -20,6 +20,7 @@
 @property (nonatomic, copy) NSNumber *totalAmount;
 @property (nonatomic, copy) NSNumber *unpaidAmount;
 @property (nonatomic, strong) NSArray *paymentStages;
+@property (nonatomic, strong) NSDate *paidAt;
 
 - (HHPaymentStage *)getCurrentPaymentStage;
 - (BOOL)isFinished;
