@@ -52,6 +52,10 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 
 @implementation HHMyPageViewController
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"我的页面";
@@ -66,6 +70,10 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             }
         }];
     }
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(coachPurchased)
+                                                 name:@"coachPurchased"
+                                               object:nil];
 }
 
 - (void)initSubviews {
@@ -118,9 +126,16 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellUserInfo: {
             HHMyPageUserInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kUserInfoCell];
             cell.paymentViewActionBlock = ^(){
-                HHPaymentStatusViewController *vc = [[HHPaymentStatusViewController alloc] initWithPurchasedService:[self.currentStudent.purchasedServiceArray firstObject] coach:weakSelf.myCoach];
-                vc.hidesBottomBarWhenPushed = YES;
-                [weakSelf.navigationController pushViewController:vc animated:YES];
+                if (weakSelf.myCoach) {
+                    HHPaymentStatusViewController *vc = [[HHPaymentStatusViewController alloc] initWithPurchasedService:[self.currentStudent.purchasedServiceArray firstObject] coach:weakSelf.myCoach];
+                    vc.updatePSBlock = ^(HHPurchasedService *updatePS){
+                        weakSelf.currentStudent.purchasedServiceArray = @[updatePS];
+                        [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:MyPageCellUserInfo inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                    };
+                    vc.hidesBottomBarWhenPushed = YES;
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
+                }
+                
             };
             cell.avatarViewActionBlock = ^() {
                 [weakSelf showImageOptions];
@@ -244,6 +259,18 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 - (void)showImageOptions {
     self.avatarOptionsSheet = [[UIActionSheet alloc] initWithTitle:@"更换头像" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"从相册中选取", @"拍照", nil];
     [self.avatarOptionsSheet showInView:self.view];
+}
+
+- (void)coachPurchased {
+    self.currentStudent = [HHStudentStore sharedInstance].currentStudent;
+    if (self.currentStudent.currentCoachId) {
+        [[HHCoachService sharedInstance] fetchCoachWithId:self.currentStudent.currentCoachId completion:^(HHCoach *coach, NSError *error) {
+            if (!error) {
+                self.myCoach = coach;
+                [self.tableView reloadData];
+            }
+        }];
+    }
 }
 
 #pragma mark - UIActionSheet Delegate

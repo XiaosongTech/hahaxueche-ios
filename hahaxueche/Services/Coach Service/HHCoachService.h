@@ -19,6 +19,7 @@ typedef void (^HHCoachCompletion)(HHCoach *coach, NSError *error);
 typedef void (^HHCoachReviewListCompletion)(HHReviews *reviews, NSError *error);
 typedef void (^HHCoachCheckFollowedCompletion)(BOOL followed);
 typedef void (^HHCoachGenericCompletion)(NSError *error);
+typedef void (^HHCoachReviewCompletion)(HHReview *review, NSError *error);
 
 @interface HHCoachService : NSObject
 
@@ -38,6 +39,16 @@ typedef void (^HHCoachGenericCompletion)(NSError *error);
  */
 - (void)fetchNextPageCoachListWithURL:(NSString *)URL completion:(HHCoachListCompletion)completion;
 
+
+/**
+ Make a Review
+ @param coachUserId The userId of the coach object (not coachId)
+ @param paymentStage The paymentStage the review relates to
+ @param rating The rating of the review
+ @param comment The comment of the review
+ @param completion The completion block to execute on completion
+ */
+- (void)makeReviewWithCoachUserId:(NSString *)coachUserId paymentStage:(NSNumber *)paymentStage rating:(NSNumber *)rating comment:(NSString *)comment completion:(HHCoachReviewCompletion)completion;
 
 /**
  Fetch Coach's Reviews

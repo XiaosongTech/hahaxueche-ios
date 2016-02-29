@@ -12,6 +12,7 @@
 #import <UIImageView+WebCache.h>
 #import "NSNumber+HHNumber.h"
 #import "HHFormatUtility.h"
+#import "NSNumber+HHNumber.h"
 
 static CGFloat const kAvatarRadius = 30.0f;
 
@@ -130,6 +131,11 @@ static CGFloat const kAvatarRadius = 30.0f;
         make.bottom.equalTo(self.totalAmountView.bottom);
         make.width.equalTo(self.width).multipliedBy(1/3.0f).offset(-40.0f/3.0f);
     }];
+}
+
+- (void)updatePaidAndUnpaidAmount:(HHPurchasedService *)purchasedService {
+    self.payedAmountView.valueLabel.text = [purchasedService.paidAmount generateMoneyString];
+    self.leftAmountView.valueLabel.text = [purchasedService.unpaidAmount generateMoneyString];
 }
 
 @end

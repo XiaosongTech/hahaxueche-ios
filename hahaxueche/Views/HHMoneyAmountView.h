@@ -10,6 +10,9 @@
 
 @interface HHMoneyAmountView : UIView
 
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *valueLabel;
+
 - (instancetype)initWithTitle:(NSString *)title value:(NSString *)value;
 
 @end

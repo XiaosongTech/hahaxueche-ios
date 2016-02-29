@@ -151,6 +151,8 @@
 		14B5EB831C7CE69800A37669 /* ic_mypage_bk@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14B5EB801C7CE69800A37669 /* ic_mypage_bk@3x.png */; };
 		14B5EB881C7E0ED600A37669 /* HHReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EB871C7E0ED600A37669 /* HHReview.m */; };
 		14B5EB8B1C7E0EE600A37669 /* HHReviews.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EB8A1C7E0EE600A37669 /* HHReviews.m */; };
+		14F608DA1C83BDEF00EA70A7 /* HHPayCoachExplanationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F608D91C83BDEF00EA70A7 /* HHPayCoachExplanationView.m */; };
+		14F608DD1C83D4CE00EA70A7 /* HHMakeReviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F608DC1C83D4CE00EA70A7 /* HHMakeReviewView.m */; };
 		14F9D4901C71223E0010F3FA /* HHCoaches.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F9D48F1C71223E0010F3FA /* HHCoaches.m */; };
 		14F9D4941C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F9D4911C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian.png */; };
 		14F9D4951C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F9D4921C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian@2x.png */; };
@@ -540,6 +542,10 @@
 		14B5EB871C7E0ED600A37669 /* HHReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReview.m; sourceTree = "<group>"; };
 		14B5EB891C7E0EE600A37669 /* HHReviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHReviews.h; sourceTree = "<group>"; };
 		14B5EB8A1C7E0EE600A37669 /* HHReviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReviews.m; sourceTree = "<group>"; };
+		14F608D81C83BDEE00EA70A7 /* HHPayCoachExplanationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPayCoachExplanationView.h; sourceTree = "<group>"; };
+		14F608D91C83BDEF00EA70A7 /* HHPayCoachExplanationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPayCoachExplanationView.m; sourceTree = "<group>"; };
+		14F608DB1C83D4CE00EA70A7 /* HHMakeReviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMakeReviewView.h; sourceTree = "<group>"; };
+		14F608DC1C83D4CE00EA70A7 /* HHMakeReviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMakeReviewView.m; sourceTree = "<group>"; };
 		14F9D48E1C71223E0010F3FA /* HHCoaches.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoaches.h; sourceTree = "<group>"; };
 		14F9D48F1C71223E0010F3FA /* HHCoaches.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoaches.m; sourceTree = "<group>"; };
 		14F9D4911C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_coachmsg_sharecoach_kongjian.png; sourceTree = "<group>"; };
@@ -860,6 +866,10 @@
 				147A9FF81C7AB56C000DED3B /* HHOkButtonView.m */,
 				147A9FFA1C7AB74C000DED3B /* HHPaymentStageInfoView.h */,
 				147A9FFB1C7AB74C000DED3B /* HHPaymentStageInfoView.m */,
+				14F608D81C83BDEE00EA70A7 /* HHPayCoachExplanationView.h */,
+				14F608D91C83BDEF00EA70A7 /* HHPayCoachExplanationView.m */,
+				14F608DB1C83D4CE00EA70A7 /* HHMakeReviewView.h */,
+				14F608DC1C83D4CE00EA70A7 /* HHMakeReviewView.m */,
 			);
 			name = "My Page";
 			sourceTree = "<group>";
@@ -1964,6 +1974,7 @@
 				143F57C11C6D39E600835AA4 /* PBImageScrollerViewController.m in Sources */,
 				1405CC8F1C7664080030B114 /* HHMyPageLogoutCell.m in Sources */,
 				5C36D3D21C48506300443545 /* HHSwitchView.m in Sources */,
+				14F608DD1C83D4CE00EA70A7 /* HHMakeReviewView.m in Sources */,
 				5C6D8C9D1C40125D0055CB31 /* HHUserAuthService.m in Sources */,
 				140EC5FC1C6D64C400DA634D /* HHCoachDetailSectionTwoCell.m in Sources */,
 				5CDE14761C3778BD0004778C /* HHToastManager.m in Sources */,
@@ -2002,6 +2013,7 @@
 				5CDE14511C3715F90004778C /* HHRegisterViewController.m in Sources */,
 				5C5F87671BF6723F006F9594 /* HHEventTrackingManager.m in Sources */,
 				14700D951C795FBF00660989 /* HHPurchasedService.m in Sources */,
+				14F608DA1C83BDEF00EA70A7 /* HHPayCoachExplanationView.m in Sources */,
 				140EC6471C6ED10600DA634D /* HHTryCoachView.m in Sources */,
 				5C2D1A4A1C51EAA80056E0D0 /* HHStudentService.m in Sources */,
 				140EC6171C6D73CE00DA634D /* HHCollaborateCoachesView.m in Sources */,

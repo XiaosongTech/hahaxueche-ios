@@ -13,6 +13,7 @@
 typedef void (^HHStudentCompletion)(HHStudent *student, NSError *error);
 typedef void (^HHStudentGenericCompletion)(NSError *error);
 typedef void (^HHStudentPurchasedServiceCompletion)(HHPurchasedService *purchasedService, NSError *error);
+typedef void (^HHPurchasedServiceCompletion)(HHPurchasedService *purchasedService, NSError *error);
 
 
 @interface HHStudentService : NSObject
@@ -42,4 +43,11 @@ typedef void (^HHStudentPurchasedServiceCompletion)(HHPurchasedService *purchase
  @param completion The completion block to execute on completion
  */
 - (void)fetchStudentWithId:(NSString *)studentId completion:(HHStudentCompletion)completion;
+
+/**
+ Pay a stage money to Coach
+ @param paymentStage The paymentStage the student wants to pay
+ @param completion The completion block to execute on completion
+ */
+- (void)payStage:(HHPaymentStage *)paymentStage completion:(HHPurchasedServiceCompletion)completion;
 @end

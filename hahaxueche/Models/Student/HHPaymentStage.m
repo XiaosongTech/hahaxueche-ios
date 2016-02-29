@@ -7,6 +7,7 @@
 //
 
 #import "HHPaymentStage.h"
+#import "HHFormatUtility.h"
 
 @implementation HHPaymentStage
 
@@ -20,7 +21,17 @@
              @"stageNumber":@"stage_number",
              @"stageName":@"stage_name",
              @"reviewed":@"reviewed",
+             @"readyForReview":@"ready_for_review",
+             @"explanationText":@"description",
              };
+}
+
++ (NSValueTransformer *)paidAtJSONTransformer {
+    return [MTLValueTransformer transformerUsingForwardBlock:^id(NSString *dateString, BOOL *success, NSError *__autoreleasing *error) {
+        return [[HHFormatUtility backendDateFormatter] dateFromString:dateString];
+    } reverseBlock:^id(NSDate *date, BOOL *success, NSError *__autoreleasing *error) {
+        return [[HHFormatUtility backendDateFormatter] stringFromDate:date];
+    }];
 }
 
 @end

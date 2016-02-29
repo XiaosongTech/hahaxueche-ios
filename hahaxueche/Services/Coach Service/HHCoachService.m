@@ -98,6 +98,22 @@
     }];
 }
 
+- (void)makeReviewWithCoachUserId:(NSString *)coachUserId paymentStage:(NSNumber *)paymentStage rating:(NSNumber *)rating comment:(NSString *)comment completion:(HHCoachReviewCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIUserReviews, coachUserId]];
+    [APIClient postWithParameters:@{@"coach_user_id":coachUserId, @"payment_stage":paymentStage, @"rating":rating, @"comment":comment} completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHReview *review = [MTLJSONAdapter modelOfClass:[HHReview class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(review, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
 - (void)fetchCoachWithId:(NSString *)coachId completion:(HHCoachCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPICoach, coachId]];
     [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
@@ -188,5 +204,6 @@
     }];
 
 }
+
 
 @end

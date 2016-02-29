@@ -75,4 +75,20 @@
     }];
 }
 
+- (void)payStage:(HHPaymentStage *)paymentStage completion:(HHPurchasedServiceCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIStudentPurchasedService];
+    [APIClient putWithParameters:@{@"payment_stage":paymentStage.stageNumber} completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHPurchasedService *purchasedService = [MTLJSONAdapter modelOfClass:[HHPurchasedService class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(purchasedService, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
 @end

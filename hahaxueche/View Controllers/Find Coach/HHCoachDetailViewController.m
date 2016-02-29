@@ -247,6 +247,10 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             [[HHPaymentService sharedInstance] payWithCoachId:weakSelf.coach.coachId studentId:weakSelf.currentStudent.studentId inController:weakSelf completion:^(BOOL succeed) {
                 if (succeed) {
                     [[HHToastManager sharedManager] showSuccessToastWithText:@"支付成功! 请到我的页面查看具体信息."];
+                    [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
+                        [HHStudentStore sharedInstance].currentStudent = student;
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"coachPurchased" object:nil];
+                    }];
                 } else {
                     [[HHToastManager sharedManager] showErrorToastWithText:@"抱歉，支付失败或者您取消了支付。请重试！"];
                 }

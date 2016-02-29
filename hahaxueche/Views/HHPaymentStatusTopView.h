@@ -26,5 +26,6 @@
 
 
 - (instancetype)initWithPurchasedService:(HHPurchasedService *)purchasedService coach:(HHCoach *)coach;
+- (void)updatePaidAndUnpaidAmount:(HHPurchasedService *)purchasedService;
 
 @end

@@ -16,6 +16,10 @@
 #import "HHPopupUtility.h"
 #import "HHPaymentStageInfoView.h"
 #import "NSNumber+HHNumber.h"
+#import "HHPayCoachExplanationView.h"
+#import "HHMakeReviewView.h"
+#import "HHStudentService.h"
+#import "HHToastManager.h"
 
 
 static NSString *const kExplanationText = @"注：学员支付的学费将由平台保管，每个阶段结束后，学员可以根据情况，点击确认打款按钮。点击后，平台将阶段对应金额打给教练，然后进入下个阶段。每个阶段的金额会在点击付款后的第一个周二转到教练账户。";
@@ -88,6 +92,7 @@ static NSString *const kCellId = @"CellId";
     [self.confirmPayButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.confirmPayButton.backgroundColor = [UIColor colorWithRed:0.99 green:0.45 blue:0.13 alpha:1];
     self.confirmPayButton.titleLabel.font = [UIFont systemFontOfSize:16.0f];
+    [self.confirmPayButton addTarget:self action:@selector(confirmPayButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.confirmPayButton];
     
     self.congratulationLabel = [[UILabel alloc] init];
@@ -171,9 +176,21 @@ static NSString *const kCellId = @"CellId";
     HHPaymentStatusCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
     HHPaymentStage *stage = self.purchasedService.paymentStages[indexPath.row];
     cell.rightButtonBlock = ^() {
-        weakSelf.infoView = [self buildInfoViewWithStage:self.purchasedService.paymentStages[indexPath.row]];
-        weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.infoView];
-        [HHPopupUtility showPopup:weakSelf.popup];
+        if ([stage.reviewable boolValue]) {
+            if (![stage.reviewed boolValue]) {
+                if ([stage.readyForReview boolValue]) {
+                    [weakSelf makeReviewWithPaymentStage:stage];
+                } else {
+                    weakSelf.infoView = [self buildInfoViewWithStage:self.purchasedService.paymentStages[indexPath.row]];
+                    weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.infoView];
+                    [HHPopupUtility showPopup:weakSelf.popup];
+                }
+            } 
+        } else {
+            weakSelf.infoView = [self buildInfoViewWithStage:self.purchasedService.paymentStages[indexPath.row]];
+            weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.infoView];
+            [HHPopupUtility showPopup:weakSelf.popup];
+        }
     };
     
     [cell setupCellWithPaymentStage:stage currentStatge:self.purchasedService.currentStage];
@@ -215,7 +232,6 @@ static NSString *const kCellId = @"CellId";
     __weak HHPaymentStatusViewController *weakSelf = self;
     UIImage *image;
     NSString *titleString;
-    NSString *mainString;
     UIColor *textColor;
     
     if ([paymentStage.stageNumber integerValue] < [self.currentPaymentStage.stageNumber integerValue] || [self.purchasedService isFinished]) {
@@ -228,15 +244,55 @@ static NSString *const kCellId = @"CellId";
         titleString = [NSString stringWithFormat:@"%@ 待打款", paymentStage.stageName];
     }
     
-    
-    mainString = @"确认通过科目二考试后，点击确认打款按钮，我们会将￥200打给教练确认通过科目二考试后，点击确认打款按钮，我们会将￥200打给教练";
-    
-   HHPaymentStageInfoView *infoView = [[HHPaymentStageInfoView alloc] initWithImage:image title:titleString text:mainString textColor:textColor];
-    infoView.frame = CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds) - 80.0f, 170.0f);
+   HHPaymentStageInfoView *infoView = [[HHPaymentStageInfoView alloc] initWithImage:image title:titleString text:paymentStage.explanationText textColor:textColor];
+    infoView.frame = CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds) - 80.0f, 160.0f);
     infoView.okAction = ^(){
         [HHPopupUtility dismissPopup:weakSelf.popup];
     };
     return infoView;
+}
+
+- (void)makeReviewWithPaymentStage:(HHPaymentStage *)paymentStage {
+    
+}
+
+- (void)confirmPayButtonTapped {
+    HHPayCoachExplanationView *view = [[HHPayCoachExplanationView alloc] initWithFrame:CGRectMake(0, 0, 300, 200.0f) amount:self.currentPaymentStage.stageAmount];
+    [view.buttonsView.leftButton addTarget:self action:@selector(payCoach) forControlEvents:UIControlEventTouchUpInside];
+    [view.buttonsView.rightButton addTarget:self action:@selector(dismissPopup) forControlEvents:UIControlEventTouchUpInside];
+    self.popup = [HHPopupUtility createPopupWithContentView:view];
+    [HHPopupUtility showPopup:self.popup];
+    
+}
+
+- (void)payCoach {
+    [[HHStudentService sharedInstance] payStage:self.currentPaymentStage completion:^(HHPurchasedService *purchasedService, NSError *error) {
+        if (!error) {
+            [HHPopupUtility dismissPopup:self.popup];
+            if (self.updatePSBlock) {
+                self.updatePSBlock(purchasedService);
+            }
+            self.purchasedService = purchasedService;
+            self.currentPaymentStage = [self.purchasedService getCurrentPaymentStage];
+            self.bottomLabel.attributedText = [self buildBotString];
+
+            [self.topView updatePaidAndUnpaidAmount:purchasedService];
+            [self.tableView reloadData];
+            [[HHToastManager sharedManager] showSuccessToastWithText:@"打款成功！"];
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"打款失败，请重试！"];
+        }
+    }];
+}
+
+- (void)dismissPopup {
+    [HHPopupUtility dismissPopup:self.popup];
+}
+
+- (void)showReviewView {
+    HHMakeReviewView *reviewView = [[HHMakeReviewView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-30.0f, 260.0f)];
+    self.popup = [HHPopupUtility createPopupWithContentView:reviewView];
+    [HHPopupUtility showPopup:self.popup];
 }
 
 @end

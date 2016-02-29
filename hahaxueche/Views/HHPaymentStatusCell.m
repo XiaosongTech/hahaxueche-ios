@@ -94,7 +94,6 @@ static CGFloat kNumberLabelRadius = 12.0f;
 }
 
 - (void)setupCellWithPaymentStage:(HHPaymentStage *)paymentStage currentStatge:(NSNumber *)currentStage {
-    
     self.stepNumberLabel.text = [paymentStage.stageNumber stringValue];
     self.feeNameLabel.text = paymentStage.stageName;
     self.feeAmountLabel.text = [paymentStage.stageAmount generateMoneyString];
@@ -111,6 +110,7 @@ static CGFloat kNumberLabelRadius = 12.0f;
         self.statusLabel.textColor = [UIColor HHOrange];
         
         self.statusLabel.text = @"待打款";
+        [self.rightButton setImage:[UIImage imageNamed:@"ic_paylist_message_btn_unfocus"] forState:UIControlStateNormal];
         
     } else if ([currentStage integerValue] < [paymentStage.stageNumber integerValue] ) {
         self.stepNumberLabel.layer.masksToBounds = YES;
@@ -124,6 +124,7 @@ static CGFloat kNumberLabelRadius = 12.0f;
         self.statusLabel.textColor = [UIColor HHTextDarkGray];
         
         self.statusLabel.text = @"待打款";
+        [self.rightButton setImage:[UIImage imageNamed:@"ic_paylist_message_btn_unfocus"] forState:UIControlStateNormal];
 
 
     } else {
@@ -133,9 +134,39 @@ static CGFloat kNumberLabelRadius = 12.0f;
         self.feeAmountLabel.textColor = [UIColor HHLightestTextGray];
         self.statusLabel.textColor = [UIColor HHLightestTextGray];
         
-        self.statusLabel.text = [NSString stringWithFormat:@"%@ 已打款", [[HHFormatUtility fullDateFormatter] stringFromDate:paymentStage.paidAt]];
+        if ([paymentStage.reviewable boolValue]) {
+            [self.rightButton remakeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(self.contentView.centerY);
+                make.right.equalTo(self.contentView.right).offset(-5.0f);
+                make.width.mas_equalTo(40.0f);
+                make.height.mas_equalTo(20.0f);
+            }];
+            [self.rightButton setImage:nil forState:UIControlStateNormal];
+            self.rightButton.titleLabel.font = [UIFont systemFontOfSize:11.0f];
+            self.rightButton.layer.masksToBounds = YES;
+            self.rightButton.layer.cornerRadius = 10.0f;
+            [self.rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            
+            if ([paymentStage.reviewed boolValue]) {
+                [self.rightButton setTitle:@"已评价" forState:UIControlStateNormal];
+                [self.rightButton setBackgroundColor:[UIColor colorWithRed:0.86 green:0.86 blue:0.86 alpha:1]];
+                
+
+            } else {
+                [self.rightButton setTitle:@"待评价" forState:UIControlStateNormal];
+                [self.rightButton setBackgroundColor:[UIColor HHOrange]];
+
+            }
+            
+            
+
+        } else {
+            [self.rightButton setImage:[UIImage imageNamed:@"ic_paylist_message_btn_unfocus"] forState:UIControlStateNormal];
+
+        }
+        self.statusLabel.text = [NSString stringWithFormat:@"%@ 已打款", [[HHFormatUtility dateFormatter] stringFromDate:paymentStage.paidAt]];
     }
-    [self.rightButton setImage:[UIImage imageNamed:@"ic_paylist_message_btn_unfocus"] forState:UIControlStateNormal];
+    
 }
 
 @end
