@@ -12,6 +12,10 @@
 #import "UIColor+HHColor.h"
 #import "SwipeView.h"
 #import "HHEmptyScheduleCell.h"
+#import "HHStudentStore.h"
+#import "UIBarButtonItem+HHCustomButton.h"
+#import "HHCoachService.h"
+#import <UIImageView+WebCache.h>
 
 
 static NSString *kEmptyCellId = @"emptyCellID";
@@ -23,6 +27,7 @@ static NSString *kEmptyCellId = @"emptyCellID";
 @property (nonatomic, strong) UITableView *bookedScheduleTableView;
 @property (nonatomic, strong) UITableView *finishedScheduleTableView;
 @property (nonatomic, strong) SwipeView *containerView;
+@property (nonatomic, strong) HHStudent *currentStudent;
 
 @end
 
@@ -37,9 +42,12 @@ static NSString *kEmptyCellId = @"emptyCellID";
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor HHBackgroundGary];
     self.title = @"预约学车";
-    //[self initSubviews];
-    
-    [self buildNoCoachView];
+    self.currentStudent = [HHStudentStore sharedInstance].currentStudent;
+    if (self.currentStudent.currentCoachId) {
+        [self initSubviews];
+    } else {
+        [self buildNoCoachView];
+    }
 }
 
 - (void)initSubviews {
@@ -53,6 +61,15 @@ static NSString *kEmptyCellId = @"emptyCellID";
     self.containerView.dataSource = self;
     self.containerView.pagingEnabled = YES;
     [self.view addSubview:self.containerView];
+    
+    [[HHCoachService sharedInstance] fetchCoachWithId:self.currentStudent.currentCoachId completion:^(HHCoach *coach, NSError *error) {
+        if (!error) {
+            UIImageView *imageView = [[UIImageView alloc] init];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl]];
+            UIBarButtonItem *imageButton = [[UIBarButtonItem alloc] initWithCustomView:imageView];
+            self.navigationItem.rightBarButtonItem = imageButton;
+        }
+    }];
 
 }
 
