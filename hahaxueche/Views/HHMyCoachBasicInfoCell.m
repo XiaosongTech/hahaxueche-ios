@@ -62,6 +62,10 @@
 }
 
 - (void)setupCellWithCoach:(HHCoach *)coach {
+    self.phoneNumberView.valueLabel.text = coach.cellPhone;
+    
+    HHField *field = [coach getCoachField];
+    self.addressView.valueLabel.text = field.name;
     
 }
 

@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^HHPeerCoachActionBlock)(NSInteger index);
+
 @interface HHCollaborateCoachesView : UIView
 
 @property (nonatomic, strong) UILabel *titleLabel;
 
 @property (nonatomic, strong) NSMutableArray *viewsArray;
+@property (nonatomic, strong) HHPeerCoachActionBlock peerCoachTappedAction;
 
 - (void)setupCellWithCoaches:(NSArray *)coaches;
 

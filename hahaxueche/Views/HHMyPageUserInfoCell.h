@@ -12,16 +12,19 @@
 
 
 typedef void (^HHPaymentViewActionBlock)();
+typedef void (^HHAvatarViewActionBlock)();
 
 @interface HHMyPageUserInfoCell : UITableViewCell
 
 @property (nonatomic, strong) UIView *avatarBackgroungView;
 @property (nonatomic, strong) UIImageView *avatarView;
 @property (nonatomic, strong) UILabel *nameLabel;
+@property (nonatomic, strong) UIImageView *topImageView;
 
 @property (nonatomic, strong) HHMyPageUserInfoView *balanceView;
 @property (nonatomic, strong) HHMyPageUserInfoView *paymentView;
 @property (nonatomic, strong) HHPaymentViewActionBlock paymentViewActionBlock;
+@property (nonatomic, strong) HHAvatarViewActionBlock avatarViewActionBlock;
 
 @property (nonatomic, strong) UIView *verticalLine;
 

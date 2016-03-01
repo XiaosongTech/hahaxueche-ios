@@ -17,8 +17,14 @@
              @"cellPhone": @"cell_phone",
              @"name": @"name",
              @"cityId": @"city_id",
-             @"avatarURL": @"avatar"
+             @"avatarURL": @"avatar",
+             @"purchasedServiceArray":@"purchased_services",
+             @"currentCoachId":@"current_coach_id"
              };
+}
+
++ (NSValueTransformer *)purchasedServiceArrayJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[HHPurchasedService class]];
 }
 
 @end

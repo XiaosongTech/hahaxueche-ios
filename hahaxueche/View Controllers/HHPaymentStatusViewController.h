@@ -8,9 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "HHPurchasedService.h"
+#import "HHCoach.h"
+
+typedef void (^HHPurchasedServiceBlock)(HHPurchasedService *updatedPurchasedService);
 
 @interface HHPaymentStatusViewController : UIViewController
 
-- (instancetype)initWithPurchasedService:(HHPurchasedService *)purchasedService;
+@property (nonatomic, strong) HHPurchasedServiceBlock updatePSBlock;
+
+- (instancetype)initWithPurchasedService:(HHPurchasedService *)purchasedService coach:(HHCoach *)coach;
 
 @end

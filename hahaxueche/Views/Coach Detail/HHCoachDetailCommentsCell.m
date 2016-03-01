@@ -9,7 +9,7 @@
 #import "HHCoachDetailCommentsCell.h"
 #import "Masonry.h"
 #import "UIColor+HHColor.h"
-#import "HHCoachCommentView.h"
+#import "HHCoachReviewView.h"
 
 @implementation HHCoachDetailCommentsCell
 
@@ -51,10 +51,11 @@
     self.botLine.backgroundColor = [UIColor HHLightLineGray];
     [self.botBackgroudView addSubview:self.botLine];
     
-    self.botLabel = [[UILabel alloc] init];
-    self.botLabel.font = [UIFont systemFontOfSize:15.0f];
-    self.botLabel.textColor = [UIColor HHOrange];
-    [self.botBackgroudView addSubview:self.botLabel];
+    self.botButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.botButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    [self.botButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
+    [self.botButton addTarget:self action:@selector(botButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:self.botButton];
     
     [self makeConstraints];
 }
@@ -106,16 +107,18 @@
         make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
     }];
     
-    [self.botLabel makeConstraints:^(MASConstraintMaker *make) {
+    [self.botButton makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.botBackgroudView);
+        make.width.equalTo(self.botBackgroudView.width);
+        make.height.equalTo(self.botBackgroudView.height);
     }];
 }
 
-- (void)setupCellWithCoach:(HHCoach *)coach comments:(NSArray *)comments {
+- (void)setupCellWithCoach:(HHCoach *)coach reviews:(NSArray *)reviews {
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentNatural;
     
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@" 学员评价 (12)" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHOrange], NSParagraphStyleAttributeName:paragraphStyle}];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" 学员评价 (%@)", [coach.reviewCount stringValue]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHOrange], NSParagraphStyleAttributeName:paragraphStyle}];
     
     NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
     textAttachment.image = [UIImage imageNamed:@"ic_coachmsg_pingjia"];
@@ -127,31 +130,34 @@
     self.titleLabel.attributedText = attributedString;
     
     
-    self.aveRatingView.value = 4.5f;
-    self.aveRatingLabel.text = @"4.5分";
+    self.aveRatingView.value = [coach.averageRating floatValue];
+    self.aveRatingLabel.text = [NSString stringWithFormat:@"%.1f分",[coach.averageRating floatValue]];
+
     
-    if (![comments count]) {
-        self.botLabel.text = @"老张教练目前还没有评价";
-        self.botLabel.textColor = [UIColor HHLightTextGray];
+    if (![reviews count]) {
+        [self.botButton setTitle:[NSString stringWithFormat:@"%@教练目前还没有评价", coach.name] forState:UIControlStateNormal];
+        [self.botButton setTitleColor:[UIColor HHLightTextGray] forState:UIControlStateNormal];
+        self.botButton.enabled = NO;
         self.botLine.hidden = YES;
     } else {
-        
+        [self.botButton setTitle:@"点击查看全部" forState:UIControlStateNormal];
+        [self.botButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
+        self.botButton.enabled = YES;
         self.botLine.hidden = NO;
-        self.botLabel.text = @"点击查看全部";
-        self.botLabel.textColor = [UIColor HHOrange];
-        [self addCommentCellsWithComments:comments];
+        [self addReviewCellsWithReviews:reviews];
     }
 }
 
-- (void)addCommentCellsWithComments:(NSArray *)comments {
+- (void)addReviewCellsWithReviews:(NSArray *)reviews {
     NSMutableArray *array = [NSMutableArray array];
-    for (int i = 0; i < comments.count; i++) {
-        HHCoachCommentView *view = [[HHCoachCommentView alloc] init];
-        [view setupViewWithComment:comments[i]];
+    NSInteger count = MIN(reviews.count, 3);
+    for (int i = 0; i < count; i++) {
+        HHCoachReviewView *view = [[HHCoachReviewView alloc] init];
+        [view setupViewWithReview:reviews[i]];
         [self.contentView addSubview:view];
         [array addObject:view];
         
-        if (i == comments.count - 1) {
+        if (i == count - 1) {
             view.botLine.hidden = YES;
         }
         
@@ -163,7 +169,7 @@
                 make.height.mas_equalTo(90.0f);
             }];
         } else {
-            HHCoachCommentView *preView = array[i - 1];
+            HHCoachReviewView *preView = array[i - 1];
             [view makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(preView.bottom);
                 make.left.equalTo(self.contentView.left);
@@ -173,6 +179,12 @@
         }
     }
 
+}
+
+- (void)botButtonTapped {
+    if (self.tapBlock) {
+        self.tapBlock();
+    }
 }
 
 @end

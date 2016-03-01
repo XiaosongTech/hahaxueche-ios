@@ -7,7 +7,6 @@
 //
 
 #import "HHMyCoachDetailViewController.h"
-#import "HHCoach.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "UIColor+HHColor.h"
 #import <SDCycleScrollView/SDCycleScrollView.h>
@@ -20,33 +19,37 @@
 #import "HHMyCoachBasicInfoCell.h"
 #import "HHMyPageCoachCell.h"
 #import "HHMyCoachCourseInfoCell.h"
-#import "HHMyCoachPartnerCoachCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "Masonry.h"
+#import "HHCoachService.h"
+#import "HHLoadingViewUtility.h"
+#import "HHSingleFieldMapViewController.h"
+#import "HHConstantsStore.h"
+#import "HHPriceDetailView.h"
+#import "HHPopupUtility.h"
 
 
 static NSString *const kDescriptionCellID = @"kDescriptionCellID";
 static NSString *const kBasicInfoCellID = @"kBasicInfoCellID";
 static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
-static NSString *const kPartnersCellId = @"kPartnersCellId";
 
 @interface HHMyCoachDetailViewController () <UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIScrollViewDelegate,PBViewControllerDataSource, PBViewControllerDelegate>
 
 @property (nonatomic, strong) HHCoach *coach;
-@property (nonatomic, strong) NSString *coachId;
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) SDCycleScrollView *coachImagesView;
 @property (nonatomic, strong) UIButton *reviewCoachButton;
+@property (nonatomic, strong) KLCPopup *popup;
 
 @end
 
 @implementation HHMyCoachDetailViewController
 
-- (instancetype)initWithCoachId:(NSString *)coachId {
+- (instancetype)initWithCoach:(HHCoach *)coach {
     self = [super init];
     if (self) {
-        self.coachId = coachId;
+        self.coach = coach;
     }
     return self;
 }
@@ -56,7 +59,6 @@ static NSString *const kPartnersCellId = @"kPartnersCellId";
     self.title = @"教练信息";
     self.view.backgroundColor = [UIColor HHBackgroundGary];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
-    
     [self initSubviews];
 }
 
@@ -70,7 +72,6 @@ static NSString *const kPartnersCellId = @"kPartnersCellId";
     [self.tableView registerClass:[HHCoachDetailDescriptionCell class] forCellReuseIdentifier:kDescriptionCellID];
     [self.tableView registerClass:[HHMyCoachBasicInfoCell class] forCellReuseIdentifier:kBasicInfoCellID];
     [self.tableView registerClass:[HHMyCoachCourseInfoCell class] forCellReuseIdentifier:kCourseInfoCellID];
-    [self.tableView registerClass:[HHMyCoachPartnerCoachCell class] forCellReuseIdentifier:kPartnersCellId];
     
     self.coachImagesView = [[SDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 200.0f)];
     self.coachImagesView.delegate = self;
@@ -95,27 +96,45 @@ static NSString *const kPartnersCellId = @"kPartnersCellId";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    __weak HHMyCoachDetailViewController *weakSelf = self;
     switch (indexPath.row) {
         case CoachCellDescription: {
             HHCoachDetailDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:kDescriptionCellID forIndexPath:indexPath];
-            [cell setupCellWithCoach:nil];
+            [cell setupCellWithCoach:weakSelf.coach];
             return cell;
         }
             
         case CoachCellBasicInfo: {
             HHMyCoachBasicInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kBasicInfoCellID forIndexPath:indexPath];
+            [cell setupCellWithCoach:weakSelf.coach];
+            cell.phoneNumberView.actionBlock = ^() {
+                NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",weakSelf.coach.cellPhone]];
+                if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
+                    [[UIApplication sharedApplication] openURL:phoneUrl];
+                }
+            };
+            
+            cell.addressView.actionBlock = ^() {
+                HHSingleFieldMapViewController *vc = [[HHSingleFieldMapViewController alloc] initWithField:[weakSelf.coach getCoachField]];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
             return cell;
         }
             
         case CoachCellCourseInfo: {
             HHMyCoachCourseInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kCourseInfoCellID forIndexPath:indexPath];
-            return cell;
-        }
-            
-        case CoachCellPartnerCoach: {
-            HHMyCoachPartnerCoachCell *cell = [tableView dequeueReusableCellWithIdentifier:kPartnersCellId forIndexPath:indexPath];
-            [cell setupWithCoachList:nil];
+            [cell setupCellWithCoach:weakSelf.coach];
+            cell.feeDetailView.actionBlock = ^() {
+                HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
+                CGFloat height = 190.0f + (city.cityFixedFees.count + 1) * 50.0f;
+                HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"价格明细" totalPrice:weakSelf.coach.price showOKButton:YES];
+                priceView.cancelBlock = ^() {
+                    [HHPopupUtility dismissPopup:weakSelf.popup];
+                };
+                weakSelf.popup = [HHPopupUtility createPopupWithContentView:priceView];
+                [HHPopupUtility showPopup:weakSelf.popup];
+
+            };
             return cell;
         }
             
@@ -129,10 +148,7 @@ static NSString *const kPartnersCellId = @"kPartnersCellId";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case CoachCellDescription: {
-            NSString *text = @"ddshfkashjfhaskdhakjhfjashskhkfhsajkhdfjakshdjfaddkhfkshkjdfhjsfsjhfdkjshdkfhkasdhfjkashdkfhakshdfjkahsdfhakhfjahdkjahkdsjh";
-            
-            
-            return CGRectGetHeight([self getDescriptionTextSizeWithText:text]) + 50.0f;
+            return CGRectGetHeight([self getDescriptionTextSizeWithText:self.coach.bio]) + 50.0f;
         }
             
         case CoachCellBasicInfo: {
@@ -140,13 +156,9 @@ static NSString *const kPartnersCellId = @"kPartnersCellId";
         }
             
         case CoachCellCourseInfo: {
-            return kTopPadding + kTitleViewHeight + 4.0f * kItemViewHeight;
+            return kTopPadding * 2.0f+ kTitleViewHeight + 4.0f * kItemViewHeight;
         }
-            
-        case CoachCellPartnerCoach: {
-            return 140.0f + 36.0f + 15.0f;
-        }
-            
+
         default: {
             return 0;
         }

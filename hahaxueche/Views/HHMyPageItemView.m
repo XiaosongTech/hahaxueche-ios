@@ -56,11 +56,12 @@
     [self.arrowImageView makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.centerY);
         make.right.equalTo(self.right).offset(-15.0f);
+        make.width.mas_equalTo(CGRectGetWidth(self.arrowImageView.bounds));
     }];
     
     [self.valueLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.centerY);
-        make.right.equalTo(self.arrowImageView).offset(-5.0f);
+        make.right.equalTo(self.arrowImageView.left).offset(-5.0f);
         make.left.equalTo(self.titleLabel.right).offset(20.0f);
     }];
     

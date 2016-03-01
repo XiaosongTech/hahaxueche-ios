@@ -42,31 +42,50 @@
     } progress:nil];
 }
 
-- (void)followCoach:(NSString *)coachUserId completion:(HHStudentGenericCompletion)completion {
-     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentFollows, coachUserId]];
-    [APIClient postWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
-        if (completion) {
-            completion(error);
-        }
-    }];
-}
 
-- (void)unfollowCoach:(NSString *)coachUserId completion:(HHStudentGenericCompletion)completion {
-    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentFollows, coachUserId]];
-    [APIClient deleteWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
-        if (completion) {
-            completion(error);
-        }
-    }];
-}
-
-- (void)checkFollowedCoach:(NSString *)coachUserId completion:(HHStudentCheckFollowedCompletion)completion {
-     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentFollows, coachUserId]];
+- (void)fetchPurchasedServiceWithCompletion:(HHStudentPurchasedServiceCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIStudentPurchasedService];
     [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
-            NSNumber *succeed = response[@"result"];
+            HHPurchasedService *purchasedService = [MTLJSONAdapter modelOfClass:[HHPurchasedService class] fromJSONDictionary:response error:nil];
             if (completion) {
-                completion([succeed boolValue]);
+                completion(purchasedService, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
+- (void)fetchStudentWithId:(NSString *)studentId completion:(HHStudentCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudent, studentId]];
+    [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHStudent *student = [MTLJSONAdapter modelOfClass:[HHStudent class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(student, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
+- (void)payStage:(HHPaymentStage *)paymentStage completion:(HHPurchasedServiceCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIStudentPurchasedService];
+    [APIClient putWithParameters:@{@"payment_stage":paymentStage.stageNumber} completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHPurchasedService *purchasedService = [MTLJSONAdapter modelOfClass:[HHPurchasedService class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(purchasedService, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
             }
         }
     }];

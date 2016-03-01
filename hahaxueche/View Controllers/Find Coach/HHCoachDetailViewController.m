@@ -32,6 +32,13 @@
 #import "HHStudentService.h"
 #import "HHStudentStore.h"
 #import "HHIntroViewController.h"
+#import "HHPaymentService.h"
+#import "HHToastManager.h"
+#import "HHFormatUtility.h"
+#import "HHCoachService.h"
+#import "HHReviews.h"
+#import "HHReview.h"
+#import "HHReviewListViewController.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -51,9 +58,12 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) SDCycleScrollView *coachImagesView;
 @property (nonatomic, strong) HHCoach *coach;
+@property (nonatomic, strong) NSString *coachId;
 @property (nonatomic, strong) HHCoachDetailBottomBarView *bottomBar;
-@property (nonatomic, strong) NSArray *comments;
 @property (nonatomic, strong) KLCPopup *popup;
+@property (nonatomic, strong) HHStudent *currentStudent;
+@property (nonatomic, strong) HHReviews *reviewsObject;
+@property (nonatomic, strong) NSArray *reviews;
 
 @end
 
@@ -63,8 +73,35 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     self = [super init];
     if (self) {
         self.coach = coach;
+        self.currentStudent = [HHStudentStore sharedInstance].currentStudent;
     }
     return self;
+}
+
+- (instancetype)initWithCoachId:(NSString *)coachId {
+    self = [super init];
+    if (self) {
+        self.coachId = coachId;
+        self.currentStudent = [HHStudentStore sharedInstance].currentStudent;
+        [[HHCoachService sharedInstance] fetchCoachWithId:self.coachId completion:^(HHCoach *coach, NSError *error) {
+            if (!error) {
+                self.coach = coach;
+                [self.tableView reloadData];
+            }
+        }];
+    }
+    return self;
+}
+
+- (void)setCoach:(HHCoach *)coach {
+    _coach = coach;
+    [[HHCoachService sharedInstance] fetchReviewsWithUserId:self.coach.userId completion:^(HHReviews *reviews, NSError *error) {
+        if (!error) {
+            self.reviewsObject = reviews;
+            self.reviews = reviews.reviews;
+            [self.tableView reloadData];
+        }
+    }];
 }
 
 - (void)viewDidLoad {
@@ -73,8 +110,8 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     self.title = @"教练详情";
     
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(popupVC) target:self];
-    self.comments = @[];
     [self initSubviews];
+    
 }
 
 - (void)initSubviews {
@@ -139,12 +176,12 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.followAction = ^(){
-        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+        if (!weakSelf.currentStudent.studentId) {
             [weakSelf showLoginSignupAlertView];
             return ;
         }
         
-        [[HHStudentService sharedInstance] followCoach:weakSelf.coach.userId completion:^(NSError *error) {
+        [[HHCoachService sharedInstance] followCoach:weakSelf.coach.userId completion:^(NSError *error) {
             if (!error) {
                 weakSelf.bottomBar.followed = YES;
             }
@@ -153,12 +190,12 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.unFollowAction = ^(){
-        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+        if (!weakSelf.currentStudent.studentId) {
             [weakSelf showLoginSignupAlertView];
             return ;
         }
         
-        [[HHStudentService sharedInstance] unfollowCoach:weakSelf.coach.userId completion:^(NSError *error) {
+        [[HHCoachService sharedInstance] unfollowCoach:weakSelf.coach.userId completion:^(NSError *error) {
             if (!error) {
                 weakSelf.bottomBar.followed = NO;
             }
@@ -171,34 +208,61 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             [HHPopupUtility dismissPopup:weakSelf.popup];
         };
         tryCoachView.confirmBlock = ^(NSString *name, NSString *number, NSDate *firstDate, NSDate *secDate) {
-            
+            [[HHCoachService sharedInstance] tryCoachWithId:weakSelf.coach.coachId
+                                                         name:name
+                                                       number:number
+                                                    firstDate:[[HHFormatUtility fullDateFormatter] stringFromDate:firstDate]
+                                                   secondDate:[[HHFormatUtility fullDateFormatter] stringFromDate:secDate]
+                                                   completion:^(NSError *error) {
+                if (!error) {
+                    [[HHToastManager sharedManager] showSuccessToastWithText:@"免费试学预约成功！教练会尽快联系您！"];
+                    [HHPopupUtility dismissPopup:weakSelf.popup];
+                } else {
+                     [[HHToastManager sharedManager] showErrorToastWithText:@"预约失败，请重试！"];
+                }
+            }];
         };
         weakSelf.popup = [HHPopupUtility createPopupWithContentView:tryCoachView];
         [HHPopupUtility showPopup:weakSelf.popup];
     };
     
     self.bottomBar.purchaseCoachAction = ^(){
-        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+        if (!weakSelf.currentStudent.studentId) {
             [weakSelf showLoginSignupAlertView];
             return ;
         }
         
-        [[HHStudentService sharedInstance] unfollowCoach:weakSelf.coach.userId completion:nil];
+        [[HHCoachService sharedInstance] unfollowCoach:weakSelf.coach.userId completion:nil];
         
-        HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, 300.0f) title:@"付款明细" totalPrice:@(2850) showOKButton:NO];
+        HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
+        CGFloat height = 110.0f + (city.cityFixedFees.count + 1) * 50.0f;
+        HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"付款明细" totalPrice:weakSelf.coach.price showOKButton:NO];
+        
         priceView.cancelBlock = ^() {
             [HHPopupUtility dismissPopup:weakSelf.popup];
         };
         
         priceView.confirmBlock = ^(){
             [HHPopupUtility dismissPopup:weakSelf.popup];
+            [[HHPaymentService sharedInstance] payWithCoachId:weakSelf.coach.coachId studentId:weakSelf.currentStudent.studentId inController:weakSelf completion:^(BOOL succeed) {
+                if (succeed) {
+                    [[HHToastManager sharedManager] showSuccessToastWithText:@"支付成功! 请到我的页面查看具体信息."];
+                    [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
+                        [HHStudentStore sharedInstance].currentStudent = student;
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"coachPurchased" object:nil];
+                    }];
+                } else {
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"抱歉，支付失败或者您取消了支付。请重试！"];
+                }
+            }];
+            
         };
         weakSelf.popup = [HHPopupUtility createPopupWithContentView:priceView];
         [HHPopupUtility showPopup:weakSelf.popup];
 
     };
     
-    [[HHStudentService sharedInstance] checkFollowedCoach:self.coach.userId completion:^(BOOL followed) {
+    [[HHCoachService sharedInstance] checkFollowedCoach:self.coach.userId completion:^(BOOL followed) {
         weakSelf.bottomBar.followed = followed;
     }];
     
@@ -224,7 +288,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             HHCoachDetailSectionOneCell *cell = [tableView dequeueReusableCellWithIdentifier:kInfoOneCellID forIndexPath:indexPath];
             cell.priceCellAction = ^() {
                 HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
-                CGFloat height = 100.0f + (city.cityFixedFees.count + 1) * 50.0f;
+                CGFloat height = 190.0f + (city.cityFixedFees.count + 1) * 50.0f;
                 HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"价格明细" totalPrice:weakSelf.coach.price showOKButton:YES];
                 priceView.cancelBlock = ^() {
                     [HHPopupUtility dismissPopup:weakSelf.popup];
@@ -244,12 +308,22 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         case CoachCellInfoTwo: {
             HHCoachDetailSectionTwoCell *cell = [tableView dequeueReusableCellWithIdentifier:kInfoTwoCellID forIndexPath:indexPath];
             [cell setupWithCoach:self.coach];
+            cell.coachesListCell.peerCoachTappedAction = ^(NSInteger index) {
+                HHCoach *coach = self.coach.peerCoaches[index];
+                HHCoachDetailViewController *detailVC = [[HHCoachDetailViewController alloc] initWithCoachId:coach.coachId];
+                [weakSelf.navigationController pushViewController:detailVC animated:YES];
+            };
             return cell;
         }
             
         case CoachCellComments: {
             HHCoachDetailCommentsCell *cell = [tableView dequeueReusableCellWithIdentifier:kCommentsCellID forIndexPath:indexPath];
-            [cell setupCellWithCoach:self.coach comments:self.comments];
+            [cell setupCellWithCoach:self.coach reviews:self.reviews];
+            cell.tapBlock = ^() {
+                HHReviewListViewController *vc = [[HHReviewListViewController alloc] initWithReviews:weakSelf.reviewsObject coach:weakSelf.coach];
+                vc.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
             return cell;
         }
             
@@ -280,10 +354,10 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             
         case CoachCellComments: {
             CGFloat height = 130.0f;
-            if (self.comments.count >= 3) {
+            if (self.reviews.count >= 3) {
                 return height + 90 * 3;
-            } else if (self.comments.count < 3 && self.comments.count > 0){
-                return height + 90 * self.comments.count;
+            } else if (self.reviews.count < 3 && self.reviews.count > 0){
+                return height + 90 * self.reviews.count;
             } else {
                 return height;
             }

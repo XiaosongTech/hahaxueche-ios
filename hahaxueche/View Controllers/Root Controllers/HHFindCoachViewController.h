@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^HHRefreshCoachCompletionBlock)();
+typedef void (^HHUserLocationCompletionBlock)();
+
 @interface HHFindCoachViewController : UIViewController
 
 @end

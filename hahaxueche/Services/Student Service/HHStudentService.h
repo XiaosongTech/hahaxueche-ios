@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "HHStudent.h"
+#import "HHPurchasedService.h"
 
 typedef void (^HHStudentCompletion)(HHStudent *student, NSError *error);
 typedef void (^HHStudentGenericCompletion)(NSError *error);
-typedef void (^HHStudentCheckFollowedCompletion)(BOOL followed);
+typedef void (^HHStudentPurchasedServiceCompletion)(HHPurchasedService *purchasedService, NSError *error);
+typedef void (^HHPurchasedServiceCompletion)(HHPurchasedService *purchasedService, NSError *error);
 
 
 @interface HHStudentService : NSObject
@@ -26,25 +28,26 @@ typedef void (^HHStudentCheckFollowedCompletion)(BOOL followed);
  */
 - (void)uploadStudentAvatarWithImage:(UIImage *)image completion:(HHStudentCompletion)completion;
 
-/**
- Follow a Coach
- @param coachUserId The userId of the coach
- @param completion The completion block to execute on completion
- */
-- (void)followCoach:(NSString *)coachUserId completion:(HHStudentGenericCompletion)completion;
+
 
 /**
- Unfollow a Coach
- @param coachUserId The userId of the coach
+ Fetch PurchasedService
  @param completion The completion block to execute on completion
  */
-- (void)unfollowCoach:(NSString *)coachUserId completion:(HHStudentGenericCompletion)completion;
+- (void)fetchPurchasedServiceWithCompletion:(HHStudentPurchasedServiceCompletion)completion;
+
 
 /**
- Check if the student already follows a coach
- @param coachUserId The userId of the coach
+ Fetch a student
+ @param studentId The studentId of the student
  @param completion The completion block to execute on completion
  */
-- (void)checkFollowedCoach:(NSString *)coachUserId completion:(HHStudentCheckFollowedCompletion)completion;
+- (void)fetchStudentWithId:(NSString *)studentId completion:(HHStudentCompletion)completion;
 
+/**
+ Pay a stage money to Coach
+ @param paymentStage The paymentStage the student wants to pay
+ @param completion The completion block to execute on completion
+ */
+- (void)payStage:(HHPaymentStage *)paymentStage completion:(HHPurchasedServiceCompletion)completion;
 @end

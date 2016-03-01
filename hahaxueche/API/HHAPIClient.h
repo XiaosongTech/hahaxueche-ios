@@ -10,6 +10,7 @@
 #import "AFNetworking.h"
 #import "APIConstants.h"
 
+static NSString *kErrorMessageKey = @"kErrorMessageKey";
 
 typedef void (^HHAPIClientCompletionBlock)(NSDictionary *response, NSError *error);
 

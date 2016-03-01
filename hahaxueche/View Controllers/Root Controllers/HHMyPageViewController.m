@@ -7,7 +7,6 @@
 //
 
 #import "HHMyPageViewController.h"
-#import "ParallaxHeaderView.h"
 #import "HHMyPageUserInfoCell.h"
 #import "UIColor+HHColor.h"
 #import "HHMyPageCoachCell.h"
@@ -21,6 +20,9 @@
 #import "HHSocialMediaShareUtility.h"
 #import "HHUserAuthService.h"
 #import "HHPaymentStatusViewController.h"
+#import "HHFollowedCoachListViewController.h"
+#import "HHToastManager.h"
+#import "HHCoachService.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -37,21 +39,41 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellCount,
 };
 
-@interface HHMyPageViewController() <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UITextViewDelegate>
+@interface HHMyPageViewController() <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UITextView *guestLoginSignupTextView;
+@property (nonatomic, strong) UIActionSheet *avatarOptionsSheet;
+@property (nonatomic, strong) HHStudent *currentStudent;
+
+@property (nonatomic, strong) HHCoach *myCoach;
 
 @end
 
 @implementation HHMyPageViewController
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"我的页面";
     self.view.backgroundColor = [UIColor HHBackgroundGary];
-    
+    self.currentStudent = [HHStudentStore sharedInstance].currentStudent;
     [self initSubviews];
+    if (self.currentStudent.currentCoachId) {
+        [[HHCoachService sharedInstance] fetchCoachWithId:self.currentStudent.currentCoachId completion:^(HHCoach *coach, NSError *error) {
+            if (!error) {
+                self.myCoach = coach;
+                [self.tableView reloadData];
+            }
+        }];
+    }
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(coachPurchased)
+                                                 name:@"coachPurchased"
+                                               object:nil];
 }
 
 - (void)initSubviews {
@@ -87,14 +109,6 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         [self.tableView registerClass:[HHMyPageSupportCell class] forCellReuseIdentifier:kSupportCell];
         [self.tableView registerClass:[HHMyPageHelpCell class] forCellReuseIdentifier:kHelpCell];
         [self.tableView registerClass:[HHMyPageLogoutCell class] forCellReuseIdentifier:kLogoutCell];
-        
-        UIImageView *topBackgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 150.0f)];
-        topBackgroundView.backgroundColor = [UIColor blackColor];
-        //topBackgroundView.image = [UIImage imageNamed:@"pic_local"];
-        
-        ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithImage:[UIImage imageNamed:@"pic_local"] forSize:CGSizeMake(CGRectGetWidth(self.view.bounds), 150.0f)];
-        [self.tableView setTableHeaderView:headerView];
-        [self.tableView sendSubviewToBack:self.tableView.tableHeaderView];
     }
     
 }
@@ -112,11 +126,21 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellUserInfo: {
             HHMyPageUserInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kUserInfoCell];
             cell.paymentViewActionBlock = ^(){
-                HHPaymentStatusViewController *vc = [[HHPaymentStatusViewController alloc] initWithPurchasedService:nil];
-                vc.hidesBottomBarWhenPushed = YES;
-                [weakSelf.navigationController pushViewController:vc animated:YES];
+                if (weakSelf.myCoach) {
+                    HHPaymentStatusViewController *vc = [[HHPaymentStatusViewController alloc] initWithPurchasedService:[self.currentStudent.purchasedServiceArray firstObject] coach:weakSelf.myCoach];
+                    vc.updatePSBlock = ^(HHPurchasedService *updatePS){
+                        weakSelf.currentStudent.purchasedServiceArray = @[updatePS];
+                        [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:MyPageCellUserInfo inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                    };
+                    vc.hidesBottomBarWhenPushed = YES;
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
+                }
+                
             };
-            [cell setupCellWithStudent:[HHStudentStore sharedInstance].currentStudent];
+            cell.avatarViewActionBlock = ^() {
+                [weakSelf showImageOptions];
+            };
+            [cell setupCellWithStudent:self.currentStudent];
             return cell;
             
         } break;
@@ -124,14 +148,19 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellCoach: {
             HHMyPageCoachCell *cell = [tableView dequeueReusableCellWithIdentifier:kCoachCell];
             cell.myCoachView.actionBlock = ^(){
-                HHMyCoachDetailViewController *myCoachVC = [[HHMyCoachDetailViewController alloc] initWithCoachId:nil];
-                myCoachVC.hidesBottomBarWhenPushed = YES;
-                [weakSelf.navigationController pushViewController:myCoachVC animated:YES];
+                if ([weakSelf.currentStudent.purchasedServiceArray count]) {
+                    HHMyCoachDetailViewController *myCoachVC = [[HHMyCoachDetailViewController alloc] initWithCoach:weakSelf.myCoach];
+                    myCoachVC.hidesBottomBarWhenPushed = YES;
+                    [weakSelf.navigationController pushViewController:myCoachVC animated:YES];
+                } else {
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"您还没有购买的教练"];
+                }
             };
             cell.followedCoachView.actionBlock = ^(){
-                
+                HHFollowedCoachListViewController *vc = [[HHFollowedCoachListViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
             };
-            [cell setupCellWithCoach:nil coachList:nil];
             return cell;
         } break;
             
@@ -171,7 +200,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case MyPageCellUserInfo:
-            return 150.0f;
+            return 300.0f;
             
         case MyPageCellCoach:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
@@ -189,17 +218,6 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             return 50;
     }
     
-}
-
-
-#pragma mark - UIScrollView Delegate Methods
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if ([scrollView isEqual:self.tableView]) {
-        // pass the current offset of the UITableView so that the ParallaxHeaderView layouts the subViews.
-        [(ParallaxHeaderView *)self.tableView.tableHeaderView layoutHeaderViewForScrollViewOffset:self.tableView.contentOffset];
-    }
 }
 
 #pragma mark - Others
@@ -236,6 +254,54 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     [alertController addAction:cancelAction];
     
     [self presentViewController:alertController animated:YES completion:nil];
+}
+
+- (void)showImageOptions {
+    self.avatarOptionsSheet = [[UIActionSheet alloc] initWithTitle:@"更换头像" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"从相册中选取", @"拍照", nil];
+    [self.avatarOptionsSheet showInView:self.view];
+}
+
+- (void)coachPurchased {
+    self.currentStudent = [HHStudentStore sharedInstance].currentStudent;
+    if (self.currentStudent.currentCoachId) {
+        [[HHCoachService sharedInstance] fetchCoachWithId:self.currentStudent.currentCoachId completion:^(HHCoach *coach, NSError *error) {
+            if (!error) {
+                self.myCoach = coach;
+                [self.tableView reloadData];
+            }
+        }];
+    }
+}
+
+#pragma mark - UIActionSheet Delegate
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if ([actionSheet isEqual:self.avatarOptionsSheet]) {
+        switch (buttonIndex) {
+            case 0: {
+                if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
+                    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+                    imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                    imagePickerController.delegate = self;
+                    [self presentViewController:imagePickerController animated:YES completion:nil];
+                }
+                
+            } break;
+                
+            case 1: {
+                if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+                    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+                    imagePicker.delegate = self;
+                    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                    imagePicker.allowsEditing = NO;
+                    [self presentViewController:imagePicker animated:YES completion:nil];
+                }
+            } break;
+                
+            default:
+                break;
+        }
+    }
 }
 
 #pragma mark UITextView Delegate

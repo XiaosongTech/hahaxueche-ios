@@ -83,7 +83,9 @@
 }
 
 - (void)setupCellWithCoach:(HHCoach *)coach {
-    
+    self.licenseTypeView.valueLabel.text = [coach licenseTypesName];
+    self.courseTypesView.valueLabel.text = [coach serviceTypesName];
+    self.feeTypeView.valueLabel.text = @"包干";
 }
 
 @end

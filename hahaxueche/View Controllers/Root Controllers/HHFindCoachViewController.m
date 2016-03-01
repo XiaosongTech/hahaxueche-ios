@@ -36,9 +36,6 @@ static NSString *const kCellId = @"kCoachListCellId";
 static CGFloat const kCellHeightNormal = 100.0f;
 static CGFloat const kCellHeightExpanded = 300.0f;
 
-typedef void (^HHRefreshCoachCompletionBlock)();
-typedef void (^HHUserLocationCompletionBlock)();
-
 @interface HHFindCoachViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UIView *topButtonsView;
@@ -54,7 +51,6 @@ typedef void (^HHUserLocationCompletionBlock)();
 
 @property (nonatomic, strong) HHSortView *sortView;
 @property (nonatomic) SortOption currentSortOption;
-@property (nonatomic) BOOL hasMoreCoaches;
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
@@ -91,8 +87,6 @@ typedef void (^HHUserLocationCompletionBlock)();
     [self getUserLocationWithCompletion:^{
         [weakSelf refreshCoachListWithCompletion:nil];
     }];
-    
-    self.hasMoreCoaches = YES;
 
 }
 
@@ -112,12 +106,6 @@ typedef void (^HHUserLocationCompletionBlock)();
         if (!error) {
             weakSelf.coachesObject = coaches;
             weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
-            if (coaches.nextPage) {
-                weakSelf.hasMoreCoaches = YES;
-            } else {
-                weakSelf.hasMoreCoaches = NO;
-            }
-            
             [weakSelf.tableView reloadData];
         }
         
@@ -132,12 +120,6 @@ typedef void (^HHUserLocationCompletionBlock)();
        if (!error) {
            self.coachesObject = coaches;
            [self.coaches addObjectsFromArray:coaches.coaches];
-           if (coaches.nextPage) {
-               self.hasMoreCoaches = YES;
-           } else {
-               self.hasMoreCoaches = NO;
-           }
-           
            [self.tableView reloadData];
        }
        
@@ -145,9 +127,9 @@ typedef void (^HHUserLocationCompletionBlock)();
    }];
 }
 
-- (void)setHasMoreCoaches:(BOOL)hasMoreCoaches {
-    _hasMoreCoaches = hasMoreCoaches;
-    if (!hasMoreCoaches) {
+- (void)setCoachesObject:(HHCoaches *)coachesObject {
+    _coachesObject = coachesObject;
+    if (!coachesObject.nextPage) {
         [self.loadMoreFooter setState:MJRefreshStateNoMoreData];
     } else {
         [self.loadMoreFooter setState:MJRefreshStateIdle];
@@ -283,6 +265,11 @@ typedef void (^HHUserLocationCompletionBlock)();
     HHCoach *coach = self.coaches[indexPath.row];
     [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId]];
 
+    if ([self.expandedCellIndexPath containsObject:indexPath]) {
+        cell.mapView.hidden = NO;
+    } else {
+        cell.mapView.hidden = YES;
+    }
     
     cell.mapButtonBlock = ^(){
         if ([weakSelf.expandedCellIndexPath containsObject:indexPath]) {
@@ -418,6 +405,7 @@ typedef void (^HHUserLocationCompletionBlock)();
         [weakSelf.loadMoreFooter endRefreshing];
     }];
 }
+
 
 
 

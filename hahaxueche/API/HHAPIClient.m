@@ -79,6 +79,7 @@
 - (void)handleError:(NSError **)error requestOperation:(AFHTTPRequestOperation *)requestOperation {
     NSMutableDictionary *userInfo = [[*error userInfo] mutableCopy];
     userInfo[NSLocalizedDescriptionKey] = requestOperation.responseObject[@"description"];
+    userInfo[kErrorMessageKey] = requestOperation.responseObject[@"message"];
     userInfo[NSLocalizedFailureReasonErrorKey] = requestOperation.responseObject[@"code"];
     *error = [NSError errorWithDomain:[*error domain] code:[*error code] userInfo:userInfo];
 }

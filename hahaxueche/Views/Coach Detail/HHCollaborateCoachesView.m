@@ -60,7 +60,11 @@
     int i = 0;
     for (HHCoach *coach in coaches) {
         HHCoachCellView *view = [[HHCoachCellView alloc] initWithCoach:coach];
+        view.tag = i;
         [self addSubview:view];
+        
+        UITapGestureRecognizer *tapRecognizer =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(coachViewTapped:)];
+        [view addGestureRecognizer:tapRecognizer];
         if (i == 0) {
             [view makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(self.titleLabel.bottom);
@@ -82,6 +86,13 @@
         i++;
     }
    
+}
+
+- (void)coachViewTapped:(UITapGestureRecognizer *)recognizer {
+    UIView *view = recognizer.view;
+    if (self.peerCoachTappedAction) {
+        self.peerCoachTappedAction(view.tag);
+    }
 }
 
 @end

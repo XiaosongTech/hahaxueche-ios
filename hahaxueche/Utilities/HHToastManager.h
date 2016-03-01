@@ -10,6 +10,7 @@
 
 @interface HHToastManager : NSObject
 
+
 + (HHToastManager *)sharedManager;
 
 - (void)showErrorToastWithText:(NSString *)text;

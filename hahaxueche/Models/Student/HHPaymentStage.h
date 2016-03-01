@@ -10,4 +10,17 @@
 
 @interface HHPaymentStage : MTLModel <MTLJSONSerializing>
 
+@property (nonatomic, copy) NSString *paymentStageId;
+@property (nonatomic, copy) NSDate *paidAt;
+@property (nonatomic, copy) NSString *paymentMethodId;
+@property (nonatomic, copy) NSNumber *reviewable;
+@property (nonatomic, copy) NSNumber *reviewed;
+@property (nonatomic, copy) NSNumber *readyForReview;
+@property (nonatomic, copy) NSNumber *stageAmount;
+@property (nonatomic, copy) NSString *stageName;
+@property (nonatomic, copy) NSNumber *stageNumber;
+@property (nonatomic, copy) NSString *explanationText;
+
+
+
 @end

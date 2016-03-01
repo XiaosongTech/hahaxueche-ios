@@ -64,7 +64,4 @@
 
 }
 
-- (void)setupCellWithCoach:(HHCoach *)coach coachList:(NSArray *)coachList {
-}
-
 @end

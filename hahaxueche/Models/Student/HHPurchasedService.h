@@ -7,7 +7,22 @@
 //
 
 #import <Mantle/Mantle.h>
+#import "HHCoachAssignment.h"
+#import "HHPaymentStage.h"
 
 @interface HHPurchasedService : MTLModel <MTLJSONSerializing>
+
+@property (nonatomic, strong) NSArray *assignments;
+@property (nonatomic, copy) NSString *chargeId;
+@property (nonatomic, copy) NSNumber *currentStage;
+@property (nonatomic, copy) NSString *purchasedServiceId;
+@property (nonatomic, copy) NSNumber *paidAmount;
+@property (nonatomic, copy) NSNumber *totalAmount;
+@property (nonatomic, copy) NSNumber *unpaidAmount;
+@property (nonatomic, strong) NSArray *paymentStages;
+@property (nonatomic, strong) NSDate *paidAt;
+
+- (HHPaymentStage *)getCurrentPaymentStage;
+- (BOOL)isFinished;
 
 @end

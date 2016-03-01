@@ -1,18 +1,20 @@
 //
-//  HHCoachCommentView.m
+//  HHCoachReviewView.m
 //  hahaxueche
 //
 //  Created by Zixiao Wang on 2/12/16.
 //  Copyright © 2016 Zixiao Wang. All rights reserved.
 //
 
-#import "HHCoachCommentView.h"
+#import "HHCoachReviewView.h"
 #import "Masonry.h"
 #import "UIColor+HHColor.h"
+#import <UIImageView+WebCache.h>
+#import "HHFormatUtility.h"
 
 static CGFloat const kAvatarRadius = 25.0f;
 
-@implementation HHCoachCommentView
+@implementation HHCoachReviewView
 
 - (instancetype)init {
     self = [super init];
@@ -37,6 +39,7 @@ static CGFloat const kAvatarRadius = 25.0f;
     self.dateLabel = [[UILabel alloc] init];
     self.dateLabel.textColor = [UIColor HHLightestTextGray];
     self.dateLabel.font = [UIFont systemFontOfSize:12.0f];
+    self.dateLabel.textAlignment = NSTextAlignmentLeft;
     [self addSubview:self.dateLabel];
     
     self.commentLabel = [[UILabel alloc] init];
@@ -68,16 +71,16 @@ static CGFloat const kAvatarRadius = 25.0f;
         make.left.equalTo(self.avatarView.right).offset(10.0f);
     }];
     
-    [self.dateLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.nameLabel.bottom);
-        make.left.equalTo(self.nameLabel.right).offset(5.0f);
-    }];
-    
     [self.ratingView makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.nameLabel.centerY);
         make.right.equalTo(self.right).offset(-20.0f);
         make.width.mas_equalTo(80.0f);
         make.height.mas_equalTo(20.0f);
+    }];
+    
+    [self.dateLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.nameLabel.centerY);
+        make.left.equalTo(self.nameLabel.right).offset(5.0f);
     }];
     
     [self.commentLabel makeConstraints:^(MASConstraintMaker *make) {
@@ -95,12 +98,12 @@ static CGFloat const kAvatarRadius = 25.0f;
     }];
 }
 
-- (void)setupViewWithComment:(HHCoachComment *)comment {
-    self.avatarView.image = [UIImage imageNamed:@"pic_local"];
-    self.nameLabel.text = @"老张";
-    self.dateLabel.text = @"2016/1/1";
-    self.ratingView.value = 5.0;
-    self.commentLabel.text = @"太好了太好了实在太好了太好了实在太好了太好了太好了实在太好了太好了实在太好了太好了太好了实在太好了太好了实在太好了太好了太好了实在太好了太好了实在太好了";
+- (void)setupViewWithReview:(HHReview *)review {
+    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:review.reviewer.avatarUrl]];
+    self.nameLabel.text = review.reviewer.reviewerName;
+    self.dateLabel.text = [[HHFormatUtility fullDateFormatter] stringFromDate:review.updatedAt];;
+    self.ratingView.value = [review.rating integerValue];
+    self.commentLabel.text = review.comment;
 }
 
 @end

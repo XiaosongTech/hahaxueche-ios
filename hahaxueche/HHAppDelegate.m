@@ -24,6 +24,9 @@
 #import "HHLaunchImageViewController.h"
 #import <MAMapKit/MAMapKit.h>
 #import "HHSocialMediaShareUtility.h"
+#import <Pingpp/Pingpp.h>
+#import "HHStudentService.h"
+#import "HHToastManager.h"
 
 static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
@@ -42,19 +45,27 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
         if (constants) {
             if ([[HHUserAuthService sharedInstance] getSavedUser] && [HHKeychainStore getSavedAccessToken]) {
-                HHStudent *student = [[[HHUserAuthService sharedInstance] getSavedUser] student];
-                [HHStudentStore sharedInstance].currentStudent = student;
-                if (!student.name || !student.cityId) {
-                    // Student created, but not set up yet
-                    HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
-                    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
-                    [self.window setRootViewController:navVC];
-                } else {
-                    // Get the saved student object, we lead user to rootVC
-                    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-                    [self.window setRootViewController:rootVC];
-                }
-                
+                HHStudent *savedStudent = [[[HHUserAuthService sharedInstance] getSavedUser] student];
+                [[HHStudentService sharedInstance] fetchStudentWithId:savedStudent.studentId completion:^(HHStudent *student, NSError *error) {
+                    if (!error) {
+                        [HHStudentStore sharedInstance].currentStudent = student;
+                        if (!savedStudent.name || !savedStudent.cityId) {
+                            // Student created, but not set up yet
+                            HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:savedStudent.studentId];
+                            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
+                            [self.window setRootViewController:navVC];
+                        } else {
+                            // Get the saved student object, we lead user to rootVC
+                            HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+                            [self.window setRootViewController:rootVC];
+                        }
+                    } else {
+                        HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+                        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+                        [self.window setRootViewController:navVC];
+                    }
+                    
+                }];
                 
             } else {
                 HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
@@ -70,6 +81,11 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [self setupAllThirdPartyServices];
     [self setAppearance];
     return YES;
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary *)options {
+    BOOL canHandleURL = [Pingpp handleOpenURL:url withCompletion:nil];
+    return canHandleURL;
 }
 
 
@@ -96,6 +112,7 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 #ifdef DEBUG
     [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventShake];
     [Instabug setIsTrackingCrashes:NO];
+    [Pingpp setDebugMode:YES];
 #else
     NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
     NSString *receiptURLString = [receiptURL path];

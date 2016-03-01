@@ -22,6 +22,8 @@
 
 + (NSDateFormatter *)fullDateFormatter;
 
++ (NSDateFormatter *)backendDateFormatter;
+
 + (NSNumberFormatter *)numberFormatter;
 
 @end
