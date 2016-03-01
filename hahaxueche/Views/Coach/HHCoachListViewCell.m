@@ -189,7 +189,7 @@ static CGFloat const kAvatarRadius = 30.0f;
 
 - (void)setupCellWithCoach:(HHCoach *)coach field:(HHField *)field {
     self.field = field;
-    self.ratingLabel.text = [NSString stringWithFormat:@"%@分", [coach.averageRating stringValue]];
+    self.ratingLabel.text = [NSString stringWithFormat:@"%.1f分",[coach.averageRating floatValue]];;
     [self.mapButton setTitle:[field cityAndDistrict] forState:UIControlStateNormal];
     [self.avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl]];
     self.nameLabel.text = coach.name;

@@ -71,7 +71,7 @@ static NSString *kCellID = @"kCellId";
     
     self.ratingLabel = [[UILabel alloc] init];
     self.ratingLabel.textColor = [UIColor HHOrange];
-    self.ratingLabel.text = [NSString stringWithFormat:@"%@分", [self.coach.averageRating stringValue]];
+    self.ratingLabel.text = [NSString stringWithFormat:@"%.1f分",[self.coach.averageRating floatValue]];;
     self.ratingLabel.font = [UIFont systemFontOfSize:13.0f];
     [self.topContainerView addSubview:self.ratingLabel];
     

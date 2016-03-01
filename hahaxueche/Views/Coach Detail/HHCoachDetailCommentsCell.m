@@ -109,6 +109,8 @@
     
     [self.botButton makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.botBackgroudView);
+        make.width.equalTo(self.botBackgroudView.width);
+        make.height.equalTo(self.botBackgroudView.height);
     }];
 }
 
@@ -116,7 +118,7 @@
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentNatural;
     
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" 学员评价 (%ld)", [reviews count]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHOrange], NSParagraphStyleAttributeName:paragraphStyle}];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" 学员评价 (%@)", [coach.reviewCount stringValue]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHOrange], NSParagraphStyleAttributeName:paragraphStyle}];
     
     NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
     textAttachment.image = [UIImage imageNamed:@"ic_coachmsg_pingjia"];
@@ -128,8 +130,8 @@
     self.titleLabel.attributedText = attributedString;
     
     
-    self.aveRatingView.value = [coach.averageRating floatValue];;
-    self.aveRatingLabel.text = [coach.averageRating stringValue];
+    self.aveRatingView.value = [coach.averageRating floatValue];
+    self.aveRatingLabel.text = [NSString stringWithFormat:@"%.1f分",[coach.averageRating floatValue]];
 
     
     if (![reviews count]) {

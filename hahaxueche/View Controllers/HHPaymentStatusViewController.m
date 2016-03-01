@@ -20,6 +20,8 @@
 #import "HHMakeReviewView.h"
 #import "HHStudentService.h"
 #import "HHToastManager.h"
+#import "HHCoachService.h"
+#import "HHStudentStore.h"
 
 
 static NSString *const kExplanationText = @"注：学员支付的学费将由平台保管，每个阶段结束后，学员可以根据情况，点击确认打款按钮。点击后，平台将阶段对应金额打给教练，然后进入下个阶段。每个阶段的金额会在点击付款后的第一个周二转到教练账户。";
@@ -202,7 +204,7 @@ static NSString *const kCellId = @"CellId";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 60.0f;
+    return 70.0f;
 }
 
 
@@ -254,6 +256,32 @@ static NSString *const kCellId = @"CellId";
 
 - (void)makeReviewWithPaymentStage:(HHPaymentStage *)paymentStage {
     
+    __weak HHPaymentStatusViewController *weakSelf = self;
+    HHMakeReviewView *reviewView = [[HHMakeReviewView alloc] initWithFrame:CGRectMake(0, 0, 300.0f, 230.0f)];
+    reviewView.makeReviewBlock = ^(NSNumber *rating, NSString *comment){
+        if ([comment isEqualToString:@""]) {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"评论为空，写点什么给教练吧！"];
+            return ;
+        }
+        
+        [[HHCoachService sharedInstance] makeReviewWithCoachUserId:weakSelf.coach.userId paymentStage:paymentStage.stageNumber rating:rating comment:comment completion:^(HHReview *review, NSError *error) {
+            if (!error) {
+                [HHPopupUtility dismissPopup:self.popup];
+                [[HHToastManager sharedManager] showSuccessToastWithText:@"成功评价教练！"];
+                paymentStage.reviewed = @(1);
+                [weakSelf.tableView reloadData];
+            } else {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"评价教练失败,请重试!"];
+            }
+        }];
+    };
+    
+    reviewView.cancelBlock = ^(){
+        [HHPopupUtility dismissPopup:self.popup];
+    };
+    self.popup = [HHPopupUtility createPopupWithContentView:reviewView];
+    [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+
 }
 
 - (void)confirmPayButtonTapped {
@@ -269,6 +297,11 @@ static NSString *const kCellId = @"CellId";
     [[HHStudentService sharedInstance] payStage:self.currentPaymentStage completion:^(HHPurchasedService *purchasedService, NSError *error) {
         if (!error) {
             [HHPopupUtility dismissPopup:self.popup];
+            
+            if ([self.currentPaymentStage.reviewable boolValue]) {
+                [self makeReviewWithPaymentStage:self.currentPaymentStage];
+            }
+            
             if (self.updatePSBlock) {
                 self.updatePSBlock(purchasedService);
             }
@@ -279,6 +312,12 @@ static NSString *const kCellId = @"CellId";
             [self.topView updatePaidAndUnpaidAmount:purchasedService];
             [self.tableView reloadData];
             [[HHToastManager sharedManager] showSuccessToastWithText:@"打款成功！"];
+            
+            if ([self.purchasedService isFinished]) {
+                self.bottomLabel.hidden = YES;
+                self.confirmPayButton.hidden = YES;
+                self.congratulationLabel.hidden = NO;
+            }
         } else {
             [[HHToastManager sharedManager] showErrorToastWithText:@"打款失败，请重试！"];
         }
@@ -287,12 +326,6 @@ static NSString *const kCellId = @"CellId";
 
 - (void)dismissPopup {
     [HHPopupUtility dismissPopup:self.popup];
-}
-
-- (void)showReviewView {
-    HHMakeReviewView *reviewView = [[HHMakeReviewView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-30.0f, 260.0f)];
-    self.popup = [HHPopupUtility createPopupWithContentView:reviewView];
-    [HHPopupUtility showPopup:self.popup];
 }
 
 @end

@@ -135,6 +135,10 @@ static CGFloat const avatarRadius = 40.0f;
         showStageArrow = YES;
         HHPaymentStage *stage = [purchasedService getCurrentPaymentStage];
         stageString = stage.stageName;
+        
+        if ([purchasedService isFinished]) {
+            stageString = @"已拿证";
+        }
     }
     
     [self.balanceView setupViewWithTitle:@"账户余额" value:balanceString showArrow:NO];

@@ -10,7 +10,6 @@
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
 
-static NSString *const kPlaceholder = @"您对哈哈学车的教练还满意吗？在这里写下给教练的评价吧！～";
 
 @implementation HHMakeReviewView
 
@@ -36,10 +35,14 @@ static NSString *const kPlaceholder = @"您对哈哈学车的教练还满意吗�
         self.textView = [[UITextView alloc] init];
         self.textView.delegate = self;
         self.textView.textColor = [UIColor  HHLightestTextGray];
+        self.textView.font = [UIFont systemFontOfSize:16.0f];
         self.textView.text = kPlaceholder;
+        self.textView.returnKeyType = UIReturnKeyDone;
         [self addSubview:self.textView];
         
         self.buttonsView = [[HHConfirmCancelButtonsView alloc] initWithLeftTitle:@"确认评价" rightTitle:@"稍后评价"];
+        [self.buttonsView.leftButton addTarget:self action:@selector(confirmButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+        [self.buttonsView.rightButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.buttonsView];
         
         [self makeConstraints];
@@ -56,8 +59,8 @@ static NSString *const kPlaceholder = @"您对哈哈学车的教练还满意吗�
     [self.starRatingView makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.titleLabel.centerY);
         make.right.equalTo(self.right).offset(-15.0f);
-        make.width.mas_equalTo(100.0f);
-        make.height.mas_equalTo(40.0f);
+        make.width.mas_equalTo(120.0f);
+        make.height.mas_equalTo(50.0f);
     }];
     
     [self.topLine makeConstraints:^(MASConstraintMaker *make) {
@@ -71,7 +74,7 @@ static NSString *const kPlaceholder = @"您对哈哈学车的教练还满意吗�
         make.centerX.equalTo(self.centerX);
         make.top.equalTo(self.topLine.bottom);
         make.width.equalTo(self.width).offset(-30.0f);
-        make.height.mas_equalTo(150.0f);
+        make.height.mas_equalTo(120.0f);
     }];
     
     [self.buttonsView makeConstraints:^(MASConstraintMaker *make) {
@@ -97,5 +100,35 @@ static NSString *const kPlaceholder = @"您对哈哈学车的教练还满意吗�
     }
     [textView resignFirstResponder];
 }
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    if([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    
+    return YES;
+}
+
+
+- (void)confirmButtonTapped {
+    NSString *comment = self.textView.text;
+    if ([comment isEqualToString:kPlaceholder]) {
+        comment = @"";
+    } else if ([comment stringByReplacingOccurrencesOfString:@" " withString:@""]) {
+        comment = @"";
+    }
+    if (self.makeReviewBlock) {
+        self.makeReviewBlock(@(self.starRatingView.value), self.textView.text);
+    }
+}
+
+- (void)cancelButtonTapped {
+    if (self.cancelBlock) {
+        self.cancelBlock();
+    }
+}
+
 
 @end

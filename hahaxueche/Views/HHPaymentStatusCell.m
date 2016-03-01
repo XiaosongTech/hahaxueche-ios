@@ -50,28 +50,28 @@ static CGFloat kNumberLabelRadius = 12.0f;
 - (UILabel *)buildLabel {
     UILabel *label = [[UILabel alloc] init];
     label.textColor = [UIColor HHLightTextGray];
-    label.font = [UIFont systemFontOfSize:15.0f];
+    label.font = [UIFont systemFontOfSize:14.0f];
     return label;
 }
 
 - (void)makeConstraints {
     [self.stepNumberLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.contentView.centerY);
-        make.left.equalTo(self.contentView.left).offset(20.0f);
+        make.left.equalTo(self.contentView.left).offset(10.0f);
         make.width.mas_equalTo(kNumberLabelRadius * 2.0f);
         make.height.mas_equalTo(kNumberLabelRadius * 2.0f);
     }];
     
     [self.feeNameLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.contentView.centerY);
-        make.left.equalTo(self.stepNumberLabel.right).offset(20.0f);
-        make.width.mas_lessThanOrEqualTo(80.0f);
+        make.left.equalTo(self.stepNumberLabel.right).offset(10.0f);
+        make.width.mas_lessThanOrEqualTo(70.0f);
         make.height.equalTo(self.height);
     }];
     
     [self.feeAmountLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.contentView.centerY);
-        make.left.equalTo(self.feeNameLabel.right).offset(20.0f);
+        make.left.equalTo(self.feeNameLabel.right).offset(10.0f);
     }];
     
     [self.rightButton makeConstraints:^(MASConstraintMaker *make) {
@@ -83,7 +83,7 @@ static CGFloat kNumberLabelRadius = 12.0f;
     
     [self.statusLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.contentView.centerY);
-        make.right.equalTo(self.rightButton.left).offset(-20.0f);
+        make.right.equalTo(self.rightButton.left).offset(-10.0f);
     }];
 }
 
