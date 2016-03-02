@@ -124,7 +124,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     self.coachImagesView = [[SDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 200.0f)];
     self.coachImagesView.delegate = self;
     self.coachImagesView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
-    self.coachImagesView.imageURLStringsGroup = @[@"https://i.ytimg.com/vi/eOifa1WrOnQ/maxresdefault.jpg",@"https://i.ytimg.com/vi/eOifa1WrOnQ/maxresdefault.jpg"];
+    self.coachImagesView.imageURLStringsGroup = @[@"http://ac-iylpzs1k.clouddn.com/91a8aef96d106d03c74b.JPG",@"http://ac-iylpzs1k.clouddn.com/e0eb189f4c33b6b0b496.JPG",@"http://ac-iylpzs1k.clouddn.com/e7fa4069a2f0b4d8f1a3.JPG",@"http://ac-iylpzs1k.clouddn.com/0dd6a8609d0e7e56f829.JPG"];
     self.coachImagesView.autoScroll = NO;
     
     [self.tableView registerClass:[HHCoachDetailDescriptionCell class] forCellReuseIdentifier:kDescriptionCellID];
@@ -400,11 +400,11 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 #pragma mark - PBViewControllerDataSource & PBViewControllerDelegate
 
 - (NSInteger)numberOfPagesInViewController:(PBViewController *)viewController {
-    return 2;
+    return 4;
 }
 
 - (void)viewController:(PBViewController *)viewController presentImageView:(UIImageView *)imageView forPageAtIndex:(NSInteger)index {
-    NSArray *images = @[@"https://i.ytimg.com/vi/eOifa1WrOnQ/maxresdefault.jpg",@"https://i.ytimg.com/vi/eOifa1WrOnQ/maxresdefault.jpg"];
+    NSArray *images = @[@"http://ac-iylpzs1k.clouddn.com/91a8aef96d106d03c74b.JPG",@"http://ac-iylpzs1k.clouddn.com/e0eb189f4c33b6b0b496.JPG",@"http://ac-iylpzs1k.clouddn.com/e7fa4069a2f0b4d8f1a3.JPG",@"http://ac-iylpzs1k.clouddn.com/0dd6a8609d0e7e56f829.JPG"];
     [imageView sd_setImageWithURL:[NSURL URLWithString:images[index]]];
 }
 

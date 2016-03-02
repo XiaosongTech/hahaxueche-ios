@@ -16,7 +16,7 @@
              @"name": @"name",
              @"userId": @"user_id",
              @"coachId": @"id",
-             @"avatarUrl": @"avatar_url",
+             @"avatarUrl": @"avatar",
              @"cityId": @"city_id",
              @"averageRating": @"average_rating",
              @"price":@"coach_group.training_cost",
