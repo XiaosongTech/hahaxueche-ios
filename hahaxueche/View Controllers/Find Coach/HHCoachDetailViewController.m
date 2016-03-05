@@ -124,7 +124,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     self.coachImagesView = [[SDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 200.0f)];
     self.coachImagesView.delegate = self;
     self.coachImagesView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
-    self.coachImagesView.imageURLStringsGroup = @[@"https://i.ytimg.com/vi/eOifa1WrOnQ/maxresdefault.jpg",@"https://i.ytimg.com/vi/eOifa1WrOnQ/maxresdefault.jpg"];
+    self.coachImagesView.imageURLStringsGroup = self.coach.images;
     self.coachImagesView.autoScroll = NO;
     
     [self.tableView registerClass:[HHCoachDetailDescriptionCell class] forCellReuseIdentifier:kDescriptionCellID];
@@ -400,12 +400,11 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 #pragma mark - PBViewControllerDataSource & PBViewControllerDelegate
 
 - (NSInteger)numberOfPagesInViewController:(PBViewController *)viewController {
-    return 2;
+    return self.coach.images.count;
 }
 
 - (void)viewController:(PBViewController *)viewController presentImageView:(UIImageView *)imageView forPageAtIndex:(NSInteger)index {
-    NSArray *images = @[@"https://i.ytimg.com/vi/eOifa1WrOnQ/maxresdefault.jpg",@"https://i.ytimg.com/vi/eOifa1WrOnQ/maxresdefault.jpg"];
-    [imageView sd_setImageWithURL:[NSURL URLWithString:images[index]]];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:self.coach.images[index]]];
 }
 
 - (void)viewController:(PBViewController *)viewController didSingleTapedPageAtIndex:(NSInteger)index presentedImage:(UIImage *)presentedImage {

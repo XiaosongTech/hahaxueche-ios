@@ -120,7 +120,7 @@
         comment = @"";
     }
     if (self.makeReviewBlock) {
-        self.makeReviewBlock(@(self.starRatingView.value), self.textView.text);
+        self.makeReviewBlock(@(self.starRatingView.value), comment);
     }
 }
 

@@ -153,6 +153,9 @@
 		14B5EB8B1C7E0EE600A37669 /* HHReviews.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B5EB8A1C7E0EE600A37669 /* HHReviews.m */; };
 		14F608DA1C83BDEF00EA70A7 /* HHPayCoachExplanationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F608D91C83BDEF00EA70A7 /* HHPayCoachExplanationView.m */; };
 		14F608DD1C83D4CE00EA70A7 /* HHMakeReviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F608DC1C83D4CE00EA70A7 /* HHMakeReviewView.m */; };
+		14F608E71C86998F00EA70A7 /* launch.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F608E41C86998F00EA70A7 /* launch.png */; };
+		14F608E81C86998F00EA70A7 /* launch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F608E51C86998F00EA70A7 /* launch@2x.png */; };
+		14F608E91C86998F00EA70A7 /* launch@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F608E61C86998F00EA70A7 /* launch@3x.png */; };
 		14F9D4901C71223E0010F3FA /* HHCoaches.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F9D48F1C71223E0010F3FA /* HHCoaches.m */; };
 		14F9D4941C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F9D4911C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian.png */; };
 		14F9D4951C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14F9D4921C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian@2x.png */; };
@@ -546,6 +549,9 @@
 		14F608D91C83BDEF00EA70A7 /* HHPayCoachExplanationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPayCoachExplanationView.m; sourceTree = "<group>"; };
 		14F608DB1C83D4CE00EA70A7 /* HHMakeReviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMakeReviewView.h; sourceTree = "<group>"; };
 		14F608DC1C83D4CE00EA70A7 /* HHMakeReviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMakeReviewView.m; sourceTree = "<group>"; };
+		14F608E41C86998F00EA70A7 /* launch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch.png; sourceTree = "<group>"; };
+		14F608E51C86998F00EA70A7 /* launch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch@2x.png"; sourceTree = "<group>"; };
+		14F608E61C86998F00EA70A7 /* launch@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch@3x.png"; sourceTree = "<group>"; };
 		14F9D48E1C71223E0010F3FA /* HHCoaches.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoaches.h; sourceTree = "<group>"; };
 		14F9D48F1C71223E0010F3FA /* HHCoaches.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoaches.m; sourceTree = "<group>"; };
 		14F9D4911C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_coachmsg_sharecoach_kongjian.png; sourceTree = "<group>"; };
@@ -1358,6 +1364,9 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				14F608E41C86998F00EA70A7 /* launch.png */,
+				14F608E51C86998F00EA70A7 /* launch@2x.png */,
+				14F608E61C86998F00EA70A7 /* launch@3x.png */,
 				1482A9AC1C8236D2007F9019 /* ic_assess_paysuccess.png */,
 				1482A9AD1C8236D2007F9019 /* ic_assess_paysuccess@2x.png */,
 				1482A9AE1C8236D2007F9019 /* ic_assess_paysuccess@3x.png */,
@@ -1704,6 +1713,7 @@
 				5C36D41C1C496ECD00443545 /* ic_sort_price_hold_btn@1x.png in Resources */,
 				141FA0ED1C66CB6300113B1A /* ic_homepage_hahahere@3x.png in Resources */,
 				5C36D4111C496ECD00443545 /* ic_sort_local_hold_btn@2x.png in Resources */,
+				14F608E91C86998F00EA70A7 /* launch@3x.png in Resources */,
 				5C36D3711C42D9F800443545 /* ic_bottombar_date_hold_btn@3x.png in Resources */,
 				140EC6081C6D68D000DA634D /* ic_coachmsg_coachlevel@3x.png in Resources */,
 				5C36D3BC1C474FF600443545 /* ic_screen_normal_btn@3x.png in Resources */,
@@ -1789,8 +1799,10 @@
 				14B5EB821C7CE69800A37669 /* ic_mypage_bk@2x.png in Resources */,
 				147A9FF41C7AAA29000DED3B /* ic_paylist_message_btn_unfocus.png in Resources */,
 				5C6D8C8D1C3AD6840055CB31 /* ic_toast_right@1x.png in Resources */,
+				14F608E71C86998F00EA70A7 /* launch.png in Resources */,
 				5C36D3B71C474FF600443545 /* ic_screen_hold_btn@1X.png in Resources */,
 				141FA0E81C66CB6300113B1A /* ic_homepage_coachhere.png in Resources */,
+				14F608E81C86998F00EA70A7 /* launch@2x.png in Resources */,
 				140EC60D1C6D68D000DA634D /* ic_coachmsg_time@2x.png in Resources */,
 				140EC6071C6D68D000DA634D /* ic_coachmsg_coachlevel@2x.png in Resources */,
 				140EC60B1C6D68D000DA634D /* ic_coachmsg_manyidu@3x.png in Resources */,
@@ -2084,8 +2096,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Zixiao Wang (56T5B8L6FJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zixiao Wang (56T5B8L6FJ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 子潇 王 (PABSJAYU9Q)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 子潇 王 (PABSJAYU9Q)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
@@ -2110,7 +2122,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "308b550e-9b06-415c-970c-1829c4e81343";
+				PROVISIONING_PROFILE = "41335927-8137-423d-a10a-500ca24aaf5b";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -2132,8 +2144,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Zixiao Wang (56T5B8L6FJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zixiao Wang (56T5B8L6FJ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 子潇 王 (PABSJAYU9Q)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 子潇 王 (PABSJAYU9Q)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
@@ -2152,7 +2164,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "308b550e-9b06-415c-970c-1829c4e81343";
+				PROVISIONING_PROFILE = "41335927-8137-423d-a10a-500ca24aaf5b";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

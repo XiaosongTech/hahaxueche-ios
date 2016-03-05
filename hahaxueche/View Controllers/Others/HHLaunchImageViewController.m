@@ -22,7 +22,7 @@
     [super viewDidLoad];
     
     self.imageView = [[UIImageView alloc] init];
-    self.imageView.image = [UIImage imageNamed:@"launchImage"];
+    self.imageView.image = [UIImage imageNamed:@"launch"];
     [self.view addSubview:self.imageView];
     
     self.indicatorView = [[UIActivityIndicatorView alloc] init];

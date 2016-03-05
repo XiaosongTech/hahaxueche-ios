@@ -268,7 +268,7 @@ static NSString *const kCellId = @"CellId";
             if (!error) {
                 [HHPopupUtility dismissPopup:self.popup];
                 [[HHToastManager sharedManager] showSuccessToastWithText:@"成功评价教练！"];
-                paymentStage.reviewed = @(1);
+                [self updateReviewed:paymentStage];
                 [weakSelf.tableView reloadData];
             } else {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"评价教练失败,请重试!"];
@@ -326,6 +326,15 @@ static NSString *const kCellId = @"CellId";
 
 - (void)dismissPopup {
     [HHPopupUtility dismissPopup:self.popup];
+}
+
+- (void)updateReviewed:(HHPaymentStage *)paymentStage {
+    for (HHPaymentStage *stage in self.purchasedService.paymentStages) {
+        if ([stage.paymentStageId isEqualToString:paymentStage.paymentStageId]) {
+            stage.reviewed = @(1);
+            break;
+        }
+    }
 }
 
 @end
