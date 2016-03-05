@@ -16,8 +16,14 @@
 #include "HHConstantsStore.h"
 #import "HHPopupUtility.h"
 #import <KLCPopup/KLCPopup.h>
+#import "HHCoachService.h"
+#import "HHLoadingViewUtility.h"
+#import "HHToastManager.h"
+#import "INTULocationManager.h"
+#import "HHFindCoachViewController.h"
+#import "HHCoachDetailViewController.h"
 
-@interface HHHomePageViewController ()
+@interface HHHomePageViewController () <SDCycleScrollViewDelegate>
 
 @property (nonatomic, strong) SDCycleScrollView *bannerView;
 @property (nonatomic, strong) HHHomePageTapView *leftView;
@@ -25,6 +31,8 @@
 @property (nonatomic, strong) UIButton *oneTapButton;
 @property (nonatomic, strong) HHCitySelectView *citySelectView;
 @property (nonatomic, strong) KLCPopup *popup;
+@property (nonatomic, strong) CLLocation *userLocation;
+@property (nonatomic, strong) NSArray *banners;
 
 @end
 
@@ -35,6 +43,7 @@
     self.title = @"哈哈学车";
     self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1];
     self.automaticallyAdjustsScrollViewInsets = NO;
+    self.banners = [[HHConstantsStore sharedInstance] getHomePageBanners];
     [self initSubviews];
     
     __weak HHHomePageViewController *weakSelf = self;
@@ -68,8 +77,9 @@
 
 - (void)initSubviews {
     self.bannerView = [[SDCycleScrollView alloc] init];
-    self.bannerView.imageURLStringsGroup = @[@"http://i.forbesimg.com/media/lists/companies/facebook_416x416.jpg",@"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Facebook_icon.svg/2000px-Facebook_icon.svg.png"];
+    self.bannerView.imageURLStringsGroup = self.banners;
     self.bannerView.autoScroll = NO;
+    self.bannerView.delegate = self;
     self.bannerView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
     [self.view addSubview:self.bannerView];
     
@@ -129,7 +139,85 @@
 #pragma mark - Button Actions 
 
 - (void)oneTapButtonTapped {
+    if (self.userLocation) {
+        [self getCoach];
+        return;
+    }
+    
+    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyBlock timeout:10.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
+        
+        if (status == INTULocationStatusSuccess) {
+            self.userLocation = currentLocation;
+            [self getCoach];
+            
+        } else if (status == INTULocationStatusServicesDenied){
+            self.userLocation = nil;
+            [self showAlertForPermission];
+            
+        } else if (status == INTULocationStatusError) {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了，请重试"];
+            self.userLocation = nil;
+        }
+        
+    }];
+   
+}
+
+- (void)getCoach {
+    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"寻找教练中"];
+    
+    NSNumber *lat = @(self.userLocation.coordinate.latitude);
+    NSNumber *lon = @(self.userLocation.coordinate.longitude);
+    NSArray *locationArray = @[lat, lon];
+    [[HHCoachService sharedInstance] oneClickFindCoachWithLocation:locationArray completion:^(HHCoach *coach, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (!error) {
+            if (coach.coachId) {
+                HHCoachDetailViewController *vc = [[HHCoachDetailViewController alloc] initWithCoach:coach];
+                [self.navigationController pushViewController:vc animated:YES];
+            } else {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"非常抱歉，没有在您周围找到合适的教练！"];
+            }
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了，请重试！"];
+        }
+    }];
+}
+
+- (void)showAlertForPermission {
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:@"哈哈学车需要您的地理位置信息"
+                                          message:@"为了更好的帮助您找到最合适的教练，我们需要您开启地理位置功能。"
+                                          preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *cancelAction = [UIAlertAction
+                                   actionWithTitle:@"暂时不开"
+                                   style:UIAlertActionStyleCancel
+                                   handler:nil];
+    
+    UIAlertAction *okAction = [UIAlertAction
+                               actionWithTitle:@"去开启"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction *action) {
+                                   NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+                                   [[UIApplication sharedApplication] openURL:url];
+                                   [self.navigationController popViewControllerAnimated:YES];
+                               }];
+    
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
     
 }
+
+- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
+    if (index == 0) {
+        
+    } else if (index == 1) {
+        
+    }
+}
+
 
 @end

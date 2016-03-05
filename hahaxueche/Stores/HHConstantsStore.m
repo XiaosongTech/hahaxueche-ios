@@ -93,4 +93,12 @@
     return nil;
 }
 
+- (NSArray *)getLoginBanners {
+    return [HHConstantsStore sharedInstance].constants.loginBanners;
+}
+
+- (NSArray *)getHomePageBanners {
+    return [HHConstantsStore sharedInstance].constants.homePageBanners;
+}
+
 @end

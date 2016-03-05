@@ -16,6 +16,8 @@
     return @{
              @"cities": @"cities",
              @"fields": @"fields",
+             @"loginBanners": @"login_banners",
+             @"homePageBanners": @"home_page_banners",
              };
 }
 
