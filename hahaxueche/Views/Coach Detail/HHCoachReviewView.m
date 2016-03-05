@@ -45,7 +45,7 @@ static CGFloat const kAvatarRadius = 25.0f;
     self.commentLabel = [[UILabel alloc] init];
     self.commentLabel.textColor = [UIColor HHLightTextGray];
     self.commentLabel.numberOfLines = 0;
-    self.commentLabel.font = [UIFont systemFontOfSize:12.0f];
+    self.commentLabel.font = [UIFont systemFontOfSize:14.0f];
     [self addSubview:self.commentLabel];
     
     self.ratingView = [[HHStarRatingView alloc] initWithInteraction:NO];

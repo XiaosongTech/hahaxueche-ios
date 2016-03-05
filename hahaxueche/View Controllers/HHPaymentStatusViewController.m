@@ -264,7 +264,7 @@ static NSString *const kCellId = @"CellId";
             return ;
         }
         
-        [[HHCoachService sharedInstance] makeReviewWithCoachUserId:weakSelf.coach.userId paymentStage:paymentStage.stageNumber rating:rating comment:comment completion:^(HHReview *review, NSError *error) {
+        [[HHCoachService sharedInstance] makeReviewWithCoachUserId:paymentStage.coachUserId paymentStage:paymentStage.stageNumber rating:rating comment:comment completion:^(HHReview *review, NSError *error) {
             if (!error) {
                 [HHPopupUtility dismissPopup:self.popup];
                 [[HHToastManager sharedManager] showSuccessToastWithText:@"成功评价教练！"];

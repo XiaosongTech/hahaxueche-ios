@@ -116,7 +116,7 @@
     NSString *comment = self.textView.text;
     if ([comment isEqualToString:kPlaceholder]) {
         comment = @"";
-    } else if ([comment stringByReplacingOccurrencesOfString:@" " withString:@""]) {
+    } else if ([[comment stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""]) {
         comment = @"";
     }
     if (self.makeReviewBlock) {

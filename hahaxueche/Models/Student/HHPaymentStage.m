@@ -23,6 +23,7 @@
              @"reviewed":@"reviewed",
              @"readyForReview":@"ready_for_review",
              @"explanationText":@"description",
+             @"coachUserId":@"coach_user_id",
              };
 }
 
