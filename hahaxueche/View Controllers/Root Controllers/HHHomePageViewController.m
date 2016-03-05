@@ -22,6 +22,7 @@
 #import "INTULocationManager.h"
 #import "HHFindCoachViewController.h"
 #import "HHCoachDetailViewController.h"
+#import "HHWebViewController.h"
 
 @interface HHHomePageViewController () <SDCycleScrollViewDelegate>
 
@@ -76,6 +77,8 @@
 }
 
 - (void)initSubviews {
+    
+    __weak HHHomePageViewController *weakSelf = self;
     self.bannerView = [[SDCycleScrollView alloc] init];
     self.bannerView.imageURLStringsGroup = self.banners;
     self.bannerView.autoScroll = NO;
@@ -85,13 +88,13 @@
     
     self.leftView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_hahahere"] title:@"关于小哈" subTitle:@"点击了解"];
     self.leftView.actionBlock = ^() {
-        
+        [weakSelf openWebPage:[NSURL URLWithString:@"http://www.google.com"]];
     };
     [self.view addSubview:self.leftView];
     
     self.rightView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_coachhere"] title:@"关于教练" subTitle:@"点击了解"];
     self.rightView.actionBlock = ^() {
-        
+        [weakSelf openWebPage:[NSURL URLWithString:@"http://www.google.com"]];
     };
     [self.view addSubview:self.rightView];
     
@@ -217,6 +220,13 @@
     } else if (index == 1) {
         
     }
+}
+
+- (void)openWebPage:(NSURL *)url {
+    HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:url];
+    webVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:webVC animated:YES];
+   
 }
 
 
