@@ -81,7 +81,7 @@
     __weak HHHomePageViewController *weakSelf = self;
     self.bannerView = [[SDCycleScrollView alloc] init];
     self.bannerView.imageURLStringsGroup = self.banners;
-    self.bannerView.autoScroll = NO;
+    self.bannerView.autoScroll = NO; 
     self.bannerView.delegate = self;
     self.bannerView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
     [self.view addSubview:self.bannerView];
