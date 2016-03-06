@@ -2,27 +2,27 @@
 //  HHStarRatingView.m
 //  hahaxueche
 //
-//  Created by Zixiao Wang on 8/25/15.
-//  Copyright (c) 2015 Zixiao Wang. All rights reserved.
+//  Created by Zixiao Wang on 2/2/16.
+//  Copyright © 2016 Zixiao Wang. All rights reserved.
 //
 
 #import "HHStarRatingView.h"
 
 @implementation HHStarRatingView
 
-- (instancetype)initWithFrame:(CGRect)frame rating:(CGFloat)rating {
-    self = [super initWithFrame:frame];
+- (instancetype)initWithInteraction:(BOOL)allowInteraction {
+    self = [super init];
     if (self) {
-        self.value = rating;
-        self.maximumValue = 5.0f;
         self.minimumValue = 0;
+        self.maximumValue = 5.0f;
+        self.emptyStarImage = [UIImage imageNamed:@"ic_Star_grey"];
+        self.halfStarImage = [UIImage imageNamed:@"ic_Star_half"];
+        self.filledStarImage = [UIImage imageNamed:@"ic_Star_light"];
+        self.accurateHalfStars = NO;
         self.allowsHalfStars = YES;
-        self.emptyStarImage = [UIImage imageNamed:@"star_empty"];
-        self.filledStarImage = [UIImage imageNamed:@"star_full"];
-        self.halfStarImage = [UIImage imageNamed:@"star_half"];
-        self.backgroundColor = [UIColor clearColor];
-        self.userInteractionEnabled = NO;
+        self.userInteractionEnabled = allowInteraction;
     }
+    
     return self;
 }
 

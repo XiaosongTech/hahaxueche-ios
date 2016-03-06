@@ -2,21 +2,35 @@
 //  HHReview.m
 //  hahaxueche
 //
-//  Created by Zixiao Wang on 8/2/15.
-//  Copyright (c) 2015 Zixiao Wang. All rights reserved.
+//  Created by Zixiao Wang on 2/24/16.
+//  Copyright © 2016 Zixiao Wang. All rights reserved.
 //
 
 #import "HHReview.h"
+#import "HHFormatUtility.h"
 
 @implementation HHReview
 
-@dynamic rating;
-@dynamic coachId;
-@dynamic studentId;
-@dynamic comment;
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{
+             @"reviewId":@"id",
+             @"reviewer": @"reviewer",
+             @"comment": @"comment",
+             @"rating": @"rating",
+             @"updatedAt": @"updated_at",
+            };
+}
 
-+ (NSString *)parseClassName {
-    return @"Review";
++ (NSValueTransformer *)reviewerJSONTransformer {
+    return [MTLJSONAdapter dictionaryTransformerWithModelClass:[HHReviewer class]];
+}
+
++ (NSValueTransformer *)updatedAtJSONTransformer {
+    return [MTLValueTransformer transformerUsingForwardBlock:^id(NSString *dateString, BOOL *success, NSError *__autoreleasing *error) {
+        return [[HHFormatUtility backendDateFormatter] dateFromString:dateString];
+    } reverseBlock:^id(NSDate *date, BOOL *success, NSError *__autoreleasing *error) {
+        return [[HHFormatUtility backendDateFormatter] stringFromDate:date];
+    }];
 }
 
 @end

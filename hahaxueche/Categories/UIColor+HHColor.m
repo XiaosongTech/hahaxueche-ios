@@ -11,43 +11,49 @@
 @implementation UIColor (HHColor)
 
 + (UIColor *)HHOrange {
-    return [UIColor colorWithRed:0.88 green:0.48 blue:0.13 alpha:1];
+    return [UIColor colorWithRed:1 green:0.62 blue:0.01 alpha:1];
 }
+
 
 + (UIColor *)HHLightOrange {
-    return [UIColor colorWithRed:1 green:0.69 blue:0.25 alpha:1];
+    return [UIColor colorWithRed:1 green:0.88 blue:0.73 alpha:1];
 }
 
-+ (UIColor *)HHTransparentWhite {
-    return [UIColor colorWithWhite:1.0f alpha:0.3f];
+
++ (UIColor *)HHLightBackgroudGray {
+    return [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1];
 }
 
-+ (UIColor *)HHLightGrayBackgroundColor {
-    return [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1];
++ (UIColor *)HHLightLineGray {
+    return [UIColor colorWithWhite:0.86 alpha:1.0];
 }
 
-+ (UIColor *)HHGrayTextColor {
-    return [UIColor colorWithRed:0.52 green:0.52 blue:0.52 alpha:1];
+
++ (UIColor *)HHLightTextGray {
+    return [UIColor colorWithRed:0.573 green:0.573 blue:0.573 alpha:1];
 }
 
-+ (UIColor *)HHGrayLineColor {
-    return [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1];
++ (UIColor *)HHGreen {
+    return [UIColor colorWithRed:0.467 green:0.867 blue:0 alpha:1];
 }
 
-+ (UIColor *)HHTransparentOrange {
-    return [UIColor colorWithRed:0.88 green:0.48 blue:0.13 alpha:0.8f];
++ (UIColor *)HHLightestTextGray {
+    return [UIColor colorWithRed:0.733 green:0.733 blue:0.733 alpha:1];
 }
 
-+ (UIColor *)HHClickableBlue {
-    return [UIColor colorWithRed:0.094 green:0.514 blue:1 alpha:1];
++ (UIColor *)HHTextDarkGray {
+    return [UIColor colorWithRed:0.38 green:0.38 blue:0.38 alpha:1];
 }
 
-+ (UIColor *)HHBlueButtonColor {
-    return [UIColor colorWithRed:0.28 green:0.75 blue:0.9 alpha:1];
++ (UIColor *)HHConfirmGreen {
+    return [UIColor colorWithRed:0.52 green:0.85 blue:0.2 alpha:1];
 }
 
-+ (UIColor *)HHDarkGrayTextColor {
-    return [UIColor colorWithRed:0.37 green:0.36 blue:0.38 alpha:1];
++ (UIColor *)HHCancelRed {
+    return [UIColor colorWithRed:0.99 green:0.46 blue:0.33 alpha:1];
 }
 
++ (UIColor *)HHBackgroundGary {
+    return [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1];
+}
 @end

@@ -11,14 +11,25 @@
 @interface UIColor (HHColor)
 
 + (UIColor *)HHOrange;
-+ (UIColor *)HHTransparentOrange;
+
 + (UIColor *)HHLightOrange;
-+ (UIColor *)HHTransparentWhite;
-+ (UIColor *)HHLightGrayBackgroundColor;
-+ (UIColor *)HHGrayTextColor;
-+ (UIColor *)HHGrayLineColor;
-+ (UIColor *)HHClickableBlue;
-+ (UIColor *)HHBlueButtonColor;
-+ (UIColor *)HHDarkGrayTextColor;
+
++ (UIColor *)HHLightBackgroudGray;
+
++ (UIColor *)HHLightLineGray;
+
++ (UIColor *)HHLightTextGray;
+
++ (UIColor *)HHLightestTextGray;
+
++ (UIColor *)HHGreen;
+
++ (UIColor *)HHTextDarkGray;
+
++ (UIColor *)HHConfirmGreen;
+
++ (UIColor *)HHCancelRed;
+
++ (UIColor *)HHBackgroundGary;
 
 @end

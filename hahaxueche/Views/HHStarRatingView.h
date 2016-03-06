@@ -2,14 +2,14 @@
 //  HHStarRatingView.h
 //  hahaxueche
 //
-//  Created by Zixiao Wang on 8/25/15.
-//  Copyright (c) 2015 Zixiao Wang. All rights reserved.
+//  Created by Zixiao Wang on 2/2/16.
+//  Copyright © 2016 Zixiao Wang. All rights reserved.
 //
 
-#import "HCSStarRatingView.h"
+#import <HCSStarRatingView/HCSStarRatingView.h>
 
 @interface HHStarRatingView : HCSStarRatingView
 
-- (instancetype)initWithFrame:(CGRect)frame rating:(CGFloat)rating;
+- (instancetype)initWithInteraction:(BOOL)allowInteraction;
 
 @end

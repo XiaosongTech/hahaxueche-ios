@@ -7,41 +7,28 @@
 //
 
 #import "HHAppDelegate.h"
-#import "HHNavigationController.h"
-#import "HHRootViewController.h"
+#import <Instabug/Instabug.h>
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+#import "HHEventTrackingManager.h"
+#import "SDWebImage/SDWebImageManager.h"
+#import <SSKeychain/SSKeychain.h>
+#import "HHIntroViewController.h"
 #import "UIColor+HHColor.h"
-#import "HHLoginSignupViewController.h"
-#import <AVOSCloud/AVOSCloud.h>
-#import "HHUser.h"
-#import "HHStudent.h"
-#import <SMS_SDK/SMS_SDK.h>
-#import "HHCoach.h"
-#import "HHTrainingField.h"
-#import "HHUserAuthenticator.h"
-#import "HHProfileSetupViewController.h"
-#import "HHTrainingFieldService.h"
-#import "HHCoachSchedule.h"
-#import "HHScheduleService.h"
-#import "HHCoachSchedule.h"
-#import "HHReview.h"
-#import "HHTransaction.h"
-#import "HHPaymentStatus.h"
-#import <AlipaySDK/AlipaySDK.h>
-#import "HHToastUtility.h"
-#import "HHTransfer.h"
-#import "HHReferral.h"
-#import "HHFirstLaunchGuideViewController.h"
-#import "HHStartAppLoadingViewController.h"
-#import "HHBanner.h"
-#import "HHLoadingView.h"
+#import "HHConstantsStore.h"
+#import "HHKeychainStore.h"
+#import "HHUserAuthService.h"
+#import "HHStudentStore.h"
+#import "HHRootViewController.h"
+#import "HHAccountSetupViewController.h"
+#import "HHLaunchImageViewController.h"
+#import <MAMapKit/MAMapKit.h>
+#import "HHSocialMediaShareUtility.h"
+#import <Pingpp/Pingpp.h>
+#import "HHStudentService.h"
+#import "HHToastManager.h"
 
-#define kLeanCloudStagingAppID @"cr9pv6bp9nlr1xrtl36slyxt0hgv6ypifso9aocxwas2fugq"
-#define kLeanCloudStagingAppKey @"2ykqwhzhfrzhjn3o9bj7rizb8qd75ym3f0lez1d8fcxmn2k3"
-
-#define kLeanCloudProductionAppID @"iylpzs1kdohzr04ly3w837schvelubnbpttu48iur1h2wzps"
-#define kLeanCloudProductionAppKey @"w4k4u22ps3cud54ipm2pofbxj93w1qmfo78ks5robp9ct2u2"
-
-
+static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
 @interface HHAppDelegate ()
 
@@ -51,153 +38,109 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [self leanCloudRegisterSubclass];
-    [self setupSMSService];
-    [self setupBackend];
-    [self setAppearance];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        HHFirstLaunchGuideViewController *guideVC = [[HHFirstLaunchGuideViewController alloc] init];
-        [self.window setRootViewController:guideVC];
-        [self.window makeKeyAndVisible];
-        [self setAppearance];
-        [self setWindow:self.window];
-        return YES;
-
-    }
+    HHLaunchImageViewController *launchVC = [[HHLaunchImageViewController alloc] init];
+    [self.window setRootViewController:launchVC];
     
-    HHStartAppLoadingViewController *vc = [[HHStartAppLoadingViewController alloc] init];
-    [self.window setRootViewController:vc];
-    [self.window makeKeyAndVisible];
-    [self setAppearance];
-    [self setWindow:self.window];
-    
-    if ([HHUser currentUser]) {
-        [HHUserAuthenticator sharedInstance].currentUser = [HHUser currentUser];
-        if ([[HHUserAuthenticator sharedInstance].currentUser.type isEqualToString:kStudentTypeValue]) {
-            [[HHUserAuthenticator sharedInstance] fetchAuthedStudentWithId:[HHUserAuthenticator sharedInstance].currentUser.objectId completion:^(HHStudent *student, NSError *error) {
-                if (!error) {
-                    HHRootViewController *rootVC = [[HHRootViewController alloc] initForStudent];
-                    [self.window setRootViewController:rootVC];
-                    [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
-                    [self.window makeKeyAndVisible];
-                    [self setAppearance];
-                    [self setWindow:self.window];
-                } else {
-                    [HHToastUtility showToastWitiTitle:NSLocalizedString(@"登陆失败", nil) isError:YES];
-                    [self jumpToLoginSignupView];
-                }
-            }];
-
-        } else {
-            [[HHUserAuthenticator sharedInstance] fetchAuthedCoachWithId:[HHUserAuthenticator sharedInstance].currentUser.objectId completion:^(HHCoach *coach, NSError *error) {
-                if (!error) {
-                    HHRootViewController *rootVC = [[HHRootViewController alloc] initForCoach];
-                    [self.window setRootViewController:rootVC];
-                    [self.window setBackgroundColor:[UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1]];
-                    [self.window makeKeyAndVisible];
-                    [self setAppearance];
-                    [self setWindow:self.window];
-                } else {
-                    [HHToastUtility showToastWitiTitle:NSLocalizedString(@"登陆失败", nil) isError:YES];
-                    [self jumpToLoginSignupView];
-                }
-            }];
+    [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
+        if (constants) {
+            if ([[HHUserAuthService sharedInstance] getSavedUser] && [HHKeychainStore getSavedAccessToken]) {
+                HHStudent *savedStudent = [[[HHUserAuthService sharedInstance] getSavedUser] student];
+                [[HHStudentService sharedInstance] fetchStudentWithId:savedStudent.studentId completion:^(HHStudent *student, NSError *error) {
+                    if (!error) {
+                        [HHStudentStore sharedInstance].currentStudent = student;
+                        if (!savedStudent.name || !savedStudent.cityId) {
+                            // Student created, but not set up yet
+                            HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:savedStudent.studentId];
+                            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
+                            [self.window setRootViewController:navVC];
+                        } else {
+                            // Get the saved student object, we lead user to rootVC
+                            HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+                            [self.window setRootViewController:rootVC];
+                        }
+                    } else {
+                        HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+                        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+                        [self.window setRootViewController:navVC];
+                    }
+                    
+                }];
+                
+            } else {
+                HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+                [self.window setRootViewController:navVC];
+                
+            }
         }
-        
-    } else {
-        [self jumpToLoginSignupView];
-    }
-    return YES;
-   
-}
-
-- (void)jumpToLoginSignupView {
-    HHLoginSignupViewController *loginSignupVC = [[HHLoginSignupViewController alloc] init];
-    [self.window setRootViewController:loginSignupVC];
-    [self.window setBackgroundColor:[UIColor HHLightGrayBackgroundColor]];
+       
+    }];
     [self.window makeKeyAndVisible];
-    [self setAppearance];
     [self setWindow:self.window];
-    [[HHUserAuthenticator sharedInstance] logout];
+    [self setupAllThirdPartyServices];
+    [self setAppearance];
+    return YES;
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-   [[HHLoadingView sharedInstance] hideLoadingView];
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary *)options {
+    BOOL canHandleURL = [Pingpp handleOpenURL:url withCompletion:nil];
+    return canHandleURL;
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
 
 - (void)setAppearance {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],
-                                                           NSFontAttributeName: [UIFont fontWithName:@"STHeitiSC-Medium" size:18.0f]}];
-    [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],
-                                                           NSFontAttributeName: [UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]} forState:UIControlStateNormal];
-    [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTitleTextAttributes:
-     @{NSForegroundColorAttributeName : [UIColor HHOrange],
-                                                                                                    NSFontAttributeName: [UIFont fontWithName:@"STHeitiSC-Light" size:13.0f]} forState:UIControlStateNormal];
-    
-    [[UINavigationBar appearance] setTranslucent:NO];
+    [[UINavigationBar appearance] setBackgroundColor:[UIColor HHOrange]];
     [[UINavigationBar appearance] setBarTintColor:[UIColor HHOrange]];
-    [[UITabBar appearance] setTintColor:[UIColor HHOrange]];
-    [[UITabBar appearance] setBarTintColor:[UIColor HHLightGrayBackgroundColor]];
-    [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"STHeitiSC-Medium" size:10]} forState:UIControlStateNormal];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 8.0) {
+        [[UINavigationBar appearance] setTranslucent:NO];
+    }
+    
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage new]
+                       forBarPosition:UIBarPositionAny
+                           barMetrics:UIBarMetricsDefault];
+    
+    [[UINavigationBar appearance] setShadowImage:[UIImage new]];
 }
 
-- (void)setupSMSService {
-    [SMS_SDK registerApp:@"8e7f80c5c4e6" withSecret:@"1a8ed11da1f399a723950c47b084525e"];
-    [SMS_SDK enableAppContactFriends:NO];
-}
-
-- (void)leanCloudRegisterSubclass {
-    [HHUser registerSubclass];
-    [HHStudent registerSubclass];
-    [HHCoach registerSubclass];
-    [HHTrainingField registerSubclass];
-    [HHCoachSchedule registerSubclass];
-    [HHReview registerSubclass];
-    [HHTransaction registerSubclass];
-    [HHPaymentStatus registerSubclass];
-    [HHTransfer registerSubclass];
-    [HHReferral registerSubclass];
-    [HHBanner registerSubclass];
-}
-
-- (void)setupBackend {
-#if DEBUG
-    [AVOSCloud setApplicationId:kLeanCloudStagingAppID
-                      clientKey:kLeanCloudStagingAppKey];
+- (void)setupAllThirdPartyServices {
+    
+    // Instabug
+#ifdef DEBUG
+    [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventShake];
+    [Instabug setIsTrackingCrashes:NO];
+    [Pingpp setDebugMode:YES];
 #else
-    [AVOSCloud setApplicationId:kLeanCloudProductionAppID
-                      clientKey:kLeanCloudProductionAppKey];
+    NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
+    NSString *receiptURLString = [receiptURL path];
+    BOOL isRunningTestFlightBeta =  ([receiptURLString rangeOfString:@"sandboxReceipt"].location != NSNotFound);
+    if (isRunningTestFlightBeta) {
+        [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventShake];
+        [Instabug setIsTrackingCrashes:NO];
+    }
     
 #endif
-}
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation {
-    if ([url.host isEqualToString:@"safepay"]) {
-        [[AlipaySDK defaultService] processOrderWithPaymentResult:url
-                                                  standbyCallback:^(NSDictionary *resultDic) {
-                                                      
-                                                      if ([resultDic[@"resultStatus"] isEqualToString:@"9000"]) {
-                                                          [HHToastUtility showToastWitiTitle:NSLocalizedString(@"支付成功！", nil) isError:NO];
-                                                      } else {
-                                                          [HHToastUtility showToastWitiTitle:NSLocalizedString(@"支付失败！", nil) isError:YES];
-                                                      }
-                                                      
-                                                  }]; }
+    //Crashlytics
+    [Fabric with:@[[Crashlytics class]]];
     
-    return YES;
+    
+    //Umeng
+    [HHEventTrackingManager sharedManager];
+    
+    //SDWebImage
+    [SDWebImageManager sharedManager].imageCache.maxCacheSize = 20000000;
+    [[[SDWebImageManager sharedManager] imageDownloader] setMaxConcurrentDownloads:10];
+    [[[SDWebImageManager sharedManager] imageDownloader] setExecutionOrder:SDWebImageDownloaderLIFOExecutionOrder];
+    
+    [MAMapServices sharedServices].apiKey = kMapServiceKey;
+    
+    [HHSocialMediaShareUtility configure];
+    
+    [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
 }
 
 @end
