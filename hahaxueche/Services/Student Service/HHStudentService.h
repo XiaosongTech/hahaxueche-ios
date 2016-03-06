@@ -50,4 +50,6 @@ typedef void (^HHPurchasedServiceCompletion)(HHPurchasedService *purchasedServic
  @param completion The completion block to execute on completion
  */
 - (void)payStage:(HHPaymentStage *)paymentStage completion:(HHPurchasedServiceCompletion)completion;
+
+
 @end

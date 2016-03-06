@@ -30,6 +30,7 @@
 #define kAPIStudentTryCoach @"students/trial/%@"
 #define kAPIStudentPurchasedService @"students/purchased_service"
 #define kAPIStudent @"students/%@"
+#define kAPIBestMatchCoach @"students/best_match_coach"
 
 #pragma mark Coach
 

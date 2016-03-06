@@ -17,6 +17,7 @@
 #import <SDCycleScrollView/SDCycleScrollView.h>
 #import "HHStudentStore.h"
 #import "UIBarButtonItem+HHCustomButton.h"
+#import "HHConstantsStore.h"
 
 
 static CGFloat const kButtonHeight = 40.0f;
@@ -29,6 +30,7 @@ static CGFloat const kButtonWidth = 235.0f;
 @property (nonatomic, strong) HHButton *enterAsGuestButton;
 @property (nonatomic, strong) UIView *bottomLine;
 @property (nonatomic, strong) SDCycleScrollView *bannerView;
+@property (nonatomic, strong) NSArray *banners;
 
 
 @end
@@ -40,6 +42,7 @@ static CGFloat const kButtonWidth = 235.0f;
     self.view.backgroundColor = [UIColor HHOrange];
     self.navigationController.navigationBarHidden = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
+    self.banners = [[HHConstantsStore sharedInstance] getLoginBanners];
     [self initSubviews];
     
     if ([self.navigationController.viewControllers count] > 1) {
@@ -53,7 +56,7 @@ static CGFloat const kButtonWidth = 235.0f;
 - (void)initSubviews {
     self.bannerView = [[SDCycleScrollView alloc] init];
     self.bannerView.delegate = self;
-    self.bannerView.imageURLStringsGroup = @[@"http://i.forbesimg.com/media/lists/companies/facebook_416x416.jpg",@"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Facebook_icon.svg/2000px-Facebook_icon.svg.png"];
+    self.bannerView.imageURLStringsGroup = self.banners;
     self.bannerView.autoScroll = NO;
     self.bannerView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
     [self.view addSubview:self.bannerView];
@@ -173,10 +176,5 @@ static CGFloat const kButtonWidth = 235.0f;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - Banner View Delegate Method
-
-- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
-    
-}
 
 @end

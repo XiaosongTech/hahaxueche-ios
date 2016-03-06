@@ -22,6 +22,8 @@ typedef void (^HHConstantsCompletion)(HHConstants *constants);
 - (NSArray *)getSupporteCities;
 - (HHField *)getFieldWithId:(NSString *)fieldId;
 - (HHCity *)getAuthedUserCity;
+- (NSArray *)getLoginBanners;
+- (NSArray *)getHomePageBanners;
 
 
 @end

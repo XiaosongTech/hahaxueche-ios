@@ -20,7 +20,7 @@
 @property (nonatomic, copy) NSString *stageName;
 @property (nonatomic, copy) NSNumber *stageNumber;
 @property (nonatomic, copy) NSString *explanationText;
-
+@property (nonatomic, copy) NSString *coachUserId;
 
 
 @end
