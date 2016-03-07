@@ -29,6 +29,7 @@
     
     self.valueLabel = [[UILabel alloc] init];
     self.valueLabel.textColor = [UIColor HHLightTextGray];
+    self.valueLabel.textAlignment = NSTextAlignmentCenter;
     self.valueLabel.font = [UIFont systemFontOfSize:18.0f];
     [self addSubview:self.valueLabel];
     
@@ -52,6 +53,7 @@
     [self.valueLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLabel.bottom).offset(14.0f);
         make.centerX.equalTo(self.centerX);
+        make.width.equalTo(self.width).offset(-40.0f);
     }];
     
     [self.arrowImageView makeConstraints:^(MASConstraintMaker *make) {

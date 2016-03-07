@@ -67,8 +67,6 @@
             
             [self.buttonsView.leftButton addTarget:self action:@selector(confirmButtonTapped) forControlEvents:UIControlEventTouchUpInside];
             [self.buttonsView.rightButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-            self.otherFeesLabel.hidden = YES;
-            self.midLine.hidden = YES;
         } else {
             self.okButton = [UIButton buttonWithType:UIButtonTypeCustom];
             [self.okButton setTitle:@"知道了" forState:UIControlStateNormal];
@@ -80,9 +78,6 @@
             self.botLine = [[UIView alloc] init];
             self.botLine.backgroundColor = [UIColor HHLightLineGray];
             [self addSubview:self.botLine];
-            
-            self.otherFeesLabel.hidden = NO;
-            self.midLine.hidden = NO;
         }
         
         
