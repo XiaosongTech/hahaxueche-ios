@@ -44,6 +44,10 @@
                 if (completion) {
                     completion([HHConstantsStore sharedInstance].constants);
                 }
+            } else {
+                if (completion) {
+                    completion(nil);
+                }
             }
         }];
 

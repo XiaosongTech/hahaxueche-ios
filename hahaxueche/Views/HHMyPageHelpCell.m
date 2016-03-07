@@ -24,7 +24,7 @@
 }
 
 - (void)initSubviews {
-    self.titleView = [[HHMyPageItemTitleView alloc] initWithTitle:@"联系客服"];
+    self.titleView = [[HHMyPageItemTitleView alloc] initWithTitle:@"使用帮助"];
     [self.contentView addSubview:self.titleView];
     
     self.FAQView = [[HHMyPageItemView alloc] initWitTitle:@"学员常见问题" showLine:YES];
@@ -46,15 +46,15 @@
         make.height.mas_equalTo(kTitleViewHeight);
     }];
     
-    [self.FAQView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleView.bottom);
-        make.left.equalTo(self.left);
-        make.width.equalTo(self.width);
-        make.height.mas_equalTo(kItemViewHeight);
-        
-    }];
+//    [self.FAQView makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.titleView.bottom);
+//        make.left.equalTo(self.left);
+//        make.width.equalTo(self.width);
+//        make.height.mas_equalTo(kItemViewHeight);
+//        
+//    }];
     [self.aboutView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.FAQView.bottom);
+        make.top.equalTo(self.titleView.bottom);
         make.left.equalTo(self.left);
         make.width.equalTo(self.width);
         make.height.mas_equalTo(kItemViewHeight);

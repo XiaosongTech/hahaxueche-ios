@@ -23,12 +23,16 @@
 #import "HHFollowedCoachListViewController.h"
 #import "HHToastManager.h"
 #import "HHCoachService.h"
+#import "HHStudentService.h"
+#import "HHLoadingViewUtility.h"
+#import "HHWebViewController.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
 static NSString *const kSupportCell = @"supportCell";
 static NSString *const kHelpCell = @"helpCell";
 static NSString *const kLogoutCell = @"logoutCell";
+static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 
 typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellUserInfo,
@@ -126,8 +130,8 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellUserInfo: {
             HHMyPageUserInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kUserInfoCell];
             cell.paymentViewActionBlock = ^(){
-                if (weakSelf.myCoach) {
-                    HHPaymentStatusViewController *vc = [[HHPaymentStatusViewController alloc] initWithPurchasedService:[self.currentStudent.purchasedServiceArray firstObject] coach:weakSelf.myCoach];
+                if ([weakSelf.currentStudent.purchasedServiceArray firstObject]) {
+                    HHPaymentStatusViewController *vc = [[HHPaymentStatusViewController alloc] initWithPurchasedService:[weakSelf.currentStudent.purchasedServiceArray firstObject] coach:weakSelf.myCoach];
                     vc.updatePSBlock = ^(HHPurchasedService *updatePS){
                         weakSelf.currentStudent.purchasedServiceArray = @[updatePS];
                         [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:MyPageCellUserInfo inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
@@ -181,6 +185,10 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             
         case MyPageCellHelp: {
             HHMyPageHelpCell *cell = [tableView dequeueReusableCellWithIdentifier:kHelpCell];
+            cell.aboutView.actionBlock = ^() {
+                HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:kAboutStudentLink]];
+                [self.navigationController pushViewController:webVC animated:YES];
+            };
             return cell;
         } break;
           
@@ -209,7 +217,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
             
         case MyPageCellHelp:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
+            return kTopPadding + kTitleViewHeight + kItemViewHeight * 1.0f;
             
         case MyPageCellLogout:
             return 50 + kTopPadding * 2.0f;
@@ -303,6 +311,29 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         }
     }
 }
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *selectedImage;
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    if ([info objectForKey:@"UIImagePickerControllerOriginalImage"]) {
+        selectedImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    }
+    
+    if (selectedImage) {
+        [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"上传图片中"];
+        [[HHStudentService sharedInstance] uploadStudentAvatarWithImage:selectedImage completion:^(HHStudent *student, NSError *error) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            if (error) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败，请您重试！"];
+            } else {
+                [HHStudentStore sharedInstance].currentStudent = student;
+                self.currentStudent = student;
+                [self.tableView reloadData];
+            }
+        }];
+    }
+}
+
 
 #pragma mark UITextView Delegate
 
