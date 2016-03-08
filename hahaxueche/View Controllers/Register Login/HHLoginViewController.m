@@ -18,6 +18,7 @@
 #import "HHLoadingViewUtility.h"
 #import "HHUserAuthService.h"
 #import "HHRootViewController.h"
+#import "HHAccountSetupViewController.h"
 
 typedef NS_ENUM(NSInteger, LoginMode) {
     LoginModeVerificationCode,
@@ -306,8 +307,14 @@ static NSInteger const pwdLimit = 20;
         [[HHUserAuthService sharedInstance] loginWithCellphone:self.phoneNumberField.textField.text veriCode:self.verificationCodeField.textField.text completion:^(HHStudent *student, NSError *error) {
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
             if (!error) {
-                HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-                [self presentViewController:rootVC animated:YES completion:nil];
+                if (!student.cityId || !student.avatarURL) {
+                    HHAccountSetupViewController *setupVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
+                    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:setupVC];
+                    [self presentViewController:navVC animated:YES completion:nil];
+                } else {
+                    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+                    [self presentViewController:rootVC animated:YES completion:nil];
+                }
             } else {
                 if ([error.localizedFailureReason isEqual:@(40044)]) {
                     [[HHToastManager sharedManager] showErrorToastWithText:@"该手机号还未注册，请先注册！"];
@@ -323,8 +330,14 @@ static NSInteger const pwdLimit = 20;
         [[HHUserAuthService sharedInstance] loginWithCellphone:self.phoneNumberField.textField.text password:self.pwdField.textField.text completion:^(HHStudent *student, NSError *error) {
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
             if (!error) {
-                HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-                [self presentViewController:rootVC animated:YES completion:nil];
+                if (!student.cityId || !student.avatarURL) {
+                    HHAccountSetupViewController *setupVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
+                    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:setupVC];
+                    [self presentViewController:navVC animated:YES completion:nil];
+                } else {
+                    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+                    [self presentViewController:rootVC animated:YES completion:nil];
+                }
             } else {
                 if ([error.localizedFailureReason isEqual:@(40044)]) {
                     [[HHToastManager sharedManager] showErrorToastWithText:@"该手机号还未注册，请先注册！"];
@@ -341,6 +354,10 @@ static NSInteger const pwdLimit = 20;
 }
 
 - (BOOL)areAllFieldsValid {
+    //apple review account
+    if ([self.phoneNumberField.textField.text isEqualToString:@"18888888888"]) {
+        return YES;
+    }
     if (![[HHPhoneNumberUtility sharedInstance] isValidPhoneNumber:self.phoneNumberField.textField.text]) {
         [[HHToastManager sharedManager] showErrorToastWithText:@"手机号无效，请仔细核对！"];
         return NO;

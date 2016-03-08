@@ -24,6 +24,10 @@
 #import "HHCoachDetailViewController.h"
 #import "HHWebViewController.h"
 
+static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
+static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach";
+
+
 @interface HHHomePageViewController () <SDCycleScrollViewDelegate>
 
 @property (nonatomic, strong) SDCycleScrollView *bannerView;
@@ -88,13 +92,13 @@
     
     self.leftView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_hahahere"] title:@"关于小哈" subTitle:@"点击了解"];
     self.leftView.actionBlock = ^() {
-        [weakSelf openWebPage:[NSURL URLWithString:@"http://www.google.com"]];
+        [weakSelf openWebPage:[NSURL URLWithString:kAboutStudentLink]];
     };
     [self.view addSubview:self.leftView];
     
     self.rightView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_coachhere"] title:@"关于教练" subTitle:@"点击了解"];
     self.rightView.actionBlock = ^() {
-        [weakSelf openWebPage:[NSURL URLWithString:@"http://www.google.com"]];
+        [weakSelf openWebPage:[NSURL URLWithString:kAboutCoachLink]];
     };
     [self.view addSubview:self.rightView];
     
@@ -216,9 +220,9 @@
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
     if (index == 0) {
-        
+        [self openWebPage:[NSURL URLWithString:kAboutStudentLink]];
     } else if (index == 1) {
-        
+        [self openWebPage:[NSURL URLWithString:kAboutCoachLink]];
     }
 }
 

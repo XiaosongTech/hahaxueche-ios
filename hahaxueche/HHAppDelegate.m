@@ -73,6 +73,10 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                 [self.window setRootViewController:navVC];
                 
             }
+        } else {
+            HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+            [self.window setRootViewController:navVC];
         }
        
     }];

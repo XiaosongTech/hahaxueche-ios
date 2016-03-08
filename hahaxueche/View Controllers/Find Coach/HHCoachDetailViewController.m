@@ -235,7 +235,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         [[HHCoachService sharedInstance] unfollowCoach:weakSelf.coach.userId completion:nil];
         
         HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
-        CGFloat height = 110.0f + (city.cityFixedFees.count + 1) * 50.0f;
+        CGFloat height = 190.0f + (city.cityFixedFees.count + 1) * 50.0f;
         HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"付款明细" totalPrice:weakSelf.coach.price showOKButton:NO];
         
         priceView.cancelBlock = ^() {

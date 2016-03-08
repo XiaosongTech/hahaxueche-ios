@@ -94,6 +94,9 @@
     [self.courseTypeCell setupViewWithTitle:@"课程类型" image:[UIImage imageNamed:@"ic_coachmsg_classtype"] value:[coach licenseTypesName] showArrowImage:NO actionBlock:nil];
     
     [self.fieldAddressCell setupViewWithTitle:@"训练场地址" image:[UIImage imageNamed:@"ic_coachmsg_localtion"] value:[field fullAddress] showArrowImage:YES actionBlock:nil];
+    self.fieldAddressCell.valueLabel.numberOfLines = 1;
+    self.fieldAddressCell.valueLabel.adjustsFontSizeToFitWidth = YES;
+    self.fieldAddressCell.valueLabel.minimumScaleFactor = 0.5;
 
 }
 

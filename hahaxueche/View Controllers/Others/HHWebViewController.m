@@ -9,6 +9,7 @@
 #import "HHWebViewController.h"
 #import "Masonry.h"
 #import "UIBarButtonItem+HHCustomButton.h"
+#import "HHLoadingViewUtility.h"
 
 @implementation HHWebViewController
 
@@ -26,6 +27,7 @@
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
     
     self.webView = [[UIWebView alloc] init];
+    self.webView.delegate = self;
     [self.webView loadRequest:[NSURLRequest requestWithURL:self.url]];
     [self.view addSubview:self.webView];
     
@@ -39,6 +41,13 @@
 
 - (void)dismissVC {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+}
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
 }
 
 @end
