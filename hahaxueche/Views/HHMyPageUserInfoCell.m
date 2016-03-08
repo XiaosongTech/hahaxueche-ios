@@ -119,7 +119,7 @@ static CGFloat const avatarRadius = 40.0f;
 }
 
 - (void)setupCellWithStudent:(HHStudent *)student {
-    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:student.avatarURL] placeholderImage:nil options:SDWebImageRefreshCached];
+    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:student.avatarURL] placeholderImage:[UIImage imageNamed:@"ic_mypage_ava"] options:SDWebImageRefreshCached];
     self.nameLabel.text = student.name;
     
     HHPurchasedService *purchasedService;
