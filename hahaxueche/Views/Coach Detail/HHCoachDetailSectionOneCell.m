@@ -92,6 +92,9 @@
     [self.priceCell setupViewWithTitle:@"拿证价格" image:[UIImage imageNamed:@"ic_coachmsg_charge"] value:[coach.price generateMoneyString] showArrowImage:YES actionBlock:nil];
     
     [self.courseTypeCell setupViewWithTitle:@"课程类型" image:[UIImage imageNamed:@"ic_coachmsg_classtype"] value:[coach licenseTypesName] showArrowImage:NO actionBlock:nil];
+    self.courseTypeCell.valueLabel.numberOfLines = 1;
+    self.courseTypeCell.valueLabel.adjustsFontSizeToFitWidth = YES;
+    self.courseTypeCell.valueLabel.minimumScaleFactor = 0.5;
     
     [self.fieldAddressCell setupViewWithTitle:@"训练场地址" image:[UIImage imageNamed:@"ic_coachmsg_localtion"] value:[field fullAddress] showArrowImage:YES actionBlock:nil];
     self.fieldAddressCell.valueLabel.numberOfLines = 1;

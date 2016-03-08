@@ -114,6 +114,9 @@
     }
     
     [self.coachTimeCell setupViewWithTitle:@"教练练车时间" image:[UIImage imageNamed:@"ic_coachmsg_time"] value:@"周一至周日全天可选，具体情况以实际发布为准" showArrowImage:NO actionBlock:nil];
+    self.coachTimeCell.valueLabel.numberOfLines = 1;
+    self.coachTimeCell.valueLabel.adjustsFontSizeToFitWidth = YES;
+    self.coachTimeCell.valueLabel.minimumScaleFactor = 0.5;
     
     if ([coach.peerCoaches count]) {
          self.coachesListCell.hidden = NO;
