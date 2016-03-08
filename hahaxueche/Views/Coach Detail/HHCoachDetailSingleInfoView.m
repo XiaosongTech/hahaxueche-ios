@@ -53,7 +53,7 @@
     [self.valueLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLabel.bottom).offset(14.0f);
         make.centerX.equalTo(self.centerX);
-        make.width.equalTo(self.width).offset(-40.0f);
+        make.width.lessThanOrEqualTo(self.width).offset(-40.0f);
     }];
     
     [self.arrowImageView makeConstraints:^(MASConstraintMaker *make) {

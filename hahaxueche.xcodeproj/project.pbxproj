@@ -1652,7 +1652,7 @@
 				TargetAttributes = {
 					5CC3B5FA1B48268A00D10DFB = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = HNQ9TNFCBR;
+						DevelopmentTeam = HYWSND54RJ;
 					};
 					5CC3B6131B48268A00D10DFB = {
 						CreatedOnToolsVersion = 6.4;
@@ -2102,8 +2102,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 子潇 王 (PABSJAYU9Q)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 子潇 王 (PABSJAYU9Q)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wuhan Xiaosong Tech Co., Ltd. (HYWSND54RJ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wuhan Xiaosong Tech Co., Ltd. (HYWSND54RJ)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
@@ -2128,7 +2128,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "41335927-8137-423d-a10a-500ca24aaf5b";
+				PROVISIONING_PROFILE = "f11d3697-3cd3-4851-99c8-edadfc4b1164";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -2150,8 +2150,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 子潇 王 (PABSJAYU9Q)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 子潇 王 (PABSJAYU9Q)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wuhan Xiaosong Tech Co., Ltd. (HYWSND54RJ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wuhan Xiaosong Tech Co., Ltd. (HYWSND54RJ)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
@@ -2170,7 +2170,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "41335927-8137-423d-a10a-500ca24aaf5b";
+				PROVISIONING_PROFILE = "f11d3697-3cd3-4851-99c8-edadfc4b1164";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
