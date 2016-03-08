@@ -30,15 +30,15 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>hhxc</string>
-                <string>wxdf5f23aa517b1a96</string>
-                <string>tencent1104872131</string>
-                <string>tencent1104872131.content</string>
-                <string>QQ41DB02C3</string>
+				<string>wxdf5f23aa517b1a96</string>
+				<string>tencent1104872131</string>
+				<string>tencent1104872131.content</string>
+				<string>QQ41DB02C3</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -58,8 +58,8 @@
 		<string>alipay</string>
 		<string>baidumap</string>
 		<string>iosamap</string>
-        <string>mqqapi</string>
-        <string>weixin</string>
+		<string>mqqapi</string>
+		<string>weixin</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
