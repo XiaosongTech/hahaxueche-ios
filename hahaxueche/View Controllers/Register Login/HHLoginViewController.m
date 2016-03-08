@@ -354,6 +354,10 @@ static NSInteger const pwdLimit = 20;
 }
 
 - (BOOL)areAllFieldsValid {
+    //apple review account
+    if ([self.phoneNumberField.textField.text isEqualToString:@"18888888888"]) {
+        return YES;
+    }
     if (![[HHPhoneNumberUtility sharedInstance] isValidPhoneNumber:self.phoneNumberField.textField.text]) {
         [[HHToastManager sharedManager] showErrorToastWithText:@"手机号无效，请仔细核对！"];
         return NO;
