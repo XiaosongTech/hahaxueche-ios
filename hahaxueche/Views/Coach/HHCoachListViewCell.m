@@ -104,16 +104,6 @@ static CGFloat const kAvatarRadius = 30.0f;
         make.top.equalTo(self.contentView.top).offset(16.0f);
     }];
     
-    [self.goldenCoachIcon makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.nameLabel.right).offset(3.0f);
-        make.centerY.equalTo(self.nameLabel.centerY);
-    }];
-    
-    [self.trainingYearLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.goldenCoachIcon.right).offset(3.0f);
-        make.bottom.equalTo(self.nameLabel.bottom);
-    }];
-    
     [self.starRatingView makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.nameLabel.left);
         make.top.equalTo(self.nameLabel.bottom).offset(3.0f);
@@ -195,7 +185,23 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.nameLabel.text = coach.name;
     self.trainingYearLabel.text = [NSString stringWithFormat:@"%@年教龄", [coach.experienceYear stringValue]];
     if ([coach isGoldenCoach]) {
+        self.goldenCoachIcon.hidden = NO;
         self.goldenCoachIcon.image = [UIImage imageNamed:@"ic_auth_golden"];
+        [self.goldenCoachIcon remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.nameLabel.right).offset(3.0f);
+            make.centerY.equalTo(self.nameLabel.centerY);
+        }];
+        
+        [self.trainingYearLabel remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.goldenCoachIcon.right).offset(3.0f);
+            make.bottom.equalTo(self.nameLabel.bottom);
+        }];
+    } else {
+         self.goldenCoachIcon.hidden = YES;
+        [self.trainingYearLabel remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.nameLabel.right).offset(5.0f);
+            make.bottom.equalTo(self.nameLabel.bottom);
+        }];
     }
     self.starRatingView.value = [coach.averageRating floatValue];
     
