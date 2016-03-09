@@ -40,7 +40,7 @@
     [self addSubview:self.secondLabel];
     
     self.infoLabel = [[UILabel alloc] init];
-    self.infoLabel.text = @"学员可直接拨打客服热线400-001-6006\n或联系QQ客服:123456789免费预约试学";
+    self.infoLabel.text = @"学员可直接拨打客服热线400-001-6006\n或联系QQ客服:3319762526 免费预约试学";
     self.infoLabel.numberOfLines = 2;
     self.infoLabel.textColor = [UIColor HHOrange];
     self.infoLabel.font = [UIFont systemFontOfSize:12.0f];
