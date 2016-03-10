@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-static NSString *const kDidPurchaseCoachServiceEventId = @"DidPurchaseCoachService";
-static NSString *const kDidTryCoachEventId = @"DidTryCoach";
+static NSString *const kDidPurchaseCoachServiceEventId = @"did_purchase_coach";
+static NSString *const kDidTryCoachEventId = @"did_try_coach";
+static NSString *const kDidRegisterEventId = @"did_register";
 
 @interface HHEventTrackingManager : NSObject
 

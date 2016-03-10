@@ -17,6 +17,7 @@
 #import "HHUserAuthService.h"
 #import "HHLoadingViewUtility.h"
 #import "HHStudentStore.h"
+#import "HHEventTrackingManager.h"
 
 static CGFloat const kFieldViewHeight = 40.0f;
 static CGFloat const kFieldViewWidth = 280.0f;
@@ -177,6 +178,7 @@ static NSInteger const pwdLimit = 20;
     [[HHUserAuthService sharedInstance] createUserWithNumber:self.phoneNumberField.textField.text veriCode:self.verificationCodeField.textField.text password:self.pwdField.textField.text completion:^(HHUser *user, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
+            [[HHEventTrackingManager sharedManager] sendEventWithId:kDidRegisterEventId attributes:@{@"student_id":user.student.studentId}];
             HHAccountSetupViewController *setupVC = [[HHAccountSetupViewController alloc] initWithStudentId:[HHStudentStore sharedInstance].currentStudent.studentId];
             UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:setupVC];
             [self presentViewController:navVC animated:YES completion:nil];

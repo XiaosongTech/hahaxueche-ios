@@ -27,6 +27,7 @@
 #import <Pingpp/Pingpp.h>
 #import "HHStudentService.h"
 #import "HHToastManager.h"
+#import "HHEventTrackingManager.h"
 
 static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
@@ -145,6 +146,8 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [HHSocialMediaShareUtility configure];
     
     [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
+    
+    [HHEventTrackingManager sharedManager];
 }
 
 @end

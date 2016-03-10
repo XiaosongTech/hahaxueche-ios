@@ -32,6 +32,7 @@
         [MobClick startWithAppkey:@"564a6b5ee0f55a2646005412" reportPolicy:BATCH channelId:nil];
         NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         [MobClick setAppVersion:version];
+        [MobClick setLogEnabled:YES];
         
 #else
         [MobClick startWithAppkey:@"5645831de0f55a1d0300031d" reportPolicy:BATCH channelId:nil];

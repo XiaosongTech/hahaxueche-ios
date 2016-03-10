@@ -39,6 +39,7 @@
 #import "HHReviews.h"
 #import "HHReview.h"
 #import "HHReviewListViewController.h"
+#import "HHEventTrackingManager.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -215,6 +216,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
                                                    secondDate:[[HHFormatUtility fullDateFormatter] stringFromDate:secDate]
                                                    completion:^(NSError *error) {
                 if (!error) {
+                    [[HHEventTrackingManager sharedManager] sendEventWithId:kDidTryCoachEventId attributes:@{@"student_id":weakSelf.currentStudent.studentId, @"coach_id":weakSelf.coach.coachId}];
                     [[HHToastManager sharedManager] showSuccessToastWithText:@"免费试学预约成功！教练会尽快联系您！"];
                     [HHPopupUtility dismissPopup:weakSelf.popup];
                 } else {
@@ -251,6 +253,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
                         [HHStudentStore sharedInstance].currentStudent = student;
                         [[NSNotificationCenter defaultCenter] postNotificationName:@"coachPurchased" object:nil];
                     }];
+                    [[HHEventTrackingManager sharedManager] sendEventWithId:kDidPurchaseCoachServiceEventId attributes:@{@"student_id":weakSelf.currentStudent.studentId, @"coach_id":weakSelf.coach.coachId}];
                 } else {
                     [[HHToastManager sharedManager] showErrorToastWithText:@"抱歉，支付失败或者您取消了支付。请重试！"];
                 }
