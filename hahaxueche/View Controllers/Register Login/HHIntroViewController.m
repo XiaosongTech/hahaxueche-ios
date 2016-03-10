@@ -57,7 +57,8 @@ static CGFloat const kButtonWidth = 235.0f;
     self.bannerView = [[SDCycleScrollView alloc] init];
     self.bannerView.delegate = self;
     self.bannerView.imageURLStringsGroup = self.banners;
-    self.bannerView.autoScroll = NO;
+    self.bannerView.autoScroll = YES;
+    self.bannerView.autoScrollTimeInterval = 2.5f;
     self.bannerView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
     [self.view addSubview:self.bannerView];
     

@@ -298,7 +298,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 
             };
             cell.addressCellAction = ^() {
-                HHSingleFieldMapViewController *vc = [[HHSingleFieldMapViewController alloc] initWithField:[[[HHConstantsStore sharedInstance] getAllFieldsForCity:0] firstObject]];
+                HHSingleFieldMapViewController *vc = [[HHSingleFieldMapViewController alloc] initWithField:[[HHConstantsStore sharedInstance] getFieldWithId:self.coach.fieldId]];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             };
             [cell setupWithCoach:self.coach field:[[HHConstantsStore sharedInstance] getFieldWithId:self.coach.fieldId]];

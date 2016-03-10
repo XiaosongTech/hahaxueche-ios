@@ -181,6 +181,7 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
         if (!error) {
             if (coach.coachId) {
                 HHCoachDetailViewController *vc = [[HHCoachDetailViewController alloc] initWithCoach:coach];
+                vc.hidesBottomBarWhenPushed = YES;
                 [self.navigationController pushViewController:vc animated:YES];
             } else {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"非常抱歉，没有在您周围找到合适的教练！"];
