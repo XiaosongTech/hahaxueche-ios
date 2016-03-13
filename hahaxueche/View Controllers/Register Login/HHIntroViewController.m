@@ -59,7 +59,8 @@ static CGFloat const kButtonWidth = 235.0f;
     self.bannerView.imageURLStringsGroup = self.banners;
     self.bannerView.autoScroll = YES;
     self.bannerView.autoScrollTimeInterval = 2.5f;
-    self.bannerView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
+    self.bannerView.bannerImageViewContentMode = UIViewContentModeScaleAspectFit;
+    self.bannerView.backgroundColor = [UIColor HHOrange];
     [self.view addSubview:self.bannerView];
     
     self.registerButton = [[HHButton alloc] initWithFrame:CGRectZero];
