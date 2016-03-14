@@ -149,7 +149,8 @@ static CGFloat const kButtonWidth = 235.0f;
     
     [self.backButton makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.top).offset(30.0f);
-        make.left.equalTo(self.view.left).offset(20.0f);
+        make.left.equalTo(self.view.left).offset(10.0f);
+        make.width.mas_equalTo(40.0f);
     }];
 
 
