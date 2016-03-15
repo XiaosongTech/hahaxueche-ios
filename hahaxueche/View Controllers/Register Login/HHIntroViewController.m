@@ -59,7 +59,8 @@ static CGFloat const kButtonWidth = 235.0f;
     self.bannerView.imageURLStringsGroup = self.banners;
     self.bannerView.autoScroll = YES;
     self.bannerView.autoScrollTimeInterval = 2.5f;
-    self.bannerView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
+    self.bannerView.bannerImageViewContentMode = UIViewContentModeScaleAspectFit;
+    self.bannerView.backgroundColor = [UIColor HHOrange];
     [self.view addSubview:self.bannerView];
     
     self.registerButton = [[HHButton alloc] initWithFrame:CGRectZero];
@@ -148,7 +149,8 @@ static CGFloat const kButtonWidth = 235.0f;
     
     [self.backButton makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.top).offset(30.0f);
-        make.left.equalTo(self.view.left).offset(20.0f);
+        make.left.equalTo(self.view.left).offset(10.0f);
+        make.width.mas_equalTo(40.0f);
     }];
 
 

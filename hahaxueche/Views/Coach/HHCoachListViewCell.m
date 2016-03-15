@@ -181,7 +181,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.field = field;
     self.ratingLabel.text = [NSString stringWithFormat:@"%.1f分",[coach.averageRating floatValue]];;
     [self.mapButton setTitle:[field cityAndDistrict] forState:UIControlStateNormal];
-    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl]];
+    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl] placeholderImage:[UIImage imageNamed:@"ic_coach_ava"]];
     self.nameLabel.text = coach.name;
     self.trainingYearLabel.text = [NSString stringWithFormat:@"%@年教龄", [coach.experienceYear stringValue]];
     if ([coach isGoldenCoach]) {
