@@ -12,10 +12,6 @@
 #import "ParallaxHeaderView.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHCoachDetailDescriptionCell.h"
-#import "PBViewController.h"
-#import "PBViewControllerDataSource.h"
-#import "PBImageScrollerViewController.h"
-#import "PBViewControllerDelegate.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "HHCoachDetailSectionOneCell.h"
 #import "HHCoachDetailSectionTwoCell.h"
@@ -40,6 +36,7 @@
 #import "HHReview.h"
 #import "HHReviewListViewController.h"
 #import "HHEventTrackingManager.h"
+#import "HHImageGalleryViewController.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -54,7 +51,7 @@ static NSString *const kInfoOneCellID = @"kInfoOneCellId";
 static NSString *const kInfoTwoCellID = @"kInfoTwoCellID";
 static NSString *const kCommentsCellID = @"kCommentsCellID";
 
-@interface HHCoachDetailViewController () <UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIScrollViewDelegate,PBViewControllerDataSource, PBViewControllerDelegate>
+@interface HHCoachDetailViewController () <UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) SDCycleScrollView *coachImagesView;
@@ -376,12 +373,8 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 #pragma mark SDCycleScrollViewDelegate Method
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
-    PBViewController *pbViewController = [PBViewController new];
-    pbViewController.pb_dataSource = self;
-    pbViewController.pb_delegate = self;
-    [pbViewController setInitializePageIndex:index];
-    pbViewController.modalTransitionStyle   = UIModalTransitionStyleCrossDissolve;
-    [self presentViewController:pbViewController animated:YES completion:nil];
+    HHImageGalleryViewController *galleryVC = [[HHImageGalleryViewController alloc] initWithURLs:self.coach.images currentIndex:index];
+    [self presentViewController:galleryVC animated:YES completion:nil];
 }
 
 #pragma mark - UIScrollView Delegate Methods
@@ -398,20 +391,6 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 
 - (void)popupVC {
     [self.navigationController popViewControllerAnimated:YES];
-}
-
-#pragma mark - PBViewControllerDataSource & PBViewControllerDelegate
-
-- (NSInteger)numberOfPagesInViewController:(PBViewController *)viewController {
-    return self.coach.images.count;
-}
-
-- (void)viewController:(PBViewController *)viewController presentImageView:(UIImageView *)imageView forPageAtIndex:(NSInteger)index {
-    [imageView sd_setImageWithURL:[NSURL URLWithString:self.coach.images[index]]];
-}
-
-- (void)viewController:(PBViewController *)viewController didSingleTapedPageAtIndex:(NSInteger)index presentedImage:(UIImage *)presentedImage {
-    [viewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 
