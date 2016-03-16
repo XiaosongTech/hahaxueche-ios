@@ -11,10 +11,6 @@
 #import "UIColor+HHColor.h"
 #import <SDCycleScrollView/SDCycleScrollView.h>
 #import "ParallaxHeaderView.h"
-#import "PBViewController.h"
-#import "PBViewControllerDataSource.h"
-#import "PBImageScrollerViewController.h"
-#import "PBViewControllerDelegate.h"
 #import "HHCoachDetailDescriptionCell.h"
 #import "HHMyCoachBasicInfoCell.h"
 #import "HHMyPageCoachCell.h"
@@ -27,13 +23,14 @@
 #import "HHConstantsStore.h"
 #import "HHPriceDetailView.h"
 #import "HHPopupUtility.h"
+#import "HHImageGalleryViewController.h"
 
 
 static NSString *const kDescriptionCellID = @"kDescriptionCellID";
 static NSString *const kBasicInfoCellID = @"kBasicInfoCellID";
 static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
 
-@interface HHMyCoachDetailViewController () <UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIScrollViewDelegate,PBViewControllerDataSource, PBViewControllerDelegate>
+@interface HHMyCoachDetailViewController () <UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, strong) HHCoach *coach;
 
@@ -169,38 +166,18 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
 #pragma mark SDCycleScrollViewDelegate Method
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
-    PBViewController *pbViewController = [PBViewController new];
-    pbViewController.pb_dataSource = self;
-    pbViewController.pb_delegate = self;
-    [pbViewController setInitializePageIndex:index];
-    pbViewController.modalTransitionStyle   = UIModalTransitionStyleCrossDissolve;
-    [self presentViewController:pbViewController animated:YES completion:nil];
+    HHImageGalleryViewController *galleryVC = [[HHImageGalleryViewController alloc] initWithURLs:self.coach.images currentIndex:index];
+    [self presentViewController:galleryVC animated:YES completion:nil];
 }
 
 #pragma mark - UIScrollView Delegate Methods
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if ([scrollView isEqual:self.tableView]) {
         // pass the current offset of the UITableView so that the ParallaxHeaderView layouts the subViews.
         [(ParallaxHeaderView *)self.tableView.tableHeaderView layoutHeaderViewForScrollViewOffset:self.tableView.contentOffset];
     }
 }
-
-#pragma mark - PBViewControllerDataSource & PBViewControllerDelegate
-
-- (NSInteger)numberOfPagesInViewController:(PBViewController *)viewController {
-    return self.coach.images.count;
-}
-
-- (void)viewController:(PBViewController *)viewController presentImageView:(UIImageView *)imageView forPageAtIndex:(NSInteger)index {
-    [imageView sd_setImageWithURL:[NSURL URLWithString:self.coach.images[index]]];
-}
-
-- (void)viewController:(PBViewController *)viewController didSingleTapedPageAtIndex:(NSInteger)index presentedImage:(UIImage *)presentedImage {
-    [viewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-}
-
 
 
 #pragma mark Button Actions
