@@ -96,4 +96,11 @@
     self.indexLabel.text = [self buildIndexString];
 }
 
+- (void) viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.scrollView.contentOffset = CGPointMake(CGRectGetWidth(self.scrollView.frame) * self.currentIndex, 0);
+}
+
+
+
 @end
