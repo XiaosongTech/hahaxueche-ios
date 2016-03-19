@@ -37,6 +37,7 @@
 #import "HHReviewListViewController.h"
 #import "HHEventTrackingManager.h"
 #import "HHImageGalleryViewController.h"
+#import "HHLoadingViewUtility.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -245,11 +246,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             [HHPopupUtility dismissPopup:weakSelf.popup];
             [[HHPaymentService sharedInstance] payWithCoachId:weakSelf.coach.coachId studentId:weakSelf.currentStudent.studentId inController:weakSelf completion:^(BOOL succeed) {
                 if (succeed) {
-                    [[HHToastManager sharedManager] showSuccessToastWithText:@"支付成功! 请到我的页面查看具体信息."];
-                    [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
-                        [HHStudentStore sharedInstance].currentStudent = student;
-                        [[NSNotificationCenter defaultCenter] postNotificationName:@"coachPurchased" object:nil];
-                    }];
+                    [weakSelf fetchStudentAfterPurchase];
                     [[HHEventTrackingManager sharedManager] sendEventWithId:kDidPurchaseCoachServiceEventId attributes:@{@"student_id":weakSelf.currentStudent.studentId, @"coach_id":weakSelf.coach.coachId}];
                 } else {
                     [[HHToastManager sharedManager] showErrorToastWithText:@"抱歉，支付失败或者您取消了支付。请重试！"];
@@ -266,6 +263,21 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         weakSelf.bottomBar.followed = followed;
     }];
     
+}
+
+- (void)fetchStudentAfterPurchase {
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
+        if ([student.purchasedServiceArray count]) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            [[HHToastManager sharedManager] showSuccessToastWithText:@"支付成功! 请到我的页面查看具体信息."];
+            [HHStudentStore sharedInstance].currentStudent = student;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"coachPurchased" object:nil];
+        } else {
+            [self fetchStudentAfterPurchase];
+        }
+        
+    }];
 }
 
 #pragma mark - TableView Delegate & Datasource Methods
