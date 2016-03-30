@@ -266,7 +266,9 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 }
 
 - (void)fetchStudentAfterPurchase {
-    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    if (![[HHLoadingViewUtility sharedInstance] isVisible]) {
+        [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    }
     [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
         if ([student.purchasedServiceArray count]) {
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];

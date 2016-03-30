@@ -40,12 +40,12 @@
 }
 
 - (NSString *)fullAddress {
-    NSString *string = [NSString stringWithFormat:@"%@%@%@", [[[HHConstantsStore sharedInstance] getAuthedUserCity] cityName], self.district, self.address];
+    NSString *string = [NSString stringWithFormat:@"%@%@%@", [[[HHConstantsStore sharedInstance] getCityWithId:self.cityId] cityName], self.district, self.address];
     return string;
 }
 
 - (NSString *)cityAndDistrict {
-    NSString *string = [NSString stringWithFormat:@"%@%@",[[[HHConstantsStore sharedInstance] getAuthedUserCity] cityName] , self.district];
+    NSString *string = [NSString stringWithFormat:@"%@%@",[[[HHConstantsStore sharedInstance] getCityWithId:self.cityId] cityName] , self.district];
     return string;
 }
 
