@@ -39,7 +39,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.dateLabel = [self buildLabelWithText:[[HHFormatUtility fullDateFormatter] stringFromDate:self.purchasedService.paidAt]];
     [self addSubview:self.dateLabel];
     
-    self.transactionIdLabel = [self buildLabelWithText:[NSString stringWithFormat:@"订单编号：%@", self.purchasedService.chargeId]];
+    self.transactionIdLabel = [self buildLabelWithText:[NSString stringWithFormat:@"订单编号：%@", self.purchasedService.orderNo]];
     [self addSubview:self.transactionIdLabel];
     
     self.avatarView = [[UIImageView alloc] init];
@@ -69,7 +69,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     UILabel *label = [[UILabel alloc] init];
     label.text = text;
     label.textColor = [UIColor whiteColor];
-    label.font = [UIFont systemFontOfSize:12.0f];
+    label.font = [UIFont systemFontOfSize:15.0f];
     return label;
 }
 
@@ -88,13 +88,13 @@ static CGFloat const kAvatarRadius = 30.0f;
     }];
     
     [self.dateLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.nameLabel.bottom).offset(5.0f);
+        make.top.equalTo(self.nameLabel.bottom).offset(10.0f);
         make.left.equalTo(self.left).offset(20.0f);
     }];
     
     [self.transactionIdLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.dateLabel.bottom).offset(5.0f);
-        make.left.equalTo(self.dateLabel.left);
+        make.top.equalTo(self.dateLabel.top);
+        make.left.equalTo(self.dateLabel.right).offset(10.0f);
     }];
     
     [self.avatarView makeConstraints:^(MASConstraintMaker *make) {
@@ -108,7 +108,7 @@ static CGFloat const kAvatarRadius = 30.0f;
         make.centerX.equalTo(self.centerX);
         make.width.equalTo(self.width).offset(-40.0f);
         make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-        make.top.equalTo(self.transactionIdLabel.bottom).offset(10.0f);
+        make.top.equalTo(self.avatarView.bottom).offset(10.0f);
     }];
     
     [self.totalAmountView makeConstraints:^(MASConstraintMaker *make) {

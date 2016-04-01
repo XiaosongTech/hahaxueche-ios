@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) NSArray *assignments;
 @property (nonatomic, copy) NSString *chargeId;
+@property (nonatomic, copy) NSString *orderNo;
 @property (nonatomic, copy) NSNumber *currentStage;
 @property (nonatomic, copy) NSString *purchasedServiceId;
 @property (nonatomic, copy) NSNumber *paidAmount;

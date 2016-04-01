@@ -10,6 +10,7 @@
 #import "APIPaths.h"
 #import "HHStudentStore.h"
 #import "HHAPIClient.h"
+#import "UIImage+HHImage.h"
 
 @implementation HHStudentService
 
@@ -26,7 +27,8 @@
 
 - (void)uploadStudentAvatarWithImage:(UIImage *)image completion:(HHStudentCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentAvatar, [HHStudentStore sharedInstance].currentStudent.studentId]];
-    [APIClient uploadImage:image completion:^(NSDictionary *response, NSError *error) {
+    UIImage *scaleDownedImage = [UIImage imageWithImage:image scaledToWidth:300.0f];
+    [APIClient uploadImage:scaleDownedImage completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             HHStudent *student = [MTLJSONAdapter modelOfClass:[HHStudent class] fromJSONDictionary:response error:nil];
             [HHStudentStore sharedInstance].currentStudent = student;
@@ -90,5 +92,6 @@
         }
     }];
 }
+
 
 @end

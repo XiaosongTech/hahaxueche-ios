@@ -12,4 +12,6 @@
 
 + (UIImage *)imageWithColor:(UIColor *)color;
 
++ (UIImage*)imageWithImage:(UIImage*)sourceImage scaledToWidth:(CGFloat) i_width;
+
 @end
