@@ -160,6 +160,21 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     [defaults setObject:nil forKey:kUserObjectKey];
 }
 
+- (void)isTokenValid:(NSString *)cellPhone completion:(HHUserTokenCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIToken];
+    [APIClient postWithParameters:@{@"cell_phone":cellPhone} completion:^(NSDictionary *response, NSError *error) {
+        if ([response[@"valid"] isEqual:@(1)]) {
+            if (completion) {
+                completion(YES);
+            }
+        } else {
+            if (completion) {
+                completion(NO);
+            }
+        }
+    }];
+}
+
 
 
 

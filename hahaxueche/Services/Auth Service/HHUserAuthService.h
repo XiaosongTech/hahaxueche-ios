@@ -16,6 +16,7 @@
 typedef void (^HHUserErrorCompletion)(NSError *error);
 typedef void (^HHUserCompletion)(HHUser *user, NSError *error);
 typedef void (^HHStudentCompletion)(HHStudent *student, NSError *error);
+typedef void (^HHUserTokenCompletion)(BOOL valid);
 
 @interface HHUserAuthService : NSObject
 
@@ -93,6 +94,13 @@ typedef void (^HHStudentCompletion)(HHStudent *student, NSError *error);
  @param user The authed user object
  */
 - (void)saveAuthedUser:(HHUser *)user;
+
+/**
+ Check a token if it's valid
+ @param cellPhone The cellphone of the user
+ @completion The completion block to execute on completion
+ */
+- (void)isTokenValid:(NSString *)cellPhone completion:(HHUserTokenCompletion)completion;
 
 
 

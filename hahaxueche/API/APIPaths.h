@@ -19,6 +19,7 @@
 #define kAPIResetPWDPath @"users/reset_password"
 #define kAPIUserReviews @"users/reviews/%@"
 #define kAPIUserFollows @"users/follows/"
+#define kAPIToken @"sessions/access_token/valid"
 
 #pragma mark Payment
 #define kAPICharges @"charges"
