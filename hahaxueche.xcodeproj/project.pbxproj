@@ -333,6 +333,11 @@
 		5CDE14861C3852E30004778C /* HHCitySelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE14851C3852E30004778C /* HHCitySelectView.m */; };
 		5CDE14891C3859290004778C /* HHPopupUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE14881C3859290004778C /* HHPopupUtility.m */; };
 		5CDE148C1C3A00AB0004778C /* HHLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE148B1C3A00AB0004778C /* HHLoginViewController.m */; };
+		6DDAE6C31CB7566900CE461A /* HHNoCoachView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */; };
+		6DDAE6C91CB7899F00CE461A /* HHAppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C81CB7899F00CE461A /* HHAppInfoViewController.m */; };
+		6DDAE6CD1CB78B1B00CE461A /* ic_aboutmsg_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDAE6CA1CB78B1B00CE461A /* ic_aboutmsg_logo.png */; };
+		6DDAE6CE1CB78B1B00CE461A /* ic_aboutmsg_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDAE6CB1CB78B1B00CE461A /* ic_aboutmsg_logo@2x.png */; };
+		6DDAE6CF1CB78B1B00CE461A /* ic_aboutmsg_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDAE6CC1CB78B1B00CE461A /* ic_aboutmsg_logo@3x.png */; };
 		D68F0EFAEA66F3DCDFE972F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B0110F2ECD81DF5CD4D72E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -789,6 +794,13 @@
 		5CDE14881C3859290004778C /* HHPopupUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPopupUtility.m; sourceTree = "<group>"; };
 		5CDE148A1C3A00AB0004778C /* HHLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHLoginViewController.h; sourceTree = "<group>"; };
 		5CDE148B1C3A00AB0004778C /* HHLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHLoginViewController.m; sourceTree = "<group>"; };
+		6DDAE6C11CB7566900CE461A /* HHNoCoachView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNoCoachView.h; sourceTree = "<group>"; };
+		6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNoCoachView.m; sourceTree = "<group>"; };
+		6DDAE6C71CB7899F00CE461A /* HHAppInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAppInfoViewController.h; sourceTree = "<group>"; };
+		6DDAE6C81CB7899F00CE461A /* HHAppInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHAppInfoViewController.m; sourceTree = "<group>"; };
+		6DDAE6CA1CB78B1B00CE461A /* ic_aboutmsg_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_aboutmsg_logo.png; sourceTree = "<group>"; };
+		6DDAE6CB1CB78B1B00CE461A /* ic_aboutmsg_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_aboutmsg_logo@2x.png"; sourceTree = "<group>"; };
+		6DDAE6CC1CB78B1B00CE461A /* ic_aboutmsg_logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_aboutmsg_logo@3x.png"; sourceTree = "<group>"; };
 		D5B0110F2ECD81DF5CD4D72E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8832576172C8DF34558C848 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		EFA148D80F7878EC1B2315C7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -845,6 +857,8 @@
 			children = (
 				1405CC6B1C7523CE0030B114 /* HHEmptyScheduleCell.h */,
 				1405CC6C1C7523CE0030B114 /* HHEmptyScheduleCell.m */,
+				6DDAE6C11CB7566900CE461A /* HHNoCoachView.h */,
+				6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */,
 			);
 			path = "Training Schedule";
 			sourceTree = "<group>";
@@ -901,6 +915,8 @@
 				1405CC921C768A2A0030B114 /* HHMyCoachDetailViewController.m */,
 				14700D8E1C781AAF00660989 /* HHPaymentStatusViewController.h */,
 				14700D8F1C781AAF00660989 /* HHPaymentStatusViewController.m */,
+				6DDAE6C71CB7899F00CE461A /* HHAppInfoViewController.h */,
+				6DDAE6C81CB7899F00CE461A /* HHAppInfoViewController.m */,
 			);
 			path = "My Page";
 			sourceTree = "<group>";
@@ -1375,6 +1391,9 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6DDAE6CA1CB78B1B00CE461A /* ic_aboutmsg_logo.png */,
+				6DDAE6CB1CB78B1B00CE461A /* ic_aboutmsg_logo@2x.png */,
+				6DDAE6CC1CB78B1B00CE461A /* ic_aboutmsg_logo@3x.png */,
 				141F7BF61C617EC7003278C6 /* ic_Star_grey.png */,
 				141F7BF71C617EC7003278C6 /* ic_Star_grey@2x.png */,
 				141F7BF81C617EC7003278C6 /* ic_Star_grey@3x.png */,
@@ -1734,9 +1753,11 @@
 				14F608E91C86998F00EA70A7 /* launch@3x.png in Resources */,
 				5C36D3711C42D9F800443545 /* ic_bottombar_date_hold_btn@3x.png in Resources */,
 				140EC6081C6D68D000DA634D /* ic_coachmsg_coachlevel@3x.png in Resources */,
+				6DDAE6CE1CB78B1B00CE461A /* ic_aboutmsg_logo@2x.png in Resources */,
 				5C36D3BC1C474FF600443545 /* ic_screen_normal_btn@3x.png in Resources */,
 				14604F5A1C6FB0E3009DBE10 /* ic_coachmsg_sharecoach_wechat.png in Resources */,
 				14B5EB831C7CE69800A37669 /* ic_mypage_bk@3x.png in Resources */,
+				6DDAE6CF1CB78B1B00CE461A /* ic_aboutmsg_logo@3x.png in Resources */,
 				5C36D3C71C47500700443545 /* ic_sort_normal_btn@2x.png in Resources */,
 				5C36D3B81C474FF600443545 /* ic_screen_hold_btn@2x.png in Resources */,
 				5CDE14801C3787CF0004778C /* ic_avatar_btn@3x.png in Resources */,
@@ -1828,6 +1849,7 @@
 				140EC60B1C6D68D000DA634D /* ic_coachmsg_manyidu@3x.png in Resources */,
 				5C6D8C8E1C3AD6840055CB31 /* ic_toast_right@2x.png in Resources */,
 				140EC6311C6E3CFC00DA634D /* ic_coachmsg_attention_on@2x.png in Resources */,
+				6DDAE6CD1CB78B1B00CE461A /* ic_aboutmsg_logo.png in Resources */,
 				140EC6331C6E3CFC00DA634D /* ic_coachmsg_sharecoach.png in Resources */,
 				141F7BFF1C617EC7003278C6 /* ic_Star_grey.png in Resources */,
 				5C36D3831C42D9F800443545 /* ic_bottombar_mypage_hold_btn@3x.png in Resources */,
@@ -2005,6 +2027,7 @@
 				14B5EB7D1C7CCE0D00A37669 /* HHFollowedCoachListViewController.m in Sources */,
 				141FA1041C6BF64800113B1A /* HHCoachDetailSectionOneCell.m in Sources */,
 				5C6D8C951C3AE38C0055CB31 /* HHLoadingViewUtility.m in Sources */,
+				6DDAE6C31CB7566900CE461A /* HHNoCoachView.m in Sources */,
 				14B5EB761C7C0D6800A37669 /* HHPaymentService.m in Sources */,
 				1405CC801C7641690030B114 /* HHMyPageItemView.m in Sources */,
 				1405CC8F1C7664080030B114 /* HHMyPageLogoutCell.m in Sources */,
@@ -2034,6 +2057,7 @@
 				5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */,
 				147A9FF01C7AA8B1000DED3B /* HHPaymentStage.m in Sources */,
 				1482A9AB1C816817007F9019 /* HHCoachAssignment.m in Sources */,
+				6DDAE6C91CB7899F00CE461A /* HHAppInfoViewController.m in Sources */,
 				142151111C98D9D200569DFB /* HHImageGalleryViewController.m in Sources */,
 				1405CC931C768A2A0030B114 /* HHMyCoachDetailViewController.m in Sources */,
 				1405CC831C7645910030B114 /* HHMyPageCoachCell.m in Sources */,

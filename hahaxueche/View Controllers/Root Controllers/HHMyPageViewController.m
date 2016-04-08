@@ -26,6 +26,7 @@
 #import "HHStudentService.h"
 #import "HHLoadingViewUtility.h"
 #import "HHWebViewController.h"
+#import "HHAppInfoViewController.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -187,7 +188,12 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             HHMyPageHelpCell *cell = [tableView dequeueReusableCellWithIdentifier:kHelpCell];
             cell.aboutView.actionBlock = ^() {
                 HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:kAboutStudentLink]];
-                [self.navigationController pushViewController:webVC animated:YES];
+                [weakSelf.navigationController pushViewController:webVC animated:YES];
+            };
+            cell.appInfoView.actionBlock = ^() {
+                HHAppInfoViewController *vc = [[HHAppInfoViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
             };
             return cell;
         } break;
@@ -217,7 +223,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
             
         case MyPageCellHelp:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight * 1.0f;
+            return kTopPadding + kTitleViewHeight + kItemViewHeight * 3.0f;
             
         case MyPageCellLogout:
             return 50 + kTopPadding * 2.0f;

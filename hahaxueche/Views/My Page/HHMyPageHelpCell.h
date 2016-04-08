@@ -13,7 +13,8 @@
 @interface HHMyPageHelpCell : UITableViewCell
 
 @property (nonatomic, strong) HHMyPageItemTitleView *titleView;
-@property (nonatomic, strong) HHMyPageItemView *FAQView;
+@property (nonatomic, strong) HHMyPageItemView *appInfoView;
+@property (nonatomic, strong) HHMyPageItemView *rateUsView;
 @property (nonatomic, strong) HHMyPageItemView *aboutView;
 
 @end

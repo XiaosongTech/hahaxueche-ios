@@ -16,6 +16,8 @@
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHCoachService.h"
 #import <UIImageView+WebCache.h>
+#import "HHPopupUtility.h"
+#import "HHNoCoachView.h"
 
 
 static NSString *kEmptyCellId = @"emptyCellID";
@@ -23,27 +25,43 @@ static NSString *kEmptyCellId = @"emptyCellID";
 @interface HHBookTrainingViewController () <UITableViewDataSource, UITableViewDelegate, SwipeViewDataSource, SwipeViewDelegate>
 
 @property (nonatomic, strong) HHNavBarSegmentedControl *segmentedControl;
-@property (nonatomic, strong) UITableView *courseScheduleTableView;
-@property (nonatomic, strong) UITableView *bookedScheduleTableView;
-@property (nonatomic, strong) UITableView *finishedScheduleTableView;
-@property (nonatomic, strong) SwipeView *containerView;
+@property (nonatomic, strong) UITableView *coachScheduleTableView;
+@property (nonatomic, strong) UITableView *myScheduleTableView;
+@property (nonatomic, strong) SwipeView *containerSwipeView;
 @property (nonatomic, strong) HHStudent *currentStudent;
+@property (nonatomic, strong) KLCPopup *popup;
+@property (nonatomic) BOOL hasCoach;
 
 @end
 
 @implementation HHBookTrainingViewController
 
 - (void)dealloc {
-    self.containerView.delegate = nil;
-    self.containerView.dataSource = nil;
+    self.containerSwipeView.delegate = nil;
+    self.containerSwipeView.dataSource = nil;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor HHBackgroundGary];
+    self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"预约学车";
     self.currentStudent = [HHStudentStore sharedInstance].currentStudent;
+    
+    NSArray *items = @[@"教练课程", @"我的课程"];
+    self.segmentedControl = [[HHNavBarSegmentedControl alloc] initWithItems:items];
+    self.segmentedControl.frame = CGRectMake(0, 0, ScheduleTypeCount * 70.0f, 30.0f);
+    [self.segmentedControl addTarget:self action:@selector(valueChanged:) forControlEvents: UIControlEventValueChanged];
+
+    self.navigationItem.titleView = self.segmentedControl;
     if (self.currentStudent.currentCoachId) {
+        self.hasCoach = YES;
+        
+    } else {
+        self.hasCoach = NO;
+    }
+    
+    
+    if (self.hasCoach) {
         [self initSubviews];
     } else {
         [self buildNoCoachView];
@@ -51,16 +69,12 @@ static NSString *kEmptyCellId = @"emptyCellID";
 }
 
 - (void)initSubviews {
-    NSArray *items = @[@"新课程", @"已预约", @"已完成"];
-    self.segmentedControl = [[HHNavBarSegmentedControl alloc] initWithItems:items];
-    self.segmentedControl.frame = CGRectMake(0, 0, ScheduleTypeCount * 70.0f, 30.0f);
-    self.navigationItem.titleView = self.segmentedControl;
     
-    self.containerView = [[SwipeView alloc] initWithFrame:self.view.frame];
-    self.containerView.delegate = self;
-    self.containerView.dataSource = self;
-    self.containerView.pagingEnabled = YES;
-    [self.view addSubview:self.containerView];
+    self.containerSwipeView = [[SwipeView alloc] initWithFrame:self.view.frame];
+    self.containerSwipeView.delegate = self;
+    self.containerSwipeView.dataSource = self;
+    self.containerSwipeView.pagingEnabled = YES;
+    [self.view addSubview:self.containerSwipeView];
     
     [[HHCoachService sharedInstance] fetchCoachWithId:self.currentStudent.currentCoachId completion:^(HHCoach *coach, NSError *error) {
         if (!error) {
@@ -74,7 +88,7 @@ static NSString *kEmptyCellId = @"emptyCellID";
 }
 
 - (UITableView *)buildTableView {
-    UITableView *tableView = [[UITableView alloc] initWithFrame:self.containerView.bounds];
+    UITableView *tableView = [[UITableView alloc] initWithFrame:self.containerSwipeView.bounds];
     tableView.delegate = self;
     tableView.dataSource = self;
     tableView.backgroundColor = [UIColor HHBackgroundGary];
@@ -92,35 +106,28 @@ static NSString *kEmptyCellId = @"emptyCellID";
 
 - (UIView *)swipeView:(SwipeView *)swipeView viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view {
     switch (index) {
-        case ScheduleTypeAll: {
-            if (!self.courseScheduleTableView) {
-                self.courseScheduleTableView = [self buildTableView];
+        case ScheduleTypeCoachSchedule: {
+            if (!self.coachScheduleTableView) {
+                self.coachScheduleTableView = [self buildTableView];
             }
             
-            return self.courseScheduleTableView;
+            return self.coachScheduleTableView;
         }
             
-        case ScheduleTypeBooked: {
-            if (!self.bookedScheduleTableView) {
-                self.bookedScheduleTableView =  [self buildTableView];
+        case ScheduleTypeMySchedule: {
+            if (!self.myScheduleTableView) {
+                self.myScheduleTableView =  [self buildTableView];
 
             }
-            return self.bookedScheduleTableView;
-        }
-            
-        case ScheduleTypeFinished: {
-            if (!self.finishedScheduleTableView) {
-                self.finishedScheduleTableView = [self buildTableView];
-            }
-            return self.finishedScheduleTableView;
+            return self.myScheduleTableView;
         }
             
         default: {
-            if (!self.courseScheduleTableView) {
-                self.courseScheduleTableView = [self buildTableView];
+            if (!self.coachScheduleTableView) {
+                self.coachScheduleTableView = [self buildTableView];
             }
             
-            return self.courseScheduleTableView;
+            return self.coachScheduleTableView;
         };
     }
 }
@@ -130,7 +137,7 @@ static NSString *kEmptyCellId = @"emptyCellID";
 }
 
 - (CGSize)swipeViewItemSize:(SwipeView *)swipeView {
-    return self.containerView.bounds.size;
+    return self.containerSwipeView.bounds.size;
 }
 
 #pragma mark UITableView Delegate & Datasource Methods
@@ -138,13 +145,11 @@ static NSString *kEmptyCellId = @"emptyCellID";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSString *title;
-    if ([tableView isEqual:self.courseScheduleTableView]) {
+    if ([tableView isEqual:self.coachScheduleTableView]) {
         title = @"目前还没有课程，请耐心等待哦～";
-    } else if ([tableView isEqual:self.bookedScheduleTableView]) {
-        title = @"您还没有已预约的课程，快去教练课程列表选课吧～";
     } else {
-        title = @"您还没有已完成的课程，请再接再厉！";
-    }
+        title = @"您还没有已预约的课程，快去教练课程列表选课吧～";
+    } 
     HHEmptyScheduleCell *cell = [tableView dequeueReusableCellWithIdentifier:kEmptyCellId];
     [cell setupCellWithTitle:title];
     return cell;
@@ -161,32 +166,75 @@ static NSString *kEmptyCellId = @"emptyCellID";
 #pragma mark - Others
 
 - (void)buildNoCoachView {
-    UIView *view = [[UIView alloc] initWithFrame:self.view.frame];
-    view.backgroundColor = [UIColor HHBackgroundGary];
-    [self.view addSubview:view];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_nolist_bk_pic"]];
-    [view addSubview:imageView];
     
-    UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.textColor = [UIColor HHLightTextGray];
-    titleLabel.numberOfLines = 0;
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    titleLabel.text = @"您还没有选择教练哦～\n快去寻找教练，开启愉快的学车之旅吧～";
-    titleLabel.font = [UIFont systemFontOfSize:14.0f];
-    [view addSubview:titleLabel];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitle:@"选择教练" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont systemFontOfSize:18.0f];
+    button.backgroundColor = [UIColor HHOrange];
+    [button addTarget:self action:@selector(jumpToFindCoachVC) forControlEvents:UIControlEventTouchUpInside];
+    button.layer.masksToBounds = YES;
+    button.layer.cornerRadius = 5.0f;
+    [self.view addSubview:button];
     
-    [imageView makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(view.centerX);
-        make.centerY.equalTo(view.centerY).offset(-60.0f);
+    [button makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.bottom).offset(-(20.0f + CGRectGetHeight(self.tabBarController.tabBar.frame)));
+        make.centerX.equalTo(self.view.centerX);
+        make.width.equalTo(self.view.width).offset(-40.0f);
+        make.height.mas_equalTo(50.0f);
     }];
     
+    UILabel *subLabel = [[UILabel alloc] init];
+    subLabel.text = @"快去寻找属于自己的好教练, 加入他们吧!";
+    subLabel.textColor = [UIColor HHLightestTextGray];
+    subLabel.font = [UIFont systemFontOfSize:15.0f];
+    [self.view addSubview:subLabel];
+    
+    [subLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(button.top).offset(-20.0f);
+        make.centerX.equalTo(self.view.centerX);
+    }];
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.text = @"您还没有选择教练哦~";
+    titleLabel.textColor = [UIColor HHLightTextGray];
+    titleLabel.font = [UIFont systemFontOfSize:21.0f];
+    [self.view addSubview:titleLabel];
+    
     [titleLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(view.centerX);
-        make.centerY.equalTo(view.centerY).offset(20.0f);
-        make.width.equalTo(view.width).offset(-40.0f);
+        make.bottom.equalTo(subLabel.top).offset(-10.0f);
+        make.centerX.equalTo(self.view.centerX);
     }];
 
 }
+
+- (void)valueChanged:(UISegmentedControl *)segControl {
+    if(!self.hasCoach) {
+        segControl.selectedSegmentIndex = ScheduleTypeCoachSchedule;
+        [self showNoCoachPopup];
+        return;
+        
+    }
+    [self.containerSwipeView scrollToPage:segControl.selectedSegmentIndex duration:0.2f];
+}
+
+
+- (void)showNoCoachPopup {
+    HHNoCoachView *view = [[HHNoCoachView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 180.0f)];
+    [view.okButton addTarget:self action:@selector(dismissPopupView) forControlEvents:UIControlEventTouchUpInside];
+    self.popup = [HHPopupUtility createPopupWithContentView:view];
+    
+    [HHPopupUtility showPopup:self.popup];
+    
+}
+
+- (void)dismissPopupView {
+    [HHPopupUtility dismissPopup:self.popup];
+}
+
+- (void)jumpToFindCoachVC {
+    self.tabBarController.selectedIndex = 1;
+}
+
 
 
 @end
