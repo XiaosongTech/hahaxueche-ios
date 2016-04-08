@@ -108,7 +108,7 @@ static CGFloat const kAvatarRadius = 30.0f;
         make.left.equalTo(self.nameLabel.left);
         make.top.equalTo(self.nameLabel.bottom).offset(3.0f);
         make.height.mas_equalTo(20.0f);
-        make.width.mas_equalTo(100.0f);
+        make.width.mas_equalTo(80.0f);
     }];
     
     [self.ratingLabel makeConstraints:^(MASConstraintMaker *make) {
@@ -179,7 +179,7 @@ static CGFloat const kAvatarRadius = 30.0f;
 
 - (void)setupCellWithCoach:(HHCoach *)coach field:(HHField *)field {
     self.field = field;
-    self.ratingLabel.text = [NSString stringWithFormat:@"%.1f分",[coach.averageRating floatValue]];;
+    self.ratingLabel.text = [NSString stringWithFormat:@"%.1f (%@)",[coach.averageRating floatValue], [coach.reviewCount stringValue]];;
     [self.mapButton setTitle:[field cityAndDistrict] forState:UIControlStateNormal];
     [self.avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl] placeholderImage:[UIImage imageNamed:@"ic_coach_ava"]];
     self.nameLabel.text = coach.name;
