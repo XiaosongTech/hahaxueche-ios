@@ -18,9 +18,10 @@
 #import <UIImageView+WebCache.h>
 #import "HHPopupUtility.h"
 #import "HHNoCoachView.h"
-
+#import "HHCoachScheduleCellTableViewCell.h"
 
 static NSString *kEmptyCellId = @"emptyCellID";
+static NSString *kScheduleCellId = @"scheduleCellId";
 
 @interface HHBookTrainingViewController () <UITableViewDataSource, UITableViewDelegate, SwipeViewDataSource, SwipeViewDelegate>
 
@@ -30,6 +31,13 @@ static NSString *kEmptyCellId = @"emptyCellID";
 @property (nonatomic, strong) SwipeView *containerSwipeView;
 @property (nonatomic, strong) HHStudent *currentStudent;
 @property (nonatomic, strong) KLCPopup *popup;
+
+@property (nonatomic, strong) NSMutableArray *myScheduleArray;
+@property (nonatomic, strong) NSMutableArray *coachScheduleArray;
+
+@property (nonatomic, strong) NSMutableArray *coachScheduleGroupedArray;
+@property (nonatomic, strong) NSMutableArray *myScheduleGroupedArray;
+
 @property (nonatomic) BOOL hasCoach;
 
 @end
@@ -70,6 +78,9 @@ static NSString *kEmptyCellId = @"emptyCellID";
 
 - (void)initSubviews {
     
+    self.coachScheduleGroupedArray = [NSMutableArray arrayWithArray:@[@[@"d"], @[@"d"]]];
+    self.coachScheduleArray = [NSMutableArray arrayWithArray:@[@"d", @"d"]];
+    
     self.containerSwipeView = [[SwipeView alloc] initWithFrame:self.view.frame];
     self.containerSwipeView.delegate = self;
     self.containerSwipeView.dataSource = self;
@@ -94,6 +105,7 @@ static NSString *kEmptyCellId = @"emptyCellID";
     tableView.backgroundColor = [UIColor HHBackgroundGary];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [tableView registerClass:[HHEmptyScheduleCell class] forCellReuseIdentifier:kEmptyCellId];
+    [tableView registerClass:[HHCoachScheduleCellTableViewCell class] forCellReuseIdentifier:kScheduleCellId];
     return tableView;
 }
 
@@ -134,6 +146,11 @@ static NSString *kEmptyCellId = @"emptyCellID";
 
 - (void)swipeViewCurrentItemIndexDidChange:(SwipeView *)swipeView {
     self.segmentedControl.selectedSegmentIndex = swipeView.currentItemIndex;
+    if (self.segmentedControl.selectedSegmentIndex == ScheduleTypeCoachSchedule) {
+        [self.coachScheduleTableView reloadData];
+    } else {
+        [self.myScheduleTableView reloadData];
+    }
 }
 
 - (CGSize)swipeViewItemSize:(SwipeView *)swipeView {
@@ -143,24 +160,76 @@ static NSString *kEmptyCellId = @"emptyCellID";
 #pragma mark UITableView Delegate & Datasource Methods
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    NSString *title;
-    if ([tableView isEqual:self.coachScheduleTableView]) {
-        title = @"目前还没有课程，请耐心等待哦～";
+    if (self.segmentedControl.selectedSegmentIndex == ScheduleTypeCoachSchedule) {
+        HHEmptyScheduleCell *cell = nil;
+        if (![self.coachScheduleArray count]) {
+            cell = [tableView dequeueReusableCellWithIdentifier:kEmptyCellId];
+            [cell setupCellWithTitle:@"教练目前还没有课程，请耐心等待哦～"];
+            return cell;
+
+        } else {
+            HHCoachScheduleCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kScheduleCellId forIndexPath:indexPath];
+            return cell;
+        }
     } else {
-        title = @"您还没有已预约的课程，快去教练课程列表选课吧～";
-    } 
-    HHEmptyScheduleCell *cell = [tableView dequeueReusableCellWithIdentifier:kEmptyCellId];
-    [cell setupCellWithTitle:title];
-    return cell;
+        if (![self.myScheduleArray count]) {
+            HHEmptyScheduleCell *cell = [tableView dequeueReusableCellWithIdentifier:kEmptyCellId];
+            [cell setupCellWithTitle:@"您还没有已预约的课程，快去教练课程列表选课吧～"];
+            return cell;
+
+        } else {
+            HHCoachScheduleCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kScheduleCellId forIndexPath:indexPath];
+            return cell;
+        }
+    }
+    return [[UITableViewCell alloc] init];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (self.segmentedControl.selectedSegmentIndex == ScheduleTypeCoachSchedule) {
+        if (![self.coachScheduleArray count]) {
+            return 1;
+        }
+        return [self.coachScheduleGroupedArray[section] count];
+    } else {
+        if (![self.myScheduleArray count]) {
+            return 1;
+        }
+        return [self.myScheduleGroupedArray[section] count];
+    }
+
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if (self.segmentedControl.selectedSegmentIndex == ScheduleTypeCoachSchedule) {
+        if (![self.coachScheduleArray count]) {
+            return 1;
+        }
+        
+    } else {
+        if (![self.myScheduleArray count]) {
+            return 1;
+        }
+    }
     return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return CGRectGetHeight(tableView.bounds);
+    if (self.segmentedControl.selectedSegmentIndex == ScheduleTypeCoachSchedule) {
+        if (![self.coachScheduleArray count]) {
+            return CGRectGetHeight(self.coachScheduleTableView.bounds);
+        } else {
+            
+        }
+        
+    } else {
+        if (![self.myScheduleArray count]) {
+            return CGRectGetHeight(self.myScheduleTableView.bounds);
+        } else {
+            
+        }
+    }
+    return 240.0f;
 }
 
 #pragma mark - Others
@@ -215,6 +284,11 @@ static NSString *kEmptyCellId = @"emptyCellID";
         
     }
     [self.containerSwipeView scrollToPage:segControl.selectedSegmentIndex duration:0.2f];
+    if (self.segmentedControl.selectedSegmentIndex == ScheduleTypeCoachSchedule) {
+        [self.coachScheduleTableView reloadData];
+    } else {
+        [self.myScheduleTableView reloadData];
+    }
 }
 
 

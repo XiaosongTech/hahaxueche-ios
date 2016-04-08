@@ -27,7 +27,7 @@
     self.titleView = [[HHMyPageItemTitleView alloc] initWithTitle:@"使用帮助"];
     [self.contentView addSubview:self.titleView];
     
-    self.aboutView = [[HHMyPageItemView alloc] initWitTitle:@"关于哈哈学车" showLine:YES];
+    self.aboutView = [[HHMyPageItemView alloc] initWitTitle:@"关于小哈" showLine:YES];
     self.aboutView.arrowImageView.hidden = NO;
     [self.contentView addSubview:self.aboutView];
     
@@ -35,7 +35,7 @@
     self.appInfoView.arrowImageView.hidden = NO;
     [self.contentView addSubview:self.appInfoView];
     
-    self.rateUsView = [[HHMyPageItemView alloc] initWitTitle:@"给哈哈评分" showLine:NO];
+    self.rateUsView = [[HHMyPageItemView alloc] initWitTitle:@"支持小哈" showLine:NO];
     self.rateUsView.arrowImageView.hidden = NO;
     [self.contentView addSubview:self.rateUsView];
     

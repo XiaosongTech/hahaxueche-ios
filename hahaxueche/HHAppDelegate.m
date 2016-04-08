@@ -28,6 +28,7 @@
 #import "HHStudentService.h"
 #import "HHToastManager.h"
 #import "HHEventTrackingManager.h"
+#import <Appirater.h>
 
 static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
@@ -122,11 +123,14 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
 - (void)setupAllThirdPartyServices {
     
+    [Appirater setAppId:@"1011236187"];
+    
     // Instabug
 #ifdef DEBUG
     [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventShake];
     [Instabug setIsTrackingCrashes:NO];
     [Pingpp setDebugMode:YES];
+    [Appirater setDebug:NO];
 #else
     NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
     NSString *receiptURLString = [receiptURL path];
@@ -135,6 +139,7 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
         [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventShake];
         [Instabug setIsTrackingCrashes:NO];
     }
+    [Appirater setDebug:NO];
     
 #endif
 

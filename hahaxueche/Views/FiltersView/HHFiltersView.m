@@ -137,13 +137,13 @@ static CGFloat const kCellHeight = 60.0f;
     }];
     
     [self.confirmButton makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.left).offset(20.0f);
+        make.left.equalTo(self.cancelButton.right);
         make.height.mas_equalTo(kCellHeight);
         make.top.equalTo(self.horizontalLine.bottom);
         make.width.equalTo(self.width).multipliedBy(0.5f).offset(-20.0f);
     }];
     [self.cancelButton makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.confirmButton.right);
+        make.left.equalTo(self.left).offset(20.0f);
         make.height.mas_equalTo(kCellHeight);
         make.top.equalTo(self.horizontalLine.bottom);
         make.width.equalTo(self.width).multipliedBy(0.5f).offset(-20.0f);

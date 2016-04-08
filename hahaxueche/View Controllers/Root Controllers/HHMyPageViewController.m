@@ -27,6 +27,7 @@
 #import "HHLoadingViewUtility.h"
 #import "HHWebViewController.h"
 #import "HHAppInfoViewController.h"
+#import <Appirater.h>
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -79,6 +80,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                                              selector:@selector(coachPurchased)
                                                  name:@"coachPurchased"
                                                object:nil];
+    
 }
 
 - (void)initSubviews {
@@ -194,6 +196,9 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 HHAppInfoViewController *vc = [[HHAppInfoViewController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
+            cell.rateUsView.actionBlock = ^() {
+                [Appirater rateApp];
             };
             return cell;
         } break;

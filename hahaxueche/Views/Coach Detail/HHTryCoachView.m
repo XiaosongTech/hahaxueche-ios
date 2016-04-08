@@ -69,9 +69,9 @@
     [self.secDateButton addTarget:self action:@selector(showDatePicker:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.secDateButton];
     
-    self.buttonsView = [[HHConfirmCancelButtonsView alloc] initWithLeftTitle:@"免费预约" rightTitle:@"取消返回"];
-    [self.buttonsView.leftButton addTarget:self action:@selector(confirmButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.buttonsView.rightButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    self.buttonsView = [[HHConfirmCancelButtonsView alloc] initWithLeftTitle:@"取消返回" rightTitle:@"免费预约"];
+    [self.buttonsView.leftButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.buttonsView.rightButton addTarget:self action:@selector(confirmButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.buttonsView];
     
     [self makeConstraints];

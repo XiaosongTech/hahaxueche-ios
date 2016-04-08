@@ -286,8 +286,8 @@ static NSString *const kCellId = @"CellId";
 
 - (void)confirmPayButtonTapped {
     HHPayCoachExplanationView *view = [[HHPayCoachExplanationView alloc] initWithFrame:CGRectMake(0, 0, 300, 200.0f) amount:self.currentPaymentStage.stageAmount];
-    [view.buttonsView.leftButton addTarget:self action:@selector(payCoach) forControlEvents:UIControlEventTouchUpInside];
-    [view.buttonsView.rightButton addTarget:self action:@selector(dismissPopup) forControlEvents:UIControlEventTouchUpInside];
+    [view.buttonsView.leftButton addTarget:self action:@selector(dismissPopup) forControlEvents:UIControlEventTouchUpInside];
+    [view.buttonsView.rightButton addTarget:self action:@selector(payCoach) forControlEvents:UIControlEventTouchUpInside];
     self.popup = [HHPopupUtility createPopupWithContentView:view];
     [HHPopupUtility showPopup:self.popup];
     

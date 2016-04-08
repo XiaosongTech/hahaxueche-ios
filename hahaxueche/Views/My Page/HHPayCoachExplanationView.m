@@ -29,7 +29,7 @@
         self.textLabel.text = [self buildText:amount];
         [self addSubview:self.textLabel];
         
-        self.buttonsView = [[HHConfirmCancelButtonsView alloc] initWithLeftTitle:@"确认打款" rightTitle:@"暂不打款"];
+        self.buttonsView = [[HHConfirmCancelButtonsView alloc] initWithLeftTitle:@"暂不打款" rightTitle:@"确认打款"];
         [self addSubview:self.buttonsView];
         
         [self makeConstraints];

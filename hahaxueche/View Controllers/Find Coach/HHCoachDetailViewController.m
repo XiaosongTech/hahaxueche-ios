@@ -85,7 +85,6 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         [[HHCoachService sharedInstance] fetchCoachWithId:self.coachId completion:^(HHCoach *coach, NSError *error) {
             if (!error) {
                 self.coach = coach;
-                [self.tableView reloadData];
             }
         }];
     }
@@ -98,6 +97,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         if (!error) {
             self.reviewsObject = reviews;
             self.reviews = reviews.reviews;
+            self.coachImagesView.imageURLStringsGroup = coach.images;
             [self.tableView reloadData];
         }
     }];
@@ -325,6 +325,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             cell.coachesListCell.peerCoachTappedAction = ^(NSInteger index) {
                 HHCoach *coach = self.coach.peerCoaches[index];
                 HHCoachDetailViewController *detailVC = [[HHCoachDetailViewController alloc] initWithCoachId:coach.coachId];
+                detailVC.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:detailVC animated:YES];
             };
             return cell;
