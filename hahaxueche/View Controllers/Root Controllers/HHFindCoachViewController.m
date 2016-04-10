@@ -91,6 +91,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 }
 
 - (void)refreshCoachListWithCompletion:(HHRefreshCoachCompletionBlock)completion {
+    [self.expandedCellIndexPath removeAllObjects];
     __weak HHFindCoachViewController *weakSelf = self;
     if (!completion) {
         [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];

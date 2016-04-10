@@ -93,5 +93,22 @@
     }];
 }
 
+- (void)bookScheduleWithId:(NSString *)scheduleId completion:(HHScheduleCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIBookSchedule, [HHStudentStore sharedInstance].currentStudent.studentId, scheduleId]];
+    [APIClient postWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHCoachSchedule *schedule = [MTLJSONAdapter modelOfClass:[HHCoachSchedule class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(schedule, nil);
+            }
+            
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
 
 @end

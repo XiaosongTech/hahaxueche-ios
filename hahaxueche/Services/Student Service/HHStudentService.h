@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "HHStudent.h"
 #import "HHPurchasedService.h"
+#import "HHCoachSchedule.h"
 
 typedef void (^HHStudentCompletion)(HHStudent *student, NSError *error);
 typedef void (^HHStudentGenericCompletion)(NSError *error);
 typedef void (^HHStudentPurchasedServiceCompletion)(HHPurchasedService *purchasedService, NSError *error);
 typedef void (^HHPurchasedServiceCompletion)(HHPurchasedService *purchasedService, NSError *error);
+typedef void (^HHScheduleCompletion)(HHCoachSchedule *schedule, NSError *error);
 
 
 @interface HHStudentService : NSObject
@@ -50,6 +52,13 @@ typedef void (^HHPurchasedServiceCompletion)(HHPurchasedService *purchasedServic
  @param completion The completion block to execute on completion
  */
 - (void)payStage:(HHPaymentStage *)paymentStage completion:(HHPurchasedServiceCompletion)completion;
+
+/**
+ Book a schedule
+ @param scheduleId The ID of the schedule
+ @param completion The completion block to execute on completion
+ */
+- (void)bookScheduleWithId:(NSString *)scheduleId completion:(HHScheduleCompletion)completion;
 
 
 @end
