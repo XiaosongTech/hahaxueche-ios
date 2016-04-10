@@ -19,6 +19,9 @@
 #import "HHPopupUtility.h"
 #import "HHNoCoachView.h"
 #import "HHCoachScheduleCellTableViewCell.h"
+#import "HHConfirmScheduleBookView.h"
+#import "HHBookFailView.h"
+#import "HHScheduleRateView.h"
 
 static NSString *kEmptyCellId = @"emptyCellID";
 static NSString *kScheduleCellId = @"scheduleCellId";
@@ -78,10 +81,13 @@ static NSString *kScheduleCellId = @"scheduleCellId";
 
 - (void)initSubviews {
     
-    self.coachScheduleGroupedArray = [NSMutableArray arrayWithArray:@[@[@"d"], @[@"d"]]];
-    self.coachScheduleArray = [NSMutableArray arrayWithArray:@[@"d", @"d"]];
+    self.coachScheduleGroupedArray = [NSMutableArray arrayWithArray:@[@[@"d", @"d"], @[@"d"]]];
+    self.coachScheduleArray = [NSMutableArray arrayWithArray:@[@"d", @"d", @"d"]];
     
-    self.containerSwipeView = [[SwipeView alloc] initWithFrame:self.view.frame];
+    self.myScheduleGroupedArray = [NSMutableArray arrayWithArray:@[@[@"d", @"d"], @[@"d"]]];
+    self.myScheduleArray = [NSMutableArray arrayWithArray:@[@"d", @"d", @"d"]];
+    
+    self.containerSwipeView = [[SwipeView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds) - CGRectGetHeight(self.tabBarController.tabBar.frame) - CGRectGetHeight(self.navigationController.navigationBar.frame)- CGRectGetHeight([UIApplication sharedApplication].statusBarFrame))];
     self.containerSwipeView.delegate = self;
     self.containerSwipeView.dataSource = self;
     self.containerSwipeView.pagingEnabled = YES;
@@ -99,7 +105,7 @@ static NSString *kScheduleCellId = @"scheduleCellId";
 }
 
 - (UITableView *)buildTableView {
-    UITableView *tableView = [[UITableView alloc] initWithFrame:self.containerSwipeView.bounds];
+    UITableView *tableView = [[UITableView alloc] init];
     tableView.delegate = self;
     tableView.dataSource = self;
     tableView.backgroundColor = [UIColor HHBackgroundGary];
@@ -160,6 +166,7 @@ static NSString *kScheduleCellId = @"scheduleCellId";
 #pragma mark UITableView Delegate & Datasource Methods
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    __weak HHBookTrainingViewController *weakSelf = self;
     if (self.segmentedControl.selectedSegmentIndex == ScheduleTypeCoachSchedule) {
         HHEmptyScheduleCell *cell = nil;
         if (![self.coachScheduleArray count]) {
@@ -169,6 +176,45 @@ static NSString *kScheduleCellId = @"scheduleCellId";
 
         } else {
             HHCoachScheduleCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kScheduleCellId forIndexPath:indexPath];
+            cell.bookBlock = ^(HHCoachSchedule *schedule) {
+//                HHConfirmScheduleBookView *confirmView = [[HHConfirmScheduleBookView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds) - 20.0f, 350.0f) schedule:nil isBooking:YES];
+//                weakSelf.popup = [HHPopupUtility createPopupWithContentView:confirmView];
+//                [HHPopupUtility showPopup:weakSelf.popup];
+//                confirmView.confirmBlock = ^(HHCoachSchedule *schedule) {
+//                    [HHPopupUtility dismissPopup:weakSelf.popup];
+//                };
+//                
+//                confirmView.cancelBlock = ^() {
+//                    [HHPopupUtility dismissPopup:weakSelf.popup];
+//                };
+//                HHBookFailView *failView = [[HHBookFailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds) - 20.0f, 280.0f) type:ErrorTypeHasIncomplete];
+//                weakSelf.popup = [HHPopupUtility createPopupWithContentView:failView];
+//                [HHPopupUtility showPopup:weakSelf.popup];
+//                failView.cancelBlock = ^() {
+//                    [HHPopupUtility dismissPopup:weakSelf.popup];
+//                };
+                
+                HHScheduleRateView *ratingView = [[HHScheduleRateView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds) - 20.0f, 220.0f)];
+                ratingView.cancelBlock = ^() {
+                    [HHPopupUtility dismissPopup:weakSelf.popup];
+                };
+                ratingView.confirmBlock = ^(NSNumber *rating) {
+                    [HHPopupUtility dismissPopup:weakSelf.popup];
+                };
+                weakSelf.popup = [HHPopupUtility createPopupWithContentView:ratingView];
+                [HHPopupUtility showPopup:weakSelf.popup];
+            
+            };
+            BOOL showLine = NO;
+            if (indexPath.row == [self.coachScheduleGroupedArray[indexPath.section] count] - 1) {
+                showLine = YES;
+            }
+            
+            BOOL showDate = NO;
+            if (indexPath.row == 0) {
+                showDate = YES;
+            }
+            [cell setupCellWithSchedule:nil showLine:showLine showDate:showDate];
             return cell;
         }
     } else {
@@ -179,6 +225,30 @@ static NSString *kScheduleCellId = @"scheduleCellId";
 
         } else {
             HHCoachScheduleCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kScheduleCellId forIndexPath:indexPath];
+            cell.bookBlock = ^(HHCoachSchedule *schedule) {
+                HHConfirmScheduleBookView *confirmView = [[HHConfirmScheduleBookView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds) - 20.0f, 300.0f) schedule:nil isBooking:NO];
+                weakSelf.popup = [HHPopupUtility createPopupWithContentView:confirmView];
+                [HHPopupUtility showPopup:weakSelf.popup];
+                confirmView.confirmBlock = ^(HHCoachSchedule *schedule) {
+                    [HHPopupUtility dismissPopup:weakSelf.popup];
+                };
+                
+                confirmView.cancelBlock = ^() {
+                    [HHPopupUtility dismissPopup:weakSelf.popup];
+                };
+                
+            };
+
+            BOOL showLine = NO;
+            if (indexPath.row == [self.myScheduleGroupedArray[indexPath.section] count] - 1) {
+                showLine = YES;
+            }
+            
+            BOOL showDate = NO;
+            if (indexPath.row == 0) {
+                showDate = YES;
+            }
+            [cell setupCellWithSchedule:nil showLine:showLine showDate:showDate];
             return cell;
         }
     }
@@ -206,12 +276,14 @@ static NSString *kScheduleCellId = @"scheduleCellId";
             return 1;
         }
         
+        return [self.coachScheduleGroupedArray count];
+        
     } else {
         if (![self.myScheduleArray count]) {
             return 1;
         }
+        return [self.myScheduleGroupedArray count];
     }
-    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -229,7 +301,7 @@ static NSString *kScheduleCellId = @"scheduleCellId";
             
         }
     }
-    return 240.0f;
+    return 210.0f;
 }
 
 #pragma mark - Others

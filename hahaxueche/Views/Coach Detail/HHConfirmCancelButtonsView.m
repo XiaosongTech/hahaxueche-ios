@@ -17,13 +17,13 @@
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
         self.leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.leftButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+        self.leftButton.titleLabel.font = [UIFont systemFontOfSize:17.0f];
         [self.leftButton setTitleColor:[UIColor HHCancelRed] forState:UIControlStateNormal];
         [self.leftButton setTitle:leftTitle forState:UIControlStateNormal];
         [self addSubview:self.leftButton];
         
         self.rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.rightButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+        self.rightButton.titleLabel.font = [UIFont systemFontOfSize:17.0f];
         [self.rightButton setTitleColor:[UIColor HHConfirmGreen] forState:UIControlStateNormal];
         [self.rightButton setTitle:rightTitle forState:UIControlStateNormal];
         [self addSubview:self.rightButton];

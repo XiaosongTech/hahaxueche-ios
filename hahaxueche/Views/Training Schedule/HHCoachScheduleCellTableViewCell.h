@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HHCoachSchedule.h"
+
+typedef void (^HHBookScheduleBlock)(HHCoachSchedule *schedule);
 
 @interface HHCoachScheduleCellTableViewCell : UITableViewCell
 
@@ -16,9 +19,15 @@
 @property (nonatomic, strong) UILabel *dateLabel;
 @property (nonatomic, strong) UILabel *coachNameLabel;
 @property (nonatomic, strong) UILabel *timeLabel;
-@property (nonatomic, strong) UILabel *otherInfo;
+@property (nonatomic, strong) UILabel *otherInfoLabel;
 @property (nonatomic, strong) UIButton *botButton;
 
 @property (nonatomic, strong) UIView *botLine;
+
+@property (nonatomic, strong) HHBookScheduleBlock bookBlock;
+@property (nonatomic, strong) HHCoachSchedule *schedule;
+
+
+- (void)setupCellWithSchedule:(HHCoachSchedule *)schedule showLine:(BOOL)showLine showDate:(BOOL)showDate;
 
 @end
