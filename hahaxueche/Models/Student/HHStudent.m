@@ -19,7 +19,9 @@
              @"cityId": @"city_id",
              @"avatarURL": @"avatar",
              @"purchasedServiceArray":@"purchased_services",
-             @"currentCoachId":@"current_coach_id"
+             @"currentCoachId":@"current_coach_id",
+             @"phase":@"phase",
+             @"currentCourse":@"current_course",
              };
 }
 

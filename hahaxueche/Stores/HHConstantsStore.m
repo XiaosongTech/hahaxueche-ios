@@ -118,4 +118,8 @@
     return nil;
 }
 
+- (NSArray *)getNotifications {
+    return [HHConstantsStore sharedInstance].constants.notifications;
+}
+
 @end

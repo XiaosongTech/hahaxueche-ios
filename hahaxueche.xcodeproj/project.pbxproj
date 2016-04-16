@@ -333,9 +333,14 @@
 		5CDE14861C3852E30004778C /* HHCitySelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE14851C3852E30004778C /* HHCitySelectView.m */; };
 		5CDE14891C3859290004778C /* HHPopupUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE14881C3859290004778C /* HHPopupUtility.m */; };
 		5CDE148C1C3A00AB0004778C /* HHLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE148B1C3A00AB0004778C /* HHLoginViewController.m */; };
+		6D3D6F9A1CBFA68300E3BD8E /* HHNotificationExplanationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D6F991CBFA68300E3BD8E /* HHNotificationExplanationView.m */; };
+		6D3D6F9E1CC0933100E3BD8E /* ic_class_emptyava.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D3D6F9B1CC0933100E3BD8E /* ic_class_emptyava.png */; };
+		6D3D6F9F1CC0933100E3BD8E /* ic_class_emptyava@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D3D6F9C1CC0933100E3BD8E /* ic_class_emptyava@2x.png */; };
+		6D3D6FA01CC0933100E3BD8E /* ic_class_emptyava@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D3D6F9D1CC0933100E3BD8E /* ic_class_emptyava@3x.png */; };
 		6D3D733F1CB92F4000E424C3 /* HHConfirmScheduleBookView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D733E1CB92F4000E424C3 /* HHConfirmScheduleBookView.m */; };
 		6D3D73421CB94BEE00E424C3 /* HHBookFailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D73411CB94BEE00E424C3 /* HHBookFailView.m */; };
 		6D3D73451CB9FFB300E424C3 /* HHScheduleRateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D73441CB9FFB300E424C3 /* HHScheduleRateView.m */; };
+		6D9B80971CBF32AE004B90C6 /* HHNotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9B80961CBF32AE004B90C6 /* HHNotificationCell.m */; };
 		6DDAE6C31CB7566900CE461A /* HHNoCoachView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */; };
 		6DDAE6C91CB7899F00CE461A /* HHAppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C81CB7899F00CE461A /* HHAppInfoViewController.m */; };
 		6DDAE6CD1CB78B1B00CE461A /* ic_aboutmsg_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDAE6CA1CB78B1B00CE461A /* ic_aboutmsg_logo.png */; };
@@ -347,6 +352,7 @@
 		6DDAE6D81CB7C73E00CE461A /* ic_class_list@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDAE6D51CB7C73E00CE461A /* ic_class_list@3x.png */; };
 		6DDAE6DB1CB8E6B300CE461A /* HHCoachSchedule.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6DA1CB8E6B300CE461A /* HHCoachSchedule.m */; };
 		6DDAE6DE1CB8E6CA00CE461A /* HHCoachSchedules.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6DD1CB8E6CA00CE461A /* HHCoachSchedules.m */; };
+		6DDF25F11CBF789F00C92C5C /* HHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDF25F01CBF789F00C92C5C /* HHNotification.m */; };
 		D68F0EFAEA66F3DCDFE972F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B0110F2ECD81DF5CD4D72E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -803,12 +809,19 @@
 		5CDE14881C3859290004778C /* HHPopupUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPopupUtility.m; sourceTree = "<group>"; };
 		5CDE148A1C3A00AB0004778C /* HHLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHLoginViewController.h; sourceTree = "<group>"; };
 		5CDE148B1C3A00AB0004778C /* HHLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHLoginViewController.m; sourceTree = "<group>"; };
+		6D3D6F981CBFA68300E3BD8E /* HHNotificationExplanationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNotificationExplanationView.h; sourceTree = "<group>"; };
+		6D3D6F991CBFA68300E3BD8E /* HHNotificationExplanationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNotificationExplanationView.m; sourceTree = "<group>"; };
+		6D3D6F9B1CC0933100E3BD8E /* ic_class_emptyava.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_class_emptyava.png; sourceTree = "<group>"; };
+		6D3D6F9C1CC0933100E3BD8E /* ic_class_emptyava@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_class_emptyava@2x.png"; sourceTree = "<group>"; };
+		6D3D6F9D1CC0933100E3BD8E /* ic_class_emptyava@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_class_emptyava@3x.png"; sourceTree = "<group>"; };
 		6D3D733D1CB92F4000E424C3 /* HHConfirmScheduleBookView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHConfirmScheduleBookView.h; sourceTree = "<group>"; };
 		6D3D733E1CB92F4000E424C3 /* HHConfirmScheduleBookView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHConfirmScheduleBookView.m; sourceTree = "<group>"; };
 		6D3D73401CB94BEE00E424C3 /* HHBookFailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHBookFailView.h; sourceTree = "<group>"; };
 		6D3D73411CB94BEE00E424C3 /* HHBookFailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHBookFailView.m; sourceTree = "<group>"; };
 		6D3D73431CB9FFB300E424C3 /* HHScheduleRateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHScheduleRateView.h; sourceTree = "<group>"; };
 		6D3D73441CB9FFB300E424C3 /* HHScheduleRateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHScheduleRateView.m; sourceTree = "<group>"; };
+		6D9B80951CBF32AE004B90C6 /* HHNotificationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNotificationCell.h; sourceTree = "<group>"; };
+		6D9B80961CBF32AE004B90C6 /* HHNotificationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNotificationCell.m; sourceTree = "<group>"; };
 		6DDAE6C11CB7566900CE461A /* HHNoCoachView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNoCoachView.h; sourceTree = "<group>"; };
 		6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNoCoachView.m; sourceTree = "<group>"; };
 		6DDAE6C71CB7899F00CE461A /* HHAppInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAppInfoViewController.h; sourceTree = "<group>"; };
@@ -825,6 +838,8 @@
 		6DDAE6DA1CB8E6B300CE461A /* HHCoachSchedule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachSchedule.m; sourceTree = "<group>"; };
 		6DDAE6DC1CB8E6CA00CE461A /* HHCoachSchedules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachSchedules.h; sourceTree = "<group>"; };
 		6DDAE6DD1CB8E6CA00CE461A /* HHCoachSchedules.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachSchedules.m; sourceTree = "<group>"; };
+		6DDF25EF1CBF789F00C92C5C /* HHNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNotification.h; sourceTree = "<group>"; };
+		6DDF25F01CBF789F00C92C5C /* HHNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNotification.m; sourceTree = "<group>"; };
 		D5B0110F2ECD81DF5CD4D72E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8832576172C8DF34558C848 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		EFA148D80F7878EC1B2315C7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -891,6 +906,10 @@
 				6D3D73411CB94BEE00E424C3 /* HHBookFailView.m */,
 				6D3D73431CB9FFB300E424C3 /* HHScheduleRateView.h */,
 				6D3D73441CB9FFB300E424C3 /* HHScheduleRateView.m */,
+				6D9B80951CBF32AE004B90C6 /* HHNotificationCell.h */,
+				6D9B80961CBF32AE004B90C6 /* HHNotificationCell.m */,
+				6D3D6F981CBFA68300E3BD8E /* HHNotificationExplanationView.h */,
+				6D3D6F991CBFA68300E3BD8E /* HHNotificationExplanationView.m */,
 			);
 			path = "Training Schedule";
 			sourceTree = "<group>";
@@ -1177,6 +1196,8 @@
 				5C36D3951C430DD700443545 /* HHConstants.m */,
 				5C37C1C91C55D0D80073970F /* HHField.h */,
 				5C37C1CA1C55D0D80073970F /* HHField.m */,
+				6DDF25EF1CBF789F00C92C5C /* HHNotification.h */,
+				6DDF25F01CBF789F00C92C5C /* HHNotification.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -1427,6 +1448,9 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6D3D6F9B1CC0933100E3BD8E /* ic_class_emptyava.png */,
+				6D3D6F9C1CC0933100E3BD8E /* ic_class_emptyava@2x.png */,
+				6D3D6F9D1CC0933100E3BD8E /* ic_class_emptyava@3x.png */,
 				6DDAE6D31CB7C73E00CE461A /* ic_class_list.png */,
 				6DDAE6D41CB7C73E00CE461A /* ic_class_list@2x.png */,
 				6DDAE6D51CB7C73E00CE461A /* ic_class_list@3x.png */,
@@ -1829,6 +1853,7 @@
 				5C36D4151C496ECD00443545 /* ic_sort_local_normal_btn@3x.png in Resources */,
 				5C36D3C51C47500700443545 /* ic_sort_hold_btn@3x.png in Resources */,
 				5C36D3721C42D9F800443545 /* ic_bottombar_date_normal_btn@1x.png in Resources */,
+				6D3D6F9E1CC0933100E3BD8E /* ic_class_emptyava.png in Resources */,
 				5C36D41A1C496ECD00443545 /* ic_sort_nice_normal_btn@2x.png in Resources */,
 				5C36D3851C42D9F800443545 /* ic_bottombar_mypage_normal_btn@2x.png in Resources */,
 				140EC5EE1C6D542700DA634D /* ic_coachmsg_charge.png in Resources */,
@@ -1883,6 +1908,7 @@
 				5C6D8C8D1C3AD6840055CB31 /* ic_toast_right@1x.png in Resources */,
 				14F608E71C86998F00EA70A7 /* launch.png in Resources */,
 				5C36D3B71C474FF600443545 /* ic_screen_hold_btn@1X.png in Resources */,
+				6D3D6F9F1CC0933100E3BD8E /* ic_class_emptyava@2x.png in Resources */,
 				141FA0E81C66CB6300113B1A /* ic_homepage_coachhere.png in Resources */,
 				14F608E81C86998F00EA70A7 /* launch@2x.png in Resources */,
 				140EC60D1C6D68D000DA634D /* ic_coachmsg_time@2x.png in Resources */,
@@ -1911,6 +1937,7 @@
 				141FA0EB1C66CB6300113B1A /* ic_homepage_hahahere.png in Resources */,
 				140EC6351C6E3CFC00DA634D /* ic_coachmsg_sharecoach@3x.png in Resources */,
 				1408B4CC1C94929400B642F8 /* ic_coach_ava@3x.png in Resources */,
+				6D3D6FA01CC0933100E3BD8E /* ic_class_emptyava@3x.png in Resources */,
 				140EC62E1C6E3CFC00DA634D /* ic_coachmsg_attention_hold@2x.png in Resources */,
 				141F7BF41C617EB2003278C6 /* ic_list_local_btn@2x.png in Resources */,
 				5C36D4101C496ECD00443545 /* ic_sort_local_hold_btn@1x.png in Resources */,
@@ -2077,6 +2104,7 @@
 				6DDAE6D21CB7C26E00CE461A /* HHCoachScheduleCellTableViewCell.m in Sources */,
 				5C36D3D21C48506300443545 /* HHSwitchView.m in Sources */,
 				14F608DD1C83D4CE00EA70A7 /* HHMakeReviewView.m in Sources */,
+				6DDF25F11CBF789F00C92C5C /* HHNotification.m in Sources */,
 				5C6D8C9D1C40125D0055CB31 /* HHUserAuthService.m in Sources */,
 				140EC5FC1C6D64C400DA634D /* HHCoachDetailSectionTwoCell.m in Sources */,
 				6DDAE6DB1CB8E6B300CE461A /* HHCoachSchedule.m in Sources */,
@@ -2117,6 +2145,7 @@
 				141F7BEF1C617E54003278C6 /* HHStarRatingView.m in Sources */,
 				5CDE14511C3715F90004778C /* HHRegisterViewController.m in Sources */,
 				6DDAE6DE1CB8E6CA00CE461A /* HHCoachSchedules.m in Sources */,
+				6D3D6F9A1CBFA68300E3BD8E /* HHNotificationExplanationView.m in Sources */,
 				5C5F87671BF6723F006F9594 /* HHEventTrackingManager.m in Sources */,
 				14700D951C795FBF00660989 /* HHPurchasedService.m in Sources */,
 				14F608DA1C83BDEF00EA70A7 /* HHPayCoachExplanationView.m in Sources */,
@@ -2138,6 +2167,7 @@
 				14B5EB881C7E0ED600A37669 /* HHReview.m in Sources */,
 				1405CC8C1C7662C60030B114 /* HHMyPageHelpCell.m in Sources */,
 				14F9D4991C7170380010F3FA /* HHSingleFieldMapViewController.m in Sources */,
+				6D9B80971CBF32AE004B90C6 /* HHNotificationCell.m in Sources */,
 				5CDE146D1C3775C00004778C /* HHAccountSetupViewController.m in Sources */,
 				5C36D42E1C4C31A100443545 /* HHAskLocationPermissionViewController.m in Sources */,
 				5C36D3D51C486B3700443545 /* HHCheckBoxView.m in Sources */,

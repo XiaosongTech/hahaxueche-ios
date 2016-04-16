@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "HHCoachSchedule.h"
 
+static NSInteger kAvatarRadius = 25.0f;
+
 typedef void (^HHBookScheduleBlock)(HHCoachSchedule *schedule);
 
 @interface HHCoachScheduleCellTableViewCell : UITableViewCell
@@ -26,6 +28,8 @@ typedef void (^HHBookScheduleBlock)(HHCoachSchedule *schedule);
 
 @property (nonatomic, strong) HHBookScheduleBlock bookBlock;
 @property (nonatomic, strong) HHCoachSchedule *schedule;
+
+@property (nonatomic, strong) NSMutableArray *avaArray;
 
 
 - (void)setupCellWithSchedule:(HHCoachSchedule *)schedule showLine:(BOOL)showLine showDate:(BOOL)showDate;

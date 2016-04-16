@@ -10,12 +10,14 @@
 #import "HHStudent.h"
 #import "HHPurchasedService.h"
 #import "HHCoachSchedule.h"
+#import "HHCoachSchedules.h"
 
 typedef void (^HHStudentCompletion)(HHStudent *student, NSError *error);
 typedef void (^HHStudentGenericCompletion)(NSError *error);
 typedef void (^HHStudentPurchasedServiceCompletion)(HHPurchasedService *purchasedService, NSError *error);
 typedef void (^HHPurchasedServiceCompletion)(HHPurchasedService *purchasedService, NSError *error);
 typedef void (^HHScheduleCompletion)(HHCoachSchedule *schedule, NSError *error);
+typedef void (^HHSchedulesCompletion)(HHCoachSchedules *schedules, NSError *error);
 
 
 @interface HHStudentService : NSObject
@@ -59,6 +61,23 @@ typedef void (^HHScheduleCompletion)(HHCoachSchedule *schedule, NSError *error);
  @param completion The completion block to execute on completion
  */
 - (void)bookScheduleWithId:(NSString *)scheduleId completion:(HHScheduleCompletion)completion;
+
+
+/**
+ Fetch student schedules
+ @param studentId The ID of the authed student
+ @param scheduleType The type of schedule (0 - coach future schedules; 1 - student booked schedules)
+ @param completion The completion block to execute on completion
+ */
+- (void)fetchScheduleWithId:(NSString *)studentId scheduleType:(NSNumber *)scheduleType completion:(HHSchedulesCompletion)completion;
+
+
+/**
+ Fetch more student schedules
+ @param URL The URL of next page
+ @param completion The completion block to execute on completion
+ */
+- (void)fetchScheduleWithURL:(NSString *)URL completion:(HHSchedulesCompletion)completion;
 
 
 @end

@@ -17,25 +17,25 @@
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
         
-        UILabel *titleLabel = [[UILabel alloc] init];
-        titleLabel.text = @"您还没有选择教练哦~";
-        titleLabel.textColor = [UIColor darkGrayColor];
-        titleLabel.font = [UIFont systemFontOfSize:18.0f];
-        [self addSubview:titleLabel];
+        self.titleLabel = [[UILabel alloc] init];
+        self.titleLabel.text = @"您还没有选择教练哦~";
+        self.titleLabel.textColor = [UIColor darkGrayColor];
+        self.titleLabel.font = [UIFont systemFontOfSize:18.0f];
+        [self addSubview:self.titleLabel];
         
-        [titleLabel makeConstraints:^(MASConstraintMaker *make) {
+        [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.top).offset(30.0f);
             make.centerX.equalTo(self.centerX);
         }];
         
-        UILabel *subLabel = [[UILabel alloc] init];
-        subLabel.text = @"快去寻找教练, 开启快乐学车之旅吧!";
-        subLabel.textColor = [UIColor HHOrange];
-        subLabel.font = [UIFont systemFontOfSize:16.0f];
-        [self addSubview:subLabel];
+        self.subLabel = [[UILabel alloc] init];
+        self.subLabel.text = @"快去寻找教练, 开启快乐学车之旅吧!";
+        self.subLabel.textColor = [UIColor HHOrange];
+        self.subLabel.font = [UIFont systemFontOfSize:16.0f];
+        [self addSubview:self.subLabel];
         
-        [subLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(titleLabel.bottom).offset(20.0f);
+        [self.subLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.titleLabel.bottom).offset(20.0f);
             make.centerX.equalTo(self.centerX);
         }];
         

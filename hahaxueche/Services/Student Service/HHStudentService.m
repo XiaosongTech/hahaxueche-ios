@@ -110,5 +110,37 @@
     }];
 }
 
+- (void)fetchScheduleWithId:(NSString *)studentId scheduleType:(NSNumber *)scheduleType completion:(HHSchedulesCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentSchedule, studentId]];
+    [APIClient getWithParameters:@{@"booked":scheduleType} completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHCoachSchedules *schedules = [MTLJSONAdapter modelOfClass:[HHCoachSchedules class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(schedules, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
+- (void)fetchScheduleWithURL:(NSString *)URL completion:(HHSchedulesCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClient];
+    [APIClient getWithURL:URL completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHCoachSchedules *schedules = [MTLJSONAdapter modelOfClass:[HHCoachSchedules class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(schedules, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
 
 @end

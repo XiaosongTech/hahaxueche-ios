@@ -14,6 +14,7 @@
 @property (nonatomic, copy) NSArray *fields;
 @property (nonatomic, copy) NSArray *loginBanners;
 @property (nonatomic, copy) NSArray *homePageBanners;
+@property (nonatomic, copy) NSArray *notifications;
 
 
 @end

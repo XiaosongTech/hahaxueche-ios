@@ -11,5 +11,7 @@
 @interface HHNoCoachView : UIView
 
 @property (nonatomic, strong) UIButton *okButton;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *subLabel;
 
 @end

@@ -15,6 +15,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.contentView.backgroundColor = [UIColor HHBackgroundGary];
         self.titleLabel = [[UILabel alloc] init];
         self.titleLabel.textColor = [UIColor HHLightTextGray];

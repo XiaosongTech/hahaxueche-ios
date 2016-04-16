@@ -23,11 +23,17 @@
              @"registeredStudents":@"registered_students",
              @"serviceType":@"service_type",
              @"phase":@"student_phase",
+             @"coach":@"coach",
+             @"status":@"status",
              };
 }
 
 + (NSValueTransformer *)registeredStudentsJSONTransformer {
     return [MTLJSONAdapter arrayTransformerWithModelClass:[HHStudent class]];
+}
+
++ (NSValueTransformer *)coachJSONTransformer {
+    return [MTLJSONAdapter dictionaryTransformerWithModelClass:[HHCoach class]];
 }
 
 + (NSValueTransformer *)startTimeJSONTransformer {
@@ -77,6 +83,10 @@
     } else {
         return @"科目三";
     }
+}
+
+- (NSString *)getScheduleDate {
+    return [[HHFormatUtility chineseFullDateFormatter] stringFromDate:self.startTime];
 }
 
 @end
