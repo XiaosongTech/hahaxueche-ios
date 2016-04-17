@@ -142,5 +142,32 @@
     }];
 }
 
+- (void)cancelScheduleWithId:(NSString *)scheduleId completion:(HHStudentGenericCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentUnschedule, [HHStudentStore sharedInstance].currentStudent.studentId, scheduleId]];
+    [APIClient postWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (completion) {
+            completion(error);
+        }
+    }];
+}
+
+- (void)reviewScheduleWithId:(NSString *)scheduleId rating:(NSNumber *)rating completion:(HHReviewCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentReviewSchedule, [HHStudentStore sharedInstance].currentStudent.studentId, scheduleId]];
+    [APIClient postWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHReview *review = [MTLJSONAdapter modelOfClass:[HHReview class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(review, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+
+    }];
+    
+}
+
 
 @end

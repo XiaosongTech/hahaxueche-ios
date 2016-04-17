@@ -220,7 +220,6 @@ static NSString *kNotifCellId = @"notifCellId";
                     [HHPopupUtility showPopup:weakSelf.popup];
                     confirmView.confirmBlock = ^(HHCoachSchedule *schedule) {
                         [weakSelf bookScheduel:schedule];
-                        [HHPopupUtility dismissPopup:weakSelf.popup];
                     };
                     
                     confirmView.cancelBlock = ^() {
@@ -237,7 +236,6 @@ static NSString *kNotifCellId = @"notifCellId";
                     
                     confirmView.cancelBlock = ^() {
                         [weakSelf cancelBookedScheduel:schedule];
-                        [HHPopupUtility dismissPopup:weakSelf.popup];
                     };
                 } break;
                 
@@ -247,8 +245,7 @@ static NSString *kNotifCellId = @"notifCellId";
                         [HHPopupUtility dismissPopup:weakSelf.popup];
                     };
                     ratingView.confirmBlock = ^(NSNumber *rating) {
-                        [weakSelf reviewCoach:schedule.coach rating:rating];
-                        [HHPopupUtility dismissPopup:weakSelf.popup];
+                        [weakSelf reviewScheduel:schedule rating:rating];
                     };
                     weakSelf.popup = [HHPopupUtility createPopupWithContentView:ratingView];
                     [HHPopupUtility showPopup:weakSelf.popup];
@@ -261,7 +258,7 @@ static NSString *kNotifCellId = @"notifCellId";
             
         };
         BOOL showLine = NO;
-        if (indexPath.row == [groupedData[indexPath.section] count] - 1) {
+        if (indexPath.row == [[[groupedData[indexPath.section] allValues] firstObject] count] - 1) {
             showLine = YES;
         }
         
@@ -291,12 +288,12 @@ static NSString *kNotifCellId = @"notifCellId";
         if (![self.coachScheduleArray count]) {
             return 1;
         }
-        return [self.coachScheduleGroupedArray[section] count];
+        return [[[self.coachScheduleGroupedArray[section] allValues] firstObject] count];
     } else {
         if (![self.myScheduleArray count]) {
             return 1;
         }
-        return [self.myScheduleGroupedArray[section] count];
+        return [[[self.myScheduleGroupedArray[section] allValues] firstObject] count];
     }
 
 }
@@ -578,33 +575,68 @@ static NSString *kNotifCellId = @"notifCellId";
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
     [[HHStudentService sharedInstance] bookScheduleWithId:schedule.scheduleId completion:^(HHCoachSchedule *updatedSchedule, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        [HHPopupUtility dismissPopup:self.popup];
         if (!error) {
             [self.coachScheduleArray removeObject:schedule];
             [self.coachScheduleGroupedArray removeObject:schedule];
             [self.myScheduleArray addObject:updatedSchedule];
             self.myScheduleGroupedArray = [self groupedArray:self.myScheduleArray];
             [[HHToastManager sharedManager] showSuccessToastWithText:@"预约成功!"];
+            [self.tableView reloadData];
             self.segmentedControl.selectedSegmentIndex = ScheduleTypeMySchedule;
             [self.tableView reloadData];
         } else {
-            [[HHToastManager sharedManager] showErrorToastWithText:@"预约失败, 请重试!"];
-            HHBookFailView *failView = [[HHBookFailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 280.0f) type:ErrorTypeHasIncomplete];
-            self.popup = [HHPopupUtility createPopupWithContentView:failView];
-            [HHPopupUtility showPopup:self.popup];
-            failView.cancelBlock = ^() {
-                [HHPopupUtility dismissPopup:self.popup];
-            };
+            if ([error.localizedFailureReason isEqual:@(40006)]) {
+                HHBookFailView *failView = [[HHBookFailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 280.0f) type:ErrorTypeHasIncomplete];
+                self.popup = [HHPopupUtility createPopupWithContentView:failView];
+                [HHPopupUtility showPopup:self.popup];
+                failView.cancelBlock = ^() {
+                    [HHPopupUtility dismissPopup:self.popup];
+                };
+                
+            } else if ([error.localizedFailureReason isEqual:@(40005)]) {
+                HHBookFailView *failView = [[HHBookFailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 280.0f) type:ErrorTypeNeedCoachReview];
+                self.popup = [HHPopupUtility createPopupWithContentView:failView];
+                [HHPopupUtility showPopup:self.popup];
+                failView.cancelBlock = ^() {
+                    [HHPopupUtility dismissPopup:self.popup];
+                };
+                
+            } else {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"预约失败, 请重试!"];
+            }
 
         }
     }];
 }
 
 - (void)cancelBookedScheduel:(HHCoachSchedule *)schedule {
-    
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    [[HHStudentService sharedInstance] cancelScheduleWithId:schedule.scheduleId completion:^(NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (!error) {
+            [[HHToastManager sharedManager] showSuccessToastWithText:@"取消成功!"];
+            [self.myScheduleArray removeObject:schedule];
+            self.myScheduleGroupedArray = [self groupedArray:self.myScheduleArray];
+            [self.tableView reloadData];
+            [HHPopupUtility dismissPopup:self.popup];
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"取消失败, 请重试!"];
+        }
+    }];
 }
 
-- (void)reviewCoach:(HHCoach *)coach rating:(NSNumber *)rating {
-    
+- (void)reviewScheduel:(HHCoachSchedule *)schedule rating:(NSNumber *)rating {
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    [[HHStudentService sharedInstance] reviewScheduleWithId:schedule.scheduleId rating:rating completion:^(HHReview *review, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (!error) {
+            [[HHToastManager sharedManager] showSuccessToastWithText:@"评价成功!"];
+            [HHPopupUtility dismissPopup:self.popup];
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"评价失败, 请重试!"];
+        }
+    }];
 }
 
 @end

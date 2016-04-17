@@ -11,6 +11,7 @@
 #import "HHPurchasedService.h"
 #import "HHCoachSchedule.h"
 #import "HHCoachSchedules.h"
+#import "HHReview.h"
 
 typedef void (^HHStudentCompletion)(HHStudent *student, NSError *error);
 typedef void (^HHStudentGenericCompletion)(NSError *error);
@@ -18,6 +19,7 @@ typedef void (^HHStudentPurchasedServiceCompletion)(HHPurchasedService *purchase
 typedef void (^HHPurchasedServiceCompletion)(HHPurchasedService *purchasedService, NSError *error);
 typedef void (^HHScheduleCompletion)(HHCoachSchedule *schedule, NSError *error);
 typedef void (^HHSchedulesCompletion)(HHCoachSchedules *schedules, NSError *error);
+typedef void (^HHReviewCompletion)(HHReview *review, NSError *error);
 
 
 @interface HHStudentService : NSObject
@@ -78,6 +80,21 @@ typedef void (^HHSchedulesCompletion)(HHCoachSchedules *schedules, NSError *erro
  @param completion The completion block to execute on completion
  */
 - (void)fetchScheduleWithURL:(NSString *)URL completion:(HHSchedulesCompletion)completion;
+
+/**
+ Cancel booked schedule
+ @param scheduleId The ID of the schedule
+ @param completion The completion block to execute on completion
+ */
+- (void)cancelScheduleWithId:(NSString *)scheduleId completion:(HHStudentGenericCompletion)completion;
+
+/**
+ Review coach schedule
+ @param scheduleId The ID of the schedule
+ @param rating The rating number (1.0 - 5.0)
+ @param completion The completion block to execute on completion
+ */
+- (void)reviewScheduleWithId:(NSString *)scheduleId rating:(NSNumber *)rating completion:(HHReviewCompletion)completion;
 
 
 @end
