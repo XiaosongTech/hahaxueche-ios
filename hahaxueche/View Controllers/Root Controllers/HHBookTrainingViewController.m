@@ -430,6 +430,7 @@ static NSString *kNotifCellId = @"notifCellId";
             [self.loadMoreFooter setState:MJRefreshStateIdle];
         }
     }
+    [self.tableView reloadData];
 }
 
 
@@ -583,14 +584,13 @@ static NSString *kNotifCellId = @"notifCellId";
         [HHPopupUtility dismissPopup:self.popup];
         if (!error) {
             [self.coachScheduleArray removeObject:schedule];
-            [self.coachScheduleGroupedArray removeObject:schedule];
+            self.coachScheduleGroupedArray = [self groupedArray:self.coachScheduleArray];
+            [self.tableView reloadData];
             [self.myScheduleArray addObject:updatedSchedule];
             self.myScheduleArray = [self sortSchedules:self.myScheduleArray];
             self.myScheduleGroupedArray = [self groupedArray:self.myScheduleArray];
-            [[HHToastManager sharedManager] showSuccessToastWithText:@"预约成功!"];
-            [self.tableView reloadData];
             self.segmentedControl.selectedSegmentIndex = ScheduleTypeMySchedule;
-            [self.tableView reloadData];
+            [[HHToastManager sharedManager] showSuccessToastWithText:@"预约成功!"];
         } else {
             if ([error.localizedFailureReason isEqual:@(40006)]) {
                 HHBookFailView *failView = [[HHBookFailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 280.0f) type:ErrorTypeHasIncomplete];
@@ -625,6 +625,9 @@ static NSString *kNotifCellId = @"notifCellId";
             [self.myScheduleArray removeObject:schedule];
             self.myScheduleGroupedArray = [self groupedArray:self.myScheduleArray];
             [self.tableView reloadData];
+            [self.coachScheduleArray addObject:schedule];
+            self.coachScheduleArray = [self sortSchedules:self.coachScheduleArray];
+            self.coachScheduleGroupedArray = [self groupedArray:self.coachScheduleArray];
             [HHPopupUtility dismissPopup:self.popup];
         } else {
             [[HHToastManager sharedManager] showErrorToastWithText:@"取消失败, 请重试!"];

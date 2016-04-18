@@ -45,7 +45,7 @@
         self.botButton.layer.masksToBounds = YES;
         self.botButton.layer.cornerRadius = 5.0f;
         [self.botButton setTitle:@"预约课程" forState:UIControlStateNormal];
-        self.botButton.titleLabel.font = [UIFont systemFontOfSize:16.0f];
+        self.botButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
         [self.botButton addTarget:self action:@selector(botTapped) forControlEvents:UIControlEventTouchUpInside];
         [self.rightView addSubview:self.botButton];
         
@@ -159,7 +159,7 @@
         } break;
     }
     if (showFull) {
-        if ([schedule.reviewedStudentCount integerValue] == [schedule.maxStudentCount integerValue]) {
+        if ([schedule.registeredStudentCount integerValue] == [schedule.maxStudentCount integerValue]) {
             self.botButton.enabled = NO;
             [self.botButton setTitle:@"已选满" forState:UIControlStateNormal];
             self.botButton.backgroundColor = [UIColor HHLightestTextGray];
