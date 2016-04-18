@@ -32,6 +32,6 @@ typedef void (^HHBookScheduleBlock)(HHCoachSchedule *schedule);
 @property (nonatomic, strong) NSMutableArray *avaArray;
 
 
-- (void)setupCellWithSchedule:(HHCoachSchedule *)schedule showLine:(BOOL)showLine showDate:(BOOL)showDate;
+- (void)setupCellWithSchedule:(HHCoachSchedule *)schedule showLine:(BOOL)showLine showDate:(BOOL)showDate showFull:(BOOL)showFull;
 
 @end

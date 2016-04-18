@@ -19,7 +19,6 @@ typedef void (^HHStudentPurchasedServiceCompletion)(HHPurchasedService *purchase
 typedef void (^HHPurchasedServiceCompletion)(HHPurchasedService *purchasedService, NSError *error);
 typedef void (^HHScheduleCompletion)(HHCoachSchedule *schedule, NSError *error);
 typedef void (^HHSchedulesCompletion)(HHCoachSchedules *schedules, NSError *error);
-typedef void (^HHReviewCompletion)(HHReview *review, NSError *error);
 
 
 @interface HHStudentService : NSObject
@@ -94,7 +93,7 @@ typedef void (^HHReviewCompletion)(HHReview *review, NSError *error);
  @param rating The rating number (1.0 - 5.0)
  @param completion The completion block to execute on completion
  */
-- (void)reviewScheduleWithId:(NSString *)scheduleId rating:(NSNumber *)rating completion:(HHReviewCompletion)completion;
+- (void)reviewScheduleWithId:(NSString *)scheduleId rating:(NSNumber *)rating completion:(HHScheduleCompletion)completion;
 
 
 @end

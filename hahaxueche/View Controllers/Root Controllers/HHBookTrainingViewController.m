@@ -266,7 +266,12 @@ static NSString *kNotifCellId = @"notifCellId";
         if (indexPath.row == 0) {
             showDate = YES;
         }
-        [cell setupCellWithSchedule:schedule showLine:showLine showDate:showDate];
+        
+        BOOL showFull = YES;
+        if (self.segmentedControl.selectedSegmentIndex == ScheduleTypeMySchedule) {
+            showFull = NO;
+        }
+        [cell setupCellWithSchedule:schedule showLine:showLine showDate:showDate showFull:showFull];
         return cell;
 
     } else {
@@ -580,6 +585,7 @@ static NSString *kNotifCellId = @"notifCellId";
             [self.coachScheduleArray removeObject:schedule];
             [self.coachScheduleGroupedArray removeObject:schedule];
             [self.myScheduleArray addObject:updatedSchedule];
+            self.myScheduleArray = [self sortSchedules:self.myScheduleArray];
             self.myScheduleGroupedArray = [self groupedArray:self.myScheduleArray];
             [[HHToastManager sharedManager] showSuccessToastWithText:@"预约成功!"];
             [self.tableView reloadData];
@@ -628,15 +634,32 @@ static NSString *kNotifCellId = @"notifCellId";
 
 - (void)reviewScheduel:(HHCoachSchedule *)schedule rating:(NSNumber *)rating {
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
-    [[HHStudentService sharedInstance] reviewScheduleWithId:schedule.scheduleId rating:rating completion:^(HHReview *review, NSError *error) {
+    [[HHStudentService sharedInstance] reviewScheduleWithId:schedule.scheduleId rating:rating completion:^(HHCoachSchedule *updatedScheduel, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
             [[HHToastManager sharedManager] showSuccessToastWithText:@"评价成功!"];
             [HHPopupUtility dismissPopup:self.popup];
+            for (HHCoachSchedule *originalSchedule in self.myScheduleArray) {
+                if ([originalSchedule.scheduleId isEqualToString:updatedScheduel.scheduleId]) {
+                    originalSchedule.status = updatedScheduel.status;
+                    break;
+                }
+            }
+            [self.tableView reloadData];
         } else {
             [[HHToastManager sharedManager] showErrorToastWithText:@"评价失败, 请重试!"];
         }
     }];
 }
 
+
+- (NSMutableArray *)sortSchedules:(NSMutableArray *)originalSchedules {
+    NSArray *sortedArray;
+    sortedArray = [originalSchedules sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        NSDate *first = [(HHCoachSchedule *)a startTime];
+        NSDate *second = [(HHCoachSchedule *)b startTime];
+        return [second compare:first];
+    }];
+    return [NSMutableArray arrayWithArray:sortedArray];
+}
 @end

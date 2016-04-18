@@ -126,7 +126,7 @@
     
 }
 
-- (void)setupCellWithSchedule:(HHCoachSchedule *)schedule showLine:(BOOL)showLine showDate:(BOOL)showDate {
+- (void)setupCellWithSchedule:(HHCoachSchedule *)schedule showLine:(BOOL)showLine showDate:(BOOL)showDate showFull:(BOOL)showFull {
     self.schedule = schedule;
     self.dateLabel.attributedText = [self buildDateString:schedule.startTime];
     self.coachNameLabel.text = schedule.coach.name;
@@ -135,7 +135,7 @@
     self.botLine.hidden = !showLine;
     self.dateLabel.hidden = !showDate;
     self.stickView.hidden = !showDate;
-    
+    self.botButton.enabled = YES;
     switch ([schedule.status integerValue]) {
             
         case 1: {
@@ -146,7 +146,8 @@
         case 2: {
             [self.botButton setTitle:@"课程评分" forState:UIControlStateNormal];
             self.botButton.backgroundColor = [UIColor HHConfirmGreen];
-        }
+        } break;
+            
         case 3: {
             [self.botButton setTitle:@"已完成" forState:UIControlStateNormal];
             self.botButton.backgroundColor = [UIColor HHLightestTextGray];
@@ -155,9 +156,16 @@
         default: {
             [self.botButton setTitle:@"预约课程" forState:UIControlStateNormal];
             self.botButton.backgroundColor = [UIColor HHOrange];
-        }
-            break;
+        } break;
     }
+    if (showFull) {
+        if ([schedule.reviewedStudentCount integerValue] == [schedule.maxStudentCount integerValue]) {
+            self.botButton.enabled = NO;
+            [self.botButton setTitle:@"已选满" forState:UIControlStateNormal];
+            self.botButton.backgroundColor = [UIColor HHLightestTextGray];
+        }
+    }
+    
     [self addSlots:schedule];
 }
 
