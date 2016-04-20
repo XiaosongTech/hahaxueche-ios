@@ -192,6 +192,10 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     // pass the url to the handle deep link call
     [[Branch getInstance] handleDeepLink:url];
     
+    if ([OpenShare handleOpenURL:url]) {
+        return YES;
+    }
+    
     // do other deep link routing for the Facebook SDK, Pinterest SDK, etc
     return YES;
 }
@@ -203,7 +207,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
         if (![[HHAppDelegate topMostController] isKindOfClass:[HHLaunchImageViewController class]]) {
             [[HHLoadingViewUtility sharedInstance] showLoadingView];
         }
-        
     }
     
     return handledByBranch;
