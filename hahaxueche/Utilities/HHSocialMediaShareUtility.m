@@ -8,6 +8,10 @@
 
 #import "HHSocialMediaShareUtility.h"
 #import "HHToastManager.h"
+#import "BranchUniversalObject.h"
+#import "BranchLinkProperties.h"
+#import "HHStudentStore.h"
+#import "HHLoadingViewUtility.h"
 
 static NSString *const kSupportQQ = @"3319762526";
 
@@ -19,50 +23,62 @@ static NSString *const kSupportQQ = @"3319762526";
     [OpenShare connectWeixinWithAppId:@"wxdf5f23aa517b1a96"];
 }
 
-+ (void)shareToQQFriendsWithSuccess:(shareSuccess)success Fail:(shareFail)fail {
++ (void)shareCoachToQQFriends:(HHCoach *)coach {
     if (![OpenShare isQQInstalled]) {
         [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
         return;
     }
-    [OpenShare shareToQQFriends:[HHSocialMediaShareUtility generateShareMessage] Success:success Fail:fail];
+    [OpenShare shareToQQFriends:[HHSocialMediaShareUtility generateShareMessageWithCoach:coach] Success:nil Fail:nil];
 }
 
-+ (void)shareToQQZoneWithSuccess:(shareSuccess)success Fail:(shareFail)fail {
++ (void)shareCoachToQQZone:(HHCoach *)coach {
     if (![OpenShare isQQInstalled]) {
         [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
         return;
     }
-    [OpenShare shareToQQZone:[HHSocialMediaShareUtility generateShareMessage] Success:success Fail:fail];
+    [OpenShare shareToQQZone:[HHSocialMediaShareUtility generateShareMessageWithCoach:coach] Success:nil Fail:nil];
 }
 
-+ (void)shareToWeixinSessionWithSuccess:(shareSuccess)success Fail:(shareFail)fail {
++ (void)shareCoachToWeixinSession:(HHCoach *)coach {
     if (![OpenShare isWeixinInstalled]) {
         [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微信应用, 然后重试"];
         return;
     }
-    [OpenShare shareToWeixinSession:[HHSocialMediaShareUtility generateShareMessage] Success:success Fail:fail];
+    [OpenShare shareToWeixinSession:[HHSocialMediaShareUtility generateShareMessageWithCoach:coach] Success:nil Fail:nil];
 }
 
-+ (void)shareToWeixinTimelineWithSuccess:(shareSuccess)success Fail:(shareFail)fail {
++ (void)shareCoachToWeixinTimeline:(HHCoach *)coach {
     if (![OpenShare isWeixinInstalled]) {
         [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微信应用, 然后重试"];
         return;
     }
-    [OpenShare shareToWeixinTimeline:[HHSocialMediaShareUtility generateShareMessage] Success:success Fail:fail];
+    [OpenShare shareToWeixinTimeline:[HHSocialMediaShareUtility generateShareMessageWithCoach:coach] Success:nil Fail:nil];
 
 }
 
 
-+ (OSMessage *)generateShareMessage {
++ (OSMessage *)generateShareMessageWithCoach:(HHCoach *)coach {
     OSMessage *msg = [[OSMessage alloc] init];
-    msg.title = @"哈哈学车";
-    msg.link = @"http://a.app.qq.com/o/simple.jsp?pkgname=com.hahaxueche";
-    msg.desc = @"开启快乐学车之旅吧～";
-    NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"ic_coachmsg_sharecoach_friendgroup"]);
+    msg.title = @"哈哈学车-开启快乐学车之旅!";
+    msg.link = [NSString stringWithFormat:@"http://staging-api.hahaxueche.net/branch_links?target=%@", [[HHSocialMediaShareUtility generateBranchLink:coach] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    msg.desc = [NSString stringWithFormat:@"向你推荐%@教练", coach.name];
+    NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"ic_share"]);
     msg.image = imageData;
     msg.thumbnail = imageData;
     msg.multimediaType = OSMultimediaTypeApp;
     return msg;
+}
+
++ (NSString *)generateBranchLink:(HHCoach *)coach {
+    BranchUniversalObject *branchUniversalObject = [[BranchUniversalObject alloc] initWithCanonicalIdentifier:coach.coachId];
+    branchUniversalObject.title = @"Share Coach";
+    branchUniversalObject.contentDescription = @"Share coach link";
+    [branchUniversalObject addMetadataKey:@"coachId" value:coach.coachId];
+    
+    BranchLinkProperties *linkProperties = [[BranchLinkProperties alloc] init];
+    linkProperties.feature = @"sharing";
+    linkProperties.channel = @"iOS";
+    return [branchUniversalObject getShortUrlWithLinkProperties:linkProperties];
 }
 
 

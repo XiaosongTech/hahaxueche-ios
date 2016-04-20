@@ -8,18 +8,19 @@
 
 #import <Foundation/Foundation.h>
 #import "OpenShareHeader.h"
+#import "HHCoach.h"
 
 @interface HHSocialMediaShareUtility : NSObject
 
 + (void)configure;
 
 // QQ
-+ (void)shareToQQFriendsWithSuccess:(shareSuccess)success Fail:(shareFail)fail;
-+ (void)shareToQQZoneWithSuccess:(shareSuccess)success Fail:(shareFail)fail;
++ (void)shareCoachToQQFriends:(HHCoach *)coach;
++ (void)shareCoachToQQZone:(HHCoach *)coach;
 + (void)talkToSupportThroughQQ;
 
 
 // WeChat
-+ (void)shareToWeixinSessionWithSuccess:(shareSuccess)success Fail:(shareFail)fail;
-+ (void)shareToWeixinTimelineWithSuccess:(shareSuccess)success Fail:(shareFail)fail;
++ (void)shareCoachToWeixinSession:(HHCoach *)coach;
++ (void)shareCoachToWeixinTimeline:(HHCoach *)coach;
 @end

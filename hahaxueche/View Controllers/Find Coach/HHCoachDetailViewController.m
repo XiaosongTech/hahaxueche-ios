@@ -145,25 +145,26 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     __weak HHCoachDetailViewController *weakSelf = self;
     self.bottomBar.shareAction = ^(){
         HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds), 0)];
+        
         shareView.dismissBlock = ^() {
             [HHPopupUtility dismissPopup:weakSelf.popup];
         };
         shareView.actionBlock = ^(SocialMedia selecteItem) {
             switch (selecteItem) {
                 case SocialMediaQQFriend: {
-                    [HHSocialMediaShareUtility shareToQQFriendsWithSuccess:nil Fail:nil];
+                    [HHSocialMediaShareUtility shareCoachToQQFriends:weakSelf.coach];
                 } break;
                     
                 case SocialMediaQQZone: {
-                    [HHSocialMediaShareUtility shareToQQZoneWithSuccess:nil Fail:nil];
+                    [HHSocialMediaShareUtility shareCoachToQQZone:weakSelf.coach];
                 } break;
                     
                 case SocialMediaWeChatFriend: {
-                    [HHSocialMediaShareUtility shareToWeixinSessionWithSuccess:nil Fail:nil];
+                    [HHSocialMediaShareUtility shareCoachToWeixinSession:weakSelf.coach];
                 } break;
                     
                 case SocialMediaWeChaPYQ: {
-                    [HHSocialMediaShareUtility shareToWeixinTimelineWithSuccess:nil Fail:nil];
+                    [HHSocialMediaShareUtility shareCoachToWeixinTimeline:weakSelf.coach];
                 } break;
                     
                 default:
@@ -405,7 +406,12 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 #pragma mark - Button Actions
 
 - (void)popupVC {
-    [self.navigationController popViewControllerAnimated:YES];
+    if ([self.navigationController.viewControllers count] == 1) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+
 }
 
 
@@ -435,6 +441,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     
     [self presentViewController:alertController animated:YES completion:nil];
 }
+
 
 
 @end

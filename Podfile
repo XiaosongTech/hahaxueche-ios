@@ -27,6 +27,7 @@ pod 'HCSStarRatingView', '~> 1.4'
 pod 'ActionSheetPicker-3.0'
 pod 'OpenShare', '~> 0.0'
 pod 'Pingpp/Alipay', '~> 2.1.0'
+pod "Branch"
 
 # Update the project / pod segttings after pod install. Keep in mind please don't run Pod install when Xcode is open.
 post_install do |installer_representation|
