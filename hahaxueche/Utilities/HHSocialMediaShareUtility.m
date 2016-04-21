@@ -60,7 +60,7 @@ static NSString *const kSupportQQ = @"3319762526";
 + (OSMessage *)generateShareMessageWithCoach:(HHCoach *)coach {
     OSMessage *msg = [[OSMessage alloc] init];
     msg.title = @"哈哈学车-开启快乐学车之旅";
-    msg.link = [NSString stringWithFormat:@"http://staging-api.hahaxueche.net/branch_links?target=%@", [[HHSocialMediaShareUtility generateBranchLink:coach] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    msg.link = [NSString stringWithFormat:@"http://staging-api.hahaxueche.net/share/coaches/%@?target=%@", coach.coachId, [[HHSocialMediaShareUtility generateBranchLink:coach] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     msg.desc = [NSString stringWithFormat:@"好友力荐:\n哈哈学车优秀教练%@", coach.name];
     NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"ic_share"]);
     msg.image = imageData;

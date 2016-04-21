@@ -45,10 +45,11 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellCount,
 };
 
-@interface HHMyPageViewController() <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface HHMyPageViewController() <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) UITextView *guestLoginSignupTextView;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIButton *loginSignupButton;
 @property (nonatomic, strong) UIActionSheet *avatarOptionsSheet;
 @property (nonatomic, strong) HHStudent *currentStudent;
 
@@ -86,22 +87,29 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 - (void)initSubviews {
     // Guest
     if (![HHStudentStore sharedInstance].currentStudent.studentId) {
-        self.guestLoginSignupTextView = [[UITextView alloc] init];
-        self.guestLoginSignupTextView.delegate = self;
-        self.guestLoginSignupTextView.editable = NO;
-        self.guestLoginSignupTextView.textAlignment = NSTextAlignmentCenter;
-        self.guestLoginSignupTextView.attributedText = [self buildGuestString];
-        self.guestLoginSignupTextView.tintColor = [UIColor HHOrange];
-        self.guestLoginSignupTextView.backgroundColor = [UIColor clearColor];
-        [self.guestLoginSignupTextView sizeToFit];
-        [self.view addSubview:self.guestLoginSignupTextView];
+        self.titleLabel = [[UILabel alloc] init];
+        self.titleLabel.text = @"您还没有登录";
+        self.titleLabel.textColor = [UIColor HHLightTextGray];
+        self.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+        [self.view addSubview:self.titleLabel];
         
-        [self.guestLoginSignupTextView makeConstraints:^(MASConstraintMaker *make) {
+        self.loginSignupButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.loginSignupButton setTitle:@"登录或注册" forState:UIControlStateNormal];
+        [self.loginSignupButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
+        self.loginSignupButton.titleLabel.font = [UIFont systemFontOfSize:25.0f];
+        [self.loginSignupButton addTarget:self action:@selector(jumpToIntroVC) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:self.loginSignupButton];
+        
+        [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.view.centerY).offset(-30.0f);
             make.centerX.equalTo(self.view.centerX);
-            make.centerY.equalTo(self.view.centerY);
-            make.width.equalTo(self.view).offset(-40.0f);
-            make.height.mas_equalTo(50.0f);
         }];
+        
+        [self.loginSignupButton makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.view.centerY);
+            make.centerX.equalTo(self.view.centerX);
+        }];
+        
         
     } else {
         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)- CGRectGetHeight([UIApplication sharedApplication].statusBarFrame) - CGRectGetHeight(self.navigationController.navigationBar.bounds))];
@@ -346,15 +354,12 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 }
 
 
-#pragma mark UITextView Delegate
+- (void)jumpToIntroVC {
+    HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+    introVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:introVC animated:YES];
 
-- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
-    if ([URL.absoluteString isEqualToString:@"fakeString"]) {
-        HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
-        introVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:introVC animated:YES];
-    }
-    return NO;
 }
+
 
 @end

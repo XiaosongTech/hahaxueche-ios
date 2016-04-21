@@ -49,6 +49,9 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     
     __block UIViewController *finalRootVC = nil;
     
+    HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+    __block UINavigationController *introNavVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+    
     [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
         if (constants) {
             if ([[HHUserAuthService sharedInstance] getSavedUser] && [HHKeychainStore getSavedAccessToken]) {
@@ -69,29 +72,21 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                                     finalRootVC = rootVC;
                                 }
                             } else {
-                                HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
-                                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
-                                finalRootVC = navVC;
+                                finalRootVC = introNavVC;
                             }
                             
                         }];
                     } else {
-                        HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
-                        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
-                        finalRootVC = navVC;
+                        finalRootVC = introNavVC;
                     }
                 }];
                 
             } else {
-                HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
-                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
-                finalRootVC = navVC;
+                finalRootVC = introNavVC;
                 
             }
         } else {
-            HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
-            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
-            finalRootVC = navVC;
+            finalRootVC = introNavVC;
         }
        
     }];
@@ -121,8 +116,25 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary *)options {
-    BOOL canHandleURL = [Pingpp handleOpenURL:url withCompletion:nil];
-    return canHandleURL;
+    BOOL canHandlePingppURL = [Pingpp handleOpenURL:url withCompletion:nil];
+    if (canHandlePingppURL) {
+        return YES;
+    }
+    
+    BOOL canHandleBranchURL = [[Branch getInstance] handleDeepLink:url];
+    if (canHandleBranchURL) {
+        if (![[HHAppDelegate topMostController] isKindOfClass:[HHLaunchImageViewController class]]) {
+            [[HHLoadingViewUtility sharedInstance] showLoadingView];
+        }
+        return YES;
+    }
+    
+    BOOL canHandleOpenShareURL = [OpenShare handleOpenURL:url];
+    if (canHandleOpenShareURL) {
+        return YES;
+    }
+
+    return YES;
 }
 
 
@@ -187,18 +199,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     
 }
 
-// Respond to URI scheme links
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    // pass the url to the handle deep link call
-    [[Branch getInstance] handleDeepLink:url];
-    
-    if ([OpenShare handleOpenURL:url]) {
-        return YES;
-    }
-    
-    // do other deep link routing for the Facebook SDK, Pinterest SDK, etc
-    return YES;
-}
 
 // Respond to Universal Links
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
