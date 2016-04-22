@@ -10,6 +10,9 @@
 #import "OpenShareHeader.h"
 #import "HHCoach.h"
 
+
+typedef void (^MessageCompletion) (OSMessage *message);
+
 @interface HHSocialMediaShareUtility : NSObject
 
 + (void)configure;
