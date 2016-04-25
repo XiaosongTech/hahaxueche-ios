@@ -110,6 +110,11 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                 UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:coachVC];
                 [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
             }
+            
+            NSString *refererId = params[@"refererId"];
+            if (refererId) {
+                [HHConstantsStore sharedInstance].refererId = refererId;;
+            }
         }
     }];
     return YES;

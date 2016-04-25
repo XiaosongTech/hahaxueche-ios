@@ -199,19 +199,19 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
     shareView.actionBlock = ^(SocialMedia selecteItem) {
         switch (selecteItem) {
             case SocialMediaQQFriend: {
-                [HHSocialMediaShareUtility shareCoachToQQFriends:weakSelf.coach];
+                [HHSocialMediaShareUtility shareCoach:weakSelf.coach shareType:ShareTypeQQ];
             } break;
                 
             case SocialMediaQQZone: {
-                [HHSocialMediaShareUtility shareCoachToQQZone:weakSelf.coach];
+                [HHSocialMediaShareUtility shareCoach:weakSelf.coach shareType:ShareTypeQZone];
             } break;
                 
             case SocialMediaWeChatFriend: {
-                [HHSocialMediaShareUtility shareCoachToWeixinSession:weakSelf.coach];
+                [HHSocialMediaShareUtility shareCoach:weakSelf.coach shareType:ShareTypeWeChat];
             } break;
                 
             case SocialMediaWeChaPYQ: {
-                [HHSocialMediaShareUtility shareCoachToWeixinTimeline:weakSelf.coach];
+                [HHSocialMediaShareUtility shareCoach:weakSelf.coach shareType:ShareTypeWeChatTimeLine];
             } break;
                 
             default:

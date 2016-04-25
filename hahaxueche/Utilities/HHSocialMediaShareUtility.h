@@ -10,6 +10,17 @@
 #import "OpenShareHeader.h"
 #import "HHCoach.h"
 
+typedef NS_ENUM(NSInteger, ShareType) {
+    ShareTypeQQ,
+    ShareTypeQZone,
+    ShareTypeWeChat,
+    ShareTypeWeChatTimeLine,
+};
+
+typedef NS_ENUM(NSInteger, MessageType) {
+    MessageTypeShareCoach,
+    MessageTypeUserReferLink,
+};
 
 typedef void (^MessageCompletion) (OSMessage *message);
 
@@ -17,13 +28,10 @@ typedef void (^MessageCompletion) (OSMessage *message);
 
 + (void)configure;
 
-// QQ
-+ (void)shareCoachToQQFriends:(HHCoach *)coach;
-+ (void)shareCoachToQQZone:(HHCoach *)coach;
++ (void)shareCoach:(HHCoach *)coach shareType:(ShareType)shareType;
+
++ (void)shareUserLinkWithType:(ShareType)shareType;
+
 + (void)talkToSupportThroughQQ;
 
-
-// WeChat
-+ (void)shareCoachToWeixinSession:(HHCoach *)coach;
-+ (void)shareCoachToWeixinTimeline:(HHCoach *)coach;
 @end
