@@ -85,9 +85,9 @@ static NSString *const kSupportQQ = @"3319762526";
     switch (messageType) {
         case MessageTypeShareCoach: {
 #ifdef DEBUG
-            baseURL = @"http://staging-share.hahaxueche.net/share/coaches/%@?target=%@";
+            baseURL = @"http://staging-api.hahaxueche.net/share/coaches/%@?target=%@";
 #else
-            baseURL = @"http://share.hahaxueche.net/share/coaches/%@?target=%@";
+            baseURL = @"http://api.hahaxueche.net/share/coaches/%@?target=%@";
             
 #endif
             
