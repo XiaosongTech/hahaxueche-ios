@@ -101,9 +101,10 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         [self.view addSubview:self.loginSignupButton];
         
         [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.view.centerY).offset(-30.0f);
             make.centerX.equalTo(self.view.centerX);
+            make.centerY.equalTo(self.view.centerY).offset(-30.0f);
         }];
+        
         
         [self.loginSignupButton makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.view.centerY);
@@ -353,12 +354,10 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     }
 }
 
-
 - (void)jumpToIntroVC {
     HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
     introVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:introVC animated:YES];
-
 }
 
 
