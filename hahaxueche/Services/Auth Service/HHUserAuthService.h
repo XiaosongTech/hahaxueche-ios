@@ -36,9 +36,10 @@ typedef void (^HHUserTokenCompletion)(BOOL valid);
  @param number The phone number the user want to use
  @param veriCode The verification code that we sent to the number
  @param password The password the user sets up
+ @param password The referer's user id
  @param completion The completion block to execute on completion
  */
-- (void)createUserWithNumber:(NSString *)number veriCode:(NSString *)veriCode password:(NSString *)password completion:(HHUserCompletion)completion;
+- (void)createUserWithNumber:(NSString *)number veriCode:(NSString *)veriCode password:(NSString *)password refererId:(NSString *)refererId completion:(HHUserCompletion)completion;
 
 /**
  Setup personal info of a student

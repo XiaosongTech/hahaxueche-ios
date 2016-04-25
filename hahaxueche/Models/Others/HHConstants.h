@@ -16,5 +16,4 @@
 @property (nonatomic, copy) NSArray *homePageBanners;
 @property (nonatomic, copy) NSArray *notifications;
 
-
 @end

@@ -340,6 +340,12 @@
 		6D3D733F1CB92F4000E424C3 /* HHConfirmScheduleBookView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D733E1CB92F4000E424C3 /* HHConfirmScheduleBookView.m */; };
 		6D3D73421CB94BEE00E424C3 /* HHBookFailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D73411CB94BEE00E424C3 /* HHBookFailView.m */; };
 		6D3D73451CB9FFB300E424C3 /* HHScheduleRateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D73441CB9FFB300E424C3 /* HHScheduleRateView.m */; };
+		6D6043161CC5EDF200C6C582 /* hahaxueche.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6D6043151CC5EDB300C6C582 /* hahaxueche.entitlements */; };
+		6D8309A71CC70D8A00BA6977 /* ic_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8309A61CC70D8A00BA6977 /* ic_share.png */; };
+		6D8309AB1CC70DB700BA6977 /* ic_mycoach_sharecoach.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8309A81CC70DB700BA6977 /* ic_mycoach_sharecoach.png */; };
+		6D8309AC1CC70DB700BA6977 /* ic_mycoach_sharecoach@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8309A91CC70DB700BA6977 /* ic_mycoach_sharecoach@2x.png */; };
+		6D8309AD1CC70DB700BA6977 /* ic_mycoach_sharecoach@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8309AA1CC70DB700BA6977 /* ic_mycoach_sharecoach@3x.png */; };
+		6D8309B01CC923F600BA6977 /* NSString+HHURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8309AF1CC923F600BA6977 /* NSString+HHURL.m */; };
 		6D9B80971CBF32AE004B90C6 /* HHNotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9B80961CBF32AE004B90C6 /* HHNotificationCell.m */; };
 		6DDAE6C31CB7566900CE461A /* HHNoCoachView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */; };
 		6DDAE6C91CB7899F00CE461A /* HHAppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C81CB7899F00CE461A /* HHAppInfoViewController.m */; };
@@ -820,6 +826,13 @@
 		6D3D73411CB94BEE00E424C3 /* HHBookFailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHBookFailView.m; sourceTree = "<group>"; };
 		6D3D73431CB9FFB300E424C3 /* HHScheduleRateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHScheduleRateView.h; sourceTree = "<group>"; };
 		6D3D73441CB9FFB300E424C3 /* HHScheduleRateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHScheduleRateView.m; sourceTree = "<group>"; };
+		6D6043151CC5EDB300C6C582 /* hahaxueche.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = hahaxueche.entitlements; sourceTree = "<group>"; };
+		6D8309A61CC70D8A00BA6977 /* ic_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_share.png; sourceTree = "<group>"; };
+		6D8309A81CC70DB700BA6977 /* ic_mycoach_sharecoach.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_mycoach_sharecoach.png; sourceTree = "<group>"; };
+		6D8309A91CC70DB700BA6977 /* ic_mycoach_sharecoach@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_mycoach_sharecoach@2x.png"; sourceTree = "<group>"; };
+		6D8309AA1CC70DB700BA6977 /* ic_mycoach_sharecoach@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_mycoach_sharecoach@3x.png"; sourceTree = "<group>"; };
+		6D8309AE1CC923F600BA6977 /* NSString+HHURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HHURL.h"; sourceTree = "<group>"; };
+		6D8309AF1CC923F600BA6977 /* NSString+HHURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HHURL.m"; sourceTree = "<group>"; };
 		6D9B80951CBF32AE004B90C6 /* HHNotificationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNotificationCell.h; sourceTree = "<group>"; };
 		6D9B80961CBF32AE004B90C6 /* HHNotificationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNotificationCell.m; sourceTree = "<group>"; };
 		6DDAE6C11CB7566900CE461A /* HHNoCoachView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNoCoachView.h; sourceTree = "<group>"; };
@@ -1123,6 +1136,8 @@
 				141FA1001C6BB0CE00113B1A /* UIImage+ImageEffects.m */,
 				5C3980781B4ACA2B0057B049 /* UIView+HHRect.h */,
 				5C3980791B4ACA2B0057B049 /* UIView+HHRect.m */,
+				6D8309AE1CC923F600BA6977 /* NSString+HHURL.h */,
+				6D8309AF1CC923F600BA6977 /* NSString+HHURL.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1299,6 +1314,7 @@
 		5CC3B5FD1B48268A00D10DFB /* hahaxueche */ = {
 			isa = PBXGroup;
 			children = (
+				6D6043151CC5EDB300C6C582 /* hahaxueche.entitlements */,
 				5CDE143C1C3300FB0004778C /* API */,
 				5CDE14641C37717A0004778C /* Assets */,
 				5C10F92B1B49E7CD00992B63 /* Categories */,
@@ -1448,6 +1464,10 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6D8309A81CC70DB700BA6977 /* ic_mycoach_sharecoach.png */,
+				6D8309A91CC70DB700BA6977 /* ic_mycoach_sharecoach@2x.png */,
+				6D8309AA1CC70DB700BA6977 /* ic_mycoach_sharecoach@3x.png */,
+				6D8309A61CC70D8A00BA6977 /* ic_share.png */,
 				6D3D6F9B1CC0933100E3BD8E /* ic_class_emptyava.png */,
 				6D3D6F9C1CC0933100E3BD8E /* ic_class_emptyava@2x.png */,
 				6D3D6F9D1CC0933100E3BD8E /* ic_class_emptyava@3x.png */,
@@ -1747,6 +1767,11 @@
 					5CC3B5FA1B48268A00D10DFB = {
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = HYWSND54RJ;
+						SystemCapabilities = {
+							com.apple.SafariKeychain = {
+								enabled = 1;
+							};
+						};
 					};
 					5CC3B6131B48268A00D10DFB = {
 						CreatedOnToolsVersion = 6.4;
@@ -1785,6 +1810,7 @@
 				140EC5EF1C6D542700DA634D /* ic_coachmsg_charge@2x.png in Resources */,
 				140EC6121C6D732D00DA634D /* ic_coachmsg_more_arrow.png in Resources */,
 				5C36D3B91C474FF600443545 /* ic_screen_hold_btn@3x.png in Resources */,
+				6D6043161CC5EDF200C6C582 /* hahaxueche.entitlements in Resources */,
 				140EC63F1C6E764100DA634D /* ic_coachmsg_pingjia.png in Resources */,
 				140EC60A1C6D68D000DA634D /* ic_coachmsg_manyidu@2x.png in Resources */,
 				143D15E01C8F2C8200432A74 /* ic_mypage_ava.png in Resources */,
@@ -1842,6 +1868,7 @@
 				141FA0EA1C66CB6300113B1A /* ic_homepage_coachhere@3x.png in Resources */,
 				5C36D3BB1C474FF600443545 /* ic_screen_normal_btn@2x.png in Resources */,
 				5C36D37B1C42D9F800443545 /* ic_bottombar_list_hold_btn@1x.png in Resources */,
+				6D8309AD1CC70DB700BA6977 /* ic_mycoach_sharecoach@3x.png in Resources */,
 				5C36D4201C496ECD00443545 /* ic_sort_price_normal_btn@2x.png in Resources */,
 				5C36D43D1C4C743700443545 /* ic_map_local_choseoff@3x.png in Resources */,
 				141F7C001C617EC7003278C6 /* ic_Star_grey@2x.png in Resources */,
@@ -1897,6 +1924,7 @@
 				141F7C011C617EC7003278C6 /* ic_Star_grey@3x.png in Resources */,
 				5C36D4051C496ECD00443545 /* ic_sort_auto_hold_btn@2x.png in Resources */,
 				5C36D40E1C496ECD00443545 /* ic_sort_hot_normal_btn@2x.png in Resources */,
+				6D8309AC1CC70DB700BA6977 /* ic_mycoach_sharecoach@2x.png in Resources */,
 				140EC6341C6E3CFC00DA634D /* ic_coachmsg_sharecoach@2x.png in Resources */,
 				14F9D4951C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian@2x.png in Resources */,
 				5C36D3C61C47500700443545 /* ic_sort_normal_btn@1X.png in Resources */,
@@ -1924,6 +1952,7 @@
 				5C36D4121C496ECD00443545 /* ic_sort_local_hold_btn@3x.png in Resources */,
 				140EC61D1C6D76DC00DA634D /* ic_coachmsg_partner@3x.png in Resources */,
 				140EC60E1C6D68D000DA634D /* ic_coachmsg_time@3x.png in Resources */,
+				6D8309AB1CC70DB700BA6977 /* ic_mycoach_sharecoach.png in Resources */,
 				5C36D4181C496ECD00443545 /* ic_sort_nice_hold_btn@3x.png in Resources */,
 				5CDE14821C3787CF0004778C /* ic_triangle@2x.png in Resources */,
 				5C36D3821C42D9F800443545 /* ic_bottombar_mypage_hold_btn@2x.png in Resources */,
@@ -1982,6 +2011,7 @@
 				5C36D43C1C4C743700443545 /* ic_map_local_choseoff@2x.png in Resources */,
 				5C36D4481C4DAE3D00443545 /* ic_auth_golden@1x.png in Resources */,
 				14F9D4941C716CB60010F3FA /* ic_coachmsg_sharecoach_kongjian.png in Resources */,
+				6D8309A71CC70D8A00BA6977 /* ic_share.png in Resources */,
 				5C36D40C1C496ECD00443545 /* ic_sort_hot_hold_btn@3x.png in Resources */,
 				1405CC681C7523560030B114 /* ic_nolist_bk_pic@2x.png in Resources */,
 			);
@@ -2175,6 +2205,7 @@
 				5C36D3DE1C48B4D500443545 /* HHCoachFilters.m in Sources */,
 				5C36D3E51C4969B400443545 /* HHSortOptionView.m in Sources */,
 				6D3D73421CB94BEE00E424C3 /* HHBookFailView.m in Sources */,
+				6D8309B01CC923F600BA6977 /* NSString+HHURL.m in Sources */,
 				5C6D8C831C3A277F0055CB31 /* HHResetPWDViewController.m in Sources */,
 				5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */,
 				5C36D3CF1C47642400443545 /* HHSliderView.m in Sources */,
@@ -2248,7 +2279,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "141e8029-88f4-4d1b-88bd-3287fe419536";
+				PROVISIONING_PROFILE = "9849c2d3-900c-4d64-a7d1-1cf216a9bb0c";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -2290,7 +2321,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "141e8029-88f4-4d1b-88bd-3287fe419536";
+				PROVISIONING_PROFILE = "9849c2d3-900c-4d64-a7d1-1cf216a9bb0c";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2302,7 +2333,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = hahaxueche/hahaxueche.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Can Zhang (N9G4ZJA58V)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2354,7 +2387,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "6501cea0-ed2a-40bb-89ca-a6574c04c40c";
 			};
 			name = Debug;
 		};
@@ -2364,7 +2397,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = hahaxueche/hahaxueche.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Can Zhang (N9G4ZJA58V)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2416,7 +2451,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "6501cea0-ed2a-40bb-89ca-a6574c04c40c";
 			};
 			name = Release;
 		};

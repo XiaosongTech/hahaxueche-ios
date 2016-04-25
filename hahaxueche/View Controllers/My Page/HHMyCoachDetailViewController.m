@@ -24,6 +24,9 @@
 #import "HHPriceDetailView.h"
 #import "HHPopupUtility.h"
 #import "HHImageGalleryViewController.h"
+#import "HHShareView.h"
+#import "HHPopupUtility.h"
+#import "HHSocialMediaShareUtility.h"
 
 
 static NSString *const kDescriptionCellID = @"kDescriptionCellID";
@@ -56,6 +59,7 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
     self.title = @"教练信息";
     self.view.backgroundColor = [UIColor HHBackgroundGary];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_mycoach_sharecoach"] action:@selector(shareCoach) target:self];
     [self initSubviews];
 }
 
@@ -184,6 +188,39 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
 
 - (void)dismissVC {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)shareCoach {
+    __weak HHMyCoachDetailViewController *weakSelf = self;
+    HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 0)];
+    shareView.dismissBlock = ^() {
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+    };
+    shareView.actionBlock = ^(SocialMedia selecteItem) {
+        switch (selecteItem) {
+            case SocialMediaQQFriend: {
+                [HHSocialMediaShareUtility shareCoach:weakSelf.coach shareType:ShareTypeQQ];
+            } break;
+                
+            case SocialMediaQQZone: {
+                [HHSocialMediaShareUtility shareCoach:weakSelf.coach shareType:ShareTypeQZone];
+            } break;
+                
+            case SocialMediaWeChatFriend: {
+                [HHSocialMediaShareUtility shareCoach:weakSelf.coach shareType:ShareTypeWeChat];
+            } break;
+                
+            case SocialMediaWeChaPYQ: {
+                [HHSocialMediaShareUtility shareCoach:weakSelf.coach shareType:ShareTypeWeChatTimeLine];
+            } break;
+                
+            default:
+                break;
+        }
+    };
+    weakSelf.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
+    [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
+    
 }
 
 #pragma mark - Others

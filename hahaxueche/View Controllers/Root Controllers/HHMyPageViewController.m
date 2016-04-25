@@ -89,8 +89,8 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     if (![HHStudentStore sharedInstance].currentStudent.studentId) {
         self.titleLabel = [[UILabel alloc] init];
         self.titleLabel.text = @"您还没有登录";
-        self.titleLabel.font = [UIFont systemFontOfSize:15.0f];
         self.titleLabel.textColor = [UIColor HHLightTextGray];
+        self.titleLabel.font = [UIFont systemFontOfSize:14.0f];
         [self.view addSubview:self.titleLabel];
         
         self.loginSignupButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -105,9 +105,10 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             make.centerY.equalTo(self.view.centerY).offset(-30.0f);
         }];
         
+        
         [self.loginSignupButton makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self.view.centerX);
             make.centerY.equalTo(self.view.centerY);
+            make.centerX.equalTo(self.view.centerX);
         }];
         
         
@@ -354,9 +355,10 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 }
 
 - (void)jumpToIntroVC {
-    HHIntroViewController *vc = [[HHIntroViewController alloc] init];
-    vc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:vc animated:YES];
+    HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+    introVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:introVC animated:YES];
 }
+
 
 @end

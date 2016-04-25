@@ -9,6 +9,7 @@
 #import "HHUserAuthService.h"
 #import "HHKeychainStore.h"
 #import "HHStudentStore.h"
+#import <Branch.h>
 
 static NSString *const kUserObjectKey = @"kUserObjectKey";
 
@@ -35,9 +36,9 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
 
 }
 
-- (void)createUserWithNumber:(NSString *)number veriCode:(NSString *)veriCode password:(NSString *)password completion:(HHUserCompletion)completion {
+- (void)createUserWithNumber:(NSString *)number veriCode:(NSString *)veriCode password:(NSString *)password refererId:(NSString *)refererId completion:(HHUserCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIUserPath];
-    [APIClient postWithParameters:@{@"cell_phone":number, @"auth_token":veriCode, @"password":password, @"user_type":@"student"} completion:^(NSDictionary *response, NSError *error) {
+    [APIClient postWithParameters:@{@"cell_phone":number, @"auth_token":veriCode, @"password":password, @"user_type":@"student", @"referer_id":refererId} completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             HHUser *user = [MTLJSONAdapter modelOfClass:[HHUser class] fromJSONDictionary:response error:nil];
             [self postAuthActionsWithUser:user];
@@ -114,6 +115,7 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
         if (!error) {
             [HHKeychainStore deleteSavedUser];
             [self deleteSavedUser];
+            [[Branch getInstance] logout];
             if (completion) {
                 completion(nil);
             }

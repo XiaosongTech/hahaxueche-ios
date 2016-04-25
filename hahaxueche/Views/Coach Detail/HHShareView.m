@@ -34,18 +34,23 @@ static NSInteger const kCountPerLine = 4;
     self.titleLabel.font = [UIFont systemFontOfSize:18.0f];
     [self addSubview:self.titleLabel];
     
+    self.botView = [[UIView alloc] init];
+    [self addSubview:self.botView];
+    
     self.botLine = [[UIView alloc] init];
     self.botLine.backgroundColor = [UIColor HHLightLineGray];
-    [self addSubview:self.botLine];
+    [self.botView addSubview:self.botLine];
     
-    self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.cancelButton.titleLabel.font = [UIFont systemFontOfSize:16.0f];
-    [self.cancelButton setTitle:@"取消" forState:UIControlStateNormal];
-    [self.cancelButton setTitleColor:[UIColor HHCancelRed] forState:UIControlStateNormal];
-    [self.cancelButton addTarget:self action:@selector(dismissView) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:self.cancelButton];
+    self.cancelLabel = [[UILabel alloc] init];
+    self.cancelLabel.font = [UIFont systemFontOfSize:16.0f];
+    self.cancelLabel.text = @"取消";
+    self.cancelLabel.textColor = [UIColor HHCancelRed];
+    [self.botView addSubview:self.cancelLabel];
     
 
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissView)];
+    [self.botView addGestureRecognizer:tapRecognizer];
+    
     self.itemsView = [[UIView alloc] init];
     [self addSubview:self.itemsView];
 
@@ -93,21 +98,25 @@ static NSInteger const kCountPerLine = 4;
         make.top.equalTo(self.top).offset(40.0f);
         make.left.equalTo(self.left);
         make.width.equalTo(self.width);
-        make.height.mas_equalTo(kItemViewHeight *((SocialMediaCount + 3 -1)/3));
+        make.bottom.equalTo(self.bottom).offset(-50.0f);
+    }];
+    
+    [self.botView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.itemsView.bottom);
+        make.left.equalTo(self.left);
+        make.width.equalTo(self.width);
+        make.bottom.equalTo(self.bottom);
     }];
     
     [self.botLine makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bottom).offset(-50.0f);
+        make.top.equalTo(self.botView.top);
         make.left.equalTo(self.left);
         make.width.equalTo(self.width);
         make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
     }];
     
-    [self.cancelButton makeConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(50.0f);
-        make.left.equalTo(self.left);
-        make.width.equalTo(self.width);
-        make.bottom.equalTo(self.bottom);
+    [self.cancelLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.botView);
     }];
     
     
