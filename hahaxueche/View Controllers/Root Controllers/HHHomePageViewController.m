@@ -23,6 +23,7 @@
 #import "HHFindCoachViewController.h"
 #import "HHCoachDetailViewController.h"
 #import "HHWebViewController.h"
+#import "HHGenericOneButtonPopupView.h"
 
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach";
@@ -68,6 +69,29 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
         }
     }
 
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *isShowed = [defaults objectForKey:@"showedBonusPopoup"];
+    //check if is refered!!
+    if (![isShowed boolValue]) {
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.alignment = NSTextAlignmentLeft;
+        paragraphStyle.lineSpacing = 8.0f;
+        
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"50元已经打进您的账户余额, 在支付过程中, 系统会自动减现50元报名费." attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+        
+        __weak HHHomePageViewController *weakSelf = self;
+        HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 280.0f) title:@"注册成功!" subTitle:@"恭喜您获得50元学车券!" info:attributedString];
+        view.cancelBlock = ^() {
+            [HHPopupUtility dismissPopup:weakSelf.popup];
+        };
+        self.popup = [HHPopupUtility createPopupWithContentView:view];
+        [HHPopupUtility showPopup:self.popup];
+        [defaults setObject:@(1) forKey:@"showedBonusPopoup"];
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{

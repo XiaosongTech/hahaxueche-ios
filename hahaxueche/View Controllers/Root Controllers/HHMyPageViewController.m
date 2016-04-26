@@ -30,6 +30,7 @@
 #import "HHMyPageReferCell.h"
 #import <Appirater.h>
 #import "HHReferFriendsViewController.h"
+#import "HHBonusInfoViewController.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -193,7 +194,9 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             };
             cell.myBonusView.actionBlock = ^(){
-                
+                HHBonusInfoViewController *vc = [[HHBonusInfoViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
             };
             return cell;
             
