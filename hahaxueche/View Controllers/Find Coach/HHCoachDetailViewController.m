@@ -152,23 +152,24 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         shareView.actionBlock = ^(SocialMedia selecteItem) {
             switch (selecteItem) {
                 case SocialMediaQQFriend: {
-                    [HHSocialMediaShareUtility shareCoach:weakSelf.coach shareType:ShareTypeQQ];
+                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeQQ];
                 } break;
                     
-                case SocialMediaQQZone: {
-                    [HHSocialMediaShareUtility shareCoach:weakSelf.coach shareType:ShareTypeQZone];
+                case SocialMediaWeibo: {
+                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeibo];
                 } break;
                     
                 case SocialMediaWeChatFriend: {
-                    [HHSocialMediaShareUtility shareCoach:weakSelf.coach shareType:ShareTypeWeChat];
+                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeChat];
                 } break;
                     
                 case SocialMediaWeChaPYQ: {
-                    [HHSocialMediaShareUtility shareCoach:weakSelf.coach shareType:ShareTypeWeChatTimeLine];
+                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeChatTimeLine];
                 } break;
                     
                 default:
                     break;
+
             }
         };
         weakSelf.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];

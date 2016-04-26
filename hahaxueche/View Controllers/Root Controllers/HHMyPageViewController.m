@@ -27,18 +27,22 @@
 #import "HHLoadingViewUtility.h"
 #import "HHWebViewController.h"
 #import "HHAppInfoViewController.h"
+#import "HHMyPageReferCell.h"
 #import <Appirater.h>
+#import "HHReferFriendsViewController.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
 static NSString *const kSupportCell = @"supportCell";
 static NSString *const kHelpCell = @"helpCell";
 static NSString *const kLogoutCell = @"logoutCell";
+static NSString *const kReferCell = @"referCell";
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 
 typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellUserInfo,
     MyPageCellCoach,
+    MyPageCellRefer,
     MyPageCellSupport,
     MyPageCellHelp,
     MyPageCellLogout,
@@ -125,6 +129,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         [self.tableView registerClass:[HHMyPageSupportCell class] forCellReuseIdentifier:kSupportCell];
         [self.tableView registerClass:[HHMyPageHelpCell class] forCellReuseIdentifier:kHelpCell];
         [self.tableView registerClass:[HHMyPageLogoutCell class] forCellReuseIdentifier:kLogoutCell];
+        [self.tableView registerClass:[HHMyPageReferCell class] forCellReuseIdentifier:kReferCell];
     }
     
 }
@@ -180,10 +185,24 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             return cell;
         } break;
             
+        case MyPageCellRefer: {
+            HHMyPageReferCell *cell = [tableView dequeueReusableCellWithIdentifier:kReferCell];
+            cell.referFriendsView.actionBlock = ^(){
+                HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
+            cell.myBonusView.actionBlock = ^(){
+                
+            };
+            return cell;
+            
+        } break;
+            
         case MyPageCellSupport: {
             HHMyPageSupportCell *cell = [tableView dequeueReusableCellWithIdentifier:kSupportCell];
             cell.supportQQView.actionBlock = ^() {
-                [HHSocialMediaShareUtility talkToSupportThroughQQ];
+                [[HHSocialMediaShareUtility sharedInstance] talkToSupportThroughQQ];
             };
             cell.supportNumberView.actionBlock = ^() {
                 NSString *phNo = @"4000016006";
@@ -231,6 +250,9 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             return 300.0f;
             
         case MyPageCellCoach:
+            return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
+        
+        case MyPageCellRefer:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
             
         case MyPageCellSupport:

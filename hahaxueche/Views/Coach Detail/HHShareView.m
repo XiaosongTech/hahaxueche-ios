@@ -61,8 +61,8 @@ static NSInteger const kCountPerLine = 4;
                 item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_qq"] title:@"QQ"];
             } break;
                 
-            case SocialMediaQQZone: {
-                item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_kongjian"] title:@"空间"];
+            case SocialMediaWeibo: {
+                item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_weibo"] title:@"微博"];
             } break;
                 
             case SocialMediaWeChatFriend: {

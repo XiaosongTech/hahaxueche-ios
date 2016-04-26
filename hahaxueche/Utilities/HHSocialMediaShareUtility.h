@@ -12,26 +12,27 @@
 
 typedef NS_ENUM(NSInteger, ShareType) {
     ShareTypeQQ,
-    ShareTypeQZone,
+    ShareTypeWeibo,
     ShareTypeWeChat,
     ShareTypeWeChatTimeLine,
-};
-
-typedef NS_ENUM(NSInteger, MessageType) {
-    MessageTypeShareCoach,
-    MessageTypeUserReferLink,
 };
 
 typedef void (^MessageCompletion) (OSMessage *message);
 
 @interface HHSocialMediaShareUtility : NSObject
 
-+ (void)configure;
++ (instancetype)sharedInstance;
 
-+ (void)shareCoach:(HHCoach *)coach shareType:(ShareType)shareType;
 
-+ (void)shareUserLinkWithType:(ShareType)shareType;
+- (void)shareCoach:(HHCoach *)coach shareType:(ShareType)shareType;
 
-+ (void)talkToSupportThroughQQ;
+- (void)shareUserLinkWithType:(ShareType)shareType;
+
+- (void)talkToSupportThroughQQ;
+
+- (void)generateUserReferLinkWithCompletion:(MessageCompletion)completion;
+
+@property (nonatomic, strong) OSMessage *userReferMessage;
+
 
 @end

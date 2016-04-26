@@ -7,6 +7,7 @@
 //
 
 #import "UIImage+HHImage.h"
+#import "UIImage+ImageEffects.h"
 
 @implementation UIImage (HHImage)
 
@@ -36,6 +37,11 @@
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return newImage;
+}
+
++ (UIImage *)blur:(UIImage *)theImage {
+    
+    return [theImage applyExtraLightEffect];
 }
 
 @end

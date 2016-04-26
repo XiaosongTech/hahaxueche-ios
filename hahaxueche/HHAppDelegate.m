@@ -196,7 +196,7 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     
     [MAMapServices sharedServices].apiKey = kMapServiceKey;
     
-    [HHSocialMediaShareUtility configure];
+    [HHSocialMediaShareUtility sharedInstance];
     
     [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
     
