@@ -13,6 +13,10 @@
 #import "HHButton.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHWithdrawViewController.h"
+#import "HHReferFriendsCell.h"
+#import "HHWithdrawHistoryViewController.h"
+
+static NSString *const kCellId = @"cellID";
 
 @interface HHBonusInfoViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -47,6 +51,8 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self.tableView registerClass:[HHReferFriendsCell class] forCellReuseIdentifier:kCellId];
     
     self.pendingAmountView = [self buildMoneyViewWithNumber:@(50000) title:@"即将到账" boldNumber:NO showArror:NO];
     [self.topView addSubview:self.pendingAmountView];
@@ -168,7 +174,8 @@
 
 #pragma mark - TableView Delegate & Datasource Methods
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    HHReferFriendsCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
+    [cell setupCellWithReferral:nil];
     return cell;
 }
 
@@ -193,7 +200,9 @@
 }
 
 - (void)jumpToWithdrawHistoryVC {
-    
+    HHWithdrawHistoryViewController *vc = [[HHWithdrawHistoryViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

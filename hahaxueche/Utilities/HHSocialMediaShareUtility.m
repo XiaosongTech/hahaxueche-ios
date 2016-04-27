@@ -149,7 +149,7 @@ static NSString *const kSupportQQ = @"3319762526";
     msg.thumbnail = imageData;
     [[HHSocialMediaShareUtility sharedInstance] generateBranchLinkForUserReferWithCompletion:^(NSString *url, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-        msg.link = @"";
+        msg.link = [NSString stringWithFormat:@"http://staging-api.hahaxueche.net/share/invitations?target=%@", [url urlEncode]];
         if (completion) {
             completion(msg);
         }

@@ -14,6 +14,7 @@
 #import "HHPaymentMethodCell.h"
 #import "HHGenericTwoButtonsPopupView.h"
 #import "HHPopupUtility.h"
+#import <MMNumberKeyboard/MMNumberKeyboard.h>
 
 
 static NSString *const kCellId = @"cellId";
@@ -58,6 +59,10 @@ static NSString *const kCellId = @"cellId";
     self.cashAmountTitleLabel = [self buildLabelWithTitle:@"本次提现" font:[UIFont systemFontOfSize:16.0f] textColor:[UIColor whiteColor]];
     [self.topView addSubview:self.cashAmountTitleLabel];
     
+    MMNumberKeyboard *keyboard = [[MMNumberKeyboard alloc] initWithFrame:CGRectZero];
+    keyboard.allowsDecimalPoint = NO;
+    keyboard.returnKeyTitle = @"完成";
+    
     self.cashAmountField = [[UITextField alloc] init];
     self.cashAmountField.borderStyle = UITextBorderStyleNone;
     self.cashAmountField.layer.cornerRadius = 20.0f;
@@ -67,7 +72,7 @@ static NSString *const kCellId = @"cellId";
     self.cashAmountField.tintColor = [UIColor HHOrange];
     self.cashAmountField.textColor = [UIColor HHOrange];
     self.cashAmountField.placeholder = @"本次想要提现金额";
-    self.cashAmountField.keyboardType = UIKeyboardTypeNumberPad;
+    self.cashAmountField.inputView = keyboard;
     [self.topView addSubview:self.cashAmountField];
     
     self.tableView = [[UITableView alloc] init];
