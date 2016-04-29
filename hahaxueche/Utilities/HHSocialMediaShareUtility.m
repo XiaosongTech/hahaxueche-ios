@@ -141,7 +141,7 @@ static NSString *const kSupportQQ = @"3319762526";
 #endif
 
     OSMessage *msg = [[OSMessage alloc] init];
-    msg.multimediaType = OSMultimediaTypeNews;
+    //msg.multimediaType = OSMultimediaTypeNews;
     msg.title = @"好友向你推荐哈哈学车";
     msg.desc = @"注册立享50元优惠";
     NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"ic_share"]);
@@ -149,7 +149,7 @@ static NSString *const kSupportQQ = @"3319762526";
     msg.thumbnail = imageData;
     [[HHSocialMediaShareUtility sharedInstance] generateBranchLinkForUserReferWithCompletion:^(NSString *url, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-        msg.link = [NSString stringWithFormat:@"http://staging-api.hahaxueche.net/share/invitations?target=%@", [url urlEncode]];
+        msg.link = [NSString stringWithFormat:baseURL, [url urlEncode]];
         if (completion) {
             completion(msg);
         }

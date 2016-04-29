@@ -66,7 +66,7 @@ static NSString *const kCellId = @"cellId";
     [self.topView addSubview:self.cashAmountTitleLabel];
     
     MMNumberKeyboard *keyboard = [[MMNumberKeyboard alloc] initWithFrame:CGRectZero];
-    keyboard.allowsDecimalPoint = NO;
+    keyboard.allowsDecimalPoint = YES;
     keyboard.returnKeyTitle = @"完成";
     
     self.cashAmountField = [[UITextField alloc] init];
@@ -180,6 +180,8 @@ static NSString *const kCellId = @"cellId";
         [[HHToastManager sharedManager] showErrorToastWithText:@"请输入提现金额"];
         return;
     }
+    
+    self.withdrawAmount = @([self.cashAmountField.text floatValue]);
     __weak HHWithdrawViewController *weakSelf = self;
     
     HHInputPaymentMethodView *view = [[HHInputPaymentMethodView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 320.0f)];
@@ -209,7 +211,19 @@ static NSString *const kCellId = @"cellId";
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentCenter;
     paragraphStyle.lineSpacing = 8.0f;
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@"提现金额: 100.00\n支付宝手续费: 1.40\n实际提现: 98.60" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+    
+    NSNumber *alipayFee = @([self.withdrawAmount floatValue] * 0.005);
+    if ([alipayFee floatValue] < 1.0f) {
+        alipayFee = @(1);
+    }
+    
+    if ([alipayFee floatValue] > 25.0f) {
+        alipayFee = @(25);
+    }
+    
+    NSNumber *trueAmount = @([self.withdrawAmount floatValue] - [alipayFee floatValue]);
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"提现金额: %@\n支付宝手续费: %@\n实际提现: %@", [self.withdrawAmount generateMoneyStringWithoutOriginalNumber], [alipayFee generateMoneyStringWithoutOriginalNumber], [trueAmount generateMoneyStringWithoutOriginalNumber]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
     HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 300.0f) title:@"确认提现" subTitle:@"提现明细" info:attrString leftButtonTitle:@"取消返回" rightButtonTitle:@"确认提现"];
     view.cancelBlock = ^() {
         [HHPopupUtility dismissPopup:weakSelf.popup];
