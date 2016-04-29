@@ -15,6 +15,8 @@
 #import "HHGenericTwoButtonsPopupView.h"
 #import "HHPopupUtility.h"
 #import <MMNumberKeyboard/MMNumberKeyboard.h>
+#import "HHInputPaymentMethodView.h"
+#import "HHToastManager.h"
 
 
 static NSString *const kCellId = @"cellId";
@@ -31,6 +33,10 @@ static NSString *const kCellId = @"cellId";
 
 @property (nonatomic, strong) UIButton *withdrawButton;
 @property (nonatomic, strong) KLCPopup *popup;
+
+@property (nonatomic, strong) NSNumber *withdrawAmount;
+@property (nonatomic, strong) NSString *alipayAccount;
+@property (nonatomic, strong) NSString *ownerName;
 
 
 @end
@@ -88,7 +94,7 @@ static NSString *const kCellId = @"cellId";
     self.withdrawButton.backgroundColor = [UIColor HHOrange];
     self.withdrawButton.layer.masksToBounds = YES;
     self.withdrawButton.layer.cornerRadius = 5.0f;
-    [self.withdrawButton addTarget:self action:@selector(showConfirmPopup) forControlEvents:UIControlEventTouchUpInside];
+    [self.withdrawButton addTarget:self action:@selector(showAlipayInputView) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.withdrawButton];
     
     
@@ -168,8 +174,38 @@ static NSString *const kCellId = @"cellId";
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)showConfirmPopup {
+- (void)showAlipayInputView {
+    
+    if ([self.cashAmountField.text isEqualToString:@""]) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"请输入提现金额"];
+        return;
+    }
     __weak HHWithdrawViewController *weakSelf = self;
+    
+    HHInputPaymentMethodView *view = [[HHInputPaymentMethodView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 320.0f)];
+    view.cancelBlock = ^() {
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+    };
+    view.confirmBlock = ^(NSString *account, NSString *ownerName) {
+        weakSelf.ownerName = ownerName;
+        weakSelf.alipayAccount = account;
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+        [weakSelf showConfirmPopup];
+    };
+    self.popup = [HHPopupUtility createPopupWithContentView:view];
+    [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+    
+    [view.accountField becomeFirstResponder];
+}
+
+- (void)showConfirmPopup {
+    if (!self.alipayAccount || !self.ownerName) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"请输入支付宝账户信息"];
+        return;
+    }
+    
+    __weak HHWithdrawViewController *weakSelf = self;
+    
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentCenter;
     paragraphStyle.lineSpacing = 8.0f;

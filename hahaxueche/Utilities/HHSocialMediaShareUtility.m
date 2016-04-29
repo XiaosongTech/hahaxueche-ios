@@ -134,9 +134,9 @@ static NSString *const kSupportQQ = @"3319762526";
     NSString *baseURL = nil;
     
 #ifdef DEBUG
-    baseURL = @"http://staging-api.hahaxueche.net/share/coaches/%@?target=%@";
+    baseURL = @"http://staging-api.hahaxueche.net/share/invitations?target=%@";
 #else
-    baseURL = @"http://api.hahaxueche.net/share/coaches/%@?target=%@";
+    baseURL = @"http://api.hahaxueche.net/share/invitations?target=%@";
     
 #endif
 

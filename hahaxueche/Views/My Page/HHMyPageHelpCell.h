@@ -16,5 +16,6 @@
 @property (nonatomic, strong) HHMyPageItemView *appInfoView;
 @property (nonatomic, strong) HHMyPageItemView *rateUsView;
 @property (nonatomic, strong) HHMyPageItemView *aboutView;
+@property (nonatomic, strong) HHMyPageItemView *faqView;
 
 @end

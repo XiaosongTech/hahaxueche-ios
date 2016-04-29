@@ -31,6 +31,7 @@
 #import <Appirater.h>
 #import "HHReferFriendsViewController.h"
 #import "HHBonusInfoViewController.h"
+#import "HHLongImageViewController.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -223,6 +224,12 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:kAboutStudentLink]];
                 [weakSelf.navigationController pushViewController:webVC animated:YES];
             };
+            
+            cell.faqView.actionBlock = ^() {
+                HHLongImageViewController *faq = [[HHLongImageViewController alloc] initWithImage:[UIImage imageNamed:@"faq.jpg"]];
+                [weakSelf presentViewController:faq animated:YES completion:nil];
+            };
+            
             cell.appInfoView.actionBlock = ^() {
                 HHAppInfoViewController *vc = [[HHAppInfoViewController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
@@ -262,7 +269,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
             
         case MyPageCellHelp:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight * 3.0f;
+            return kTopPadding + kTitleViewHeight + kItemViewHeight * 4.0f;
             
         case MyPageCellLogout:
             return 50 + kTopPadding * 2.0f;
