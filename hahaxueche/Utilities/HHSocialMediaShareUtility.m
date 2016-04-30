@@ -117,10 +117,6 @@ static NSString *const kSupportQQ = @"3319762526";
         }
     }];
 
-    
-
-
-
 }
 
 - (void)generateUserReferLinkWithCompletion:(MessageCompletion)completion {
