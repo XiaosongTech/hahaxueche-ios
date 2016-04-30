@@ -18,9 +18,10 @@
 #import "HHLoadingViewUtility.h"
 #import "HHToastManager.h"
 #import <MessageUI/MessageUI.h>
+#import "HHConstantsStore.h"
 
 
-static NSString *const kRulesString = @"1）好友通过您的专属链接注册并成功报名，您的好友在报名时可立减¥50元，同时您将获得¥50元，自动存入您的哈哈学车推荐奖金中，累计无上限，可随时提现\n\n2）好友需通过您的专属链接注册才能建立推荐关系\n\n3）如发现作弊行为将取消用户活动资格，并扣除所获奖励\n\n4）如对本活动规则有任何疑问，请联系哈哈学车客服：400-001-6006";
+static NSString *const kRulesString = @"1）好友通过您的专属链接注册并成功报名，您的好友在报名时可立减%@元，同时您将获得%@元，自动存入您的哈哈学车推荐奖金中，累计无上限，可随时提现\n\n2）好友需通过您的专属链接注册才能建立推荐关系\n\n3）如发现作弊行为将取消用户活动资格，并扣除所获奖励\n\n4）如对本活动规则有任何疑问，请联系哈哈学车客服：400-001-6006\n\n";
 
 static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学车有权对活动规则进行解释";
 
@@ -34,6 +35,9 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 @property (nonatomic, strong) UILabel *eventRulesLabel;
 @property (nonatomic, strong) KLCPopup *popup;
 
+@property (nonatomic, strong) NSNumber *refererBonus;
+@property (nonatomic, strong) NSNumber *refereeBonus;
+
 @end
 
 @implementation HHReferFriendsViewController
@@ -41,6 +45,9 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"推荐有奖";
+    self.refereeBonus = [[[HHConstantsStore sharedInstance] getAuthedUserCity] getRefereeBonus];
+    self.refererBonus = [[[HHConstantsStore sharedInstance] getAuthedUserCity] getRefererBonus];
+    
     self.view.backgroundColor = [UIColor HHBackgroundGary];
      self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(popupVC) target:self];
     
@@ -77,7 +84,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 }
 
 - (NSMutableAttributedString *)buildRulesString {
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:kRulesString attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:kRulesString, [self.refereeBonus generateMoneyString], [self.refererBonus generateMoneyString]] attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}];
     
     NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:kLawString attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}];
     [attrString appendAttributedString:attrString2];
@@ -89,7 +96,9 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     style.lineSpacing = 6.0f;
     style.alignment = NSTextAlignmentCenter;
     
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"每邀请一位好友, 您和好友一起获得%@元奖励, 累积无上限!", [@(10000) generateMoneyString]] attributes:@{NSForegroundColorAttributeName:[UIColor HHTextDarkGray], NSFontAttributeName:[UIFont systemFontOfSize:20.0f], NSParagraphStyleAttributeName:style}];
+    NSNumber *totalBonus = [[[HHConstantsStore sharedInstance] getAuthedUserCity] getTotalBonus];
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"每邀请一位好友, 您和好友一起获得%@元奖励, 累积无上限!", [totalBonus generateMoneyString]] attributes:@{NSForegroundColorAttributeName:[UIColor HHTextDarkGray], NSFontAttributeName:[UIFont systemFontOfSize:20.0f], NSParagraphStyleAttributeName:style}];
     return attrString;
 }
 

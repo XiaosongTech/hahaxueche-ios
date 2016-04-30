@@ -141,7 +141,7 @@ static NSString *const kSupportQQ = @"3319762526";
 #endif
 
     OSMessage *msg = [[OSMessage alloc] init];
-    //msg.multimediaType = OSMultimediaTypeNews;
+    msg.multimediaType = OSMultimediaTypeNews;
     msg.title = @"好友向你推荐哈哈学车";
     msg.desc = @"注册立享50元优惠";
     NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"ic_share"]);

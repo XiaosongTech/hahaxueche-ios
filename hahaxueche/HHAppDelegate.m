@@ -52,7 +52,7 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
     __block UINavigationController *introNavVC = [[UINavigationController alloc] initWithRootViewController:introVC];
     
-    __block UIViewController *finalRootVC = introVC;
+    __block UIViewController *finalRootVC = introNavVC;
     
     [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
         if (constants) {
