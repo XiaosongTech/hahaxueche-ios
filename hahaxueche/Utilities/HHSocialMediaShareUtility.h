@@ -18,6 +18,7 @@ typedef NS_ENUM(NSInteger, ShareType) {
 };
 
 typedef void (^MessageCompletion) (OSMessage *message);
+typedef void (^LinkCompletion) (NSString *link);
 
 @interface HHSocialMediaShareUtility : NSObject
 
@@ -30,9 +31,9 @@ typedef void (^MessageCompletion) (OSMessage *message);
 
 - (void)talkToSupportThroughQQ;
 
-- (void)generateUserReferLinkWithCompletion:(MessageCompletion)completion;
+- (void)getUserReferLinkWithCompletion:(LinkCompletion)completion;
 
-@property (nonatomic, strong) OSMessage *userReferMessage;
+@property (nonatomic, strong) NSString *userReferBranchLink;
 
 
 @end

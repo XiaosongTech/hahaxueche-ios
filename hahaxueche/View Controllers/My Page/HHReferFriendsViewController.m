@@ -165,9 +165,9 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
             [messageController setRecipients:nil];
             
             [[HHLoadingViewUtility sharedInstance] showLoadingView];
-            [[HHSocialMediaShareUtility sharedInstance] generateUserReferLinkWithCompletion:^(OSMessage *message) {
+            [[HHSocialMediaShareUtility sharedInstance] getUserReferLinkWithCompletion:^(NSString *link) {
                 [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-                [messageController setBody:[NSString stringWithFormat:@"好友向你推荐哈哈学车.注册立享50元优惠 %@",  message.link]];
+                [messageController setBody:[NSString stringWithFormat:@"墙裂推荐:哈哈学车.注册立享50元优惠\n %@", link]];
                 [self presentViewController:messageController animated:YES completion:nil];
                 
             }];
@@ -178,11 +178,11 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     view.pasteBlock = ^() {
         [HHPopupUtility dismissPopup:weakSelf.popup];
         [[HHLoadingViewUtility sharedInstance] showLoadingView];
-        [[HHSocialMediaShareUtility sharedInstance] generateUserReferLinkWithCompletion:^(OSMessage *message) {
+        [[HHSocialMediaShareUtility sharedInstance] getUserReferLinkWithCompletion:^(NSString *link) {
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
             UIPasteboard *appPasteBoard = [UIPasteboard generalPasteboard];
             appPasteBoard.persistent = YES;
-            [appPasteBoard setString:message.link];
+            [appPasteBoard setString:link];
             [[HHToastManager sharedManager] showSuccessToastWithText:@"复制成功"];
         }];
         
