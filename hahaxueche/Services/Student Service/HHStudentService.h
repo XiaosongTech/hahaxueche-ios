@@ -12,6 +12,8 @@
 #import "HHCoachSchedule.h"
 #import "HHCoachSchedules.h"
 #import "HHReview.h"
+#import "HHBonusSummary.h"
+#import "HHReferrals.h"
 
 typedef void (^HHStudentCompletion)(HHStudent *student, NSError *error);
 typedef void (^HHStudentGenericCompletion)(NSError *error);
@@ -19,6 +21,8 @@ typedef void (^HHStudentPurchasedServiceCompletion)(HHPurchasedService *purchase
 typedef void (^HHPurchasedServiceCompletion)(HHPurchasedService *purchasedService, NSError *error);
 typedef void (^HHScheduleCompletion)(HHCoachSchedule *schedule, NSError *error);
 typedef void (^HHSchedulesCompletion)(HHCoachSchedules *schedules, NSError *error);
+typedef void (^HHBonusSummaryCompletion)(HHBonusSummary *bonusSummary, NSError *error);
+typedef void (^HHReferralsCompletion)(HHReferrals *referralsObject, NSError *error);
 
 
 @interface HHStudentService : NSObject
@@ -94,6 +98,25 @@ typedef void (^HHSchedulesCompletion)(HHCoachSchedules *schedules, NSError *erro
  @param completion The completion block to execute on completion
  */
 - (void)reviewScheduleWithId:(NSString *)scheduleId rating:(NSNumber *)rating completion:(HHScheduleCompletion)completion;
+
+/**
+ Fetch authed student bonus summary
+ @param completion The completion block to execute on completion
+ */
+- (void)fetchBonusSummaryWithCompletion:(HHBonusSummaryCompletion)completion;
+
+/**
+ Fetch authed student referrals
+ @param completion The completion block to execute on completion
+ */
+- (void)fetchReferralsWithCompletion:(HHReferralsCompletion)completion;
+
+/**
+ Fetch authed student referrals
+ @param URL The URL of next page
+ @param completion The completion block to execute on completion
+ */
+- (void)fetchMoreReferralsWithURL:(NSString *)URL completion:(HHReferralsCompletion)completion;
 
 
 @end

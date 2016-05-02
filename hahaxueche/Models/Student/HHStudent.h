@@ -21,5 +21,7 @@
 @property (nonatomic, copy) NSString *currentCoachId;
 @property (nonatomic, copy) NSNumber *phase;
 @property (nonatomic, copy) NSNumber *currentCourse;
+@property (nonatomic, copy) NSNumber *bonusBalance;
+@property (nonatomic, copy) NSNumber *byReferal;
 
 @end

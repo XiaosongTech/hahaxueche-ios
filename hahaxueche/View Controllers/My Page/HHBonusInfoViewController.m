@@ -15,6 +15,14 @@
 #import "HHWithdrawViewController.h"
 #import "HHReferFriendsCell.h"
 #import "HHWithdrawHistoryViewController.h"
+#import "HHStudentService.h"
+#import "HHLoadingViewUtility.h"
+#import "HHToastManager.h"
+#import "HHStudentService.h"
+#import "HHReferrals.h"
+#import <MJRefresh/MJRefresh.h>
+
+typedef void (^HHReferralsUpdateCompletion)();
 
 static NSString *const kCellId = @"cellID";
 
@@ -28,6 +36,17 @@ static NSString *const kCellId = @"cellID";
 
 @property (nonatomic, strong) UIButton *withdrawButton;
 
+@property (nonatomic, strong) NSNumber *pendingAmount;
+@property (nonatomic, strong) NSNumber *availableAmount;
+@property (nonatomic, strong) NSNumber *redeemedAmount;
+
+@property (nonatomic, strong) HHReferrals *referralsObject;
+@property (nonatomic, strong) NSMutableArray *referrals;
+
+@property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
+@property (nonatomic, strong) MJRefreshAutoNormalFooter *loadMoreFooter;
+
+
 @end
 
 @implementation HHBonusInfoViewController
@@ -38,56 +57,66 @@ static NSString *const kCellId = @"cellID";
     self.title = @"以赚取";
     
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
+    self.referrals = [NSMutableArray array];
+    
+    [[HHStudentService sharedInstance] fetchBonusSummaryWithCompletion:^(HHBonusSummary *bonusSummary, NSError *error) {
+        if (!error) {
+            [self initTopViewsWithBobusSummary:bonusSummary];
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
+        }
+    }];
+    
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    [self refreshReferralsWithCompletion:^{
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+    }];
+    
     [self initSubviews];
 }
 
+- (void)refreshReferralsWithCompletion:(HHReferralsUpdateCompletion)completion {
+    [[HHStudentService sharedInstance] fetchReferralsWithCompletion:^(HHReferrals *referralsObject, NSError *error) {
+        if (completion) {
+            completion();
+        }
+        if (!error) {
+            self.referralsObject = referralsObject;
+            self.referrals = [NSMutableArray arrayWithArray:self.referralsObject.referrals];
+            [self.tableView reloadData];
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
+        }
+    }];
+}
 
-- (void)initSubviews {
-    self.topView = [[UIView alloc] init];
-    self.topView.backgroundColor = [UIColor HHOrange];
-    [self.view addSubview:self.topView];
-    
-    self.tableView = [[UITableView alloc] init];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.view addSubview:self.tableView];
-    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    [self.tableView registerClass:[HHReferFriendsCell class] forCellReuseIdentifier:kCellId];
-    
-    self.pendingAmountView = [self buildMoneyViewWithNumber:@(50000) title:@"即将到账" boldNumber:NO showArror:NO];
+- (void)loadMoreReferralsWithCompletion:(HHReferralsUpdateCompletion)completion {
+    [[HHStudentService sharedInstance] fetchMoreReferralsWithURL:self.referralsObject.nextPage completion:^(HHReferrals *referralsObject, NSError *error) {
+        if (completion) {
+            completion();
+        }
+        if (!error) {
+            self.referralsObject = referralsObject;
+            [self.referrals addObjectsFromArray:self.referralsObject.referrals];
+            [self.tableView reloadData];
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
+        }
+    }];
+}
+
+- (void)initTopViewsWithBobusSummary:(HHBonusSummary *)bonusSummary {
+    self.pendingAmountView = [self buildMoneyViewWithNumber:bonusSummary.pendingAmount title:@"即将到账" boldNumber:NO showArror:NO];
     [self.topView addSubview:self.pendingAmountView];
     
-    self.availableAmountView = [self buildMoneyViewWithNumber:@(80000) title:@"可提现" boldNumber:YES showArror:NO];
+    self.availableAmountView = [self buildMoneyViewWithNumber:bonusSummary.availableAmount title:@"可提现" boldNumber:YES showArror:NO];
     [self.topView addSubview:self.availableAmountView];
     
-    self.cashedAmountView = [self buildMoneyViewWithNumber:@(60000) title:@"已提现" boldNumber:NO showArror:YES];
+    self.cashedAmountView = [self buildMoneyViewWithNumber:bonusSummary.redeemedAmount title:@"已提现" boldNumber:NO showArror:YES];
     self.cashedAmountView.userInteractionEnabled = YES;
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToWithdrawHistoryVC)];
     [self.cashedAmountView addGestureRecognizer:recognizer];
     [self.topView addSubview:self.cashedAmountView];
-
-
-    self.withdrawButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.withdrawButton.layer.masksToBounds = YES;
-    self.withdrawButton.layer.cornerRadius = 5.0f;
-    self.withdrawButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
-    [self.withdrawButton setTitle:@"我要提现" forState:UIControlStateNormal];
-    self.withdrawButton.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.withdrawButton.layer.borderWidth = 2.0f/[UIScreen mainScreen].scale;
-    [self.withdrawButton addTarget:self action:@selector(cashBonus) forControlEvents:UIControlEventTouchUpInside];
-    [self.topView addSubview:self.withdrawButton];
-    
-    [self makeConstraints];
-}
-
-- (void)makeConstraints {
-    [self.topView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.top);
-        make.left.equalTo(self.view.left);
-        make.width.equalTo(self.view.width);
-        make.height.mas_equalTo(150.0f);
-    }];
-    
     
     [self.pendingAmountView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.topView.top).offset(20.0f);
@@ -109,6 +138,60 @@ static NSString *const kCellId = @"cellID";
         make.width.mas_equalTo(80.0f);
         make.height.mas_equalTo(45.0f);
     }];
+}
+
+
+- (void)initSubviews {
+    self.topView = [[UIView alloc] init];
+    self.topView.backgroundColor = [UIColor HHOrange];
+    [self.view addSubview:self.topView];
+    
+    self.tableView = [[UITableView alloc] init];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self.tableView registerClass:[HHReferFriendsCell class] forCellReuseIdentifier:kCellId];
+
+
+    self.withdrawButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.withdrawButton.layer.masksToBounds = YES;
+    self.withdrawButton.layer.cornerRadius = 5.0f;
+    self.withdrawButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    [self.withdrawButton setTitle:@"我要提现" forState:UIControlStateNormal];
+    self.withdrawButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.withdrawButton.layer.borderWidth = 2.0f/[UIScreen mainScreen].scale;
+    [self.withdrawButton addTarget:self action:@selector(cashBonus) forControlEvents:UIControlEventTouchUpInside];
+    [self.topView addSubview:self.withdrawButton];
+    
+    self.refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
+    self.refreshHeader.stateLabel.font = [UIFont systemFontOfSize:14.0f];
+    [self.refreshHeader setTitle:@"正在刷新列表" forState:MJRefreshStateRefreshing];
+    self.refreshHeader.stateLabel.textColor = [UIColor HHLightTextGray];
+    self.refreshHeader.automaticallyChangeAlpha = YES;
+    self.refreshHeader.lastUpdatedTimeLabel.hidden = YES;
+    self.tableView.mj_header = self.refreshHeader;
+    
+    self.loadMoreFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    [self.loadMoreFooter setTitle:@"加载更多" forState:MJRefreshStateIdle];
+    [self.loadMoreFooter setTitle:@"正在加载" forState:MJRefreshStateRefreshing];
+    [self.loadMoreFooter setTitle:@"没有更多" forState:MJRefreshStateNoMoreData];
+    self.loadMoreFooter.automaticallyRefresh = NO;
+    self.loadMoreFooter.stateLabel.font = [UIFont systemFontOfSize:14.0f];
+    self.loadMoreFooter.stateLabel.textColor = [UIColor HHLightTextGray];
+    self.tableView.mj_footer = self.loadMoreFooter;
+    
+    [self makeConstraints];
+}
+
+- (void)makeConstraints {
+    [self.topView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.top);
+        make.left.equalTo(self.view.left);
+        make.width.equalTo(self.view.width);
+        make.height.mas_equalTo(150.0f);
+    }];
+    
     
     [self.tableView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.topView.bottom);
@@ -173,14 +256,16 @@ static NSString *const kCellId = @"cellID";
 }
 
 #pragma mark - TableView Delegate & Datasource Methods
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HHReferFriendsCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
-    [cell setupCellWithReferral:nil];
+    HHReferral *referral = self.referrals[indexPath.row];
+    [cell setupCellWithReferral:referral];
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.referrals.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -203,6 +288,29 @@ static NSString *const kCellId = @"cellID";
     HHWithdrawHistoryViewController *vc = [[HHWithdrawHistoryViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)refreshData {
+    __weak HHBonusInfoViewController *weakSelf = self;
+    [self refreshReferralsWithCompletion:^{
+        [weakSelf.refreshHeader endRefreshing];
+    }];
+}
+
+- (void)loadMoreData {
+    __weak HHBonusInfoViewController *weakSelf = self;
+    [self loadMoreReferralsWithCompletion:^{
+        [weakSelf.loadMoreFooter endRefreshing];
+    }];
+}
+
+- (void)setReferralsObject:(HHReferrals *)referralsObject {
+    _referralsObject = referralsObject;
+    if (!self.referralsObject.nextPage) {
+        [self.loadMoreFooter setState:MJRefreshStateNoMoreData];
+    } else {
+        [self.loadMoreFooter setState:MJRefreshStateIdle];
+    }
 }
 
 @end

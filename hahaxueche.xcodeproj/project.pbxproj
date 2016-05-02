@@ -375,6 +375,8 @@
 		6D8309AC1CC70DB700BA6977 /* ic_mycoach_sharecoach@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8309A91CC70DB700BA6977 /* ic_mycoach_sharecoach@2x.png */; };
 		6D8309AD1CC70DB700BA6977 /* ic_mycoach_sharecoach@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8309AA1CC70DB700BA6977 /* ic_mycoach_sharecoach@3x.png */; };
 		6D8309B01CC923F600BA6977 /* NSString+HHURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8309AF1CC923F600BA6977 /* NSString+HHURL.m */; };
+		6D85522A1CD600310021D4C9 /* HHBonusSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8552291CD600310021D4C9 /* HHBonusSummary.m */; };
+		6D85522E1CD60E700021D4C9 /* HHReferrals.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D85522D1CD60E700021D4C9 /* HHReferrals.m */; };
 		6D9B80971CBF32AE004B90C6 /* HHNotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9B80961CBF32AE004B90C6 /* HHNotificationCell.m */; };
 		6DDAE6C31CB7566900CE461A /* HHNoCoachView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */; };
 		6DDAE6C91CB7899F00CE461A /* HHAppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C81CB7899F00CE461A /* HHAppInfoViewController.m */; };
@@ -911,6 +913,10 @@
 		6D8309AA1CC70DB700BA6977 /* ic_mycoach_sharecoach@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_mycoach_sharecoach@3x.png"; sourceTree = "<group>"; };
 		6D8309AE1CC923F600BA6977 /* NSString+HHURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HHURL.h"; sourceTree = "<group>"; };
 		6D8309AF1CC923F600BA6977 /* NSString+HHURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HHURL.m"; sourceTree = "<group>"; };
+		6D8552281CD600310021D4C9 /* HHBonusSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHBonusSummary.h; path = Others/HHBonusSummary.h; sourceTree = "<group>"; };
+		6D8552291CD600310021D4C9 /* HHBonusSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHBonusSummary.m; path = Others/HHBonusSummary.m; sourceTree = "<group>"; };
+		6D85522C1CD60E700021D4C9 /* HHReferrals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHReferrals.h; sourceTree = "<group>"; };
+		6D85522D1CD60E700021D4C9 /* HHReferrals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReferrals.m; sourceTree = "<group>"; };
 		6D9B80951CBF32AE004B90C6 /* HHNotificationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNotificationCell.h; sourceTree = "<group>"; };
 		6D9B80961CBF32AE004B90C6 /* HHNotificationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNotificationCell.m; sourceTree = "<group>"; };
 		6DDAE6C11CB7566900CE461A /* HHNoCoachView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNoCoachView.h; sourceTree = "<group>"; };
@@ -933,14 +939,14 @@
 		6DDF25F01CBF789F00C92C5C /* HHNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNotification.m; sourceTree = "<group>"; };
 		6DF202D21CD0B59F002092B4 /* HHReferFriendsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHReferFriendsCell.h; sourceTree = "<group>"; };
 		6DF202D31CD0B59F002092B4 /* HHReferFriendsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReferFriendsCell.m; sourceTree = "<group>"; };
-		6DF202D51CD0B8C2002092B4 /* HHReferral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHReferral.h; sourceTree = "<group>"; };
-		6DF202D61CD0B8C2002092B4 /* HHReferral.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReferral.m; sourceTree = "<group>"; };
+		6DF202D51CD0B8C2002092B4 /* HHReferral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHReferral.h; path = Others/HHReferral.h; sourceTree = "<group>"; };
+		6DF202D61CD0B8C2002092B4 /* HHReferral.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHReferral.m; path = Others/HHReferral.m; sourceTree = "<group>"; };
 		6DF202D81CD0BF49002092B4 /* HHWithdrawHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHWithdrawHistoryViewController.h; sourceTree = "<group>"; };
 		6DF202D91CD0BF49002092B4 /* HHWithdrawHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHWithdrawHistoryViewController.m; sourceTree = "<group>"; };
 		6DF202DB1CD0C0C5002092B4 /* HHWithdrawHistoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHWithdrawHistoryCell.h; sourceTree = "<group>"; };
 		6DF202DC1CD0C0C5002092B4 /* HHWithdrawHistoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHWithdrawHistoryCell.m; sourceTree = "<group>"; };
-		6DF202DE1CD0C217002092B4 /* HHWithdraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHWithdraw.h; sourceTree = "<group>"; };
-		6DF202DF1CD0C217002092B4 /* HHWithdraw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHWithdraw.m; sourceTree = "<group>"; };
+		6DF202DE1CD0C217002092B4 /* HHWithdraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHWithdraw.h; path = Others/HHWithdraw.h; sourceTree = "<group>"; };
+		6DF202DF1CD0C217002092B4 /* HHWithdraw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHWithdraw.m; path = Others/HHWithdraw.m; sourceTree = "<group>"; };
 		6DF202E71CD32713002092B4 /* ic_share_pic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ic_share_pic.jpg; sourceTree = "<group>"; };
 		6DF202E81CD32713002092B4 /* ic_share_pic@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "ic_share_pic@2x.jpg"; sourceTree = "<group>"; };
 		6DF202E91CD32713002092B4 /* ic_share_pic@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "ic_share_pic@3x.jpg"; sourceTree = "<group>"; };
@@ -949,8 +955,8 @@
 		6DF202F21CD34600002092B4 /* HHLongImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHLongImageViewController.h; sourceTree = "<group>"; };
 		6DF202F31CD34600002092B4 /* HHLongImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHLongImageViewController.m; sourceTree = "<group>"; };
 		6DF202F71CD3599F002092B4 /* faq.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = faq.jpg; sourceTree = "<group>"; };
-		6DF202F91CD4514F002092B4 /* HHBonus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHBonus.h; sourceTree = "<group>"; };
-		6DF202FA1CD4514F002092B4 /* HHBonus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHBonus.m; sourceTree = "<group>"; };
+		6DF202F91CD4514F002092B4 /* HHBonus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHBonus.h; path = Others/HHBonus.h; sourceTree = "<group>"; };
+		6DF202FA1CD4514F002092B4 /* HHBonus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHBonus.m; path = Others/HHBonus.m; sourceTree = "<group>"; };
 		D5B0110F2ECD81DF5CD4D72E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8832576172C8DF34558C848 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		EFA148D80F7878EC1B2315C7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1337,12 +1343,6 @@
 				5C37C1CA1C55D0D80073970F /* HHField.m */,
 				6DDF25EF1CBF789F00C92C5C /* HHNotification.h */,
 				6DDF25F01CBF789F00C92C5C /* HHNotification.m */,
-				6DF202D51CD0B8C2002092B4 /* HHReferral.h */,
-				6DF202D61CD0B8C2002092B4 /* HHReferral.m */,
-				6DF202DE1CD0C217002092B4 /* HHWithdraw.h */,
-				6DF202DF1CD0C217002092B4 /* HHWithdraw.m */,
-				6DF202F91CD4514F002092B4 /* HHBonus.h */,
-				6DF202FA1CD4514F002092B4 /* HHBonus.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -1515,6 +1515,7 @@
 		5CDE14391C32F8700004778C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6D85522B1CD60E560021D4C9 /* Referral */,
 				141F7C0C1C61B060003278C6 /* Coach */,
 				5C36D38A1C43014E00443545 /* Others */,
 				14B5EB771C7C0EFD00A37669 /* Payment */,
@@ -1830,6 +1831,23 @@
 				5C36D4311C4C39A000443545 /* pic_local@3x.png */,
 			);
 			path = Assets;
+			sourceTree = "<group>";
+		};
+		6D85522B1CD60E560021D4C9 /* Referral */ = {
+			isa = PBXGroup;
+			children = (
+				6DF202D51CD0B8C2002092B4 /* HHReferral.h */,
+				6DF202D61CD0B8C2002092B4 /* HHReferral.m */,
+				6DF202DE1CD0C217002092B4 /* HHWithdraw.h */,
+				6DF202DF1CD0C217002092B4 /* HHWithdraw.m */,
+				6DF202F91CD4514F002092B4 /* HHBonus.h */,
+				6DF202FA1CD4514F002092B4 /* HHBonus.m */,
+				6D8552281CD600310021D4C9 /* HHBonusSummary.h */,
+				6D8552291CD600310021D4C9 /* HHBonusSummary.m */,
+				6D85522C1CD60E700021D4C9 /* HHReferrals.h */,
+				6D85522D1CD60E700021D4C9 /* HHReferrals.m */,
+			);
+			name = Referral;
 			sourceTree = "<group>";
 		};
 		9F9FAF418A99FA3C4406DAC1 /* Pods */ = {
@@ -2272,6 +2290,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D85522A1CD600310021D4C9 /* HHBonusSummary.m in Sources */,
 				147A9FED1C7A73F3000DED3B /* HHPaymentStatusCell.m in Sources */,
 				141FA0FA1C6BAD1A00113B1A /* ParallaxHeaderView.m in Sources */,
 				1405CC9A1C7699900030B114 /* HHMyCoachCourseInfoCell.m in Sources */,
@@ -2353,6 +2372,7 @@
 				1405CC931C768A2A0030B114 /* HHMyCoachDetailViewController.m in Sources */,
 				1405CC831C7645910030B114 /* HHMyPageCoachCell.m in Sources */,
 				5C36D3961C430DD700443545 /* HHConstants.m in Sources */,
+				6D85522E1CD60E700021D4C9 /* HHReferrals.m in Sources */,
 				147A9FF91C7AB56C000DED3B /* HHOkButtonView.m in Sources */,
 				140EC6441C6E9A6100DA634D /* HHCoachReviewView.m in Sources */,
 				14F9D4901C71223E0010F3FA /* HHCoaches.m in Sources */,

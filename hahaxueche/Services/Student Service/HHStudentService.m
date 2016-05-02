@@ -169,5 +169,54 @@
     
 }
 
+- (void)fetchBonusSummaryWithCompletion:(HHBonusSummaryCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentBonusSummary, [HHStudentStore sharedInstance].currentStudent.studentId]];
+    [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHBonusSummary *bonusSummary = [MTLJSONAdapter modelOfClass:[HHBonusSummary class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(bonusSummary, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
+-(void)fetchReferralsWithCompletion:(HHReferralsCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentReferees, [HHStudentStore sharedInstance].currentStudent.studentId]];
+    [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHReferrals *referrals = [MTLJSONAdapter modelOfClass:[HHReferrals class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(referrals, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+
+}
+
+- (void)fetchMoreReferralsWithURL:(NSString *)URL completion:(HHReferralsCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClient];
+    [APIClient getWithURL:URL completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHReferrals *referrals = [MTLJSONAdapter modelOfClass:[HHReferrals class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(referrals, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
 
 @end

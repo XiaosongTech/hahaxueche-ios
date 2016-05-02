@@ -10,6 +10,7 @@
 #import "Masonry.h"
 #import "UIColor+HHColor.h"
 #import "NSNumber+HHNumber.h"
+#import <UIImageView+WebCache.h>
 
 @implementation HHReferFriendsCell
 
@@ -71,10 +72,16 @@
 }
 
 - (void)setupCellWithReferral:(HHReferral *)referral {
-    self.avaView.image = [UIImage imageNamed:@"ic_share"];
-    self.nameLabel.text = @"王子潇";
-    self.statusLabel.text = @"已经报名教练并付款";
-    self.moneyLabel.text = [@(5000) generateMoneyString];
+    [self.avaView sd_setImageWithURL:[NSURL URLWithString:referral.refereeAvatar] placeholderImage:[UIImage imageNamed:@"ic_mypage_ava"]];
+    self.nameLabel.text = referral.refereeName;
+    self.statusLabel.text = [referral getStatusString];
+    self.moneyLabel.text = [referral.refererBonusAmount generateMoneyString];
+    
+    if ([referral.status integerValue] == 0) {
+        self.moneyLabel.textColor = [UIColor HHLightTextGray];
+    } else {
+        self.moneyLabel.textColor = [UIColor HHOrange];
+    }
 }
 
 
