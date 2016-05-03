@@ -14,6 +14,7 @@
 #import "HHReview.h"
 #import "HHBonusSummary.h"
 #import "HHReferrals.h"
+#import "HHWithdraws.h"
 
 typedef void (^HHStudentCompletion)(HHStudent *student, NSError *error);
 typedef void (^HHStudentGenericCompletion)(NSError *error);
@@ -23,7 +24,8 @@ typedef void (^HHScheduleCompletion)(HHCoachSchedule *schedule, NSError *error);
 typedef void (^HHSchedulesCompletion)(HHCoachSchedules *schedules, NSError *error);
 typedef void (^HHBonusSummaryCompletion)(HHBonusSummary *bonusSummary, NSError *error);
 typedef void (^HHReferralsCompletion)(HHReferrals *referralsObject, NSError *error);
-
+typedef void (^HHWithdrawsCompletion)(HHWithdraws *withdrawsObject, NSError *error);
+typedef void (^HHWithdrawCompletion)(HHWithdraw *withdraw, NSError *error);
 
 @interface HHStudentService : NSObject
 
@@ -117,6 +119,28 @@ typedef void (^HHReferralsCompletion)(HHReferrals *referralsObject, NSError *err
  @param completion The completion block to execute on completion
  */
 - (void)fetchMoreReferralsWithURL:(NSString *)URL completion:(HHReferralsCompletion)completion;
+
+/**
+ Fetch withdraw transaction history
+ @param completion The completion block to execute on completion
+ */
+- (void)fetchWithdrawTransactionWithCompletion:(HHWithdrawsCompletion)completion;
+
+/**
+Fetch next page of withdraw transaction history
+@param URL The URL of next page
+@param completion The completion block to execute on completion
+*/
+- (void)fetchMoreWithdrawTransactionsWithURL:(NSString *)URL completion:(HHWithdrawsCompletion)completion;
+
+/**
+ Student withdraw
+ @param amount The withdraw amount
+ @param accountName The alipay account name
+ @param account The alipay account
+ @param completion The completion block to execute on completion
+ */
+- (void)withdrawBonusWithAmount:(NSNumber *)amount accountName:(NSString *)accountName account:(NSString *)account completion:(HHWithdrawCompletion)completion;
 
 
 @end

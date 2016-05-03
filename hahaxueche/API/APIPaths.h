@@ -38,6 +38,10 @@
 #define kAPIStudentReviewSchedule @"students/%@/%@/review_schedule_event"
 #define kAPIStudentBonusSummary @"students/%@/referal_bonus_summary"
 #define kAPIStudentReferees @"students/%@/referees"
+#define kAPIStudentWithdrawTransacion @"students/%@/referal_bonus_transactions"
+#define kAPIStudentWithdraw @"students/%@/withdraw_referal_bonus"
+
+
 
 #pragma mark Coach
 

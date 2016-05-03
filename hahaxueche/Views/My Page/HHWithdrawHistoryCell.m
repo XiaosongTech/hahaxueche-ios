@@ -10,6 +10,7 @@
 #import "Masonry.h"
 #import "UIColor+HHColor.h"
 #import "NSNumber+HHNumber.h"
+#import "HHFormatUtility.h"
 
 @implementation HHWithdrawHistoryCell
 
@@ -63,8 +64,8 @@
 
 - (void)setupCellWithWithdraw:(HHWithdraw *)withdraw {
     self.mainLabel.text = @"推荐有奖提现";
-    self.timeLabel.text = @"2016-04-08";
-    self.moneyLabel.text = [@(5000) generateMoneyString];
+    self.timeLabel.text = [[HHFormatUtility fullDateWithoutSecFormatter] stringFromDate:withdraw.redeemedDate];
+    self.moneyLabel.text = [withdraw.amount generateMoneyString];
 }
 
 @end

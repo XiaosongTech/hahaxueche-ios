@@ -340,6 +340,7 @@
 		6D3D733F1CB92F4000E424C3 /* HHConfirmScheduleBookView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D733E1CB92F4000E424C3 /* HHConfirmScheduleBookView.m */; };
 		6D3D73421CB94BEE00E424C3 /* HHBookFailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D73411CB94BEE00E424C3 /* HHBookFailView.m */; };
 		6D3D73451CB9FFB300E424C3 /* HHScheduleRateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D73441CB9FFB300E424C3 /* HHScheduleRateView.m */; };
+		6D4886BF1CD879F400E28BB3 /* HHBonusAmountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4886BE1CD879F400E28BB3 /* HHBonusAmountView.m */; };
 		6D6043161CC5EDF200C6C582 /* hahaxueche.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6D6043151CC5EDB300C6C582 /* hahaxueche.entitlements */; };
 		6D82BD2C1CCE24EF00D4109A /* HHMyPageReferCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D82BD2B1CCE24EF00D4109A /* HHMyPageReferCell.m */; };
 		6D82BD2F1CCE2AD400D4109A /* HHReferFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D82BD2E1CCE2AD400D4109A /* HHReferFriendsViewController.m */; };
@@ -377,6 +378,7 @@
 		6D8309B01CC923F600BA6977 /* NSString+HHURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8309AF1CC923F600BA6977 /* NSString+HHURL.m */; };
 		6D85522A1CD600310021D4C9 /* HHBonusSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8552291CD600310021D4C9 /* HHBonusSummary.m */; };
 		6D85522E1CD60E700021D4C9 /* HHReferrals.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D85522D1CD60E700021D4C9 /* HHReferrals.m */; };
+		6D8552311CD8408B0021D4C9 /* HHWithdraws.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8552301CD8408B0021D4C9 /* HHWithdraws.m */; };
 		6D9B80971CBF32AE004B90C6 /* HHNotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9B80961CBF32AE004B90C6 /* HHNotificationCell.m */; };
 		6DDAE6C31CB7566900CE461A /* HHNoCoachView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */; };
 		6DDAE6C91CB7899F00CE461A /* HHAppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C81CB7899F00CE461A /* HHAppInfoViewController.m */; };
@@ -869,6 +871,8 @@
 		6D3D73411CB94BEE00E424C3 /* HHBookFailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHBookFailView.m; sourceTree = "<group>"; };
 		6D3D73431CB9FFB300E424C3 /* HHScheduleRateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHScheduleRateView.h; sourceTree = "<group>"; };
 		6D3D73441CB9FFB300E424C3 /* HHScheduleRateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHScheduleRateView.m; sourceTree = "<group>"; };
+		6D4886BD1CD879F400E28BB3 /* HHBonusAmountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHBonusAmountView.h; sourceTree = "<group>"; };
+		6D4886BE1CD879F400E28BB3 /* HHBonusAmountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHBonusAmountView.m; sourceTree = "<group>"; };
 		6D6043151CC5EDB300C6C582 /* hahaxueche.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = hahaxueche.entitlements; sourceTree = "<group>"; };
 		6D82BD2A1CCE24EF00D4109A /* HHMyPageReferCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyPageReferCell.h; sourceTree = "<group>"; };
 		6D82BD2B1CCE24EF00D4109A /* HHMyPageReferCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyPageReferCell.m; sourceTree = "<group>"; };
@@ -917,6 +921,8 @@
 		6D8552291CD600310021D4C9 /* HHBonusSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHBonusSummary.m; path = Others/HHBonusSummary.m; sourceTree = "<group>"; };
 		6D85522C1CD60E700021D4C9 /* HHReferrals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHReferrals.h; sourceTree = "<group>"; };
 		6D85522D1CD60E700021D4C9 /* HHReferrals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReferrals.m; sourceTree = "<group>"; };
+		6D85522F1CD8408B0021D4C9 /* HHWithdraws.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHWithdraws.h; sourceTree = "<group>"; };
+		6D8552301CD8408B0021D4C9 /* HHWithdraws.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHWithdraws.m; sourceTree = "<group>"; };
 		6D9B80951CBF32AE004B90C6 /* HHNotificationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNotificationCell.h; sourceTree = "<group>"; };
 		6D9B80961CBF32AE004B90C6 /* HHNotificationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNotificationCell.m; sourceTree = "<group>"; };
 		6DDAE6C11CB7566900CE461A /* HHNoCoachView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNoCoachView.h; sourceTree = "<group>"; };
@@ -1086,6 +1092,8 @@
 				6DF202DC1CD0C0C5002092B4 /* HHWithdrawHistoryCell.m */,
 				6DF202ED1CD33212002092B4 /* HHInputPaymentMethodView.h */,
 				6DF202EE1CD33212002092B4 /* HHInputPaymentMethodView.m */,
+				6D4886BD1CD879F400E28BB3 /* HHBonusAmountView.h */,
+				6D4886BE1CD879F400E28BB3 /* HHBonusAmountView.m */,
 			);
 			path = "My Page";
 			sourceTree = "<group>";
@@ -1846,6 +1854,8 @@
 				6D8552291CD600310021D4C9 /* HHBonusSummary.m */,
 				6D85522C1CD60E700021D4C9 /* HHReferrals.h */,
 				6D85522D1CD60E700021D4C9 /* HHReferrals.m */,
+				6D85522F1CD8408B0021D4C9 /* HHWithdraws.h */,
+				6D8552301CD8408B0021D4C9 /* HHWithdraws.m */,
 			);
 			name = Referral;
 			sourceTree = "<group>";
@@ -2315,6 +2325,7 @@
 				6DF202FB1CD4514F002092B4 /* HHBonus.m in Sources */,
 				14700D981C797AE400660989 /* HHPaymentStatusTopView.m in Sources */,
 				14604F471C6F8BED009DBE10 /* HHShareView.m in Sources */,
+				6D8552311CD8408B0021D4C9 /* HHWithdraws.m in Sources */,
 				14604F651C6FF926009DBE10 /* NSNumber+HHNumber.m in Sources */,
 				5CDE14891C3859290004778C /* HHPopupUtility.m in Sources */,
 				6DF202E01CD0C217002092B4 /* HHWithdraw.m in Sources */,
@@ -2419,6 +2430,7 @@
 				5C6D8C831C3A277F0055CB31 /* HHResetPWDViewController.m in Sources */,
 				6DF202F41CD34600002092B4 /* HHLongImageViewController.m in Sources */,
 				5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */,
+				6D4886BF1CD879F400E28BB3 /* HHBonusAmountView.m in Sources */,
 				5C36D3CF1C47642400443545 /* HHSliderView.m in Sources */,
 				1405CC861C76460C0030B114 /* HHMyPageItemTitleView.m in Sources */,
 				6D82BD731CCFAA9900D4109A /* HHGenericOneButtonPopupView.m in Sources */,

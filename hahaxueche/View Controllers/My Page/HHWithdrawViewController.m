@@ -17,6 +17,7 @@
 #import <MMNumberKeyboard/MMNumberKeyboard.h>
 #import "HHInputPaymentMethodView.h"
 #import "HHToastManager.h"
+#import "HHStudentService.h"
 
 
 static NSString *const kCellId = @"cellId";
@@ -38,10 +39,20 @@ static NSString *const kCellId = @"cellId";
 @property (nonatomic, strong) NSString *alipayAccount;
 @property (nonatomic, strong) NSString *ownerName;
 
+@property (nonatomic, strong) NSNumber *availableAmount;
+
 
 @end
 
 @implementation HHWithdrawViewController
+
+- (instancetype)initWithAvailableAmount:(NSNumber *)amount {
+    self = [super init];
+    if (self) {
+        self.availableAmount = amount;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -59,7 +70,7 @@ static NSString *const kCellId = @"cellId";
     self.availabeAmountTitleLabel = [self buildLabelWithTitle:@"可提现" font:[UIFont systemFontOfSize:16.0f] textColor:[UIColor whiteColor]];
     [self.topView addSubview:self.availabeAmountTitleLabel];
     
-    self.availabeAmountValueLabel = [self buildLabelWithTitle:[@(20000) generateMoneyString] font:[UIFont systemFontOfSize:45.0f] textColor:[UIColor whiteColor]];
+    self.availabeAmountValueLabel = [self buildLabelWithTitle:[self.availableAmount generateMoneyString] font:[UIFont systemFontOfSize:45.0f] textColor:[UIColor whiteColor]];
     [self.topView addSubview:self.availabeAmountValueLabel];
     
     self.cashAmountTitleLabel = [self buildLabelWithTitle:@"本次提现" font:[UIFont systemFontOfSize:16.0f] textColor:[UIColor whiteColor]];
@@ -175,13 +186,19 @@ static NSString *const kCellId = @"cellId";
 }
 
 - (void)showAlipayInputView {
+    self.withdrawAmount = @([self.cashAmountField.text floatValue] * 100);
     
     if ([self.cashAmountField.text isEqualToString:@""]) {
         [[HHToastManager sharedManager] showErrorToastWithText:@"请输入提现金额"];
         return;
     }
     
-    self.withdrawAmount = @([self.cashAmountField.text floatValue]);
+    if ([self.withdrawAmount floatValue] > [self.availableAmount floatValue]) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"金额过大, 不能超出可提现金额!"];
+        return;
+    }
+    
+    
     __weak HHWithdrawViewController *weakSelf = self;
     
     HHInputPaymentMethodView *view = [[HHInputPaymentMethodView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 320.0f)];
@@ -229,7 +246,19 @@ static NSString *const kCellId = @"cellId";
         [HHPopupUtility dismissPopup:weakSelf.popup];
     };
     view.confirmBlock = ^() {
-        [HHPopupUtility dismissPopup:weakSelf.popup];
+        [[HHStudentService sharedInstance] withdrawBonusWithAmount:self.withdrawAmount accountName:self.ownerName account:self.alipayAccount completion:^(HHWithdraw *withdraw, NSError *error) {
+            if (!error) {
+                [HHPopupUtility dismissPopup:weakSelf.popup];
+                [[HHToastManager sharedManager] showSuccessToastWithText:@"提现成功!"];
+                self.availableAmount = @([self.availableAmount floatValue] - [withdraw.amount floatValue]);
+                self.availabeAmountValueLabel.text = [self.availableAmount generateMoneyString];
+                if (self.updateAmountsBlock) {
+                    self.updateAmountsBlock(withdraw.amount);
+                }
+            } else {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
+            }
+        }];
     };
     self.popup = [HHPopupUtility createPopupWithContentView:view];
     [HHPopupUtility showPopup:self.popup];

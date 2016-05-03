@@ -21,6 +21,7 @@
 #import "HHStudentService.h"
 #import "HHReferrals.h"
 #import <MJRefresh/MJRefresh.h>
+#import "HHBonusAmountView.h"
 
 typedef void (^HHReferralsUpdateCompletion)();
 
@@ -30,9 +31,9 @@ static NSString *const kCellId = @"cellID";
 
 @property (nonatomic, strong) UIView *topView;
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) UIView *pendingAmountView;
-@property (nonatomic, strong) UIView *availableAmountView;
-@property (nonatomic, strong) UIView *cashedAmountView;
+@property (nonatomic, strong) HHBonusAmountView *pendingAmountView;
+@property (nonatomic, strong) HHBonusAmountView *availableAmountView;
+@property (nonatomic, strong) HHBonusAmountView *cashedAmountView;
 
 @property (nonatomic, strong) UIButton *withdrawButton;
 
@@ -61,6 +62,10 @@ static NSString *const kCellId = @"cellID";
     
     [[HHStudentService sharedInstance] fetchBonusSummaryWithCompletion:^(HHBonusSummary *bonusSummary, NSError *error) {
         if (!error) {
+            self.availableAmount = bonusSummary.availableAmount;
+            self.pendingAmount = bonusSummary.pendingAmount;
+            self.redeemedAmount = bonusSummary.redeemedAmount;
+            
             [self initTopViewsWithBobusSummary:bonusSummary];
         } else {
             [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
@@ -106,13 +111,13 @@ static NSString *const kCellId = @"cellID";
 }
 
 - (void)initTopViewsWithBobusSummary:(HHBonusSummary *)bonusSummary {
-    self.pendingAmountView = [self buildMoneyViewWithNumber:bonusSummary.pendingAmount title:@"即将到账" boldNumber:NO showArror:NO];
+    self.pendingAmountView = [[HHBonusAmountView alloc] initWithNumber:bonusSummary.pendingAmount title:@"即将到账" boldNumber:NO showArror:NO];
     [self.topView addSubview:self.pendingAmountView];
     
-    self.availableAmountView = [self buildMoneyViewWithNumber:bonusSummary.availableAmount title:@"可提现" boldNumber:YES showArror:NO];
+    self.availableAmountView = [[HHBonusAmountView alloc] initWithNumber:bonusSummary.availableAmount title:@"可提现" boldNumber:YES showArror:NO];
     [self.topView addSubview:self.availableAmountView];
     
-    self.cashedAmountView = [self buildMoneyViewWithNumber:bonusSummary.redeemedAmount title:@"已提现" boldNumber:NO showArror:YES];
+    self.cashedAmountView = [[HHBonusAmountView alloc] initWithNumber:bonusSummary.redeemedAmount title:@"已提现" boldNumber:NO showArror:YES];
     self.cashedAmountView.userInteractionEnabled = YES;
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToWithdrawHistoryVC)];
     [self.cashedAmountView addGestureRecognizer:recognizer];
@@ -209,52 +214,6 @@ static NSString *const kCellId = @"cellID";
     
 }
 
-- (UIView *)buildMoneyViewWithNumber:(NSNumber *)number title:(NSString *)title boldNumber:(BOOL)boldNumber showArror:(BOOL)showArror {
-    UIView *view = [[UIView alloc] init];
-    view.backgroundColor = [UIColor HHOrange];
-    
-    UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = title;
-    titleLabel.textColor = [UIColor colorWithWhite:1.0f alpha:0.8f];
-    if (boldNumber) {
-        titleLabel.font = [UIFont systemFontOfSize:16.0f];
-    } else {
-        titleLabel.font = [UIFont systemFontOfSize:14.0f];
-    }
-    
-    [view addSubview:titleLabel];
-    
-    [titleLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(view.top);
-        make.centerX.equalTo(view.centerX);
-    }];
-    
-    UILabel *valueLabel = [[UILabel alloc] init];
-    valueLabel.textColor = [UIColor whiteColor];
-    
-    if (showArror) {
-        valueLabel.text = [NSString stringWithFormat:@"%@ >", [number generateMoneyString]];
-    } else {
-        valueLabel.text = [number generateMoneyString];
-    }
-    
-    if (boldNumber) {
-        valueLabel.font = [UIFont boldSystemFontOfSize:30.0f];
-    } else {
-        valueLabel.font = [UIFont systemFontOfSize:20.0f];
-    }
-    
-    [view addSubview:valueLabel];
-    
-    [valueLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(view.bottom);
-        make.centerX.equalTo(view.centerX);
-    }];
-    
-    return view;
-    
-}
-
 #pragma mark - TableView Delegate & Datasource Methods
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -275,7 +234,12 @@ static NSString *const kCellId = @"cellID";
 
 
 - (void)cashBonus {
-    HHWithdrawViewController *vc = [[HHWithdrawViewController alloc] init];
+    __weak HHBonusInfoViewController *weakSelf = self;
+    HHWithdrawViewController *vc = [[HHWithdrawViewController alloc] initWithAvailableAmount:self.availableAmount];
+    vc.updateAmountsBlock = ^(NSNumber *redeemedAmount) {
+        weakSelf.availableAmount = @([weakSelf.availableAmount floatValue] - [redeemedAmount floatValue]);
+        weakSelf.redeemedAmount = @([weakSelf.redeemedAmount floatValue] + [redeemedAmount floatValue]);
+    };
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -311,6 +275,16 @@ static NSString *const kCellId = @"cellID";
     } else {
         [self.loadMoreFooter setState:MJRefreshStateIdle];
     }
+}
+
+- (void)setAvailableAmount:(NSNumber *)availableAmount {
+    _availableAmount = availableAmount;
+    self.availableAmountView.valueLabel.text = [availableAmount generateMoneyString];
+}
+
+- (void)setRedeemedAmount:(NSNumber *)redeemedAmount {
+    _redeemedAmount = redeemedAmount;
+    self.cashedAmountView.titleLabel.text = [redeemedAmount generateMoneyString];
 }
 
 @end

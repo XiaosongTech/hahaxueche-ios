@@ -94,4 +94,11 @@
     return formatter;
 }
 
++ (NSDateFormatter *)fullDateWithoutSecFormatter {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+    return formatter;
+    
+}
+
 @end

@@ -22,8 +22,8 @@
              @"currentCoachId":@"current_coach_id",
              @"phase":@"phase",
              @"currentCourse":@"current_course",
-//             @"bonusBalance":@"bonus_balance",
-//             @"byReferal":@"by_referal",
+             @"bonusBalance":@"bonus_balance",
+             @"byReferal":@"by_referal",
              };
 }
 
