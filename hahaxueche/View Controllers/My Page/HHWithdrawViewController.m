@@ -230,17 +230,17 @@ static NSString *const kCellId = @"cellId";
     paragraphStyle.lineSpacing = 8.0f;
     
     NSNumber *alipayFee = @([self.withdrawAmount floatValue] * 0.005);
-    if ([alipayFee floatValue] < 1.0f) {
-        alipayFee = @(1);
+    if ([alipayFee floatValue] < 100.0f) {
+        alipayFee = @(100);
     }
     
-    if ([alipayFee floatValue] > 25.0f) {
-        alipayFee = @(25);
+    if ([alipayFee floatValue] > 2500.0f) {
+        alipayFee = @(2500);
     }
     
     NSNumber *trueAmount = @([self.withdrawAmount floatValue] - [alipayFee floatValue]);
     
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"提现金额: %@\n支付宝手续费: %@\n实际提现: %@", [self.withdrawAmount generateMoneyStringWithoutOriginalNumber], [alipayFee generateMoneyStringWithoutOriginalNumber], [trueAmount generateMoneyStringWithoutOriginalNumber]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"提现金额: %@\n支付宝手续费: %@\n实际提现: %@", [self.withdrawAmount generateMoneyString], [alipayFee generateMoneyString], [trueAmount generateMoneyString]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
     HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 300.0f) title:@"确认提现" subTitle:@"提现明细" info:attrString leftButtonTitle:@"取消返回" rightButtonTitle:@"确认提现"];
     view.cancelBlock = ^() {
         [HHPopupUtility dismissPopup:weakSelf.popup];

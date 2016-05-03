@@ -60,7 +60,7 @@ static NSString *const kCellId = @"cellID";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.title = @"以赚取";
+    self.title = @"已赚取";
     
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
     self.referrals = [NSMutableArray array];
@@ -336,7 +336,7 @@ static NSString *const kCellId = @"cellID";
 
 - (void)setRedeemedAmount:(NSNumber *)redeemedAmount {
     _redeemedAmount = redeemedAmount;
-    self.cashedAmountView.titleLabel.text = [redeemedAmount generateMoneyString];
+    self.cashedAmountView.valueLabel.text = [redeemedAmount generateMoneyString];
 }
 
 - (void)jumpToInviteVC {

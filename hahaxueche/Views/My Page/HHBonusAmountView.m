@@ -34,24 +34,24 @@
             make.centerX.equalTo(self.centerX);
         }];
         
-        UILabel *valueLabel = [[UILabel alloc] init];
-        valueLabel.textColor = [UIColor whiteColor];
+        self.valueLabel = [[UILabel alloc] init];
+        self.valueLabel.textColor = [UIColor whiteColor];
         
         if (showArror) {
-            valueLabel.text = [NSString stringWithFormat:@"%@ >", [number generateMoneyString]];
+            self.valueLabel.text = [NSString stringWithFormat:@"%@ >", [number generateMoneyString]];
         } else {
-            valueLabel.text = [number generateMoneyString];
+            self.valueLabel.text = [number generateMoneyString];
         }
         
         if (boldNumber) {
-            valueLabel.font = [UIFont boldSystemFontOfSize:30.0f];
+            self.valueLabel.font = [UIFont boldSystemFontOfSize:30.0f];
         } else {
-            valueLabel.font = [UIFont systemFontOfSize:20.0f];
+            self.valueLabel.font = [UIFont systemFontOfSize:20.0f];
         }
         
-        [self addSubview:valueLabel];
+        [self addSubview:self.valueLabel];
         
-        [valueLabel makeConstraints:^(MASConstraintMaker *make) {
+        [self.valueLabel makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.bottom);
             make.centerX.equalTo(self.centerX);
         }];

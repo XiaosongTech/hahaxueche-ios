@@ -22,7 +22,7 @@
 }
 
 - (NSString *)getStatusString {
-    if ([self.status integerValue] == 0) {
+    if ([self.status integerValue] == 1) {
         return @"已经报名教练并付款";
     } else {
         return @"已注册, 还没有报名教练";
