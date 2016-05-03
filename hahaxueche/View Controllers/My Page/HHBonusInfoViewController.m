@@ -22,6 +22,7 @@
 #import "HHReferrals.h"
 #import <MJRefresh/MJRefresh.h>
 #import "HHBonusAmountView.h"
+#import "HHReferFriendsViewController.h"
 
 typedef void (^HHReferralsUpdateCompletion)();
 
@@ -46,6 +47,10 @@ static NSString *const kCellId = @"cellID";
 
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 @property (nonatomic, strong) MJRefreshAutoNormalFooter *loadMoreFooter;
+
+@property (nonatomic, strong) UIImageView *noDataImageView;
+@property (nonatomic, strong) UILabel *noDataLabel;
+@property (nonatomic, strong) UIView *noDataView;
 
 
 @end
@@ -88,7 +93,15 @@ static NSString *const kCellId = @"cellID";
         if (!error) {
             self.referralsObject = referralsObject;
             self.referrals = [NSMutableArray arrayWithArray:self.referralsObject.referrals];
-            [self.tableView reloadData];
+            if ([self.referrals count] > 0) {
+                self.tableView.hidden = NO;
+                self.noDataView.hidden = YES;
+                [self.tableView reloadData];
+            } else {
+                self.tableView.hidden = YES;
+                self.noDataView.hidden = NO;
+            }
+            
         } else {
             [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
         }
@@ -186,6 +199,26 @@ static NSString *const kCellId = @"cellID";
     self.loadMoreFooter.stateLabel.textColor = [UIColor HHLightTextGray];
     self.tableView.mj_footer = self.loadMoreFooter;
     
+    self.noDataView = [[UIView alloc] init];
+    self.noDataView.backgroundColor = [UIColor whiteColor];
+    self.noDataView.hidden = YES;
+    self.noDataView.userInteractionEnabled = YES;
+    [self.view addSubview:self.noDataView];
+    
+    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToInviteVC)];
+    [self.noDataView addGestureRecognizer:recognizer];
+    
+    self.noDataImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_cash_havenot"]];
+    [self.noDataView addSubview:self.noDataImageView];
+    
+    self.noDataLabel = [[UILabel alloc] init];
+    self.noDataLabel.text = @"您还没有报名学车的小伙伴\n可以继续推荐其他好友来报名";
+    self.noDataLabel.textAlignment = NSTextAlignmentCenter;
+    self.noDataLabel.numberOfLines = 0;
+    self.noDataLabel.textColor = [UIColor HHLightTextGray];
+    self.noDataLabel.font = [UIFont systemFontOfSize:15.0f];
+    [self.noDataView addSubview:self.noDataLabel];
+    
     [self makeConstraints];
 }
 
@@ -203,6 +236,25 @@ static NSString *const kCellId = @"cellID";
         make.left.equalTo(self.view.left);
         make.width.equalTo(self.view.width);
         make.bottom.equalTo(self.view.bottom);
+    }];
+    
+    [self.noDataView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.topView.bottom);
+        make.left.equalTo(self.view.left);
+        make.width.equalTo(self.view.width);
+        make.bottom.equalTo(self.view.bottom);
+    }];
+    
+    [self.noDataImageView makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.noDataView.centerX);
+        make.centerY.equalTo(self.noDataView.centerY).offset(-70.0f);
+
+    }];
+    
+    [self.noDataLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.noDataView.centerX);
+        make.centerY.equalTo(self.noDataView.centerY).offset(40.0f);
+        
     }];
     
     [self.withdrawButton makeConstraints:^(MASConstraintMaker *make) {
@@ -285,6 +337,11 @@ static NSString *const kCellId = @"cellID";
 - (void)setRedeemedAmount:(NSNumber *)redeemedAmount {
     _redeemedAmount = redeemedAmount;
     self.cashedAmountView.titleLabel.text = [redeemedAmount generateMoneyString];
+}
+
+- (void)jumpToInviteVC {
+    HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end
