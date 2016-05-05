@@ -15,7 +15,7 @@
     return @{
              @"withdrawId": @"id",
              @"amount": @"bonus_amount",
-             @"redeemedDate":@"redeemed_at"
+             @"redeemedDate":@"created_at"
              };
 }
 

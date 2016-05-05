@@ -52,7 +52,7 @@
         make.left.equalTo(self.contentView.left).offset(20.0f);
     }];
     [self.timeLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.contentView.centerY).offset(12.0f);
+        make.centerY.equalTo(self.contentView.centerY).offset(15.0f);
         make.left.equalTo(self.contentView.left).offset(20.0f);
     }];
     

@@ -167,7 +167,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
             [[HHLoadingViewUtility sharedInstance] showLoadingView];
             [[HHSocialMediaShareUtility sharedInstance] getUserReferLinkWithCompletion:^(NSString *link) {
                 [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-                [messageController setBody:[NSString stringWithFormat:@"墙裂推荐:哈哈学车.注册立享50元优惠\n %@", link]];
+                [messageController setBody:[NSString stringWithFormat:@"墙裂推荐:哈哈学车.注册立享50元优惠 %@", link]];
                 [self presentViewController:messageController animated:YES completion:nil];
                 
             }];
@@ -182,7 +182,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
             UIPasteboard *appPasteBoard = [UIPasteboard generalPasteboard];
             appPasteBoard.persistent = YES;
-            [appPasteBoard setString:link];
+            [appPasteBoard setString:[NSString stringWithFormat:@"墙裂推荐:哈哈学车.注册立享50元优惠 %@", link]];
             [[HHToastManager sharedManager] showSuccessToastWithText:@"复制成功"];
         }];
         
