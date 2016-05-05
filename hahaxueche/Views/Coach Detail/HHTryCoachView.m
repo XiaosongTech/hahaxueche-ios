@@ -14,6 +14,7 @@
 #import "HHPhoneNumberUtility.h"
 #import "HHToastManager.h"
 #import "HHStudentStore.h"
+#import "NSDate+DateTools.h"
 
 @implementation HHTryCoachView
 
@@ -68,9 +69,9 @@
     [self.secDateButton addTarget:self action:@selector(showDatePicker:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.secDateButton];
     
-    self.buttonsView = [[HHConfirmCancelButtonsView alloc] initWithLeftTitle:@"免费预约" rightTitle:@"取消返回"];
-    [self.buttonsView.leftButton addTarget:self action:@selector(confirmButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.buttonsView.rightButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    self.buttonsView = [[HHConfirmCancelButtonsView alloc] initWithLeftTitle:@"取消返回" rightTitle:@"免费预约"];
+    [self.buttonsView.leftButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.buttonsView.rightButton addTarget:self action:@selector(confirmButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.buttonsView];
     
     [self makeConstraints];
@@ -176,7 +177,7 @@
 - (void)showDatePicker:(UIButton *)button {
     [self.nameField resignFirstResponder];
     [self.numberField resignFirstResponder];
-    [ActionSheetDatePicker showPickerWithTitle:nil datePickerMode:UIDatePickerModeDate selectedDate:[NSDate date] minimumDate:[NSDate date] maximumDate:nil doneBlock:^(ActionSheetDatePicker *picker, id selectedDate, id origin) {
+    [ActionSheetDatePicker showPickerWithTitle:nil datePickerMode:UIDatePickerModeDate selectedDate:[NSDate date] minimumDate:[[NSDate date] dateByAddingDays:1] maximumDate:nil doneBlock:^(ActionSheetDatePicker *picker, id selectedDate, id origin) {
         if ([button isEqual:self.firstDateButton]) {
             self.firstDate = selectedDate;
             [self.firstDateButton setTitle:[[HHFormatUtility fullDateFormatter] stringFromDate:self.firstDate] forState:UIControlStateNormal];

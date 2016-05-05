@@ -139,6 +139,7 @@ static NSInteger const pwdLimit = 20;
     self.pwdField.layer.cornerRadius = kFieldViewHeight/2.0f;
     self.pwdField.textField.returnKeyType = UIReturnKeyDone;
     self.pwdField.textField.delegate = self;
+    self.pwdField.textField.secureTextEntry = YES;
     [self.view addSubview:self.pwdField];
 
     

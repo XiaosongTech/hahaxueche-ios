@@ -26,27 +26,36 @@
 #import "HHStudentService.h"
 #import "HHLoadingViewUtility.h"
 #import "HHWebViewController.h"
+#import "HHAppInfoViewController.h"
+#import "HHMyPageReferCell.h"
+#import <Appirater.h>
+#import "HHReferFriendsViewController.h"
+#import "HHBonusInfoViewController.h"
+#import "HHLongImageViewController.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
 static NSString *const kSupportCell = @"supportCell";
 static NSString *const kHelpCell = @"helpCell";
 static NSString *const kLogoutCell = @"logoutCell";
+static NSString *const kReferCell = @"referCell";
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 
 typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellUserInfo,
     MyPageCellCoach,
+    MyPageCellRefer,
     MyPageCellSupport,
     MyPageCellHelp,
     MyPageCellLogout,
     MyPageCellCount,
 };
 
-@interface HHMyPageViewController() <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface HHMyPageViewController() <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) UITextView *guestLoginSignupTextView;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIButton *loginSignupButton;
 @property (nonatomic, strong) UIActionSheet *avatarOptionsSheet;
 @property (nonatomic, strong) HHStudent *currentStudent;
 
@@ -78,27 +87,36 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                                              selector:@selector(coachPurchased)
                                                  name:@"coachPurchased"
                                                object:nil];
+    
 }
 
 - (void)initSubviews {
     // Guest
     if (![HHStudentStore sharedInstance].currentStudent.studentId) {
-        self.guestLoginSignupTextView = [[UITextView alloc] init];
-        self.guestLoginSignupTextView.delegate = self;
-        self.guestLoginSignupTextView.editable = NO;
-        self.guestLoginSignupTextView.textAlignment = NSTextAlignmentCenter;
-        self.guestLoginSignupTextView.attributedText = [self buildGuestString];
-        self.guestLoginSignupTextView.tintColor = [UIColor HHOrange];
-        self.guestLoginSignupTextView.backgroundColor = [UIColor clearColor];
-        [self.guestLoginSignupTextView sizeToFit];
-        [self.view addSubview:self.guestLoginSignupTextView];
+        self.titleLabel = [[UILabel alloc] init];
+        self.titleLabel.text = @"您还没有登录";
+        self.titleLabel.textColor = [UIColor HHLightTextGray];
+        self.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+        [self.view addSubview:self.titleLabel];
         
-        [self.guestLoginSignupTextView makeConstraints:^(MASConstraintMaker *make) {
+        self.loginSignupButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.loginSignupButton setTitle:@"登录或注册" forState:UIControlStateNormal];
+        [self.loginSignupButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
+        self.loginSignupButton.titleLabel.font = [UIFont systemFontOfSize:25.0f];
+        [self.loginSignupButton addTarget:self action:@selector(jumpToIntroVC) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:self.loginSignupButton];
+        
+        [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.view.centerX);
-            make.centerY.equalTo(self.view.centerY);
-            make.width.equalTo(self.view).offset(-40.0f);
-            make.height.mas_equalTo(50.0f);
+            make.centerY.equalTo(self.view.centerY).offset(-30.0f);
         }];
+        
+        
+        [self.loginSignupButton makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.view.centerY);
+            make.centerX.equalTo(self.view.centerX);
+        }];
+        
         
     } else {
         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)- CGRectGetHeight([UIApplication sharedApplication].statusBarFrame) - CGRectGetHeight(self.navigationController.navigationBar.bounds))];
@@ -113,6 +131,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         [self.tableView registerClass:[HHMyPageSupportCell class] forCellReuseIdentifier:kSupportCell];
         [self.tableView registerClass:[HHMyPageHelpCell class] forCellReuseIdentifier:kHelpCell];
         [self.tableView registerClass:[HHMyPageLogoutCell class] forCellReuseIdentifier:kLogoutCell];
+        [self.tableView registerClass:[HHMyPageReferCell class] forCellReuseIdentifier:kReferCell];
     }
     
 }
@@ -168,10 +187,26 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             return cell;
         } break;
             
+        case MyPageCellRefer: {
+            HHMyPageReferCell *cell = [tableView dequeueReusableCellWithIdentifier:kReferCell];
+            cell.referFriendsView.actionBlock = ^(){
+                HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
+            cell.myBonusView.actionBlock = ^(){
+                HHBonusInfoViewController *vc = [[HHBonusInfoViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
+            return cell;
+            
+        } break;
+            
         case MyPageCellSupport: {
             HHMyPageSupportCell *cell = [tableView dequeueReusableCellWithIdentifier:kSupportCell];
             cell.supportQQView.actionBlock = ^() {
-                [HHSocialMediaShareUtility talkToSupportThroughQQ];
+                [[HHSocialMediaShareUtility sharedInstance] talkToSupportThroughQQ];
             };
             cell.supportNumberView.actionBlock = ^() {
                 NSString *phNo = @"4000016006";
@@ -187,7 +222,21 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             HHMyPageHelpCell *cell = [tableView dequeueReusableCellWithIdentifier:kHelpCell];
             cell.aboutView.actionBlock = ^() {
                 HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:kAboutStudentLink]];
-                [self.navigationController pushViewController:webVC animated:YES];
+                [weakSelf.navigationController pushViewController:webVC animated:YES];
+            };
+            
+            cell.faqView.actionBlock = ^() {
+                HHLongImageViewController *faq = [[HHLongImageViewController alloc] initWithImage:[UIImage imageNamed:@"faq.jpg"]];
+                [weakSelf presentViewController:faq animated:YES completion:nil];
+            };
+            
+            cell.appInfoView.actionBlock = ^() {
+                HHAppInfoViewController *vc = [[HHAppInfoViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
+            cell.rateUsView.actionBlock = ^() {
+                [Appirater rateApp];
             };
             return cell;
         } break;
@@ -212,12 +261,15 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             
         case MyPageCellCoach:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
+        
+        case MyPageCellRefer:
+            return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
             
         case MyPageCellSupport:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
             
         case MyPageCellHelp:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight * 1.0f;
+            return kTopPadding + kTitleViewHeight + kItemViewHeight * 4.0f;
             
         case MyPageCellLogout:
             return 50 + kTopPadding * 2.0f;
@@ -334,16 +386,11 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     }
 }
 
-
-#pragma mark UITextView Delegate
-
-- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
-    if ([URL.absoluteString isEqualToString:@"fakeString"]) {
-        HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
-        introVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:introVC animated:YES];
-    }
-    return NO;
+- (void)jumpToIntroVC {
+    HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+    introVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:introVC animated:YES];
 }
+
 
 @end

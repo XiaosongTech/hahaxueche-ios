@@ -36,4 +36,11 @@
     [self setTitleColor:[UIColor colorWithRed:1 green:0.447 blue:0 alpha:1] forState:UIControlStateNormal];
 }
 
+- (void)HHOrangeBackgroundWhiteTextButton {
+    self.backgroundColor = [UIColor HHOrange];
+    self.layer.masksToBounds = YES;
+    self.layer.cornerRadius = 5.0f;
+    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+}
+
 @end

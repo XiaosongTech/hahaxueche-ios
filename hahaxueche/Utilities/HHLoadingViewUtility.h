@@ -17,5 +17,6 @@
 - (void)showLoadingViewWithText:(NSString *)text;
 
 - (void)dismissLoadingView;
+- (BOOL)isVisible;
 
 @end

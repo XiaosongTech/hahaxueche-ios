@@ -37,6 +37,7 @@
 #import "HHReviewListViewController.h"
 #import "HHEventTrackingManager.h"
 #import "HHImageGalleryViewController.h"
+#import "HHLoadingViewUtility.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -84,7 +85,6 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         [[HHCoachService sharedInstance] fetchCoachWithId:self.coachId completion:^(HHCoach *coach, NSError *error) {
             if (!error) {
                 self.coach = coach;
-                [self.tableView reloadData];
             }
         }];
     }
@@ -97,6 +97,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         if (!error) {
             self.reviewsObject = reviews;
             self.reviews = reviews.reviews;
+            self.coachImagesView.imageURLStringsGroup = coach.images;
             [self.tableView reloadData];
         }
     }];
@@ -144,29 +145,31 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     __weak HHCoachDetailViewController *weakSelf = self;
     self.bottomBar.shareAction = ^(){
         HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds), 0)];
+        
         shareView.dismissBlock = ^() {
             [HHPopupUtility dismissPopup:weakSelf.popup];
         };
         shareView.actionBlock = ^(SocialMedia selecteItem) {
             switch (selecteItem) {
                 case SocialMediaQQFriend: {
-                    [HHSocialMediaShareUtility shareToQQFriendsWithSuccess:nil Fail:nil];
+                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeQQ];
                 } break;
                     
-                case SocialMediaQQZone: {
-                    [HHSocialMediaShareUtility shareToQQZoneWithSuccess:nil Fail:nil];
+                case SocialMediaWeibo: {
+                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeibo];
                 } break;
                     
                 case SocialMediaWeChatFriend: {
-                    [HHSocialMediaShareUtility shareToWeixinSessionWithSuccess:nil Fail:nil];
+                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeChat];
                 } break;
                     
                 case SocialMediaWeChaPYQ: {
-                    [HHSocialMediaShareUtility shareToWeixinTimelineWithSuccess:nil Fail:nil];
+                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeChatTimeLine];
                 } break;
                     
                 default:
                     break;
+
             }
         };
         weakSelf.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
@@ -235,7 +238,8 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         
         HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
         CGFloat height = 190.0f + (city.cityFixedFees.count + 1) * 50.0f;
-        HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"付款明细" totalPrice:weakSelf.coach.price showOKButton:NO];
+        NSNumber *realPrice = @([self.coach.price floatValue] - [[HHStudentStore sharedInstance].currentStudent.bonusBalance floatValue]);
+        HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"付款明细" totalPrice:realPrice showOKButton:NO];
         
         priceView.cancelBlock = ^() {
             [HHPopupUtility dismissPopup:weakSelf.popup];
@@ -245,11 +249,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             [HHPopupUtility dismissPopup:weakSelf.popup];
             [[HHPaymentService sharedInstance] payWithCoachId:weakSelf.coach.coachId studentId:weakSelf.currentStudent.studentId inController:weakSelf completion:^(BOOL succeed) {
                 if (succeed) {
-                    [[HHToastManager sharedManager] showSuccessToastWithText:@"支付成功! 请到我的页面查看具体信息."];
-                    [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
-                        [HHStudentStore sharedInstance].currentStudent = student;
-                        [[NSNotificationCenter defaultCenter] postNotificationName:@"coachPurchased" object:nil];
-                    }];
+                    [weakSelf fetchStudentAfterPurchase];
                     [[HHEventTrackingManager sharedManager] sendEventWithId:kDidPurchaseCoachServiceEventId attributes:@{@"student_id":weakSelf.currentStudent.studentId, @"coach_id":weakSelf.coach.coachId}];
                 } else {
                     [[HHToastManager sharedManager] showErrorToastWithText:@"抱歉，支付失败或者您取消了支付。请重试！"];
@@ -266,6 +266,23 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         weakSelf.bottomBar.followed = followed;
     }];
     
+}
+
+- (void)fetchStudentAfterPurchase {
+    if (![[HHLoadingViewUtility sharedInstance] isVisible]) {
+        [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    }
+    [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
+        if ([student.purchasedServiceArray count]) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            [[HHToastManager sharedManager] showSuccessToastWithText:@"支付成功! 请到我的页面查看具体信息."];
+            [HHStudentStore sharedInstance].currentStudent = student;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"coachPurchased" object:nil];
+        } else {
+            [self fetchStudentAfterPurchase];
+        }
+        
+    }];
 }
 
 #pragma mark - TableView Delegate & Datasource Methods
@@ -311,6 +328,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             cell.coachesListCell.peerCoachTappedAction = ^(NSInteger index) {
                 HHCoach *coach = self.coach.peerCoaches[index];
                 HHCoachDetailViewController *detailVC = [[HHCoachDetailViewController alloc] initWithCoachId:coach.coachId];
+                detailVC.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:detailVC animated:YES];
             };
             return cell;
@@ -390,7 +408,12 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 #pragma mark - Button Actions
 
 - (void)popupVC {
-    [self.navigationController popViewControllerAnimated:YES];
+    if ([self.navigationController.viewControllers count] == 1) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+
 }
 
 
@@ -420,6 +443,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     
     [self presentViewController:alertController animated:YES completion:nil];
 }
+
 
 
 @end

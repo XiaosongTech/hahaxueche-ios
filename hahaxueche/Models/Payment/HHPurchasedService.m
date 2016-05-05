@@ -22,6 +22,7 @@
              @"unpaidAmount":@"unpaid_amount",
              @"paymentStages":@"payment_stages",
              @"paidAt":@"paid_at",
+             @"orderNo":@"order_no",
              };
 }
 

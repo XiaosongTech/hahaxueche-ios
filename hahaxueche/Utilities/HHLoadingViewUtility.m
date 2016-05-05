@@ -41,4 +41,8 @@
     [SVProgressHUD dismiss];
 }
 
+- (BOOL)isVisible {
+    return [SVProgressHUD isVisible];
+}
+
 @end

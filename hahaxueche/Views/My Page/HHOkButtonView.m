@@ -17,8 +17,8 @@
     if (self) {
         self.okButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.okButton setTitle:@"我知道了" forState:UIControlStateNormal];
-        [self.okButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
-        self.okButton.titleLabel.font = [UIFont systemFontOfSize:16.0f];
+        [self.okButton setTitleColor:[UIColor HHConfirmGreen] forState:UIControlStateNormal];
+        self.okButton.titleLabel.font = [UIFont systemFontOfSize:18.0f];
         [self.okButton addTarget:self action:@selector(okButtonTapped) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.okButton];
         

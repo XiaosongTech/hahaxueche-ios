@@ -286,8 +286,8 @@ static NSString *const kCellId = @"CellId";
 
 - (void)confirmPayButtonTapped {
     HHPayCoachExplanationView *view = [[HHPayCoachExplanationView alloc] initWithFrame:CGRectMake(0, 0, 300, 200.0f) amount:self.currentPaymentStage.stageAmount];
-    [view.buttonsView.leftButton addTarget:self action:@selector(payCoach) forControlEvents:UIControlEventTouchUpInside];
-    [view.buttonsView.rightButton addTarget:self action:@selector(dismissPopup) forControlEvents:UIControlEventTouchUpInside];
+    [view.buttonsView.leftButton addTarget:self action:@selector(dismissPopup) forControlEvents:UIControlEventTouchUpInside];
+    [view.buttonsView.rightButton addTarget:self action:@selector(payCoach) forControlEvents:UIControlEventTouchUpInside];
     self.popup = [HHPopupUtility createPopupWithContentView:view];
     [HHPopupUtility showPopup:self.popup];
     
@@ -319,7 +319,12 @@ static NSString *const kCellId = @"CellId";
                 self.congratulationLabel.hidden = NO;
             }
         } else {
-            [[HHToastManager sharedManager] showErrorToastWithText:@"打款失败，请重试！"];
+            if ([error.localizedFailureReason isEqual:@(400003)]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"亲，完成课程后才付款哦~"];
+            } else {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"打款失败，请重试！"];
+            }
+            
         }
     }];
 }

@@ -73,9 +73,32 @@
 
 + (NSDateFormatter *)backendDateFormatter {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     return formatter;
 
+}
+
++ (NSDateFormatter *)chineseFullDateFormatter {
+    NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.locale = locale;
+    [formatter setDateFormat:@"yyyy年MM月dd日"];
+    return formatter;
+}
+
++ (NSDateFormatter *)onlyDateFormatter {
+    NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_Hans_CN"];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.locale = locale;
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    return formatter;
+}
+
++ (NSDateFormatter *)fullDateWithoutSecFormatter {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+    return formatter;
+    
 }
 
 @end

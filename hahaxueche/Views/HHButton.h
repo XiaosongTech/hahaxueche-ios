@@ -16,4 +16,6 @@
 - (void)HHConfirmButton;
 - (void)HHCancelButton;
 
+- (void)HHOrangeBackgroundWhiteTextButton;
+
 @end

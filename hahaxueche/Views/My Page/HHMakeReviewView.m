@@ -40,9 +40,9 @@
         self.textView.returnKeyType = UIReturnKeyDone;
         [self addSubview:self.textView];
         
-        self.buttonsView = [[HHConfirmCancelButtonsView alloc] initWithLeftTitle:@"确认评价" rightTitle:@"稍后评价"];
-        [self.buttonsView.leftButton addTarget:self action:@selector(confirmButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-        [self.buttonsView.rightButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+        self.buttonsView = [[HHConfirmCancelButtonsView alloc] initWithLeftTitle:@"稍后评价" rightTitle:@"确认评价"];
+        [self.buttonsView.rightButton addTarget:self action:@selector(confirmButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+        [self.buttonsView.leftButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.buttonsView];
         
         [self makeConstraints];

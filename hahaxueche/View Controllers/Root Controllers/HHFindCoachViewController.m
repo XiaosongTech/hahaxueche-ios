@@ -91,6 +91,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 }
 
 - (void)refreshCoachListWithCompletion:(HHRefreshCoachCompletionBlock)completion {
+    [self.expandedCellIndexPath removeAllObjects];
     __weak HHFindCoachViewController *weakSelf = self;
     if (!completion) {
         [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];
@@ -138,7 +139,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 
 - (void)setupDefaultSortAndFilter {
     self.userCity = [[HHConstantsStore sharedInstance] getAuthedUserCity];
-    NSNumber *defaultDistance = [self.userCity.distanceRanges lastObject];
+    NSNumber *defaultDistance = self.userCity.distanceRanges[self.userCity.distanceRanges.count - 2];
     NSNumber *defaultPrice = [self.userCity.priceRanges lastObject];
     HHCoachFilters *defailtFilters = [[HHCoachFilters alloc] init];
     defailtFilters.price = defaultPrice;

@@ -19,6 +19,7 @@
 #define kAPIResetPWDPath @"users/reset_password"
 #define kAPIUserReviews @"users/reviews/%@"
 #define kAPIUserFollows @"users/follows/"
+#define kAPIToken @"sessions/access_token/valid"
 
 #pragma mark Payment
 #define kAPICharges @"charges"
@@ -31,6 +32,16 @@
 #define kAPIStudentPurchasedService @"students/purchased_service"
 #define kAPIStudent @"students/%@"
 #define kAPIBestMatchCoach @"students/best_match_coach"
+#define kAPIBookSchedule @"students/%@/%@/schedule"
+#define kAPIStudentSchedule @"students/%@/course_schedules"
+#define kAPIStudentUnschedule @"students/%@/%@/unschedule"
+#define kAPIStudentReviewSchedule @"students/%@/%@/review_schedule_event"
+#define kAPIStudentBonusSummary @"students/%@/referal_bonus_summary"
+#define kAPIStudentReferees @"students/%@/referees"
+#define kAPIStudentWithdrawTransacion @"students/%@/referal_bonus_transactions"
+#define kAPIStudentWithdraw @"students/%@/withdraw_referal_bonus"
+
+
 
 #pragma mark Coach
 

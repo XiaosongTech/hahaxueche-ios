@@ -99,7 +99,7 @@ static CGFloat const kAvatarRadius = 25.0f;
 }
 
 - (void)setupViewWithReview:(HHReview *)review {
-    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:review.reviewer.avatarUrl]];
+    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:review.reviewer.avatarUrl] placeholderImage:[UIImage imageNamed:@"ic_mypage_ava"]];
     self.nameLabel.text = review.reviewer.reviewerName;
     self.dateLabel.text = [[HHFormatUtility fullDateFormatter] stringFromDate:review.updatedAt];;
     self.ratingView.value = [review.rating integerValue];

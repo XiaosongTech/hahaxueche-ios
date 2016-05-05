@@ -8,18 +8,32 @@
 
 #import <Foundation/Foundation.h>
 #import "OpenShareHeader.h"
+#import "HHCoach.h"
+
+typedef NS_ENUM(NSInteger, ShareType) {
+    ShareTypeQQ,
+    ShareTypeWeibo,
+    ShareTypeWeChat,
+    ShareTypeWeChatTimeLine,
+};
+
+typedef void (^MessageCompletion) (OSMessage *message);
+typedef void (^LinkCompletion) (NSString *link);
 
 @interface HHSocialMediaShareUtility : NSObject
 
-+ (void)configure;
-
-// QQ
-+ (void)shareToQQFriendsWithSuccess:(shareSuccess)success Fail:(shareFail)fail;
-+ (void)shareToQQZoneWithSuccess:(shareSuccess)success Fail:(shareFail)fail;
-+ (void)talkToSupportThroughQQ;
++ (instancetype)sharedInstance;
 
 
-// WeChat
-+ (void)shareToWeixinSessionWithSuccess:(shareSuccess)success Fail:(shareFail)fail;
-+ (void)shareToWeixinTimelineWithSuccess:(shareSuccess)success Fail:(shareFail)fail;
+- (void)shareCoach:(HHCoach *)coach shareType:(ShareType)shareType;
+
+- (void)shareUserLinkWithType:(ShareType)shareType;
+
+- (void)talkToSupportThroughQQ;
+
+- (void)getUserReferLinkWithCompletion:(LinkCompletion)completion;
+
+@property (nonatomic, strong) NSString *userReferBranchLink;
+
+
 @end

@@ -62,11 +62,11 @@
         [self addSubview:self.otherFeesLabel];
         
         if (!showOKButton) {
-            self.buttonsView = [[HHConfirmCancelButtonsView alloc] initWithLeftTitle:@"确认付款" rightTitle:@"取消返回"];
+            self.buttonsView = [[HHConfirmCancelButtonsView alloc] initWithLeftTitle:@"取消返回" rightTitle:@"确认付款"];
             [self addSubview:self.buttonsView];
             
-            [self.buttonsView.leftButton addTarget:self action:@selector(confirmButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-            [self.buttonsView.rightButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+            [self.buttonsView.leftButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+            [self.buttonsView.rightButton addTarget:self action:@selector(confirmButtonTapped) forControlEvents:UIControlEventTouchUpInside];
         } else {
             self.okButton = [UIButton buttonWithType:UIButtonTypeCustom];
             [self.okButton setTitle:@"知道了" forState:UIControlStateNormal];

@@ -26,4 +26,10 @@
 
 + (NSNumberFormatter *)numberFormatter;
 
++ (NSDateFormatter *)chineseFullDateFormatter;
+
++ (NSDateFormatter *)onlyDateFormatter;
+
++ (NSDateFormatter *)fullDateWithoutSecFormatter;
+
 @end

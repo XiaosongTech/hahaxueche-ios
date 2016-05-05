@@ -18,6 +18,7 @@
 #import "HHLoadingViewUtility.h"
 #import "HHStudentStore.h"
 #import "HHEventTrackingManager.h"
+#import "HHConstantsStore.h"
 
 static CGFloat const kFieldViewHeight = 40.0f;
 static CGFloat const kFieldViewWidth = 280.0f;
@@ -95,6 +96,7 @@ static NSInteger const pwdLimit = 20;
     self.pwdField.layer.cornerRadius = kFieldViewHeight/2.0f;
     self.pwdField.textField.returnKeyType = UIReturnKeyDone;
     self.pwdField.textField.delegate = self;
+    self.pwdField.textField.secureTextEntry = YES;
     [self.view addSubview:self.pwdField];
 
     [self updateConstraintsAfterMoreFields];
@@ -175,7 +177,7 @@ static NSInteger const pwdLimit = 20;
     }
     
     [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"创建中"];
-    [[HHUserAuthService sharedInstance] createUserWithNumber:self.phoneNumberField.textField.text veriCode:self.verificationCodeField.textField.text password:self.pwdField.textField.text completion:^(HHUser *user, NSError *error) {
+    [[HHUserAuthService sharedInstance] createUserWithNumber:self.phoneNumberField.textField.text veriCode:self.verificationCodeField.textField.text password:self.pwdField.textField.text refererId:[HHConstantsStore sharedInstance].refererId completion:^(HHUser *user, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
             [[HHEventTrackingManager sharedManager] sendEventWithId:kDidRegisterEventId attributes:@{@"student_id":user.student.studentId}];

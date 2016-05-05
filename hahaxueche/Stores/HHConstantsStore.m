@@ -105,4 +105,21 @@
     return [HHConstantsStore sharedInstance].constants.homePageBanners;
 }
 
+- (HHCity *)getCityWithId:(NSNumber *)cityId {
+    NSArray *cities = [HHConstantsStore sharedInstance].constants.cities;
+    if ([cities count]) {
+        for (HHCity *city in cities) {
+            if ([city.cityId integerValue] == [cityId integerValue]) {
+                return city;
+            }
+        }
+        
+    }
+    return nil;
+}
+
+- (NSArray *)getNotifications {
+    return [HHConstantsStore sharedInstance].constants.notifications;
+}
+
 @end

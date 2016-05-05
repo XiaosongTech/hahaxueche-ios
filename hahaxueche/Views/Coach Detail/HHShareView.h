@@ -10,7 +10,7 @@
 
 typedef NS_ENUM(NSInteger, SocialMedia) {
     SocialMediaQQFriend, // QQ好友
-    SocialMediaQQZone, // QQ空间
+    SocialMediaWeibo, // 微博
     SocialMediaWeChatFriend, // 微信好友
     SocialMediaWeChaPYQ,    // 微信朋友圈
     SocialMediaCount
@@ -23,7 +23,8 @@ typedef void (^HHShareViewBlock)(SocialMedia selectedItem);
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIView *itemsView;
-@property (nonatomic, strong) UIButton *cancelButton;
+@property (nonatomic, strong) UIView *botView;
+@property (nonatomic, strong) UILabel *cancelLabel;
 @property (nonatomic, strong) UIView *botLine;
 
 @property (nonatomic, strong) HHShareViewDissmissBlock dismissBlock;
