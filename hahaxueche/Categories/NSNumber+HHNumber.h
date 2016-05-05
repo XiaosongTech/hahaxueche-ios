@@ -12,4 +12,6 @@
 
 - (NSString *)generateMoneyString;
 
+- (NSString *)generateMoneyStringWithoutOriginalNumber;
+
 @end

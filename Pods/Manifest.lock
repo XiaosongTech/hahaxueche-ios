@@ -42,6 +42,7 @@ PODS:
   - Mantle/extobjc (2.0.6)
   - Masonry (0.6.4)
   - MJRefresh (3.0.8)
+  - MMNumberKeyboard (0.1.5)
   - OpenShare (0.0.1)
   - Pingpp/Alipay (2.1.4):
     - Pingpp/Core
@@ -76,6 +77,7 @@ DEPENDENCIES:
   - Mantle
   - Masonry
   - MJRefresh
+  - MMNumberKeyboard
   - OpenShare (~> 0.0)
   - Pingpp/Alipay (~> 2.1.0)
   - pop (~> 1.0)
@@ -105,6 +107,7 @@ SPEC CHECKSUMS:
   Mantle: 299966b00759634931699f69cb6a30b9239b944d
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MJRefresh: fafde8f18f4afd66b434331a9beb67a6c0264056
+  MMNumberKeyboard: 12da79571d08aca21566534a74726c5469aed29a
   OpenShare: a560580dbb729d5c0c3cc1ee84cd6aa4a07e94c6
   Pingpp: 08415163eb1791bc07d7d939f1648d2e36a30eda
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57

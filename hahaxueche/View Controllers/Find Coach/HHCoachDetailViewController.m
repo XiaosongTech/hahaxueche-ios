@@ -152,23 +152,24 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         shareView.actionBlock = ^(SocialMedia selecteItem) {
             switch (selecteItem) {
                 case SocialMediaQQFriend: {
-                    [HHSocialMediaShareUtility shareCoach:weakSelf.coach shareType:ShareTypeQQ];
+                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeQQ];
                 } break;
                     
-                case SocialMediaQQZone: {
-                    [HHSocialMediaShareUtility shareCoach:weakSelf.coach shareType:ShareTypeQZone];
+                case SocialMediaWeibo: {
+                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeibo];
                 } break;
                     
                 case SocialMediaWeChatFriend: {
-                    [HHSocialMediaShareUtility shareCoach:weakSelf.coach shareType:ShareTypeWeChat];
+                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeChat];
                 } break;
                     
                 case SocialMediaWeChaPYQ: {
-                    [HHSocialMediaShareUtility shareCoach:weakSelf.coach shareType:ShareTypeWeChatTimeLine];
+                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeChatTimeLine];
                 } break;
                     
                 default:
                     break;
+
             }
         };
         weakSelf.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
@@ -237,7 +238,8 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         
         HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
         CGFloat height = 190.0f + (city.cityFixedFees.count + 1) * 50.0f;
-        HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"付款明细" totalPrice:weakSelf.coach.price showOKButton:NO];
+        NSNumber *realPrice = @([self.coach.price floatValue] - [[HHStudentStore sharedInstance].currentStudent.bonusBalance floatValue]);
+        HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"付款明细" totalPrice:realPrice showOKButton:NO];
         
         priceView.cancelBlock = ^() {
             [HHPopupUtility dismissPopup:weakSelf.popup];

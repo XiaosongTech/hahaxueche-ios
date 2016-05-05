@@ -27,18 +27,24 @@
 #import "HHLoadingViewUtility.h"
 #import "HHWebViewController.h"
 #import "HHAppInfoViewController.h"
+#import "HHMyPageReferCell.h"
 #import <Appirater.h>
+#import "HHReferFriendsViewController.h"
+#import "HHBonusInfoViewController.h"
+#import "HHLongImageViewController.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
 static NSString *const kSupportCell = @"supportCell";
 static NSString *const kHelpCell = @"helpCell";
 static NSString *const kLogoutCell = @"logoutCell";
+static NSString *const kReferCell = @"referCell";
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 
 typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellUserInfo,
     MyPageCellCoach,
+    MyPageCellRefer,
     MyPageCellSupport,
     MyPageCellHelp,
     MyPageCellLogout,
@@ -125,6 +131,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         [self.tableView registerClass:[HHMyPageSupportCell class] forCellReuseIdentifier:kSupportCell];
         [self.tableView registerClass:[HHMyPageHelpCell class] forCellReuseIdentifier:kHelpCell];
         [self.tableView registerClass:[HHMyPageLogoutCell class] forCellReuseIdentifier:kLogoutCell];
+        [self.tableView registerClass:[HHMyPageReferCell class] forCellReuseIdentifier:kReferCell];
     }
     
 }
@@ -180,10 +187,26 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             return cell;
         } break;
             
+        case MyPageCellRefer: {
+            HHMyPageReferCell *cell = [tableView dequeueReusableCellWithIdentifier:kReferCell];
+            cell.referFriendsView.actionBlock = ^(){
+                HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
+            cell.myBonusView.actionBlock = ^(){
+                HHBonusInfoViewController *vc = [[HHBonusInfoViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
+            return cell;
+            
+        } break;
+            
         case MyPageCellSupport: {
             HHMyPageSupportCell *cell = [tableView dequeueReusableCellWithIdentifier:kSupportCell];
             cell.supportQQView.actionBlock = ^() {
-                [HHSocialMediaShareUtility talkToSupportThroughQQ];
+                [[HHSocialMediaShareUtility sharedInstance] talkToSupportThroughQQ];
             };
             cell.supportNumberView.actionBlock = ^() {
                 NSString *phNo = @"4000016006";
@@ -201,6 +224,12 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:kAboutStudentLink]];
                 [weakSelf.navigationController pushViewController:webVC animated:YES];
             };
+            
+            cell.faqView.actionBlock = ^() {
+                HHLongImageViewController *faq = [[HHLongImageViewController alloc] initWithImage:[UIImage imageNamed:@"faq.jpg"]];
+                [weakSelf presentViewController:faq animated:YES completion:nil];
+            };
+            
             cell.appInfoView.actionBlock = ^() {
                 HHAppInfoViewController *vc = [[HHAppInfoViewController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
@@ -232,12 +261,15 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             
         case MyPageCellCoach:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
+        
+        case MyPageCellRefer:
+            return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
             
         case MyPageCellSupport:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
             
         case MyPageCellHelp:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight * 3.0f;
+            return kTopPadding + kTitleViewHeight + kItemViewHeight * 4.0f;
             
         case MyPageCellLogout:
             return 50 + kTopPadding * 2.0f;

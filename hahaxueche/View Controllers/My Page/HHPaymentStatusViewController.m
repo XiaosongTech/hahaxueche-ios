@@ -319,7 +319,12 @@ static NSString *const kCellId = @"CellId";
                 self.congratulationLabel.hidden = NO;
             }
         } else {
-            [[HHToastManager sharedManager] showErrorToastWithText:@"打款失败，请重试！"];
+            if ([error.localizedFailureReason isEqual:@(400003)]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"亲，完成课程后才付款哦~"];
+            } else {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"打款失败，请重试！"];
+            }
+            
         }
     }];
 }

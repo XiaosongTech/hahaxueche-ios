@@ -30,4 +30,6 @@
 
 + (NSDateFormatter *)onlyDateFormatter;
 
++ (NSDateFormatter *)fullDateWithoutSecFormatter;
+
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "UIImage+HHImage.h"
+#import "UIImage+ImageEffects.h"
 
 @implementation UIImage (HHImage)
 
@@ -31,11 +32,16 @@
     float newHeight = sourceImage.size.height * scaleFactor;
     float newWidth = oldWidth * scaleFactor;
     
-    UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(newWidth, newHeight), YES, [UIScreen mainScreen].scale);
     [sourceImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return newImage;
+}
+
++ (UIImage *)blur:(UIImage *)theImage {
+    
+    return [theImage applyExtraLightEffect];
 }
 
 @end

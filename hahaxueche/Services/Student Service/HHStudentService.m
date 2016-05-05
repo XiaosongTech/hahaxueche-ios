@@ -169,5 +169,103 @@
     
 }
 
+- (void)fetchBonusSummaryWithCompletion:(HHBonusSummaryCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentBonusSummary, [HHStudentStore sharedInstance].currentStudent.studentId]];
+    [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHBonusSummary *bonusSummary = [MTLJSONAdapter modelOfClass:[HHBonusSummary class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(bonusSummary, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
+-(void)fetchReferralsWithCompletion:(HHReferralsCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentReferees, [HHStudentStore sharedInstance].currentStudent.studentId]];
+    [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHReferrals *referrals = [MTLJSONAdapter modelOfClass:[HHReferrals class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(referrals, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+
+}
+
+- (void)fetchMoreReferralsWithURL:(NSString *)URL completion:(HHReferralsCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClient];
+    [APIClient getWithURL:URL completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHReferrals *referrals = [MTLJSONAdapter modelOfClass:[HHReferrals class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(referrals, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
+- (void)fetchWithdrawTransactionWithCompletion:(HHWithdrawsCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentWithdrawTransacion, [HHStudentStore sharedInstance].currentStudent.studentId]];
+    [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHWithdraws *withdraws = [MTLJSONAdapter modelOfClass:[HHWithdraws class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(withdraws, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
+- (void)fetchMoreWithdrawTransactionsWithURL:(NSString *)URL completion:(HHWithdrawsCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClient];
+    [APIClient getWithURL:URL completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+           HHWithdraws *withdraws = [MTLJSONAdapter modelOfClass:[HHWithdraws class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(withdraws, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
+- (void)withdrawBonusWithAmount:(NSNumber *)amount accountName:(NSString *)accountName account:(NSString *)account completion:(HHWithdrawCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentWithdraw, [HHStudentStore sharedInstance].currentStudent.studentId]];
+    [APIClient postWithParameters:@{@"account":account, @"account_owner_name":accountName, @"amount":amount} completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHWithdraw *withdraw = [MTLJSONAdapter modelOfClass:[HHWithdraw class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(withdraw, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+
+}
+
 
 @end

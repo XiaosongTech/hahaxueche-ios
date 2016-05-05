@@ -15,4 +15,9 @@
     return [NSString stringWithFormat:@"￥%@", [number stringValue]];
 }
 
+- (NSString *)generateMoneyStringWithoutOriginalNumber {
+    NSNumber *number = @([self floatValue]);
+    return [NSString stringWithFormat:@"￥%@", [number stringValue]];
+}
+
 @end
