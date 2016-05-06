@@ -267,5 +267,14 @@
 
 }
 
+- (void)signupGroupPurchaseWithName:(NSString *)name number:(NSString *)number completion:(HHStudentGenericCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIGroupPurchase];
+    [APIClient postWithParameters:@{@"name":name, @"phone":number} completion:^(NSDictionary *response, NSError *error) {
+        if(completion) {
+            completion(error);
+        }
+    }];
+}
+
 
 @end

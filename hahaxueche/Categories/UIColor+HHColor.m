@@ -56,4 +56,9 @@
 + (UIColor *)HHBackgroundGary {
     return [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1];
 }
+
++ (UIColor *)HHConfirmRed {
+    return [UIColor colorWithRed:0.99 green:0.45 blue:0.13 alpha:1.00];
+}
+
 @end

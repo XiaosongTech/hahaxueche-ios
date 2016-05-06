@@ -25,6 +25,10 @@
 #import "HHWebViewController.h"
 #import "HHGenericOneButtonPopupView.h"
 #import "NSNumber+HHNumber.h"
+#import "HHRootViewController.h"
+#import "HHReferFriendsViewController.h"
+#import "HHGroupPurchaseView.h"
+#import "HHStudentService.h"
 
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach";
@@ -246,10 +250,57 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
 }
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
-    if (index == 0) {
-        [self openWebPage:[NSURL URLWithString:kAboutStudentLink]];
-    } else if (index == 1) {
-        [self openWebPage:[NSURL URLWithString:kAboutCoachLink]];
+    switch (index) {
+        case 0: {
+            __weak HHHomePageViewController *weakSelf = self;
+            HHGroupPurchaseView *view = [[HHGroupPurchaseView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 430.0f)];
+            view.cancelBlock = ^() {
+                [HHPopupUtility dismissPopup:weakSelf.popup];
+            };
+            
+            view.confirmBlock = ^(NSString *name, NSString *number) {
+                [[HHStudentService sharedInstance] signupGroupPurchaseWithName:name number:number completion:^(NSError *error) {
+                    if (!error) {
+                        [HHPopupUtility dismissPopup:weakSelf.popup];
+                        [[HHToastManager sharedManager] showSuccessToastWithText:@"恭喜您, 团购抢购成功!"];
+                    } else {
+                        if ([error.localizedFailureReason isEqual:@(40022)]) {
+                            [[HHToastManager sharedManager] showErrorToastWithText:@"已经提交成功, 无需重复提交"];
+                        } else {
+                            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
+                        }
+                        
+                    }
+                }];
+                [HHPopupUtility dismissPopup:weakSelf.popup];
+            };
+            self.popup = [HHPopupUtility createPopupWithContentView:view];
+            [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutCenter)];
+        } break;
+            
+        case 1: {
+            self.tabBarController.selectedIndex = TabBarItemCoach;
+        } break;
+            
+        case 2: {
+            self.tabBarController.selectedIndex = TabBarItemMyPage;
+            if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+                HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+                UINavigationController *navVC = self.tabBarController.selectedViewController;
+                [navVC pushViewController:vc animated:YES];
+            }
+        } break;
+            
+        case 3: {
+            [self openWebPage:[NSURL URLWithString:kAboutStudentLink]];
+        } break;
+        
+        case 4: {
+            [self openWebPage:[NSURL URLWithString:kAboutCoachLink]];
+        } break;
+            
+        default:
+            break;
     }
 }
 

@@ -212,7 +212,7 @@ static NSString *const kCellId = @"cellID";
     [self.noDataView addSubview:self.noDataImageView];
     
     self.noDataLabel = [[UILabel alloc] init];
-    self.noDataLabel.text = @"您还没有报名学车的小伙伴\n可以继续推荐其他好友来报名";
+    self.noDataLabel.text = @"你推荐的小伙伴还没有报名，快去问问他们吧\n你也可以继续推荐更多好友赚取更多佣金哦";
     self.noDataLabel.textAlignment = NSTextAlignmentCenter;
     self.noDataLabel.numberOfLines = 0;
     self.noDataLabel.textColor = [UIColor HHLightTextGray];
