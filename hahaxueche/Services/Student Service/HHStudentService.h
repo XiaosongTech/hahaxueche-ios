@@ -142,5 +142,13 @@ Fetch next page of withdraw transaction history
  */
 - (void)withdrawBonusWithAmount:(NSNumber *)amount accountName:(NSString *)accountName account:(NSString *)account completion:(HHWithdrawCompletion)completion;
 
+/**
+ Signup group purchase
+ @param name The name of the user
+ @param number The phone number of the user
+ @param completion The completion block to execute on completion
+ */
+- (void)signupGroupPurchaseWithName:(NSString *)name number:(NSString *)number completion:(HHStudentGenericCompletion)completion;
+
 
 @end
