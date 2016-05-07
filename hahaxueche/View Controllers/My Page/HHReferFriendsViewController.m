@@ -110,8 +110,11 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     }];
     
     [self.imageView makeConstraints:^(MASConstraintMaker *make) {
+        CGFloat height = [UIImage imageNamed:@"ic_share_pic.jpg"].size.height * CGRectGetWidth(self.view.bounds) / [UIImage imageNamed:@"ic_share_pic.jpg"].size.width;
         make.top.equalTo(self.scrollView.top);
         make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(height);
     }];
     
     [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
