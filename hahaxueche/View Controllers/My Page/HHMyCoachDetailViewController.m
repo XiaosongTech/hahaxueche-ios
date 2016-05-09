@@ -79,6 +79,8 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
     self.coachImagesView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
     self.coachImagesView.imageURLStringsGroup = self.coach.images;
     self.coachImagesView.autoScroll = NO;
+    self.coachImagesView.pageDotColor = [UIColor colorWithWhite:1.0f alpha:0.5f];
+    self.coachImagesView.currentPageDotColor = [UIColor whiteColor];
     
     ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithSubView:self.coachImagesView];
     [self.tableView setTableHeaderView:headerView];

@@ -118,6 +118,8 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
     self.bannerView.delegate = self;
     self.bannerView.bannerImageViewContentMode = UIViewContentModeScaleAspectFit;
     self.bannerView.backgroundColor = [UIColor HHOrange];
+    self.bannerView.pageDotColor = [UIColor colorWithWhite:1.0f alpha:0.5f];
+    self.bannerView.currentPageDotColor = [UIColor whiteColor];
     [self.view addSubview:self.bannerView];
     
     self.leftView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_hahahere"] title:@"关于小哈" subTitle:@"点击了解"];

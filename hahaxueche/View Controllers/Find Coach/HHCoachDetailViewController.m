@@ -124,6 +124,8 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     self.coachImagesView.delegate = self;
     self.coachImagesView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
     self.coachImagesView.imageURLStringsGroup = self.coach.images;
+    self.coachImagesView.pageDotColor = [UIColor colorWithWhite:1.0f alpha:0.5f];
+    self.coachImagesView.currentPageDotColor = [UIColor whiteColor];
     self.coachImagesView.autoScroll = NO;
     
     [self.tableView registerClass:[HHCoachDetailDescriptionCell class] forCellReuseIdentifier:kDescriptionCellID];
