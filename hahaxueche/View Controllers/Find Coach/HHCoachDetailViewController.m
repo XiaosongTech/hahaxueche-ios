@@ -211,12 +211,15 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             [HHPopupUtility dismissPopup:weakSelf.popup];
         };
         tryCoachView.confirmBlock = ^(NSString *name, NSString *number, NSDate *firstDate, NSDate *secDate) {
+            [[HHLoadingViewUtility sharedInstance] showLoadingView];
             [[HHCoachService sharedInstance] tryCoachWithId:weakSelf.coach.coachId
                                                          name:name
                                                        number:number
                                                     firstDate:[[HHFormatUtility fullDateFormatter] stringFromDate:firstDate]
                                                    secondDate:[[HHFormatUtility fullDateFormatter] stringFromDate:secDate]
                                                    completion:^(NSError *error) {
+                                                       
+                [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
                 if (!error) {
                     [[HHEventTrackingManager sharedManager] sendEventWithId:kDidTryCoachEventId attributes:@{@"student_id":weakSelf.currentStudent.studentId, @"coach_id":weakSelf.coach.coachId}];
                     [[HHToastManager sharedManager] showSuccessToastWithText:@"免费试学预约成功！教练会尽快联系您！"];

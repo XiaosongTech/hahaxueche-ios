@@ -32,6 +32,7 @@
 #import "HHReferFriendsViewController.h"
 #import "HHBonusInfoViewController.h"
 #import "HHLongImageViewController.h"
+#import "SDImageCache.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -378,6 +379,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             if (error) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败，请您重试！"];
             } else {
+                [[SDImageCache sharedImageCache] removeImageForKey:self.currentStudent.avatarURL fromDisk:YES];
                 [HHStudentStore sharedInstance].currentStudent = student;
                 self.currentStudent = student;
                 [self.tableView reloadData];
