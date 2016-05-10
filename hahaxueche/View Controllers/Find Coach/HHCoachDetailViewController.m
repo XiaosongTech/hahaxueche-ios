@@ -120,7 +120,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
     
-    self.coachImagesView = [[SDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 200.0f)];
+    self.coachImagesView = [[SDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) * 4.0f/5.0f)];
     self.coachImagesView.delegate = self;
     self.coachImagesView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
     self.coachImagesView.imageURLStringsGroup = self.coach.images;
