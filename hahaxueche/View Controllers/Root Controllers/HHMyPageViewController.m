@@ -127,6 +127,11 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         self.tableView.backgroundColor = [UIColor HHBackgroundGary];
         [self.view addSubview:self.tableView];
         
+        UIView *topview = [[UIView alloc] initWithFrame:CGRectMake(0,-480,CGRectGetWidth(self.view.bounds),480)];
+        topview.backgroundColor = [UIColor HHOrange];
+        
+        [self.tableView addSubview:topview];
+        
         [self.tableView registerClass:[HHMyPageUserInfoCell class] forCellReuseIdentifier:kUserInfoCell];
         [self.tableView registerClass:[HHMyPageCoachCell class] forCellReuseIdentifier:kCoachCell];
         [self.tableView registerClass:[HHMyPageSupportCell class] forCellReuseIdentifier:kSupportCell];
@@ -393,6 +398,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     introVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:introVC animated:YES];
 }
+
 
 
 @end
