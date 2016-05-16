@@ -125,6 +125,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         self.tableView.dataSource = self;
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.tableView.backgroundColor = [UIColor HHBackgroundGary];
+        self.tableView.showsVerticalScrollIndicator = NO;
         [self.view addSubview:self.tableView];
         
         UIView *topview = [[UIView alloc] initWithFrame:CGRectMake(0,-480,CGRectGetWidth(self.view.bounds),480)];
@@ -263,7 +264,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case MyPageCellUserInfo:
-            return 300.0f;
+            return 280.0f;
             
         case MyPageCellCoach:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;

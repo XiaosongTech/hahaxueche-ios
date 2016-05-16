@@ -11,6 +11,7 @@
 #import "Masonry.h"
 #import "UIImage+HHImage.h"
 #import "NSNumber+HHNumber.h"
+#import "HHConstantsStore.h"
 
 @implementation HHShareUserLinkView
 
@@ -25,9 +26,9 @@
 
 - (void)initSubviews {
     self.bgImageView = [[UIImageView alloc] init];
-    self.bgImageView.image = [UIImage imageWithColor:[UIColor colorWithWhite:0.3f alpha:0.2f]];
+    self.bgImageView.image = [UIImage imageWithColor:[UIColor colorWithWhite:1.0f alpha:0.1f]];
     UIVisualEffect *blurEffect;
-    blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     
     UIVisualEffectView *visualEffectView;
     visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
@@ -49,7 +50,8 @@
     self.subTitleLabel = [[UILabel alloc] init];
     self.subTitleLabel.numberOfLines = 0;
     self.subTitleLabel.textAlignment = NSTextAlignmentCenter;
-    self.subTitleLabel.text = [NSString stringWithFormat:@"在哈哈学车上送给好友%@\n当好友报名时您可以获得%@", [@(5000) generateMoneyString], [@(5000) generateMoneyString]];
+    HHCity *userCity = [[HHConstantsStore sharedInstance] getAuthedUserCity];
+    self.subTitleLabel.text = [NSString stringWithFormat:@"在哈哈学车上送给好友%@\n当好友报名时您可以获得%@", [[userCity getRefereeBonus] generateMoneyString], [[userCity getRefererBonus] generateMoneyString]];
     self.subTitleLabel.textColor = [UIColor whiteColor];
     self.subTitleLabel.font = [UIFont systemFontOfSize:18.0f];
     [self addSubview:self.subTitleLabel];

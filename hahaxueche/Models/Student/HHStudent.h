@@ -23,4 +23,7 @@
 @property (nonatomic, copy) NSNumber *bonusBalance;
 @property (nonatomic, copy) NSNumber *byReferal;
 
+
+- (NSString *)getCourseName;
+
 @end
