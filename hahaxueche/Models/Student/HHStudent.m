@@ -20,7 +20,6 @@
              @"avatarURL": @"avatar",
              @"purchasedServiceArray":@"purchased_services",
              @"currentCoachId":@"current_coach_id",
-             @"phase":@"phase",
              @"currentCourse":@"current_course",
              @"bonusBalance":@"bonus_balance",
              @"byReferal":@"by_referal",

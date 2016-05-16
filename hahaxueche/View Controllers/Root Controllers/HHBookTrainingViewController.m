@@ -593,22 +593,9 @@ static NSString *kNotifCellId = @"notifCellId";
             [[HHToastManager sharedManager] showSuccessToastWithText:@"预约成功!"];
         } else {
             if ([error.localizedFailureReason isEqual:@(40006)]) {
-                HHBookFailView *failView = [[HHBookFailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 280.0f) type:ErrorTypeHasIncomplete];
-                self.popup = [HHPopupUtility createPopupWithContentView:failView];
-                [HHPopupUtility showPopup:self.popup];
-                failView.cancelBlock = ^() {
-                    [HHPopupUtility dismissPopup:self.popup];
-                };
-                
-            } else if ([error.localizedFailureReason isEqual:@(40005)]) {
-                HHBookFailView *failView = [[HHBookFailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 280.0f) type:ErrorTypeNeedCoachReview];
-                self.popup = [HHPopupUtility createPopupWithContentView:failView];
-                [HHPopupUtility showPopup:self.popup];
-                failView.cancelBlock = ^() {
-                    [HHPopupUtility dismissPopup:self.popup];
-                };
-                
-            } else {
+            //显示一个人只能预约两个人
+            
+            }  else {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"预约失败, 请重试!"];
             }
 

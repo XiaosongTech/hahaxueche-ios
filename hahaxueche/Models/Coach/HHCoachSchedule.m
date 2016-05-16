@@ -52,31 +52,6 @@
     }];
 }
 
-- (NSString *)getPhaseName {
-    if ([self.phase integerValue] == 1) {
-        return @"新手";
-    } else if ([self.phase integerValue] == 2) {
-        return @"准考";
-    } else if ([self.phase integerValue] == 3) {
-        return @"待考";
-    } else {
-        return nil;
-    }
-}
-
-- (NSString *)getPhaseNameForVerticalLabel; {
-    if ([self.phase integerValue] == 1) {
-        return @"新\n手";
-    } else if ([self.phase integerValue] == 2) {
-        return @"准\n考";
-    } else if ([self.phase integerValue] == 3) {
-        return @"待\n考";
-    } else {
-        return nil;
-    }
-    
-}
-
 - (NSString *)getCourseName {
     if ([self.serviceType integerValue] == 1) {
         return @"科目二";

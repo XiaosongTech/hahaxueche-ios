@@ -170,7 +170,7 @@
 }
 
 - (NSString *)buildInfoString:(HHCoachSchedule *)schedule {
-    return [NSString stringWithFormat:@"%@, %@, %@人/%@人", [schedule getCourseName], [schedule getPhaseName], [schedule.registeredStudentCount stringValue], [schedule.maxStudentCount stringValue]];
+    return [NSString stringWithFormat:@"%@, %@人/%@人", [schedule getCourseName], [schedule.registeredStudentCount stringValue], [schedule.maxStudentCount stringValue]];
 }
 
 - (NSString *)buildTimeString:(HHCoachSchedule *)schedule {
