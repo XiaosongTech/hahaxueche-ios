@@ -16,7 +16,6 @@ typedef void (^HHAvatarViewActionBlock)();
 
 @interface HHMyPageUserInfoCell : UITableViewCell
 
-@property (nonatomic, strong) UIView *topPaddingView;
 @property (nonatomic, strong) UIView *avatarBackgroungView;
 @property (nonatomic, strong) UIImageView *avatarView;
 @property (nonatomic, strong) UILabel *nameLabel;

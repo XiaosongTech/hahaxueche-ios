@@ -101,9 +101,15 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     [APIClient postWithParameters:param completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             HHUser *user = [MTLJSONAdapter modelOfClass:[HHUser class] fromJSONDictionary:response error:nil];
-            [self postAuthActionsWithUser:user];
-            if (completion) {
-                completion(user.student, nil);
+            if (user.student) {
+                [self postAuthActionsWithUser:user];
+                if (completion) {
+                    completion(user.student, nil);
+                }
+            } else {
+                if (completion) {
+                    completion(nil, nil);
+                }
             }
         } else {
             if (completion) {

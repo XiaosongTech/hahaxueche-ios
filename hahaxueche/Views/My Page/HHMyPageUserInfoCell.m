@@ -27,10 +27,6 @@ static CGFloat const avatarRadius = 35.0f;
 
 - (void)initSubviews {
     
-    self.topPaddingView = [[UIView alloc] init];
-    self.topPaddingView.backgroundColor = [UIColor HHOrange];
-    [self.contentView addSubview:self.topPaddingView];
-    
     self.topImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_mypage_bk"]];
     [self.contentView addSubview:self.topImageView];
     
@@ -79,18 +75,12 @@ static CGFloat const avatarRadius = 35.0f;
 }
 
 - (void)makeConstraints {
-    [self.topPaddingView makeConstraints:^(MASConstraintMaker *make) {
+
+    [self.topImageView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView.top);
         make.left.equalTo(self.contentView.left);
         make.width.equalTo(self.contentView.width);
-        make.height.mas_equalTo(60.0f);
-    }];
-    
-    [self.topImageView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.topPaddingView.bottom);
-        make.left.equalTo(self.contentView.left);
-        make.width.equalTo(self.contentView.width);
-        make.height.mas_equalTo(140.0f);
+        make.height.mas_equalTo(200.0f);
     }];
     
     [self.avatarBackgroungView makeConstraints:^(MASConstraintMaker *make) {
