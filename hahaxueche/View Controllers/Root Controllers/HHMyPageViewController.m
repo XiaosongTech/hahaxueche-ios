@@ -161,6 +161,11 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                     vc.updatePSBlock = ^(HHPurchasedService *updatePS){
                         weakSelf.currentStudent.purchasedServiceArray = @[updatePS];
                         [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:MyPageCellUserInfo inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                        [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
+                            [HHStudentStore sharedInstance].currentStudent = student;
+                            weakSelf.currentStudent = student;
+                            [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:MyPageCellUserInfo inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                        }];
                     };
                     vc.hidesBottomBarWhenPushed = YES;
                     [weakSelf.navigationController pushViewController:vc animated:YES];

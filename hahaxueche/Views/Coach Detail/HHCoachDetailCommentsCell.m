@@ -57,6 +57,9 @@
     [self.botButton addTarget:self action:@selector(botButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:self.botButton];
     
+    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(botButtonTapped)];
+    [self addGestureRecognizer:recognizer];
+    
     [self makeConstraints];
 }
 
