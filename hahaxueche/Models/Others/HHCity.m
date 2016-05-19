@@ -21,6 +21,7 @@
              @"zipCode":@"zip_code",
              @"cityFixedFees":@"fixed_cost_itemizer",
              @"bonus":@"referal_bonus",
+             @"referalBanner":@"referral_banner",
              };
 }
 
