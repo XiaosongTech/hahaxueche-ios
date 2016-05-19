@@ -45,7 +45,7 @@
             return @"科目四";
         }
         default: {
-            return nil;
+            return @"已拿证";
         }
             
     }

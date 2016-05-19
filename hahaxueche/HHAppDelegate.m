@@ -73,22 +73,12 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                                     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
                                     finalRootVC = rootVC;
                                 }
-                            } else {
-                                finalRootVC = introNavVC;
                             }
-                            
                         }];
-                    } else {
-                        finalRootVC = introNavVC;
                     }
                 }];
                 
-            } else {
-                finalRootVC = introNavVC;
-                
             }
-        } else {
-            finalRootVC = introNavVC;
         }
        
     }];
@@ -156,8 +146,8 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     }
     
     [[UINavigationBar appearance] setBackgroundImage:[UIImage new]
-                       forBarPosition:UIBarPositionAny
-                           barMetrics:UIBarMetricsDefault];
+                                      forBarPosition:UIBarPositionAny
+                                          barMetrics:UIBarMetricsDefault];
     
     [[UINavigationBar appearance] setShadowImage:[UIImage new]];
 }

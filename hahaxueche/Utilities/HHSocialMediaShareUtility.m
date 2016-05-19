@@ -15,6 +15,13 @@
 #import "NSString+HHURL.h"
 #import "HHStudentStore.h"
 
+static NSString *const kStagingReferalBaseURL = @"http://staging-api.hahaxueche.net/share/invitations?target=%@&city_id=%@";
+static NSString *const kProdReferalBaseURL = @"http://api.hahaxueche.net/share/invitations?target=%@&city_id=%@";
+
+static NSString *const kStagingShareCoachBaseURL = @"http://staging-api.hahaxueche.net/share/coaches/%@?target=%@";
+static NSString *const kProdShareCoachBaseURL = @"http://api.hahaxueche.net/share/coaches/%@?target=%@";
+
+
 static NSString *const kSupportQQ = @"3319762526";
 
 @implementation HHSocialMediaShareUtility
@@ -98,9 +105,9 @@ static NSString *const kSupportQQ = @"3319762526";
     msg.image = imageData;
     msg.thumbnail = imageData;
 #ifdef DEBUG
-    baseURL = @"http://staging-api.hahaxueche.net/share/coaches/%@?target=%@";
+    baseURL = kStagingShareCoachBaseURL;
 #else
-    baseURL = @"http://api.hahaxueche.net/share/coaches/%@?target=%@";
+    baseURL = kProdShareCoachBaseURL;
     
 #endif
     
@@ -172,9 +179,9 @@ static NSString *const kSupportQQ = @"3319762526";
     NSString *baseURL = nil;
     
 #ifdef DEBUG
-    baseURL = @"http://staging-api.hahaxueche.net/share/invitations?target=%@";
+    baseURL = kStagingReferalBaseURL;
 #else
-    baseURL = @"http://api.hahaxueche.net/share/invitations?target=%@";
+    baseURL = kProdReferalBaseURL;
     
 #endif
 
@@ -186,7 +193,7 @@ static NSString *const kSupportQQ = @"3319762526";
             msg.desc = @"注册立享50元优惠";
             [[HHSocialMediaShareUtility sharedInstance] generateBranchLinkForUserReferWithCompletion:^(NSString *url, NSError *error) {
                 [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-                msg.link = [NSString stringWithFormat:baseURL, [url urlEncode]];
+                msg.link = [NSString stringWithFormat:baseURL, [url urlEncode], [[HHStudentStore sharedInstance].currentStudent.cityId stringValue]];
                 if (completion) {
                     completion(msg);
                 }
@@ -197,7 +204,7 @@ static NSString *const kSupportQQ = @"3319762526";
         case ShareTypeWeibo: {
             [[HHSocialMediaShareUtility sharedInstance] generateBranchLinkForUserReferWithCompletion:^(NSString *url, NSError *error) {
                 [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-                msg.title = [NSString stringWithFormat:@"墙裂推荐:哈哈学车 注册立享50元优惠 %@", [NSString stringWithFormat:baseURL, [url urlEncode]]];
+                msg.title = [NSString stringWithFormat:@"墙裂推荐:哈哈学车 注册立享50元优惠 %@", [NSString stringWithFormat:baseURL, [url urlEncode], [[HHStudentStore sharedInstance].currentStudent.cityId stringValue]]];
                 if (completion) {
                     completion(msg);
                 }
@@ -210,7 +217,7 @@ static NSString *const kSupportQQ = @"3319762526";
             msg.desc = @"注册立享50元优惠";
             [[HHSocialMediaShareUtility sharedInstance] generateBranchLinkForUserReferWithCompletion:^(NSString *url, NSError *error) {
                 [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-                msg.link = [NSString stringWithFormat:baseURL, [url urlEncode]];
+                msg.link = [NSString stringWithFormat:baseURL, [url urlEncode], [[HHStudentStore sharedInstance].currentStudent.cityId stringValue]];
                 if (completion) {
                     completion(msg);
                 }
@@ -221,7 +228,7 @@ static NSString *const kSupportQQ = @"3319762526";
             [[HHSocialMediaShareUtility sharedInstance] generateBranchLinkForUserReferWithCompletion:^(NSString *url, NSError *error) {
                 [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
                 msg.title = [NSString stringWithFormat:@"墙裂推荐:哈哈学车 注册立享50元优惠"];
-                msg.link = [NSString stringWithFormat:baseURL, [url urlEncode]];
+                msg.link = [NSString stringWithFormat:baseURL, [url urlEncode], [[HHStudentStore sharedInstance].currentStudent.cityId stringValue]];
                 if (completion) {
                     completion(msg);
                 }
@@ -343,16 +350,16 @@ static NSString *const kSupportQQ = @"3319762526";
     NSString *baseURL = nil;
     
 #ifdef DEBUG
-    baseURL = @"http://staging-api.hahaxueche.net/share/invitations?target=%@";
+    baseURL = kStagingReferalBaseURL;
 #else
-    baseURL = @"http://api.hahaxueche.net/share/invitations?target=%@";
+    baseURL = kProdReferalBaseURL;
     
 #endif
     
     [[HHSocialMediaShareUtility sharedInstance] generateBranchLinkForUserReferWithCompletion:^(NSString *url, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (completion) {
-            completion([NSString stringWithFormat:baseURL, [url urlEncode]]);
+            completion([NSString stringWithFormat:baseURL, [url urlEncode], [[HHStudentStore sharedInstance].currentStudent.cityId stringValue]]);
         }
     }];
 }
