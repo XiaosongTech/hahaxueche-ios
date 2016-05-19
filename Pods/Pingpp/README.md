@@ -10,7 +10,7 @@ example 文件夹里面是一个简单的接入示例，该示例仅供参考。
 
 ## 版本要求
 
-iOS SDK 要求 iOS 5.1.1 及以上版本
+iOS SDK 要求 iOS 6.0 及以上版本
 
 ## 接入方法
 ### 安装
@@ -18,18 +18,27 @@ iOS SDK 要求 iOS 5.1.1 及以上版本
 1. 在 `Podfile` 添加
 
     ```
-    pod 'Pingpp', '~> 2.1.0'
+    pod 'Pingpp', '~> 2.2.2'
     ```
 
-    默认会包含支付宝、微信、银联和百度钱包。你也可以自己选择渠道。  
-    目前有 `ApplePay`、`Alipay`、`Wx`、`UnionPay`、`Bfb` 五个子模块可选择。  
+    默认会包含支付宝、微信和银联。你也可以自己选择渠道。  
+    目前支持以下模块：
+    - `Alipay`（支付宝移动支付）
+    - `Wx`（微信 App 支付）
+    - `UnionPay`（银联手机支付）
+    - `Bfb`（百度钱包）
+    - `ApplePay`
+    - `Cnp`（应用内快捷支付）
+    - `Fqlpay`（分期乐）
+    - `Qgbc`（量化派）
+    - `One`（壹收款）
+
     例如：
 
     ```
-    pod 'Pingpp/Alipay', '~> 2.1.0'
-    pod 'Pingpp/Wx', '~> 2.1.0'
-    pod 'Pingpp/UnionPay', '~> 2.1.0'
-    pod 'Pingpp/ApplePay', '~> 2.1.0'
+    pod 'Pingpp/Alipay', '~> 2.2.2'
+    pod 'Pingpp/UnionPay', '~> 2.2.2'
+    pod 'Pingpp/One', '~> 2.2.2'
     ```
 
 2. 运行 `pod install`
@@ -48,16 +57,17 @@ iOS SDK 要求 iOS 5.1.1 及以上版本
     CFNetwork.framework
     SystemConfiguration.framework
     Security.framework
+    QuartzCore.framework
+    CoreTelephony.framework
     libc++.tbd
     libz.tbd
     libsqlite3.0.tbd
+    libstdc++.tbd
     ```
 
     百度钱包所需：
 
     ```
-    libstdc++.tbd
-    CoreTelephony.framework
     AddressBook.framework
     AddressBookUI.framework
     AudioToolbox.framework
@@ -67,7 +77,6 @@ iOS SDK 要求 iOS 5.1.1 及以上版本
     MapKit.framework
     MessageUI.framework
     MobileCoreServices.framework
-    QuartzCore.framework
     ```
 
     Apple Pay 所需：
@@ -105,7 +114,8 @@ iOS SDK 要求 iOS 5.1.1 及以上版本
     ```
     XXXXXXX does not contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, or disable bitcode for this target.
     ```
-    请到 Xcode 项目的 Build Settings 标签页搜索 bitcode，将 Enable Bitcode 设置为 NO。
+    请到 Xcode 项目的 `Build Settings` 标签页搜索 bitcode，将 `Enable Bitcode` 设置为 `NO`。
+4. 如果不需要应用内快捷支付，请删除 `Channels/Cnp` 目录。否则，请把 `Build Settings` 中的 `CLANG_CXX_LIBRARY` 改成 `libstdc++`。
 
 **关于如何使用 SDK 请参考 [技术文档](https://pingxx.com/document) 或者 [example](https://github.com/PingPlusPlus/pingpp-ios/tree/master/example) 文件夹里的示例。**
 
