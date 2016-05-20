@@ -18,6 +18,7 @@
 #import "HHLoadingViewUtility.h"
 #import "HHToastManager.h"
 #import <MessageUI/MessageUI.h>
+#import <UIImageView+WebCache.h>
 #import "HHConstantsStore.h"
 
 
@@ -56,7 +57,9 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     self.scrollView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.scrollView];
     
-    self.imageView  = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_share_pic.jpg"]];
+    HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
+    self.imageView = [[UIImageView alloc] init];
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:city.referalBanner] placeholderImage:nil];
     [self.scrollView addSubview:self.imageView];
     
     self.titleLabel = [[UILabel alloc] init];

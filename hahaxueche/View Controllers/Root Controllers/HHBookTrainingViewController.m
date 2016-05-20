@@ -544,21 +544,25 @@ static NSString *kNotifCellId = @"notifCellId";
 
 - (void)setMySchedulesObject:(HHCoachSchedules *)mySchedulesObject {
     _mySchedulesObject = mySchedulesObject;
-    if (!mySchedulesObject.nextPage) {
-        [self.loadMoreFooter setState:MJRefreshStateNoMoreData];
-    } else {
-        [self.loadMoreFooter setState:MJRefreshStateIdle];
+    if (self.segmentedControl.selectedSegmentIndex == ScheduleTypeMySchedule) {
+        if (!mySchedulesObject.nextPage) {
+            [self.loadMoreFooter setState:MJRefreshStateNoMoreData];
+        } else {
+            [self.loadMoreFooter setState:MJRefreshStateIdle];
+        }
     }
+    
 }
 
 - (void)setCoachSchedulesObject:(HHCoachSchedules *)coachSchedulesObject {
     _coachSchedulesObject = coachSchedulesObject;
-    if (!coachSchedulesObject.nextPage) {
-        [self.loadMoreFooter setState:MJRefreshStateNoMoreData];
-    } else {
-        [self.loadMoreFooter setState:MJRefreshStateIdle];
+    if (self.segmentedControl.selectedSegmentIndex == ScheduleTypeCoachSchedule) {
+        if (!coachSchedulesObject.nextPage) {
+            [self.loadMoreFooter setState:MJRefreshStateNoMoreData];
+        } else {
+            [self.loadMoreFooter setState:MJRefreshStateIdle];
+        }
     }
-    
 }
 
 - (void)addCell {
@@ -583,32 +587,17 @@ static NSString *kNotifCellId = @"notifCellId";
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         [HHPopupUtility dismissPopup:self.popup];
         if (!error) {
-            [self.coachScheduleArray removeObject:schedule];
-            self.coachScheduleGroupedArray = [self groupedArray:self.coachScheduleArray];
-            [self.tableView reloadData];
+            [self refreshCoachListWithType:ScheduleTypeCoachSchedule completion:nil];
             [self.myScheduleArray addObject:updatedSchedule];
             self.myScheduleArray = [self sortSchedules:self.myScheduleArray];
             self.myScheduleGroupedArray = [self groupedArray:self.myScheduleArray];
             self.segmentedControl.selectedSegmentIndex = ScheduleTypeMySchedule;
+            [self.tableView reloadData];
             [[HHToastManager sharedManager] showSuccessToastWithText:@"预约成功!"];
         } else {
             if ([error.localizedFailureReason isEqual:@(40006)]) {
-                HHBookFailView *failView = [[HHBookFailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 280.0f) type:ErrorTypeHasIncomplete];
-                self.popup = [HHPopupUtility createPopupWithContentView:failView];
-                [HHPopupUtility showPopup:self.popup];
-                failView.cancelBlock = ^() {
-                    [HHPopupUtility dismissPopup:self.popup];
-                };
-                
-            } else if ([error.localizedFailureReason isEqual:@(40005)]) {
-                HHBookFailView *failView = [[HHBookFailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 280.0f) type:ErrorTypeNeedCoachReview];
-                self.popup = [HHPopupUtility createPopupWithContentView:failView];
-                [HHPopupUtility showPopup:self.popup];
-                failView.cancelBlock = ^() {
-                    [HHPopupUtility dismissPopup:self.popup];
-                };
-                
-            } else {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"您的课程列表还有2节以上未完成的课程，请课程完成后再预约新课程"];
+            }  else {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"预约失败, 请重试!"];
             }
 
@@ -624,11 +613,9 @@ static NSString *kNotifCellId = @"notifCellId";
             [[HHToastManager sharedManager] showSuccessToastWithText:@"取消成功!"];
             [self.myScheduleArray removeObject:schedule];
             self.myScheduleGroupedArray = [self groupedArray:self.myScheduleArray];
-            [self.tableView reloadData];
-            [self.coachScheduleArray addObject:schedule];
-            self.coachScheduleArray = [self sortSchedules:self.coachScheduleArray];
-            self.coachScheduleGroupedArray = [self groupedArray:self.coachScheduleArray];
+            [self refreshCoachListWithType:ScheduleTypeCoachSchedule completion:nil];
             [HHPopupUtility dismissPopup:self.popup];
+            [self.tableView reloadData];
         } else {
             [[HHToastManager sharedManager] showErrorToastWithText:@"取消失败, 请重试!"];
         }

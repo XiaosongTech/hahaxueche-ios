@@ -114,10 +114,13 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
     __weak HHHomePageViewController *weakSelf = self;
     self.bannerView = [[SDCycleScrollView alloc] init];
     self.bannerView.imageURLStringsGroup = self.banners;
-    self.bannerView.autoScroll = NO; 
+    self.bannerView.autoScroll = YES;
+    self.bannerView.autoScrollTimeInterval = 3.0f;
     self.bannerView.delegate = self;
     self.bannerView.bannerImageViewContentMode = UIViewContentModeScaleAspectFit;
     self.bannerView.backgroundColor = [UIColor HHOrange];
+    self.bannerView.pageDotColor = [UIColor colorWithWhite:1.0f alpha:0.5f];
+    self.bannerView.currentPageDotColor = [UIColor whiteColor];
     [self.view addSubview:self.bannerView];
     
     self.leftView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_hahahere"] title:@"关于小哈" subTitle:@"点击了解"];

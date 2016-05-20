@@ -17,6 +17,7 @@
 @property (nonatomic, copy) NSArray *distanceRanges;
 @property (nonatomic, copy) NSArray *cityFixedFees;
 @property (nonatomic, copy) NSArray *bonus;
+@property (nonatomic, copy) NSString *referalBanner;
 
 
 - (NSNumber *)getRefererBonus;
