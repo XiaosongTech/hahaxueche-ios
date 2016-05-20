@@ -42,7 +42,6 @@
 
 - (NSMutableDictionary *)buildBasicOptions {
     NSDictionary *options = @{
-                              kCRToastNotificationPreferredPaddingKey : @(-15.0f),
                               kCRToastTextColorKey: [UIColor whiteColor],
                               kCRToastFontKey : [UIFont systemFontOfSize:15.0f],
                               kCRToastTextAlignmentKey : @(NSTextAlignmentCenter),

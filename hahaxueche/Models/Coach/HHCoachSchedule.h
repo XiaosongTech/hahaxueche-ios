@@ -19,14 +19,11 @@
 @property (nonatomic, copy) NSNumber *reviewedStudentCount;
 @property (nonatomic, strong) NSArray *registeredStudents;
 @property (nonatomic, copy) NSNumber *serviceType;
-@property (nonatomic, copy) NSNumber *phase;
 @property (nonatomic, copy) NSString *scheduleDate;
 @property (nonatomic, copy) HHCoach *coach;
 @property (nonatomic, copy) NSNumber *status;
 
 - (NSString *)getCourseName;
-- (NSString *)getPhaseNameForVerticalLabel;
-- (NSString *)getPhaseName;
 - (NSString *)getScheduleDate;
 
 @end

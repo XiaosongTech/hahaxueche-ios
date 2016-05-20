@@ -32,6 +32,7 @@
 #import "HHReferFriendsViewController.h"
 #import "HHBonusInfoViewController.h"
 #import "HHLongImageViewController.h"
+#import "SDImageCache.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -124,7 +125,13 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         self.tableView.dataSource = self;
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.tableView.backgroundColor = [UIColor HHBackgroundGary];
+        self.tableView.showsVerticalScrollIndicator = NO;
         [self.view addSubview:self.tableView];
+        
+        UIView *topview = [[UIView alloc] initWithFrame:CGRectMake(0,-480,CGRectGetWidth(self.view.bounds),480)];
+        topview.backgroundColor = [UIColor HHOrange];
+        
+        [self.tableView addSubview:topview];
         
         [self.tableView registerClass:[HHMyPageUserInfoCell class] forCellReuseIdentifier:kUserInfoCell];
         [self.tableView registerClass:[HHMyPageCoachCell class] forCellReuseIdentifier:kCoachCell];
@@ -154,6 +161,11 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                     vc.updatePSBlock = ^(HHPurchasedService *updatePS){
                         weakSelf.currentStudent.purchasedServiceArray = @[updatePS];
                         [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:MyPageCellUserInfo inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                        [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
+                            [HHStudentStore sharedInstance].currentStudent = student;
+                            weakSelf.currentStudent = student;
+                            [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:MyPageCellUserInfo inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                        }];
                     };
                     vc.hidesBottomBarWhenPushed = YES;
                     [weakSelf.navigationController pushViewController:vc animated:YES];
@@ -257,7 +269,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case MyPageCellUserInfo:
-            return 300.0f;
+            return 280.0f;
             
         case MyPageCellCoach:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
@@ -378,6 +390,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             if (error) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败，请您重试！"];
             } else {
+                [[SDImageCache sharedImageCache] removeImageForKey:self.currentStudent.avatarURL fromDisk:YES];
                 [HHStudentStore sharedInstance].currentStudent = student;
                 self.currentStudent = student;
                 [self.tableView reloadData];
@@ -391,6 +404,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     introVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:introVC animated:YES];
 }
+
 
 
 @end

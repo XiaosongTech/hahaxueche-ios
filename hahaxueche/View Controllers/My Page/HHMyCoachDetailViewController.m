@@ -74,11 +74,13 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
     [self.tableView registerClass:[HHMyCoachBasicInfoCell class] forCellReuseIdentifier:kBasicInfoCellID];
     [self.tableView registerClass:[HHMyCoachCourseInfoCell class] forCellReuseIdentifier:kCourseInfoCellID];
     
-    self.coachImagesView = [[SDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 200.0f)];
+    self.coachImagesView = [[SDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) * 4.0f/5.0f)];
     self.coachImagesView.delegate = self;
     self.coachImagesView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
     self.coachImagesView.imageURLStringsGroup = self.coach.images;
     self.coachImagesView.autoScroll = NO;
+    self.coachImagesView.pageDotColor = [UIColor colorWithWhite:1.0f alpha:0.5f];
+    self.coachImagesView.currentPageDotColor = [UIColor whiteColor];
     
     ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithSubView:self.coachImagesView];
     [self.tableView setTableHeaderView:headerView];

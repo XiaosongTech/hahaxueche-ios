@@ -48,7 +48,7 @@
 
     
         if (booking) {
-            self.expLabel = [self createLabelWithTitle:@"一次只能预约一节课, 这节课完成后才可预约新课程, 确定预约这节课吗?" font:[UIFont systemFontOfSize:16.0f] textColor:[UIColor HHLightestTextGray]];
+            self.expLabel = [self createLabelWithTitle:@"您最多只能预约2节课, 确定预约这节课吗?" font:[UIFont systemFontOfSize:16.0f] textColor:[UIColor HHLightestTextGray]];
             self.expLabel.textAlignment = NSTextAlignmentLeft;
             
             self.midLine = [[UIView alloc] init];
@@ -136,7 +136,7 @@
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.lineSpacing = 4.0f;
     
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"日期: %@\n时间: (%@ - %@)\n科目: %@    阶段: %@", [[HHFormatUtility chineseFullDateFormatter] stringFromDate:schedule.startTime], [[HHFormatUtility timeFormatter] stringFromDate:schedule.startTime], [[HHFormatUtility timeFormatter] stringFromDate:schedule.endTime], [schedule getCourseName], [schedule getPhaseName]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f], NSForegroundColorAttributeName:[UIColor HHOrange], NSParagraphStyleAttributeName:paragraphStyle}];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"日期: %@\n时间: (%@ - %@)\n科目: %@", [[HHFormatUtility chineseFullDateFormatter] stringFromDate:schedule.startTime], [[HHFormatUtility timeFormatter] stringFromDate:schedule.startTime], [[HHFormatUtility timeFormatter] stringFromDate:schedule.endTime], [schedule getCourseName]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f], NSForegroundColorAttributeName:[UIColor HHOrange], NSParagraphStyleAttributeName:paragraphStyle}];
     
      return attributedString;
 }

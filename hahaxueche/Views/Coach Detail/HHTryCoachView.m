@@ -177,7 +177,7 @@
 - (void)showDatePicker:(UIButton *)button {
     [self.nameField resignFirstResponder];
     [self.numberField resignFirstResponder];
-    [ActionSheetDatePicker showPickerWithTitle:nil datePickerMode:UIDatePickerModeDate selectedDate:[NSDate date] minimumDate:[[NSDate date] dateByAddingDays:1] maximumDate:nil doneBlock:^(ActionSheetDatePicker *picker, id selectedDate, id origin) {
+    [ActionSheetDatePicker showPickerWithTitle:nil datePickerMode:UIDatePickerModeDate selectedDate:[[NSDate date] dateByAddingDays:1] minimumDate:[[NSDate date] dateByAddingDays:1] maximumDate:nil doneBlock:^(ActionSheetDatePicker *picker, id selectedDate, id origin) {
         if ([button isEqual:self.firstDateButton]) {
             self.firstDate = selectedDate;
             [self.firstDateButton setTitle:[[HHFormatUtility fullDateFormatter] stringFromDate:self.firstDate] forState:UIControlStateNormal];

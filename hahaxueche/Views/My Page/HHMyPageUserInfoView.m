@@ -32,7 +32,7 @@
 
 - (void)makeConstraints {
     [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.top).offset(15.0f);
+        make.top.equalTo(self.top).offset(10.0f);
         make.centerX.equalTo(self.centerX);
     }];
     

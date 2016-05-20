@@ -12,7 +12,7 @@
 #import <UIImageView+WebCache.h>
 #import "NSNumber+HHNumber.h"
 
-static CGFloat const avatarRadius = 40.0f;
+static CGFloat const avatarRadius = 35.0f;
 
 @implementation HHMyPageUserInfoCell
 
@@ -26,6 +26,7 @@ static CGFloat const avatarRadius = 40.0f;
 }
 
 - (void)initSubviews {
+    
     self.topImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_mypage_bk"]];
     [self.contentView addSubview:self.topImageView];
     
@@ -47,21 +48,24 @@ static CGFloat const avatarRadius = 40.0f;
     [self.contentView bringSubviewToFront:self.avatarBackgroungView];
     
     self.nameLabel = [[UILabel alloc] init];
-    self.nameLabel.textColor = [UIColor HHTextDarkGray];
-    self.nameLabel.font = [UIFont systemFontOfSize:20.0f];
+    self.nameLabel.textColor = [UIColor whiteColor];
+    self.nameLabel.font = [UIFont systemFontOfSize:18.0f];
     [self.contentView addSubview:self.nameLabel];
+    
+    self.courseLabel = [[UILabel alloc] init];
+    self.courseLabel.textColor = [UIColor colorWithWhite:1.0f alpha:0.8f];
+    self.courseLabel.font = [UIFont systemFontOfSize:14.0f];
+    [self.contentView addSubview:self.courseLabel];
     
     
     self.balanceView = [[HHMyPageUserInfoView alloc] init];
-    [self addSubview:self.balanceView];
+    [self.contentView addSubview:self.balanceView];
     
     self.paymentView = [[HHMyPageUserInfoView alloc] init];
-    [self addSubview:self.paymentView];
+    [self.contentView addSubview:self.paymentView];
     
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(paymentViewTapped)];
     [self.paymentView addGestureRecognizer:tapRecognizer];
-    
-    
     
     self.verticalLine = [[UIView alloc] init];
     self.verticalLine.backgroundColor = [UIColor HHLightLineGray];
@@ -71,16 +75,17 @@ static CGFloat const avatarRadius = 40.0f;
 }
 
 - (void)makeConstraints {
+
     [self.topImageView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView.top);
         make.left.equalTo(self.contentView.left);
         make.width.equalTo(self.contentView.width);
-        make.height.mas_equalTo(150.0f);
+        make.height.mas_equalTo(200.0f);
     }];
     
     [self.avatarBackgroungView makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.topImageView.bottom).offset(-10.0f);
-        make.centerX.equalTo(self.contentView.centerX);
+        make.top.equalTo(self.contentView.top).offset(20.0f);
+        make.centerX.equalTo(self.topImageView.centerX);
         make.width.mas_equalTo(avatarRadius * 2.0f);
         make.height.mas_equalTo(avatarRadius * 2.0);
     }];
@@ -92,29 +97,34 @@ static CGFloat const avatarRadius = 40.0f;
     }];
     
     [self.nameLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.contentView.centerX);
-        make.top.equalTo(self.avatarBackgroungView.bottom).offset(5.0f);
+        make.centerX.equalTo(self.topImageView.centerX);
+        make.top.equalTo(self.avatarBackgroungView.bottom).offset(10.0f);
+    }];
+    
+    [self.courseLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.nameLabel.centerX);
+        make.top.equalTo(self.nameLabel.bottom).offset(5.0f);
     }];
     
     [self.balanceView makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.contentView.left);
-        make.bottom.equalTo(self.contentView.bottom);
         make.width.equalTo(self.contentView.width).multipliedBy(0.5f);
-        make.top.equalTo(self.nameLabel.bottom).offset(10.0f);
+        make.top.equalTo(self.topImageView.bottom).offset(10.0f);
+        make.height.mas_equalTo(60.0f);
     }];
     
     [self.paymentView makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.balanceView.right);
-        make.bottom.equalTo(self.contentView.bottom);
         make.width.equalTo(self.contentView.width).multipliedBy(0.5f);
-        make.top.equalTo(self.nameLabel.bottom).offset(10.0f);
+        make.top.equalTo(self.topImageView.bottom).offset(10.0f);
+        make.height.mas_equalTo(60.0f);
     }];
     
     [self.verticalLine makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.nameLabel.bottom).offset(10.0f);
-        make.centerX.equalTo(self.centerX);
+        make.top.equalTo(self.topImageView.bottom).offset(10.0f);
+        make.centerX.equalTo(self.contentView.centerX);
         make.width.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-        make.bottom.equalTo(self.contentView.bottom);
+        make.bottom.equalTo(self.contentView.bottom).offset(-10.0f);
     }];
 }
 
@@ -144,6 +154,12 @@ static CGFloat const avatarRadius = 40.0f;
     [self.balanceView setupViewWithTitle:@"账户余额" value:balanceString showArrow:NO];
 
     [self.paymentView setupViewWithTitle:@"打款状态" value:stageString showArrow:showStageArrow];
+    
+    if (purchasedService) {
+        self.courseLabel.text = [NSString stringWithFormat:@"目前阶段: %@", [student getCourseName]];
+    } else {
+        self.courseLabel.text = @"目前阶段: 未购买教练";
+    }
 }
 
 - (void)paymentViewTapped {

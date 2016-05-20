@@ -19,6 +19,7 @@ typedef void (^HHAvatarViewActionBlock)();
 @property (nonatomic, strong) UIView *avatarBackgroungView;
 @property (nonatomic, strong) UIImageView *avatarView;
 @property (nonatomic, strong) UILabel *nameLabel;
+@property (nonatomic, strong) UILabel *courseLabel;
 @property (nonatomic, strong) UIImageView *topImageView;
 
 @property (nonatomic, strong) HHMyPageUserInfoView *balanceView;

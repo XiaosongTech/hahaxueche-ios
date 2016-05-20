@@ -120,10 +120,12 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
     
-    self.coachImagesView = [[SDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 200.0f)];
+    self.coachImagesView = [[SDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) * 4.0f/5.0f)];
     self.coachImagesView.delegate = self;
     self.coachImagesView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
     self.coachImagesView.imageURLStringsGroup = self.coach.images;
+    self.coachImagesView.pageDotColor = [UIColor colorWithWhite:1.0f alpha:0.5f];
+    self.coachImagesView.currentPageDotColor = [UIColor whiteColor];
     self.coachImagesView.autoScroll = NO;
     
     [self.tableView registerClass:[HHCoachDetailDescriptionCell class] forCellReuseIdentifier:kDescriptionCellID];
@@ -209,12 +211,15 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             [HHPopupUtility dismissPopup:weakSelf.popup];
         };
         tryCoachView.confirmBlock = ^(NSString *name, NSString *number, NSDate *firstDate, NSDate *secDate) {
+            [[HHLoadingViewUtility sharedInstance] showLoadingView];
             [[HHCoachService sharedInstance] tryCoachWithId:weakSelf.coach.coachId
                                                          name:name
                                                        number:number
                                                     firstDate:[[HHFormatUtility fullDateFormatter] stringFromDate:firstDate]
                                                    secondDate:[[HHFormatUtility fullDateFormatter] stringFromDate:secDate]
                                                    completion:^(NSError *error) {
+                                                       
+                [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
                 if (!error) {
                     [[HHEventTrackingManager sharedManager] sendEventWithId:kDidTryCoachEventId attributes:@{@"student_id":weakSelf.currentStudent.studentId, @"coach_id":weakSelf.coach.coachId}];
                     [[HHToastManager sharedManager] showSuccessToastWithText:@"免费试学预约成功！教练会尽快联系您！"];
