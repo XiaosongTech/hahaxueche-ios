@@ -22,7 +22,6 @@
              @"reviewedStudentCount": @"reviewed_st_count",
              @"registeredStudents":@"registered_students",
              @"serviceType":@"service_type",
-             @"phase":@"student_phase",
              @"coach":@"coach",
              @"status":@"status",
              };

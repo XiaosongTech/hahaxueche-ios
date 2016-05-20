@@ -48,7 +48,7 @@
 
     
         if (booking) {
-            self.expLabel = [self createLabelWithTitle:@"一次只能预约一节课, 这节课完成后才可预约新课程, 确定预约这节课吗?" font:[UIFont systemFontOfSize:16.0f] textColor:[UIColor HHLightestTextGray]];
+            self.expLabel = [self createLabelWithTitle:@"您最多只能预约2节课, 确定预约这节课吗?" font:[UIFont systemFontOfSize:16.0f] textColor:[UIColor HHLightestTextGray]];
             self.expLabel.textAlignment = NSTextAlignmentLeft;
             
             self.midLine = [[UIView alloc] init];
