@@ -219,5 +219,25 @@
     }];
 }
 
+- (void)searchCoachWithKeyword:(NSString *)keyword completion:(HHCoachSearchCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICoaches];
+    [APIClient getWithParameters:@{@"keyword":keyword} completion:^(NSDictionary *response, NSError *error) {
+        if(!error) {
+            NSMutableArray *coaches = [NSMutableArray array];
+            for (NSDictionary *coachDic in response) {
+                HHCoach *coach = [MTLJSONAdapter modelOfClass:[HHCoach class] fromJSONDictionary:coachDic error:nil];
+                [coaches addObject:coach];
+            }
+            if (completion) {
+                completion(coaches, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
 
 @end
