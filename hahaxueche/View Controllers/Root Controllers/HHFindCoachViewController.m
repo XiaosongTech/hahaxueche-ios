@@ -135,6 +135,8 @@ static CGFloat const kCellHeightExpanded = 300.0f;
                 weakSelf.tableView.hidden = YES;
                 weakSelf.noDataLabel.hidden = NO;
             }
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
         }
         
     }];
