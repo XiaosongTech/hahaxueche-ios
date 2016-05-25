@@ -33,7 +33,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) NSMutableArray *coaches;
 @property (nonatomic, strong) NSMutableArray *expandedCellIndexPath;
-@property (nonatomic, strong) UIView *searchHistoryListView;
+@property (nonatomic, strong) HHSearchHistoryListView *searchHistoryListView;
 
 @end
 
@@ -72,15 +72,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSArray *keywords = [defaults objectForKey:@"coachSearchKeywords"];
     
-    self.searchHistoryListView = [[HHSearchHistoryListView alloc] initWithHistory:keywords];
-    [self.view addSubview:self.searchHistoryListView];
-    
-    [self.searchHistoryListView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.top);
-        make.left.equalTo(self.view.left);
-        make.width.equalTo(self.view.width);
-        make.height.mas_equalTo(([keywords count] + 1) * 40.0f);
-    }];
+    [self buildKeywordHistoryViewWithKeywords:keywords];
   
 }
 
@@ -161,8 +153,6 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    self.searchHistoryListView.hidden = YES;
-    self.tableView.hidden = NO;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSArray *keywords = [defaults objectForKey:@"coachSearchKeywords"];
     NSMutableArray *newKeywords = [NSMutableArray arrayWithArray:keywords];
@@ -171,6 +161,12 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     }
     [newKeywords insertObject:searchBar.text atIndex:0];
     [defaults setObject:newKeywords forKey:@"coachSearchKeywords"];
+    
+    [self buildKeywordHistoryViewWithKeywords:newKeywords];
+    self.searchHistoryListView.hidden = YES;
+    self.tableView.hidden = NO;
+    
+    
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
     [[HHCoachService sharedInstance] searchCoachWithKeyword:searchBar.text completion:^(NSArray *coaches, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
@@ -182,6 +178,8 @@ static CGFloat const kCellHeightExpanded = 300.0f;
             [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
         }
     }];
+    
+    
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
@@ -189,6 +187,27 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     self.searchHistoryListView.hidden = NO;
 }
 
+
+- (void)buildKeywordHistoryViewWithKeywords:(NSArray *)keywords {
+    if(self.searchHistoryListView) {
+        [self.searchHistoryListView removeFromSuperview];
+    }
+    __weak HHSearchCoachViewController *weakSelf = self;
+    self.searchHistoryListView = [[HHSearchHistoryListView alloc] initWithHistory:keywords];
+    self.searchHistoryListView.keywordBlock = ^(NSString *keyword) {
+        weakSelf.searchBar.text = keyword;
+        [weakSelf searchBarSearchButtonClicked:weakSelf.searchBar];
+    };
+    [self.view addSubview:self.searchHistoryListView];
+    
+    [self.searchHistoryListView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.top);
+        make.left.equalTo(self.view.left);
+        make.width.equalTo(self.view.width);
+        make.height.mas_equalTo(([keywords count] + 1) * 40.0f + 45.0f);
+    }];
+
+}
 
 
 @end

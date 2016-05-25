@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^HHKeywordTappedBlock)(NSString *keyword);
+
 @interface HHSearchHistoryListView : UIView
 
 @property (nonatomic, strong) NSArray *searchHistory;
 @property (nonatomic, strong) NSMutableArray *views;
+@property (nonatomic, strong) HHKeywordTappedBlock keywordBlock;
+@property (nonatomic, strong) UIButton *clearButton;
 
 - (instancetype)initWithHistory:(NSArray *)searchHistory;
 
