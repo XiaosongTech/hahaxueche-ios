@@ -337,6 +337,12 @@
 		6D3D733F1CB92F4000E424C3 /* HHConfirmScheduleBookView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D733E1CB92F4000E424C3 /* HHConfirmScheduleBookView.m */; };
 		6D3D73421CB94BEE00E424C3 /* HHBookFailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D73411CB94BEE00E424C3 /* HHBookFailView.m */; };
 		6D3D73451CB9FFB300E424C3 /* HHScheduleRateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D73441CB9FFB300E424C3 /* HHScheduleRateView.m */; };
+		6D4151DC1CF321AB004A7EE8 /* HHSearchCoachViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4151DB1CF321AB004A7EE8 /* HHSearchCoachViewController.m */; };
+		6D4151E61CF40DA7004A7EE8 /* icon_search.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4151E31CF40DA7004A7EE8 /* icon_search.png */; };
+		6D4151E71CF40DA7004A7EE8 /* icon_search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4151E41CF40DA7004A7EE8 /* icon_search@2x.png */; };
+		6D4151E81CF40DA7004A7EE8 /* icon_search@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4151E51CF40DA7004A7EE8 /* icon_search@3x.png */; };
+		6D4151EB1CF46F3E004A7EE8 /* HHSearchCoachEmptyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4151EA1CF46F3E004A7EE8 /* HHSearchCoachEmptyCell.m */; };
+		6D4151EE1CF47C89004A7EE8 /* HHSearchHistoryListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4151ED1CF47C89004A7EE8 /* HHSearchHistoryListView.m */; };
 		6D4886BF1CD879F400E28BB3 /* HHBonusAmountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4886BE1CD879F400E28BB3 /* HHBonusAmountView.m */; };
 		6D4886C31CD881E800E28BB3 /* ic_cash_havenot.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4886C01CD881E800E28BB3 /* ic_cash_havenot.png */; };
 		6D4886C41CD881E800E28BB3 /* ic_cash_havenot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4886C11CD881E800E28BB3 /* ic_cash_havenot@2x.png */; };
@@ -875,6 +881,15 @@
 		6D3D73411CB94BEE00E424C3 /* HHBookFailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHBookFailView.m; sourceTree = "<group>"; };
 		6D3D73431CB9FFB300E424C3 /* HHScheduleRateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHScheduleRateView.h; sourceTree = "<group>"; };
 		6D3D73441CB9FFB300E424C3 /* HHScheduleRateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHScheduleRateView.m; sourceTree = "<group>"; };
+		6D4151DA1CF321AB004A7EE8 /* HHSearchCoachViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSearchCoachViewController.h; sourceTree = "<group>"; };
+		6D4151DB1CF321AB004A7EE8 /* HHSearchCoachViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSearchCoachViewController.m; sourceTree = "<group>"; };
+		6D4151E31CF40DA7004A7EE8 /* icon_search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_search.png; sourceTree = "<group>"; };
+		6D4151E41CF40DA7004A7EE8 /* icon_search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_search@2x.png"; sourceTree = "<group>"; };
+		6D4151E51CF40DA7004A7EE8 /* icon_search@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_search@3x.png"; sourceTree = "<group>"; };
+		6D4151E91CF46F3E004A7EE8 /* HHSearchCoachEmptyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSearchCoachEmptyCell.h; sourceTree = "<group>"; };
+		6D4151EA1CF46F3E004A7EE8 /* HHSearchCoachEmptyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSearchCoachEmptyCell.m; sourceTree = "<group>"; };
+		6D4151EC1CF47C89004A7EE8 /* HHSearchHistoryListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSearchHistoryListView.h; sourceTree = "<group>"; };
+		6D4151ED1CF47C89004A7EE8 /* HHSearchHistoryListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSearchHistoryListView.m; sourceTree = "<group>"; };
 		6D4886BD1CD879F400E28BB3 /* HHBonusAmountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHBonusAmountView.h; sourceTree = "<group>"; };
 		6D4886BE1CD879F400E28BB3 /* HHBonusAmountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHBonusAmountView.m; sourceTree = "<group>"; };
 		6D4886C01CD881E800E28BB3 /* ic_cash_havenot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_cash_havenot.png; sourceTree = "<group>"; };
@@ -1433,6 +1448,8 @@
 				1482A9A11C80C2D5007F9019 /* HHReviewListViewController.m */,
 				14F9D4971C7170380010F3FA /* HHSingleFieldMapViewController.h */,
 				14F9D4981C7170380010F3FA /* HHSingleFieldMapViewController.m */,
+				6D4151DA1CF321AB004A7EE8 /* HHSearchCoachViewController.h */,
+				6D4151DB1CF321AB004A7EE8 /* HHSearchCoachViewController.m */,
 			);
 			path = "Find Coach";
 			sourceTree = "<group>";
@@ -1442,6 +1459,10 @@
 			children = (
 				5C36D4421C4DA54000443545 /* HHCoachListViewCell.h */,
 				5C36D4431C4DA54000443545 /* HHCoachListViewCell.m */,
+				6D4151E91CF46F3E004A7EE8 /* HHSearchCoachEmptyCell.h */,
+				6D4151EA1CF46F3E004A7EE8 /* HHSearchCoachEmptyCell.m */,
+				6D4151EC1CF47C89004A7EE8 /* HHSearchHistoryListView.h */,
+				6D4151ED1CF47C89004A7EE8 /* HHSearchHistoryListView.m */,
 			);
 			path = Coach;
 			sourceTree = "<group>";
@@ -1620,6 +1641,9 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6D4151E31CF40DA7004A7EE8 /* icon_search.png */,
+				6D4151E41CF40DA7004A7EE8 /* icon_search@2x.png */,
+				6D4151E51CF40DA7004A7EE8 /* icon_search@3x.png */,
 				6DF41AA11CEB0E1A0014F7E3 /* ic_mypage_bk.png */,
 				6DF41AA21CEB0E1A0014F7E3 /* ic_mypage_bk@2x.png */,
 				6DF41AA31CEB0E1A0014F7E3 /* ic_mypage_bk@3x.png */,
@@ -2068,10 +2092,12 @@
 				140EC6411C6E764100DA634D /* ic_coachmsg_pingjia@3x.png in Resources */,
 				6D82BD651CCF91E100D4109A /* ic_wechatpay_icon.png in Resources */,
 				6D82BD3B1CCE4F9600D4109A /* ic_coachmsg_sharecoach_weibo@3x.png in Resources */,
+				6D4151E61CF40DA7004A7EE8 /* icon_search.png in Resources */,
 				140EC6301C6E3CFC00DA634D /* ic_coachmsg_attention_on.png in Resources */,
 				6D82BD591CCF91CF00D4109A /* ic_alipay_icon.png in Resources */,
 				5C36D43E1C4C743700443545 /* ic_map_local_choseon@1x.png in Resources */,
 				140EC5F11C6D542700DA634D /* ic_coachmsg_classtype.png in Resources */,
+				6D4151E81CF40DA7004A7EE8 /* icon_search@3x.png in Resources */,
 				6D82BD5A1CCF91CF00D4109A /* ic_alipay_icon@2x.png in Resources */,
 				141FA0F31C6925C900113B1A /* ic_homepage_knowmore_arrow@3x.png in Resources */,
 				6D4886C31CD881E800E28BB3 /* ic_cash_havenot.png in Resources */,
@@ -2201,6 +2227,7 @@
 				141F7BF41C617EB2003278C6 /* ic_list_local_btn@2x.png in Resources */,
 				5C36D4101C496ECD00443545 /* ic_sort_local_hold_btn@1x.png in Resources */,
 				6DF41AA61CEB0E1A0014F7E3 /* ic_mypage_bk@3x.png in Resources */,
+				6D4151E71CF40DA7004A7EE8 /* icon_search@2x.png in Resources */,
 				5C36D4131C496ECD00443545 /* ic_sort_local_normal_btn@1x.png in Resources */,
 				143D15E11C8F2C8200432A74 /* ic_mypage_ava@2x.png in Resources */,
 				5CDE147E1C3787CF0004778C /* ic_avatar_btn@1x.png in Resources */,
@@ -2388,12 +2415,15 @@
 				6D82BD3E1CCF048300D4109A /* HHShareUserLinkView.m in Sources */,
 				6D82BD701CCF9DEC00D4109A /* HHGenericTwoButtonsPopupView.m in Sources */,
 				5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */,
+				6D4151DC1CF321AB004A7EE8 /* HHSearchCoachViewController.m in Sources */,
 				140EC6201C6D776400DA634D /* HHCoachCellView.m in Sources */,
 				14604F5F1C6FEE10009DBE10 /* HHPriceDetailView.m in Sources */,
 				6D3D73451CB9FFB300E424C3 /* HHScheduleRateView.m in Sources */,
 				140EC6231C6D878D00DA634D /* HHCoachDetailBottomBarView.m in Sources */,
 				141FA1131C6BF88400113B1A /* HHCoachDetailSingleInfoView.m in Sources */,
+				6D4151EB1CF46F3E004A7EE8 /* HHSearchCoachEmptyCell.m in Sources */,
 				5C36D3531C42D7F400443545 /* HHBookTrainingViewController.m in Sources */,
+				6D4151EE1CF47C89004A7EE8 /* HHSearchHistoryListView.m in Sources */,
 				143778EF1C6125C300339D20 /* HHLaunchImageViewController.m in Sources */,
 				5C36D3CB1C47615000443545 /* HHFiltersView.m in Sources */,
 				14604F441C6EF064009DBE10 /* HHConfirmCancelButtonsView.m in Sources */,

@@ -17,8 +17,9 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
 @interface HHFieldsMapViewController ()
 
 @property (nonatomic, strong) NSMutableArray *selectedFields;
+@property (nonatomic, strong) NSMutableArray *selectedFieldsIndex;
 @property (nonatomic, strong) NSArray *allFields;
-@property (nonatomic, strong) NSMutableDictionary *dic;
+@property (nonatomic, strong) NSMutableArray *annotationViews;
 
 @end
 
@@ -32,9 +33,9 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
     self = [super init];
     if (self) {
         self.userLocation = userLocation;
-        self.selectedFields = [NSMutableArray arrayWithArray:selectedFields];
-        self.dic = [NSMutableDictionary dictionary];
-        
+        self.selectedFields = selectedFields;
+        self.annotationViews = [NSMutableArray array];
+
     }
     return self;
 }
@@ -118,8 +119,7 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
         pointAnnotation.subtitle = field.address;
         [self.mapView addAnnotation:pointAnnotation];
         
-        NSValue *key = [NSValue valueWithNonretainedObject:pointAnnotation];
-        self.dic[key] = field;
+        [self.annotationViews addObject:pointAnnotation];
     }
     
     MACoordinateRegion mapRegion;
@@ -139,8 +139,8 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
 
 - (void)annotationViewTapped:(UITapGestureRecognizer *)recognizer {
     MAAnnotationView *annotationView = (MAAnnotationView *)recognizer.view;
-    NSValue *key = [NSValue valueWithNonretainedObject:annotationView.annotation];
-    HHField *field = self.dic[key];
+    NSInteger index = [self.annotationViews indexOfObject:annotationView.annotation];
+    HHField *field = self.allFields[index];
     if ([self.selectedFields containsObject:field.fieldId]) {
         annotationView.image = [UIImage imageNamed:@"ic_map_local_choseoff"];
         [self.selectedFields removeObject:field.fieldId];
@@ -201,8 +201,8 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
             continue;
         }
         
-        NSValue *key = [NSValue valueWithNonretainedObject:view.annotation];
-        HHField *field = self.dic[key];
+        NSInteger index = [self.annotationViews indexOfObject:view.annotation];
+        HHField *field = self.allFields[index];
 
         if ([self.selectedFields containsObject:field.fieldId]) {
             view.image = [UIImage imageNamed:@"ic_map_local_choseon"];
