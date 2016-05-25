@@ -20,6 +20,7 @@ typedef void (^HHCoachReviewListCompletion)(HHReviews *reviews, NSError *error);
 typedef void (^HHCoachCheckFollowedCompletion)(BOOL followed);
 typedef void (^HHCoachGenericCompletion)(NSError *error);
 typedef void (^HHCoachReviewCompletion)(HHReview *review, NSError *error);
+typedef void (^HHCoachSearchCompletion)(NSArray *coaches, NSError *error);
 
 @interface HHCoachService : NSObject
 
@@ -117,5 +118,12 @@ typedef void (^HHCoachReviewCompletion)(HHReview *review, NSError *error);
  @param completion The completion block to execute on completion
  */
 - (void)oneClickFindCoachWithLocation:(NSArray *)location completion:(HHCoachCompletion)completion;
+
+/**
+ Search Coach
+ @param keyword The keyword of the search
+ @param completion The completion block to execute on completion
+ */
+- (void)searchCoachWithKeyword:(NSString *)keyword completion:(HHCoachSearchCompletion)completion;
 
 @end

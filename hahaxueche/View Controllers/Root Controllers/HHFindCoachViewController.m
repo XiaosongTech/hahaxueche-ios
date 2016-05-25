@@ -31,6 +31,7 @@
 #import "HHPopupUtility.h"
 #import <KLCPopup/KLCPopup.h>
 #import "HHCoachDetailViewController.h"
+#import "HHSearchCoachViewController.h"
 
 static NSString *const kCellId = @"kCoachListCellId";
 static CGFloat const kCellHeightNormal = 100.0f;
@@ -65,6 +66,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 @property (nonatomic, strong) CLLocation *userLocation;
 
 @property (nonatomic, strong) HHCoaches *coachesObject;
+@property (nonatomic, strong) UILabel *noDataLabel;
 
 @end
 
@@ -80,6 +82,8 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     UIBarButtonItem *mapButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_maplist_btn"] action:@selector(jumpToFieldsMapView) target:self];
     self.navigationItem.leftBarButtonItem = mapButton;
     
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"icon_search"] action:@selector(jumpToSearchVC) target:self];
+    
     self.selectedFields = [NSMutableArray array];
     self.expandedCellIndexPath = [NSMutableArray array];
     [self initSubviews];
@@ -87,6 +91,21 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     [self getUserLocationWithCompletion:^{
         [weakSelf refreshCoachListWithCompletion:nil];
     }];
+    
+    self.noDataLabel = [[UILabel alloc] init];
+    self.noDataLabel.text = @"抱歉, 没有找到附近的教练. 点击左上角筛选按钮, 并调节距离等因素来寻找更多教练.";
+    self.noDataLabel.textAlignment = NSTextAlignmentCenter;
+    self.noDataLabel.textColor = [UIColor HHLightTextGray];
+    self.noDataLabel.font = [UIFont systemFontOfSize:15.0f];
+    [self.view addSubview:self.noDataLabel];
+    self.noDataLabel.hidden = YES;
+    self.noDataLabel.numberOfLines = 0;
+    
+    [self.noDataLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.view);
+        make.width.equalTo(self.view.width).offset(-40.0f);
+    }];
+    
 
 }
 
@@ -108,6 +127,14 @@ static CGFloat const kCellHeightExpanded = 300.0f;
             weakSelf.coachesObject = coaches;
             weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
             [weakSelf.tableView reloadData];
+            if ([weakSelf.coaches count]) {
+                weakSelf.tableView.hidden = NO;
+                weakSelf.noDataLabel.hidden = YES;
+                
+            } else {
+                weakSelf.tableView.hidden = YES;
+                weakSelf.noDataLabel.hidden = NO;
+            }
         }
         
     }];
@@ -264,7 +291,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     __weak HHCoachListViewCell *weakCell = cell;
     
     HHCoach *coach = self.coaches[indexPath.row];
-    [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId]];
+    [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId] userLocation:self.userLocation];
 
     if ([self.expandedCellIndexPath containsObject:indexPath]) {
         cell.mapView.hidden = NO;
@@ -374,6 +401,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
         
         if (status == INTULocationStatusSuccess) {
             self.userLocation = currentLocation;
+            [HHStudentStore sharedInstance].currentLocation = currentLocation;
             
         } else if (status == INTULocationStatusServicesDenied){
             HHAskLocationPermissionViewController *vc = [[HHAskLocationPermissionViewController alloc] init];
@@ -407,7 +435,12 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     }];
 }
 
-
+- (void)jumpToSearchVC {
+    HHSearchCoachViewController *vc = [[HHSearchCoachViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:navVC animated:NO completion:nil];
+}
 
 
 @end

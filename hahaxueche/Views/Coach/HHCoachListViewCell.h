@@ -11,6 +11,7 @@
 #import <MAMapKit/MAMapKit.h>
 #import "HHField.h"
 #import "HHCoach.h"
+#import <MAMapKit/MAMapKit.h>
 
 typedef void (^HHMapButtonActionBlock)();
 
@@ -32,7 +33,7 @@ typedef void (^HHMapButtonActionBlock)();
 
 @property (nonatomic, strong) HHMapButtonActionBlock mapButtonBlock;
 
-- (void)setupCellWithCoach:(HHCoach *)coach field:(HHField *)field;
+- (void)setupCellWithCoach:(HHCoach *)coach field:(HHField *)field userLocation:(CLLocation *)location;
 
 
 @end

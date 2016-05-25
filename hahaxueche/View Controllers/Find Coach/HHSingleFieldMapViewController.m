@@ -91,6 +91,9 @@
 
 - (void)mapView:(MAMapView *)mapView didAddAnnotationViews:(NSArray *)views {
     for (MAAnnotationView *view in views) {
+        if ([view.annotation isKindOfClass:[MAUserLocation class]]) {
+            continue;
+        }
          view.image = [UIImage imageNamed:@"ic_map_local_choseon"];
         [mapView selectAnnotation:view.annotation animated:YES];
     }

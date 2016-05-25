@@ -21,6 +21,7 @@
 #import "HHFindCoachViewController.h"
 #import "HHStudentStore.h"
 #import "HHCoachService.h"
+#import "HHStudentStore.h"
 
 static NSString *const kCellId = @"kCoachListCellId";
 static CGFloat const kCellHeightNormal = 100.0f;
@@ -102,7 +103,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     __weak HHCoachListViewCell *weakCell = cell;
     
     HHCoach *coach = self.coaches[indexPath.row];
-    [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId]];
+    [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId] userLocation:[HHStudentStore sharedInstance].currentLocation];
     
     if ([self.expandedCellIndexPath containsObject:indexPath]) {
         cell.mapView.hidden = NO;
