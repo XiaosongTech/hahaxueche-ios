@@ -26,10 +26,6 @@
 }
 
 - (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion {
-    if ([[HHStudentStore sharedInstance].currentStudent.purchasedServiceArray count]) {
-        [[HHToastManager sharedManager] showErrorToastWithText:@"您已经有购买的教练，无需再次购买教练！"];
-        return;
-    }
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICharges];
     [APIClient postWithParameters:@{@"coach_id":coachId} completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
