@@ -83,7 +83,7 @@ DEPENDENCIES:
   - MJRefresh
   - MMNumberKeyboard
   - OpenShare (~> 0.0)
-  - Pingpp/Alipay (~> 2.2.0)
+  - Pingpp/Alipay (~> 2.2.2)
   - Pingpp/Fqlpay (~> 2.2.2)
   - pop (~> 1.0)
   - SDCycleScrollView (~> 1.6)
