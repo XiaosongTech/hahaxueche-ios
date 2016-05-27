@@ -69,9 +69,13 @@
         if (self.enabled) {
             self.titleLabel.textColor = [UIColor HHTextDarkGray];
             self.subTitleLabel.textColor = [UIColor HHLightTextGray];
+            self.iconView.alpha = 1.0f;
+            self.selectionView.alpha = 1.0f;
         } else {
             self.titleLabel.textColor = [UIColor HHLightestTextGray];
             self.subTitleLabel.textColor = [UIColor HHLightestTextGray];
+            self.iconView.alpha = 0.5f;
+            self.selectionView.alpha = 0.5f;
         }
         
 

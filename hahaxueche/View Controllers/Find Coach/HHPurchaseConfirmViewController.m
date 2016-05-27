@@ -21,14 +21,6 @@
 #import "HHLoadingViewUtility.h"
 #import "HHStudentService.h"
 
-typedef NS_ENUM(NSInteger, StudentPaymentMethod) {
-    StudentPaymentMethodAlipay, // 支付宝
-    StudentPaymentMethodFql, //分期乐
-    StudentPaymentMethodWeChatPay, // 微信支付
-    StudentPaymentMethodBankCard, // 银行卡
-    StudentPaymentMethodCount
-};
-
 
 @interface HHPurchaseConfirmViewController ()
 
@@ -171,7 +163,7 @@ typedef NS_ENUM(NSInteger, StudentPaymentMethod) {
     }
     __weak HHPurchaseConfirmViewController *weakSelf = self;
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
-    [[HHPaymentService sharedInstance] payWithCoachId:self.coach.coachId studentId:[HHStudentStore sharedInstance].currentStudent.studentId inController:self completion:^(BOOL succeed) {
+    [[HHPaymentService sharedInstance] payWithCoachId:self.coach.coachId studentId:[HHStudentStore sharedInstance].currentStudent.studentId paymentMethod:self.selectedMethod inController:self completion:^(BOOL succeed) {
         if (succeed) {
             [self fetchStudentAfterPurchase];
             [[HHEventTrackingManager sharedManager] sendEventWithId:kDidPurchaseCoachServiceEventId attributes:@{@"student_id":[HHStudentStore sharedInstance].currentStudent.studentId, @"coach_id":weakSelf.coach.coachId}];
