@@ -181,9 +181,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [HHEventTrackingManager sharedManager];
     
     //SDWebImage
-    SDImageCache *imageCache = [SDImageCache sharedImageCache];
-    [imageCache clearMemory];
-    [imageCache clearDisk];
     
     [SDWebImageManager sharedManager].imageCache.maxCacheSize = 20000000;
     [[[SDWebImageManager sharedManager] imageDownloader] setMaxConcurrentDownloads:10];
