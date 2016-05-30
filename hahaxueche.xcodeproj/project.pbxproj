@@ -355,6 +355,7 @@
 		6D4152051CF73711004A7EE8 /* icon_selected_press@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4152031CF73711004A7EE8 /* icon_selected_press@2x.png */; };
 		6D4152081CF73718004A7EE8 /* icon_selected_normal@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4152061CF73718004A7EE8 /* icon_selected_normal@3x.png */; };
 		6D4152091CF73718004A7EE8 /* icon_selected_press@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4152071CF73718004A7EE8 /* icon_selected_press@3x.png */; };
+		6D4592321CFC6F1D00AF5B45 /* HHTOUViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4592311CFC6F1D00AF5B45 /* HHTOUViewController.m */; };
 		6D4886BF1CD879F400E28BB3 /* HHBonusAmountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4886BE1CD879F400E28BB3 /* HHBonusAmountView.m */; };
 		6D4886C31CD881E800E28BB3 /* ic_cash_havenot.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4886C01CD881E800E28BB3 /* ic_cash_havenot.png */; };
 		6D4886C41CD881E800E28BB3 /* ic_cash_havenot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4886C11CD881E800E28BB3 /* ic_cash_havenot@2x.png */; };
@@ -917,6 +918,8 @@
 		6D4152031CF73711004A7EE8 /* icon_selected_press@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_selected_press@2x.png"; sourceTree = "<group>"; };
 		6D4152061CF73718004A7EE8 /* icon_selected_normal@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_selected_normal@3x.png"; sourceTree = "<group>"; };
 		6D4152071CF73718004A7EE8 /* icon_selected_press@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_selected_press@3x.png"; sourceTree = "<group>"; };
+		6D4592301CFC6F1D00AF5B45 /* HHTOUViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTOUViewController.h; sourceTree = "<group>"; };
+		6D4592311CFC6F1D00AF5B45 /* HHTOUViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHTOUViewController.m; sourceTree = "<group>"; };
 		6D4886BD1CD879F400E28BB3 /* HHBonusAmountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHBonusAmountView.h; sourceTree = "<group>"; };
 		6D4886BE1CD879F400E28BB3 /* HHBonusAmountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHBonusAmountView.m; sourceTree = "<group>"; };
 		6D4886C01CD881E800E28BB3 /* ic_cash_havenot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_cash_havenot.png; sourceTree = "<group>"; };
@@ -1667,6 +1670,8 @@
 				5CDE14501C3715F90004778C /* HHRegisterViewController.m */,
 				5C6D8C811C3A277F0055CB31 /* HHResetPWDViewController.h */,
 				5C6D8C821C3A277F0055CB31 /* HHResetPWDViewController.m */,
+				6D4592301CFC6F1D00AF5B45 /* HHTOUViewController.h */,
+				6D4592311CFC6F1D00AF5B45 /* HHTOUViewController.m */,
 			);
 			path = "Register Login";
 			sourceTree = "<group>";
@@ -2452,6 +2457,7 @@
 				5C6D8C951C3AE38C0055CB31 /* HHLoadingViewUtility.m in Sources */,
 				6DDAE6C31CB7566900CE461A /* HHNoCoachView.m in Sources */,
 				14B5EB761C7C0D6800A37669 /* HHPaymentService.m in Sources */,
+				6D4592321CFC6F1D00AF5B45 /* HHTOUViewController.m in Sources */,
 				1405CC801C7641690030B114 /* HHMyPageItemView.m in Sources */,
 				1405CC8F1C7664080030B114 /* HHMyPageLogoutCell.m in Sources */,
 				6DDAE6D21CB7C26E00CE461A /* HHCoachScheduleCellTableViewCell.m in Sources */,
