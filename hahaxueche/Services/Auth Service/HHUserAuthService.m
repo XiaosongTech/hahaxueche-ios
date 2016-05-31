@@ -58,28 +58,6 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     }];
 }
 
-- (void)setupStudentInfoWithStudentId:(NSString *)studentId userName:(NSString *)userName cityId:(NSNumber *)cityId avatarURL:(NSString *)url completion:(HHStudentCompletion)completion {
-    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentPath, studentId]];
-    [APIClient putWithParameters:@{@"name":userName, @"city_id":cityId} completion:^(NSDictionary *response, NSError *error) {
-        if (!error) {
-            HHStudent *student = [MTLJSONAdapter modelOfClass:[HHStudent class] fromJSONDictionary:response error:nil];
-            HHUser *authedUser = [self getSavedUser];
-            authedUser.student = student;
-            [self saveAuthedUser:authedUser];
-            [HHStudentStore sharedInstance].currentStudent = student;
-            if (completion) {
-                completion(student, nil);
-            }
-        } else {
-            if (completion) {
-                completion(nil, error);
-            }
-        }
-        
-    }];
-
-}
-
 - (void)loginWithCellphone:(NSString *)cellPhone password:(NSString *)password completion:(HHStudentCompletion)completion {
     [self loginWithCellphone:cellPhone veriCode:nil password:password completion:completion];
 }

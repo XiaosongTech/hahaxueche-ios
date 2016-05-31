@@ -11,21 +11,22 @@
 #import "HHMyPageUserInfoView.h"
 
 
-typedef void (^HHPaymentViewActionBlock)();
-typedef void (^HHAvatarViewActionBlock)();
+typedef void (^HHMyPageUserInfoBlock)();
 
 @interface HHMyPageUserInfoCell : UITableViewCell
 
 @property (nonatomic, strong) UIView *avatarBackgroungView;
 @property (nonatomic, strong) UIImageView *avatarView;
 @property (nonatomic, strong) UILabel *nameLabel;
+@property (nonatomic, strong) UIButton *editButton;
 @property (nonatomic, strong) UILabel *courseLabel;
 @property (nonatomic, strong) UIImageView *topImageView;
 
 @property (nonatomic, strong) HHMyPageUserInfoView *balanceView;
 @property (nonatomic, strong) HHMyPageUserInfoView *paymentView;
-@property (nonatomic, strong) HHPaymentViewActionBlock paymentViewActionBlock;
-@property (nonatomic, strong) HHAvatarViewActionBlock avatarViewActionBlock;
+@property (nonatomic, strong) HHMyPageUserInfoBlock paymentViewActionBlock;
+@property (nonatomic, strong) HHMyPageUserInfoBlock avatarViewActionBlock;
+@property (nonatomic, strong) HHMyPageUserInfoBlock editNameBlock;
 
 @property (nonatomic, strong) UIView *verticalLine;
 

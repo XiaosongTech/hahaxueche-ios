@@ -33,6 +33,11 @@
 #import "HHBonusInfoViewController.h"
 #import "HHLongImageViewController.h"
 #import "SDImageCache.h"
+#import "HHEditNameView.h"
+#import "HHPopupUtility.h"
+#import "HHEditNameView.h"
+#import "HHStudentService.h"
+#import "HHStudentStore.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -61,6 +66,8 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 @property (nonatomic, strong) HHStudent *currentStudent;
 
 @property (nonatomic, strong) HHCoach *myCoach;
+@property (nonatomic, strong) KLCPopup *popup;
+@property (nonatomic, strong) HHEditNameView *editView;
 
 @end
 
@@ -174,6 +181,17 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             };
             cell.avatarViewActionBlock = ^() {
                 [weakSelf showImageOptions];
+            };
+            
+            cell.editNameBlock = ^() {
+                HHEditNameView *view = [[HHEditNameView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-30.0f, 190.0f) name:weakSelf.currentStudent.name];
+                [view.buttonsView.leftButton addTarget:weakSelf action:@selector(dismissPopup) forControlEvents:UIControlEventTouchUpInside];
+                [view.buttonsView.rightButton addTarget:weakSelf action:@selector(saveName) forControlEvents:UIControlEventTouchUpInside];
+                weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+                [view.field becomeFirstResponder];
+                
+                weakSelf.editView = view;
             };
             [cell setupCellWithStudent:self.currentStudent];
             return cell;
@@ -403,6 +421,27 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
     introVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:introVC animated:YES];
+}
+
+- (void)dismissPopup {
+    [self.editView.field resignFirstResponder];
+    [HHPopupUtility dismissPopup:self.popup];
+}
+
+- (void)saveName {
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    [[HHStudentService sharedInstance] setupStudentInfoWithStudentId:[HHStudentStore sharedInstance].currentStudent.studentId userName:self.editView.field.text cityId:[HHStudentStore sharedInstance].currentStudent.cityId completion:^(HHStudent *student, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (!error) {
+            self.currentStudent = student;
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:MyPageCellUserInfo inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            [HHPopupUtility dismissPopup:self.popup];
+            [[HHToastManager sharedManager] showSuccessToastWithText:@"设置成功"];
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
+        }
+    }];
+    
 }
 
 

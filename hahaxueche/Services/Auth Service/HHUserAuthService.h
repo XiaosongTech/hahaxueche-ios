@@ -41,17 +41,6 @@ typedef void (^HHUserTokenCompletion)(BOOL valid);
  */
 - (void)createUserWithNumber:(NSString *)number veriCode:(NSString *)veriCode password:(NSString *)password refererId:(NSString *)refererId completion:(HHUserCompletion)completion;
 
-/**
- Setup personal info of a student
- @param studentId The id of the student
- @param userName The user's full name
- @param cityId The city Id the user selects
- @param avatarURL The url of the student's avatar
- @param completion The completion block to execute on completion
- */
-- (void)setupStudentInfoWithStudentId:(NSString *)studentId userName:(NSString *)userName cityId:(NSNumber *)cityId avatarURL:(NSString *)url completion:(HHStudentCompletion)completion;
-
-
 
 /**
  Login a student with cell phone and SMS code

@@ -12,6 +12,8 @@
 #import "HHAPIClient.h"
 #import "UIImage+HHImage.h"
 
+static NSString *const kUserObjectKey = @"kUserObjectKey";
+
 @implementation HHStudentService
 
 + (instancetype)sharedInstance {
@@ -274,6 +276,41 @@
             completion(error);
         }
     }];
+}
+
+- (void)setupStudentInfoWithStudentId:(NSString *)studentId userName:(NSString *)userName cityId:(NSNumber *)cityId completion:(HHStudentCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentPath, studentId]];
+    [APIClient putWithParameters:@{@"name":userName, @"city_id":cityId} completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHStudent *student = [MTLJSONAdapter modelOfClass:[HHStudent class] fromJSONDictionary:response error:nil];
+            HHUser *authedUser = [self getSavedUser];
+            authedUser.student = student;
+            [self saveAuthedUser:authedUser];
+            [HHStudentStore sharedInstance].currentStudent = student;
+            if (completion) {
+                completion(student, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+        
+    }];
+    
+}
+
+- (HHUser *)getSavedUser {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *studentData = [defaults objectForKey:kUserObjectKey];
+    HHUser *savedUser = [MTLJSONAdapter modelOfClass:[HHUser class] fromJSONDictionary:[NSKeyedUnarchiver unarchiveObjectWithData:studentData] error:nil];
+    return savedUser;
+}
+
+- (void)saveAuthedUser:(HHUser *)user {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userDic = [MTLJSONAdapter JSONDictionaryFromModel:user error:nil];
+    [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:userDic] forKey:kUserObjectKey];
 }
 
 

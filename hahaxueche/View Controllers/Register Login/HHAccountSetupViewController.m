@@ -180,7 +180,7 @@ static CGFloat const kFieldViewWidth = 280.0f;
         return;
     }
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
-    [[HHUserAuthService sharedInstance] setupStudentInfoWithStudentId:self.studentId userName:self.nameField.textField.text cityId:self.selectedCity.cityId avatarURL:nil completion:^(HHStudent *student, NSError *error) {
+    [[HHStudentService sharedInstance] setupStudentInfoWithStudentId:self.studentId userName:self.nameField.textField.text cityId:self.selectedCity.cityId completion:^(HHStudent *student, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
             HHRootViewController *rootVC = [[HHRootViewController alloc] init];
