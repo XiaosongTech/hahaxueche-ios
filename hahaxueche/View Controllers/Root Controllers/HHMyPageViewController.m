@@ -38,6 +38,7 @@
 #import "HHEditNameView.h"
 #import "HHStudentService.h"
 #import "HHStudentStore.h"
+#import <RSKImageCropper/RSKImageCropper.h>
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -57,7 +58,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellCount,
 };
 
-@interface HHMyPageViewController() <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface HHMyPageViewController() <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, RSKImageCropViewControllerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -68,6 +69,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 @property (nonatomic, strong) HHCoach *myCoach;
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) HHEditNameView *editView;
+@property (nonatomic, strong) UIImage *selectedImage;
 
 @end
 
@@ -395,26 +397,23 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImage *selectedImage;
     [picker dismissViewControllerAnimated:YES completion:nil];
     if ([info objectForKey:@"UIImagePickerControllerOriginalImage"]) {
-        selectedImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+        self.selectedImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     }
     
-    if (selectedImage) {
-        [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"上传图片中"];
-        [[HHStudentService sharedInstance] uploadStudentAvatarWithImage:selectedImage completion:^(HHStudent *student, NSError *error) {
-            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-            if (error) {
-                [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败，请您重试！"];
-            } else {
-                [[SDImageCache sharedImageCache] removeImageForKey:self.currentStudent.avatarURL fromDisk:YES];
-                [HHStudentStore sharedInstance].currentStudent = student;
-                self.currentStudent = student;
-                [self.tableView reloadData];
-            }
-        }];
+    if (self.selectedImage) {
+        
+        RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:self.selectedImage];
+        imageCropVC.delegate = self;
+        imageCropVC.view.backgroundColor = [UIColor whiteColor];
+        imageCropVC.moveAndScaleLabel.text = @"裁切图片";
+        imageCropVC.hidesBottomBarWhenPushed = YES;
+        [imageCropVC.cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+        [imageCropVC.chooseButton setTitle:@"确认" forState:UIControlStateNormal];
+        [self.navigationController pushViewController:imageCropVC animated:NO];
     }
+
 }
 
 - (void)jumpToIntroVC {
@@ -442,6 +441,47 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         }
     }];
     
+}
+
+// Crop image has been canceled.
+- (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+// The original image has been cropped.
+- (void)imageCropViewController:(RSKImageCropViewController *)controller
+                   didCropImage:(UIImage *)croppedImage
+                  usingCropRect:(CGRect)cropRect {
+    self.selectedImage = croppedImage;
+    [self.navigationController popViewControllerAnimated:YES];
+    
+    [self uploadAvatar];
+}
+
+// The original image has been cropped. Additionally provides a rotation angle used to produce image.
+- (void)imageCropViewController:(RSKImageCropViewController *)controller
+                   didCropImage:(UIImage *)croppedImage
+                  usingCropRect:(CGRect)cropRect
+                  rotationAngle:(CGFloat)rotationAngle {
+    
+    self.selectedImage = croppedImage;
+    [self.navigationController popViewControllerAnimated:YES];
+    [self uploadAvatar];
+}
+
+- (void)uploadAvatar {
+    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"上传图片中"];
+    [[HHStudentService sharedInstance] uploadStudentAvatarWithImage:self.selectedImage completion:^(HHStudent *student, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (error) {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败，请您重试！"];
+        } else {
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:MyPageCellUserInfo inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            [HHStudentStore sharedInstance].currentStudent = student;
+            self.currentStudent = student;
+            [self.tableView reloadData];
+        }
+    }];
 }
 
 

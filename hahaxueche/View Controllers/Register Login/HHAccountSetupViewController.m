@@ -20,13 +20,15 @@
 #import "HHRootViewController.h"
 #import "HHLoadingViewUtility.h"
 #import "HHStudentService.h"
+#import <RSKImageCropper/RSKImageCropper.h>
+#import <UIImageView+WebCache.h>
 
 
 static CGFloat const avatarViewRadius = 50.0f;
 static CGFloat const kFieldViewHeight = 40.0f;
 static CGFloat const kFieldViewWidth = 280.0f;
 
-@interface HHAccountSetupViewController () <UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface HHAccountSetupViewController () <UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, RSKImageCropViewControllerDelegate>
 
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *explanationLabel;
@@ -259,23 +261,61 @@ static CGFloat const kFieldViewWidth = 280.0f;
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [picker dismissViewControllerAnimated:YES completion:nil];
     if ([info objectForKey:@"UIImagePickerControllerOriginalImage"]) {
-        self.avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
-        self.avatarImageView.image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
         self.selectedAvatarImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     }
     
     if (self.selectedAvatarImage) {
-        [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"上传图片中"];
-        [[HHStudentService sharedInstance] uploadStudentAvatarWithImage:self.selectedAvatarImage completion:^(HHStudent *student, NSError *error) {
-            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-            if (error) {
-                [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败，请您重试！"];
-                self.selectedAvatarImage = nil;
-                self.avatarImageView.image = [UIImage imageNamed:@"ic_avatar_btn"];
-                self.avatarImageView.contentMode = UIViewContentModeCenter;
-            }
-        }];
+        RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:self.selectedAvatarImage];
+        imageCropVC.delegate = self;
+        imageCropVC.view.backgroundColor = [UIColor whiteColor];
+        imageCropVC.moveAndScaleLabel.text = @"裁切图片";
+        [imageCropVC.cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+        [imageCropVC.chooseButton setTitle:@"确认" forState:UIControlStateNormal];
+        [self.navigationController pushViewController:imageCropVC animated:NO];
     }
     
 }
+
+// Crop image has been canceled.
+- (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+// The original image has been cropped.
+- (void)imageCropViewController:(RSKImageCropViewController *)controller
+                   didCropImage:(UIImage *)croppedImage
+                  usingCropRect:(CGRect)cropRect {
+    self.selectedAvatarImage = croppedImage;
+    [self.navigationController popViewControllerAnimated:YES];
+    
+    [self uploadAvatar];
+}
+
+// The original image has been cropped. Additionally provides a rotation angle used to produce image.
+- (void)imageCropViewController:(RSKImageCropViewController *)controller
+                   didCropImage:(UIImage *)croppedImage
+                  usingCropRect:(CGRect)cropRect
+                  rotationAngle:(CGFloat)rotationAngle {
+
+    self.selectedAvatarImage = croppedImage;
+    [self.navigationController popViewControllerAnimated:YES];
+    [self uploadAvatar];
+}
+
+- (void)uploadAvatar {
+    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"上传图片中"];
+    [[HHStudentService sharedInstance] uploadStudentAvatarWithImage:self.selectedAvatarImage completion:^(HHStudent *student, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (error) {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败，请您重试！"];
+            self.selectedAvatarImage = nil;
+            self.avatarImageView.image = [UIImage imageNamed:@"ic_avatar_btn"];
+            self.avatarImageView.contentMode = UIViewContentModeCenter;
+        } else {
+            [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:student.avatarURL] placeholderImage:nil options:SDWebImageRefreshCached];
+            self.avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
+        }
+    }];
+}
+
 @end
