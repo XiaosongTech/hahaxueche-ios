@@ -50,8 +50,12 @@ static CGFloat const kAvatarRadius = 30.0f;
     [self.priceLabel sizeToFit];
     [self.contentView addSubview:self.priceLabel];
     
-    self.marketPriceLabel = [[UILabel alloc] init];;
-    [self.contentView addSubview:self.marketPriceLabel];
+    self.vipPriceLabel = [self createLabelWithFont:[UIFont systemFontOfSize:14.0f] textColor:[UIColor HHOrange]];
+    [self.vipPriceLabel sizeToFit];
+    [self.contentView addSubview:self.vipPriceLabel];
+    
+    self.vipIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_VIP_listing"]];
+    [self.contentView addSubview:self.vipIcon];
     
     self.starRatingView = [[HHStarRatingView alloc] initWithInteraction:NO];
     self.starRatingView.value = 5.0;
@@ -126,10 +130,16 @@ static CGFloat const kAvatarRadius = 30.0f;
         make.right.equalTo(self.contentView.right).offset(-15.0f);
     }];
     
-    [self.marketPriceLabel makeConstraints:^(MASConstraintMaker *make) {
+    [self.vipPriceLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.avatarView.centerY).offset(12.0f);
         make.right.equalTo(self.contentView.right).offset(-15.0f);
     }];
+    
+    [self.vipIcon makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.vipPriceLabel.centerY);
+        make.right.equalTo(self.vipPriceLabel.left);
+    }];
+    
     
     [self.mapView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.mapButton.bottom).offset(5.0f);
@@ -207,9 +217,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     
     self.priceLabel.text = [coach.price generateMoneyString];
     
-    self.marketPriceLabel.attributedText = [[NSMutableAttributedString alloc] initWithString:[coach.marketPrice generateMoneyString] attributes:@{NSStrikethroughStyleAttributeName:@(1), NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
-    
-    [self.marketPriceLabel sizeToFit];
+    self.vipPriceLabel.text = [coach.price generateMoneyString];
     
     
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[field cityAndDistrict] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];

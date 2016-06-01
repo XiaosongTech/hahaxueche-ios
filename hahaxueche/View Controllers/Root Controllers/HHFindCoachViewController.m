@@ -174,6 +174,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     defailtFilters.price = defaultPrice;
     defailtFilters.distance = defaultDistance;
     defailtFilters.onlyGoldenCoach = @(0);
+    defailtFilters.onlyVIPCoach = @(0);
     defailtFilters.licenseType = @(3);
     self.coachFilters = defailtFilters;
     
@@ -341,7 +342,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 
 - (void)filterTapped {
     __weak HHFindCoachViewController *weakSelf = self;
-    self.filtersView = [[HHFiltersView alloc] initWithFilters:[self.coachFilters copy] frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 380.0f) city:self.userCity];
+    self.filtersView = [[HHFiltersView alloc] initWithFilters:[self.coachFilters copy] frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 440.0f) city:self.userCity];
     self.filtersView.confirmBlock = ^(HHCoachFilters *filters){
         weakSelf.coachFilters = filters;
         [weakSelf refreshCoachListWithCompletion:nil];
