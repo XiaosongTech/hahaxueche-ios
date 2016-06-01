@@ -164,6 +164,7 @@
     __weak HHPurchaseConfirmViewController *weakSelf = self;
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
     [[HHPaymentService sharedInstance] payWithCoachId:self.coach.coachId studentId:[HHStudentStore sharedInstance].currentStudent.studentId paymentMethod:self.selectedMethod inController:self completion:^(BOOL succeed) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (succeed) {
             [self fetchStudentAfterPurchase];
             [[HHEventTrackingManager sharedManager] sendEventWithId:kDidPurchaseCoachServiceEventId attributes:@{@"student_id":[HHStudentStore sharedInstance].currentStudent.studentId, @"coach_id":weakSelf.coach.coachId}];

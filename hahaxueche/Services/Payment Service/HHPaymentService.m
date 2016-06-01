@@ -27,7 +27,7 @@
 
 - (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICharges];
-    [APIClient postWithParameters:@{@"coach_id":coachId} completion:^(NSDictionary *response, NSError *error) {
+    [APIClient postWithParameters:@{@"coach_id":coachId, @"method":@(paymentMethod)} completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             [Pingpp createPayment:response
                    viewController:viewController
