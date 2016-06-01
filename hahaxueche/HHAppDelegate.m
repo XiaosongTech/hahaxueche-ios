@@ -22,7 +22,7 @@
 #import "HHRootViewController.h"
 #import "HHAccountSetupViewController.h"
 #import "HHLaunchImageViewController.h"
-#import <MAMapKit/MAMapKit.h>
+#import <AMapFoundationKit/AMapFoundationKit.h>
 #import "HHSocialMediaShareUtility.h"
 #import <Pingpp/Pingpp.h>
 #import "HHStudentService.h"
@@ -32,10 +32,11 @@
 #import "Branch.h"
 #import "HHCoachDetailViewController.h"
 #import "HHLoadingViewUtility.h"
+#import <Harpy/Harpy.h>
 
 static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
-@interface HHAppDelegate ()
+@interface HHAppDelegate () <HarpyDelegate>
 
 @end
 
@@ -88,6 +89,16 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     Branch *branch = [Branch getInstance];
     [branch initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
         self.window.rootViewController = finalRootVC;
+        [[Harpy sharedInstance] setAppID:@"1011236187"];
+        [[Harpy sharedInstance] setPresentingViewController:self.window.rootViewController];
+        [[Harpy sharedInstance] setDelegate:self];
+        [[Harpy sharedInstance] setAppName:@"哈哈学车"];
+        [[Harpy sharedInstance]  setForceLanguageLocalization:HarpyLanguageChineseSimplified];
+        [[Harpy sharedInstance] setDebugEnabled:YES];
+        [[Harpy sharedInstance] setAlertType:HarpyAlertTypeOption];
+        [[Harpy sharedInstance] setCountryCode:@"CN"];
+        [[Harpy sharedInstance] checkVersion];
+        
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
             //not Branch link
@@ -157,8 +168,8 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     
     // Instabug
 #ifdef DEBUG
-    [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventShake];
-    [Instabug setIsTrackingCrashes:NO];
+    [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" invocationEvent:IBGInvocationEventShake];
+    [Instabug setCrashReportingEnabled:NO];
     [Pingpp setDebugMode:YES];
     [Appirater setDebug:NO];
 #else
@@ -166,8 +177,8 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     NSString *receiptURLString = [receiptURL path];
     BOOL isRunningTestFlightBeta =  ([receiptURLString rangeOfString:@"sandboxReceipt"].location != NSNotFound);
     if (isRunningTestFlightBeta) {
-        [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventShake];
-        [Instabug setIsTrackingCrashes:NO];
+        [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" invocationEvent:IBGInvocationEventShake];
+        [Instabug setCrashReportingEnabled:NO];
     }
     [Appirater setDebug:NO];
     
@@ -187,13 +198,14 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [[[SDWebImageManager sharedManager] imageDownloader] setExecutionOrder:SDWebImageDownloaderLIFOExecutionOrder];
     
     
-    [MAMapServices sharedServices].apiKey = kMapServiceKey;
+    [AMapServices sharedServices].apiKey =kMapServiceKey;
     
     [HHSocialMediaShareUtility sharedInstance];
     
     [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
     
     [HHEventTrackingManager sharedManager];
+
     
 }
 

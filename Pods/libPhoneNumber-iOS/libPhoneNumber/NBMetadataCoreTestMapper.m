@@ -1,3 +1,5 @@
+// DO NOT EDIT (This file was auto-generated from NBPhoneMetaDataGenerator)
+
 #import "NBMetadataCoreTestMapper.h"
 
 @implementation NBMetadataCoreTestMapper
@@ -89,6 +91,10 @@ static NSMutableDictionary *kMapCCode2CN;
         NSMutableArray *countryCode979Array = [[NSMutableArray alloc] init];
         [countryCode979Array addObject:@"001"];
         [kMapCCode2CN setObject:countryCode979Array forKey:@"979"];
+
+        NSMutableArray *countryCode46Array = [[NSMutableArray alloc] init];
+        [countryCode46Array addObject:@"SE"];
+        [kMapCCode2CN setObject:countryCode46Array forKey:@"46"];
 
         NSMutableArray *countryCode39Array = [[NSMutableArray alloc] init];
         [countryCode39Array addObject:@"IT"];
