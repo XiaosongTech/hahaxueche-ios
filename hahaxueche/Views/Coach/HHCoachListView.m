@@ -54,8 +54,21 @@ static CGFloat const kAvatarRadius = 30.0f;
     [self.priceLabel sizeToFit];
     [self addSubview:self.priceLabel];
     
-    self.marketPriceLabel = [[UILabel alloc] init];;
-    [self addSubview:self.marketPriceLabel];
+    self.VIPPriceLabel = [[UILabel alloc] init];
+    self.VIPPriceLabel.textColor = [UIColor HHOrange];
+    self.VIPPriceLabel.font = [UIFont systemFontOfSize:14.0f];
+    [self addSubview:self.VIPPriceLabel];
+    
+    self.vipIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_VIP_listing"]];
+    [self addSubview:self.vipIcon];
+    
+    if (self.coach.VIPPrice) {
+        self.VIPPriceLabel.hidden = NO;
+        self.vipIcon.hidden = NO;
+    } else {
+        self.VIPPriceLabel.hidden = YES;
+        self.vipIcon.hidden = YES;
+    }
     
     self.starRatingView = [[HHStarRatingView alloc] initWithInteraction:NO];
     self.starRatingView.value = 5.0;
@@ -112,14 +125,27 @@ static CGFloat const kAvatarRadius = 30.0f;
         make.top.equalTo(self.starRatingView.bottom).offset(5.0f);
     }];
     
-    [self.priceLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.avatarView.centerY).offset(-12.0f);
+    if (self.coach.VIPPrice) {
+        [self.priceLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.avatarView.centerY).offset(-12.0f);
+            make.right.equalTo(self.right).offset(-15.0f);
+        }];
+    } else {
+        [self.priceLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.avatarView.centerY);
+            make.right.equalTo(self.right).offset(-15.0f);
+        }];
+    }
+    
+    
+    [self.VIPPriceLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.avatarView.centerY).offset(12.0f);
         make.right.equalTo(self.right).offset(-15.0f);
     }];
     
-    [self.marketPriceLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.avatarView.centerY).offset(12.0f);
-        make.right.equalTo(self.right).offset(-15.0f);
+    [self.vipIcon makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.VIPPriceLabel.centerY);
+        make.right.equalTo(self.VIPPriceLabel.left);
     }];
     
     
@@ -171,9 +197,9 @@ static CGFloat const kAvatarRadius = 30.0f;
     
     self.priceLabel.text = [coach.price generateMoneyString];
     
-    self.marketPriceLabel.attributedText = [[NSMutableAttributedString alloc] initWithString:[coach.marketPrice generateMoneyString] attributes:@{NSStrikethroughStyleAttributeName:@(1), NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
-    
-    [self.marketPriceLabel sizeToFit];
+    if (self.coach.VIPPrice) {
+        self.VIPPriceLabel.text = [self.coach.VIPPrice generateMoneyString];
+    }
     
     
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[field cityAndDistrict] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];

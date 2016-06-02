@@ -35,9 +35,9 @@
         self.selectionView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_selected_normal"]];
         [self addSubview:self.selectionView];
         
-        self.bottomLine = [[UIView alloc] init];
-        self.bottomLine.backgroundColor = [UIColor HHLightLineGray];
-        [self addSubview:self.bottomLine];
+        self.topLine = [[UIView alloc] init];
+        self.topLine.backgroundColor = [UIColor HHLightLineGray];
+        [self addSubview:self.topLine];
         
         [self.iconView makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.centerY);
@@ -59,8 +59,8 @@
             make.right.equalTo(self.right).offset(-15.0f);
         }];
         
-        [self.bottomLine makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.bottom);
+        [self.topLine makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.top);
             make.left.equalTo(self.left);
             make.width.equalTo(self.width);
             make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);

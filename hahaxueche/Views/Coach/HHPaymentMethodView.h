@@ -14,7 +14,7 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *subTitleLabel;
 @property (nonatomic, strong) UIImageView *selectionView;
-@property (nonatomic, strong) UIView *bottomLine;
+@property (nonatomic, strong) UIView *topLine;
 @property (nonatomic) BOOL enabled;
 @property (nonatomic) BOOL selected;
 

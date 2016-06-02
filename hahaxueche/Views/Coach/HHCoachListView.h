@@ -19,7 +19,8 @@
 @property (nonatomic, strong) UIImageView *goldenCoachIcon;
 @property (nonatomic, strong) UILabel *trainingYearLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
-@property (nonatomic, strong) UILabel *marketPriceLabel;
+@property (nonatomic, strong) UILabel *VIPPriceLabel;
+@property (nonatomic, strong) UIImageView *vipIcon;
 @property (nonatomic, strong) UIView *bottomLine;
 @property (nonatomic, strong) HHStarRatingView *starRatingView;
 @property (nonatomic, strong) UILabel *ratingLabel;

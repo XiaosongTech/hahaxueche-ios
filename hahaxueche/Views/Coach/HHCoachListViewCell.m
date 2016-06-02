@@ -217,7 +217,22 @@ static CGFloat const kAvatarRadius = 30.0f;
     
     self.priceLabel.text = [coach.price generateMoneyString];
     
-    self.vipPriceLabel.text = [coach.price generateMoneyString];
+    if (coach.VIPPrice) {
+        self.vipPriceLabel.text = [coach.price generateMoneyString];
+        self.vipIcon.hidden = NO;
+        [self.priceLabel remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.avatarView.centerY).offset(-12.0f);
+            make.right.equalTo(self.contentView.right).offset(-15.0f);
+        }];
+    } else {
+        self.vipPriceLabel.text = @"";
+        self.vipIcon.hidden = YES;
+        [self.priceLabel remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.avatarView.centerY);
+            make.right.equalTo(self.contentView.right).offset(-15.0f);
+        }];
+    }
+    
     
     
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[field cityAndDistrict] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
