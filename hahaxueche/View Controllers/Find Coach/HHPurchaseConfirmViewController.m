@@ -233,6 +233,16 @@ typedef NS_ENUM(NSInteger, CoachServiceType) {
                 make.height.mas_equalTo(40.0f);
             }];
             
+            UIView *topLine = [[UIView alloc] init];
+            topLine.backgroundColor = [UIColor HHLightLineGray];
+            [self.moreMethodsView addSubview:topLine];
+            [topLine makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(self.moreMethodsView.top);
+                make.left.equalTo(self.moreMethodsView.left);
+                make.width.equalTo(self.moreMethodsView.width);
+                make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+            }];
+            
             UILabel *moreMethodsLabel = [[UILabel alloc] init];
             moreMethodsLabel.text = @"更多支付方式";
             moreMethodsLabel.textColor = [UIColor HHLightTextGray];
