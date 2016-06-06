@@ -17,6 +17,12 @@ typedef NS_ENUM(NSInteger, StudentPaymentMethod) {
     StudentPaymentMethodCount
 };
 
+typedef NS_ENUM(NSInteger, CoachProductType) {
+    CoachProductTypeStandard, // 普通服务
+    CoachProductTypeVIP, //VIP
+   
+};
+
 typedef void (^HHPaymentResultCompletion)(BOOL succeed);
 
 @interface HHPaymentService : NSObject
@@ -24,6 +30,6 @@ typedef void (^HHPaymentResultCompletion)(BOOL succeed);
 + (instancetype)sharedInstance;
 
 
-- (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion;
+- (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod productType:(CoachProductType)productType inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion;
 
 @end

@@ -25,9 +25,9 @@
     return sharedInstance;
 }
 
-- (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion {
+- (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod productType:(CoachProductType)productType inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICharges];
-    [APIClient postWithParameters:@{@"coach_id":coachId, @"method":@(paymentMethod)} completion:^(NSDictionary *response, NSError *error) {
+    [APIClient postWithParameters:@{@"coach_id":coachId, @"method":@(paymentMethod), @"product_type":@(productType)} completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             [Pingpp createPayment:response
                    viewController:viewController
@@ -49,8 +49,6 @@
             }
         }
     }];
-    
-
 }
 
 

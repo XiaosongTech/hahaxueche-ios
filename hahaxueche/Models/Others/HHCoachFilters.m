@@ -16,6 +16,7 @@
              @"distance": @"distance",
              @"onlyGoldenCoach": @"golden_coach_only",
              @"licenseType": @"license_type",
+             @"onlyVIPCoach": @"vip_only",
              };
 }
 

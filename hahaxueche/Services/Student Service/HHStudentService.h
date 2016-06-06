@@ -50,13 +50,6 @@ typedef void (^HHWithdrawCompletion)(HHWithdraw *withdraw, NSError *error);
 
 
 /**
- Fetch PurchasedService
- @param completion The completion block to execute on completion
- */
-- (void)fetchPurchasedServiceWithCompletion:(HHStudentPurchasedServiceCompletion)completion;
-
-
-/**
  Fetch a student
  @param studentId The studentId of the student
  @param completion The completion block to execute on completion

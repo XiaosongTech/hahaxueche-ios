@@ -82,7 +82,7 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *isShowed = [defaults objectForKey:@"showedBonusPopoup"];
 
-    if (![isShowed boolValue] && [[HHStudentStore sharedInstance].currentStudent.byReferal boolValue] && [HHStudentStore sharedInstance].currentStudent.studentId) {
+    if (![isShowed boolValue] && [[HHStudentStore sharedInstance].currentStudent.byReferal boolValue] && [HHStudentStore sharedInstance].currentStudent.studentId && ![[HHStudentStore sharedInstance].currentStudent.purchasedServiceArray count]) {
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.alignment = NSTextAlignmentLeft;
         paragraphStyle.lineSpacing = 8.0f;

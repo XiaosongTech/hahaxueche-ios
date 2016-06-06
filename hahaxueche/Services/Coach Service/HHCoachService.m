@@ -29,6 +29,7 @@
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICoaches];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     param[@"golden_coach_only"] = filters.onlyGoldenCoach;
+    param[@"vip_only"] = filters.onlyVIPCoach;
     param[@"city_id"] = cityId;
     param[@"sort_by"] = @(sortOption);
     

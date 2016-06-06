@@ -47,22 +47,6 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
 }
 
 
-- (void)fetchPurchasedServiceWithCompletion:(HHStudentPurchasedServiceCompletion)completion {
-    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIStudentPurchasedService];
-    [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
-        if (!error) {
-            HHPurchasedService *purchasedService = [MTLJSONAdapter modelOfClass:[HHPurchasedService class] fromJSONDictionary:response error:nil];
-            if (completion) {
-                completion(purchasedService, nil);
-            }
-        } else {
-            if (completion) {
-                completion(nil, error);
-            }
-        }
-    }];
-}
-
 - (void)fetchStudentWithId:(NSString *)studentId completion:(HHStudentCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudent, studentId]];
     [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {

@@ -24,13 +24,6 @@
 #import "HHPopupUtility.h"
 #import "HHPriceDetailView.h"
 
-typedef NS_ENUM(NSInteger, CoachServiceType) {
-    CoachServiceTypeStandard, // 普通服务
-    CoachServiceTypeVIP, //VIP
-    CoachServiceTypeCount
-};
-
-
 
 @interface HHPurchaseConfirmViewController ()
 
@@ -52,7 +45,7 @@ typedef NS_ENUM(NSInteger, CoachServiceType) {
 
 @property (nonatomic) StudentPaymentMethod selectedMethod;
 
-@property (nonatomic) CoachServiceType selectedService;
+@property (nonatomic) CoachProductType selectedProduct;
 
 @end
 
@@ -74,7 +67,7 @@ typedef NS_ENUM(NSInteger, CoachServiceType) {
     self.view.backgroundColor = [UIColor HHBackgroundGary];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(popupVC) target:self];
     self.title = @"购买教练";
-    self.selectedService = CoachServiceTypeStandard;
+    self.selectedProduct = CoachProductTypeStandard;
     [self initSubviews];
 }
 
@@ -130,7 +123,7 @@ typedef NS_ENUM(NSInteger, CoachServiceType) {
     }];
     
     self.standardServiceView = [[HHCoachServiceTypeView alloc] initWithPrice:self.coach.price iconImage:[UIImage imageNamed:@"ic_chaozhi"] marketPrice:self.coach.marketPrice detailText:@"四人一车, 高性价比" selected:YES];
-    self.standardServiceView.tag = CoachServiceTypeStandard;
+    self.standardServiceView.tag = CoachProductTypeStandard;
     self.standardServiceView.priceBlock = ^() {
         HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
         CGFloat height = 190.0f + (city.cityFixedFees.count + 1) * 50.0f;
@@ -153,7 +146,7 @@ typedef NS_ENUM(NSInteger, CoachServiceType) {
     
     if ([self.coach.VIPPrice floatValue] > 0) {
         self.VIPServiceView = [[HHCoachServiceTypeView alloc] initWithPrice:self.coach.VIPPrice iconImage:[UIImage imageNamed:@"ic_VIP_details"] marketPrice:self.coach.VIPMarketPrice detailText:@"一人一车, 极速拿证" selected:NO];
-        self.VIPServiceView.tag = CoachServiceTypeVIP;
+        self.VIPServiceView.tag = CoachProductTypeVIP;
         
         self.VIPServiceView.priceBlock = ^() {
             HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
@@ -301,7 +294,7 @@ typedef NS_ENUM(NSInteger, CoachServiceType) {
     }
     __weak HHPurchaseConfirmViewController *weakSelf = self;
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
-    [[HHPaymentService sharedInstance] payWithCoachId:self.coach.coachId studentId:[HHStudentStore sharedInstance].currentStudent.studentId paymentMethod:self.selectedMethod inController:self completion:^(BOOL succeed) {
+    [[HHPaymentService sharedInstance] payWithCoachId:self.coach.coachId studentId:[HHStudentStore sharedInstance].currentStudent.studentId paymentMethod:self.selectedMethod productType:self.selectedProduct inController:self completion:^(BOOL succeed) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (succeed) {
             [self fetchStudentAfterPurchase];
@@ -351,7 +344,7 @@ typedef NS_ENUM(NSInteger, CoachServiceType) {
     HHCoachServiceTypeView *view = (HHCoachServiceTypeView *)recognizer.view;
     NSString *buttonTitle;
     
-    if (view.tag == CoachServiceTypeStandard) {
+    if (view.tag == CoachProductTypeStandard) {
         self.standardServiceView.selected = YES;
         self.VIPServiceView.selected = NO;
         buttonTitle = [NSString stringWithFormat:@"确认支付%@", [self.coach.price generateMoneyString]];
@@ -362,7 +355,7 @@ typedef NS_ENUM(NSInteger, CoachServiceType) {
     }
     
     [self.payButton setTitle:buttonTitle forState:UIControlStateNormal];
-    self.selectedService = view.tag;
+    self.selectedProduct = view.tag;
 }
 
 
