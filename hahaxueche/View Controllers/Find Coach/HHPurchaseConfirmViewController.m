@@ -151,8 +151,8 @@ typedef NS_ENUM(NSInteger, CoachServiceType) {
         make.height.mas_equalTo(70.0f);
     }];
     
-    if (self.coach.VIPPrice) {
-        self.VIPServiceView = [[HHCoachServiceTypeView alloc] initWithPrice:self.coach.VIPPrice iconImage:[UIImage imageNamed:@"ic_VIP_details"] marketPrice:@([self.coach.VIPPrice floatValue] + 40000) detailText:@"一人一车, 极速拿证" selected:NO];
+    if ([self.coach.VIPPrice floatValue] > 0) {
+        self.VIPServiceView = [[HHCoachServiceTypeView alloc] initWithPrice:self.coach.VIPPrice iconImage:[UIImage imageNamed:@"ic_VIP_details"] marketPrice:self.coach.VIPMarketPrice detailText:@"一人一车, 极速拿证" selected:NO];
         self.VIPServiceView.tag = CoachServiceTypeVIP;
         
         self.VIPServiceView.priceBlock = ^() {
@@ -184,7 +184,7 @@ typedef NS_ENUM(NSInteger, CoachServiceType) {
     [self.scrollView addSubview:self.paymenthodTitleView];
     
     CGFloat offset = 10.0f + 70.0f;
-    if (self.coach.VIPPrice) {
+    if ([self.coach.VIPPrice floatValue] > 0) {
         offset = offset + 70.0f;
     }
     [self.paymenthodTitleView makeConstraints:^(MASConstraintMaker *make) {

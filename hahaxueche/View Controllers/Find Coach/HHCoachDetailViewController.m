@@ -99,7 +99,6 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 
 - (void)setCoach:(HHCoach *)coach {
     _coach = coach;
-    self.coach.VIPPrice = @(400000);
     [[HHCoachService sharedInstance] fetchReviewsWithUserId:self.coach.userId completion:^(HHReviews *reviews, NSError *error) {
         if (!error) {
             self.reviewsObject = reviews;
@@ -215,7 +214,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.tryCoachAction = ^(){
-        HHTryCoachView *tryCoachView = [[HHTryCoachView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 420.0f)];
+        HHTryCoachView *tryCoachView = [[HHTryCoachView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 420.0f) mode:TryCoachModeStandard];
         tryCoachView.cancelBlock = ^(){
             [HHPopupUtility dismissPopup:weakSelf.popup];
         };
@@ -358,7 +357,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         }
             
         case CoachCellPrice: {
-            if (self.coach.VIPPrice) {
+            if ([self.coach.VIPPrice floatValue] > 0) {
                 return 156.0f + 70.0f;
             } else {
                 return 156.0f;

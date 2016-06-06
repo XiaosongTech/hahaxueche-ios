@@ -18,10 +18,11 @@
 
 @implementation HHTryCoachView
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame mode:(TryCoachMode)mode {
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
+        self.mode = mode;
         [self initSubviews];
     }
     return self;
@@ -34,20 +35,15 @@
     self.firstLabel.font = [UIFont systemFontOfSize:18.0f];
     [self addSubview:self.firstLabel];
     
-    self.secondLabel = [[UILabel alloc] init];
-    self.secondLabel.text = @"预约时间";
-    self.secondLabel.textColor = [UIColor HHOrange];
-    self.secondLabel.font = [UIFont systemFontOfSize:18.0f];
-    [self addSubview:self.secondLabel];
-    
     self.infoLabel = [[UILabel alloc] init];
     self.infoLabel.text = @"学员可直接拨打客服热线400-001-6006\n或联系QQ客服:3319762526 免费预约试学";
     self.infoLabel.numberOfLines = 2;
     self.infoLabel.textColor = [UIColor HHOrange];
     self.infoLabel.font = [UIFont systemFontOfSize:12.0f];
     [self addSubview:self.infoLabel];
-    
+
     self.nameField = [self buildFieldWithPlaceHolder:@"您的真实姓名"];
+    [self.nameField becomeFirstResponder];
     if ([HHStudentStore sharedInstance].currentStudent.name) {
         self.nameField.text = [HHStudentStore sharedInstance].currentStudent.name;
     }
@@ -61,13 +57,23 @@
     self.numberField.returnKeyType = UIReturnKeyDone;
     [self addSubview:self.numberField];
     
-    self.firstDateButton = [self buildButtonWithTitle:@"首选时间"];
-    [self.firstDateButton addTarget:self action:@selector(showDatePicker:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:self.firstDateButton];
     
-    self.secDateButton = [self buildButtonWithTitle:@"备选时间"];
-    [self.secDateButton addTarget:self action:@selector(showDatePicker:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:self.secDateButton];
+    if (self.mode == TryCoachModeStandard) {
+        self.secondLabel = [[UILabel alloc] init];
+        self.secondLabel.text = @"预约时间";
+        self.secondLabel.textColor = [UIColor HHOrange];
+        self.secondLabel.font = [UIFont systemFontOfSize:18.0f];
+        [self addSubview:self.secondLabel];
+        
+        self.firstDateButton = [self buildButtonWithTitle:@"首选时间"];
+        [self.firstDateButton addTarget:self action:@selector(showDatePicker:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:self.firstDateButton];
+        
+        self.secDateButton = [self buildButtonWithTitle:@"备选时间"];
+        [self.secDateButton addTarget:self action:@selector(showDatePicker:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:self.secDateButton];
+    }
+    
     
     self.buttonsView = [[HHConfirmCancelButtonsView alloc] initWithLeftTitle:@"取消返回" rightTitle:@"免费预约"];
     [self.buttonsView.leftButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
@@ -97,30 +103,38 @@
         make.height.mas_equalTo(40.0f);
     }];
     
-    [self.secondLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.numberField.bottom).offset(20.0f);
-        make.centerX.equalTo(self.centerX);
-    }];
+    if (self.mode == TryCoachModeStandard) {
+        [self.secondLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.numberField.bottom).offset(20.0f);
+            make.centerX.equalTo(self.centerX);
+        }];
+        
+        [self.firstDateButton makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.secondLabel.bottom).offset(15.0f);
+            make.centerX.equalTo(self.centerX);
+            make.width.equalTo(self.width).offset(-80.0f);
+            make.height.mas_equalTo(40.0f);
+        }];
+        
+        [self.secDateButton makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.firstDateButton.bottom).offset(15.0f);
+            make.centerX.equalTo(self.centerX);
+            make.width.equalTo(self.width).offset(-80.0f);
+            make.height.mas_equalTo(40.0f);
+        }];
+        
+        [self.infoLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.secDateButton.bottom).offset(20.0f);
+            make.centerX.equalTo(self.centerX);
+        }];
+    } else {
+        [self.infoLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.numberField.bottom).offset(20.0f);
+            make.centerX.equalTo(self.centerX);
+        }];
+    }
     
-    [self.firstDateButton makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.secondLabel.bottom).offset(15.0f);
-        make.centerX.equalTo(self.centerX);
-        make.width.equalTo(self.width).offset(-80.0f);
-        make.height.mas_equalTo(40.0f);
-    }];
-    
-    [self.secDateButton makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.firstDateButton.bottom).offset(15.0f);
-        make.centerX.equalTo(self.centerX);
-        make.width.equalTo(self.width).offset(-80.0f);
-        make.height.mas_equalTo(40.0f);
-    }];
-    
-    [self.infoLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.secDateButton.bottom).offset(20.0f);
-        make.centerX.equalTo(self.centerX);
-    }];
-    
+
     [self.buttonsView makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.left);
         make.bottom.equalTo(self.bottom);
@@ -202,13 +216,17 @@
         return;
     }
     
-    if (!self.firstDate || !self.secDate) {
-        [[HHToastManager sharedManager] showErrorToastWithText:@"请输入首选时间和备选时间"];
-        return;
+    if (self.mode == TryCoachModeStandard) {
+        if (!self.firstDate || !self.secDate) {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"请输入首选时间和备选时间"];
+            return;
+        }
     }
     if (self.confirmBlock) {
         self.confirmBlock(self.nameField.text, self.numberField.text, self.firstDate, self.secDate);
     }
+
+    
 }
 
 - (void)cancelButtonTapped {

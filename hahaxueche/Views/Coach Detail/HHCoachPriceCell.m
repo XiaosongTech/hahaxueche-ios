@@ -64,9 +64,9 @@
     self.titleLabel.attributedText = [self generateAttrStringWithText:@"拿证价格" image:[UIImage imageNamed:@"ic_coachmsg_charge"]];
     [self.standartPriceItemView setupWithPrice:coach.price iconImage:[UIImage imageNamed:@"ic_chaozhi"] marketPrice:coach.marketPrice detailText:@"四人一车, 高性价比"];
     
-    if (coach.VIPPrice) {
+    if ([coach.VIPPrice floatValue] > 0) {
         self.VIPPriceItemView.hidden = NO;
-        [self.VIPPriceItemView setupWithPrice:coach.VIPPrice iconImage:[UIImage imageNamed:@"ic_VIP_details"] marketPrice:@([coach.VIPPrice floatValue] + 400.0f) detailText:@"一人一车, 极速拿证"];
+        [self.VIPPriceItemView setupWithPrice:coach.VIPPrice iconImage:[UIImage imageNamed:@"ic_VIP_details"] marketPrice:coach.VIPMarketPrice detailText:@"一人一车, 极速拿证"];
     } else {
         self.VIPPriceItemView.hidden = YES;
     }

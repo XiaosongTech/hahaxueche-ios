@@ -217,8 +217,8 @@ static CGFloat const kAvatarRadius = 30.0f;
     
     self.priceLabel.text = [coach.price generateMoneyString];
     
-    if (coach.VIPPrice) {
-        self.vipPriceLabel.text = [coach.price generateMoneyString];
+    if ([coach.VIPPrice floatValue] > 0) {
+        self.vipPriceLabel.text = [coach.VIPPrice generateMoneyString];
         self.vipIcon.hidden = NO;
         [self.priceLabel remakeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.avatarView.centerY).offset(-12.0f);

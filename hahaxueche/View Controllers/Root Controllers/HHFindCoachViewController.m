@@ -105,7 +105,6 @@ static CGFloat const kCellHeightExpanded = 300.0f;
         make.center.equalTo(self.view);
         make.width.equalTo(self.view.width).offset(-40.0f);
     }];
-    
 
 }
 
