@@ -55,6 +55,7 @@
         self.numberField.text = [HHStudentStore sharedInstance].currentStudent.cellPhone;
     }
     self.numberField.returnKeyType = UIReturnKeyDone;
+    self.numberField.keyboardType = UIKeyboardTypeNumberPad;
     [self addSubview:self.numberField];
     
     

@@ -229,7 +229,6 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
                                                        
                 [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
                 if (!error) {
-                    [[HHEventTrackingManager sharedManager] sendEventWithId:kDidTryCoachEventId attributes:@{@"student_id":weakSelf.currentStudent.studentId, @"coach_id":weakSelf.coach.coachId}];
                     [[HHToastManager sharedManager] showSuccessToastWithText:@"免费试学预约成功！教练会尽快联系您！"];
                     [HHPopupUtility dismissPopup:weakSelf.popup];
                 } else {
