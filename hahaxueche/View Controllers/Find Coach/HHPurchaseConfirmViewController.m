@@ -295,11 +295,11 @@
     __weak HHPurchaseConfirmViewController *weakSelf = self;
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
     [[HHPaymentService sharedInstance] payWithCoachId:self.coach.coachId studentId:[HHStudentStore sharedInstance].currentStudent.studentId paymentMethod:self.selectedMethod productType:self.selectedProduct inController:self completion:^(BOOL succeed) {
-        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (succeed) {
             [self fetchStudentAfterPurchase];
             [[HHEventTrackingManager sharedManager] sendEventWithId:kDidPurchaseCoachServiceEventId attributes:@{@"student_id":[HHStudentStore sharedInstance].currentStudent.studentId, @"coach_id":weakSelf.coach.coachId}];
         } else {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
             [[HHToastManager sharedManager] showErrorToastWithText:@"抱歉，支付失败或者您取消了支付。请重试！"];
         }
     }];
