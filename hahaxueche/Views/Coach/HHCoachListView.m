@@ -62,7 +62,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.vipIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_VIP_listing"]];
     [self addSubview:self.vipIcon];
     
-    if (self.coach.VIPPrice) {
+    if ([self.coach.VIPPrice floatValue] > 0) {
         self.VIPPriceLabel.hidden = NO;
         self.vipIcon.hidden = NO;
     } else {
@@ -125,10 +125,14 @@ static CGFloat const kAvatarRadius = 30.0f;
         make.top.equalTo(self.starRatingView.bottom).offset(5.0f);
     }];
     
-    if (self.coach.VIPPrice) {
+    if ([self.coach.VIPPrice floatValue] > 0) {
         [self.priceLabel makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.avatarView.centerY).offset(-12.0f);
             make.right.equalTo(self.right).offset(-15.0f);
+        }];
+        [self.vipIcon makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.VIPPriceLabel.centerY);
+            make.right.equalTo(self.VIPPriceLabel.left);
         }];
     } else {
         [self.priceLabel makeConstraints:^(MASConstraintMaker *make) {
@@ -141,11 +145,6 @@ static CGFloat const kAvatarRadius = 30.0f;
     [self.VIPPriceLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.avatarView.centerY).offset(12.0f);
         make.right.equalTo(self.right).offset(-15.0f);
-    }];
-    
-    [self.vipIcon makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.VIPPriceLabel.centerY);
-        make.right.equalTo(self.VIPPriceLabel.left);
     }];
     
     
@@ -197,7 +196,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     
     self.priceLabel.text = [coach.price generateMoneyString];
     
-    if (self.coach.VIPPrice) {
+    if ([self.coach.VIPPrice floatValue] > 0) {
         self.VIPPriceLabel.text = [self.coach.VIPPrice generateMoneyString];
     }
     

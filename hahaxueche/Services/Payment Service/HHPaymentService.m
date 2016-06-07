@@ -11,6 +11,7 @@
 #import "APIPaths.h"
 #import "HHToastManager.h"
 #import "HHStudentStore.h"
+#import "HHLoadingViewUtility.h"
 
 @implementation HHPaymentService
 
@@ -28,6 +29,7 @@
 - (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod productType:(CoachProductType)productType inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICharges];
     [APIClient postWithParameters:@{@"coach_id":coachId, @"method":@(paymentMethod), @"product_type":@(productType)} completion:^(NSDictionary *response, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
             [Pingpp createPayment:response
                    viewController:viewController
