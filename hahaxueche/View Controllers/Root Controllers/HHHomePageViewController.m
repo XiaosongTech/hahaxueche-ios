@@ -230,7 +230,7 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
 
 - (void)tryCoachForFree {
     __weak HHHomePageViewController *weakSelf = self;
-    HHTryCoachView *tryCoachView = [[HHTryCoachView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 270.0f) mode:TryCoachModeSimple];
+    HHTryCoachView *tryCoachView = [[HHTryCoachView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 350.0f) mode:TryCoachModeSimple];
     tryCoachView.cancelBlock = ^(){
         [HHPopupUtility dismissPopup:weakSelf.popup];
     };

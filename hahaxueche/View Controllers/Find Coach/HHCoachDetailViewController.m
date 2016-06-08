@@ -214,7 +214,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.tryCoachAction = ^(){
-        HHTryCoachView *tryCoachView = [[HHTryCoachView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 420.0f) mode:TryCoachModeStandard];
+        HHTryCoachView *tryCoachView = [[HHTryCoachView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 470.0f) mode:TryCoachModeStandard];
         tryCoachView.cancelBlock = ^(){
             [HHPopupUtility dismissPopup:weakSelf.popup];
         };

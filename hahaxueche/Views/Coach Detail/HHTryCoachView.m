@@ -29,8 +29,34 @@
 }
 
 - (void)initSubviews {
+    
+    self.topView = [[UIView alloc] init];
+    self.topView.backgroundColor = [UIColor HHOrange];
+    [self addSubview:self.topView];
+    
+    self.titleLabel = [[UILabel alloc] init];
+    self.titleLabel.text = @"免费试学";
+    self.titleLabel.textColor = [UIColor whiteColor];
+    self.titleLabel.font = [UIFont systemFontOfSize:22.0f];
+    [self.topView addSubview:self.titleLabel];
+    
+    self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.cancelButton setImage:[UIImage imageNamed:@"ic_homepage_groupbuy_close"] forState:UIControlStateNormal];
+    [self.cancelButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.topView addSubview:self.cancelButton];
+    
+    self.confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.confirmButton setTitle:@"立刻报名" forState:UIControlStateNormal];
+    self.confirmButton.backgroundColor = [UIColor HHConfirmRed];
+    self.confirmButton.titleLabel.textColor = [UIColor whiteColor];
+    self.confirmButton.titleLabel.font = [UIFont systemFontOfSize:22.0f];
+    [self.confirmButton addTarget:self action:@selector(confirmButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    self.confirmButton.layer.cornerRadius = 25.0f;
+    self.confirmButton.layer.masksToBounds = YES;
+    [self addSubview:self.confirmButton];
+    
     self.firstLabel = [[UILabel alloc] init];
-    self.firstLabel.text = @"预约信息";
+    self.firstLabel.text = @"报名信息";
     self.firstLabel.textColor = [UIColor HHOrange];
     self.firstLabel.font = [UIFont systemFontOfSize:18.0f];
     [self addSubview:self.firstLabel];
@@ -75,18 +101,29 @@
         [self addSubview:self.secDateButton];
     }
     
-    
-    self.buttonsView = [[HHConfirmCancelButtonsView alloc] initWithLeftTitle:@"取消返回" rightTitle:@"免费预约"];
-    [self.buttonsView.leftButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.buttonsView.rightButton addTarget:self action:@selector(confirmButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:self.buttonsView];
-    
     [self makeConstraints];
 }
 
 - (void)makeConstraints {
+    [self.topView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.top);
+        make.width.equalTo(self.width);
+        make.height.mas_equalTo(60.0f);
+        make.left.equalTo(self.left);
+    }];
+    
+    [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.topView.left).offset(15.0f);
+        make.centerY.equalTo(self.topView.centerY);
+    }];
+    
+    [self.cancelButton makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.topView.right).offset(-20.0f);
+        make.centerY.equalTo(self.topView.centerY);
+    }];
+    
     [self.firstLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.top).offset(20.0f);
+        make.top.equalTo(self.topView.bottom).offset(15.0f);
         make.centerX.equalTo(self.centerX);
     }];
     
@@ -98,7 +135,7 @@
     }];
     
     [self.numberField makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.nameField.bottom).offset(15.0f);
+        make.top.equalTo(self.nameField.bottom).offset(10.0f);
         make.centerX.equalTo(self.centerX);
         make.width.equalTo(self.width).offset(-80.0f);
         make.height.mas_equalTo(40.0f);
@@ -106,7 +143,7 @@
     
     if (self.mode == TryCoachModeStandard) {
         [self.secondLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.numberField.bottom).offset(20.0f);
+            make.top.equalTo(self.numberField.bottom).offset(15.0f);
             make.centerX.equalTo(self.centerX);
         }];
         
@@ -118,29 +155,31 @@
         }];
         
         [self.secDateButton makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.firstDateButton.bottom).offset(15.0f);
+            make.top.equalTo(self.firstDateButton.bottom).offset(10.0f);
             make.centerX.equalTo(self.centerX);
             make.width.equalTo(self.width).offset(-80.0f);
             make.height.mas_equalTo(40.0f);
         }];
         
-        [self.infoLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.secDateButton.bottom).offset(20.0f);
+        [self.confirmButton makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.secDateButton.bottom).offset(15.0f);
             make.centerX.equalTo(self.centerX);
+            make.width.equalTo(self.width).offset(-80.0f);
+            make.height.mas_equalTo(50.0f);
         }];
+        
     } else {
-        [self.infoLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.numberField.bottom).offset(20.0f);
+        [self.confirmButton makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.numberField.bottom).offset(15.0f);
             make.centerX.equalTo(self.centerX);
+            make.width.equalTo(self.width).offset(-80.0f);
+            make.height.mas_equalTo(50.0f);
         }];
     }
     
-
-    [self.buttonsView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.left);
-        make.bottom.equalTo(self.bottom);
-        make.width.equalTo(self.width);
-        make.height.mas_equalTo(50.0f);
+    [self.infoLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.confirmButton.bottom).offset(20.0f);
+        make.centerX.equalTo(self.centerX);
     }];
 
 }

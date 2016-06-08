@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HHConfirmCancelButtonsView.h"
 
 typedef NS_ENUM(NSInteger, TryCoachMode) {
     TryCoachModeStandard,
@@ -19,6 +18,8 @@ typedef void (^HHTryCoachCancelBlock)();
 
 @interface HHTryCoachView : UIView <UITextFieldDelegate>
 
+@property (nonatomic, strong) UIView *topView;
+@property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *firstLabel;
 @property (nonatomic, strong) UILabel *secondLabel;
 @property (nonatomic, strong) UILabel *infoLabel;
@@ -36,7 +37,8 @@ typedef void (^HHTryCoachCancelBlock)();
 @property (nonatomic, strong) HHTryCoachConfirmBlock confirmBlock;
 @property (nonatomic, strong) HHTryCoachCancelBlock cancelBlock;
 
-@property (nonatomic, strong) HHConfirmCancelButtonsView *buttonsView;
+@property (nonatomic, strong) UIButton *confirmButton;
+@property (nonatomic, strong) UIButton *cancelButton;
 
 - (instancetype)initWithFrame:(CGRect)frame mode:(TryCoachMode)mode;
 
