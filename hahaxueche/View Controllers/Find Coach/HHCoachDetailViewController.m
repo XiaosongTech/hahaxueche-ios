@@ -286,7 +286,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 
 
             };
-            if (self.coach.VIPPrice) {
+            if ([self.coach.VIPPrice floatValue] > 0) {
                 cell.VIPPriceItemView.priceDetailBlock = ^() {
                     HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
                     CGFloat height = 190.0f + (city.cityFixedFees.count + 1) * 50.0f;

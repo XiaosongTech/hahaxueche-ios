@@ -20,28 +20,23 @@
 #import "HHRootViewController.h"
 #import "HHLoadingViewUtility.h"
 #import "HHStudentService.h"
-#import <RSKImageCropper/RSKImageCropper.h>
-#import <UIImageView+WebCache.h>
 
-
-static CGFloat const avatarViewRadius = 50.0f;
 static CGFloat const kFieldViewHeight = 40.0f;
 static CGFloat const kFieldViewWidth = 280.0f;
 
-@interface HHAccountSetupViewController () <UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, RSKImageCropViewControllerDelegate>
+@interface HHAccountSetupViewController () <UITextFieldDelegate>
 
-@property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *explanationLabel;
 @property (nonatomic, strong) HHTextFieldView *nameField;
 @property (nonatomic, strong) HHTextFieldView *cityField;
 @property (nonatomic, strong) UIImageView *bachgroudImageView;
 @property (nonatomic, strong) HHButton *finishButton;
-@property (nonatomic, strong) UIActionSheet *avatarOptionsSheet;
-@property (nonatomic, strong) UIImage *selectedAvatarImage;
 @property (nonatomic, strong) HHCitySelectView *citySelectView;
 @property (nonatomic, strong) HHCity *selectedCity;
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) NSString *studentId;
+@property (nonatomic, strong) UITextField *promoField;
+@property (nonatomic, strong) UIButton *promoButton;
 
 @end
 
@@ -68,21 +63,10 @@ static CGFloat const kFieldViewWidth = 280.0f;
     self.bachgroudImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"onboard_bg"]];
     [self.view addSubview:self.bachgroudImageView];
     
-    self.avatarImageView = [[UIImageView alloc] init];
-    self.avatarImageView.image = [UIImage imageNamed:@"ic_avatar_btn"];
-    self.avatarImageView.contentMode = UIViewContentModeCenter;
-    self.avatarImageView.backgroundColor = [UIColor whiteColor];
-    self.avatarImageView.layer.cornerRadius = avatarViewRadius;
-    self.avatarImageView.layer.masksToBounds = YES;
-    self.avatarImageView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showImageOptions)];
-    [self.avatarImageView addGestureRecognizer:tapRecognizer];
-    [self.view addSubview:self.avatarImageView];
-    
     self.explanationLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.explanationLabel.text = @"请实名注册并提交真实头像\n以便获得更好的服务体验";
+    self.explanationLabel.text = @"请实名注册以便获得更好的服务体验";
     self.explanationLabel.font = [UIFont systemFontOfSize:15.0f];
-    self.explanationLabel.textColor = [UIColor HHLightOrange];
+    self.explanationLabel.textColor = [UIColor whiteColor];
     self.explanationLabel.numberOfLines = 0;
     self.explanationLabel.textAlignment = NSTextAlignmentCenter;
     [self.explanationLabel sizeToFit];
@@ -111,27 +95,40 @@ static CGFloat const kFieldViewWidth = 280.0f;
     [self.finishButton setTitle:@"开始学车之旅" forState:UIControlStateNormal];
     [self.view addSubview:self.finishButton];
     
+    self.promoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.promoButton addTarget:self action:@selector(showPromoField) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.promoButton];
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.alignment = NSTextAlignmentNatural;
+    
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"有优惠码 " attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSForegroundColorAttributeName:[UIColor colorWithWhite:1.0f alpha:0.8f], NSParagraphStyleAttributeName:paragraphStyle, NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle)}];
+    
+    NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+    textAttachment.image = [UIImage imageNamed:@"ic_coupon"];
+    textAttachment.bounds = CGRectMake(5.0f, -1.0f, textAttachment.image.size.width, textAttachment.image.size.height);
+    
+    NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+    
+    [attributedString appendAttributedString:attrStringWithImage];
+    [self.promoButton setAttributedTitle:attributedString forState:UIControlStateNormal];
+    
+    
     [self makeConstraints];
 }
 
 #pragma mark - Auto Layout
 
 - (void)makeConstraints {
-    [self.avatarImageView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.top).offset(30.0f);
-        make.centerX.equalTo(self.view.centerX);
-        make.width.mas_equalTo(avatarViewRadius * 2.0f);
-        make.height.mas_equalTo(avatarViewRadius * 2.0f);
-    }];
     
     [self.explanationLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.avatarImageView.bottom).offset(15.0f);
+        make.top.equalTo(self.view.top).offset(20.0f);
         make.centerX.equalTo(self.view.centerX);
         make.width.equalTo(self.view.width);
     }];
     
     [self.nameField makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.explanationLabel.bottom).offset(30.0f);
+        make.top.equalTo(self.explanationLabel.bottom).offset(20.0f);
         make.centerX.equalTo(self.view.centerX);
         make.width.mas_equalTo(kFieldViewWidth);
         make.height.mas_equalTo(kFieldViewHeight);
@@ -151,6 +148,12 @@ static CGFloat const kFieldViewWidth = 280.0f;
         make.height.mas_equalTo(kFieldViewHeight);
     }];
     
+    [self.promoButton makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.finishButton.bottom).offset(15.0f);
+        make.centerX.equalTo(self.view.centerX);
+
+    }];
+    
     [self.bachgroudImageView makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.view.centerY);
         make.centerX.equalTo(self.view.centerX);
@@ -164,7 +167,7 @@ static CGFloat const kFieldViewWidth = 280.0f;
 
 - (void)showCitySelectorView {
     __weak HHAccountSetupViewController *weakSelf = self;
-    [self.nameField.textField resignFirstResponder];
+    [self.view endEditing:YES];
     NSArray *cities = [[HHConstantsStore sharedInstance] getSupporteCities];
     CGFloat height = MAX(300.0f, CGRectGetHeight(self.view.bounds)/2.0f);
     self.citySelectView = [[HHCitySelectView alloc] initWithCities:cities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:self.selectedCity];
@@ -204,118 +207,42 @@ static CGFloat const kFieldViewWidth = 280.0f;
         return NO;
     }
     
-    if (!self.selectedAvatarImage) {
-        [[HHToastManager sharedManager] showErrorToastWithText:@"请选择上传的头像"];
-        return NO;
-    }
     return YES;
 }
 
-- (void)showImageOptions {
-    [self.nameField.textField resignFirstResponder];
-    self.avatarOptionsSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"从相册中选取", @"拍照", nil];
-    [self.avatarOptionsSheet showInView:self.view];
-}
 
 #pragma mark - TextField Delegate
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
-    if ([textField isEqual:self.nameField.textField]) {
-        [self.nameField.textField resignFirstResponder];
-    }
+    [textField resignFirstResponder];
     return YES;
 }
 
 
-#pragma mark - UIActionSheet Delegate
-
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if ([actionSheet isEqual:self.avatarOptionsSheet]) {
-        switch (buttonIndex) {
-            case 0: {
-                if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
-                    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-                    imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-                    imagePickerController.delegate = self;
-                    [self presentViewController:imagePickerController animated:YES completion:nil];
-                }
-                
-            } break;
-                
-            case 1: {
-                if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-                    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-                    imagePicker.delegate = self;
-                    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-                    imagePicker.allowsEditing = NO;
-                    [self presentViewController:imagePicker animated:YES completion:nil];
-                }
-            } break;
-                
-            default:
-                break;
-        }
-    }
-}
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    [picker dismissViewControllerAnimated:YES completion:nil];
-    if ([info objectForKey:@"UIImagePickerControllerOriginalImage"]) {
-        self.selectedAvatarImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+- (void)showPromoField {
+    if (self.promoField) {
+        [self.promoField becomeFirstResponder];
+        return;
     }
     
-    if (self.selectedAvatarImage) {
-        RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:self.selectedAvatarImage];
-        imageCropVC.delegate = self;
-        imageCropVC.view.backgroundColor = [UIColor whiteColor];
-        imageCropVC.moveAndScaleLabel.text = @"裁切图片";
-        [imageCropVC.cancelButton setTitle:@"取消" forState:UIControlStateNormal];
-        [imageCropVC.chooseButton setTitle:@"确认" forState:UIControlStateNormal];
-        [self.navigationController pushViewController:imageCropVC animated:NO];
-    }
+    self.promoField = [[UITextField alloc] init];
+    self.promoField.borderStyle = UITextBorderStyleNone;
+    self.promoField.tintColor = [UIColor HHOrange];
+    self.promoField.textColor = [UIColor HHOrange];
+    self.promoField.textAlignment = NSTextAlignmentCenter;
+    self.promoField.returnKeyType = UIReturnKeyDone;
+    self.promoField.delegate = self;
+    self.promoField.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"input"]];
+    [self.promoField becomeFirstResponder];
+    [self.view addSubview:self.promoField];
     
-}
-
-// Crop image has been canceled.
-- (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-// The original image has been cropped.
-- (void)imageCropViewController:(RSKImageCropViewController *)controller
-                   didCropImage:(UIImage *)croppedImage
-                  usingCropRect:(CGRect)cropRect {
-    self.selectedAvatarImage = croppedImage;
-    [self.navigationController popViewControllerAnimated:YES];
-    
-    [self uploadAvatar];
-}
-
-// The original image has been cropped. Additionally provides a rotation angle used to produce image.
-- (void)imageCropViewController:(RSKImageCropViewController *)controller
-                   didCropImage:(UIImage *)croppedImage
-                  usingCropRect:(CGRect)cropRect
-                  rotationAngle:(CGFloat)rotationAngle {
-
-    self.selectedAvatarImage = croppedImage;
-    [self.navigationController popViewControllerAnimated:YES];
-    [self uploadAvatar];
-}
-
-- (void)uploadAvatar {
-    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"上传图片中"];
-    [[HHStudentService sharedInstance] uploadStudentAvatarWithImage:self.selectedAvatarImage completion:^(HHStudent *student, NSError *error) {
-        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-        if (error) {
-            [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败，请您重试！"];
-            self.selectedAvatarImage = nil;
-            self.avatarImageView.image = [UIImage imageNamed:@"ic_avatar_btn"];
-            self.avatarImageView.contentMode = UIViewContentModeCenter;
-        } else {
-            [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:student.avatarURL] placeholderImage:nil options:SDWebImageRefreshCached];
-            self.avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
-        }
+    [self.promoField makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.promoButton.bottom);
+        make.centerX.equalTo(self.view.centerX);
+        make.width.mas_equalTo(170.0f);
+        make.height.mas_equalTo(40.0f);
     }];
 }
+
 
 @end
