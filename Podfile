@@ -27,8 +27,8 @@ target "hahaxueche" do
     pod 'HCSStarRatingView', '~> 1.4'
     pod 'ActionSheetPicker-3.0'
     pod 'OpenShare', '~> 0.0'
-    pod 'Pingpp/Alipay', '~> 2.2.2'
-    pod 'Pingpp/Fqlpay', '~> 2.2.2'
+    pod "Pingpp/Alipay", :path => "~/Desktop/Ping++SDK-iOS"
+    pod "Pingpp/Fqlpay", :path => "~/Desktop/Ping++SDK-iOS"
     pod "Branch"
     pod 'MMNumberKeyboard'
     pod 'RSKImageCropper'

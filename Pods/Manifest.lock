@@ -93,8 +93,8 @@ DEPENDENCIES:
   - MJRefresh
   - MMNumberKeyboard
   - OpenShare (~> 0.0)
-  - Pingpp/Alipay (~> 2.2.2)
-  - Pingpp/Fqlpay (~> 2.2.2)
+  - Pingpp/Alipay (from `~/Desktop/Ping++SDK-iOS`)
+  - Pingpp/Fqlpay (from `~/Desktop/Ping++SDK-iOS`)
   - pop (~> 1.0)
   - RSKImageCropper
   - SDCycleScrollView (~> 1.6)
@@ -103,6 +103,10 @@ DEPENDENCIES:
   - StepSlider
   - SVProgressHUD
   - UMengAnalytics-NO-IDFA
+
+EXTERNAL SOURCES:
+  Pingpp:
+    :path: "~/Desktop/Ping++SDK-iOS"
 
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: db66605feb85689279d328206c61f0e4f398df92
@@ -137,6 +141,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
 
-PODFILE CHECKSUM: d075ab75ce3853fd4db025615f7dffdbd2242c0b
+PODFILE CHECKSUM: eecb6608025b1a35a22053baa3b03f879fc0f739
 
 COCOAPODS: 1.0.0
