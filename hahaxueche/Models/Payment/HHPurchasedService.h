@@ -20,6 +20,7 @@
 @property (nonatomic, copy) NSNumber *paidAmount;
 @property (nonatomic, copy) NSNumber *totalAmount;
 @property (nonatomic, copy) NSNumber *unpaidAmount;
+@property (nonatomic, copy) NSNumber *productType;
 @property (nonatomic, strong) NSArray *paymentStages;
 @property (nonatomic, strong) NSDate *paidAt;
 

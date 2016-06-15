@@ -28,7 +28,7 @@
 
 #define kAPIStudentAvatar @"students/%@/avatar"
 #define kAPIStudentFollows @"users/follows/%@"
-#define kAPIStudentTryCoach @"students/trial/%@"
+#define kAPIStudentTryCoach @"students/trial"
 #define kAPIStudentPurchasedService @"students/purchased_service"
 #define kAPIStudent @"students/%@"
 #define kAPIBestMatchCoach @"students/best_match_coach"

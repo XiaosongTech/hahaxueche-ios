@@ -16,6 +16,7 @@
              @"distance": @"distance",
              @"onlyGoldenCoach": @"golden_coach_only",
              @"licenseType": @"license_type",
+             @"onlyVIPCoach": @"vip_only",
              };
 }
 
@@ -25,6 +26,7 @@
     newObject.distance = self.distance;
     newObject.onlyGoldenCoach = self.onlyGoldenCoach;
     newObject.licenseType = self.licenseType;
+    newObject.onlyVIPCoach = self.onlyVIPCoach;
     return newObject;
 }
 

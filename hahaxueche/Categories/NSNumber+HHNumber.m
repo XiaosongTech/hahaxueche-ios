@@ -7,17 +7,18 @@
 //
 
 #import "NSNumber+HHNumber.h"
+#import "HHFormatUtility.h"
 
 @implementation NSNumber (HHNumber)
 
 - (NSString *)generateMoneyString {
     NSNumber *number = @([self floatValue] / 100);
-    return [NSString stringWithFormat:@"￥%@", [number stringValue]];
+    return [[HHFormatUtility moneyFormatter] stringFromNumber:number];
 }
 
 - (NSString *)generateMoneyStringWithoutOriginalNumber {
     NSNumber *number = @([self floatValue]);
-    return [NSString stringWithFormat:@"￥%@", [number stringValue]];
+    return [[HHFormatUtility moneyFormatter] stringFromNumber:number];;
 }
 
 @end

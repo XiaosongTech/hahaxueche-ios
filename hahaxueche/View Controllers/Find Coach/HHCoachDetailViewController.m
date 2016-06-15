@@ -13,7 +13,6 @@
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHCoachDetailDescriptionCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "HHCoachDetailSectionOneCell.h"
 #import "HHCoachDetailSectionTwoCell.h"
 #import "HHCoachDetailBottomBarView.h"
 #import "HHCoachDetailCommentsCell.h"
@@ -28,7 +27,6 @@
 #import "HHStudentService.h"
 #import "HHStudentStore.h"
 #import "HHIntroViewController.h"
-#import "HHPaymentService.h"
 #import "HHToastManager.h"
 #import "HHFormatUtility.h"
 #import "HHCoachService.h"
@@ -38,17 +36,25 @@
 #import "HHEventTrackingManager.h"
 #import "HHImageGalleryViewController.h"
 #import "HHLoadingViewUtility.h"
+#import "HHPurchaseConfirmViewController.h"
+#import "HHCoachPriceCell.h"
+#import "HHCoachServiceTypeCell.h"
+#import "HHCoachFieldCell.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
-    CoachCellInfoOne,
+    CoachCellPrice,
+    CoachCellType,
+    CoachCellField,
     CoachCellInfoTwo,
     CoachCellComments,
     CoachCellCount,
 };
 
 static NSString *const kDescriptionCellID = @"kDescriptionCellID";
-static NSString *const kInfoOneCellID = @"kInfoOneCellId";
+static NSString *const kPriceCellID = @"kPriceCellID";
+static NSString *const kTypeCellID = @"kTypeCellID";
+static NSString *const kFiledCellID = @"kFiledCellID";
 static NSString *const kInfoTwoCellID = @"kInfoTwoCellID";
 static NSString *const kCommentsCellID = @"kCommentsCellID";
 
@@ -129,7 +135,9 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     self.coachImagesView.autoScroll = NO;
     
     [self.tableView registerClass:[HHCoachDetailDescriptionCell class] forCellReuseIdentifier:kDescriptionCellID];
-    [self.tableView registerClass:[HHCoachDetailSectionOneCell class] forCellReuseIdentifier:kInfoOneCellID];
+    [self.tableView registerClass:[HHCoachPriceCell class] forCellReuseIdentifier:kPriceCellID];
+    [self.tableView registerClass:[HHCoachServiceTypeCell class] forCellReuseIdentifier:kTypeCellID];
+    [self.tableView registerClass:[HHCoachFieldCell class] forCellReuseIdentifier:kFiledCellID];
     [self.tableView registerClass:[HHCoachDetailSectionTwoCell class] forCellReuseIdentifier:kInfoTwoCellID];
     [self.tableView registerClass:[HHCoachDetailCommentsCell class] forCellReuseIdentifier:kCommentsCellID];
     
@@ -206,7 +214,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.tryCoachAction = ^(){
-        HHTryCoachView *tryCoachView = [[HHTryCoachView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 420.0f)];
+        HHTryCoachView *tryCoachView = [[HHTryCoachView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 470.0f) mode:TryCoachModeStandard];
         tryCoachView.cancelBlock = ^(){
             [HHPopupUtility dismissPopup:weakSelf.popup];
         };
@@ -221,7 +229,6 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
                                                        
                 [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
                 if (!error) {
-                    [[HHEventTrackingManager sharedManager] sendEventWithId:kDidTryCoachEventId attributes:@{@"student_id":weakSelf.currentStudent.studentId, @"coach_id":weakSelf.coach.coachId}];
                     [[HHToastManager sharedManager] showSuccessToastWithText:@"免费试学预约成功！教练会尽快联系您！"];
                     [HHPopupUtility dismissPopup:weakSelf.popup];
                 } else {
@@ -238,32 +245,8 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             [weakSelf showLoginSignupAlertView];
             return ;
         }
-        
-        [[HHCoachService sharedInstance] unfollowCoach:weakSelf.coach.userId completion:nil];
-        
-        HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
-        CGFloat height = 190.0f + (city.cityFixedFees.count + 1) * 50.0f;
-        NSNumber *realPrice = @([self.coach.price floatValue] - [[HHStudentStore sharedInstance].currentStudent.bonusBalance floatValue]);
-        HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"付款明细" totalPrice:realPrice showOKButton:NO];
-        
-        priceView.cancelBlock = ^() {
-            [HHPopupUtility dismissPopup:weakSelf.popup];
-        };
-        
-        priceView.confirmBlock = ^(){
-            [HHPopupUtility dismissPopup:weakSelf.popup];
-            [[HHPaymentService sharedInstance] payWithCoachId:weakSelf.coach.coachId studentId:weakSelf.currentStudent.studentId inController:weakSelf completion:^(BOOL succeed) {
-                if (succeed) {
-                    [weakSelf fetchStudentAfterPurchase];
-                    [[HHEventTrackingManager sharedManager] sendEventWithId:kDidPurchaseCoachServiceEventId attributes:@{@"student_id":weakSelf.currentStudent.studentId, @"coach_id":weakSelf.coach.coachId}];
-                } else {
-                    [[HHToastManager sharedManager] showErrorToastWithText:@"抱歉，支付失败或者您取消了支付。请重试！"];
-                }
-            }];
-            
-        };
-        weakSelf.popup = [HHPopupUtility createPopupWithContentView:priceView];
-        [HHPopupUtility showPopup:weakSelf.popup];
+        HHPurchaseConfirmViewController *vc = [[HHPurchaseConfirmViewController alloc] initWithCoach:weakSelf.coach];
+        [weakSelf.navigationController pushViewController:vc animated:YES];
 
     };
     
@@ -271,23 +254,6 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         weakSelf.bottomBar.followed = followed;
     }];
     
-}
-
-- (void)fetchStudentAfterPurchase {
-    if (![[HHLoadingViewUtility sharedInstance] isVisible]) {
-        [[HHLoadingViewUtility sharedInstance] showLoadingView];
-    }
-    [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
-        if ([student.purchasedServiceArray count]) {
-            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-            [[HHToastManager sharedManager] showSuccessToastWithText:@"支付成功! 请到我的页面查看具体信息."];
-            [HHStudentStore sharedInstance].currentStudent = student;
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"coachPurchased" object:nil];
-        } else {
-            [self fetchStudentAfterPurchase];
-        }
-        
-    }];
 }
 
 #pragma mark - TableView Delegate & Datasource Methods
@@ -306,9 +272,9 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             return cell;
         }
             
-        case CoachCellInfoOne: {
-            HHCoachDetailSectionOneCell *cell = [tableView dequeueReusableCellWithIdentifier:kInfoOneCellID forIndexPath:indexPath];
-            cell.priceCellAction = ^() {
+        case CoachCellPrice: {
+            HHCoachPriceCell *cell = [tableView dequeueReusableCellWithIdentifier:kPriceCellID forIndexPath:indexPath];
+            cell.standartPriceItemView.priceDetailBlock = ^() {
                 HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
                 CGFloat height = 190.0f + (city.cityFixedFees.count + 1) * 50.0f;
                 HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"价格明细" totalPrice:weakSelf.coach.price showOKButton:YES];
@@ -318,12 +284,38 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
                 weakSelf.popup = [HHPopupUtility createPopupWithContentView:priceView];
                 [HHPopupUtility showPopup:weakSelf.popup];
 
+
             };
-            cell.addressCellAction = ^() {
-                HHSingleFieldMapViewController *vc = [[HHSingleFieldMapViewController alloc] initWithField:[[HHConstantsStore sharedInstance] getFieldWithId:self.coach.fieldId]];
+            if ([self.coach.VIPPrice floatValue] > 0) {
+                cell.VIPPriceItemView.priceDetailBlock = ^() {
+                    HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
+                    CGFloat height = 190.0f + (city.cityFixedFees.count + 1) * 50.0f;
+                    HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"价格明细" totalPrice:weakSelf.coach.VIPPrice showOKButton:YES];
+                    priceView.cancelBlock = ^() {
+                        [HHPopupUtility dismissPopup:weakSelf.popup];
+                    };
+                    weakSelf.popup = [HHPopupUtility createPopupWithContentView:priceView];
+                    [HHPopupUtility showPopup:weakSelf.popup];
+                };
+            }
+            [cell setupCellWithCoach:self.coach];
+            return cell;
+        }
+            
+        case CoachCellType: {
+            HHCoachServiceTypeCell *cell = [tableView dequeueReusableCellWithIdentifier:kTypeCellID forIndexPath:indexPath];
+            [cell setupCellWithCoach:self.coach];
+            return cell;
+        }
+            
+        case CoachCellField: {
+            HHCoachFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:kFiledCellID forIndexPath:indexPath];
+            cell.fieldBlock = ^() {
+                HHSingleFieldMapViewController *vc = [[HHSingleFieldMapViewController alloc] initWithField:[weakSelf.coach getCoachField]];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+
             };
-            [cell setupWithCoach:self.coach field:[[HHConstantsStore sharedInstance] getFieldWithId:self.coach.fieldId]];
+            [cell setupCellWithField:[self.coach getCoachField]];
             return cell;
         }
             
@@ -363,9 +355,23 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             return CGRectGetHeight([self getDescriptionTextSizeWithText:self.coach.bio]) + 50.0f;
         }
             
-        case CoachCellInfoOne: {
-            return 195.0f;
+        case CoachCellPrice: {
+            if ([self.coach.VIPPrice floatValue] > 0) {
+                return 156.0f + 70.0f;
+            } else {
+                return 156.0f;
+            }
+            
         }
+           
+        case CoachCellType: {
+            return 70.0f;
+        }
+            
+        case CoachCellField: {
+            return 141.0f;
+        }
+            
             
         case CoachCellInfoTwo: {
             CGFloat height = 195.0f;

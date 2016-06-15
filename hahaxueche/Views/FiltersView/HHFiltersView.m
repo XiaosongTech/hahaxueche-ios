@@ -22,6 +22,7 @@ static CGFloat const kCellHeight = 60.0f;
 @property (nonatomic, strong) HHSliderView *distanceSliderView;
 @property (nonatomic, strong) HHSliderView *priceSliderView;
 @property (nonatomic, strong) HHSwitchView *goldenCoachSwitchView;
+@property (nonatomic, strong) HHSwitchView *vipCoachSwitchView;
 @property (nonatomic, strong) HHCheckBoxView *c1CheckBoxView;
 @property (nonatomic, strong) HHCheckBoxView *c2CheckBoxView;
 
@@ -56,6 +57,9 @@ static CGFloat const kCellHeight = 60.0f;
         
         self.goldenCoachSwitchView = [[HHSwitchView alloc] initWithTitle:@"只显示金牌教练" isToggleOn:[self.coachFilters.onlyGoldenCoach boolValue]];
         [self addSubview:self.goldenCoachSwitchView];
+        
+        self.vipCoachSwitchView = [[HHSwitchView alloc] initWithTitle:@"只显示VIP班教练" isToggleOn:[self.coachFilters.onlyVIPCoach boolValue]];
+        [self addSubview:self.vipCoachSwitchView];
         
         BOOL c1Checked = YES;
         BOOL c2Checked = YES;
@@ -115,15 +119,22 @@ static CGFloat const kCellHeight = 60.0f;
         make.height.mas_equalTo(kCellHeight);
     }];
     
-    [self.c1CheckBoxView makeConstraints:^(MASConstraintMaker *make) {
+    [self.vipCoachSwitchView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.goldenCoachSwitchView.bottom);
+        make.left.equalTo(self.left);
+        make.width.equalTo(self.width);
+        make.height.mas_equalTo(kCellHeight);
+    }];
+    
+    [self.c1CheckBoxView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.vipCoachSwitchView.bottom);
         make.left.equalTo(self.left).offset(20.0f);
         make.width.equalTo(self).multipliedBy(0.5f).offset(-20.0f);
         make.height.mas_equalTo(kCellHeight);
     }];
     
     [self.c2CheckBoxView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.goldenCoachSwitchView.bottom);
+        make.top.equalTo(self.vipCoachSwitchView.bottom);
         make.right.equalTo(self.right).offset(-20.0f);
         make.width.equalTo(self).multipliedBy(0.5f).offset(-20.0f);
         make.height.mas_equalTo(kCellHeight);
@@ -174,7 +185,9 @@ static CGFloat const kCellHeight = 60.0f;
     self.coachFilters.price = self.priceValues[self.priceSliderView.slider.index];
     self.coachFilters.distance = self.distanceValues[self.distanceSliderView.slider.index];
     self.coachFilters.onlyGoldenCoach = @(self.goldenCoachSwitchView.toggle.isOn);
-        if (self.confirmBlock) {
+    self.coachFilters.onlyVIPCoach = @(self.vipCoachSwitchView.toggle.isOn);
+    
+    if (self.confirmBlock) {
         self.confirmBlock(self.coachFilters);
     }
 }

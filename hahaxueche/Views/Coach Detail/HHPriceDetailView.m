@@ -70,7 +70,7 @@
         } else {
             self.okButton = [UIButton buttonWithType:UIButtonTypeCustom];
             [self.okButton setTitle:@"知道了" forState:UIControlStateNormal];
-            [self.okButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
+            [self.okButton setTitleColor:[UIColor HHConfirmGreen] forState:UIControlStateNormal];
             self.okButton.titleLabel.font = [UIFont systemFontOfSize:18.0f];
             [self.okButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
             [self addSubview:self.okButton];

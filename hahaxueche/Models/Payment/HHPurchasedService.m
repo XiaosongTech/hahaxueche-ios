@@ -23,6 +23,7 @@
              @"paymentStages":@"payment_stages",
              @"paidAt":@"paid_at",
              @"orderNo":@"order_no",
+             @"productType":@"product_type",
              };
 }
 

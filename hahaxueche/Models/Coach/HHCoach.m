@@ -21,6 +21,8 @@
              @"averageRating": @"average_rating",
              @"price":@"coach_group.training_cost",
              @"marketPrice":@"coach_group.market_price",
+             @"VIPPrice":@"coach_group.vip_price",
+             @"VIPMarketPrice":@"coach_group.vip_market_price",
              @"experienceYear":@"experiences",
              @"reviewCount":@"review_count",
              @"skillLevel":@"skill_level",

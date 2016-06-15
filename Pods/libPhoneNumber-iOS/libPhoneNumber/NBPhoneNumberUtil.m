@@ -7,6 +7,7 @@
 //
 
 #import "NBPhoneNumberUtil.h"
+#import "NBPhoneNumberDefines.h"
 #import "NBPhoneNumber.h"
 #import "NBNumberFormat.h"
 #import "NBPhoneNumberDesc.h"
@@ -39,7 +40,7 @@
 @property (nonatomic, strong) NSRegularExpression *VALID_ALPHA_PHONE_PATTERN;
 
 #if TARGET_OS_IPHONE && !TARGET_OS_WATCH
-@property (nonatomic, strong) CTTelephonyNetworkInfo *telephonyNetworkInfo;
+@property (nonatomic, readonly) CTTelephonyNetworkInfo *telephonyNetworkInfo;
 #endif
 
 @end
@@ -63,7 +64,6 @@ static NSString *TOO_SHORT_AFTER_IDD_STR = @"Phone number too short after IDD";
 static NSString *TOO_SHORT_NSN_STR = @"The string supplied is too short to be a phone number";
 static NSString *TOO_LONG_STR = @"The string supplied is too long to be a phone number";
 
-static NSString *UNKNOWN_REGION_ = @"ZZ";
 static NSString *COLOMBIA_MOBILE_TO_FIXED_LINE_PREFIX = @"3";
 static NSString *PLUS_SIGN = @"+";
 static NSString *STAR_SIGN = @"*";
@@ -99,6 +99,8 @@ static NSDictionary *DIALLABLE_CHAR_MAPPINGS;
 static NSDictionary *ALL_PLUS_NUMBER_GROUPING_SYMBOLS;
 
 static NSDictionary *DIGIT_MAPPINGS;
+
+static NSArray *GEO_MOBILE_COUNTRIES;
 
 
 #pragma mark - Deprecated methods
@@ -379,6 +381,18 @@ static NSDictionary *DIGIT_MAPPINGS;
     {
         _lockPatternCache = [[NSLock alloc] init];
         _entireStringCacheLock = [[NSLock alloc] init];
+        
+        /**
+         * Set of country calling codes that have geographically assigned mobile
+         * numbers. This may not be complete; we add calling codes case by case, as we
+         * find geographical mobile numbers or hear from user reports.
+         *
+         * @const
+         * @type {!Array.<number>}
+         * @private
+         */
+        //                     @[ Mexico, Argentina, Brazil ]
+        GEO_MOBILE_COUNTRIES = @[ @52, @54, @55 ];
         
         [self initRegularExpressionSet];
         [self initNormalizationMappings];
@@ -940,7 +954,12 @@ static NSDictionary *DIGIT_MAPPINGS;
     NBEPhoneNumberType numberType = [self getNumberType:phoneNumber];
     // TODO: Include mobile phone numbers from countries like Indonesia, which
     // has some mobile numbers that are geographical.
-    return numberType == NBEPhoneNumberTypeFIXED_LINE || numberType == NBEPhoneNumberTypeFIXED_LINE_OR_MOBILE;
+    
+    BOOL containGeoMobileContries =
+        [GEO_MOBILE_COUNTRIES containsObject:phoneNumber.countryCode] && numberType == NBEPhoneNumberTypeMOBILE;
+    BOOL isFixedLine = (numberType == NBEPhoneNumberTypeFIXED_LINE);
+    BOOL isFixedLineOrMobile = (numberType == NBEPhoneNumberTypeFIXED_LINE_OR_MOBILE);
+    return isFixedLine || isFixedLineOrMobile || containGeoMobileContries;
 }
 
 
@@ -1552,7 +1571,7 @@ static NSDictionary *DIGIT_MAPPINGS;
     
     NSString *formattedNumber = @"";
     
-    switch ([number.countryCodeSource intValue])
+    switch ([number.countryCodeSource integerValue])
     {
         case NBECountryCodeSourceFROM_NUMBER_WITH_PLUS_SIGN:
             formattedNumber = [self format:number numberFormat:NBEPhoneNumberFormatINTERNATIONAL];
@@ -2035,7 +2054,7 @@ static NSDictionary *DIGIT_MAPPINGS;
         NBPhoneNumberDesc *desc = metadata.generalDesc;
         if ([NBMetadataHelper hasValue:desc.exampleNumber]) {
             NSString *callCode = [NSString stringWithFormat:@"+%@%@", countryCallingCode, desc.exampleNumber];
-            return [self parse:callCode defaultRegion:UNKNOWN_REGION_ error:error];
+            return [self parse:callCode defaultRegion:NB_UNKNOWN_REGION error:error];
         }
     }
     
@@ -2397,7 +2416,7 @@ static NSDictionary *DIGIT_MAPPINGS;
 {
     NBMetadataHelper *helper = [[NBMetadataHelper alloc] init];
     NSArray *regionCodes = [helper regionCodeFromCountryCode:countryCallingCode];
-    return regionCodes == nil ? UNKNOWN_REGION_ : [regionCodes objectAtIndex:0];
+    return regionCodes == nil ? NB_UNKNOWN_REGION : [regionCodes objectAtIndex:0];
 }
 
 
@@ -2945,7 +2964,7 @@ static NSDictionary *DIGIT_MAPPINGS;
     NBECountryCodeSource countryCodeSource = [self maybeStripInternationalPrefixAndNormalize:&fullNumber
                                                                            possibleIddPrefix:possibleCountryIddPrefix];
     if (keepRawInput) {
-        (*phoneNumber).countryCodeSource = [NSNumber numberWithInt:countryCodeSource];
+        (*phoneNumber).countryCodeSource = [NSNumber numberWithInteger:countryCodeSource];
     }
     
     if (countryCodeSource != NBECountryCodeSourceFROM_DEFAULT_COUNTRY) {
@@ -3000,7 +3019,7 @@ static NSDictionary *DIGIT_MAPPINGS;
                 [self testNumberLengthAgainstPattern:possibleNumberPattern number:fullNumber] == NBEValidationResultTOO_LONG) {
                 (*nationalNumber) = [(*nationalNumber) stringByAppendingString:potentialNationalNumberStr];
                 if (keepRawInput) {
-                    (*phoneNumber).countryCodeSource = [NSNumber numberWithInt:NBECountryCodeSourceFROM_NUMBER_WITHOUT_PLUS_SIGN];
+                    (*phoneNumber).countryCodeSource = [NSNumber numberWithInteger:NBECountryCodeSourceFROM_NUMBER_WITHOUT_PLUS_SIGN];
                 }
                 (*phoneNumber).countryCode = defaultCountryCode;
                 return defaultCountryCode;
@@ -3290,7 +3309,7 @@ static NSDictionary *DIGIT_MAPPINGS;
 #else
     defaultRegion = [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode];
 #endif
-    if ([UNKNOWN_REGION_ isEqualToString:defaultRegion]) {
+    if ([NB_UNKNOWN_REGION isEqualToString:defaultRegion]) {
         // get region from device as a failover (e.g. iPad)
         NSLocale *currentLocale = [NSLocale currentLocale];
         defaultRegion = [currentLocale objectForKey:NSLocaleCountryCode];
@@ -3301,24 +3320,36 @@ static NSDictionary *DIGIT_MAPPINGS;
 
 #if TARGET_OS_IPHONE && !TARGET_OS_WATCH
 
-- (NSString *)countryCodeByCarrier
-{
+static CTTelephonyNetworkInfo* _telephonyNetworkInfo;
+
+- (CTTelephonyNetworkInfo*)telephonyNetworkInfo{
+    
     // cache telephony network info;
     // CTTelephonyNetworkInfo objects are unnecessarily created for every call to parseWithPhoneCarrierRegion:error:
     // when in reality this information not change while an app lives in memory
     // real-world performance test while parsing 93 phone numbers:
     // before change:   126ms
     // after change:    32ms
-    if (!self.telephonyNetworkInfo) {
-        self.telephonyNetworkInfo = [[CTTelephonyNetworkInfo alloc] init];
-    }
+    // using static instance prevents deallocation crashes due to ios bug
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _telephonyNetworkInfo = [[CTTelephonyNetworkInfo alloc] init];
+    });
+    
+    return _telephonyNetworkInfo;
+    
+}
+
+- (NSString *)countryCodeByCarrier
+{
     
     NSString *isoCode = [[self.telephonyNetworkInfo subscriberCellularProvider] isoCountryCode];
     
     // The 2nd part of the if is working around an iOS 7 bug
     // If the SIM card is missing, iOS 7 returns an empty string instead of nil
     if (!isoCode || [isoCode isEqualToString:@""]) {
-        isoCode = UNKNOWN_REGION_;
+        isoCode = NB_UNKNOWN_REGION;
     }
     
     return isoCode;
@@ -3664,7 +3695,7 @@ static NSDictionary *DIGIT_MAPPINGS;
         // First see if the first number has an implicit country calling code, by
         // attempting to parse it.
         NSError *anError;
-        firstNumber = [self parse:firstNumberIn defaultRegion:UNKNOWN_REGION_ error:&anError];
+        firstNumber = [self parse:firstNumberIn defaultRegion:NB_UNKNOWN_REGION error:&anError];
         
         if (anError != nil) {
             if ([anError.domain isEqualToString:@"INVALID_COUNTRY_CODE"] == NO) {
@@ -3676,7 +3707,7 @@ static NSDictionary *DIGIT_MAPPINGS;
             // NSN_MATCH.
             if ([secondNumberIn isKindOfClass:[NSString class]] == NO) {
                 NSString *secondNumberRegion = [self getRegionCodeForCountryCode:((NBPhoneNumber*)secondNumberIn).countryCode];
-                if (secondNumberRegion != UNKNOWN_REGION_) {
+                if (secondNumberRegion != NB_UNKNOWN_REGION) {
                     NSError *aNestedError;
                     firstNumber = [self parse:firstNumberIn defaultRegion:secondNumberRegion error:&aNestedError];
                     
@@ -3705,7 +3736,7 @@ static NSDictionary *DIGIT_MAPPINGS;
     
     if ([secondNumberIn isKindOfClass:[NSString class]]) {
         NSError *parseError;
-        secondNumber = [self parse:secondNumberIn defaultRegion:UNKNOWN_REGION_ error:&parseError];
+        secondNumber = [self parse:secondNumberIn defaultRegion:NB_UNKNOWN_REGION error:&parseError];
         if (parseError != nil) {
             if ([parseError.domain isEqualToString:@"INVALID_COUNTRY_CODE"] == NO) {
                 return NBEMatchTypeNOT_A_NUMBER;

@@ -19,13 +19,16 @@
 #import "HHStudentStore.h"
 #import "HHEventTrackingManager.h"
 #import "HHConstantsStore.h"
+#import "HHTOUViewController.h"
 
 static CGFloat const kFieldViewHeight = 40.0f;
 static CGFloat const kFieldViewWidth = 280.0f;
 static NSInteger const kSendCodeGap = 60;
 static NSInteger const pwdLimit = 20;
 
-@interface HHRegisterViewController () <UITextFieldDelegate>
+static NSString *const kTOUString = @"点击\"完成\"即表示您同意并愿意遵守哈哈学车用户协议";
+
+@interface HHRegisterViewController () <UITextFieldDelegate, UITextViewDelegate>
 
 @end
 
@@ -98,6 +101,20 @@ static NSInteger const pwdLimit = 20;
     self.pwdField.textField.delegate = self;
     self.pwdField.textField.secureTextEntry = YES;
     [self.view addSubview:self.pwdField];
+    
+    NSRange range = [kTOUString rangeOfString:@"用户协议"];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:kTOUString attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor whiteColor], NSParagraphStyleAttributeName:paragraphStyle}];
+    [text addAttribute:NSLinkAttributeName value:@"fakeURL" range:range];
+    
+    self.textView = [[UITextView alloc] init];
+    self.textView.attributedText = text;
+    self.textView.delegate = self;
+    self.textView.editable = NO;
+    self.textView.delaysContentTouches = NO;
+    self.textView.backgroundColor = [UIColor HHOrange];
+    [self.view addSubview:self.textView];
 
     [self updateConstraintsAfterMoreFields];
 }
@@ -151,6 +168,13 @@ static NSInteger const pwdLimit = 20;
         make.centerX.equalTo(self.view.centerX);
         make.width.mas_equalTo(kFieldViewWidth);
         make.height.mas_equalTo(kFieldViewHeight);
+    }];
+    
+    [self.textView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.nextButton.bottom).offset(15.0f);
+        make.centerX.equalTo(self.view.centerX);
+        make.width.mas_equalTo(180.0f);
+        make.height.mas_equalTo(40.0f);
     }];
     
 }
@@ -284,6 +308,17 @@ static NSInteger const pwdLimit = 20;
         NSUInteger newLength = [textField.text length] + [string length] - range.length;
         return newLength <= pwdLimit;
     }
+    return YES;
+}
+
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
+    if ([[URL absoluteString] isEqualToString:@"fakeURL"]) {
+        
+        HHTOUViewController *vc = [[HHTOUViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+        return NO;
+    }
+    
     return YES;
 }
 

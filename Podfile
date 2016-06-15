@@ -1,35 +1,41 @@
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
-pod 'SVProgressHUD'
-pod 'SDWebImage', '~> 3.7'
-pod 'libPhoneNumber-iOS', '~> 0.8'
-pod 'DateTools'
-pod "Appirater"
-pod 'Fabric'
-pod 'Crashlytics'
-pod 'Instabug'
-pod 'UMengAnalytics-NO-IDFA'
-pod 'AFNetworking', '~> 2.6.1'
-pod 'SSKeychain'
-pod 'MJRefresh'
-pod 'Masonry'
-pod 'Mantle'
-pod 'CRToast'
-pod 'KLCPopup'
-pod 'pop', '~> 1.0'
-pod 'StepSlider'
-pod 'BEMCheckBox'
-pod 'INTULocationManager', '~> 4.2'
-pod 'AMap2DMap'
-pod 'SDCycleScrollView','~> 1.6'
-pod 'HCSStarRatingView', '~> 1.4'
-pod 'ActionSheetPicker-3.0'
-pod 'OpenShare', '~> 0.0'
-pod 'Pingpp/Alipay', '~> 2.2.0'
-pod 'Pingpp/Fqlpay', '~> 2.2.2'
-pod "Branch"
-pod 'MMNumberKeyboard'
+target "hahaxueche" do
+    pod 'SVProgressHUD'
+    pod 'SDWebImage', '~> 3.7'
+    pod 'libPhoneNumber-iOS', '~> 0.8'
+    pod 'DateTools'
+    pod "Appirater"
+    pod 'Fabric'
+    pod 'Crashlytics'
+    pod 'Instabug'
+    pod 'UMengAnalytics-NO-IDFA'
+    pod 'AFNetworking', '~> 2.6.1'
+    pod 'SSKeychain'
+    pod 'MJRefresh'
+    pod 'Masonry'
+    pod 'Mantle'
+    pod 'CRToast'
+    pod 'KLCPopup'
+    pod 'pop', '~> 1.0'
+    pod 'StepSlider'
+    pod 'BEMCheckBox'
+    pod 'INTULocationManager', '~> 4.2'
+    pod 'AMap2DMap'
+    pod 'SDCycleScrollView','~> 1.6'
+    pod 'HCSStarRatingView', '~> 1.4'
+    pod 'ActionSheetPicker-3.0'
+    pod 'OpenShare', '~> 0.0'
+    pod "Pingpp/Alipay", :path => "~/Desktop/Ping++SDK-iOS"
+    pod "Pingpp/Fqlpay", :path => "~/Desktop/Ping++SDK-iOS"
+    pod "Branch"
+    pod 'MMNumberKeyboard'
+    pod 'RSKImageCropper'
+    pod 'Harpy'
+end
+
+
 
 # Update the project / pod segttings after pod install. Keep in mind please don't run Pod install when Xcode is open.
 post_install do |installer_representation|

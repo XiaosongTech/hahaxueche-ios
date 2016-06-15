@@ -22,6 +22,7 @@ typedef void (^HHGenericCompletion)();
 @property (nonatomic, strong) UIImageView *bachgroudImageView;
 @property (nonatomic) NSInteger countDown;
 @property (nonatomic) NSTimer *timer;
+@property (nonatomic, strong) UITextView *textView;
 
 - (void)showMoreFields;
 - (BOOL)areAllFieldsValid;

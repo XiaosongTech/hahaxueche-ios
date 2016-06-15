@@ -11,6 +11,7 @@
 #import "APIPaths.h"
 #import "HHToastManager.h"
 #import "HHStudentStore.h"
+#import "HHLoadingViewUtility.h"
 
 @implementation HHPaymentService
 
@@ -25,13 +26,10 @@
     return sharedInstance;
 }
 
-- (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion {
-    if ([[HHStudentStore sharedInstance].currentStudent.purchasedServiceArray count]) {
-        [[HHToastManager sharedManager] showErrorToastWithText:@"您已经有购买的教练，无需再次购买教练！"];
-        return;
-    }
+- (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod productType:(CoachProductType)productType inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICharges];
-    [APIClient postWithParameters:@{@"coach_id":coachId} completion:^(NSDictionary *response, NSError *error) {
+    [APIClient postWithParameters:@{@"coach_id":coachId, @"method":@(paymentMethod), @"product_type":@(productType)} completion:^(NSDictionary *response, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
             [Pingpp createPayment:response
                    viewController:viewController
@@ -53,8 +51,6 @@
             }
         }
     }];
-    
-
 }
 
 
