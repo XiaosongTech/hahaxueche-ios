@@ -185,13 +185,18 @@ static CGFloat const kFieldViewWidth = 280.0f;
         return;
     }
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
-    [[HHStudentService sharedInstance] setupStudentInfoWithStudentId:self.studentId userName:self.nameField.textField.text cityId:self.selectedCity.cityId completion:^(HHStudent *student, NSError *error) {
+    [[HHStudentService sharedInstance] setupStudentInfoWithStudentId:self.studentId userName:self.nameField.textField.text cityId:self.selectedCity.cityId promotionCode:self.promoField.text completion:^(HHStudent *student, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
             HHRootViewController *rootVC = [[HHRootViewController alloc] init];
             [self presentViewController:rootVC animated:YES completion:nil];
         } else {
-            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了，请重试！"];
+            if ([error.localizedFailureReason isEqual:@(40022)]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"请输入正确有效的优惠码"];
+            } else {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"出错了，请重试！"];
+            }
+            
         }
     }];
     

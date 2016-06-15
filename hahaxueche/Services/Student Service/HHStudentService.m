@@ -262,9 +262,13 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     }];
 }
 
-- (void)setupStudentInfoWithStudentId:(NSString *)studentId userName:(NSString *)userName cityId:(NSNumber *)cityId completion:(HHStudentCompletion)completion {
+- (void)setupStudentInfoWithStudentId:(NSString *)studentId userName:(NSString *)userName cityId:(NSNumber *)cityId promotionCode:(NSString *)promotionCode completion:(HHStudentCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentPath, studentId]];
-    [APIClient putWithParameters:@{@"name":userName, @"city_id":cityId} completion:^(NSDictionary *response, NSError *error) {
+    NSMutableDictionary *param = [NSMutableDictionary dictionaryWithDictionary:@{@"name":userName, @"city_id":cityId}];
+    if (promotionCode) {
+        param[@"promo_code"] = promotionCode;
+    }
+    [APIClient putWithParameters:param completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             HHStudent *student = [MTLJSONAdapter modelOfClass:[HHStudent class] fromJSONDictionary:response error:nil];
             HHUser *authedUser = [self getSavedUser];

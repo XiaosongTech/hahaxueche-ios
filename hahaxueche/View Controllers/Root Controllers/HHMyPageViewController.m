@@ -429,7 +429,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 
 - (void)saveName {
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
-    [[HHStudentService sharedInstance] setupStudentInfoWithStudentId:[HHStudentStore sharedInstance].currentStudent.studentId userName:self.editView.field.text cityId:[HHStudentStore sharedInstance].currentStudent.cityId completion:^(HHStudent *student, NSError *error) {
+    [[HHStudentService sharedInstance] setupStudentInfoWithStudentId:[HHStudentStore sharedInstance].currentStudent.studentId userName:self.editView.field.text cityId:[HHStudentStore sharedInstance].currentStudent.cityId promotionCode:nil completion:^(HHStudent *student, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
             self.currentStudent = student;
