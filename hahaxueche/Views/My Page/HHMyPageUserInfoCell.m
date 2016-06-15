@@ -52,6 +52,11 @@ static CGFloat const avatarRadius = 35.0f;
     self.nameLabel.font = [UIFont systemFontOfSize:18.0f];
     [self.contentView addSubview:self.nameLabel];
     
+    self.editButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.editButton setImage:[UIImage imageNamed:@"ic_edit"] forState:UIControlStateNormal];
+    [self.editButton addTarget:self action:@selector(editName) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:self.editButton];
+    
     self.courseLabel = [[UILabel alloc] init];
     self.courseLabel.textColor = [UIColor colorWithWhite:1.0f alpha:0.8f];
     self.courseLabel.font = [UIFont systemFontOfSize:14.0f];
@@ -99,6 +104,11 @@ static CGFloat const avatarRadius = 35.0f;
     [self.nameLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.topImageView.centerX);
         make.top.equalTo(self.avatarBackgroungView.bottom).offset(10.0f);
+    }];
+    
+    [self.editButton makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.nameLabel.centerY);
+        make.left.equalTo(self.nameLabel.right).offset(15.0f);
     }];
     
     [self.courseLabel makeConstraints:^(MASConstraintMaker *make) {
@@ -171,6 +181,12 @@ static CGFloat const avatarRadius = 35.0f;
 - (void)avatarViewTapped {
     if (self.avatarViewActionBlock) {
         self.avatarViewActionBlock();
+    }
+}
+
+- (void)editName {
+    if (self.editNameBlock) {
+        self.editNameBlock();
     }
 }
 

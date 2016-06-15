@@ -16,5 +16,6 @@
 // 1: C1, 2: C2, 3: C1 and C2
 @property (nonatomic, copy) NSNumber *licenseType;
 @property (nonatomic, copy) NSNumber *onlyGoldenCoach;
+@property (nonatomic, copy) NSNumber *onlyVIPCoach;
 
 @end

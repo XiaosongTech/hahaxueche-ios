@@ -18,6 +18,8 @@
 @property (nonatomic, copy) NSNumber *averageRating;
 @property (nonatomic, copy) NSNumber *price;
 @property (nonatomic, copy) NSNumber *marketPrice;
+@property (nonatomic, copy) NSNumber *VIPPrice;
+@property (nonatomic, copy) NSNumber *VIPMarketPrice;
 @property (nonatomic, copy) NSNumber *experienceYear;
 @property (nonatomic, copy) NSNumber *reviewCount;
 @property (nonatomic, copy) NSNumber *skillLevel;

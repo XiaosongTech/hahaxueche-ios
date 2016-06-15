@@ -1,3 +1,5 @@
+// DO NOT EDIT (This file was auto-generated from NBPhoneMetaDataGenerator)
+
 #import <Foundation/Foundation.h>
 #import "NBPhoneMetaData.h"
 
@@ -34,7 +36,7 @@
 @interface NBPhoneMetadataTestPL : NBPhoneMetaData
 @end
 
-@interface NBPhoneMetadataTestYT : NBPhoneMetaData
+@interface NBPhoneMetadataTestSE : NBPhoneMetaData
 @end
 
 @interface NBPhoneMetadataTestCA : NBPhoneMetaData
@@ -44,6 +46,9 @@
 @end
 
 @interface NBPhoneMetadataTest800 : NBPhoneMetaData
+@end
+
+@interface NBPhoneMetadataTestYT : NBPhoneMetaData
 @end
 
 @interface NBPhoneMetadataTestFR : NBPhoneMetaData

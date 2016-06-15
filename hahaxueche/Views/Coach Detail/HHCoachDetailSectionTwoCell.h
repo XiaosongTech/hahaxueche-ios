@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HHCoachDetailSectionOneCell.h"
 #import "HHCollaborateCoachesView.h"
+#import "HHCoachDetailSingleInfoView.h"
+#import "HHCoach.h"
 
 typedef void (^HHCoachDetailPeerCoachActionBlock)(NSInteger index);
 

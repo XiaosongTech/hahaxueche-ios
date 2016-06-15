@@ -105,7 +105,6 @@ static CGFloat const kCellHeightExpanded = 300.0f;
         make.center.equalTo(self.view);
         make.width.equalTo(self.view.width).offset(-40.0f);
     }];
-    
 
 }
 
@@ -170,12 +169,14 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     self.userCity = [[HHConstantsStore sharedInstance] getAuthedUserCity];
     NSNumber *defaultDistance = self.userCity.distanceRanges[self.userCity.distanceRanges.count - 2];
     NSNumber *defaultPrice = [self.userCity.priceRanges lastObject];
-    HHCoachFilters *defailtFilters = [[HHCoachFilters alloc] init];
-    defailtFilters.price = defaultPrice;
-    defailtFilters.distance = defaultDistance;
-    defailtFilters.onlyGoldenCoach = @(0);
-    defailtFilters.licenseType = @(3);
-    self.coachFilters = defailtFilters;
+    HHCoachFilters *defaultFilters = [[HHCoachFilters alloc] init];
+    defaultFilters.price = defaultPrice;
+    defaultFilters.distance = defaultDistance;
+    defaultFilters.onlyGoldenCoach = @(0);
+    defaultFilters.onlyVIPCoach = @(0);
+    defaultFilters.licenseType = @(3);
+    defaultFilters.onlyVIPCoach = @(0);
+    self.coachFilters = defaultFilters;
     
     self.currentSortOption = SortOptionSmartSort;
 }
@@ -341,7 +342,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 
 - (void)filterTapped {
     __weak HHFindCoachViewController *weakSelf = self;
-    self.filtersView = [[HHFiltersView alloc] initWithFilters:[self.coachFilters copy] frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 380.0f) city:self.userCity];
+    self.filtersView = [[HHFiltersView alloc] initWithFilters:[self.coachFilters copy] frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 440.0f) city:self.userCity];
     self.filtersView.confirmBlock = ^(HHCoachFilters *filters){
         weakSelf.coachFilters = filters;
         [weakSelf refreshCoachListWithCompletion:nil];

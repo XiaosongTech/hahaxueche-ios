@@ -36,7 +36,7 @@
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentLeft;
     paragraphStyle.lineSpacing = 8.0f;
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@"1.提现金额将于1-3个工作日打入您的支付宝账户\n2.如果提现失败请及时联系客服人员帮助\n" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@"1.提现金额将于10个工作日打入您的支付宝账户\n2.如果提现失败请及时联系客服人员帮助\n" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
     NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:@"客服电话: 400-001-6006" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSForegroundColorAttributeName:[UIColor HHOrange], NSParagraphStyleAttributeName:paragraphStyle}];
     [attrString appendAttributedString:attrString2];
     

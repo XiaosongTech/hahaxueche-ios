@@ -29,6 +29,7 @@
 #import "HHReferFriendsViewController.h"
 #import "HHGroupPurchaseView.h"
 #import "HHStudentService.h"
+#import "HHTryCoachView.h"
 
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach";
@@ -39,7 +40,7 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
 @property (nonatomic, strong) SDCycleScrollView *bannerView;
 @property (nonatomic, strong) HHHomePageTapView *leftView;
 @property (nonatomic, strong) HHHomePageTapView *rightView;
-@property (nonatomic, strong) UIButton *oneTapButton;
+@property (nonatomic, strong) UIButton *freeTryButton;
 @property (nonatomic, strong) HHCitySelectView *citySelectView;
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) CLLocation *userLocation;
@@ -81,7 +82,7 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *isShowed = [defaults objectForKey:@"showedBonusPopoup"];
 
-    if (![isShowed boolValue] && [[HHStudentStore sharedInstance].currentStudent.byReferal boolValue] && [HHStudentStore sharedInstance].currentStudent.studentId) {
+    if (![isShowed boolValue] && [[HHStudentStore sharedInstance].currentStudent.byReferal boolValue] && [HHStudentStore sharedInstance].currentStudent.studentId && ![[HHStudentStore sharedInstance].currentStudent.purchasedServiceArray count]) {
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.alignment = NSTextAlignmentLeft;
         paragraphStyle.lineSpacing = 8.0f;
@@ -135,13 +136,13 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
     };
     [self.view addSubview:self.rightView];
     
-    self.oneTapButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.oneTapButton setTitle:@"一键选教练" forState:UIControlStateNormal];
-    [self.oneTapButton setBackgroundColor:[UIColor HHOrange]];
-    [self.oneTapButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.oneTapButton addTarget:self action:@selector(oneTapButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    self.oneTapButton.titleLabel.font = [UIFont systemFontOfSize:30.0f];
-    [self.view addSubview:self.oneTapButton];
+    self.freeTryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.freeTryButton setTitle:@"免费试学" forState:UIControlStateNormal];
+    [self.freeTryButton setBackgroundColor:[UIColor HHOrange]];
+    [self.freeTryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.freeTryButton addTarget:self action:@selector(oneTapButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    self.freeTryButton.titleLabel.font = [UIFont systemFontOfSize:30.0f];
+    [self.view addSubview:self.freeTryButton];
     
     [self makeConstraints];
 }
@@ -168,7 +169,7 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
         make.height.mas_equalTo(100.0f);
     }];
     
-    [self.oneTapButton makeConstraints:^(MASConstraintMaker *make) {
+    [self.freeTryButton makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.leftView.bottom).offset(20.0f);
         make.left.equalTo(self.view.left).offset(15.0f);
         make.width.equalTo(self.view.width).offset(-30.0f);
@@ -179,102 +180,15 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
 #pragma mark - Button Actions 
 
 - (void)oneTapButtonTapped {
-    if (self.userLocation) {
-        [self getCoach];
-        return;
-    }
-    
-    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyBlock timeout:10.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
-        
-        if (status == INTULocationStatusSuccess) {
-            self.userLocation = currentLocation;
-            [self getCoach];
-            
-        } else if (status == INTULocationStatusServicesDenied){
-            self.userLocation = nil;
-            [self showAlertForPermission];
-            
-        } else if (status == INTULocationStatusError) {
-            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了，请重试"];
-            self.userLocation = nil;
-        }
-        
-    }];
-   
-}
-
-- (void)getCoach {
-    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"寻找教练中"];
-    
-    NSNumber *lat = @(self.userLocation.coordinate.latitude);
-    NSNumber *lon = @(self.userLocation.coordinate.longitude);
-    NSArray *locationArray = @[lat, lon];
-    [[HHCoachService sharedInstance] oneClickFindCoachWithLocation:locationArray completion:^(HHCoach *coach, NSError *error) {
-        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-        if (!error) {
-            if (coach.coachId) {
-                HHCoachDetailViewController *vc = [[HHCoachDetailViewController alloc] initWithCoach:coach];
-                vc.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:vc animated:YES];
-            } else {
-                [[HHToastManager sharedManager] showErrorToastWithText:@"非常抱歉，没有在您周围找到合适的教练！"];
-            }
-        } else {
-            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了，请重试！"];
-        }
-    }];
-}
-
-- (void)showAlertForPermission {
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"哈哈学车需要您的地理位置信息"
-                                          message:@"为了更好的帮助您找到最合适的教练，我们需要您开启地理位置功能。"
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *cancelAction = [UIAlertAction
-                                   actionWithTitle:@"暂时不开"
-                                   style:UIAlertActionStyleCancel
-                                   handler:nil];
-    
-    UIAlertAction *okAction = [UIAlertAction
-                               actionWithTitle:@"去开启"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction *action) {
-                                   NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                                   [[UIApplication sharedApplication] openURL:url];
-                                   [self.navigationController popViewControllerAnimated:YES];
-                               }];
-    
-    [alertController addAction:cancelAction];
-    [alertController addAction:okAction];
-    
-    [self presentViewController:alertController animated:YES completion:nil];
-    
+   [self tryCoachForFree];
 }
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
     switch (index) {
         case 0: {
             __weak HHHomePageViewController *weakSelf = self;
-            HHGroupPurchaseView *view = [[HHGroupPurchaseView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 430.0f)];
+            HHGroupPurchaseView *view = [[HHGroupPurchaseView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 230.0f)];
             view.cancelBlock = ^() {
-                [HHPopupUtility dismissPopup:weakSelf.popup];
-            };
-            
-            view.confirmBlock = ^(NSString *name, NSString *number) {
-                [[HHStudentService sharedInstance] signupGroupPurchaseWithName:name number:number completion:^(NSError *error) {
-                    if (!error) {
-                        [HHPopupUtility dismissPopup:weakSelf.popup];
-                        [[HHToastManager sharedManager] showSuccessToastWithText:@"恭喜您, 团购抢购成功!"];
-                    } else {
-                        if ([error.localizedFailureReason isEqual:@(40022)]) {
-                            [[HHToastManager sharedManager] showErrorToastWithText:@"已经提交成功, 无需重复提交"];
-                        } else {
-                            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
-                        }
-                        
-                    }
-                }];
                 [HHPopupUtility dismissPopup:weakSelf.popup];
             };
             self.popup = [HHPopupUtility createPopupWithContentView:view];
@@ -282,7 +196,7 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
         } break;
             
         case 1: {
-            self.tabBarController.selectedIndex = TabBarItemCoach;
+            [self tryCoachForFree];
         } break;
             
         case 2: {
@@ -295,11 +209,11 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
         } break;
             
         case 3: {
-            [self openWebPage:[NSURL URLWithString:kAboutStudentLink]];
+            
         } break;
         
         case 4: {
-            [self openWebPage:[NSURL URLWithString:kAboutCoachLink]];
+            
         } break;
             
         default:
@@ -312,6 +226,35 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
     webVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:webVC animated:YES];
    
+}
+
+- (void)tryCoachForFree {
+    __weak HHHomePageViewController *weakSelf = self;
+    HHTryCoachView *tryCoachView = [[HHTryCoachView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 350.0f) mode:TryCoachModeSimple];
+    tryCoachView.cancelBlock = ^(){
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+    };
+    tryCoachView.confirmBlock = ^(NSString *name, NSString *number, NSDate *firstDate, NSDate *secDate) {
+        [[HHLoadingViewUtility sharedInstance] showLoadingView];
+        [[HHCoachService sharedInstance] tryCoachWithId:nil
+                                                   name:name
+                                                 number:number
+                                              firstDate:nil
+                                             secondDate:nil
+                                             completion:^(NSError *error) {
+                                                 
+                                                 [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+                                                 if (!error) {
+                                                     [[HHToastManager sharedManager] showSuccessToastWithText:@"免费试学预约成功！教练会尽快联系您！"];
+                                                     [HHPopupUtility dismissPopup:weakSelf.popup];
+                                                 } else {
+                                                     [[HHToastManager sharedManager] showErrorToastWithText:@"预约失败，请重试！"];
+                                                 }
+                                             }];
+    };
+    weakSelf.popup = [HHPopupUtility createPopupWithContentView:tryCoachView];
+    [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+
 }
 
 

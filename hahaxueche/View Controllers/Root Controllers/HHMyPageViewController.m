@@ -33,6 +33,12 @@
 #import "HHBonusInfoViewController.h"
 #import "HHLongImageViewController.h"
 #import "SDImageCache.h"
+#import "HHEditNameView.h"
+#import "HHPopupUtility.h"
+#import "HHEditNameView.h"
+#import "HHStudentService.h"
+#import "HHStudentStore.h"
+#import <RSKImageCropper/RSKImageCropper.h>
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -52,7 +58,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellCount,
 };
 
-@interface HHMyPageViewController() <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface HHMyPageViewController() <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, RSKImageCropViewControllerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -61,6 +67,9 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 @property (nonatomic, strong) HHStudent *currentStudent;
 
 @property (nonatomic, strong) HHCoach *myCoach;
+@property (nonatomic, strong) KLCPopup *popup;
+@property (nonatomic, strong) HHEditNameView *editView;
+@property (nonatomic, strong) UIImage *selectedImage;
 
 @end
 
@@ -174,6 +183,17 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             };
             cell.avatarViewActionBlock = ^() {
                 [weakSelf showImageOptions];
+            };
+            
+            cell.editNameBlock = ^() {
+                HHEditNameView *view = [[HHEditNameView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-30.0f, 190.0f) name:weakSelf.currentStudent.name];
+                [view.buttonsView.leftButton addTarget:weakSelf action:@selector(dismissPopup) forControlEvents:UIControlEventTouchUpInside];
+                [view.buttonsView.rightButton addTarget:weakSelf action:@selector(saveName) forControlEvents:UIControlEventTouchUpInside];
+                weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+                [view.field becomeFirstResponder];
+                
+                weakSelf.editView = view;
             };
             [cell setupCellWithStudent:self.currentStudent];
             return cell;
@@ -377,32 +397,91 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImage *selectedImage;
     [picker dismissViewControllerAnimated:YES completion:nil];
     if ([info objectForKey:@"UIImagePickerControllerOriginalImage"]) {
-        selectedImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+        self.selectedImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     }
     
-    if (selectedImage) {
-        [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"上传图片中"];
-        [[HHStudentService sharedInstance] uploadStudentAvatarWithImage:selectedImage completion:^(HHStudent *student, NSError *error) {
-            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-            if (error) {
-                [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败，请您重试！"];
-            } else {
-                [[SDImageCache sharedImageCache] removeImageForKey:self.currentStudent.avatarURL fromDisk:YES];
-                [HHStudentStore sharedInstance].currentStudent = student;
-                self.currentStudent = student;
-                [self.tableView reloadData];
-            }
-        }];
+    if (self.selectedImage) {
+        
+        RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:self.selectedImage];
+        imageCropVC.delegate = self;
+        imageCropVC.view.backgroundColor = [UIColor whiteColor];
+        imageCropVC.moveAndScaleLabel.text = @"裁切图片";
+        imageCropVC.hidesBottomBarWhenPushed = YES;
+        [imageCropVC.cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+        [imageCropVC.chooseButton setTitle:@"确认" forState:UIControlStateNormal];
+        [self.navigationController pushViewController:imageCropVC animated:NO];
     }
+
 }
 
 - (void)jumpToIntroVC {
     HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
     introVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:introVC animated:YES];
+}
+
+- (void)dismissPopup {
+    [self.editView.field resignFirstResponder];
+    [HHPopupUtility dismissPopup:self.popup];
+}
+
+- (void)saveName {
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    [[HHStudentService sharedInstance] setupStudentInfoWithStudentId:[HHStudentStore sharedInstance].currentStudent.studentId userName:self.editView.field.text cityId:[HHStudentStore sharedInstance].currentStudent.cityId promotionCode:nil completion:^(HHStudent *student, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (!error) {
+            self.currentStudent = student;
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:MyPageCellUserInfo inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            [HHPopupUtility dismissPopup:self.popup];
+            [[HHToastManager sharedManager] showSuccessToastWithText:@"设置成功"];
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
+        }
+    }];
+    
+}
+
+// Crop image has been canceled.
+- (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+// The original image has been cropped.
+- (void)imageCropViewController:(RSKImageCropViewController *)controller
+                   didCropImage:(UIImage *)croppedImage
+                  usingCropRect:(CGRect)cropRect {
+    self.selectedImage = croppedImage;
+    [self.navigationController popViewControllerAnimated:YES];
+    
+    [self uploadAvatar];
+}
+
+// The original image has been cropped. Additionally provides a rotation angle used to produce image.
+- (void)imageCropViewController:(RSKImageCropViewController *)controller
+                   didCropImage:(UIImage *)croppedImage
+                  usingCropRect:(CGRect)cropRect
+                  rotationAngle:(CGFloat)rotationAngle {
+    
+    self.selectedImage = croppedImage;
+    [self.navigationController popViewControllerAnimated:YES];
+    [self uploadAvatar];
+}
+
+- (void)uploadAvatar {
+    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"上传图片中"];
+    [[HHStudentService sharedInstance] uploadStudentAvatarWithImage:self.selectedImage completion:^(HHStudent *student, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (error) {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败，请您重试！"];
+        } else {
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:MyPageCellUserInfo inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            [HHStudentStore sharedInstance].currentStudent = student;
+            self.currentStudent = student;
+            [self.tableView reloadData];
+        }
+    }];
 }
 
 

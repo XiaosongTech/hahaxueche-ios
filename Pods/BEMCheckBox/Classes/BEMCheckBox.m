@@ -59,6 +59,7 @@
     _tintColor = [UIColor lightGrayColor];
     _lineWidth = 2.0;
     _animationDuration = 0.5;
+    _minimumTouchSize = CGSizeMake(44, 44);
     _onAnimationType = BEMAnimationTypeStroke;
     _offAnimationType = BEMAnimationTypeStroke;
     self.backgroundColor = [UIColor clearColor];
@@ -131,15 +132,37 @@
 - (void)setBoxType:(BEMBoxType)boxType {
     _boxType = boxType;
     _pathManager.boxType = boxType;
+    [self reload];
 }
 
 - (void)setLineWidth:(CGFloat)lineWidth {
     _lineWidth = lineWidth;
     _pathManager.lineWidth = lineWidth;
+    [self reload];
 }
 
 - (void)setOffAnimationType:(BEMAnimationType)offAnimationType {
     _offAnimationType = offAnimationType;
+}
+
+- (void)setTintColor:(UIColor *)tintColor {
+    _tintColor = tintColor;
+    [self drawOffBox];
+}
+
+- (void)setOnTintColor:(UIColor *)onTintColor {
+    _onTintColor = onTintColor;
+    [self reload];
+}
+
+- (void)setOnFillColor:(UIColor *)onFillColor {
+    _onFillColor = onFillColor;
+    [self reload];
+}
+
+- (void)setOnCheckColor:(UIColor *)onCheckColor {
+    _onCheckColor = onCheckColor;
+    [self reload];
 }
 
 #pragma mark Gesture Recognizer
@@ -151,6 +174,28 @@
 }
 
 #pragma  mark - Helper methods -
+
+#pragma mark Increase touch area
+- (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event;
+{
+    BOOL found = [super pointInside:point withEvent:event];
+    
+    CGSize minimumSize = self.minimumTouchSize;
+    CGFloat width = self.bounds.size.width;
+    CGFloat height = self.bounds.size.height;
+    
+    if (found == NO && (width < minimumSize.width || height < minimumSize.height)) {
+        CGFloat increaseWidth = minimumSize.width - width;
+        CGFloat increaseHeight = minimumSize.height - height;
+        
+        CGRect rect = CGRectInset(self.bounds, (-increaseWidth / 2), (-increaseHeight / 2));
+        
+        found = CGRectContainsPoint(rect, point);
+    }
+    
+    return found;
+}
+
 #pragma mark Drawings
 - (void)drawRect:(CGRect)rect {
     [self setOn:self.on animated:NO];

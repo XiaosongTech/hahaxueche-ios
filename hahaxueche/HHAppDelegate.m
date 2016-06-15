@@ -22,7 +22,7 @@
 #import "HHRootViewController.h"
 #import "HHAccountSetupViewController.h"
 #import "HHLaunchImageViewController.h"
-#import <MAMapKit/MAMapKit.h>
+#import <AMapFoundationKit/AMapFoundationKit.h>
 #import "HHSocialMediaShareUtility.h"
 #import <Pingpp/Pingpp.h>
 #import "HHStudentService.h"
@@ -32,10 +32,13 @@
 #import "Branch.h"
 #import "HHCoachDetailViewController.h"
 #import "HHLoadingViewUtility.h"
+#import <Harpy/Harpy.h>
 
 static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
-@interface HHAppDelegate ()
+@interface HHAppDelegate () <HarpyDelegate>
+
+@property (nonatomic, strong) __block UIViewController *finalRootVC;
 
 @end
 
@@ -48,11 +51,10 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [self.window setRootViewController:launchVC];
     
     
-    
     HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
     __block UINavigationController *introNavVC = [[UINavigationController alloc] initWithRootViewController:introVC];
     
-    __block UIViewController *finalRootVC = introNavVC;
+    self.finalRootVC = introNavVC;
     
     [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
         if (constants) {
@@ -67,18 +69,28 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                                     // Student created, but not set up yet
                                     HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
                                     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
-                                    finalRootVC = navVC;
+                                    self.finalRootVC = navVC;
+                                    [self handleBranchWithLaunchOptions:launchOptions];
                                 } else {
                                     // Get the saved student object, we lead user to rootVC
                                     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-                                    finalRootVC = rootVC;
+                                    self.finalRootVC = rootVC;
+                                    [self handleBranchWithLaunchOptions:launchOptions];
                                 }
+                            } else {
+                                [self handleBranchWithLaunchOptions:launchOptions];
                             }
                         }];
+                    } else {
+                        [self handleBranchWithLaunchOptions:launchOptions];
                     }
                 }];
                 
+            } else {
+                [self handleBranchWithLaunchOptions:launchOptions];
             }
+        } else {
+            [self handleBranchWithLaunchOptions:launchOptions];
         }
        
     }];
@@ -86,29 +98,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [self setWindow:self.window];
     [self setupAllThirdPartyServices];
     [self setAppearance];
-    Branch *branch = [Branch getInstance];
-    [branch initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
-        self.window.rootViewController = finalRootVC;
-        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-        if (!error) {
-            //not Branch link
-            if (![params[@"+clicked_branch_link"] boolValue]) {
-                return ;
-            }
-            //handle Branch link
-            NSString *coachId = params[@"coachId"];
-            if (coachId) {
-                HHCoachDetailViewController *coachVC = [[HHCoachDetailViewController alloc] initWithCoachId:coachId];
-                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:coachVC];
-                [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
-            }
-            
-            NSString *refererId = params[@"refererId"];
-            if (refererId) {
-                [HHConstantsStore sharedInstance].refererId = refererId;;
-            }
-        }
-    }];
     return YES;
 }
 
@@ -158,8 +147,8 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     
     // Instabug
 #ifdef DEBUG
-    [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventShake];
-    [Instabug setIsTrackingCrashes:NO];
+    [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" invocationEvent:IBGInvocationEventShake];
+    [Instabug setCrashReportingEnabled:NO];
     [Pingpp setDebugMode:YES];
     [Appirater setDebug:NO];
 #else
@@ -167,8 +156,8 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     NSString *receiptURLString = [receiptURL path];
     BOOL isRunningTestFlightBeta =  ([receiptURLString rangeOfString:@"sandboxReceipt"].location != NSNotFound);
     if (isRunningTestFlightBeta) {
-        [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" captureSource:IBGCaptureSourceUIKit invocationEvent:IBGInvocationEventShake];
-        [Instabug setIsTrackingCrashes:NO];
+        [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" invocationEvent:IBGInvocationEventShake];
+        [Instabug setCrashReportingEnabled:NO];
     }
     [Appirater setDebug:NO];
     
@@ -182,17 +171,20 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [HHEventTrackingManager sharedManager];
     
     //SDWebImage
+    
     [SDWebImageManager sharedManager].imageCache.maxCacheSize = 20000000;
     [[[SDWebImageManager sharedManager] imageDownloader] setMaxConcurrentDownloads:10];
     [[[SDWebImageManager sharedManager] imageDownloader] setExecutionOrder:SDWebImageDownloaderLIFOExecutionOrder];
     
-    [MAMapServices sharedServices].apiKey = kMapServiceKey;
+    
+    [AMapServices sharedServices].apiKey =kMapServiceKey;
     
     [HHSocialMediaShareUtility sharedInstance];
     
     [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
     
     [HHEventTrackingManager sharedManager];
+
     
 }
 
@@ -216,6 +208,44 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     }
     
     return topController;
+}
+
+- (void)handleBranchWithLaunchOptions:(NSDictionary *)launchOptions {
+    Branch *branch = [Branch getInstance];
+    [branch initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
+        self.window.rootViewController = self.finalRootVC;
+        [[Harpy sharedInstance] setAppID:@"1011236187"];
+        [[Harpy sharedInstance] setPresentingViewController:self.window.rootViewController];
+        [[Harpy sharedInstance] setDelegate:self];
+        [[Harpy sharedInstance] setAppName:@"哈哈学车"];
+        [[Harpy sharedInstance]  setForceLanguageLocalization:HarpyLanguageChineseSimplified];
+        [[Harpy sharedInstance] setDebugEnabled:YES];
+        [[Harpy sharedInstance] setAlertType:HarpyAlertTypeOption];
+        [[Harpy sharedInstance] setCountryCode:@"CN"];
+        [[Harpy sharedInstance] checkVersion];
+        
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (!error) {
+            //not Branch link
+            if (![params[@"+clicked_branch_link"] boolValue]) {
+                return ;
+            }
+            //handle Branch link
+            NSString *coachId = params[@"coachId"];
+            if (coachId) {
+                HHCoachDetailViewController *coachVC = [[HHCoachDetailViewController alloc] initWithCoachId:coachId];
+                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:coachVC];
+                [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
+            }
+            
+            NSString *refererId = params[@"refererId"];
+            if (refererId) {
+                [HHConstantsStore sharedInstance].refererId = refererId;;
+            }
+        }
+    }];
+
+    
 }
 
 

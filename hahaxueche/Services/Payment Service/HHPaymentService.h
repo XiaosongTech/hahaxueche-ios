@@ -9,6 +9,20 @@
 #import <Foundation/Foundation.h>
 #import <Pingpp/Pingpp.h>
 
+typedef NS_ENUM(NSInteger, StudentPaymentMethod) {
+    StudentPaymentMethodAlipay, // 支付宝
+    StudentPaymentMethodFql, //分期乐
+    StudentPaymentMethodWeChatPay, // 微信支付
+    StudentPaymentMethodBankCard, // 银行卡
+    StudentPaymentMethodCount
+};
+
+typedef NS_ENUM(NSInteger, CoachProductType) {
+    CoachProductTypeStandard, // 普通服务
+    CoachProductTypeVIP, //VIP
+   
+};
+
 typedef void (^HHPaymentResultCompletion)(BOOL succeed);
 
 @interface HHPaymentService : NSObject
@@ -16,6 +30,6 @@ typedef void (^HHPaymentResultCompletion)(BOOL succeed);
 + (instancetype)sharedInstance;
 
 
-- (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion;
+- (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod productType:(CoachProductType)productType inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion;
 
 @end

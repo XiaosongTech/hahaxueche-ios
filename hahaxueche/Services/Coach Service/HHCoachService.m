@@ -29,6 +29,7 @@
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICoaches];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     param[@"golden_coach_only"] = filters.onlyGoldenCoach;
+    param[@"vip_only"] = filters.onlyVIPCoach;
     param[@"city_id"] = cityId;
     param[@"sort_by"] = @(sortOption);
     
@@ -160,8 +161,20 @@
 }
 
 -(void)tryCoachWithId:(NSString *)coachId name:(NSString *)name number:(NSString *)number firstDate:(NSString *)firstDate secondDate:(NSString *)secondDate completion:(HHCoachGenericCompletion)completion {
-    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentTryCoach, coachId]];
-    NSDictionary *param = @{@"name":name, @"phone_number":number, @"first_time_option":firstDate, @"second_time_option":secondDate};
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIStudentTryCoach];
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionaryWithDictionary:@{@"name":name, @"phone_number":number}];
+    if (coachId) {
+        param[@"coach_id"] = coachId;
+    }
+    
+    if (firstDate) {
+        param[@"first_time_option"] = firstDate;
+    }
+    
+    if (secondDate) {
+        param[@"second_time_option"] = secondDate;
+    }
     [APIClient postWithParameters:param completion:^(NSDictionary *response, NSError *error) {
         if (completion) {
             completion(error);

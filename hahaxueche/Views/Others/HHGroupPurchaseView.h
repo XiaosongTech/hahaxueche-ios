@@ -16,13 +16,8 @@ typedef void (^HHGroupPurchaseCancelBlock)();
 @property (nonatomic, strong) UIView *topView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *subtitleLabel;
-@property (nonatomic, strong) UITextField *nameField;
-@property (nonatomic, strong) UITextField *numberField;
-@property (nonatomic, strong) UIButton *confirmButton;
 @property (nonatomic, strong) UIButton *cancelButton;
-@property (nonatomic, strong) UILabel *ruleLabel;
 
-@property (nonatomic, strong) HHGroupPurchaseConfirmBlock confirmBlock;
 @property (nonatomic, strong) HHGroupPurchaseCancelBlock cancelBlock;
 
 @end
