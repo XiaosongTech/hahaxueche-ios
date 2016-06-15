@@ -209,11 +209,11 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
         } break;
             
         case 3: {
-            [self openWebPage:[NSURL URLWithString:kAboutStudentLink]];
+            
         } break;
         
         case 4: {
-            [self openWebPage:[NSURL URLWithString:kAboutCoachLink]];
+            
         } break;
             
         default:
