@@ -406,7 +406,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
             self.userLocation = currentLocation;
             [HHStudentStore sharedInstance].currentLocation = currentLocation;
             
-        } else if (status == INTULocationStatusServicesDenied){
+        } else if (status == INTULocationStatusServicesDenied || status == INTULocationStatusServicesRestricted || status == INTULocationStatusServicesDisabled){
             HHAskLocationPermissionViewController *vc = [[HHAskLocationPermissionViewController alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];

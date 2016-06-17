@@ -421,6 +421,7 @@
 		6DBAC5BF1D13942B0040BDA7 /* ic_list_best_unclick.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DBAC5BC1D13942B0040BDA7 /* ic_list_best_unclick.png */; };
 		6DBAC5C01D13942B0040BDA7 /* ic_list_best_unclick@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DBAC5BD1D13942B0040BDA7 /* ic_list_best_unclick@2x.png */; };
 		6DBAC5C11D13942B0040BDA7 /* ic_list_best_unclick@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DBAC5BE1D13942B0040BDA7 /* ic_list_best_unclick@3x.png */; };
+		6DBAC5C31D13B4C60040BDA7 /* faq.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DBAC5C21D13B4C60040BDA7 /* faq.png */; };
 		6DDAE6C31CB7566900CE461A /* HHNoCoachView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */; };
 		6DDAE6C91CB7899F00CE461A /* HHAppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C81CB7899F00CE461A /* HHAppInfoViewController.m */; };
 		6DDAE6CD1CB78B1B00CE461A /* ic_aboutmsg_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDAE6CA1CB78B1B00CE461A /* ic_aboutmsg_logo.png */; };
@@ -457,7 +458,6 @@
 		6DF202E01CD0C217002092B4 /* HHWithdraw.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF202DF1CD0C217002092B4 /* HHWithdraw.m */; };
 		6DF202EF1CD33212002092B4 /* HHInputPaymentMethodView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF202EE1CD33212002092B4 /* HHInputPaymentMethodView.m */; };
 		6DF202F41CD34600002092B4 /* HHLongImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF202F31CD34600002092B4 /* HHLongImageViewController.m */; };
-		6DF202F81CD359A0002092B4 /* faq.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6DF202F71CD3599F002092B4 /* faq.jpg */; };
 		6DF202FB1CD4514F002092B4 /* HHBonus.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF202FA1CD4514F002092B4 /* HHBonus.m */; };
 		6DF41A9B1CE9FB980014F7E3 /* ic_share_pic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6DF41A981CE9FB980014F7E3 /* ic_share_pic.jpg */; };
 		6DF41A9C1CE9FB980014F7E3 /* ic_share_pic@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6DF41A991CE9FB980014F7E3 /* ic_share_pic@2x.jpg */; };
@@ -1034,6 +1034,7 @@
 		6DBAC5BC1D13942B0040BDA7 /* ic_list_best_unclick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_list_best_unclick.png; sourceTree = "<group>"; };
 		6DBAC5BD1D13942B0040BDA7 /* ic_list_best_unclick@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_list_best_unclick@2x.png"; sourceTree = "<group>"; };
 		6DBAC5BE1D13942B0040BDA7 /* ic_list_best_unclick@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_list_best_unclick@3x.png"; sourceTree = "<group>"; };
+		6DBAC5C21D13B4C60040BDA7 /* faq.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = faq.png; sourceTree = "<group>"; };
 		6DDAE6C11CB7566900CE461A /* HHNoCoachView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNoCoachView.h; sourceTree = "<group>"; };
 		6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNoCoachView.m; sourceTree = "<group>"; };
 		6DDAE6C71CB7899F00CE461A /* HHAppInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAppInfoViewController.h; sourceTree = "<group>"; };
@@ -1088,7 +1089,6 @@
 		6DF202EE1CD33212002092B4 /* HHInputPaymentMethodView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHInputPaymentMethodView.m; sourceTree = "<group>"; };
 		6DF202F21CD34600002092B4 /* HHLongImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHLongImageViewController.h; sourceTree = "<group>"; };
 		6DF202F31CD34600002092B4 /* HHLongImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHLongImageViewController.m; sourceTree = "<group>"; };
-		6DF202F71CD3599F002092B4 /* faq.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = faq.jpg; sourceTree = "<group>"; };
 		6DF202F91CD4514F002092B4 /* HHBonus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHBonus.h; sourceTree = "<group>"; };
 		6DF202FA1CD4514F002092B4 /* HHBonus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHBonus.m; sourceTree = "<group>"; };
 		6DF41A981CE9FB980014F7E3 /* ic_share_pic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ic_share_pic.jpg; sourceTree = "<group>"; };
@@ -1760,6 +1760,7 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6DBAC5C21D13B4C60040BDA7 /* faq.png */,
 				6DBAC5BC1D13942B0040BDA7 /* ic_list_best_unclick.png */,
 				6DBAC5BD1D13942B0040BDA7 /* ic_list_best_unclick@2x.png */,
 				6DBAC5BE1D13942B0040BDA7 /* ic_list_best_unclick@3x.png */,
@@ -1769,7 +1770,6 @@
 				6DBAC5B01D12E4080040BDA7 /* ic_list_best_small.png */,
 				6DBAC5B11D12E4080040BDA7 /* ic_list_best_small@2x.png */,
 				6DBAC5B21D12E4080040BDA7 /* ic_list_best_small@3x.png */,
-				6DF202F71CD3599F002092B4 /* faq.jpg */,
 				6D4151F51CF72FDC004A7EE8 /* fql.png */,
 				6D4151F61CF72FDC004A7EE8 /* fql@2x.png */,
 				6D4151F71CF72FDC004A7EE8 /* fql@3x.png */,
@@ -2292,6 +2292,7 @@
 				5C36D3721C42D9F800443545 /* ic_bottombar_date_normal_btn@1x.png in Resources */,
 				6D3D6F9E1CC0933100E3BD8E /* ic_class_emptyava.png in Resources */,
 				5C36D41A1C496ECD00443545 /* ic_sort_nice_normal_btn@2x.png in Resources */,
+				6DBAC5C31D13B4C60040BDA7 /* faq.png in Resources */,
 				5C36D3851C42D9F800443545 /* ic_bottombar_mypage_normal_btn@2x.png in Resources */,
 				6D82BD611CCF91D800D4109A /* ic_cardpay_icon@3x.png in Resources */,
 				140EC5EE1C6D542700DA634D /* ic_coachmsg_charge.png in Resources */,
@@ -2335,7 +2336,6 @@
 				147AA0021C7ABB6D000DED3B /* ic_havenotpay@3x.png in Resources */,
 				5C36D3731C42D9F800443545 /* ic_bottombar_date_normal_btn@2x.png in Resources */,
 				14604F581C6FB0E3009DBE10 /* ic_coachmsg_sharecoach_qq@2x.png in Resources */,
-				6DF202F81CD359A0002092B4 /* faq.jpg in Resources */,
 				6D4152081CF73718004A7EE8 /* icon_selected_normal@3x.png in Resources */,
 				5C36D3C31C47500700443545 /* ic_sort_hold_btn@1X.png in Resources */,
 				5C36D4141C496ECD00443545 /* ic_sort_local_normal_btn@2x.png in Resources */,

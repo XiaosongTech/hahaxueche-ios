@@ -258,8 +258,9 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             };
             
             cell.faqView.actionBlock = ^() {
-                HHLongImageViewController *faq = [[HHLongImageViewController alloc] initWithImage:[UIImage imageNamed:@"faq.jpg"]];
-                [weakSelf presentViewController:faq animated:YES completion:nil];
+                HHLongImageViewController *faq = [[HHLongImageViewController alloc] initWithImage:[UIImage imageNamed:@"faq.png"]];
+                faq.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:faq animated:YES];
             };
             
             cell.appInfoView.actionBlock = ^() {

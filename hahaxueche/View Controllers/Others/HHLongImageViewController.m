@@ -8,6 +8,8 @@
 
 #import "HHLongImageViewController.h"
 #import "UIImage+HHImage.h"
+#import "UIColor+HHColor.h"
+#import "UIBarButtonItem+HHCustomButton.h"
 
 @interface HHLongImageViewController () <UIScrollViewDelegate>
 
@@ -31,11 +33,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"学员常见问题";
+    self.view.backgroundColor = [UIColor HHOrange];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
     
-    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissVC)];
-    [self.view addGestureRecognizer:recognizer];
-    
-    self.view.backgroundColor = [UIColor blackColor];
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
     self.scrollView.maximumZoomScale = 3.0f;
     self.scrollView.minimumZoomScale = 1.0f;
@@ -62,7 +63,8 @@
 }
 
 - (void)dismissVC {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 @end
