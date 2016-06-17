@@ -40,6 +40,7 @@
 #import "HHCoachPriceCell.h"
 #import "HHCoachServiceTypeCell.h"
 #import "HHCoachFieldCell.h"
+#import <pop/POP.h>
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -268,6 +269,15 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     switch (indexPath.row) {
         case CoachCellDescription: {
             HHCoachDetailDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:kDescriptionCellID forIndexPath:indexPath];
+            cell.likeBlock = ^(UIButton *likeButton, UILabel *likeCountLabel) {
+                POPSpringAnimation *sprintAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+                sprintAnimation.animationDidStartBlock = ^(POPAnimation *anim) {
+                    [likeButton setImage:[UIImage imageNamed:@"ic_list_best_click"] forState:UIControlStateNormal];
+                };
+                sprintAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
+                sprintAnimation.springBounciness = 20.f;
+                [likeButton pop_addAnimation:sprintAnimation forKey:@"springAnimation"];
+            };
             [cell setupCellWithCoach:self.coach];
             return cell;
         }

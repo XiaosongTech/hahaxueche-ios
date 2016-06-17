@@ -50,8 +50,9 @@ static CGFloat const avatarRadius = 30.0f;
     [self.contentView addSubview:self.descriptionLabel];
     
     self.likeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.likeButton setImage:[UIImage imageNamed:@"ic_list_best_click"] forState:UIControlStateNormal];
+    [self.likeButton setImage:[UIImage imageNamed:@"ic_list_best_unclick"] forState:UIControlStateNormal];
     [self.likeButton addTarget:self action:@selector(likeButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    self.likeButton.adjustsImageWhenHighlighted = NO;
     [self.contentView addSubview:self.likeButton];
     
     self.likeCountLabel = [[UILabel alloc] init];
@@ -94,7 +95,7 @@ static CGFloat const avatarRadius = 30.0f;
     }];
     
     [self.likeButton makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.nameLabel.bottom);
+        make.bottom.equalTo(self.nameLabel.bottom).offset(-1.0f);
         make.right.equalTo(self.likeCountLabel.left).offset(-3.0f);
     }];
 }
@@ -108,7 +109,9 @@ static CGFloat const avatarRadius = 30.0f;
 }
 
 - (void)likeButtonTapped {
-    
+    if (self.likeBlock) {
+        self.likeBlock(self.likeButton, self.likeCountLabel);
+    }
 }
 
 @end

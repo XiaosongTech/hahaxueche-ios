@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "HHCoach.h"
 
+typedef void (^HHLikeCoachBlock)(UIButton *likeButton, UILabel *likeCountLabel);
+
 @interface HHCoachDetailDescriptionCell : UITableViewCell
 
 @property (nonatomic, strong) UIView *avatarBackgroungView;
@@ -18,6 +20,8 @@
 
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *descriptionLabel;
+
+@property (nonatomic, strong) HHLikeCoachBlock likeBlock;
 
 - (void)setupCellWithCoach:(HHCoach *)coach;
 

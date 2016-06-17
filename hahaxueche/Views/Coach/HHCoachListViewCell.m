@@ -93,7 +93,6 @@ static CGFloat const kAvatarRadius = 30.0f;
     
     self.likeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.likeButton setImage:[UIImage imageNamed:@"ic_list_best_small"] forState:UIControlStateNormal];
-    [self.likeButton addTarget:self action:@selector(likeButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:self.likeButton];
     
     self.likeCountLabel = [[UILabel alloc] init];
@@ -317,10 +316,6 @@ static CGFloat const kAvatarRadius = 30.0f;
         return attString;
     }
 
-}
-
-- (void)likeButtonTapped {
-    
 }
 
 
