@@ -49,6 +49,17 @@ static CGFloat const avatarRadius = 30.0f;
     self.descriptionLabel.numberOfLines = 0;
     [self.contentView addSubview:self.descriptionLabel];
     
+    self.likeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.likeButton setImage:[UIImage imageNamed:@"ic_list_best_click"] forState:UIControlStateNormal];
+    [self.likeButton addTarget:self action:@selector(likeButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:self.likeButton];
+    
+    self.likeCountLabel = [[UILabel alloc] init];
+    self.likeCountLabel.text = @"77";
+    self.likeCountLabel.textColor = [UIColor HHOrange];
+    self.likeCountLabel.font = [UIFont systemFontOfSize:16.0f];
+    [self.contentView addSubview:self.likeCountLabel];
+    
     [self makeConstraints];
 }
 
@@ -68,13 +79,23 @@ static CGFloat const avatarRadius = 30.0f;
     
     [self.nameLabel makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.avatarBackgroungView.right).offset(8.0f);
-        make.bottom.equalTo(self.avatarBackgroungView.bottom).offset(-2.0f);
+        make.bottom.equalTo(self.avatarBackgroungView.bottom).offset(5.0f);
     }];
     
     [self.descriptionLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.avatarBackgroungView.bottom).offset(8.0f);
-        make.left.equalTo(self.contentView.left).offset(20.0f);
+        make.top.equalTo(self.avatarBackgroungView.bottom).offset(13.0f);
+        make.centerX.equalTo(self.contentView.centerX);
         make.width.equalTo(self.contentView.width).offset(-40.0f);
+    }];
+    
+    [self.likeCountLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.nameLabel.bottom);
+        make.right.equalTo(self.contentView.right).offset(-20.0f);
+    }];
+    
+    [self.likeButton makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.nameLabel.bottom);
+        make.right.equalTo(self.likeCountLabel.left).offset(-3.0f);
     }];
 }
 
@@ -84,6 +105,10 @@ static CGFloat const avatarRadius = 30.0f;
     
     self.descriptionLabel.text = coach.bio;
     [self.avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl]];
+}
+
+- (void)likeButtonTapped {
+    
 }
 
 @end

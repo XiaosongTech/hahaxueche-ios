@@ -91,6 +91,17 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.bottomLine.backgroundColor = [UIColor HHLightLineGray];
     [self.contentView addSubview:self.bottomLine];
     
+    self.likeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.likeButton setImage:[UIImage imageNamed:@"ic_list_best_small"] forState:UIControlStateNormal];
+    [self.likeButton addTarget:self action:@selector(likeButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:self.likeButton];
+    
+    self.likeCountLabel = [[UILabel alloc] init];
+    self.likeCountLabel.text = @"77";
+    self.likeCountLabel.textColor = [UIColor HHOrange];
+    self.likeCountLabel.font = [UIFont systemFontOfSize:12.0f];
+    [self.contentView addSubview:self.likeCountLabel];
+    
     [self makeConstraints];
     
 }
@@ -126,12 +137,12 @@ static CGFloat const kAvatarRadius = 30.0f;
     }];
     
     [self.priceLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.avatarView.centerY).offset(-12.0f);
+        make.centerY.equalTo(self.nameLabel.centerY);
         make.right.equalTo(self.contentView.right).offset(-15.0f);
     }];
     
     [self.vipPriceLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.avatarView.centerY).offset(12.0f);
+        make.centerY.equalTo(self.ratingLabel.centerY);
         make.right.equalTo(self.contentView.right).offset(-15.0f);
     }];
     
@@ -147,6 +158,17 @@ static CGFloat const kAvatarRadius = 30.0f;
         make.width.equalTo(self.contentView.width).offset(-30.0f);
         make.height.mas_equalTo(200.0f);
     }];
+    
+    [self.likeCountLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.mapButton.centerY);
+        make.right.equalTo(self.contentView.right).offset(-20.0f);
+    }];
+    
+    [self.likeButton makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.mapButton.centerY).offset(-3.0f);
+        make.right.equalTo(self.likeCountLabel.left).offset(-3.0f);
+    }];
+    
     
     [self.bottomLine makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.contentView.bottom);
@@ -220,17 +242,10 @@ static CGFloat const kAvatarRadius = 30.0f;
     if ([coach.VIPPrice floatValue] > 0) {
         self.vipPriceLabel.text = [coach.VIPPrice generateMoneyString];
         self.vipIcon.hidden = NO;
-        [self.priceLabel remakeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.avatarView.centerY).offset(-12.0f);
-            make.right.equalTo(self.contentView.right).offset(-15.0f);
-        }];
+        
     } else {
         self.vipPriceLabel.text = @"";
         self.vipIcon.hidden = YES;
-        [self.priceLabel remakeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.avatarView.centerY);
-            make.right.equalTo(self.contentView.right).offset(-15.0f);
-        }];
     }
     
     
@@ -302,6 +317,10 @@ static CGFloat const kAvatarRadius = 30.0f;
         return attString;
     }
 
+}
+
+- (void)likeButtonTapped {
+    
 }
 
 

@@ -352,7 +352,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case CoachCellDescription: {
-            return CGRectGetHeight([self getDescriptionTextSizeWithText:self.coach.bio]) + 50.0f;
+            return CGRectGetHeight([self getDescriptionTextSizeWithText:self.coach.bio]) + 55.0f;
         }
             
         case CoachCellPrice: {
