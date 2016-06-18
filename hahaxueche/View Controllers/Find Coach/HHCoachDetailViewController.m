@@ -75,6 +75,10 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 
 @implementation HHCoachDetailViewController
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (instancetype)initWithCoach:(HHCoach *)coach {
     self = [super init];
     if (self) {
@@ -210,6 +214,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         [[HHCoachService sharedInstance] unfollowCoach:weakSelf.coach.userId completion:^(NSError *error) {
             if (!error) {
                 weakSelf.bottomBar.followed = NO;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"kUnfollowCoach" object:@{@"coachId":weakSelf.coach.coachId}];
             }
         }];
     };
