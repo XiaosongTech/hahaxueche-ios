@@ -41,6 +41,7 @@
 #import "HHCoachServiceTypeCell.h"
 #import "HHCoachFieldCell.h"
 #import <pop/POP.h>
+#import "HHGenericTwoButtonsPopupView.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -275,13 +276,12 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         case CoachCellDescription: {
             HHCoachDetailDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:kDescriptionCellID forIndexPath:indexPath];
             cell.likeBlock = ^(UIButton *likeButton, UILabel *likeCountLabel) {
-                POPSpringAnimation *sprintAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
-                sprintAnimation.animationDidStartBlock = ^(POPAnimation *anim) {
-                    [likeButton setImage:[UIImage imageNamed:@"ic_list_best_click"] forState:UIControlStateNormal];
-                };
-                sprintAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
-                sprintAnimation.springBounciness = 20.f;
-                [likeButton pop_addAnimation:sprintAnimation forKey:@"springAnimation"];
+                if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+                    [weakSelf likeOrUnlikeCoachWithButton:likeButton label:likeCountLabel];
+                } else {
+                    [weakSelf showIntroPopup];
+                }
+
             };
             [cell setupCellWithCoach:self.coach];
             return cell;
@@ -471,5 +471,32 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 }
 
 
+- (void)showIntroPopup {
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    paragraphStyle.lineSpacing = 8.0f;
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"您只有注册登录后\n才可以点赞教练哦~" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 260.0f) title:@"请登录" subTitle:nil info:attributedString leftButtonTitle:@"知道了" rightButtonTitle:@"去登录"];
+    self.popup = [HHPopupUtility createPopupWithContentView:view];
+    view.confirmBlock = ^() {
+        HHIntroViewController *vc = [[HHIntroViewController alloc] init];
+        [self presentViewController:vc animated:YES completion:nil];
+    };
+    view.cancelBlock = ^() {
+        [HHPopupUtility dismissPopup:self.popup];
+    };
+    [HHPopupUtility showPopup:self.popup];
+}
+
+
+- (void)likeOrUnlikeCoachWithButton:(UIButton *)button label:(UILabel *)label {
+    POPSpringAnimation *sprintAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+    sprintAnimation.animationDidStartBlock = ^(POPAnimation *anim) {
+        [button setImage:[UIImage imageNamed:@"ic_list_best_click"] forState:UIControlStateNormal];
+    };
+    sprintAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
+    sprintAnimation.springBounciness = 20.f;
+    [button pop_addAnimation:sprintAnimation forKey:@"springAnimation"];
+}
 
 @end

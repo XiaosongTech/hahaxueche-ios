@@ -247,9 +247,11 @@ static CGFloat const kAvatarRadius = 30.0f;
         self.vipIcon.hidden = YES;
     }
     
+    NSMutableAttributedString *attributedString;
+    if ([field cityAndDistrict]) {
+        attributedString = [[NSMutableAttributedString alloc] initWithString:[field cityAndDistrict] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+    }
     
-    
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[field cityAndDistrict] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
     
     
     if (location) {

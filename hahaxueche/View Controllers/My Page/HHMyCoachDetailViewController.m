@@ -27,7 +27,7 @@
 #import "HHShareView.h"
 #import "HHPopupUtility.h"
 #import "HHSocialMediaShareUtility.h"
-
+#import <pop/POP.h>
 
 static NSString *const kDescriptionCellID = @"kDescriptionCellID";
 static NSString *const kBasicInfoCellID = @"kBasicInfoCellID";
@@ -103,6 +103,17 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
     switch (indexPath.row) {
         case CoachCellDescription: {
             HHCoachDetailDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:kDescriptionCellID forIndexPath:indexPath];
+            cell.likeBlock = ^(UIButton *likeButton, UILabel *likeCountLabel) {
+                POPSpringAnimation *sprintAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+                sprintAnimation.animationDidStartBlock = ^(POPAnimation *anim) {
+                    [likeButton setImage:[UIImage imageNamed:@"ic_list_best_click"] forState:UIControlStateNormal];
+                };
+                sprintAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
+                sprintAnimation.springBounciness = 20.f;
+                [likeButton pop_addAnimation:sprintAnimation forKey:@"springAnimation"];
+
+            };
+
             [cell setupCellWithCoach:weakSelf.coach];
             return cell;
         }
