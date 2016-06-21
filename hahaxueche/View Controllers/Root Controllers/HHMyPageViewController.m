@@ -97,6 +97,9 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                                              selector:@selector(coachPurchased)
                                                  name:@"coachPurchased"
                                                object:nil];
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
+    [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
+
     
 }
 

@@ -106,6 +106,8 @@ static CGFloat const kCellHeightExpanded = 300.0f;
         make.width.equalTo(self.view.width).offset(-40.0f);
     }];
 
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
+    [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
 }
 
 - (void)refreshCoachListWithCompletion:(HHRefreshCoachCompletionBlock)completion {

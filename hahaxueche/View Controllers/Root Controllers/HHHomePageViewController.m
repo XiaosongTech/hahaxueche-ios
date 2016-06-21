@@ -74,6 +74,9 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
             [weakSelf.popup show];
         }
     }
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
+    [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
+
 
 }
 
