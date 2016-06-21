@@ -413,15 +413,15 @@ static CGFloat const kCellHeightExpanded = 300.0f;
             self.userLocation = currentLocation;
             [HHStudentStore sharedInstance].currentLocation = currentLocation;
             
-        } else if (status == INTULocationStatusServicesDenied || status == INTULocationStatusServicesRestricted || status == INTULocationStatusServicesDisabled){
+        } else if (status == INTULocationStatusError) {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了，请重试"];
+            self.userLocation = nil;
+        } else {
             HHAskLocationPermissionViewController *vc = [[HHAskLocationPermissionViewController alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
             self.userLocation = nil;
-            
-        } else if (status == INTULocationStatusError) {
-            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了，请重试"];
-            self.userLocation = nil;
+
         }
         if (completion) {
             completion();
