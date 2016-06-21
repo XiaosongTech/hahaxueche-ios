@@ -333,7 +333,12 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    __weak HHFindCoachViewController *weakSelf = self;
     HHCoachDetailViewController *coachDetailVC = [[HHCoachDetailViewController alloc] initWithCoach:self.coaches[indexPath.row]];
+    coachDetailVC.coachUpdateBlock = ^(HHCoach *coach) {
+        [weakSelf.coaches replaceObjectAtIndex:indexPath.row withObject:coach];
+        [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+    };
     coachDetailVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:coachDetailVC animated:YES];
 }

@@ -36,7 +36,7 @@ PODS:
   - CRToast (0.0.9)
   - DateTools (1.7.0)
   - Fabric (1.6.7)
-  - GrowingIO (0.9.18)
+  - GrowingIO (0.9.19)
   - Harpy (3.4.8)
   - HCSStarRatingView (1.4.5)
   - Instabug (5.2.4)
@@ -120,7 +120,7 @@ SPEC CHECKSUMS:
   CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
-  GrowingIO: aeb42c07430871017707184fa429a971fef7a002
+  GrowingIO: 785500bcacd04e98de3ec7ca65f9b9cf40e03746
   Harpy: 7253bc78a0c3e239e8e4bd21b63403c7cf0be9c9
   HCSStarRatingView: bff3f89314d3b5013ce826ea11897d3129ff6b8c
   Instabug: 6fa40a5e2a4620f0589dfc8e4e01b1018c8c42b1

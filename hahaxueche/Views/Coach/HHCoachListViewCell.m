@@ -96,9 +96,8 @@ static CGFloat const kAvatarRadius = 30.0f;
     [self.contentView addSubview:self.likeButton];
     
     self.likeCountLabel = [[UILabel alloc] init];
-    self.likeCountLabel.text = @"77";
     self.likeCountLabel.textColor = [UIColor HHOrange];
-    self.likeCountLabel.font = [UIFont systemFontOfSize:12.0f];
+    self.likeCountLabel.font = [UIFont systemFontOfSize:13.0f];
     [self.contentView addSubview:self.likeCountLabel];
     
     [self makeConstraints];
@@ -159,12 +158,12 @@ static CGFloat const kAvatarRadius = 30.0f;
     }];
     
     [self.likeCountLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.mapButton.centerY);
+        make.centerY.equalTo(self.mapButton.centerY).offset(2.0f);
         make.right.equalTo(self.contentView.right).offset(-20.0f);
     }];
     
     [self.likeButton makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.mapButton.centerY).offset(-3.0f);
+        make.centerY.equalTo(self.mapButton.centerY);
         make.right.equalTo(self.likeCountLabel.left).offset(-3.0f);
     }];
     
@@ -252,14 +251,14 @@ static CGFloat const kAvatarRadius = 30.0f;
         attributedString = [[NSMutableAttributedString alloc] initWithString:[field cityAndDistrict] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
     }
     
-    
-    
     if (location) {
         [attributedString appendAttributedString:[self generateDistanceStringWithField:field userLocation:location]];
         [self.mapButton setAttributedTitle:attributedString forState:UIControlStateNormal];
     } else {
         [self.mapButton setAttributedTitle:attributedString forState:UIControlStateNormal];
     }
+    
+    self.likeCountLabel.text = [coach.likeCount stringValue];
 }
 
 #pragma mark - MapView Delegate Methods

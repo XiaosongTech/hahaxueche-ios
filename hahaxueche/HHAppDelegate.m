@@ -167,7 +167,7 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [Fabric with:@[[Crashlytics class]]];
     
     
-    //Umeng
+    //GrowingIO
     [HHEventTrackingManager sharedManager];
     
     //SDWebImage

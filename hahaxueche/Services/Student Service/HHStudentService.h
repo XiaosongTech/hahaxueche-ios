@@ -26,6 +26,7 @@ typedef void (^HHBonusSummaryCompletion)(HHBonusSummary *bonusSummary, NSError *
 typedef void (^HHReferralsCompletion)(HHReferrals *referralsObject, NSError *error);
 typedef void (^HHWithdrawsCompletion)(HHWithdraws *withdrawsObject, NSError *error);
 typedef void (^HHWithdrawCompletion)(HHWithdraw *withdraw, NSError *error);
+typedef void (^HHLikeCompletion)(HHCoach *coach, NSError *error);
 
 @interface HHStudentService : NSObject
 
@@ -151,6 +152,14 @@ Fetch next page of withdraw transaction history
  @param completion The completion block to execute on completion
  */
 - (void)signupGroupPurchaseWithName:(NSString *)name number:(NSString *)number completion:(HHStudentGenericCompletion)completion;
+
+/**
+ Like/Unlike a coach
+ @param like Like or Unlike coach //0=unlike; 1=like
+ @param coachId The id of the liked/unliked coach
+ @param completion The completion block to execute on completion
+ */
+- (void)likeOrUnlikeCoachWithId:(NSString *)coachId like:(NSNumber *)like completion:(HHLikeCompletion)completion;
 
 
 @end

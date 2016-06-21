@@ -490,13 +490,35 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 
 
 - (void)likeOrUnlikeCoachWithButton:(UIButton *)button label:(UILabel *)label {
-    POPSpringAnimation *sprintAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
-    sprintAnimation.animationDidStartBlock = ^(POPAnimation *anim) {
-        [button setImage:[UIImage imageNamed:@"ic_list_best_click"] forState:UIControlStateNormal];
-    };
-    sprintAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
-    sprintAnimation.springBounciness = 20.f;
-    [button pop_addAnimation:sprintAnimation forKey:@"springAnimation"];
+    NSNumber *like;
+    if ([self.coach.liked boolValue]) {
+        like = @(0);
+    } else {
+        like = @(1);
+    }
+    
+    [[HHStudentService sharedInstance] likeOrUnlikeCoachWithId:self.coach.coachId like:like completion:^(HHCoach *coach, NSError *error) {
+        if (!error) {
+            self.coach = coach;
+            if (self.coachUpdateBlock) {
+                self.coachUpdateBlock(self.coach);
+            }
+            if ([coach.liked boolValue]) {
+                POPSpringAnimation *sprintAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+                sprintAnimation.animationDidStartBlock = ^(POPAnimation *anim) {
+                    [button setImage:[UIImage imageNamed:@"ic_list_best_click"] forState:UIControlStateNormal];
+                };
+                sprintAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
+                sprintAnimation.springBounciness = 20.f;
+                [button pop_addAnimation:sprintAnimation forKey:@"springAnimation"];
+            } else {
+                [button setImage:[UIImage imageNamed:@"ic_list_best_unclick"] forState:UIControlStateNormal];
+            }
+            label.text = [coach.likeCount stringValue];
+           
+        }
+    }];
+    
 }
 
 @end

@@ -50,7 +50,6 @@ static CGFloat const avatarRadius = 30.0f;
     [self.contentView addSubview:self.descriptionLabel];
     
     self.likeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.likeButton setImage:[UIImage imageNamed:@"ic_list_best_unclick"] forState:UIControlStateNormal];
     [self.likeButton addTarget:self action:@selector(likeButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     self.likeButton.adjustsImageWhenHighlighted = NO;
     [self.contentView addSubview:self.likeButton];
@@ -106,6 +105,13 @@ static CGFloat const avatarRadius = 30.0f;
     
     self.descriptionLabel.text = coach.bio;
     [self.avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl]];
+    
+    if ([coach.liked boolValue]) {
+        [self.likeButton setImage:[UIImage imageNamed:@"ic_list_best_click"] forState:UIControlStateNormal];
+    } else {
+        [self.likeButton setImage:[UIImage imageNamed:@"ic_list_best_unclick"] forState:UIControlStateNormal];
+    }
+    self.likeCountLabel.text = [coach.likeCount stringValue];
 }
 
 - (void)likeButtonTapped {

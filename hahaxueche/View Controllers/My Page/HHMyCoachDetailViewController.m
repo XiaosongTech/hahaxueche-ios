@@ -28,6 +28,7 @@
 #import "HHPopupUtility.h"
 #import "HHSocialMediaShareUtility.h"
 #import <pop/POP.h>
+#import "HHStudentService.h"
 
 static NSString *const kDescriptionCellID = @"kDescriptionCellID";
 static NSString *const kBasicInfoCellID = @"kBasicInfoCellID";
@@ -104,14 +105,7 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
         case CoachCellDescription: {
             HHCoachDetailDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:kDescriptionCellID forIndexPath:indexPath];
             cell.likeBlock = ^(UIButton *likeButton, UILabel *likeCountLabel) {
-                POPSpringAnimation *sprintAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
-                sprintAnimation.animationDidStartBlock = ^(POPAnimation *anim) {
-                    [likeButton setImage:[UIImage imageNamed:@"ic_list_best_click"] forState:UIControlStateNormal];
-                };
-                sprintAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
-                sprintAnimation.springBounciness = 20.f;
-                [likeButton pop_addAnimation:sprintAnimation forKey:@"springAnimation"];
-
+                [weakSelf likeOrUnlikeCoachWithButton:likeButton label:likeCountLabel];
             };
 
             [cell setupCellWithCoach:weakSelf.coach];
@@ -244,6 +238,38 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
                                   attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f]}
                                      context:nil];
     return rect;
+}
+
+- (void)likeOrUnlikeCoachWithButton:(UIButton *)button label:(UILabel *)label {
+    NSNumber *like;
+    if ([self.coach.liked boolValue]) {
+        like = @(0);
+    } else {
+        like = @(1);
+    }
+    
+    [[HHStudentService sharedInstance] likeOrUnlikeCoachWithId:self.coach.coachId like:like completion:^(HHCoach *coach, NSError *error) {
+        if (!error) {
+            self.coach = coach;
+            if (self.updateCoachBlock) {
+                self.updateCoachBlock(self.coach);
+            }
+            if ([coach.liked boolValue]) {
+                POPSpringAnimation *sprintAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+                sprintAnimation.animationDidStartBlock = ^(POPAnimation *anim) {
+                    [button setImage:[UIImage imageNamed:@"ic_list_best_click"] forState:UIControlStateNormal];
+                };
+                sprintAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
+                sprintAnimation.springBounciness = 20.f;
+                [button pop_addAnimation:sprintAnimation forKey:@"springAnimation"];
+            } else {
+                [button setImage:[UIImage imageNamed:@"ic_list_best_unclick"] forState:UIControlStateNormal];
+            }
+            label.text = [coach.likeCount stringValue];
+            
+        }
+    }];
+    
 }
 
 @end

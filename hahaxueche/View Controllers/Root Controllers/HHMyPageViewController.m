@@ -209,6 +209,9 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 if ([weakSelf.currentStudent.purchasedServiceArray count]) {
                     HHMyCoachDetailViewController *myCoachVC = [[HHMyCoachDetailViewController alloc] initWithCoach:weakSelf.myCoach];
                     myCoachVC.hidesBottomBarWhenPushed = YES;
+                    myCoachVC.updateCoachBlock = ^(HHCoach *coach) {
+                        weakSelf.myCoach = coach;
+                    };
                     [weakSelf.navigationController pushViewController:myCoachVC animated:YES];
                 } else {
                     [[HHToastManager sharedManager] showErrorToastWithText:@"您还没有购买的教练"];
