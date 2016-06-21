@@ -10,7 +10,7 @@ target "hahaxueche" do
     pod 'Fabric'
     pod 'Crashlytics'
     pod 'Instabug'
-    pod 'UMengAnalytics-NO-IDFA'
+    pod 'GrowingIO'
     pod 'AFNetworking', '~> 2.6.1'
     pod 'SSKeychain'
     pod 'MJRefresh'

@@ -36,6 +36,7 @@ PODS:
   - CRToast (0.0.9)
   - DateTools (1.7.0)
   - Fabric (1.6.7)
+  - GrowingIO (0.9.18)
   - Harpy (3.4.8)
   - HCSStarRatingView (1.4.5)
   - Instabug (5.2.4)
@@ -69,7 +70,6 @@ PODS:
   - SSKeychain (1.4.0)
   - StepSlider (0.1.2)
   - SVProgressHUD (2.0.3)
-  - UMengAnalytics-NO-IDFA (4.0.5)
 
 DEPENDENCIES:
   - ActionSheetPicker-3.0
@@ -82,6 +82,7 @@ DEPENDENCIES:
   - CRToast
   - DateTools
   - Fabric
+  - GrowingIO
   - Harpy
   - HCSStarRatingView (~> 1.4)
   - Instabug
@@ -102,7 +103,6 @@ DEPENDENCIES:
   - SSKeychain
   - StepSlider
   - SVProgressHUD
-  - UMengAnalytics-NO-IDFA
 
 EXTERNAL SOURCES:
   Pingpp:
@@ -120,6 +120,7 @@ SPEC CHECKSUMS:
   CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
+  GrowingIO: aeb42c07430871017707184fa429a971fef7a002
   Harpy: 7253bc78a0c3e239e8e4bd21b63403c7cf0be9c9
   HCSStarRatingView: bff3f89314d3b5013ce826ea11897d3129ff6b8c
   Instabug: 6fa40a5e2a4620f0589dfc8e4e01b1018c8c42b1
@@ -139,8 +140,7 @@ SPEC CHECKSUMS:
   SSKeychain: c71293fa57216a40ab06c23f4085387583293de4
   StepSlider: 54466ab1de9002435b6839091f97ff62967fdd7e
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
-  UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
 
-PODFILE CHECKSUM: eecb6608025b1a35a22053baa3b03f879fc0f739
+PODFILE CHECKSUM: 0deed595e4934581414fd469e9f73caa2224e968
 
 COCOAPODS: 1.0.0
