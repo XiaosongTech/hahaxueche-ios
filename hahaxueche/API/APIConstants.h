@@ -9,7 +9,7 @@
 #ifndef APIConstants_h
 #define APIConstants_h
 
-#define kStagingAPIBaseURL @"http://preprod-api.hahaxueche.net/api/v1/"
+#define kStagingAPIBaseURL @"http://staging-api.hahaxueche.net/api/v1/"
 
 #define kProductionAPIBaseURL @"http://api.hahaxueche.net/api/v1/"
 

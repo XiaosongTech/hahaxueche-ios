@@ -9,7 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "HHCoach.h"
 
+typedef void (^HHCoachUpdateBlock)(HHCoach *coach);
+
 @interface HHCoachDetailViewController : UIViewController
+
+@property (nonatomic, strong) HHCoachUpdateBlock coachUpdateBlock;
 
 - (instancetype)initWithCoach:(HHCoach *)coach;
 - (instancetype)initWithCoachId:(NSString *)coachId;

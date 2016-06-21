@@ -7,7 +7,6 @@
 //
 
 #import "HHAppDelegate.h"
-#import <Instabug/Instabug.h>
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import "HHEventTrackingManager.h"
@@ -147,18 +146,9 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     
     // Instabug
 #ifdef DEBUG
-    [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" invocationEvent:IBGInvocationEventShake];
-    [Instabug setCrashReportingEnabled:NO];
     [Pingpp setDebugMode:YES];
-    [Appirater setDebug:NO];
+    [Appirater setDebug:YES];
 #else
-    NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
-    NSString *receiptURLString = [receiptURL path];
-    BOOL isRunningTestFlightBeta =  ([receiptURLString rangeOfString:@"sandboxReceipt"].location != NSNotFound);
-    if (isRunningTestFlightBeta) {
-        [Instabug startWithToken:@"84e5be6250eaf585a69368e09fe6dca3" invocationEvent:IBGInvocationEventShake];
-        [Instabug setCrashReportingEnabled:NO];
-    }
     [Appirater setDebug:NO];
     
 #endif

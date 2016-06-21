@@ -35,6 +35,8 @@
 @property (nonatomic, copy) NSNumber *cityId;
 @property (nonatomic, copy) NSString *fieldId;
 @property (nonatomic, copy) NSArray *images;
+@property (nonatomic, copy) NSNumber *liked;
+@property (nonatomic, copy) NSNumber *likeCount;
 
 // 0 = 优秀教练; 1 = 金牌教练
 - (BOOL)isGoldenCoach;

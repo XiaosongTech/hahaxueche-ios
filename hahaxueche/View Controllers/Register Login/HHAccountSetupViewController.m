@@ -235,6 +235,7 @@ static CGFloat const kFieldViewWidth = 280.0f;
     self.promoField.tintColor = [UIColor HHOrange];
     self.promoField.textColor = [UIColor HHOrange];
     self.promoField.textAlignment = NSTextAlignmentCenter;
+    self.promoField.keyboardType = UIKeyboardTypeNumberPad;
     self.promoField.returnKeyType = UIReturnKeyDone;
     self.promoField.delegate = self;
     self.promoField.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"input"]];

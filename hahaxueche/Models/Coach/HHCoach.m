@@ -36,7 +36,9 @@
              @"fieldId":@"coach_group.field_id",
              @"licenseType":@"license_type",
              @"serviceType":@"service_type",
-             @"images":@"images"
+             @"images":@"images",
+             @"liked":@"liked",
+             @"likeCount":@"like_count",
              };
 }
 

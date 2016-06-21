@@ -106,6 +106,8 @@ static CGFloat const kCellHeightExpanded = 300.0f;
         make.width.equalTo(self.view.width).offset(-40.0f);
     }];
 
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
+    [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
 }
 
 - (void)refreshCoachListWithCompletion:(HHRefreshCoachCompletionBlock)completion {
@@ -331,7 +333,12 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    __weak HHFindCoachViewController *weakSelf = self;
     HHCoachDetailViewController *coachDetailVC = [[HHCoachDetailViewController alloc] initWithCoach:self.coaches[indexPath.row]];
+    coachDetailVC.coachUpdateBlock = ^(HHCoach *coach) {
+        [weakSelf.coaches replaceObjectAtIndex:indexPath.row withObject:coach];
+        [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+    };
     coachDetailVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:coachDetailVC animated:YES];
 }
@@ -406,15 +413,15 @@ static CGFloat const kCellHeightExpanded = 300.0f;
             self.userLocation = currentLocation;
             [HHStudentStore sharedInstance].currentLocation = currentLocation;
             
-        } else if (status == INTULocationStatusServicesDenied){
+        } else if (status == INTULocationStatusError) {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了，请重试"];
+            self.userLocation = nil;
+        } else {
             HHAskLocationPermissionViewController *vc = [[HHAskLocationPermissionViewController alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
             self.userLocation = nil;
-            
-        } else if (status == INTULocationStatusError) {
-            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了，请重试"];
-            self.userLocation = nil;
+
         }
         if (completion) {
             completion();

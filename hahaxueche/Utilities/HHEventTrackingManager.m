@@ -7,7 +7,7 @@
 //
 
 #import "HHEventTrackingManager.h"
-#import <UMMobClick/MobClick.h>
+#import "UMMobClick/MobClick.h"
 
 @implementation HHEventTrackingManager
 
@@ -27,36 +27,25 @@
     self = [super init];
     if (self) {
         
-#ifdef DEBUG
-        
-        [UMAnalyticsConfig sharedInstance].appKey = @"564a6b5ee0f55a2646005412";
-        [MobClick startWithConfigure:UMConfigInstance];
-        NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-        [MobClick setAppVersion:version];
+    #ifdef DEBUG
+        UMConfigInstance.appKey = @"5645831de0f55a1d0300031d";
+        UMConfigInstance.channelId = @"App Store";
         [MobClick setLogEnabled:YES];
         
-#else
-        [UMAnalyticsConfig sharedInstance].appKey = @"5645831de0f55a1d0300031d";
-        [MobClick startWithConfigure:UMConfigInstance];
+    #else
+        UMConfigInstance.appKey = @"564a6b5ee0f55a2646005412";
+        UMConfigInstance.channelId = @"App Store";
+        [MobClick setLogEnabled:NO];
+
+    #endif
+        
         NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         [MobClick setAppVersion:version];
-#endif
     }
     
     return self;
 }
 
-- (void)studentSignedUpOrLoggedIn:(NSString *)studentId {
-    [MobClick profileSignInWithPUID:studentId];
-}
-
-- (void)studentLoggedOff {
-    [MobClick profileSignOff];
-}
-
-- (void)sendEventWithId:(NSString *)eventId attributes:(NSDictionary *)attributes {
-    [MobClick event:(NSString *)eventId attributes:(NSDictionary *)attributes];
-}
 
 
 @end

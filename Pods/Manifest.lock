@@ -38,7 +38,6 @@ PODS:
   - Fabric (1.6.7)
   - Harpy (3.4.8)
   - HCSStarRatingView (1.4.5)
-  - Instabug (5.2.4)
   - INTULocationManager (4.2.0)
   - KLCPopup (1.0)
   - libPhoneNumber-iOS (0.8.13)
@@ -84,7 +83,6 @@ DEPENDENCIES:
   - Fabric
   - Harpy
   - HCSStarRatingView (~> 1.4)
-  - Instabug
   - INTULocationManager (~> 4.2)
   - KLCPopup
   - libPhoneNumber-iOS (~> 0.8)
@@ -122,7 +120,6 @@ SPEC CHECKSUMS:
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   Harpy: 7253bc78a0c3e239e8e4bd21b63403c7cf0be9c9
   HCSStarRatingView: bff3f89314d3b5013ce826ea11897d3129ff6b8c
-  Instabug: 6fa40a5e2a4620f0589dfc8e4e01b1018c8c42b1
   INTULocationManager: 73f8254b3d05c897c56bb13c190e5b7c648c0998
   KLCPopup: 76c5a19227977f1e53d85236f9ef42257c168d98
   libPhoneNumber-iOS: 3a37004baf779b4262ab29a31a87d2ae668159d4
@@ -141,6 +138,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
 
-PODFILE CHECKSUM: eecb6608025b1a35a22053baa3b03f879fc0f739
+PODFILE CHECKSUM: cccd5bdfac2b051030f772581944633537a688dd
 
 COCOAPODS: 1.0.0
