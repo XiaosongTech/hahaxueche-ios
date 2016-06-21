@@ -36,10 +36,8 @@ PODS:
   - CRToast (0.0.9)
   - DateTools (1.7.0)
   - Fabric (1.6.7)
-  - GrowingIO (0.9.19)
   - Harpy (3.4.8)
   - HCSStarRatingView (1.4.5)
-  - Instabug (5.2.4)
   - INTULocationManager (4.2.0)
   - KLCPopup (1.0)
   - libPhoneNumber-iOS (0.8.13)
@@ -70,6 +68,7 @@ PODS:
   - SSKeychain (1.4.0)
   - StepSlider (0.1.2)
   - SVProgressHUD (2.0.3)
+  - UMengAnalytics-NO-IDFA (4.0.5)
 
 DEPENDENCIES:
   - ActionSheetPicker-3.0
@@ -82,10 +81,8 @@ DEPENDENCIES:
   - CRToast
   - DateTools
   - Fabric
-  - GrowingIO
   - Harpy
   - HCSStarRatingView (~> 1.4)
-  - Instabug
   - INTULocationManager (~> 4.2)
   - KLCPopup
   - libPhoneNumber-iOS (~> 0.8)
@@ -103,6 +100,7 @@ DEPENDENCIES:
   - SSKeychain
   - StepSlider
   - SVProgressHUD
+  - UMengAnalytics-NO-IDFA
 
 EXTERNAL SOURCES:
   Pingpp:
@@ -120,10 +118,8 @@ SPEC CHECKSUMS:
   CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
-  GrowingIO: 785500bcacd04e98de3ec7ca65f9b9cf40e03746
   Harpy: 7253bc78a0c3e239e8e4bd21b63403c7cf0be9c9
   HCSStarRatingView: bff3f89314d3b5013ce826ea11897d3129ff6b8c
-  Instabug: 6fa40a5e2a4620f0589dfc8e4e01b1018c8c42b1
   INTULocationManager: 73f8254b3d05c897c56bb13c190e5b7c648c0998
   KLCPopup: 76c5a19227977f1e53d85236f9ef42257c168d98
   libPhoneNumber-iOS: 3a37004baf779b4262ab29a31a87d2ae668159d4
@@ -140,7 +136,8 @@ SPEC CHECKSUMS:
   SSKeychain: c71293fa57216a40ab06c23f4085387583293de4
   StepSlider: 54466ab1de9002435b6839091f97ff62967fdd7e
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
+  UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
 
-PODFILE CHECKSUM: 0deed595e4934581414fd469e9f73caa2224e968
+PODFILE CHECKSUM: cccd5bdfac2b051030f772581944633537a688dd
 
 COCOAPODS: 1.0.0
