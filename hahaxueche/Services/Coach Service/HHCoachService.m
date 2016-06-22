@@ -10,6 +10,7 @@
 #import "APIPaths.h"
 #import "HHAPIClient.h"
 #import "HHConstantsStore.h"
+#import "HHStudentStore.h"
 
 @implementation HHCoachService
 
@@ -50,6 +51,10 @@
     }
     if ([filters.licenseType integerValue] != 3) {
         param[@"license_type"] = filters.licenseType;
+    }
+    
+    if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+        param[@"student_id"] = [HHStudentStore sharedInstance].currentStudent.studentId;
     }
     
     [APIClient getWithParameters:param completion:^(NSDictionary *response, NSError *error) {
@@ -116,7 +121,12 @@
 
 - (void)fetchCoachWithId:(NSString *)coachId completion:(HHCoachCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPICoach, coachId]];
-    [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+    NSMutableDictionary *param;
+    if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+        param = [NSMutableDictionary dictionary];
+        param[@"student_id"] = [HHStudentStore sharedInstance].currentStudent.studentId;
+    }
+    [APIClient getWithParameters:param completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             HHCoach *coach = [MTLJSONAdapter modelOfClass:[HHCoach class] fromJSONDictionary:response error:nil];
             if (completion) {

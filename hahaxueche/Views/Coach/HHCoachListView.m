@@ -89,6 +89,16 @@ static CGFloat const kAvatarRadius = 30.0f;
     [self addSubview:self.mapButton];
     self.mapButton.adjustsImageWhenHighlighted = NO;
     
+    self.likeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.likeButton setImage:[UIImage imageNamed:@"ic_list_best_small"] forState:UIControlStateNormal];
+    self.likeButton.adjustsImageWhenHighlighted = NO;
+    [self addSubview:self.likeButton];
+    
+    self.likeCountLabel = [[UILabel alloc] init];
+    self.likeCountLabel.textColor = [UIColor HHOrange];
+    self.likeCountLabel.font = [UIFont systemFontOfSize:13.0f];
+    [self addSubview:self.likeCountLabel];
+    
     [self setupViewWithCoach:self.coach field:self.field userLocation:[HHStudentStore sharedInstance].currentLocation];
     
     [self makeConstraints];
@@ -125,26 +135,29 @@ static CGFloat const kAvatarRadius = 30.0f;
         make.top.equalTo(self.starRatingView.bottom).offset(5.0f);
     }];
     
-    if ([self.coach.VIPPrice floatValue] > 0) {
-        [self.priceLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.avatarView.centerY).offset(-12.0f);
-            make.right.equalTo(self.right).offset(-15.0f);
-        }];
-        [self.vipIcon makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.VIPPriceLabel.centerY);
-            make.right.equalTo(self.VIPPriceLabel.left);
-        }];
-    } else {
-        [self.priceLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.avatarView.centerY);
-            make.right.equalTo(self.right).offset(-15.0f);
-        }];
-    }
-    
+    [self.priceLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.nameLabel.centerY);
+        make.right.equalTo(self.right).offset(-15.0f);
+    }];
     
     [self.VIPPriceLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.avatarView.centerY).offset(12.0f);
+        make.centerY.equalTo(self.ratingLabel.centerY);
         make.right.equalTo(self.right).offset(-15.0f);
+    }];
+    
+    [self.vipIcon makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.VIPPriceLabel.centerY);
+        make.right.equalTo(self.VIPPriceLabel.left);
+    }];
+    
+    [self.likeCountLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.mapButton.centerY).offset(2.0f);
+        make.right.equalTo(self.right).offset(-20.0f);
+    }];
+    
+    [self.likeButton makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.mapButton.centerY);
+        make.right.equalTo(self.likeCountLabel.left).offset(-3.0f);
     }];
     
     
@@ -210,6 +223,8 @@ static CGFloat const kAvatarRadius = 30.0f;
     } else {
         [self.mapButton setAttributedTitle:attributedString forState:UIControlStateNormal];
     }
+    
+    self.likeCountLabel.text = [coach.likeCount stringValue];
 }
 
 - (NSMutableAttributedString *)generateDistanceStringWithField:(HHField *)field userLocation:(CLLocation *)location {
