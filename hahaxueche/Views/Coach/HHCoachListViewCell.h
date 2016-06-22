@@ -29,6 +29,8 @@ typedef void (^HHMapButtonActionBlock)();
 @property (nonatomic, strong) UILabel *ratingLabel;
 @property (nonatomic, strong) UIButton *mapButton;
 @property (nonatomic, strong) MAMapView *mapView;
+@property (nonatomic, strong) UIButton *likeButton;
+@property (nonatomic, strong) UILabel *likeCountLabel;
 
 @property (nonatomic, strong) HHField *field;
 

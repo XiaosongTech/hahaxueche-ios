@@ -45,6 +45,10 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 
 @implementation HHFollowedCoachListViewController
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"我关注的教练";
@@ -52,6 +56,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     self.expandedCellIndexPath = [NSMutableArray array];
     [self initSubviews];
     [self refreshCoachListWithCompletion:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeCoach:) name:@"kUnfollowCoach" object:nil];
 }
 
 - (void)initSubviews {
@@ -219,6 +224,19 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 
 - (void)popupVC {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)removeCoach:(NSNotification *)notification {
+    NSString *coachId = notification.object[@"coachId"];
+    if (coachId) {
+        for (HHCoach *coach in self.coaches) {
+            if ([coach.coachId isEqualToString:coachId]) {
+                [self.coaches removeObject:coach];
+                [self.tableView reloadData];
+                break;
+            }
+        }
+    }
 }
 
 

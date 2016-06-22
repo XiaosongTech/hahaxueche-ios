@@ -9,8 +9,6 @@ target "hahaxueche" do
     pod "Appirater"
     pod 'Fabric'
     pod 'Crashlytics'
-    pod 'Instabug'
-    pod 'UMengAnalytics-NO-IDFA'
     pod 'AFNetworking', '~> 2.6.1'
     pod 'SSKeychain'
     pod 'MJRefresh'
@@ -33,6 +31,7 @@ target "hahaxueche" do
     pod 'MMNumberKeyboard'
     pod 'RSKImageCropper'
     pod 'Harpy'
+    pod 'UMengAnalytics-NO-IDFA'
 end
 
 

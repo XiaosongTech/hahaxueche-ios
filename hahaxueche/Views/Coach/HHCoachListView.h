@@ -25,6 +25,8 @@
 @property (nonatomic, strong) HHStarRatingView *starRatingView;
 @property (nonatomic, strong) UILabel *ratingLabel;
 @property (nonatomic, strong) UIButton *mapButton;
+@property (nonatomic, strong) UIButton *likeButton;
+@property (nonatomic, strong) UILabel *likeCountLabel;
 
 @property (nonatomic, strong) HHField *field;
 @property (nonatomic, strong) HHCoach *coach;

@@ -301,5 +301,22 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:userDic] forKey:kUserObjectKey];
 }
 
+- (void)likeOrUnlikeCoachWithId:(NSString *)coachId like:(NSNumber *)like completion:(HHLikeCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPILikeCoach, [HHStudentStore sharedInstance].currentStudent.studentId, coachId]];
+    [APIClient postWithParameters:@{@"like":like} completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHCoach *coach = [MTLJSONAdapter modelOfClass:[HHCoach class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(coach, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+        
+    }];
+    
+}
 
 @end

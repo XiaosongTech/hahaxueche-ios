@@ -16,9 +16,13 @@ typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellCount,
 };
 
+typedef void (^HHMyCoachUpdateBlock)(HHCoach *coach);
+
 @interface HHMyCoachDetailViewController : UIViewController
 
 - (instancetype)initWithCoach:(HHCoach *)coach;
+
+@property (nonatomic, strong) HHMyCoachUpdateBlock updateCoachBlock;
 
 
 

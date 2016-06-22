@@ -41,6 +41,7 @@
 #define kAPIStudentWithdrawTransacion @"students/%@/referal_bonus_transactions"
 #define kAPIStudentWithdraw @"students/%@/withdraw_referal_bonus"
 #define kAPIGroupPurchase @"activity_users"
+#define kAPILikeCoach @"students/%@/like/%@"
 
 
 

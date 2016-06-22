@@ -102,6 +102,9 @@ static NSString *kNotifCellId = @"notifCellId";
         [self buildNoCoachView];
         [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(addCell) userInfo:nil repeats:YES];
     }
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
+    [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {

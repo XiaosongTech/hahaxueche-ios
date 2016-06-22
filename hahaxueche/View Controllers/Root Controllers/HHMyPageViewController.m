@@ -97,6 +97,9 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                                              selector:@selector(coachPurchased)
                                                  name:@"coachPurchased"
                                                object:nil];
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
+    [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
+
     
 }
 
@@ -206,6 +209,9 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 if ([weakSelf.currentStudent.purchasedServiceArray count]) {
                     HHMyCoachDetailViewController *myCoachVC = [[HHMyCoachDetailViewController alloc] initWithCoach:weakSelf.myCoach];
                     myCoachVC.hidesBottomBarWhenPushed = YES;
+                    myCoachVC.updateCoachBlock = ^(HHCoach *coach) {
+                        weakSelf.myCoach = coach;
+                    };
                     [weakSelf.navigationController pushViewController:myCoachVC animated:YES];
                 } else {
                     [[HHToastManager sharedManager] showErrorToastWithText:@"您还没有购买的教练"];
@@ -258,8 +264,9 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             };
             
             cell.faqView.actionBlock = ^() {
-                HHLongImageViewController *faq = [[HHLongImageViewController alloc] initWithImage:[UIImage imageNamed:@"faq.jpg"]];
-                [weakSelf presentViewController:faq animated:YES completion:nil];
+                HHLongImageViewController *faq = [[HHLongImageViewController alloc] initWithImage:[UIImage imageNamed:@"faq.png"]];
+                faq.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:faq animated:YES];
             };
             
             cell.appInfoView.actionBlock = ^() {
