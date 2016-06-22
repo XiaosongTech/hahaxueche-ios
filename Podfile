@@ -34,6 +34,13 @@ target "hahaxueche" do
     pod 'UMengAnalytics-NO-IDFA'
 end
 
+target "hahaxuecheTests" do
+    pod 'AFNetworking', '~> 2.6.1'
+    pod 'SSKeychain'
+    pod 'Mantle'
+end
+
+
 
 
 # Update the project / pod segttings after pod install. Keep in mind please don't run Pod install when Xcode is open.

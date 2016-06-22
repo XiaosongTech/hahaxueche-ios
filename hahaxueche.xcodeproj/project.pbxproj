@@ -329,6 +329,7 @@
 		5CDE14891C3859290004778C /* HHPopupUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE14881C3859290004778C /* HHPopupUtility.m */; };
 		5CDE148C1C3A00AB0004778C /* HHLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE148B1C3A00AB0004778C /* HHLoginViewController.m */; };
 		6D25B8161D194F170089EE8E /* HHStudentServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D25B8151D194F170089EE8E /* HHStudentServiceTests.m */; };
+		6D25B8181D1A40D60089EE8E /* HHUserAuthServicesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D25B8171D1A40D60089EE8E /* HHUserAuthServicesTests.m */; };
 		6D3D6F9A1CBFA68300E3BD8E /* HHNotificationExplanationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D6F991CBFA68300E3BD8E /* HHNotificationExplanationView.m */; };
 		6D3D6F9E1CC0933100E3BD8E /* ic_class_emptyava.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D3D6F9B1CC0933100E3BD8E /* ic_class_emptyava.png */; };
 		6D3D6F9F1CC0933100E3BD8E /* ic_class_emptyava@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D3D6F9C1CC0933100E3BD8E /* ic_class_emptyava@2x.png */; };
@@ -465,6 +466,7 @@
 		6DF41AA41CEB0E1A0014F7E3 /* ic_mypage_bk.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DF41AA11CEB0E1A0014F7E3 /* ic_mypage_bk.png */; };
 		6DF41AA51CEB0E1A0014F7E3 /* ic_mypage_bk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DF41AA21CEB0E1A0014F7E3 /* ic_mypage_bk@2x.png */; };
 		6DF41AA61CEB0E1A0014F7E3 /* ic_mypage_bk@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DF41AA31CEB0E1A0014F7E3 /* ic_mypage_bk@3x.png */; };
+		B037CB6FF11873AB773CFDEE /* libPods-hahaxuecheTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E981A5873936FB0EDF957E19 /* libPods-hahaxuecheTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -915,6 +917,7 @@
 		5CDE148A1C3A00AB0004778C /* HHLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHLoginViewController.h; sourceTree = "<group>"; };
 		5CDE148B1C3A00AB0004778C /* HHLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHLoginViewController.m; sourceTree = "<group>"; };
 		6D25B8151D194F170089EE8E /* HHStudentServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHStudentServiceTests.m; sourceTree = "<group>"; };
+		6D25B8171D1A40D60089EE8E /* HHUserAuthServicesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHUserAuthServicesTests.m; sourceTree = "<group>"; };
 		6D3D6F981CBFA68300E3BD8E /* HHNotificationExplanationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNotificationExplanationView.h; sourceTree = "<group>"; };
 		6D3D6F991CBFA68300E3BD8E /* HHNotificationExplanationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNotificationExplanationView.m; sourceTree = "<group>"; };
 		6D3D6F9B1CC0933100E3BD8E /* ic_class_emptyava.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_class_emptyava.png; sourceTree = "<group>"; };
@@ -1097,6 +1100,9 @@
 		6DF41AA11CEB0E1A0014F7E3 /* ic_mypage_bk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_mypage_bk.png; sourceTree = "<group>"; };
 		6DF41AA21CEB0E1A0014F7E3 /* ic_mypage_bk@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_mypage_bk@2x.png"; sourceTree = "<group>"; };
 		6DF41AA31CEB0E1A0014F7E3 /* ic_mypage_bk@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_mypage_bk@3x.png"; sourceTree = "<group>"; };
+		7D5D0581A919672C5307F36F /* Pods-hahaxuecheTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hahaxuecheTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-hahaxuecheTests/Pods-hahaxuecheTests.release.xcconfig"; sourceTree = "<group>"; };
+		D68B5793EF97DEBFED4E7CF9 /* Pods-hahaxuecheTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hahaxuecheTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hahaxuecheTests/Pods-hahaxuecheTests.debug.xcconfig"; sourceTree = "<group>"; };
+		E981A5873936FB0EDF957E19 /* libPods-hahaxuecheTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hahaxuecheTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FACF31699E276834A3CA127C /* Pods-hahaxueche.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hahaxueche.release.xcconfig"; path = "Pods/Target Support Files/Pods-hahaxueche/Pods-hahaxueche.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1131,6 +1137,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B037CB6FF11873AB773CFDEE /* libPods-hahaxuecheTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1142,6 +1149,8 @@
 			children = (
 				3F0E27A55273FF59140FC4A1 /* Pods-hahaxueche.debug.xcconfig */,
 				FACF31699E276834A3CA127C /* Pods-hahaxueche.release.xcconfig */,
+				D68B5793EF97DEBFED4E7CF9 /* Pods-hahaxuecheTests.debug.xcconfig */,
+				7D5D0581A919672C5307F36F /* Pods-hahaxuecheTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1639,8 +1648,9 @@
 		5CC3B6171B48268A00D10DFB /* hahaxuecheTests */ = {
 			isa = PBXGroup;
 			children = (
-				5CC3B6181B48268A00D10DFB /* Supporting Files */,
 				6D25B8151D194F170089EE8E /* HHStudentServiceTests.m */,
+				6D25B8171D1A40D60089EE8E /* HHUserAuthServicesTests.m */,
+				5CC3B6181B48268A00D10DFB /* Supporting Files */,
 			);
 			path = hahaxuecheTests;
 			sourceTree = "<group>";
@@ -2087,6 +2097,7 @@
 				5C5451A71B51A7520025D19F /* CoreLocation.framework */,
 				5C5451A51B51A7480025D19F /* MapKit.framework */,
 				4947C525F4777125FAD67B92 /* libPods-hahaxueche.a */,
+				E981A5873936FB0EDF957E19 /* libPods-hahaxuecheTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2119,9 +2130,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5CC3B6211B48268A00D10DFB /* Build configuration list for PBXNativeTarget "hahaxuecheTests" */;
 			buildPhases = (
+				A0E2E68AE120371CE0599443 /* 📦 Check Pods Manifest.lock */,
 				5CC3B6101B48268A00D10DFB /* Sources */,
 				5CC3B6111B48268A00D10DFB /* Frameworks */,
 				5CC3B6121B48268A00D10DFB /* Resources */,
+				55F7E1EC7B6AC3A3CF3414D1 /* 📦 Embed Pods Frameworks */,
+				6A08990A54D55278F001540B /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2494,6 +2508,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hahaxueche/Pods-hahaxueche-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		55F7E1EC7B6AC3A3CF3414D1 /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hahaxuecheTests/Pods-hahaxuecheTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		5C7B14E91BE0505100264C8A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2506,6 +2535,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/Fabric.framework/run\" af6f89398cda5992323be405883f1b20b92cfc52 4e87e6c9c02fdbed04ea7cc2222fb71974fd738dc49002f29d760bc607994bdb";
+		};
+		6A08990A54D55278F001540B /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hahaxuecheTests/Pods-hahaxuecheTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A0E2E68AE120371CE0599443 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 		C074175CE104BC7E6EDAF260 /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2705,6 +2764,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D25B8181D1A40D60089EE8E /* HHUserAuthServicesTests.m in Sources */,
 				6D25B8161D194F170089EE8E /* HHStudentServiceTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2941,6 +3001,7 @@
 		};
 		5CC3B6221B48268A00D10DFB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D68B5793EF97DEBFED4E7CF9 /* Pods-hahaxuecheTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2960,6 +3021,7 @@
 		};
 		5CC3B6231B48268A00D10DFB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D5D0581A919672C5307F36F /* Pods-hahaxuecheTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (

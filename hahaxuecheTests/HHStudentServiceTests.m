@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "HHUserAuthService.h"
 #import "HHStudentService.h"
 
 @interface HHStudentServiceTests : XCTestCase
@@ -19,8 +20,29 @@
 
 - (void)setUp {
     [super setUp];
+    
+    // Get test account
     [HHStudentService sharedInstance];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Testing get test account works"];
+    [[HHUserAuthService sharedInstance] loginWithCellphone:@"18506830113" password:@"111111" completion:^(HHStudent *student, NSError *error) {
+        if (!error) {
+            if (student) {
+                self.student = student;
+                [expectation fulfill];
+            } else {
+                XCTFail(@"Return data incorrect");
+            }
+        } else {
+            XCTFail(@"Expectation Failed with error: %@", error);
+        }
+
+    }];
+    
+    [self waitForExpectationsWithTimeout:5.0 handler:^(NSError *error) {
+        if(error) {
+            XCTFail(@"Expectation Failed with error: %@", error);
+        }
+    }];
 }
 
 - (void)tearDown {
@@ -28,9 +50,29 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+- (void)testUploadAvatarImage {
+    
+    //Expectation
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Testing upload user avatar works"];
+    [[HHStudentService sharedInstance] uploadStudentAvatarWithImage:[UIImage imageNamed:@"ic_coach_ava"] completion:^(HHStudent *student, NSError *error) {
+        if (!error) {
+            if (student) {
+                [expectation fulfill];
+            } else {
+                XCTFail(@"Return data incorrect");
+            }
+        } else {
+           XCTFail(@"Expectation Failed with error: %@", error);
+        }
+    }];
+    
+    [self waitForExpectationsWithTimeout:5.0 handler:^(NSError *error) {
+        
+        if(error) {
+            XCTFail(@"Expectation Failed with error: %@", error);
+        }
+        
+    }];
 }
 
 @end
