@@ -50,11 +50,11 @@
     [super tearDown];
 }
 
-- (void)testUploadAvatarImage {
-    
+
+- (void)testFetchStudent {
     //Expectation
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Testing upload user avatar works"];
-    [[HHStudentService sharedInstance] uploadStudentAvatarWithImage:[UIImage imageNamed:@"ic_coach_ava"] completion:^(HHStudent *student, NSError *error) {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Testing fetch student works"];
+    [[HHStudentService sharedInstance] fetchStudentWithId:self.student.studentId completion:^(HHStudent *student, NSError *error) {
         if (!error) {
             if (student) {
                 [expectation fulfill];
@@ -62,12 +62,99 @@
                 XCTFail(@"Return data incorrect");
             }
         } else {
-           XCTFail(@"Expectation Failed with error: %@", error);
+            XCTFail(@"Expectation Failed with error: %@", error);
         }
     }];
     
     [self waitForExpectationsWithTimeout:5.0 handler:^(NSError *error) {
+        if(error) {
+            XCTFail(@"Expectation Failed with error: %@", error);
+        }
         
+    }];
+}
+
+- (void)testFetchSchedules {
+    //Expectation
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Testing fetch schedule works"];
+    [[HHStudentService sharedInstance] fetchScheduleWithId:self.student.studentId scheduleType:@(0) completion:^(HHCoachSchedules *schedules, NSError *error) {
+        if (!error) {
+            if (schedules.schedules) {
+                [expectation fulfill];
+            } else {
+                XCTFail(@"Return data incorrect");
+            }
+        } else {
+            XCTFail(@"Expectation Failed with error: %@", error);
+        }
+
+    }];
+    
+    [self waitForExpectationsWithTimeout:5.0 handler:^(NSError *error) {
+        if(error) {
+            XCTFail(@"Expectation Failed with error: %@", error);
+        }
+        
+    }];
+}
+
+- (void)testFetchBonusSummary {
+    //Expectation
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Testing fetch bonnus summary works"];
+    [[HHStudentService sharedInstance] fetchBonusSummaryWithCompletion:^(HHBonusSummary *bonusSummary, NSError *error) {
+        if (!error) {
+            if (bonusSummary) {
+                [expectation fulfill];
+            }
+        } else {
+             XCTFail(@"Return data incorrect");
+        }
+    }];
+    
+    [self waitForExpectationsWithTimeout:5.0 handler:^(NSError *error) {
+        if(error) {
+            XCTFail(@"Expectation Failed with error: %@", error);
+        }
+        
+    }];
+}
+
+- (void)testFetchReferrals {
+    //Expectation
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Testing fetch referrals works"];
+    [[HHStudentService sharedInstance] fetchReferralsWithCompletion:^(HHReferrals *referralsObject, NSError *error) {
+        if (!error) {
+            if (referralsObject) {
+                [expectation fulfill];
+            }
+        } else {
+            XCTFail(@"Return data incorrect");
+        }
+
+    }];
+    
+    [self waitForExpectationsWithTimeout:5.0 handler:^(NSError *error) {
+        if(error) {
+            XCTFail(@"Expectation Failed with error: %@", error);
+        }
+        
+    }];
+}
+
+- (void)testFetchWithdraws {
+    //Expectation
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Testing fetch withdraw works"];
+    [[HHStudentService sharedInstance] fetchWithdrawTransactionWithCompletion:^(HHWithdraws *withdrawsObject, NSError *error) {
+        if (!error) {
+            if (withdrawsObject) {
+                [expectation fulfill];
+            }
+        } else {
+            XCTFail(@"Return data incorrect");
+        }
+    }];
+    
+    [self waitForExpectationsWithTimeout:5.0 handler:^(NSError *error) {
         if(error) {
             XCTFail(@"Expectation Failed with error: %@", error);
         }
