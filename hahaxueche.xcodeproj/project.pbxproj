@@ -302,7 +302,6 @@
 		5CC3B6011B48268A00D10DFB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6001B48268A00D10DFB /* main.m */; };
 		5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B6031B48268A00D10DFB /* HHAppDelegate.m */; };
 		5CC3B60C1B48268A00D10DFB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CC3B60B1B48268A00D10DFB /* Images.xcassets */; };
-		5CC3B61B1B48268A00D10DFB /* hahaxuecheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC3B61A1B48268A00D10DFB /* hahaxuecheTests.m */; };
 		5CC738451C402BD600FFFBED /* HHUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC738441C402BD600FFFBED /* HHUser.m */; };
 		5CD4E9F81B5AA10C003CF15E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD4E9F71B5AA10C003CF15E /* SystemConfiguration.framework */; };
 		5CD4E9FA1B5AA115003CF15E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD4E9F91B5AA115003CF15E /* MessageUI.framework */; };
@@ -329,6 +328,7 @@
 		5CDE14861C3852E30004778C /* HHCitySelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE14851C3852E30004778C /* HHCitySelectView.m */; };
 		5CDE14891C3859290004778C /* HHPopupUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE14881C3859290004778C /* HHPopupUtility.m */; };
 		5CDE148C1C3A00AB0004778C /* HHLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE148B1C3A00AB0004778C /* HHLoginViewController.m */; };
+		6D25B8161D194F170089EE8E /* HHStudentServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D25B8151D194F170089EE8E /* HHStudentServiceTests.m */; };
 		6D3D6F9A1CBFA68300E3BD8E /* HHNotificationExplanationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D6F991CBFA68300E3BD8E /* HHNotificationExplanationView.m */; };
 		6D3D6F9E1CC0933100E3BD8E /* ic_class_emptyava.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D3D6F9B1CC0933100E3BD8E /* ic_class_emptyava.png */; };
 		6D3D6F9F1CC0933100E3BD8E /* ic_class_emptyava@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D3D6F9C1CC0933100E3BD8E /* ic_class_emptyava@2x.png */; };
@@ -875,7 +875,6 @@
 		5CC3B60B1B48268A00D10DFB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5CC3B6141B48268A00D10DFB /* hahaxuecheTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = hahaxuecheTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CC3B6191B48268A00D10DFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5CC3B61A1B48268A00D10DFB /* hahaxuecheTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = hahaxuecheTests.m; sourceTree = "<group>"; };
 		5CC738431C402BD600FFFBED /* HHUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHUser.h; sourceTree = "<group>"; };
 		5CC738441C402BD600FFFBED /* HHUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHUser.m; sourceTree = "<group>"; };
 		5CD4E9F71B5AA10C003CF15E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -915,6 +914,7 @@
 		5CDE14881C3859290004778C /* HHPopupUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPopupUtility.m; sourceTree = "<group>"; };
 		5CDE148A1C3A00AB0004778C /* HHLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHLoginViewController.h; sourceTree = "<group>"; };
 		5CDE148B1C3A00AB0004778C /* HHLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHLoginViewController.m; sourceTree = "<group>"; };
+		6D25B8151D194F170089EE8E /* HHStudentServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHStudentServiceTests.m; sourceTree = "<group>"; };
 		6D3D6F981CBFA68300E3BD8E /* HHNotificationExplanationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNotificationExplanationView.h; sourceTree = "<group>"; };
 		6D3D6F991CBFA68300E3BD8E /* HHNotificationExplanationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNotificationExplanationView.m; sourceTree = "<group>"; };
 		6D3D6F9B1CC0933100E3BD8E /* ic_class_emptyava.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_class_emptyava.png; sourceTree = "<group>"; };
@@ -1640,7 +1640,7 @@
 			isa = PBXGroup;
 			children = (
 				5CC3B6181B48268A00D10DFB /* Supporting Files */,
-				5CC3B61A1B48268A00D10DFB /* hahaxuecheTests.m */,
+				6D25B8151D194F170089EE8E /* HHStudentServiceTests.m */,
 			);
 			path = hahaxuecheTests;
 			sourceTree = "<group>";
@@ -2705,7 +2705,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CC3B61B1B48268A00D10DFB /* hahaxuecheTests.m in Sources */,
+				6D25B8161D194F170089EE8E /* HHStudentServiceTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
