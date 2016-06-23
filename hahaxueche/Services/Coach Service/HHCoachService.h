@@ -113,13 +113,6 @@ typedef void (^HHCoachSearchCompletion)(NSArray *coaches, NSError *error);
 - (void)tryCoachWithId:(NSString *)coachId name:(NSString *)name number:(NSString *)number firstDate:(NSString *)firstDate secondDate:(NSString *)secondDate completion:(HHCoachGenericCompletion)completion;
 
 /**
- Pay a stage money to Coach
- @param location The loaction array
- @param completion The completion block to execute on completion
- */
-- (void)oneClickFindCoachWithLocation:(NSArray *)location completion:(HHCoachCompletion)completion;
-
-/**
  Search Coach
  @param keyword The keyword of the search
  @param completion The completion block to execute on completion

@@ -226,22 +226,6 @@
 
 }
 
-- (void)oneClickFindCoachWithLocation:(NSArray *)location completion:(HHCoachCompletion)completion {
-     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIBestMatchCoach];
-    [APIClient getWithParameters:@{@"user_location":location} completion:^(NSDictionary *response, NSError *error) {
-        if (!error) {
-            HHCoach *coach = [MTLJSONAdapter modelOfClass:[HHCoach class] fromJSONDictionary:response error:nil];
-            if (completion) {
-                completion(coach, nil);
-            }
-        } else {
-            if (completion) {
-                completion(nil, error);
-            }
-        }
-    }];
-}
-
 - (void)searchCoachWithKeyword:(NSString *)keyword completion:(HHCoachSearchCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICoaches];
     [APIClient getWithParameters:@{@"keyword":keyword} completion:^(NSDictionary *response, NSError *error) {
