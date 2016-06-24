@@ -71,6 +71,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 @property (nonatomic, strong) HHStudent *currentStudent;
 @property (nonatomic, strong) HHReviews *reviewsObject;
 @property (nonatomic, strong) NSArray *reviews;
+@property (nonatomic) BOOL liking;
 
 @end
 
@@ -490,6 +491,10 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 
 
 - (void)likeOrUnlikeCoachWithButton:(UIButton *)button label:(UILabel *)label {
+    if (self.liking) {
+        return;
+    }
+    self.liking = YES;
     NSNumber *like;
     if ([self.coach.liked boolValue]) {
         like = @(0);
@@ -498,6 +503,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     }
     
     [[HHStudentService sharedInstance] likeOrUnlikeCoachWithId:self.coach.coachId like:like completion:^(HHCoach *coach, NSError *error) {
+        self.liking = NO;
         if (!error) {
             self.coach = coach;
             if (self.coachUpdateBlock) {

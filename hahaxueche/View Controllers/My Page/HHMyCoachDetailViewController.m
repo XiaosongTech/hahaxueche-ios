@@ -42,6 +42,7 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
 @property (nonatomic, strong) SDCycleScrollView *coachImagesView;
 @property (nonatomic, strong) UIButton *reviewCoachButton;
 @property (nonatomic, strong) KLCPopup *popup;
+@property (nonatomic) BOOL liking;
 
 @end
 
@@ -241,6 +242,10 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
 }
 
 - (void)likeOrUnlikeCoachWithButton:(UIButton *)button label:(UILabel *)label {
+    if (self.liking) {
+        return;
+    }
+    self.liking = YES;
     NSNumber *like;
     if ([self.coach.liked boolValue]) {
         like = @(0);
@@ -249,6 +254,7 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
     }
     
     [[HHStudentService sharedInstance] likeOrUnlikeCoachWithId:self.coach.coachId like:like completion:^(HHCoach *coach, NSError *error) {
+        self.liking = NO;
         if (!error) {
             self.coach = coach;
             if (self.updateCoachBlock) {
