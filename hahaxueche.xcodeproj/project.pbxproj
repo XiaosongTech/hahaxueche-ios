@@ -417,6 +417,7 @@
 		6D96AE3C1D20F980003C1E84 /* ic_sort_zan_normal_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D96AE301D20F980003C1E84 /* ic_sort_zan_normal_btn.png */; };
 		6D96AE3D1D20F980003C1E84 /* ic_sort_zan_normal_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D96AE311D20F980003C1E84 /* ic_sort_zan_normal_btn@2x.png */; };
 		6D96AE3E1D20F980003C1E84 /* ic_sort_zan_normal_btn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D96AE321D20F980003C1E84 /* ic_sort_zan_normal_btn@3x.png */; };
+		6D96AE421D212C04003C1E84 /* HHQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D96AE411D212C04003C1E84 /* HHQuestion.m */; };
 		6D9B80971CBF32AE004B90C6 /* HHNotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9B80961CBF32AE004B90C6 /* HHNotificationCell.m */; };
 		6DBAC5B31D12E4080040BDA7 /* ic_list_best_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DBAC5B01D12E4080040BDA7 /* ic_list_best_small.png */; };
 		6DBAC5B41D12E4080040BDA7 /* ic_list_best_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DBAC5B11D12E4080040BDA7 /* ic_list_best_small@2x.png */; };
@@ -1035,6 +1036,8 @@
 		6D96AE301D20F980003C1E84 /* ic_sort_zan_normal_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_sort_zan_normal_btn.png; sourceTree = "<group>"; };
 		6D96AE311D20F980003C1E84 /* ic_sort_zan_normal_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_sort_zan_normal_btn@2x.png"; sourceTree = "<group>"; };
 		6D96AE321D20F980003C1E84 /* ic_sort_zan_normal_btn@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_sort_zan_normal_btn@3x.png"; sourceTree = "<group>"; };
+		6D96AE401D212C04003C1E84 /* HHQuestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHQuestion.h; sourceTree = "<group>"; };
+		6D96AE411D212C04003C1E84 /* HHQuestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHQuestion.m; sourceTree = "<group>"; };
 		6D9B80951CBF32AE004B90C6 /* HHNotificationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNotificationCell.h; sourceTree = "<group>"; };
 		6D9B80961CBF32AE004B90C6 /* HHNotificationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNotificationCell.m; sourceTree = "<group>"; };
 		6DBAC5B01D12E4080040BDA7 /* ic_list_best_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_list_best_small.png; sourceTree = "<group>"; };
@@ -1690,6 +1693,7 @@
 		5CDE14391C32F8700004778C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6D96AE3F1D212BB1003C1E84 /* Test */,
 				141F7C0C1C61B060003278C6 /* Coach */,
 				5C36D38A1C43014E00443545 /* Others */,
 				14B5EB771C7C0EFD00A37669 /* Payment */,
@@ -2081,6 +2085,15 @@
 				6D8552301CD8408B0021D4C9 /* HHWithdraws.m */,
 			);
 			path = Referral;
+			sourceTree = "<group>";
+		};
+		6D96AE3F1D212BB1003C1E84 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				6D96AE401D212C04003C1E84 /* HHQuestion.h */,
+				6D96AE411D212C04003C1E84 /* HHQuestion.m */,
+			);
+			name = Test;
 			sourceTree = "<group>";
 		};
 		D888D3204AF4D3C403817A89 /* Frameworks */ = {
@@ -2597,6 +2610,7 @@
 				14604F471C6F8BED009DBE10 /* HHShareView.m in Sources */,
 				6D8552311CD8408B0021D4C9 /* HHWithdraws.m in Sources */,
 				14604F651C6FF926009DBE10 /* NSNumber+HHNumber.m in Sources */,
+				6D96AE421D212C04003C1E84 /* HHQuestion.m in Sources */,
 				6DE56FDE1D00297100E33BDB /* HHCoachServiceTypeCell.m in Sources */,
 				5CDE14891C3859290004778C /* HHPopupUtility.m in Sources */,
 				6DF202E01CD0C217002092B4 /* HHWithdraw.m in Sources */,
