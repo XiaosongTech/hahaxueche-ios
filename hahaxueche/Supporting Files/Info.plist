@@ -74,6 +74,8 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>需要位置信息来帮助您寻找附近的优秀教练</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>需要位置信息来帮助您寻找附近的优秀教练</string>
 	<key>UIAppFonts</key>
 	<array/>
 	<key>UIRequiredDeviceCapabilities</key>
