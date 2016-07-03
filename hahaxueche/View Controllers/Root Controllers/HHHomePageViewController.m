@@ -13,7 +13,7 @@
 #import "UIColor+HHColor.h"
 #import "HHStudentStore.h"
 #import "HHCitySelectView.h"
-#include "HHConstantsStore.h"
+#import "HHConstantsStore.h"
 #import "HHPopupUtility.h"
 #import <KLCPopup/KLCPopup.h>
 #import "HHCoachService.h"
@@ -30,6 +30,7 @@
 #import "HHGroupPurchaseView.h"
 #import "HHStudentService.h"
 #import "HHTryCoachView.h"
+#import "HHHomepageBanner.h"
 
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach";
@@ -117,7 +118,11 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
     
     __weak HHHomePageViewController *weakSelf = self;
     self.bannerView = [[SDCycleScrollView alloc] init];
-    self.bannerView.imageURLStringsGroup = self.banners;
+    NSMutableArray *imgArray = [NSMutableArray array];
+    for (HHHomepageBanner *banner in self.banners) {
+        [imgArray addObject:banner.imgURL];
+    }
+    self.bannerView.imageURLStringsGroup = imgArray;
     self.bannerView.autoScroll = YES;
     self.bannerView.autoScrollTimeInterval = 3.0f;
     self.bannerView.delegate = self;
@@ -187,41 +192,11 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
 }
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
-    switch (index) {
-        case 0: {
-            __weak HHHomePageViewController *weakSelf = self;
-            HHGroupPurchaseView *view = [[HHGroupPurchaseView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 230.0f)];
-            view.cancelBlock = ^() {
-                [HHPopupUtility dismissPopup:weakSelf.popup];
-            };
-            self.popup = [HHPopupUtility createPopupWithContentView:view];
-            [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutCenter)];
-        } break;
-            
-        case 1: {
-            [self tryCoachForFree];
-        } break;
-            
-        case 2: {
-            self.tabBarController.selectedIndex = TabBarItemMyPage;
-            if ([HHStudentStore sharedInstance].currentStudent.studentId) {
-                HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
-                UINavigationController *navVC = self.tabBarController.selectedViewController;
-                [navVC pushViewController:vc animated:YES];
-            }
-        } break;
-            
-        case 3: {
-            
-        } break;
-        
-        case 4: {
-            
-        } break;
-            
-        default:
-            break;
+    HHHomepageBanner *banner = self.banners[index];
+    if ([banner.targetURL length] > 0) {
+        [self openWebPage:[NSURL URLWithString:banner.targetURL]];
     }
+    
 }
 
 - (void)openWebPage:(NSURL *)url {
@@ -232,32 +207,8 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
 }
 
 - (void)tryCoachForFree {
-    __weak HHHomePageViewController *weakSelf = self;
-    HHTryCoachView *tryCoachView = [[HHTryCoachView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 350.0f) mode:TryCoachModeSimple];
-    tryCoachView.cancelBlock = ^(){
-        [HHPopupUtility dismissPopup:weakSelf.popup];
-    };
-    tryCoachView.confirmBlock = ^(NSString *name, NSString *number, NSDate *firstDate, NSDate *secDate) {
-        [[HHLoadingViewUtility sharedInstance] showLoadingView];
-        [[HHCoachService sharedInstance] tryCoachWithId:nil
-                                                   name:name
-                                                 number:number
-                                              firstDate:nil
-                                             secondDate:nil
-                                             completion:^(NSError *error) {
-                                                 
-                                                 [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-                                                 if (!error) {
-                                                     [[HHToastManager sharedManager] showSuccessToastWithText:@"免费试学预约成功！教练会尽快联系您！"];
-                                                     [HHPopupUtility dismissPopup:weakSelf.popup];
-                                                 } else {
-                                                     [[HHToastManager sharedManager] showErrorToastWithText:@"预约失败，请重试！"];
-                                                 }
-                                             }];
-    };
-    weakSelf.popup = [HHPopupUtility createPopupWithContentView:tryCoachView];
-    [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
-
+    //jump to web
+    [self openWebPage:nil];
 }
 
 

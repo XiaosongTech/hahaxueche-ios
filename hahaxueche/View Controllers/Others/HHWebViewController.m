@@ -9,7 +9,6 @@
 #import "HHWebViewController.h"
 #import "Masonry.h"
 #import "UIBarButtonItem+HHCustomButton.h"
-#import "HHLoadingViewUtility.h"
 
 @implementation HHWebViewController
 
@@ -27,9 +26,20 @@
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
     
     self.webView = [[UIWebView alloc] init];
+    self.webView.backgroundColor = [UIColor whiteColor];
     self.webView.delegate = self;
     [self.webView loadRequest:[NSURLRequest requestWithURL:self.url]];
     [self.view addSubview:self.webView];
+    
+    self.progress = [[NJKWebViewProgress alloc] init];
+    self.webView.delegate = self.progress;
+    self.progress.webViewProxyDelegate = self;
+    self.progress.progressDelegate = self;
+    CGFloat progressBarHeight = 2.f;
+    CGRect navigationBarBounds = self.navigationController.navigationBar.bounds;
+    CGRect barFrame = CGRectMake(0, navigationBarBounds.size.height - progressBarHeight, navigationBarBounds.size.width, progressBarHeight);
+    self.progressView = [[NJKWebViewProgressView alloc] initWithFrame:barFrame];
+    self.progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     
     [self.webView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.top);
@@ -43,11 +53,18 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView {
-    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController.navigationBar addSubview:self.progressView];
 }
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-    [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.progressView removeFromSuperview];
+}
+
+-(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress {
+    [self.progressView setProgress:progress animated:NO];
 }
 
 @end

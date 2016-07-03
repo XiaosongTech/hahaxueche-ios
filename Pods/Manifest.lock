@@ -47,6 +47,11 @@ PODS:
   - Masonry (1.0.1)
   - MJRefresh (3.1.0)
   - MMNumberKeyboard (0.1.5)
+  - NJKWebViewProgress (0.2.3):
+    - NJKWebViewProgress/Core (= 0.2.3)
+    - NJKWebViewProgress/ProgressView (= 0.2.3)
+  - NJKWebViewProgress/Core (0.2.3)
+  - NJKWebViewProgress/ProgressView (0.2.3)
   - OpenShare (0.0.1)
   - Pingpp/Alipay (2.2.4):
     - Pingpp/Core
@@ -90,6 +95,7 @@ DEPENDENCIES:
   - Masonry
   - MJRefresh
   - MMNumberKeyboard
+  - NJKWebViewProgress
   - OpenShare (~> 0.0)
   - Pingpp/Alipay (from `~/Desktop/Ping++SDK-iOS`)
   - Pingpp/Fqlpay (from `~/Desktop/Ping++SDK-iOS`)
@@ -127,6 +133,7 @@ SPEC CHECKSUMS:
   Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   MMNumberKeyboard: 12da79571d08aca21566534a74726c5469aed29a
+  NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   OpenShare: a560580dbb729d5c0c3cc1ee84cd6aa4a07e94c6
   Pingpp: 89c262bc06cd559b318595c43af3926f1d851334
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
@@ -138,6 +145,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
 
-PODFILE CHECKSUM: cccd5bdfac2b051030f772581944633537a688dd
+PODFILE CHECKSUM: 54e6f8eb2ace75f4afd7d0fa58007cb521cebe09
 
 COCOAPODS: 1.0.0
