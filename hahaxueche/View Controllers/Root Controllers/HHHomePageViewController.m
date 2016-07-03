@@ -207,8 +207,7 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
 }
 
 - (void)tryCoachForFree {
-    //jump to web
-    [self openWebPage:nil];
+    [self openWebPage:[NSURL URLWithString:@"http://m.hahaxueche.com/free_trial"]];
 }
 
 
