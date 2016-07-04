@@ -6,9 +6,9 @@
 //  Copyright © 2016 Zixiao Wang. All rights reserved.
 //
 
-#import "HHHomepageBanner.h"
+#import "HHBanner.h"
 
-@implementation HHHomepageBanner
+@implementation HHBanner
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{

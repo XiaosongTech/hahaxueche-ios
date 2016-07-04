@@ -42,6 +42,7 @@
 #import "HHCoachFieldCell.h"
 #import <pop/POP.h>
 #import "HHGenericTwoButtonsPopupView.h"
+#import "HHWebViewController.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -222,30 +223,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.tryCoachAction = ^(){
-        HHTryCoachView *tryCoachView = [[HHTryCoachView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 470.0f) mode:TryCoachModeStandard];
-        tryCoachView.cancelBlock = ^(){
-            [HHPopupUtility dismissPopup:weakSelf.popup];
-        };
-        tryCoachView.confirmBlock = ^(NSString *name, NSString *number, NSDate *firstDate, NSDate *secDate) {
-            [[HHLoadingViewUtility sharedInstance] showLoadingView];
-            [[HHCoachService sharedInstance] tryCoachWithId:weakSelf.coach.coachId
-                                                         name:name
-                                                       number:number
-                                                    firstDate:[[HHFormatUtility fullDateFormatter] stringFromDate:firstDate]
-                                                   secondDate:[[HHFormatUtility fullDateFormatter] stringFromDate:secDate]
-                                                   completion:^(NSError *error) {
-                                                       
-                [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-                if (!error) {
-                    [[HHToastManager sharedManager] showSuccessToastWithText:@"免费试学预约成功！教练会尽快联系您！"];
-                    [HHPopupUtility dismissPopup:weakSelf.popup];
-                } else {
-                     [[HHToastManager sharedManager] showErrorToastWithText:@"预约失败，请重试！"];
-                }
-            }];
-        };
-        weakSelf.popup = [HHPopupUtility createPopupWithContentView:tryCoachView];
-        [HHPopupUtility showPopup:weakSelf.popup];
+        [weakSelf tryCoachForFree];
     };
     
     self.bottomBar.purchaseCoachAction = ^(){
@@ -525,6 +503,23 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         }
     }];
     
+}
+
+- (void)openWebPage:(NSURL *)url {
+    HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:url];
+    webVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:webVC animated:YES];
+    
+}
+
+- (void)tryCoachForFree {
+    NSString *url = @"http://m.hahaxueche.com/free_trial";
+    HHStudent *student = [HHStudentStore sharedInstance].currentStudent;
+    if(student.studentId) {
+        NSString *paramString = [NSString stringWithFormat:@"?coach_id=%@&name=%@&phone=%@&city_id=%@", self.coach.coachId, student.name, student.cellPhone, [student.cityId stringValue]];
+        [url stringByAppendingString:paramString];
+    }
+    [self openWebPage:[NSURL URLWithString:url]];
 }
 
 @end

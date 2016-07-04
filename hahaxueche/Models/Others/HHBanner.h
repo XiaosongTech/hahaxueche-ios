@@ -8,7 +8,7 @@
 
 #import <Mantle/Mantle.h>
 
-@interface HHHomepageBanner : MTLModel<MTLJSONSerializing>
+@interface HHBanner : MTLModel<MTLJSONSerializing>
 
 @property (nonatomic, strong) NSString *imgURL;
 @property (nonatomic, strong) NSString *targetURL;

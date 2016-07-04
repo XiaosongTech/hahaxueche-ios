@@ -30,7 +30,7 @@
 #import "HHGroupPurchaseView.h"
 #import "HHStudentService.h"
 #import "HHTryCoachView.h"
-#import "HHHomepageBanner.h"
+#import "HHBanner.h"
 
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach";
@@ -119,7 +119,7 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
     __weak HHHomePageViewController *weakSelf = self;
     self.bannerView = [[SDCycleScrollView alloc] init];
     NSMutableArray *imgArray = [NSMutableArray array];
-    for (HHHomepageBanner *banner in self.banners) {
+    for (HHBanner *banner in self.banners) {
         [imgArray addObject:banner.imgURL];
     }
     self.bannerView.imageURLStringsGroup = imgArray;
@@ -192,7 +192,7 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
 }
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
-    HHHomepageBanner *banner = self.banners[index];
+    HHBanner *banner = self.banners[index];
     if ([banner.targetURL length] > 0) {
         [self openWebPage:[NSURL URLWithString:banner.targetURL]];
     }
