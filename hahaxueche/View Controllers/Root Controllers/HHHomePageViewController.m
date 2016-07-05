@@ -207,7 +207,18 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
 }
 
 - (void)tryCoachForFree {
-    [self openWebPage:[NSURL URLWithString:@"http://m.hahaxueche.com/free_trial"]];
+    NSString *urlBase = @"http://m.hahaxueche.com/free_trial";
+    HHStudent *student = [HHStudentStore sharedInstance].currentStudent;
+    NSString *paramString;
+    NSString *url;
+    if(student.studentId) {
+        paramString = [NSString stringWithFormat:@"?name=%@&phone=%@&city_id=%@", student.name, student.cellPhone, [student.cityId stringValue]];
+        url = [NSString stringWithFormat:@"%@%@", urlBase, paramString];
+        [self openWebPage:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    } else {
+        [self openWebPage:[NSURL URLWithString:urlBase]];
+    }
+    
 }
 
 

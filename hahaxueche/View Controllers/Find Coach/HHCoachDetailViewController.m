@@ -513,13 +513,17 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 }
 
 - (void)tryCoachForFree {
-    NSString *url = @"http://m.hahaxueche.com/free_trial";
+    NSString *urlBase = @"http://m.hahaxueche.com/free_trial";
     HHStudent *student = [HHStudentStore sharedInstance].currentStudent;
+    NSString *paramString;
     if(student.studentId) {
-        NSString *paramString = [NSString stringWithFormat:@"?coach_id=%@&name=%@&phone=%@&city_id=%@", self.coach.coachId, student.name, student.cellPhone, [student.cityId stringValue]];
-        [url stringByAppendingString:paramString];
+        paramString = [NSString stringWithFormat:@"?coach_id=%@&name=%@&phone=%@&city_id=%@", self.coach.coachId, student.name, student.cellPhone, [student.cityId stringValue]];
+    } else {
+        paramString = [NSString stringWithFormat:@"?coach_id=%@", self.coach.coachId];
     }
-    [self openWebPage:[NSURL URLWithString:url]];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@", urlBase, paramString];
+    [self openWebPage:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ]];
 }
 
 @end

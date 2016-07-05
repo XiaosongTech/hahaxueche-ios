@@ -18,8 +18,8 @@
     return @{
              @"cities": @"cities",
              @"fields": @"fields",
-             @"loginBanners": @"login_banners",
-             @"homePageBanners": @"home_page_banners",
+             @"loginBanners": @"new_login_banners",
+             @"homePageBanners": @"new_home_page_banners",
              @"notifications": @"banner_highlights",
              };
 }
