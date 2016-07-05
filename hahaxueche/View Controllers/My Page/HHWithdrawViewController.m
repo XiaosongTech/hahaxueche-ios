@@ -249,7 +249,7 @@ static NSString *const kCellId = @"cellId";
         [[HHStudentService sharedInstance] withdrawBonusWithAmount:self.withdrawAmount accountName:self.ownerName account:self.alipayAccount completion:^(HHWithdraw *withdraw, NSError *error) {
             if (!error) {
                 [HHPopupUtility dismissPopup:weakSelf.popup];
-                [[HHToastManager sharedManager] showSuccessToastWithText:@"提现成功!"];
+                [[HHToastManager sharedManager] showSuccessToastWithText:@"客官请稍等,已奔赴银行取钱!"];
                 self.availableAmount = @([self.availableAmount floatValue] - [withdraw.amount floatValue]);
                 self.availabeAmountValueLabel.text = [self.availableAmount generateMoneyString];
                 if (self.updateAmountsBlock) {

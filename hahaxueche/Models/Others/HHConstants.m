@@ -10,6 +10,7 @@
 #import "HHCity.h"
 #import "HHField.h"
 #import "HHNotification.h"
+#import "HHBanner.h"
 
 @implementation HHConstants
 
@@ -17,8 +18,8 @@
     return @{
              @"cities": @"cities",
              @"fields": @"fields",
-             @"loginBanners": @"login_banners",
-             @"homePageBanners": @"home_page_banners",
+             @"loginBanners": @"new_login_banners",
+             @"homePageBanners": @"new_home_page_banners",
              @"notifications": @"banner_highlights",
              };
 }
@@ -33,6 +34,14 @@
 
 + (NSValueTransformer *)notificationsJSONTransformer {
     return [MTLJSONAdapter arrayTransformerWithModelClass:[HHNotification class]];
+}
+
++ (NSValueTransformer *)homePageBannersJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[HHBanner class]];
+}
+
++ (NSValueTransformer *)loginBannersJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[HHBanner class]];
 }
 
 

@@ -42,6 +42,7 @@
 #import "HHCoachFieldCell.h"
 #import <pop/POP.h>
 #import "HHGenericTwoButtonsPopupView.h"
+#import "HHWebViewController.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -71,6 +72,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 @property (nonatomic, strong) HHStudent *currentStudent;
 @property (nonatomic, strong) HHReviews *reviewsObject;
 @property (nonatomic, strong) NSArray *reviews;
+@property (nonatomic) BOOL liking;
 
 @end
 
@@ -221,30 +223,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.tryCoachAction = ^(){
-        HHTryCoachView *tryCoachView = [[HHTryCoachView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 470.0f) mode:TryCoachModeStandard];
-        tryCoachView.cancelBlock = ^(){
-            [HHPopupUtility dismissPopup:weakSelf.popup];
-        };
-        tryCoachView.confirmBlock = ^(NSString *name, NSString *number, NSDate *firstDate, NSDate *secDate) {
-            [[HHLoadingViewUtility sharedInstance] showLoadingView];
-            [[HHCoachService sharedInstance] tryCoachWithId:weakSelf.coach.coachId
-                                                         name:name
-                                                       number:number
-                                                    firstDate:[[HHFormatUtility fullDateFormatter] stringFromDate:firstDate]
-                                                   secondDate:[[HHFormatUtility fullDateFormatter] stringFromDate:secDate]
-                                                   completion:^(NSError *error) {
-                                                       
-                [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-                if (!error) {
-                    [[HHToastManager sharedManager] showSuccessToastWithText:@"免费试学预约成功！教练会尽快联系您！"];
-                    [HHPopupUtility dismissPopup:weakSelf.popup];
-                } else {
-                     [[HHToastManager sharedManager] showErrorToastWithText:@"预约失败，请重试！"];
-                }
-            }];
-        };
-        weakSelf.popup = [HHPopupUtility createPopupWithContentView:tryCoachView];
-        [HHPopupUtility showPopup:weakSelf.popup];
+        [weakSelf tryCoachForFree];
     };
     
     self.bottomBar.purchaseCoachAction = ^(){
@@ -490,6 +469,10 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 
 
 - (void)likeOrUnlikeCoachWithButton:(UIButton *)button label:(UILabel *)label {
+    if (self.liking) {
+        return;
+    }
+    self.liking = YES;
     NSNumber *like;
     if ([self.coach.liked boolValue]) {
         like = @(0);
@@ -498,6 +481,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     }
     
     [[HHStudentService sharedInstance] likeOrUnlikeCoachWithId:self.coach.coachId like:like completion:^(HHCoach *coach, NSError *error) {
+        self.liking = NO;
         if (!error) {
             self.coach = coach;
             if (self.coachUpdateBlock) {
@@ -519,6 +503,27 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         }
     }];
     
+}
+
+- (void)openWebPage:(NSURL *)url {
+    HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:url];
+    webVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:webVC animated:YES];
+    
+}
+
+- (void)tryCoachForFree {
+    NSString *urlBase = @"http://m.hahaxueche.com/free_trial";
+    HHStudent *student = [HHStudentStore sharedInstance].currentStudent;
+    NSString *paramString;
+    if(student.studentId) {
+        paramString = [NSString stringWithFormat:@"?coach_id=%@&name=%@&phone=%@&city_id=%@", self.coach.coachId, student.name, student.cellPhone, [student.cityId stringValue]];
+    } else {
+        paramString = [NSString stringWithFormat:@"?coach_id=%@", self.coach.coachId];
+    }
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@", urlBase, paramString];
+    [self openWebPage:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ]];
 }
 
 @end

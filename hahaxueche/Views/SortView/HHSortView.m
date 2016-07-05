@@ -60,7 +60,7 @@
                 } break;
                     
                 case SortOptionPopularity: {
-                    item = [[HHSortOptionView alloc] initWithTilte:@"人气最旺" image:[UIImage imageNamed:@"ic_sort_hot_normal_btn"] highlightImage:[UIImage imageNamed:@"ic_sort_hot_hold_btn"]];
+                    item = [[HHSortOptionView alloc] initWithTilte:@"点赞最多" image:[UIImage imageNamed:@"ic_sort_zan_normal_btn"] highlightImage:[UIImage imageNamed:@"ic_sort_zan_hold_btn"]];
                     if (self.currentSortOption == SortOptionPopularity) {
                         [item setupView:YES];
                     } else {

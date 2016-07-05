@@ -32,6 +32,7 @@ target "hahaxueche" do
     pod 'RSKImageCropper'
     pod 'Harpy'
     pod 'UMengAnalytics-NO-IDFA'
+    pod 'NJKWebViewProgress'
 end
 
 

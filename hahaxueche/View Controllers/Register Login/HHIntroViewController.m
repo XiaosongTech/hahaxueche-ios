@@ -18,6 +18,7 @@
 #import "HHStudentStore.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHConstantsStore.h"
+#import "HHBanner.h"
 
 
 static CGFloat const kButtonHeight = 40.0f;
@@ -56,10 +57,14 @@ static CGFloat const kButtonWidth = 235.0f;
 - (void)initSubviews {
     self.bannerView = [[SDCycleScrollView alloc] init];
     self.bannerView.delegate = self;
-    self.bannerView.imageURLStringsGroup = self.banners;
+    NSMutableArray *bannerImgs = [NSMutableArray array];
+    for (HHBanner *banner in self.banners) {
+        [bannerImgs addObject:banner.imgURL];
+    }
+    self.bannerView.imageURLStringsGroup = bannerImgs;
     self.bannerView.autoScroll = YES;
     self.bannerView.autoScrollTimeInterval = 2.5f;
-    self.bannerView.bannerImageViewContentMode = UIViewContentModeScaleAspectFit;
+    self.bannerView.bannerImageViewContentMode = UIViewContentModeScaleToFill;
     self.bannerView.backgroundColor = [UIColor HHOrange];
     self.bannerView.pageDotColor = [UIColor colorWithWhite:1.0f alpha:0.5f];
     self.bannerView.currentPageDotColor = [UIColor whiteColor];

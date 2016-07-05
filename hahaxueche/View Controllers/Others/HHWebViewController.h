@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NJKWebViewProgress.h"
+#import "NJKWebViewProgressView.h"
 
-@interface HHWebViewController : UIViewController <UIWebViewDelegate>
+@interface HHWebViewController : UIViewController <UIWebViewDelegate, NJKWebViewProgressDelegate>
 
 @property (nonatomic, strong) NSURL *url;
 @property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) NJKWebViewProgress *progress;
+@property (nonatomic, strong) NJKWebViewProgressView *progressView;
 
 - (instancetype)initWithURL:(NSURL *)url;
 
