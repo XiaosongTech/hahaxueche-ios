@@ -39,13 +39,16 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
 @interface HHHomePageViewController () <SDCycleScrollViewDelegate>
 
 @property (nonatomic, strong) SDCycleScrollView *bannerView;
-@property (nonatomic, strong) HHHomePageTapView *leftView;
-@property (nonatomic, strong) HHHomePageTapView *rightView;
+@property (nonatomic, strong) HHHomePageTapView *firstView;
+@property (nonatomic, strong) HHHomePageTapView *secondView;
+@property (nonatomic, strong) HHHomePageTapView *thirdView;
+@property (nonatomic, strong) HHHomePageTapView *forthView;
 @property (nonatomic, strong) UIButton *freeTryButton;
 @property (nonatomic, strong) HHCitySelectView *citySelectView;
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) CLLocation *userLocation;
 @property (nonatomic, strong) NSArray *banners;
+@property (nonatomic, strong) UIView *itemBackgroudView;
 
 @end
 
@@ -54,7 +57,7 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"哈哈学车";
-    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1];
+    self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.banners = [[HHConstantsStore sharedInstance] getHomePageBanners];
     [self initSubviews];
@@ -132,17 +135,32 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
     self.bannerView.currentPageDotColor = [UIColor whiteColor];
     [self.view addSubview:self.bannerView];
     
-    self.leftView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_hahahere"] title:@"关于小哈" subTitle:@"点击了解"];
-    self.leftView.actionBlock = ^() {
+    self.itemBackgroudView = [[UIView alloc] init];
+    [self.view addSubview:self.itemBackgroudView];
+    
+    self.firstView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_haha"] title:@"关于小哈"];
+    self.firstView.actionBlock = ^() {
         [weakSelf openWebPage:[NSURL URLWithString:kAboutStudentLink]];
     };
-    [self.view addSubview:self.leftView];
+    [self.itemBackgroudView addSubview:self.firstView];
     
-    self.rightView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_coachhere"] title:@"关于教练" subTitle:@"点击了解"];
-    self.rightView.actionBlock = ^() {
+    self.secondView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_coach"] title:@"关于教练"];
+    self.secondView.actionBlock = ^() {
         [weakSelf openWebPage:[NSURL URLWithString:kAboutCoachLink]];
     };
-    [self.view addSubview:self.rightView];
+    [self.itemBackgroudView addSubview:self.secondView];
+    
+    self.thirdView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_strengths"] title:@"我的优势"];
+    self.thirdView.actionBlock = ^() {
+        [weakSelf openWebPage:[NSURL URLWithString:kAboutStudentLink]];
+    };
+    [self.itemBackgroudView addSubview:self.thirdView];
+    
+    self.forthView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_procedure"] title:@"学车流程"];
+    self.forthView.actionBlock = ^() {
+        [weakSelf openWebPage:[NSURL URLWithString:kAboutCoachLink]];
+    };
+    [self.itemBackgroudView addSubview:self.forthView];
     
     self.freeTryButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.freeTryButton setTitle:@"免费试学" forState:UIControlStateNormal];
@@ -150,6 +168,8 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
     [self.freeTryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.freeTryButton addTarget:self action:@selector(oneTapButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     self.freeTryButton.titleLabel.font = [UIFont systemFontOfSize:30.0f];
+    self.freeTryButton.layer.cornerRadius = 5.0f;
+    self.freeTryButton.layer.masksToBounds = YES;
     [self.view addSubview:self.freeTryButton];
     
     [self makeConstraints];
@@ -163,24 +183,46 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
         make.height.mas_equalTo(CGRectGetHeight(self.view.bounds) - 300.0f);
     }];
     
-    [self.leftView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bannerView.bottom).offset(15.0f);
-        make.left.equalTo(self.view.left).offset(15.0f);
-        make.width.mas_equalTo((CGRectGetWidth(self.view.bounds) - 15.0f * 3)/2.0f);
-        make.height.mas_equalTo(100.0f);
+    [self.itemBackgroudView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.bannerView.bottom).offset(20.0f);
+        make.centerX.equalTo(self.view.centerX);
+        make.width.mas_equalTo(CGRectGetWidth(self.view.bounds)-60.0f);
+        make.height.mas_equalTo(85.0f);
     }];
     
-    [self.rightView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bannerView.bottom).offset(15.0f);
-        make.left.equalTo(self.leftView.right).offset(15.0f);
-        make.width.mas_equalTo((CGRectGetWidth(self.view.bounds) - 15.0f * 3)/2.0f);
-        make.height.mas_equalTo(100.0f);
+    [self.firstView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.itemBackgroudView.top);
+        make.centerX.equalTo(self.itemBackgroudView.centerX).multipliedBy(1/4.0f);
+        make.width.mas_equalTo(60.0f);
+        make.height.mas_equalTo(85.0f);
+    }];
+    
+    [self.secondView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.firstView.top);
+        make.centerX.equalTo(self.itemBackgroudView.centerX).multipliedBy(3/4.0f);
+        make.width.mas_equalTo(60.0f);
+        make.height.mas_equalTo(85.0f);
+    }];
+    
+    [self.thirdView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.firstView.top);
+        make.centerX.equalTo(self.itemBackgroudView.centerX).multipliedBy(5/4.0f);
+        make.width.mas_equalTo(60.0f);
+        make.height.mas_equalTo(85.0f);
+    }];
+    
+    
+    [self.forthView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.firstView.top);
+        make.centerX.equalTo(self.itemBackgroudView.centerX).multipliedBy(7/4.0f);
+        make.width.mas_equalTo(60.0f);
+        make.height.mas_equalTo(85.0f);
     }];
     
     [self.freeTryButton makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.leftView.bottom).offset(20.0f);
-        make.left.equalTo(self.view.left).offset(15.0f);
-        make.width.equalTo(self.view.width).offset(-30.0f);
+        make.top.equalTo(self.firstView.bottom).offset(30.0f);
+        make.centerX.equalTo(self.view.centerX);
+        make.width.equalTo(self.view.width).offset(-60.0f);
         make.height.mas_equalTo(75.0f);
     }];
 }
