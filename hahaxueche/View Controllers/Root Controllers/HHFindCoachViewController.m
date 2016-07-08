@@ -407,9 +407,14 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 
 
 - (void)getUserLocationWithCompletion:(HHUserLocationCompletionBlock)completion {
-    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyBlock timeout:10.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
-        
+    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"正在定位附近教练和训练场"];
+    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyBlock timeout:2.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (status == INTULocationStatusSuccess) {
+            self.userLocation = currentLocation;
+            [HHStudentStore sharedInstance].currentLocation = currentLocation;
+            
+        } else if (status == INTULocationStatusTimedOut) {
             self.userLocation = currentLocation;
             [HHStudentStore sharedInstance].currentLocation = currentLocation;
             

@@ -507,6 +507,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 
 - (void)openWebPage:(NSURL *)url {
     HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:url];
+    webVC.title = @"哈哈学车";
     webVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:webVC animated:YES];
     

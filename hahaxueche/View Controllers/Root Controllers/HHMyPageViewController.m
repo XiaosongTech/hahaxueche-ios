@@ -260,6 +260,8 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             HHMyPageHelpCell *cell = [tableView dequeueReusableCellWithIdentifier:kHelpCell];
             cell.aboutView.actionBlock = ^() {
                 HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:kAboutStudentLink]];
+                webVC.hidesBottomBarWhenPushed = YES;
+                webVC.title = @"哈哈学车";
                 [weakSelf.navigationController pushViewController:webVC animated:YES];
             };
             

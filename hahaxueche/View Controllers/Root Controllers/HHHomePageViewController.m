@@ -34,6 +34,8 @@
 
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach";
+static NSString *const kFeatureLink = @"http://activity.hahaxueche.com/share/features";
+static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps";
 
 
 @interface HHHomePageViewController () <SDCycleScrollViewDelegate>
@@ -158,13 +160,13 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
     
     self.thirdView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_strengths"] title:@"我的优势" subTitle:@"独特的优势" showRightLine:YES];
     self.thirdView.actionBlock = ^() {
-        [weakSelf openWebPage:[NSURL URLWithString:kAboutStudentLink]];
+        [weakSelf openWebPage:[NSURL URLWithString:kFeatureLink]];
     };
     [self.scrollView addSubview:self.thirdView];
     
     self.forthView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_procedure"] title:@"学车流程" subTitle:@"简单的流程" showRightLine:NO];
     self.forthView.actionBlock = ^() {
-        [weakSelf openWebPage:[NSURL URLWithString:kAboutCoachLink]];
+        [weakSelf openWebPage:[NSURL URLWithString:kStepsLink]];
     };
     [self.scrollView addSubview:self.forthView];
     
@@ -250,6 +252,7 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
 
 - (void)openWebPage:(NSURL *)url {
     HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:url];
+    webVC.title = @"哈哈学车";
     webVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:webVC animated:YES];
    
