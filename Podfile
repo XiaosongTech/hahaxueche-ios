@@ -33,6 +33,7 @@ target "hahaxueche" do
     pod 'Harpy'
     pod 'UMengAnalytics-NO-IDFA'
     pod 'NJKWebViewProgress'
+    pod 'Instabug'
 end
 
 
