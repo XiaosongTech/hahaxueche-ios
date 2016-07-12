@@ -13,6 +13,7 @@
 #import "HHMyPageSupportCell.h"
 #import "HHMyPageHelpCell.h"
 #import "HHMyPageLogoutCell.h"
+#import "HHMyPageCouponCell.h"
 #import "HHMyCoachDetailViewController.h"
 #import "HHStudentStore.h"
 #import "Masonry.h"
@@ -39,6 +40,7 @@
 #import "HHStudentService.h"
 #import "HHStudentStore.h"
 #import <RSKImageCropper/RSKImageCropper.h>
+#import "HHCouponViewController.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -46,11 +48,13 @@ static NSString *const kSupportCell = @"supportCell";
 static NSString *const kHelpCell = @"helpCell";
 static NSString *const kLogoutCell = @"logoutCell";
 static NSString *const kReferCell = @"referCell";
+static NSString *const kCouponCell = @"kCouponCell";
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 
 typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellUserInfo,
     MyPageCellCoach,
+    MyPageCellCoupon,
     MyPageCellRefer,
     MyPageCellSupport,
     MyPageCellHelp,
@@ -151,6 +155,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         [self.tableView registerClass:[HHMyPageHelpCell class] forCellReuseIdentifier:kHelpCell];
         [self.tableView registerClass:[HHMyPageLogoutCell class] forCellReuseIdentifier:kLogoutCell];
         [self.tableView registerClass:[HHMyPageReferCell class] forCellReuseIdentifier:kReferCell];
+        [self.tableView registerClass:[HHMyPageCouponCell class] forCellReuseIdentifier:kCouponCell];
     }
     
 }
@@ -223,6 +228,18 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             };
             return cell;
+        } break;
+            
+        case MyPageCellCoupon: {
+            HHMyPageCouponCell *cell = [tableView dequeueReusableCellWithIdentifier:kCouponCell];
+            cell.myCouponView.actionBlock = ^() {
+                HHCouponViewController *vc = [[HHCouponViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
+            
+            return cell;
+                        
         } break;
             
         case MyPageCellRefer: {
@@ -302,6 +319,9 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             
         case MyPageCellCoach:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
+        
+        case MyPageCellCoupon:
+            return kTopPadding + kTitleViewHeight + kItemViewHeight * 1.0f;
         
         case MyPageCellRefer:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
