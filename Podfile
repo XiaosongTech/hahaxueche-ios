@@ -34,6 +34,7 @@ target "hahaxueche" do
     pod 'UMengAnalytics-NO-IDFA'
     pod 'NJKWebViewProgress'
     pod 'Instabug'
+    pod 'TTTAttributedLabel'
 end
 
 

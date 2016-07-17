@@ -24,10 +24,10 @@
 }
 
 - (void)initSubviews {
-    self.titleView = [[HHMyPageItemTitleView alloc] initWithTitle:@"礼金券"];
+    self.titleView = [[HHMyPageItemTitleView alloc] initWithTitle:@"优惠券"];
     [self.contentView addSubview:self.titleView];
     
-    self.myCouponView = [[HHMyPageItemView alloc] initWitTitle:@"我的礼金券" showLine:YES];
+    self.myCouponView = [[HHMyPageItemView alloc] initWitTitle:@"我的优惠券" showLine:YES];
     self.myCouponView.arrowImageView.hidden = NO;
     self.myCouponView.botLine.hidden = YES;
     [self.contentView addSubview:self.myCouponView];

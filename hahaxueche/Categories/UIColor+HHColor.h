@@ -34,4 +34,6 @@
 
 + (UIColor *)HHConfirmRed;
 
++ (UIColor *)HHLinkBlue;
+
 @end
