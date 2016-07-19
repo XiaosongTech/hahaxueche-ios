@@ -233,7 +233,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellCoupon: {
             HHMyPageCouponCell *cell = [tableView dequeueReusableCellWithIdentifier:kCouponCell];
             cell.myCouponView.actionBlock = ^() {
-                HHCouponViewController *vc = [[HHCouponViewController alloc] init];
+                HHCouponViewController *vc = [[HHCouponViewController alloc] initWithStudent:weakSelf.currentStudent];
                 vc.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             };

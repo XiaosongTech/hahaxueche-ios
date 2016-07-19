@@ -357,6 +357,9 @@
 		6D4886C31CD881E800E28BB3 /* ic_cash_havenot.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4886C01CD881E800E28BB3 /* ic_cash_havenot.png */; };
 		6D4886C41CD881E800E28BB3 /* ic_cash_havenot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4886C11CD881E800E28BB3 /* ic_cash_havenot@2x.png */; };
 		6D4886C51CD881E800E28BB3 /* ic_cash_havenot@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4886C21CD881E800E28BB3 /* ic_cash_havenot@3x.png */; };
+		6D4CCAEB1D3DD2C100AD896F /* HHCoupon.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CCAEA1D3DD2C100AD896F /* HHCoupon.m */; };
+		6D4CCAEE1D3E070400AD896F /* HHActivateCouponView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CCAED1D3E070400AD896F /* HHActivateCouponView.m */; };
+		6D4CCAF11D3E160500AD896F /* HHAddPromoCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CCAF01D3E160500AD896F /* HHAddPromoCodeView.m */; };
 		6D5C86611CDC270900D7B5CB /* HHGroupPurchaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5C86601CDC270900D7B5CB /* HHGroupPurchaseView.m */; };
 		6D5C86651CDC2AC100D7B5CB /* ic_homepage_groupbuy_close.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5C86621CDC2AC100D7B5CB /* ic_homepage_groupbuy_close.png */; };
 		6D5C86661CDC2AC100D7B5CB /* ic_homepage_groupbuy_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5C86631CDC2AC100D7B5CB /* ic_homepage_groupbuy_close@2x.png */; };
@@ -984,6 +987,12 @@
 		6D4886C01CD881E800E28BB3 /* ic_cash_havenot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_cash_havenot.png; sourceTree = "<group>"; };
 		6D4886C11CD881E800E28BB3 /* ic_cash_havenot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_cash_havenot@2x.png"; sourceTree = "<group>"; };
 		6D4886C21CD881E800E28BB3 /* ic_cash_havenot@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_cash_havenot@3x.png"; sourceTree = "<group>"; };
+		6D4CCAE91D3DD2C100AD896F /* HHCoupon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoupon.h; sourceTree = "<group>"; };
+		6D4CCAEA1D3DD2C100AD896F /* HHCoupon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoupon.m; sourceTree = "<group>"; };
+		6D4CCAEC1D3E070400AD896F /* HHActivateCouponView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHActivateCouponView.h; sourceTree = "<group>"; };
+		6D4CCAED1D3E070400AD896F /* HHActivateCouponView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHActivateCouponView.m; sourceTree = "<group>"; };
+		6D4CCAEF1D3E160500AD896F /* HHAddPromoCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAddPromoCodeView.h; sourceTree = "<group>"; };
+		6D4CCAF01D3E160500AD896F /* HHAddPromoCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHAddPromoCodeView.m; sourceTree = "<group>"; };
 		6D5C865F1CDC270900D7B5CB /* HHGroupPurchaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHGroupPurchaseView.h; sourceTree = "<group>"; };
 		6D5C86601CDC270900D7B5CB /* HHGroupPurchaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHGroupPurchaseView.m; sourceTree = "<group>"; };
 		6D5C86621CDC2AC100D7B5CB /* ic_homepage_groupbuy_close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_homepage_groupbuy_close.png; sourceTree = "<group>"; };
@@ -1292,6 +1301,10 @@
 				6DACD0101D34CA0700BDE2EE /* HHMyPageCouponCell.m */,
 				6D6F9B631D3765E100855D2F /* HHCouponFAQView.h */,
 				6D6F9B641D3765E100855D2F /* HHCouponFAQView.m */,
+				6D4CCAEC1D3E070400AD896F /* HHActivateCouponView.h */,
+				6D4CCAED1D3E070400AD896F /* HHActivateCouponView.m */,
+				6D4CCAEF1D3E160500AD896F /* HHAddPromoCodeView.h */,
+				6D4CCAF01D3E160500AD896F /* HHAddPromoCodeView.m */,
 			);
 			path = "My Page";
 			sourceTree = "<group>";
@@ -1584,6 +1597,8 @@
 			children = (
 				5C36D39B1C4360FE00443545 /* HHStudent.h */,
 				5C36D39C1C4360FE00443545 /* HHStudent.m */,
+				6D4CCAE91D3DD2C100AD896F /* HHCoupon.h */,
+				6D4CCAEA1D3DD2C100AD896F /* HHCoupon.m */,
 			);
 			path = Student;
 			sourceTree = "<group>";
@@ -2693,6 +2708,7 @@
 				6DE56FDE1D00297100E33BDB /* HHCoachServiceTypeCell.m in Sources */,
 				5CDE14891C3859290004778C /* HHPopupUtility.m in Sources */,
 				6DF202E01CD0C217002092B4 /* HHWithdraw.m in Sources */,
+				6D4CCAEE1D3E070400AD896F /* HHActivateCouponView.m in Sources */,
 				1482A9BA1C829CEC007F9019 /* HHReviewer.m in Sources */,
 				5C36D42B1C4C2F4100443545 /* HHFieldsMapViewController.m in Sources */,
 				5CDE14461C36E5FE0004778C /* HHIntroViewController.m in Sources */,
@@ -2716,6 +2732,7 @@
 				14F608DD1C83D4CE00EA70A7 /* HHMakeReviewView.m in Sources */,
 				6DDF25F11CBF789F00C92C5C /* HHNotification.m in Sources */,
 				5C6D8C9D1C40125D0055CB31 /* HHUserAuthService.m in Sources */,
+				6D4CCAF11D3E160500AD896F /* HHAddPromoCodeView.m in Sources */,
 				140EC5FC1C6D64C400DA634D /* HHCoachDetailSectionTwoCell.m in Sources */,
 				6DDAE6DB1CB8E6B300CE461A /* HHCoachSchedule.m in Sources */,
 				5CDE14761C3778BD0004778C /* HHToastManager.m in Sources */,
@@ -2728,6 +2745,7 @@
 				140EC6201C6D776400DA634D /* HHCoachCellView.m in Sources */,
 				14604F5F1C6FEE10009DBE10 /* HHPriceDetailView.m in Sources */,
 				6D3D73451CB9FFB300E424C3 /* HHScheduleRateView.m in Sources */,
+				6D4CCAEB1D3DD2C100AD896F /* HHCoupon.m in Sources */,
 				140EC6231C6D878D00DA634D /* HHCoachDetailBottomBarView.m in Sources */,
 				141FA1131C6BF88400113B1A /* HHCoachDetailSingleInfoView.m in Sources */,
 				6D4151EB1CF46F3E004A7EE8 /* HHSearchCoachEmptyCell.m in Sources */,

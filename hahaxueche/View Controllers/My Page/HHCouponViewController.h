@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HHStudent.h"
 
 @interface HHCouponViewController : UIViewController
+
+- (instancetype)initWithStudent:(HHStudent *)student;
 
 @end

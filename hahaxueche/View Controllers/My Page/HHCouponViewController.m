@@ -10,10 +10,19 @@
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
 #import "UIBarButtonItem+HHCustomButton.h"
-#import "HHStudentStore.h"
-#import "HHStudent.h"
 #import "HHCouponFAQView.h"
 #import "HHWebViewController.h"
+#import "HHSocialMediaShareUtility.h"
+#import "HHActivateCouponView.h"
+#import "HHPopupUtility.h"
+#import "HHGenericOneButtonPopupView.h"
+#import "HHAddPromoCodeView.h"
+#import "HHStudentService.h"
+#import "HHToastManager.h"
+#import "HHLoadingViewUtility.h"
+#import "HHStudentStore.h"
+
+typedef void (^HHSupportViewBlock)();
 
 @interface HHCouponViewController ()
 
@@ -34,18 +43,36 @@
 @property (nonatomic, strong) HHCouponFAQView *faq3;
 @property (nonatomic, strong) HHCouponFAQView *faq4;
 @property (nonatomic, strong) HHCouponFAQView *faq5;
+@property (nonatomic, strong) UIView *supportNumberView;
+@property (nonatomic, strong) UIView *qqSupportView;
+@property (nonatomic, strong) HHCoupon *coupon;
+@property (nonatomic, strong) KLCPopup *popup;
 
 
 @end
 
 @implementation HHCouponViewController
 
+- (instancetype)initWithStudent:(HHStudent *)student {
+    self = [super init];
+    if (self) {
+        self.student = student;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"优惠券";
     self.view.backgroundColor = [UIColor HHBackgroundGary];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
-    self.student = [HHStudentStore sharedInstance].currentStudent;
+    if (![self.student.purchasedServiceArray count] && ![self.student.coupons count]) {
+        self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithTitle:@"添加" titleColor:[UIColor whiteColor] action:@selector(addPromoCode) target:self isLeft:NO];
+    }
+    
+    if ([self.student.coupons count]) {
+        self.coupon = [self.student.coupons firstObject];
+    }
     [self initSubviews];
 }
 
@@ -54,23 +81,40 @@
     self.scrollView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.scrollView];
     
+    NSString *title = @"哈哈学车免费试学券";
+    NSString *bonusText = @"使用后我们会致电联系接送事宜, 优质服务提前体验, 试学过程100%免费.";
+    NSString *subTitleText;
+    
+    if ([self hasCoupon]) {
+        title = [NSString stringWithFormat:@"%@优惠券", self.coupon.channelName];
+        bonusText = [self buildBonusString];
+        subTitleText = @"即日起报名成功后即可获得:";
+    }
+    
     self.ticketView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ticket-normal"]];
+    if ([self.coupon.status integerValue] == 2) {
+        self.ticketView.image = [UIImage imageNamed:@"ticket-gray"];
+    }
     [self.view addSubview:self.ticketView];
     
     self.titleLabel = [[UILabel alloc] init];
     self.titleLabel.font = [UIFont systemFontOfSize:15.0f];
-    self.titleLabel.text = @"哈哈学车免费试学券";
+    self.titleLabel.text = title;
     [self.ticketView addSubview:self.titleLabel];
-    
-    self.statusLabel = [[UILabel alloc] init];
-    self.statusLabel.font = [UIFont systemFontOfSize:14.0f];
-    self.statusLabel.hidden = YES;
-    [self.ticketView addSubview:self.statusLabel];
     
     self.subTitleLabel = [[UILabel alloc] init];
     self.subTitleLabel.font = [UIFont systemFontOfSize:12.0f];
+    self.subTitleLabel.text = subTitleText;
     self.subTitleLabel.textColor = [UIColor HHOrange];
     [self.ticketView addSubview:self.subTitleLabel];
+    
+    self.statusLabel = [[UILabel alloc] init];
+    self.statusLabel.font = [UIFont systemFontOfSize:14.0f];
+    self.statusLabel.text = [self statusText];
+    self.statusLabel.textColor = [self statusTextColor];
+    self.statusLabel.layer.borderColor = [self statusTextColor].CGColor;
+    self.statusLabel.layer.borderWidth = 1.0f/[UIScreen mainScreen].scale;
+    [self.ticketView addSubview:self.statusLabel];
     
     
     self.bonusLabel = [[UILabel alloc] init];
@@ -79,13 +123,13 @@
     self.bonusLabel.textColor = [UIColor HHLightTextGray];
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.lineSpacing = 3.0f;
-    NSMutableAttributedString *attributedString1 = [[NSMutableAttributedString alloc] initWithString:@"使用后我们会致电联系接送事宜, 优质服务提前体验, 试学过程100%免费." attributes:@{NSParagraphStyleAttributeName:paragraphStyle, NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+    NSMutableAttributedString *attributedString1 = [[NSMutableAttributedString alloc] initWithString:bonusText attributes:@{NSParagraphStyleAttributeName:paragraphStyle, NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
     self.bonusLabel.attributedText = attributedString1;
     self.ticketView.userInteractionEnabled = YES;
     [self.ticketView addSubview:self.bonusLabel];
     
     self.button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.button setTitle:@"立即\n使用" forState:UIControlStateNormal];
+    [self.button setTitle:[self buildButtonTitle] forState:UIControlStateNormal];
     self.button.titleLabel.font = [UIFont systemFontOfSize:18.0f];
     self.button.titleLabel.numberOfLines = 0;
     [self.button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -146,6 +190,19 @@
     };
     [self.scrollView addSubview:self.faq5];
     
+    self.supportNumberView = [self buildSupportViewWithTitle:@"哈哈学车客服热线: " value:@"400-001-6006"];
+    [self.scrollView addSubview:self.supportNumberView];
+    
+    UITapGestureRecognizer *rec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callSupport)];
+    [self.supportNumberView addGestureRecognizer:rec];
+    
+    self.qqSupportView = [self buildSupportViewWithTitle:@"哈哈学车客服QQ: " value:@"3319762526"];
+    [self.scrollView addSubview:self.qqSupportView];
+    
+    UITapGestureRecognizer *rec2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(qqSupport)];
+    [self.qqSupportView addGestureRecognizer:rec2];
+    
+    
     [self makeConstraints];
     
 }
@@ -165,15 +222,25 @@
         
     }];
     
+    [self.subTitleLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.titleLabel.bottom).offset(12.0f);
+        make.left.equalTo(self.titleLabel.left);
+    }];
+    
     [self.bonusLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.bottom).offset(10.0f);
+        make.top.equalTo(self.subTitleLabel.bottom).offset(5.0f);
         make.left.equalTo(self.titleLabel.left);
         make.width.equalTo(self.ticketView.width).multipliedBy(2.0f/3.0f);
     }];
     
+    [self.statusLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.titleLabel.centerY);
+        make.centerX.equalTo(self.ticketView.centerX).multipliedBy(1.3f);
+    }];
+    
     [self.button makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.ticketView.centerY);
-        make.right.equalTo(self.ticketView.right).offset(-25.0f);
+        make.centerX.equalTo(self.ticketView.centerX).multipliedBy(1.75f);
     }];
     
     [self.ruleButton makeConstraints:^(MASConstraintMaker *make) {
@@ -237,15 +304,58 @@
         make.width.equalTo(self.scrollView.width);
     }];
     
+    [self.supportNumberView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.faq5.bottom).offset(6.0f);
+        make.left.equalTo(self.scrollView.left);
+        make.height.mas_equalTo(50.0f);
+        make.width.equalTo(self.scrollView.width);
+    }];
+    
+    [self.qqSupportView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.supportNumberView.bottom).offset(6.0f);
+        make.left.equalTo(self.scrollView.left);
+        make.height.mas_equalTo(50.0f);
+        make.width.equalTo(self.scrollView.width);
+    }];
+    
+    
+    
     [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.faq5.bottom).offset(10.0f);
+        make.bottom.equalTo(self.qqSupportView.bottom).offset(10.0f);
     }];
     
 }
 
 
 - (void)buttonTapped {
-    
+    __weak HHCouponViewController *weakSelf = self;
+    if ([self hasCoupon]) {
+        if ([self.coupon.status integerValue] == 0) {
+            //立即激活
+            HHActivateCouponView *view = [[HHActivateCouponView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-40.0f, 220)];
+            view.actionBlock = ^(){
+                [HHPopupUtility dismissPopup:weakSelf.popup];
+                [weakSelf tryCoachForFree];
+            };
+            self.popup = [HHPopupUtility createPopupWithContentView:view];
+            [HHPopupUtility showPopup:self.popup];
+        } else if ([self.coupon.status integerValue] == 1) {
+            //立即领取
+            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"请尽快前往%@领取改优惠券.", self.coupon.channelName] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+            HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-40.0f, 270.0f) title:@"领取优惠券" subTitle:@"恭喜您获得该优惠券!" info:attributedString];
+            view.cancelBlock = ^() {
+                [HHPopupUtility dismissPopup:weakSelf.popup];
+            };
+            self.popup = [HHPopupUtility createPopupWithContentView:view];
+            [HHPopupUtility showPopup:self.popup];
+        } else {
+            //已领取
+        }
+    } else {
+        //免费试学
+        [self tryCoachForFree];
+    }
+
 }
 
 - (void)ruleButtonTapped {
@@ -261,5 +371,190 @@
     HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:url];
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+- (UIView *)buildSupportViewWithTitle:(NSString *)title value:(NSString *)value {
+    UIView *view = [[UIView alloc] init];
+    view.backgroundColor = [UIColor whiteColor];
+    
+    UILabel *label = [[UILabel alloc] init];
+    
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+    
+    NSMutableAttributedString *attributedString2 = [[NSMutableAttributedString alloc] initWithString:value attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSForegroundColorAttributeName:[UIColor HHOrange]}];
+    
+    [attributedString appendAttributedString:attributedString2];
+    label.attributedText = attributedString;
+    [view addSubview:label];
+    [label sizeToFit];
+    
+    [label makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(view.centerY);
+        make.left.equalTo(view.left).offset(14.0f);
+    }];
+    
+    return view;
+}
+
+- (void)qqSupport {
+    [[HHSocialMediaShareUtility sharedInstance] talkToSupportThroughQQ];
+}
+
+- (void)callSupport {
+    NSString *phNo = @"4000016006";
+    NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",phNo]];
+    if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
+        [[UIApplication sharedApplication] openURL:phoneUrl];
+    }
+}
+
+- (NSString *)buildBonusString {
+    NSMutableString * bonusString = [[NSMutableString alloc] initWithString:@""];
+    for (NSString *bonus in self.coupon.content) {
+        [bonusString appendString:[NSString stringWithFormat:@"- %@\n", bonus]];
+    }
+    return bonusString;
+}
+
+- (NSString *)buildButtonTitle {
+    if ([self hasCoupon]) {
+        if ([self.coupon.status integerValue] == 0) {
+            return @"立即\n激活";
+        } else if ([self.coupon.status integerValue] == 1) {
+            return @"立即\n领取";
+        } else {
+            return @"已领取";
+        }
+    } else {
+        return @"立即\n使用";
+    }
+}
+
+- (void)tryCoachForFree {
+    NSString *urlBase = @"http://m.hahaxueche.com/free_trial";
+    NSString *paramString;
+    NSString *url;
+    if(self.student.studentId) {
+        paramString = [NSString stringWithFormat:@"?name=%@&phone=%@&city_id=%@", self.student.name, self.student.cellPhone, [self.student.cityId stringValue]];
+        url = [NSString stringWithFormat:@"%@%@", urlBase, paramString];
+        [self openWebPage:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    } else {
+        [self openWebPage:[NSURL URLWithString:urlBase]];
+    }
+    
+}
+
+- (void)openWebPage:(NSURL *)url {
+    HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:url];
+    webVC.title = @"哈哈学车";
+    webVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:webVC animated:YES];
+    
+}
+
+- (BOOL)hasCoupon {
+    if (!self.coupon) {
+        return NO;
+    } else {
+        if ([self.coupon.content count]) {
+            return YES;
+        } else {
+            return NO;
+        }
+    }
+}
+
+- (NSString *)statusText {
+    if ([self hasCoupon]) {
+        if ([self.coupon.status integerValue] == 0) {
+            return @"未激活";
+        } else if ([self.coupon.status integerValue] == 1) {
+            return @"待领取";
+        } else {
+            return @"";
+        }
+    } else {
+        return @"";
+    }
+}
+
+- (UIColor *)statusTextColor {
+    if ([self hasCoupon]) {
+        if ([self.coupon.status integerValue] == 0) {
+            return [UIColor HHConfirmGreen];
+        } else if ([self.coupon.status integerValue] == 1) {
+            return [UIColor HHOrange];
+        } else {
+            return [UIColor whiteColor];
+        }
+    } else {
+        return [UIColor whiteColor];
+    }
+}
+
+- (void)addPromoCode {
+    __weak HHCouponViewController *weakSelf = self;
+    HHAddPromoCodeView *view = [[HHAddPromoCodeView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-40.0f, 220.0f)];
+    view.confirmBlock = ^(NSString *promoCode) {
+        [[HHLoadingViewUtility sharedInstance] showLoadingView];
+        [[HHStudentService sharedInstance] setupStudentInfoWithStudentId:self.student.studentId userName:self.student.name cityId:self.student.cityId promotionCode:promoCode completion:^(HHStudent *student, NSError *error) {
+            if (!error) {
+                [[HHStudentService sharedInstance] fetchStudentWithId:self.student.studentId completion:^(HHStudent *student, NSError *error) {
+                    [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+                    if (!error) {
+                        [[HHToastManager sharedManager] showSuccessToastWithText:@"添加成功!"];
+                        [HHStudentStore sharedInstance].currentStudent = student;
+                        self.student = student;
+                        self.coupon = [self.student.coupons firstObject];
+                        [self updateView];
+                    } else {
+                        [[HHToastManager sharedManager] showErrorToastWithText:@"出错了，请重试！"];
+                    }
+                    
+                }];
+            } else {
+                [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+                if ([error.localizedFailureReason isEqual:@(40022)]) {
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"请输入正确有效的优惠码"];
+                } else {
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"出错了，请重试！"];
+                }
+                
+            }
+
+        }];
+    };
+    view.cancelBlock = ^() {
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+    };
+    self.popup = [HHPopupUtility createPopupWithContentView:view];
+    [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+
+    
+}
+
+- (void)updateView {
+    if ([self hasCoupon]) {
+        [HHPopupUtility dismissPopup:self.popup];
+        if ([self.coupon.status integerValue] == 2) {
+            self.ticketView.image = [UIImage imageNamed:@"ticket-gray"];
+        } else {
+            self.ticketView.image = [UIImage imageNamed:@"ticket-normal"];
+        }
+        self.titleLabel.text = [NSString stringWithFormat:@"%@优惠券", self.coupon.channelName];
+        
+        self.statusLabel.text = [self statusText];
+        self.statusLabel.textColor = [self statusTextColor];
+        self.statusLabel.layer.borderColor = [self statusTextColor].CGColor;
+        self.statusLabel.layer.borderWidth = 1.0f/[UIScreen mainScreen].scale;
+        
+        self.subTitleLabel.text = @"即日起报名成功后即可获得:";
+        self.bonusLabel.text = [self buildBonusString];
+        self.navigationItem.rightBarButtonItem = nil;
+        
+        [self.button setTitle:[self buildButtonTitle] forState:UIControlStateNormal];
+
+    }
+}
+
 
 @end

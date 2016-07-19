@@ -23,7 +23,12 @@
              @"currentCourse":@"current_course",
              @"bonusBalance":@"bonus_balance",
              @"byReferal":@"by_referal",
+             @"coupons":@"coupons"
              };
+}
+
++ (NSValueTransformer *)couponsJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[HHCoupon class]];
 }
 
 + (NSValueTransformer *)purchasedServiceArrayJSONTransformer {
