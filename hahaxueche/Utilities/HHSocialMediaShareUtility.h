@@ -29,7 +29,6 @@ typedef void (^LinkCompletion) (NSString *link);
 
 - (void)shareUserLinkWithType:(ShareType)shareType;
 
-- (void)talkToSupportThroughQQ;
 
 - (void)getUserReferLinkWithCompletion:(LinkCompletion)completion;
 

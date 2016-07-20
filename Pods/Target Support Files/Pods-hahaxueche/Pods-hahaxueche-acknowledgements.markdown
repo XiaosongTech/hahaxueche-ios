@@ -1082,6 +1082,11 @@ Public License instead of this License.  But first, please read
 
 
 
+## QIYU_iOS_SDK
+
+Copyright 2016 Netease 
+
+
 ## RSKImageCropper
 
 Copyright (c) 2014 Ruslan Skorb, http://lnkd.in/gsBbvb

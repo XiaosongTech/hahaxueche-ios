@@ -41,6 +41,7 @@
 #import "HHStudentStore.h"
 #import <RSKImageCropper/RSKImageCropper.h>
 #import "HHCouponViewController.h"
+#import "HHSupportUtility.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -260,15 +261,11 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             
         case MyPageCellSupport: {
             HHMyPageSupportCell *cell = [tableView dequeueReusableCellWithIdentifier:kSupportCell];
-            cell.supportQQView.actionBlock = ^() {
-                [[HHSocialMediaShareUtility sharedInstance] talkToSupportThroughQQ];
+            cell.supportOnlineView.actionBlock = ^() {
+                [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
             };
             cell.supportNumberView.actionBlock = ^() {
-                NSString *phNo = @"4000016006";
-                NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",phNo]];
-                if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
-                    [[UIApplication sharedApplication] openURL:phoneUrl];
-                }
+                [[HHSupportUtility sharedManager] callSupport];
             };
             return cell;
         } break;

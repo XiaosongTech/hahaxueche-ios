@@ -1,1 +1,1 @@
-../../../../../../../Desktop/Ping++SDK-iOS/lib/Channels/Alipay/AlipaySDK.framework/Headers/APayAuthInfo.h
+../../../../Pingpp/lib/Channels/Alipay/AlipaySDK.framework/Headers/APayAuthInfo.h

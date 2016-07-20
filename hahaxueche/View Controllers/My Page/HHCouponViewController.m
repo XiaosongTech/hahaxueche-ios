@@ -21,6 +21,7 @@
 #import "HHToastManager.h"
 #import "HHLoadingViewUtility.h"
 #import "HHStudentStore.h"
+#import "HHSupportUtility.h"
 
 typedef void (^HHSupportViewBlock)();
 
@@ -44,7 +45,7 @@ typedef void (^HHSupportViewBlock)();
 @property (nonatomic, strong) HHCouponFAQView *faq4;
 @property (nonatomic, strong) HHCouponFAQView *faq5;
 @property (nonatomic, strong) UIView *supportNumberView;
-@property (nonatomic, strong) UIView *qqSupportView;
+@property (nonatomic, strong) UIView *onlineSupportView;
 @property (nonatomic, strong) HHCoupon *coupon;
 @property (nonatomic, strong) KLCPopup *popup;
 
@@ -196,11 +197,11 @@ typedef void (^HHSupportViewBlock)();
     UITapGestureRecognizer *rec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callSupport)];
     [self.supportNumberView addGestureRecognizer:rec];
     
-    self.qqSupportView = [self buildSupportViewWithTitle:@"哈哈学车客服QQ: " value:@"3319762526"];
-    [self.scrollView addSubview:self.qqSupportView];
+    self.onlineSupportView = [self buildSupportViewWithTitle:@"哈哈客服: " value:@"在线客服"];
+    [self.scrollView addSubview:self.onlineSupportView];
     
-    UITapGestureRecognizer *rec2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(qqSupport)];
-    [self.qqSupportView addGestureRecognizer:rec2];
+    UITapGestureRecognizer *rec2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showOnlineSupportVC)];
+    [self.onlineSupportView addGestureRecognizer:rec2];
     
     
     [self makeConstraints];
@@ -311,7 +312,7 @@ typedef void (^HHSupportViewBlock)();
         make.width.equalTo(self.scrollView.width);
     }];
     
-    [self.qqSupportView makeConstraints:^(MASConstraintMaker *make) {
+    [self.onlineSupportView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.supportNumberView.bottom).offset(6.0f);
         make.left.equalTo(self.scrollView.left);
         make.height.mas_equalTo(50.0f);
@@ -321,7 +322,7 @@ typedef void (^HHSupportViewBlock)();
     
     
     [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.qqSupportView.bottom).offset(10.0f);
+        make.bottom.equalTo(self.onlineSupportView.bottom).offset(10.0f);
     }];
     
 }
@@ -395,8 +396,8 @@ typedef void (^HHSupportViewBlock)();
     return view;
 }
 
-- (void)qqSupport {
-    [[HHSocialMediaShareUtility sharedInstance] talkToSupportThroughQQ];
+- (void)showOnlineSupportVC {
+    [self.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:self.navigationController] animated:YES];
 }
 
 - (void)callSupport {
