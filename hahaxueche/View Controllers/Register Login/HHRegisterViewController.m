@@ -201,7 +201,7 @@ static NSString *const kTOUString = @"点击\"完成\"即表示您同意并愿�
     }
     
     [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"创建中"];
-    [[HHUserAuthService sharedInstance] createUserWithNumber:self.phoneNumberField.textField.text veriCode:self.verificationCodeField.textField.text password:self.pwdField.textField.text refererId:[HHConstantsStore sharedInstance].refererId completion:^(HHUser *user, NSError *error) {
+    [[HHUserAuthService sharedInstance] createUserWithNumber:self.phoneNumberField.textField.text veriCode:self.verificationCodeField.textField.text password:self.pwdField.textField.text refererId:nil completion:^(HHUser *user, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
             HHAccountSetupViewController *setupVC = [[HHAccountSetupViewController alloc] initWithStudentId:[HHStudentStore sharedInstance].currentStudent.studentId];

@@ -56,7 +56,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellUserInfo,
     MyPageCellCoach,
     MyPageCellCoupon,
-    MyPageCellRefer,
+    //MyPageCellRefer,
     MyPageCellSupport,
     MyPageCellHelp,
     MyPageCellLogout,
@@ -243,21 +243,21 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                         
         } break;
             
-        case MyPageCellRefer: {
-            HHMyPageReferCell *cell = [tableView dequeueReusableCellWithIdentifier:kReferCell];
-            cell.referFriendsView.actionBlock = ^(){
-                HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
-                vc.hidesBottomBarWhenPushed = YES;
-                [weakSelf.navigationController pushViewController:vc animated:YES];
-            };
-            cell.myBonusView.actionBlock = ^(){
-                HHBonusInfoViewController *vc = [[HHBonusInfoViewController alloc] init];
-                vc.hidesBottomBarWhenPushed = YES;
-                [weakSelf.navigationController pushViewController:vc animated:YES];
-            };
-            return cell;
-            
-        } break;
+//        case MyPageCellRefer: {
+//            HHMyPageReferCell *cell = [tableView dequeueReusableCellWithIdentifier:kReferCell];
+//            cell.referFriendsView.actionBlock = ^(){
+//                HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+//                vc.hidesBottomBarWhenPushed = YES;
+//                [weakSelf.navigationController pushViewController:vc animated:YES];
+//            };
+//            cell.myBonusView.actionBlock = ^(){
+//                HHBonusInfoViewController *vc = [[HHBonusInfoViewController alloc] init];
+//                vc.hidesBottomBarWhenPushed = YES;
+//                [weakSelf.navigationController pushViewController:vc animated:YES];
+//            };
+//            return cell;
+//            
+//        } break;
             
         case MyPageCellSupport: {
             HHMyPageSupportCell *cell = [tableView dequeueReusableCellWithIdentifier:kSupportCell];
@@ -320,8 +320,8 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellCoupon:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 1.0f;
         
-        case MyPageCellRefer:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
+//        case MyPageCellRefer:
+//            return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
             
         case MyPageCellSupport:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;

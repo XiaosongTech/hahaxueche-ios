@@ -167,7 +167,7 @@ typedef void (^HHSupportViewBlock)();
     };
     [self.scrollView addSubview:self.faq1];
     
-    self.faq2 = [[HHCouponFAQView alloc] initWithTitle:@"2.如何获得哈哈学车优惠券？" text:@"关注哈哈学车官方平台，哈哈学车会不定期在线上线下为学员争取最大福利。同时注册用户也可参加推荐有奖活动，每邀请一位好友学车，你和好友一起获得￥200元现金奖励，累计无上限，随时可提现！点击查看>> 推荐有奖详情" linkText:@"点击查看>>" linkURL:@"http://m.hahaxueche.com/invitations"];
+    self.faq2 = [[HHCouponFAQView alloc] initWithTitle:@"2.如何获得哈哈学车优惠券？" text:@"关注哈哈学车官方平台，哈哈学车会不定期在线上线下为学员争取最大福利。目前哈哈学车与线下5000多家商户合作,通过合作商家的优惠码, 用户在哈哈学车APP或哈哈学车官网上成功报名支付后, 就可以获得相应商家的福利." linkText:nil linkURL:nil];
     self.faq2.linkBlock = ^(NSURL *url){
         [weakSelf openWebViewWithURL:url];
     };
