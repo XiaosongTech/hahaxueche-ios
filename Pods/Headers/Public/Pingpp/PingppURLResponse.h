@@ -1,1 +1,1 @@
-../../../../../../Desktop/Ping++SDK-iOS/lib/Dependencies/Network/PingppURLResponse.h
+../../../Pingpp/lib/Dependencies/Network/PingppURLResponse.h

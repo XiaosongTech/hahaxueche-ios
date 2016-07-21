@@ -15,7 +15,7 @@
 - (instancetype)initWithImage:(UIImage *)image title:(NSString *)title subTitle:(NSString *)subTitle showRightLine:(BOOL)showRightLine {
     self = [super init];
     if (self) {
-        
+        self.backgroundColor = [UIColor whiteColor];
         self.imageView = [[UIImageView alloc] initWithImage:image];
         [self addSubview:self.imageView];
         

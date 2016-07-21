@@ -13,6 +13,7 @@
 #import "HHMyPageSupportCell.h"
 #import "HHMyPageHelpCell.h"
 #import "HHMyPageLogoutCell.h"
+#import "HHMyPageCouponCell.h"
 #import "HHMyCoachDetailViewController.h"
 #import "HHStudentStore.h"
 #import "Masonry.h"
@@ -39,6 +40,8 @@
 #import "HHStudentService.h"
 #import "HHStudentStore.h"
 #import <RSKImageCropper/RSKImageCropper.h>
+#import "HHCouponViewController.h"
+#import "HHSupportUtility.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -46,12 +49,14 @@ static NSString *const kSupportCell = @"supportCell";
 static NSString *const kHelpCell = @"helpCell";
 static NSString *const kLogoutCell = @"logoutCell";
 static NSString *const kReferCell = @"referCell";
+static NSString *const kCouponCell = @"kCouponCell";
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 
 typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellUserInfo,
     MyPageCellCoach,
-    MyPageCellRefer,
+    MyPageCellCoupon,
+    //MyPageCellRefer,
     MyPageCellSupport,
     MyPageCellHelp,
     MyPageCellLogout,
@@ -151,6 +156,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         [self.tableView registerClass:[HHMyPageHelpCell class] forCellReuseIdentifier:kHelpCell];
         [self.tableView registerClass:[HHMyPageLogoutCell class] forCellReuseIdentifier:kLogoutCell];
         [self.tableView registerClass:[HHMyPageReferCell class] forCellReuseIdentifier:kReferCell];
+        [self.tableView registerClass:[HHMyPageCouponCell class] forCellReuseIdentifier:kCouponCell];
     }
     
 }
@@ -225,33 +231,41 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             return cell;
         } break;
             
-        case MyPageCellRefer: {
-            HHMyPageReferCell *cell = [tableView dequeueReusableCellWithIdentifier:kReferCell];
-            cell.referFriendsView.actionBlock = ^(){
-                HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+        case MyPageCellCoupon: {
+            HHMyPageCouponCell *cell = [tableView dequeueReusableCellWithIdentifier:kCouponCell];
+            cell.myCouponView.actionBlock = ^() {
+                HHCouponViewController *vc = [[HHCouponViewController alloc] initWithStudent:weakSelf.currentStudent];
                 vc.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             };
-            cell.myBonusView.actionBlock = ^(){
-                HHBonusInfoViewController *vc = [[HHBonusInfoViewController alloc] init];
-                vc.hidesBottomBarWhenPushed = YES;
-                [weakSelf.navigationController pushViewController:vc animated:YES];
-            };
-            return cell;
             
+            return cell;
+                        
         } break;
+            
+//        case MyPageCellRefer: {
+//            HHMyPageReferCell *cell = [tableView dequeueReusableCellWithIdentifier:kReferCell];
+//            cell.referFriendsView.actionBlock = ^(){
+//                HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+//                vc.hidesBottomBarWhenPushed = YES;
+//                [weakSelf.navigationController pushViewController:vc animated:YES];
+//            };
+//            cell.myBonusView.actionBlock = ^(){
+//                HHBonusInfoViewController *vc = [[HHBonusInfoViewController alloc] init];
+//                vc.hidesBottomBarWhenPushed = YES;
+//                [weakSelf.navigationController pushViewController:vc animated:YES];
+//            };
+//            return cell;
+//            
+//        } break;
             
         case MyPageCellSupport: {
             HHMyPageSupportCell *cell = [tableView dequeueReusableCellWithIdentifier:kSupportCell];
-            cell.supportQQView.actionBlock = ^() {
-                [[HHSocialMediaShareUtility sharedInstance] talkToSupportThroughQQ];
+            cell.supportOnlineView.actionBlock = ^() {
+                [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
             };
             cell.supportNumberView.actionBlock = ^() {
-                NSString *phNo = @"4000016006";
-                NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",phNo]];
-                if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
-                    [[UIApplication sharedApplication] openURL:phoneUrl];
-                }
+                [[HHSupportUtility sharedManager] callSupport];
             };
             return cell;
         } break;
@@ -303,8 +317,11 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellCoach:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
         
-        case MyPageCellRefer:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
+        case MyPageCellCoupon:
+            return kTopPadding + kTitleViewHeight + kItemViewHeight * 1.0f;
+        
+//        case MyPageCellRefer:
+//            return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
             
         case MyPageCellSupport:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;

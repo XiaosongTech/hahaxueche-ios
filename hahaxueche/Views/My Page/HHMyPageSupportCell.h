@@ -13,7 +13,7 @@
 @interface HHMyPageSupportCell : UITableViewCell
 
 @property (nonatomic, strong) HHMyPageItemTitleView *titleView;
-@property (nonatomic, strong) HHMyPageItemView *supportQQView;
+@property (nonatomic, strong) HHMyPageItemView *supportOnlineView;
 @property (nonatomic, strong) HHMyPageItemView *supportNumberView;
 
 @end
