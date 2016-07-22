@@ -22,6 +22,7 @@
 #import "HHLoadingViewUtility.h"
 #import "HHStudentStore.h"
 #import "HHSupportUtility.h"
+#import "HHFreeTrialUtility.h"
 
 typedef void (^HHSupportViewBlock)();
 
@@ -431,16 +432,8 @@ typedef void (^HHSupportViewBlock)();
 }
 
 - (void)tryCoachForFree {
-    NSString *urlBase = @"http://m.hahaxueche.com/free_trial";
-    NSString *paramString;
-    NSString *url;
-    if(self.student.studentId) {
-        paramString = [NSString stringWithFormat:@"?name=%@&phone=%@&city_id=%@", self.student.name, self.student.cellPhone, [self.student.cityId stringValue]];
-        url = [NSString stringWithFormat:@"%@%@", urlBase, paramString];
-        [self openWebPage:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    } else {
-        [self openWebPage:[NSURL URLWithString:urlBase]];
-    }
+    NSString *urlString = [[HHFreeTrialUtility sharedManager] buildFreeTrialURLStringWithCoachId:nil];
+    [self openWebPage:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     
 }
 

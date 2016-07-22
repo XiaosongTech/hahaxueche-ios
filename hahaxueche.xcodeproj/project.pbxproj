@@ -492,6 +492,7 @@
 		6DF41AA41CEB0E1A0014F7E3 /* ic_mypage_bk.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DF41AA11CEB0E1A0014F7E3 /* ic_mypage_bk.png */; };
 		6DF41AA51CEB0E1A0014F7E3 /* ic_mypage_bk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DF41AA21CEB0E1A0014F7E3 /* ic_mypage_bk@2x.png */; };
 		6DF41AA61CEB0E1A0014F7E3 /* ic_mypage_bk@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DF41AA31CEB0E1A0014F7E3 /* ic_mypage_bk@3x.png */; };
+		6DF53B5E1D41C6C500CA0F6B /* HHFreeTrialUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF53B5D1D41C6C500CA0F6B /* HHFreeTrialUtility.m */; };
 		6DFD5EB01D2E4ACE00CF2DEF /* ic_homepage_coach.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD5EA41D2E4ACE00CF2DEF /* ic_homepage_coach.png */; };
 		6DFD5EB11D2E4ACE00CF2DEF /* ic_homepage_coach@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD5EA51D2E4ACE00CF2DEF /* ic_homepage_coach@2x.png */; };
 		6DFD5EB21D2E4ACE00CF2DEF /* ic_homepage_coach@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD5EA61D2E4ACE00CF2DEF /* ic_homepage_coach@3x.png */; };
@@ -1172,6 +1173,8 @@
 		6DF41AA11CEB0E1A0014F7E3 /* ic_mypage_bk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_mypage_bk.png; sourceTree = "<group>"; };
 		6DF41AA21CEB0E1A0014F7E3 /* ic_mypage_bk@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_mypage_bk@2x.png"; sourceTree = "<group>"; };
 		6DF41AA31CEB0E1A0014F7E3 /* ic_mypage_bk@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_mypage_bk@3x.png"; sourceTree = "<group>"; };
+		6DF53B5C1D41C6C500CA0F6B /* HHFreeTrialUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHFreeTrialUtility.h; sourceTree = "<group>"; };
+		6DF53B5D1D41C6C500CA0F6B /* HHFreeTrialUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHFreeTrialUtility.m; sourceTree = "<group>"; };
 		6DFD5EA41D2E4ACE00CF2DEF /* ic_homepage_coach.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_homepage_coach.png; sourceTree = "<group>"; };
 		6DFD5EA51D2E4ACE00CF2DEF /* ic_homepage_coach@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_homepage_coach@2x.png"; sourceTree = "<group>"; };
 		6DFD5EA61D2E4ACE00CF2DEF /* ic_homepage_coach@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_homepage_coach@3x.png"; sourceTree = "<group>"; };
@@ -1539,6 +1542,8 @@
 				5CDE14751C3778BD0004778C /* HHToastManager.m */,
 				6D52227C1D3F5E9800E92075 /* HHSupportUtility.h */,
 				6D52227D1D3F5E9800E92075 /* HHSupportUtility.m */,
+				6DF53B5C1D41C6C500CA0F6B /* HHFreeTrialUtility.h */,
+				6DF53B5D1D41C6C500CA0F6B /* HHFreeTrialUtility.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -2798,6 +2803,7 @@
 				5C36D3A01C442A6300443545 /* HHStudentStore.m in Sources */,
 				14700D9B1C797C7600660989 /* HHMoneyAmountView.m in Sources */,
 				5C39807A1B4ACA2B0057B049 /* UIView+HHRect.m in Sources */,
+				6DF53B5E1D41C6C500CA0F6B /* HHFreeTrialUtility.m in Sources */,
 				147A9FF01C7AA8B1000DED3B /* HHPaymentStage.m in Sources */,
 				1482A9AB1C816817007F9019 /* HHCoachAssignment.m in Sources */,
 				6DDAE6C91CB7899F00CE461A /* HHAppInfoViewController.m in Sources */,

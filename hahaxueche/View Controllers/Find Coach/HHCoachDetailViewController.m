@@ -43,6 +43,7 @@
 #import <pop/POP.h>
 #import "HHGenericTwoButtonsPopupView.h"
 #import "HHWebViewController.h"
+#import "HHFreeTrialUtility.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -514,17 +515,8 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 }
 
 - (void)tryCoachForFree {
-    NSString *urlBase = @"http://m.hahaxueche.com/free_trial";
-    HHStudent *student = [HHStudentStore sharedInstance].currentStudent;
-    NSString *paramString;
-    if(student.studentId) {
-        paramString = [NSString stringWithFormat:@"?coach_id=%@&name=%@&phone=%@&city_id=%@", self.coach.coachId, student.name, student.cellPhone, [student.cityId stringValue]];
-    } else {
-        paramString = [NSString stringWithFormat:@"?coach_id=%@", self.coach.coachId];
-    }
-    
-    NSString *url = [NSString stringWithFormat:@"%@%@", urlBase, paramString];
-    [self openWebPage:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ]];
+    NSString *urlString = [[HHFreeTrialUtility sharedManager] buildFreeTrialURLStringWithCoachId:self.coach.coachId];
+    [self openWebPage:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
 }
 
 @end

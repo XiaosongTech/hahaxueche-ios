@@ -33,6 +33,7 @@
 #import "HHBanner.h"
 #import "HHHomePageSupportView.h"
 #import "HHSupportUtility.h"
+#import "HHFreeTrialUtility.h"
 
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach";
@@ -305,18 +306,8 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
 }
 
 - (void)tryCoachForFree {
-    NSString *urlBase = @"http://m.hahaxueche.com/free_trial";
-    HHStudent *student = [HHStudentStore sharedInstance].currentStudent;
-    NSString *paramString;
-    NSString *url;
-    if(student.studentId) {
-        paramString = [NSString stringWithFormat:@"?name=%@&phone=%@&city_id=%@", student.name, student.cellPhone, [student.cityId stringValue]];
-        url = [NSString stringWithFormat:@"%@%@", urlBase, paramString];
-        [self openWebPage:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    } else {
-        [self openWebPage:[NSURL URLWithString:urlBase]];
-    }
-    
+    NSString *urlString = [[HHFreeTrialUtility sharedManager] buildFreeTrialURLStringWithCoachId:nil];
+    [self openWebPage:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
 }
 
 
