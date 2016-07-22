@@ -27,9 +27,9 @@
     self.titleView = [[HHMyPageItemTitleView alloc] initWithTitle:@"联系客服"];
     [self.contentView addSubview:self.titleView];
     
-    self.supportQQView = [[HHMyPageItemView alloc] initWitTitle:@"客服QQ" showLine:YES];
-    self.supportQQView.arrowImageView.hidden = NO;
-    [self.contentView addSubview:self.supportQQView];
+    self.supportOnlineView = [[HHMyPageItemView alloc] initWitTitle:@"在线客服" showLine:YES];
+    self.supportOnlineView.arrowImageView.hidden = NO;
+    [self.contentView addSubview:self.supportOnlineView];
     
     self.supportNumberView = [[HHMyPageItemView alloc] initWitTitle:@"客服热线" showLine:NO];
     self.supportNumberView.arrowImageView.hidden = NO;
@@ -46,7 +46,7 @@
         make.height.mas_equalTo(kTitleViewHeight);
     }];
     
-    [self.supportQQView makeConstraints:^(MASConstraintMaker *make) {
+    [self.supportOnlineView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleView.bottom);
         make.left.equalTo(self.left);
         make.width.equalTo(self.width);
@@ -54,7 +54,7 @@
         
     }];
     [self.supportNumberView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.supportQQView.bottom);
+        make.top.equalTo(self.supportOnlineView.bottom);
         make.left.equalTo(self.left);
         make.width.equalTo(self.width);
         make.height.mas_equalTo(kItemViewHeight);

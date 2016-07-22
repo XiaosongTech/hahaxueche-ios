@@ -1,1 +1,1 @@
-../../../../../../Desktop/Ping++SDK-iOS/lib/Pingpp.h
+../../../Pingpp/lib/Pingpp.h

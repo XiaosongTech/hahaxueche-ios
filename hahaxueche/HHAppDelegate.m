@@ -32,6 +32,8 @@
 #import "HHCoachDetailViewController.h"
 #import "HHLoadingViewUtility.h"
 #import <Harpy/Harpy.h>
+#import <Instabug/Instabug.h>
+#import "QYSDK.h"
 
 static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
@@ -150,6 +152,12 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [Appirater setDebug:YES];
 #else
     [Appirater setDebug:NO];
+    NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
+    NSString *receiptURLString = [receiptURL path];
+    BOOL isRunningTestFlightBeta =  ([receiptURLString rangeOfString:@"sandboxReceipt"].location != NSNotFound);
+    if (isRunningTestFlightBeta) {
+        [Instabug startWithToken:@"24cdf2d98a1fb3a58a19375d6211f7a0" invocationEvent:IBGInvocationEventShake];
+    }
     
 #endif
 
@@ -174,8 +182,9 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
     
     [HHEventTrackingManager sharedManager];
-
     
+    [[QYSDK sharedSDK] registerAppId:@"2f328da38ac77ce6d796c2977248f7e2" appName:@"hahaxueche-ios"];
+
 }
 
 

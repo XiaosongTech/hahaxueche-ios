@@ -31,9 +31,14 @@
 #import "HHStudentService.h"
 #import "HHTryCoachView.h"
 #import "HHBanner.h"
+#import "HHHomePageSupportView.h"
+#import "HHSupportUtility.h"
+#import "HHFreeTrialUtility.h"
 
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach";
+static NSString *const kFeatureLink = @"http://activity.hahaxueche.com/share/features";
+static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps";
 
 
 @interface HHHomePageViewController () <SDCycleScrollViewDelegate>
@@ -48,7 +53,11 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) CLLocation *userLocation;
 @property (nonatomic, strong) NSArray *banners;
-@property (nonatomic, strong) UIView *itemBackgroudView;
+@property (nonatomic, strong) UIScrollView *scrollView;
+
+@property (nonatomic, strong) HHHomePageSupportView *callSupportView;
+@property (nonatomic, strong) HHHomePageSupportView *onlineSupportView;
+@property (nonatomic, strong) UIView *freeTrialContainerView;
 
 @end
 
@@ -84,28 +93,28 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
 
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSNumber *isShowed = [defaults objectForKey:@"showedBonusPopoup"];
-
-    if (![isShowed boolValue] && [[HHStudentStore sharedInstance].currentStudent.byReferal boolValue] && [HHStudentStore sharedInstance].currentStudent.studentId && ![[HHStudentStore sharedInstance].currentStudent.purchasedServiceArray count]) {
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        paragraphStyle.alignment = NSTextAlignmentLeft;
-        paragraphStyle.lineSpacing = 8.0f;
-        NSNumber *refereeBonus = [[[HHConstantsStore sharedInstance] getAuthedUserCity] getRefereeBonus];
-        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@元已经打进您的账户余额, 在支付过程中, 系统会自动减现%@元报名费.", [refereeBonus generateMoneyString], [refereeBonus generateMoneyString]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
-        
-        __weak HHHomePageViewController *weakSelf = self;
-        HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 280.0f) title:@"注册成功!" subTitle:[NSString stringWithFormat:@"恭喜您获得%@元学车券!",[refereeBonus generateMoneyString] ] info:attributedString];
-        view.cancelBlock = ^() {
-            [HHPopupUtility dismissPopup:weakSelf.popup];
-        };
-        self.popup = [HHPopupUtility createPopupWithContentView:view];
-        [HHPopupUtility showPopup:self.popup];
-        [defaults setObject:@(1) forKey:@"showedBonusPopoup"];
-    }
-}
+//- (void)viewDidAppear:(BOOL)animated {
+//    [super viewDidAppear:animated];
+//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//    NSNumber *isShowed = [defaults objectForKey:@"showedBonusPopoup"];
+//
+//    if (![isShowed boolValue] && [[HHStudentStore sharedInstance].currentStudent.byReferal boolValue] && [HHStudentStore sharedInstance].currentStudent.studentId && ![[HHStudentStore sharedInstance].currentStudent.purchasedServiceArray count]) {
+//        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+//        paragraphStyle.alignment = NSTextAlignmentLeft;
+//        paragraphStyle.lineSpacing = 8.0f;
+//        NSNumber *refereeBonus = [[[HHConstantsStore sharedInstance] getAuthedUserCity] getRefereeBonus];
+//        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@元已经打进您的账户余额, 在支付过程中, 系统会自动减现%@元报名费.", [refereeBonus generateMoneyString], [refereeBonus generateMoneyString]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+//        
+//        __weak HHHomePageViewController *weakSelf = self;
+//        HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 280.0f) title:@"注册成功!" subTitle:[NSString stringWithFormat:@"恭喜您获得%@元学车券!",[refereeBonus generateMoneyString] ] info:attributedString];
+//        view.cancelBlock = ^() {
+//            [HHPopupUtility dismissPopup:weakSelf.popup];
+//        };
+//        self.popup = [HHPopupUtility createPopupWithContentView:view];
+//        [HHPopupUtility showPopup:self.popup];
+//        [defaults setObject:@(1) forKey:@"showedBonusPopoup"];
+//    }
+//}
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -120,6 +129,15 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
 - (void)initSubviews {
     
     __weak HHHomePageViewController *weakSelf = self;
+    
+    self.scrollView = [[UIScrollView  alloc] init];
+    self.scrollView.backgroundColor = [UIColor HHBackgroundGary];
+    self.scrollView.scrollEnabled = YES;
+    self.scrollView.bounces = NO;
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) * 0.8f + 318.0f);
+    [self.view addSubview:self.scrollView];
+    
     self.bannerView = [[SDCycleScrollView alloc] init];
     NSMutableArray *imgArray = [NSMutableArray array];
     for (HHBanner *banner in self.banners) {
@@ -133,98 +151,136 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
     self.bannerView.backgroundColor = [UIColor HHOrange];
     self.bannerView.pageDotColor = [UIColor colorWithWhite:1.0f alpha:0.5f];
     self.bannerView.currentPageDotColor = [UIColor whiteColor];
-    [self.view addSubview:self.bannerView];
+    [self.scrollView addSubview:self.bannerView];
     
-    self.itemBackgroudView = [[UIView alloc] init];
-    [self.view addSubview:self.itemBackgroudView];
     
-    self.firstView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_haha"] title:@"关于小哈"];
+    self.firstView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_haha"] title:@"关于小哈" subTitle:@"全能的小哈" showRightLine:YES];
     self.firstView.actionBlock = ^() {
         [weakSelf openWebPage:[NSURL URLWithString:kAboutStudentLink]];
     };
-    [self.itemBackgroudView addSubview:self.firstView];
+    [self.scrollView addSubview:self.firstView];
     
-    self.secondView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_coach"] title:@"关于教练"];
+    self.secondView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_coach"] title:@"关于教练" subTitle:@"优秀的教练" showRightLine:NO];
     self.secondView.actionBlock = ^() {
         [weakSelf openWebPage:[NSURL URLWithString:kAboutCoachLink]];
     };
-    [self.itemBackgroudView addSubview:self.secondView];
+    [self.scrollView addSubview:self.secondView];
     
-    self.thirdView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_strengths"] title:@"我的优势"];
+    self.thirdView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_strengths"] title:@"我的优势" subTitle:@"独特的优势" showRightLine:YES];
     self.thirdView.actionBlock = ^() {
-        [weakSelf openWebPage:[NSURL URLWithString:kAboutStudentLink]];
+        [weakSelf openWebPage:[NSURL URLWithString:kFeatureLink]];
     };
-    [self.itemBackgroudView addSubview:self.thirdView];
+    [self.scrollView addSubview:self.thirdView];
     
-    self.forthView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_procedure"] title:@"学车流程"];
+    self.forthView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_procedure"] title:@"学车流程" subTitle:@"简单的流程" showRightLine:NO];
     self.forthView.actionBlock = ^() {
-        [weakSelf openWebPage:[NSURL URLWithString:kAboutCoachLink]];
+        [weakSelf openWebPage:[NSURL URLWithString:kStepsLink]];
     };
-    [self.itemBackgroudView addSubview:self.forthView];
+    [self.scrollView addSubview:self.forthView];
+    
+    self.freeTrialContainerView = [[UIView alloc] init];
+    self.freeTrialContainerView.backgroundColor = [UIColor whiteColor];
+    [self.scrollView addSubview:self.freeTrialContainerView];
     
     self.freeTryButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.freeTryButton setTitle:@"免费试学" forState:UIControlStateNormal];
     [self.freeTryButton setBackgroundColor:[UIColor HHOrange]];
     [self.freeTryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.freeTryButton addTarget:self action:@selector(oneTapButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    self.freeTryButton.titleLabel.font = [UIFont systemFontOfSize:30.0f];
+    self.freeTryButton.titleLabel.font = [UIFont systemFontOfSize:18.0f];
     self.freeTryButton.layer.cornerRadius = 5.0f;
     self.freeTryButton.layer.masksToBounds = YES;
-    [self.view addSubview:self.freeTryButton];
+    [self.freeTrialContainerView addSubview:self.freeTryButton];
+    
+    self.callSupportView = [[HHHomePageSupportView alloc] initWithImage:[UIImage imageNamed:@"ic_ask_call"] title:@"电话咨询" showRightLine:YES];
+    self.callSupportView.actionBlock = ^() {
+        [[HHSupportUtility sharedManager] callSupport];
+    };
+    [self.scrollView addSubview:self.callSupportView];
+    
+    self.onlineSupportView = [[HHHomePageSupportView alloc] initWithImage:[UIImage imageNamed:@"ic_ask_message"] title:@"在线客服" showRightLine:YES];
+    self.onlineSupportView.actionBlock = ^() {
+        [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
+    };
+    [self.scrollView addSubview:self.onlineSupportView];
+
     
     [self makeConstraints];
 }
 
 - (void)makeConstraints {
+    
     [self.bannerView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.top);
-        make.left.equalTo(self.view.left);
-        make.width.equalTo(self.view.width);
-        make.height.mas_equalTo(CGRectGetHeight(self.view.bounds) - 300.0f);
+        make.top.equalTo(self.scrollView.top);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.height.equalTo(self.view.width).multipliedBy(4.0f/5.0f);
     }];
     
-    [self.itemBackgroudView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bannerView.bottom).offset(20.0f);
-        make.centerX.equalTo(self.view.centerX);
-        make.width.mas_equalTo(CGRectGetWidth(self.view.bounds)-60.0f);
-        make.height.mas_equalTo(85.0f);
+    [self.callSupportView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.bannerView.bottom);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
+        make.height.mas_equalTo(60.0f);
+    }];
+    
+    [self.onlineSupportView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.bannerView.bottom);
+        make.left.equalTo(self.callSupportView.right);
+        make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
+        make.height.mas_equalTo(60.0f);
     }];
     
     [self.firstView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.itemBackgroudView.top);
-        make.centerX.equalTo(self.itemBackgroudView.centerX).multipliedBy(1/4.0f);
-        make.width.mas_equalTo(60.0f);
+        make.top.equalTo(self.callSupportView.bottom).offset(10.0f);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
         make.height.mas_equalTo(85.0f);
     }];
     
     [self.secondView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.firstView.top);
-        make.centerX.equalTo(self.itemBackgroudView.centerX).multipliedBy(3/4.0f);
-        make.width.mas_equalTo(60.0f);
-        make.height.mas_equalTo(85.0f);
+        make.left.equalTo(self.firstView.right);
+        make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
+        make.height.equalTo(self.firstView.height);
     }];
     
     [self.thirdView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.firstView.top);
-        make.centerX.equalTo(self.itemBackgroudView.centerX).multipliedBy(5/4.0f);
-        make.width.mas_equalTo(60.0f);
-        make.height.mas_equalTo(85.0f);
+        make.top.equalTo(self.firstView.bottom);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
+        make.height.equalTo(self.firstView.height);
     }];
     
     
     [self.forthView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.firstView.top);
-        make.centerX.equalTo(self.itemBackgroudView.centerX).multipliedBy(7/4.0f);
-        make.width.mas_equalTo(60.0f);
-        make.height.mas_equalTo(85.0f);
+        make.top.equalTo(self.thirdView.top);
+        make.left.equalTo(self.thirdView.right);
+        make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
+        make.height.equalTo(self.firstView.height);
     }];
     
     [self.freeTryButton makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.firstView.bottom).offset(30.0f);
-        make.centerX.equalTo(self.view.centerX);
-        make.width.equalTo(self.view.width).offset(-60.0f);
-        make.height.mas_equalTo(75.0f);
+        make.centerY.equalTo(self.freeTrialContainerView.centerY);
+        make.centerX.equalTo(self.freeTrialContainerView.centerX);
+        make.width.equalTo(self.freeTrialContainerView.width).offset(-60.0f);
+        make.height.mas_equalTo(50.0f);
     }];
+    
+    [self.freeTrialContainerView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.thirdView.bottom);
+        make.centerX.equalTo(self.scrollView.centerX);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(78.0f);
+    }];
+    
+    [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.top);
+        make.width.equalTo(self.view.width);
+        make.left.equalTo(self.view.left);
+        make.height.equalTo(self.view.height).offset(-1 * CGRectGetHeight(self.tabBarController.tabBar.bounds));
+    }];
+
 }
 
 #pragma mark - Button Actions 
@@ -243,24 +299,15 @@ static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach
 
 - (void)openWebPage:(NSURL *)url {
     HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:url];
+    webVC.title = @"哈哈学车";
     webVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:webVC animated:YES];
    
 }
 
 - (void)tryCoachForFree {
-    NSString *urlBase = @"http://m.hahaxueche.com/free_trial";
-    HHStudent *student = [HHStudentStore sharedInstance].currentStudent;
-    NSString *paramString;
-    NSString *url;
-    if(student.studentId) {
-        paramString = [NSString stringWithFormat:@"?name=%@&phone=%@&city_id=%@", student.name, student.cellPhone, [student.cityId stringValue]];
-        url = [NSString stringWithFormat:@"%@%@", urlBase, paramString];
-        [self openWebPage:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    } else {
-        [self openWebPage:[NSURL URLWithString:urlBase]];
-    }
-    
+    NSString *urlString = [[HHFreeTrialUtility sharedManager] buildFreeTrialURLStringWithCoachId:nil];
+    [self openWebPage:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
 }
 
 

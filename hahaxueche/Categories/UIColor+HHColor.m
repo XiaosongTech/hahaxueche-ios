@@ -61,4 +61,8 @@
     return [UIColor colorWithRed:0.99 green:0.45 blue:0.13 alpha:1.00];
 }
 
++ (UIColor *)HHLinkBlue {
+    return [UIColor colorWithRed:0.36 green:0.60 blue:0.89 alpha:1.00];
+}
+
 @end
