@@ -10,6 +10,7 @@
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "UIImage+HHImage.h"
 #import "UIColor+HHColor.h"
+#import "HHStudentStore.h"
 
 static NSString *const kSupportNumber = @"4000016006";
 
@@ -43,6 +44,17 @@ static NSString *const kSupportNumber = @"4000016006";
     sessionViewController.hidesBottomBarWhenPushed = YES;
     sessionViewController.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
     [HHSupportUtility sharedManager].navVC = navVC;
+    
+    //user info
+    QYUserInfo *userInfo = [[QYUserInfo alloc] init];
+    HHStudent *student = [HHStudentStore sharedInstance].currentStudent;
+    if (student.studentId) {
+        userInfo.data = [NSString stringWithFormat:@"[{\"key\":\"real_name\", \"value\":\"%@\"},"
+                         "{\"key\":\"mobile_phone\", \"value\":\"%@\"}]", student.name, student.cellPhone] ;
+    }
+    
+    [[QYSDK sharedSDK] setUserInfo:userInfo];
+
     
     //cusom UI
     [[QYSDK sharedSDK] customUIConfig].rightBarButtonItemColorBlackOrWhite = NO;
