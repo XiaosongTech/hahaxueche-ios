@@ -493,6 +493,11 @@
 		6DF41AA51CEB0E1A0014F7E3 /* ic_mypage_bk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DF41AA21CEB0E1A0014F7E3 /* ic_mypage_bk@2x.png */; };
 		6DF41AA61CEB0E1A0014F7E3 /* ic_mypage_bk@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DF41AA31CEB0E1A0014F7E3 /* ic_mypage_bk@3x.png */; };
 		6DF53B5E1D41C6C500CA0F6B /* HHFreeTrialUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF53B5D1D41C6C500CA0F6B /* HHFreeTrialUtility.m */; };
+		6DF53B621D460A4200CA0F6B /* HHActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF53B611D460A4200CA0F6B /* HHActivityView.m */; };
+		6DF53B651D46109F00CA0F6B /* HHActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF53B641D46109F00CA0F6B /* HHActivity.m */; };
+		6DF53B691D46134400CA0F6B /* ic_activity_tuan.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DF53B661D46134400CA0F6B /* ic_activity_tuan.png */; };
+		6DF53B6A1D46134400CA0F6B /* ic_activity_tuan@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DF53B671D46134400CA0F6B /* ic_activity_tuan@2x.png */; };
+		6DF53B6B1D46134400CA0F6B /* ic_activity_tuan@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DF53B681D46134400CA0F6B /* ic_activity_tuan@3x.png */; };
 		6DFD5EB01D2E4ACE00CF2DEF /* ic_homepage_coach.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD5EA41D2E4ACE00CF2DEF /* ic_homepage_coach.png */; };
 		6DFD5EB11D2E4ACE00CF2DEF /* ic_homepage_coach@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD5EA51D2E4ACE00CF2DEF /* ic_homepage_coach@2x.png */; };
 		6DFD5EB21D2E4ACE00CF2DEF /* ic_homepage_coach@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD5EA61D2E4ACE00CF2DEF /* ic_homepage_coach@3x.png */; };
@@ -1175,6 +1180,13 @@
 		6DF41AA31CEB0E1A0014F7E3 /* ic_mypage_bk@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_mypage_bk@3x.png"; sourceTree = "<group>"; };
 		6DF53B5C1D41C6C500CA0F6B /* HHFreeTrialUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHFreeTrialUtility.h; sourceTree = "<group>"; };
 		6DF53B5D1D41C6C500CA0F6B /* HHFreeTrialUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHFreeTrialUtility.m; sourceTree = "<group>"; };
+		6DF53B601D460A4200CA0F6B /* HHActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHActivityView.h; sourceTree = "<group>"; };
+		6DF53B611D460A4200CA0F6B /* HHActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHActivityView.m; sourceTree = "<group>"; };
+		6DF53B631D46109F00CA0F6B /* HHActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHActivity.h; sourceTree = "<group>"; };
+		6DF53B641D46109F00CA0F6B /* HHActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHActivity.m; sourceTree = "<group>"; };
+		6DF53B661D46134400CA0F6B /* ic_activity_tuan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_activity_tuan.png; sourceTree = "<group>"; };
+		6DF53B671D46134400CA0F6B /* ic_activity_tuan@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_activity_tuan@2x.png"; sourceTree = "<group>"; };
+		6DF53B681D46134400CA0F6B /* ic_activity_tuan@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_activity_tuan@3x.png"; sourceTree = "<group>"; };
 		6DFD5EA41D2E4ACE00CF2DEF /* ic_homepage_coach.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_homepage_coach.png; sourceTree = "<group>"; };
 		6DFD5EA51D2E4ACE00CF2DEF /* ic_homepage_coach@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_homepage_coach@2x.png"; sourceTree = "<group>"; };
 		6DFD5EA61D2E4ACE00CF2DEF /* ic_homepage_coach@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_homepage_coach@3x.png"; sourceTree = "<group>"; };
@@ -1600,6 +1612,8 @@
 				6DDF25F01CBF789F00C92C5C /* HHNotification.m */,
 				6D97BDC41D275B3F001B4562 /* HHBanner.h */,
 				6D97BDC51D275B3F001B4562 /* HHBanner.m */,
+				6DF53B631D46109F00CA0F6B /* HHActivity.h */,
+				6DF53B641D46109F00CA0F6B /* HHActivity.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -1800,6 +1814,7 @@
 		5CDE143B1C32F89C0004778C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6DF53B5F1D4609F600CA0F6B /* Home Page */,
 				5C36D4411C4DA50E00443545 /* Coach */,
 				141FA0FB1C6BAF4300113B1A /* Coach Detail */,
 				5C36D3CC1C47624000443545 /* FiltersView */,
@@ -1819,8 +1834,6 @@
 				141F7BEE1C617E54003278C6 /* HHStarRatingView.m */,
 				5CDE14551C3723020004778C /* HHTextFieldView.h */,
 				5CDE14561C3723020004778C /* HHTextFieldView.m */,
-				6D52227F1D3F972500E92075 /* HHHomePageSupportView.h */,
-				6D5222801D3F972500E92075 /* HHHomePageSupportView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1870,6 +1883,9 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6DF53B661D46134400CA0F6B /* ic_activity_tuan.png */,
+				6DF53B671D46134400CA0F6B /* ic_activity_tuan@2x.png */,
+				6DF53B681D46134400CA0F6B /* ic_activity_tuan@3x.png */,
 				6D5222821D3F9BF000E92075 /* ic_ask_call.png */,
 				6D5222831D3F9BF000E92075 /* ic_ask_call@2x.png */,
 				6D5222841D3F9BF000E92075 /* ic_ask_call@3x.png */,
@@ -2205,6 +2221,17 @@
 			path = Referral;
 			sourceTree = "<group>";
 		};
+		6DF53B5F1D4609F600CA0F6B /* Home Page */ = {
+			isa = PBXGroup;
+			children = (
+				6D52227F1D3F972500E92075 /* HHHomePageSupportView.h */,
+				6D5222801D3F972500E92075 /* HHHomePageSupportView.m */,
+				6DF53B601D460A4200CA0F6B /* HHActivityView.h */,
+				6DF53B611D460A4200CA0F6B /* HHActivityView.m */,
+			);
+			name = "Home Page";
+			sourceTree = "<group>";
+		};
 		D888D3204AF4D3C403817A89 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -2374,6 +2401,7 @@
 				6DDAE6D81CB7C73E00CE461A /* ic_class_list@3x.png in Resources */,
 				5C36D4111C496ECD00443545 /* ic_sort_local_hold_btn@2x.png in Resources */,
 				6D82BD5F1CCF91D800D4109A /* ic_cardpay_icon.png in Resources */,
+				6DF53B6B1D46134400CA0F6B /* ic_activity_tuan@3x.png in Resources */,
 				6D4151F91CF72FDC004A7EE8 /* fql@2x.png in Resources */,
 				6D4592381CFD68EB00AF5B45 /* ic_edit@3x.png in Resources */,
 				6D82BD601CCF91D800D4109A /* ic_cardpay_icon@2x.png in Resources */,
@@ -2417,6 +2445,7 @@
 				6D5C86671CDC2AC100D7B5CB /* ic_homepage_groupbuy_close@3x.png in Resources */,
 				140EC6091C6D68D000DA634D /* ic_coachmsg_manyidu.png in Resources */,
 				5C36D43F1C4C743700443545 /* ic_map_local_choseon@2x.png in Resources */,
+				6DF53B6A1D46134400CA0F6B /* ic_activity_tuan@2x.png in Resources */,
 				5C6D8C8A1C3AD6840055CB31 /* ic_toast_attention@1x.png in Resources */,
 				143D15E21C8F2C8200432A74 /* ic_mypage_ava@3x.png in Resources */,
 				141F7C061C617EC7003278C6 /* ic_Star_light@2x.png in Resources */,
@@ -2503,6 +2532,7 @@
 				141F7C021C617EC7003278C6 /* ic_Star_half.png in Resources */,
 				140EC60C1C6D68D000DA634D /* ic_coachmsg_time.png in Resources */,
 				141F7C011C617EC7003278C6 /* ic_Star_grey@3x.png in Resources */,
+				6DF53B691D46134400CA0F6B /* ic_activity_tuan.png in Resources */,
 				5C36D4051C496ECD00443545 /* ic_sort_auto_hold_btn@2x.png in Resources */,
 				6D6F9B611D35EB4D00855D2F /* ticket-normal@2x.png in Resources */,
 				5C36D40E1C496ECD00443545 /* ic_sort_hot_normal_btn@2x.png in Resources */,
@@ -2750,6 +2780,7 @@
 				6D4CCAEE1D3E070400AD896F /* HHActivateCouponView.m in Sources */,
 				1482A9BA1C829CEC007F9019 /* HHReviewer.m in Sources */,
 				5C36D42B1C4C2F4100443545 /* HHFieldsMapViewController.m in Sources */,
+				6DF53B651D46109F00CA0F6B /* HHActivity.m in Sources */,
 				5CDE14461C36E5FE0004778C /* HHIntroViewController.m in Sources */,
 				5C6D8C991C3F4D2A0055CB31 /* HHAPIClient.m in Sources */,
 				6D82BD4F1CCF5A2200D4109A /* HHBonusInfoViewController.m in Sources */,
@@ -2859,6 +2890,7 @@
 				14EAFDD31C8B79E1005BEF10 /* HHWebViewController.m in Sources */,
 				5C36D3DE1C48B4D500443545 /* HHCoachFilters.m in Sources */,
 				5C36D3E51C4969B400443545 /* HHSortOptionView.m in Sources */,
+				6DF53B621D460A4200CA0F6B /* HHActivityView.m in Sources */,
 				6D3D73421CB94BEE00E424C3 /* HHBookFailView.m in Sources */,
 				6D8309B01CC923F600BA6977 /* NSString+HHURL.m in Sources */,
 				5C6D8C831C3A277F0055CB31 /* HHResetPWDViewController.m in Sources */,

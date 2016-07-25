@@ -36,4 +36,6 @@
 
 + (UIColor *)HHLinkBlue;
 
++ (UIColor *)HHLightDarkTextGray;
+
 @end

@@ -34,6 +34,7 @@
 #import "HHHomePageSupportView.h"
 #import "HHSupportUtility.h"
 #import "HHFreeTrialUtility.h"
+#import "HHActivityView.h"
 
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach";
@@ -58,6 +59,10 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
 @property (nonatomic, strong) HHHomePageSupportView *callSupportView;
 @property (nonatomic, strong) HHHomePageSupportView *onlineSupportView;
 @property (nonatomic, strong) UIView *freeTrialContainerView;
+
+@property (nonatomic, strong) HHActivityView *activityView1;
+@property (nonatomic, strong) HHActivityView *activityView2;
+@property (nonatomic, strong) UIView *activitySectionView;
 
 @end
 
@@ -135,7 +140,7 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     self.scrollView.scrollEnabled = YES;
     self.scrollView.bounces = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
-    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) * 0.8f + 318.0f);
+    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) * 0.8f + 318.0f + 200.0f);
     [self.view addSubview:self.scrollView];
     
     self.bannerView = [[SDCycleScrollView alloc] init];
@@ -204,6 +209,13 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     };
     [self.scrollView addSubview:self.onlineSupportView];
 
+    [self buildActivitySectionView];
+    
+    self.activityView1 = [[HHActivityView alloc] initWithActivity:nil fullLine:NO];
+    [self.scrollView addSubview:self.activityView1];
+    
+    self.activityView2 = [[HHActivityView alloc] initWithActivity:nil fullLine:YES];
+    [self.scrollView addSubview:self.activityView2];
     
     [self makeConstraints];
 }
@@ -232,7 +244,7 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     }];
     
     [self.firstView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.callSupportView.bottom).offset(10.0f);
+        make.top.equalTo(self.activityView2.bottom).offset(10.0f);
         make.left.equalTo(self.scrollView.left);
         make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
         make.height.mas_equalTo(85.0f);
@@ -274,6 +286,27 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
         make.height.mas_equalTo(78.0f);
     }];
     
+    [self.activitySectionView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.onlineSupportView.bottom).offset(10.0f);
+        make.width.equalTo(self.scrollView.width);
+        make.left.equalTo(self.scrollView.left);
+        make.height.mas_equalTo(50.0f);
+    }];
+    
+    [self.activityView1 makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.activitySectionView.bottom);
+        make.width.equalTo(self.scrollView.width);
+        make.left.equalTo(self.scrollView.left);
+        make.height.mas_equalTo(70.0f);
+    }];
+    
+    [self.activityView2 makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.self.activityView1.bottom);
+        make.width.equalTo(self.scrollView.width);
+        make.left.equalTo(self.scrollView.left);
+        make.height.mas_equalTo(70.0f);
+    }];
+    
     [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.top);
         make.width.equalTo(self.view.width);
@@ -308,6 +341,45 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
 - (void)tryCoachForFree {
     NSString *urlString = [[HHFreeTrialUtility sharedManager] buildFreeTrialURLStringWithCoachId:nil];
     [self openWebPage:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+}
+
+- (void)buildActivitySectionView {
+    self.activitySectionView = [[UIView alloc] init];
+    self.activitySectionView.backgroundColor = [UIColor whiteColor];
+    UILabel *label = [[UILabel alloc] init];
+    label.text = @"限时活动";
+    label.textColor = [UIColor HHLightDarkTextGray];
+    label.font = [UIFont systemFontOfSize:15.0f];
+    [self.activitySectionView addSubview:label];
+    
+    UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [moreButton setTitle:@"查看更多" forState:UIControlStateNormal];
+    [moreButton setTitleColor:[UIColor HHLightTextGray] forState:UIControlStateNormal];
+    moreButton.titleLabel.font = [UIFont systemFontOfSize:13.0f];
+    [self.activitySectionView addSubview:moreButton];
+    
+    UIView *line = [[UIView alloc] init];
+    line.backgroundColor = [UIColor HHLightLineGray];
+    [self.activitySectionView addSubview:line];
+    
+    [label makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.activitySectionView.centerY);
+        make.left.equalTo(self.activitySectionView.left).offset(15.0f);
+    }];
+    
+    [moreButton makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.activitySectionView.centerY);
+        make.right.equalTo(self.activitySectionView.right).offset(-15.0f);
+    }];
+    
+    [line makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.activitySectionView.bottom);
+        make.left.equalTo(self.activitySectionView.left);
+        make.width.equalTo(self.activitySectionView.width);
+        make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+    }];
+    
+    [self.scrollView addSubview:self.activitySectionView];
 }
 
 
