@@ -253,7 +253,7 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
         };
         [self.scrollView addSubview:self.activityView1];
         
-        self.activityView2 = [[HHEventView alloc] initWithEvent:[self.events firstObject] fullLine:YES];
+        self.activityView2 = [[HHEventView alloc] initWithEvent:self.events[1] fullLine:YES];
         self.activityView2.eventBlock = ^(HHEvent *event) {
             HHWebViewController *vc = [[HHWebViewController alloc] initWithEvent:event];
             vc.hidesBottomBarWhenPushed = YES;
