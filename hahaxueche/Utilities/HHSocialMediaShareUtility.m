@@ -97,6 +97,60 @@ static NSString *const kSupportQQ = @"3319762526";
     }
 }
 
+
+- (void)shareEvent:(HHEvent *)event shareType:(ShareType)shareType {
+    OSMessage *msg = [[OSMessage alloc] init];
+    NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"ic_share"]);
+    msg.image = imageData;
+    msg.thumbnail = imageData;
+    msg.title = event.title;
+    msg.multimediaType = OSMultimediaTypeNews;
+    msg.link = event.webURL;
+    msg.desc = @"限时活动, 疯抢中!";
+    
+    switch (shareType) {
+        case ShareTypeQQ: {
+            if (![OpenShare isQQInstalled]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
+                return;
+            }
+            [OpenShare shareToQQFriends:msg Success:nil Fail:nil];
+        } break;
+            
+        case ShareTypeWeibo: {
+            if (![OpenShare isWeiboInstalled]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微博应用, 然后重试"];
+                return;
+            }
+            
+            [OpenShare shareToWeibo:msg Success:nil Fail:nil];
+        } break;
+            
+        case ShareTypeWeChat: {
+            if (![OpenShare isWeixinInstalled]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微信应用, 然后重试"];
+                return;
+            }
+            [OpenShare shareToWeixinSession:msg Success:nil Fail:nil];
+
+            
+        } break;
+            
+        case ShareTypeWeChatTimeLine: {
+            if (![OpenShare isWeixinInstalled]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微信应用, 然后重试"];
+                return;
+            }
+            [OpenShare shareToWeixinTimeline:msg Success:nil Fail:nil];
+
+            
+        } break;
+            
+        default:
+            break;
+    }
+}
+
 - (void)generateShareMessageWithCoach:(HHCoach *)coach shareType:(ShareType)shareType completion:(MessageCompletion)completion {
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
     NSString *baseURL = nil;

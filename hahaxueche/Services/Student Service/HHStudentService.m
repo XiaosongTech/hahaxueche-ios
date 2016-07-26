@@ -11,6 +11,7 @@
 #import "HHStudentStore.h"
 #import "HHAPIClient.h"
 #import "UIImage+HHImage.h"
+#import "HHEvent.h"
 
 static NSString *const kUserObjectKey = @"kUserObjectKey";
 
@@ -317,6 +318,24 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
         
     }];
     
+}
+
+- (void)getCityEventsWithId:(NSNumber *)cityId completion:(HHEventsCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIEvents];
+    [APIClient getWithParameters:@{@"city_id":cityId} completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            NSArray *data = response;
+            NSMutableArray *events = [NSMutableArray array];
+            for (NSDictionary *dic in data) {
+                [events addObject:[MTLJSONAdapter modelOfClass:[HHEvent class] fromJSONDictionary:dic error:nil]];
+            }
+            completion(events, nil);
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
 }
 
 @end

@@ -34,7 +34,7 @@
 #import "HHHomePageSupportView.h"
 #import "HHSupportUtility.h"
 #import "HHFreeTrialUtility.h"
-#import "HHActivityView.h"
+#import "HHEventView.h"
 
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach";
@@ -60,9 +60,10 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
 @property (nonatomic, strong) HHHomePageSupportView *onlineSupportView;
 @property (nonatomic, strong) UIView *freeTrialContainerView;
 
-@property (nonatomic, strong) HHActivityView *activityView1;
-@property (nonatomic, strong) HHActivityView *activityView2;
+@property (nonatomic, strong) HHEventView *activityView1;
+@property (nonatomic, strong) HHEventView *activityView2;
 @property (nonatomic, strong) UIView *activitySectionView;
+@property (nonatomic, strong) NSArray *events;
 
 @end
 
@@ -74,7 +75,6 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.banners = [[HHConstantsStore sharedInstance] getHomePageBanners];
-    [self initSubviews];
     
     __weak HHHomePageViewController *weakSelf = self;
     NSArray *cities = [[HHConstantsStore sharedInstance] getSupporteCities];
@@ -84,14 +84,20 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
             CGFloat height = MAX(300.0f, CGRectGetHeight(weakSelf.view.bounds)/2.0f);
             weakSelf.citySelectView = [[HHCitySelectView alloc] initWithCities:cities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:nil];
             weakSelf.citySelectView.completion = ^(HHCity *selectedCity) {
-                [HHStudentStore sharedInstance].currentStudent.cityId = selectedCity.cityId;
+                if (selectedCity) {
+                    [HHStudentStore sharedInstance].currentStudent.cityId = selectedCity.cityId;
+                }
+                [weakSelf fetchEvents];
                 [HHPopupUtility dismissPopup:weakSelf.popup];
             };
             [HHStudentStore sharedInstance].currentStudent.cityId = @(0);
             weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.citySelectView];
             [weakSelf.popup show];
+        } else {
+            [self fetchEvents];
         }
     }
+    
     self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
 
@@ -140,7 +146,13 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     self.scrollView.scrollEnabled = YES;
     self.scrollView.bounces = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
-    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) * 0.8f + 318.0f + 200.0f);
+    CGFloat eventSectionHeight = 0;
+    if ([self.events count] == 1) {
+        eventSectionHeight = 60.0f + 70.0f;
+    } else if ([self.events count] >= 2) {
+        eventSectionHeight = 60.0f + 140.0f;
+    }
+    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) * 0.8f + 318.0f + eventSectionHeight);
     [self.view addSubview:self.scrollView];
     
     self.bannerView = [[SDCycleScrollView alloc] init];
@@ -208,16 +220,60 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
         [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
     };
     [self.scrollView addSubview:self.onlineSupportView];
+    
+    [self buildEventViews];
 
-    [self buildActivitySectionView];
-    
-    self.activityView1 = [[HHActivityView alloc] initWithActivity:nil fullLine:NO];
-    [self.scrollView addSubview:self.activityView1];
-    
-    self.activityView2 = [[HHActivityView alloc] initWithActivity:nil fullLine:YES];
-    [self.scrollView addSubview:self.activityView2];
-    
     [self makeConstraints];
+}
+
+- (void)buildEventViews {
+    __weak HHHomePageViewController *weakSelf = self;
+    if ([self.events count] <= 0) {
+        return;
+    } else if ([self.events count] == 1) {
+        [self buildActivitySectionView];
+        
+        self.activityView1 = [[HHEventView alloc] initWithEvent:[self.events firstObject] fullLine:YES];
+        self.activityView1.eventBlock = ^(HHEvent *event) {
+            HHWebViewController *vc = [[HHWebViewController alloc] initWithEvent:event];
+            vc.title = event.title;
+            vc.hidesBottomBarWhenPushed = YES;
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        };
+        [self.scrollView addSubview:self.activityView1];
+    } else if ([self.events count] > 1) {
+        [self buildActivitySectionView];
+        
+        self.activityView1 = [[HHEventView alloc] initWithEvent:[self.events firstObject] fullLine:NO];
+        self.activityView1.eventBlock = ^(HHEvent *event) {
+            HHWebViewController *vc = [[HHWebViewController alloc] initWithEvent:event];
+            vc.hidesBottomBarWhenPushed = YES;
+            vc.title = event.title;
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        };
+        [self.scrollView addSubview:self.activityView1];
+        
+        self.activityView2 = [[HHEventView alloc] initWithEvent:[self.events firstObject] fullLine:YES];
+        self.activityView2.eventBlock = ^(HHEvent *event) {
+            HHWebViewController *vc = [[HHWebViewController alloc] initWithEvent:event];
+            vc.hidesBottomBarWhenPushed = YES;
+            vc.title = event.title;
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        };
+        [self.scrollView addSubview:self.activityView2];
+    }
+    
+}
+
+- (void)fetchEvents {
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    [[HHStudentService sharedInstance] getCityEventsWithId:[HHStudentStore sharedInstance].currentStudent.cityId completion:^(NSArray *events, NSError *error) {
+        if (!error) {
+            self.events = events;
+        }
+        [self initSubviews];
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+    }];
 }
 
 - (void)makeConstraints {
@@ -243,12 +299,29 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
         make.height.mas_equalTo(60.0f);
     }];
     
-    [self.firstView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.activityView2.bottom).offset(10.0f);
-        make.left.equalTo(self.scrollView.left);
-        make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
-        make.height.mas_equalTo(85.0f);
-    }];
+    if (self.activityView2) {
+        [self.firstView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.activityView2.bottom).offset(10.0f);
+            make.left.equalTo(self.scrollView.left);
+            make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
+            make.height.mas_equalTo(85.0f);
+        }];
+    } else if (self.activityView1) {
+        [self.firstView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.activityView1.bottom).offset(10.0f);
+            make.left.equalTo(self.scrollView.left);
+            make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
+            make.height.mas_equalTo(85.0f);
+        }];
+    } else {
+        [self.firstView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.onlineSupportView.bottom).offset(10.0f);
+            make.left.equalTo(self.scrollView.left);
+            make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
+            make.height.mas_equalTo(85.0f);
+        }];
+    }
+    
     
     [self.secondView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.firstView.top);
@@ -286,26 +359,34 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
         make.height.mas_equalTo(78.0f);
     }];
     
-    [self.activitySectionView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.onlineSupportView.bottom).offset(10.0f);
-        make.width.equalTo(self.scrollView.width);
-        make.left.equalTo(self.scrollView.left);
-        make.height.mas_equalTo(50.0f);
-    }];
+    if (self.activitySectionView) {
+        [self.activitySectionView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.onlineSupportView.bottom).offset(10.0f);
+            make.width.equalTo(self.scrollView.width);
+            make.left.equalTo(self.scrollView.left);
+            make.height.mas_equalTo(50.0f);
+        }];
+    }
+   
     
-    [self.activityView1 makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.activitySectionView.bottom);
-        make.width.equalTo(self.scrollView.width);
-        make.left.equalTo(self.scrollView.left);
-        make.height.mas_equalTo(70.0f);
-    }];
+    if (self.activityView1) {
+        [self.activityView1 makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.activitySectionView.bottom);
+            make.width.equalTo(self.scrollView.width);
+            make.left.equalTo(self.scrollView.left);
+            make.height.mas_equalTo(70.0f);
+        }];
+
+    }
     
-    [self.activityView2 makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.self.activityView1.bottom);
-        make.width.equalTo(self.scrollView.width);
-        make.left.equalTo(self.scrollView.left);
-        make.height.mas_equalTo(70.0f);
-    }];
+    if (self.activityView2) {
+        [self.activityView2 makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.self.activityView1.bottom);
+            make.width.equalTo(self.scrollView.width);
+            make.left.equalTo(self.scrollView.left);
+            make.height.mas_equalTo(70.0f);
+        }];
+    }
     
     [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.top);
@@ -352,11 +433,20 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     label.font = [UIFont systemFontOfSize:15.0f];
     [self.activitySectionView addSubview:label];
     
-    UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [moreButton setTitle:@"查看更多" forState:UIControlStateNormal];
-    [moreButton setTitleColor:[UIColor HHLightTextGray] forState:UIControlStateNormal];
-    moreButton.titleLabel.font = [UIFont systemFontOfSize:13.0f];
-    [self.activitySectionView addSubview:moreButton];
+    if ([self.events count] > 2) {
+        UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [moreButton setTitle:@"查看更多" forState:UIControlStateNormal];
+        [moreButton setTitleColor:[UIColor HHLightTextGray] forState:UIControlStateNormal];
+        moreButton.titleLabel.font = [UIFont systemFontOfSize:13.0f];
+        [moreButton addTarget:self action:@selector(showMoreEvents) forControlEvents:UIControlEventTouchUpInside];
+        [self.activitySectionView addSubview:moreButton];
+        
+        [moreButton makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.activitySectionView.centerY);
+            make.right.equalTo(self.activitySectionView.right).offset(-15.0f);
+        }];
+    }
+    
     
     UIView *line = [[UIView alloc] init];
     line.backgroundColor = [UIColor HHLightLineGray];
@@ -367,10 +457,7 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
         make.left.equalTo(self.activitySectionView.left).offset(15.0f);
     }];
     
-    [moreButton makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.activitySectionView.centerY);
-        make.right.equalTo(self.activitySectionView.right).offset(-15.0f);
-    }];
+    
     
     [line makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.activitySectionView.bottom);
@@ -382,5 +469,8 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     [self.scrollView addSubview:self.activitySectionView];
 }
 
+- (void)showMoreEvents {
+    
+}
 
 @end

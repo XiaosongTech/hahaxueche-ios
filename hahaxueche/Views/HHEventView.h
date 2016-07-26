@@ -7,20 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HHActivity.h"
+#import "HHEvent.h"
+#import "HHCountDownView.h"
 
-@interface HHActivityView : UIView
+typedef void (^HHEventViewBlock)(HHEvent *event);
+
+@interface HHEventView : UIView
 
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *subTitleLabel;
 @property (nonatomic, strong) UILabel *rightLabel;
-@property (nonatomic, strong) UILabel *countDownLabel;
+@property (nonatomic, strong) HHCountDownView *countDownView;
 @property (nonatomic, strong) UIView *botLine;
 
-@property (nonatomic, strong) HHActivity *activity;
+@property (nonatomic, strong) HHEvent *event;
 @property (nonatomic) BOOL fullLine;
+@property (nonatomic, strong) HHEventViewBlock eventBlock;
 
-- (instancetype)initWithActivity:(HHActivity *)activity fullLine:(BOOL)fullLine;
+- (instancetype)initWithEvent:(HHEvent *)event fullLine:(BOOL)fullLine;
 
 @end
