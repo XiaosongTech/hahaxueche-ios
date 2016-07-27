@@ -42,6 +42,16 @@ static NSString *const kCellID = @"kEventCardCellId";
     
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
     
+    self.bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pic_startscreen_bk"]];
+    [self.view addSubview:self.bgImageView];
+    
+    [self.bgImageView makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.view);
+        make.width.equalTo(self.view.width);
+        make.height.equalTo(self.view.height);
+    }];
+
+    
     self.tableView = [[UITableView alloc] init];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
