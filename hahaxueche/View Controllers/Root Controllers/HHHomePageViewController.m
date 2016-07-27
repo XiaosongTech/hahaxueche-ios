@@ -35,6 +35,7 @@
 #import "HHSupportUtility.h"
 #import "HHFreeTrialUtility.h"
 #import "HHEventView.h"
+#import "HHEventsViewController.h"
 
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach";
@@ -470,7 +471,9 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
 }
 
 - (void)showMoreEvents {
-    
+    HHEventsViewController *vc = [[HHEventsViewController alloc] initWithEvents:self.events];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

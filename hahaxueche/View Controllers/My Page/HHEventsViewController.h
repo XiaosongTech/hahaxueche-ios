@@ -10,4 +10,6 @@
 
 @interface HHEventsViewController : UIViewController
 
+- (instancetype)initWithEvents:(NSArray *)events;
+
 @end
