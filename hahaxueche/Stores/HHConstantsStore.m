@@ -11,6 +11,8 @@
 #import "APIPaths.h"
 #import "HHStudentStore.h"
 
+static NSString *const kSavedConstants = @"kSavedConstant";
+
 @interface HHConstantsStore ()
 
 @property (nonatomic, strong) HHConstants *constants;
@@ -39,14 +41,29 @@
         HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIConstantsPath];
         [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
             if (!error) {
+                NSData *data = [NSKeyedArchiver archivedDataWithRootObject:response];
+                NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+                NSString *documentsDirectory = [paths objectAtIndex:0];
+                NSString *filePath = [documentsDirectory stringByAppendingPathComponent:kSavedConstants];
+                [data writeToFile:filePath atomically:YES];
+                
                 HHConstants *constants = [MTLJSONAdapter modelOfClass:[HHConstants class] fromJSONDictionary:response error:nil];
                 [HHConstantsStore sharedInstance].constants = constants;
+                
                 if (completion) {
                     completion([HHConstantsStore sharedInstance].constants);
                 }
             } else {
+                NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+                NSString *documentsDirectory = [paths objectAtIndex:0];
+                NSString *filePath = [documentsDirectory stringByAppendingPathComponent:kSavedConstants];
+                
+                NSData *data = [NSData dataWithContentsOfFile:filePath];
+                NSDictionary *constantDic = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+                HHConstants *constants = [MTLJSONAdapter modelOfClass:[HHConstants class] fromJSONDictionary:constantDic error:nil];
+                [HHConstantsStore sharedInstance].constants = constants;
                 if (completion) {
-                    completion(nil);
+                    completion([HHConstantsStore sharedInstance].constants);
                 }
             }
         }];
