@@ -8,6 +8,7 @@
 //
 
 #import "CountDown.h"
+#import "NSDate+DateTools.h"
 
 @interface CountDown ()
 @property(nonatomic,retain) dispatch_source_t timer;
@@ -31,6 +32,7 @@
 -(void)countDownWithStratDate:(NSDate *)startDate finishDate:(NSDate *)finishDate completeBlock:(void (^)(NSInteger day,NSInteger hour,NSInteger minute,NSInteger second))completeBlock{
     if (_timer==nil) {
         
+        finishDate = [finishDate dateByAddingDays:1];
         NSTimeInterval timeInterval =[finishDate timeIntervalSinceDate:startDate];
         __block int timeout = timeInterval; //倒计时时间
         if (timeout!=0) {
