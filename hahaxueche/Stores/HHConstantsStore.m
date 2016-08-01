@@ -139,4 +139,9 @@ static NSString *const kSavedConstants = @"kSavedConstant";
     return [HHConstantsStore sharedInstance].constants.notifications;
 }
 
+- (NSNumber *)getCityReferrerBonus {
+    HHCity *city = [self getAuthedUserCity];
+    return city.referrerBonus;
+}
+
 @end

@@ -16,13 +16,10 @@
 @property (nonatomic, copy) NSArray *priceRanges;
 @property (nonatomic, copy) NSArray *distanceRanges;
 @property (nonatomic, copy) NSArray *cityFixedFees;
-@property (nonatomic, copy) NSArray *bonus;
 @property (nonatomic, copy) NSString *referalBanner;
+@property (nonatomic, copy) NSNumber *referrerBonus;
+@property (nonatomic, copy) NSNumber *refereeBonus;
 
-
-- (NSNumber *)getRefererBonus;
-- (NSNumber *)getRefereeBonus;
-- (NSNumber *)getTotalBonus;
 
 
 @end

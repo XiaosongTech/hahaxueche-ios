@@ -7,13 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HHMyPageItemTitleView.h"
-#import "HHMyPageItemView.h"
+
+typedef void (^HHReferCellBlock)();
 
 @interface HHMyPageReferCell : UITableViewCell
 
-@property (nonatomic, strong) HHMyPageItemTitleView *titleView;
-@property (nonatomic, strong) HHMyPageItemView *referFriendsView;
-@property (nonatomic, strong) HHMyPageItemView *myBonusView;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIImageView *imgView;
 
 @end

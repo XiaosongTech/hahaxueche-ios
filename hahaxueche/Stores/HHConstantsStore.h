@@ -26,7 +26,7 @@ typedef void (^HHConstantsCompletion)(HHConstants *constants);
 - (NSArray *)getLoginBanners;
 - (NSArray *)getHomePageBanners;
 - (NSArray *)getNotifications;
+- (NSNumber *)getCityReferrerBonus;
 
-@property (nonatomic, copy) NSString *refererId;
 
 @end

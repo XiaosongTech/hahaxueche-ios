@@ -9,7 +9,6 @@
 #import "HHMyPageReferCell.h"
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
-#import "HHMyPageCoachCell.h"
 
 @implementation HHMyPageReferCell
 
@@ -17,48 +16,35 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.contentView.backgroundColor = [UIColor HHBackgroundGary];
+        self.contentView.backgroundColor = [UIColor HHOrange];
         [self initSubviews];
     }
     return self;
 }
 
 - (void)initSubviews {
-    self.titleView = [[HHMyPageItemTitleView alloc] initWithTitle:@"推荐有奖"];
-    [self.contentView addSubview:self.titleView];
+    self.titleLabel = [[UILabel alloc] init];
+    self.titleLabel.textColor = [UIColor whiteColor];
+    self.titleLabel.font = [UIFont systemFontOfSize:16.0f];
+    self.titleLabel.text = @"我想为哈哈代言, 免费赚取代言费~";
+    [self.contentView addSubview:self.titleLabel];
     
-    self.referFriendsView = [[HHMyPageItemView alloc] initWitTitle:@"推荐好友" showLine:YES];
-    self.referFriendsView.arrowImageView.hidden = NO;
-    [self.contentView addSubview:self.referFriendsView];
+    self.imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pic_xiaoha"]];
+    [self.contentView addSubview:self.imgView];
     
-    self.myBonusView = [[HHMyPageItemView alloc] initWitTitle:@"已赚取" showLine:NO];
-    self.myBonusView.arrowImageView.hidden = NO;
-    [self.contentView addSubview:self.myBonusView];
     
     [self makeConstraints];
 }
 
 - (void)makeConstraints {
-    [self.titleView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.top).offset(kTopPadding);
-        make.left.equalTo(self.left);
-        make.width.equalTo(self.width);
-        make.height.mas_equalTo(kTitleViewHeight);
+    [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.contentView.centerY);
+        make.left.equalTo(self.contentView.left).offset(15.0f);
     }];
     
-    [self.referFriendsView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleView.bottom);
-        make.left.equalTo(self.left);
-        make.width.equalTo(self.width);
-        make.height.mas_equalTo(kItemViewHeight);
-        
-    }];
-    [self.myBonusView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.referFriendsView.bottom);
-        make.left.equalTo(self.left);
-        make.width.equalTo(self.width);
-        make.height.mas_equalTo(kItemViewHeight);
-        
+    [self.imgView makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.contentView.bottom);
+        make.right.equalTo(self.contentView.right).offset(-15.0f);
     }];
 }
 

@@ -99,34 +99,12 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
         }
     }
     
+    [self initSubviews];
     self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
 
 
 }
-
-//- (void)viewDidAppear:(BOOL)animated {
-//    [super viewDidAppear:animated];
-//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//    NSNumber *isShowed = [defaults objectForKey:@"showedBonusPopoup"];
-//
-//    if (![isShowed boolValue] && [[HHStudentStore sharedInstance].currentStudent.byReferal boolValue] && [HHStudentStore sharedInstance].currentStudent.studentId && ![[HHStudentStore sharedInstance].currentStudent.purchasedServiceArray count]) {
-//        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-//        paragraphStyle.alignment = NSTextAlignmentLeft;
-//        paragraphStyle.lineSpacing = 8.0f;
-//        NSNumber *refereeBonus = [[[HHConstantsStore sharedInstance] getAuthedUserCity] getRefereeBonus];
-//        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@元已经打进您的账户余额, 在支付过程中, 系统会自动减现%@元报名费.", [refereeBonus generateMoneyString], [refereeBonus generateMoneyString]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
-//        
-//        __weak HHHomePageViewController *weakSelf = self;
-//        HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 280.0f) title:@"注册成功!" subTitle:[NSString stringWithFormat:@"恭喜您获得%@元学车券!",[refereeBonus generateMoneyString] ] info:attributedString];
-//        view.cancelBlock = ^() {
-//            [HHPopupUtility dismissPopup:weakSelf.popup];
-//        };
-//        self.popup = [HHPopupUtility createPopupWithContentView:view];
-//        [HHPopupUtility showPopup:self.popup];
-//        [defaults setObject:@(1) forKey:@"showedBonusPopoup"];
-//    }
-//}
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -147,13 +125,6 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     self.scrollView.scrollEnabled = YES;
     self.scrollView.bounces = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
-    CGFloat eventSectionHeight = 0;
-    if ([self.events count] == 1) {
-        eventSectionHeight = 60.0f + 70.0f;
-    } else if ([self.events count] >= 2) {
-        eventSectionHeight = 60.0f + 140.0f;
-    }
-    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) * 0.8f + 318.0f + eventSectionHeight);
     [self.view addSubview:self.scrollView];
     
     self.bannerView = [[SDCycleScrollView alloc] init];
@@ -221,8 +192,6 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
         [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
     };
     [self.scrollView addSubview:self.onlineSupportView];
-    
-    [self buildEventViews];
 
     [self makeConstraints];
 }
@@ -272,28 +241,29 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
         if (!error) {
             self.events = events;
         }
-        [self initSubviews];
+        [self buildEventViews];
+        [self makeConstraints];
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
     }];
 }
 
 - (void)makeConstraints {
     
-    [self.bannerView makeConstraints:^(MASConstraintMaker *make) {
+    [self.bannerView remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.scrollView.top);
         make.left.equalTo(self.scrollView.left);
         make.width.equalTo(self.scrollView.width);
         make.height.equalTo(self.view.width).multipliedBy(4.0f/5.0f);
     }];
     
-    [self.callSupportView makeConstraints:^(MASConstraintMaker *make) {
+    [self.callSupportView remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.bannerView.bottom);
         make.left.equalTo(self.scrollView.left);
         make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
         make.height.mas_equalTo(60.0f);
     }];
     
-    [self.onlineSupportView makeConstraints:^(MASConstraintMaker *make) {
+    [self.onlineSupportView remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.bannerView.bottom);
         make.left.equalTo(self.callSupportView.right);
         make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
@@ -301,21 +271,21 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     }];
     
     if (self.activityView2) {
-        [self.firstView makeConstraints:^(MASConstraintMaker *make) {
+        [self.firstView remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.activityView2.bottom).offset(10.0f);
             make.left.equalTo(self.scrollView.left);
             make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
             make.height.mas_equalTo(85.0f);
         }];
     } else if (self.activityView1) {
-        [self.firstView makeConstraints:^(MASConstraintMaker *make) {
+        [self.firstView remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.activityView1.bottom).offset(10.0f);
             make.left.equalTo(self.scrollView.left);
             make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
             make.height.mas_equalTo(85.0f);
         }];
     } else {
-        [self.firstView makeConstraints:^(MASConstraintMaker *make) {
+        [self.firstView remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.onlineSupportView.bottom).offset(10.0f);
             make.left.equalTo(self.scrollView.left);
             make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
@@ -324,14 +294,14 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     }
     
     
-    [self.secondView makeConstraints:^(MASConstraintMaker *make) {
+    [self.secondView remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.firstView.top);
         make.left.equalTo(self.firstView.right);
         make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
         make.height.equalTo(self.firstView.height);
     }];
     
-    [self.thirdView makeConstraints:^(MASConstraintMaker *make) {
+    [self.thirdView remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.firstView.bottom);
         make.left.equalTo(self.scrollView.left);
         make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
@@ -339,21 +309,21 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     }];
     
     
-    [self.forthView makeConstraints:^(MASConstraintMaker *make) {
+    [self.forthView remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.thirdView.top);
         make.left.equalTo(self.thirdView.right);
         make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
         make.height.equalTo(self.firstView.height);
     }];
     
-    [self.freeTryButton makeConstraints:^(MASConstraintMaker *make) {
+    [self.freeTryButton remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.freeTrialContainerView.centerY);
         make.centerX.equalTo(self.freeTrialContainerView.centerX);
         make.width.equalTo(self.freeTrialContainerView.width).offset(-60.0f);
         make.height.mas_equalTo(50.0f);
     }];
     
-    [self.freeTrialContainerView makeConstraints:^(MASConstraintMaker *make) {
+    [self.freeTrialContainerView remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.thirdView.bottom);
         make.centerX.equalTo(self.scrollView.centerX);
         make.width.equalTo(self.scrollView.width);
@@ -361,7 +331,7 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     }];
     
     if (self.activitySectionView) {
-        [self.activitySectionView makeConstraints:^(MASConstraintMaker *make) {
+        [self.activitySectionView remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.onlineSupportView.bottom).offset(10.0f);
             make.width.equalTo(self.scrollView.width);
             make.left.equalTo(self.scrollView.left);
@@ -371,7 +341,7 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
    
     
     if (self.activityView1) {
-        [self.activityView1 makeConstraints:^(MASConstraintMaker *make) {
+        [self.activityView1 remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.activitySectionView.bottom);
             make.width.equalTo(self.scrollView.width);
             make.left.equalTo(self.scrollView.left);
@@ -381,7 +351,7 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     }
     
     if (self.activityView2) {
-        [self.activityView2 makeConstraints:^(MASConstraintMaker *make) {
+        [self.activityView2 remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.self.activityView1.bottom);
             make.width.equalTo(self.scrollView.width);
             make.left.equalTo(self.scrollView.left);
@@ -395,6 +365,14 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
         make.left.equalTo(self.view.left);
         make.height.equalTo(self.view.height).offset(-1 * CGRectGetHeight(self.tabBarController.tabBar.bounds));
     }];
+    
+    CGFloat eventSectionHeight = 0;
+    if ([self.events count] == 1) {
+        eventSectionHeight = 60.0f + 70.0f;
+    } else if ([self.events count] >= 2) {
+        eventSectionHeight = 60.0f + 140.0f;
+    }
+    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) * 0.8f + 318.0f + eventSectionHeight);
 
 }
 
