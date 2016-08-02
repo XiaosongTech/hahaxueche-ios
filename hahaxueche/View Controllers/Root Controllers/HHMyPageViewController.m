@@ -31,7 +31,6 @@
 #import "HHMyPageReferCell.h"
 #import <Appirater.h>
 #import "HHReferFriendsViewController.h"
-#import "HHBonusInfoViewController.h"
 #import "HHLongImageViewController.h"
 #import "SDImageCache.h"
 #import "HHEditNameView.h"

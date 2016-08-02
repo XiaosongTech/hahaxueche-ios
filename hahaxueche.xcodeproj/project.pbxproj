@@ -397,7 +397,6 @@
 		6D82BD4A1CCF4FE500D4109A /* ic_share_close_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D82BD471CCF4FE500D4109A /* ic_share_close_btn.png */; };
 		6D82BD4B1CCF4FE500D4109A /* ic_share_close_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D82BD481CCF4FE500D4109A /* ic_share_close_btn@2x.png */; };
 		6D82BD4C1CCF4FE500D4109A /* ic_share_close_btn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D82BD491CCF4FE500D4109A /* ic_share_close_btn@3x.png */; };
-		6D82BD4F1CCF5A2200D4109A /* HHBonusInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D82BD4E1CCF5A2200D4109A /* HHBonusInfoViewController.m */; };
 		6D82BD521CCF6FE000D4109A /* HHWithdrawViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D82BD511CCF6FE000D4109A /* HHWithdrawViewController.m */; };
 		6D82BD551CCF8E2A00D4109A /* HHPaymentMethodCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D82BD541CCF8E2A00D4109A /* HHPaymentMethodCell.m */; };
 		6D82BD591CCF91CF00D4109A /* ic_alipay_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D82BD561CCF91CF00D4109A /* ic_alipay_icon.png */; };
@@ -441,6 +440,11 @@
 		6DB1480E1D4B4EF0009E3F1E /* pic_xiaoha.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB1480B1D4B4EEF009E3F1E /* pic_xiaoha.png */; };
 		6DB1480F1D4B4EF0009E3F1E /* pic_xiaoha@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB1480C1D4B4EEF009E3F1E /* pic_xiaoha@2x.png */; };
 		6DB148101D4B4EF0009E3F1E /* pic_xiaoha@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB1480D1D4B4EF0009E3F1E /* pic_xiaoha@3x.png */; };
+		6DB148141D50AD7C009E3F1E /* ic_add.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB148111D50AD7C009E3F1E /* ic_add.png */; };
+		6DB148151D50AD7C009E3F1E /* ic_add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB148121D50AD7C009E3F1E /* ic_add@2x.png */; };
+		6DB148161D50AD7C009E3F1E /* ic_add@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB148131D50AD7C009E3F1E /* ic_add@3x.png */; };
+		6DB148191D50BBA7009E3F1E /* HHAddBankCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB148181D50BBA7009E3F1E /* HHAddBankCardViewController.m */; };
+		6DB1481C1D50BFAB009E3F1E /* HHCardInfoInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB1481B1D50BFAB009E3F1E /* HHCardInfoInputView.m */; };
 		6DBAC5B31D12E4080040BDA7 /* ic_list_best_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DBAC5B01D12E4080040BDA7 /* ic_list_best_small.png */; };
 		6DBAC5B41D12E4080040BDA7 /* ic_list_best_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DBAC5B11D12E4080040BDA7 /* ic_list_best_small@2x.png */; };
 		6DBAC5B51D12E4080040BDA7 /* ic_list_best_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DBAC5B21D12E4080040BDA7 /* ic_list_best_small@3x.png */; };
@@ -1063,8 +1067,6 @@
 		6D82BD471CCF4FE500D4109A /* ic_share_close_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_share_close_btn.png; sourceTree = "<group>"; };
 		6D82BD481CCF4FE500D4109A /* ic_share_close_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_share_close_btn@2x.png"; sourceTree = "<group>"; };
 		6D82BD491CCF4FE500D4109A /* ic_share_close_btn@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_share_close_btn@3x.png"; sourceTree = "<group>"; };
-		6D82BD4D1CCF5A2200D4109A /* HHBonusInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHBonusInfoViewController.h; sourceTree = "<group>"; };
-		6D82BD4E1CCF5A2200D4109A /* HHBonusInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHBonusInfoViewController.m; sourceTree = "<group>"; };
 		6D82BD501CCF6FE000D4109A /* HHWithdrawViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHWithdrawViewController.h; sourceTree = "<group>"; };
 		6D82BD511CCF6FE000D4109A /* HHWithdrawViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHWithdrawViewController.m; sourceTree = "<group>"; };
 		6D82BD531CCF8E2A00D4109A /* HHPaymentMethodCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPaymentMethodCell.h; sourceTree = "<group>"; };
@@ -1120,6 +1122,13 @@
 		6DB1480B1D4B4EEF009E3F1E /* pic_xiaoha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic_xiaoha.png; sourceTree = "<group>"; };
 		6DB1480C1D4B4EEF009E3F1E /* pic_xiaoha@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_xiaoha@2x.png"; sourceTree = "<group>"; };
 		6DB1480D1D4B4EF0009E3F1E /* pic_xiaoha@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_xiaoha@3x.png"; sourceTree = "<group>"; };
+		6DB148111D50AD7C009E3F1E /* ic_add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_add.png; sourceTree = "<group>"; };
+		6DB148121D50AD7C009E3F1E /* ic_add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_add@2x.png"; sourceTree = "<group>"; };
+		6DB148131D50AD7C009E3F1E /* ic_add@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_add@3x.png"; sourceTree = "<group>"; };
+		6DB148171D50BBA7009E3F1E /* HHAddBankCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAddBankCardViewController.h; sourceTree = "<group>"; };
+		6DB148181D50BBA7009E3F1E /* HHAddBankCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHAddBankCardViewController.m; sourceTree = "<group>"; };
+		6DB1481A1D50BFAB009E3F1E /* HHCardInfoInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCardInfoInputView.h; sourceTree = "<group>"; };
+		6DB1481B1D50BFAB009E3F1E /* HHCardInfoInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCardInfoInputView.m; sourceTree = "<group>"; };
 		6DBAC5B01D12E4080040BDA7 /* ic_list_best_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_list_best_small.png; sourceTree = "<group>"; };
 		6DBAC5B11D12E4080040BDA7 /* ic_list_best_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_list_best_small@2x.png"; sourceTree = "<group>"; };
 		6DBAC5B21D12E4080040BDA7 /* ic_list_best_small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_list_best_small@3x.png"; sourceTree = "<group>"; };
@@ -1366,6 +1375,8 @@
 				6DF202D31CD0B59F002092B4 /* HHReferFriendsCell.m */,
 				6DF202DB1CD0C0C5002092B4 /* HHWithdrawHistoryCell.h */,
 				6DF202DC1CD0C0C5002092B4 /* HHWithdrawHistoryCell.m */,
+				6DB1481A1D50BFAB009E3F1E /* HHCardInfoInputView.h */,
+				6DB1481B1D50BFAB009E3F1E /* HHCardInfoInputView.m */,
 			);
 			path = "My Page";
 			sourceTree = "<group>";
@@ -1375,8 +1386,6 @@
 			children = (
 				6DDAE6C71CB7899F00CE461A /* HHAppInfoViewController.h */,
 				6DDAE6C81CB7899F00CE461A /* HHAppInfoViewController.m */,
-				6D82BD4D1CCF5A2200D4109A /* HHBonusInfoViewController.h */,
-				6D82BD4E1CCF5A2200D4109A /* HHBonusInfoViewController.m */,
 				6DACD0121D34EF3300BDE2EE /* HHCouponViewController.h */,
 				6DACD0131D34EF3300BDE2EE /* HHCouponViewController.m */,
 				6DF53B7A1D47688C00CA0F6B /* HHEventsViewController.h */,
@@ -1393,6 +1402,8 @@
 				6DF202D91CD0BF49002092B4 /* HHWithdrawHistoryViewController.m */,
 				6D82BD501CCF6FE000D4109A /* HHWithdrawViewController.h */,
 				6D82BD511CCF6FE000D4109A /* HHWithdrawViewController.m */,
+				6DB148171D50BBA7009E3F1E /* HHAddBankCardViewController.h */,
+				6DB148181D50BBA7009E3F1E /* HHAddBankCardViewController.m */,
 			);
 			path = "My Page";
 			sourceTree = "<group>";
@@ -1916,6 +1927,9 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6DB148111D50AD7C009E3F1E /* ic_add.png */,
+				6DB148121D50AD7C009E3F1E /* ic_add@2x.png */,
+				6DB148131D50AD7C009E3F1E /* ic_add@3x.png */,
 				6DB1480B1D4B4EEF009E3F1E /* pic_xiaoha.png */,
 				6DB1480C1D4B4EEF009E3F1E /* pic_xiaoha@2x.png */,
 				6DB1480D1D4B4EF0009E3F1E /* pic_xiaoha@3x.png */,
@@ -2554,6 +2568,7 @@
 				147A9FF61C7AAA29000DED3B /* ic_paylist_message_btn_unfocus@3x.png in Resources */,
 				5C36D44A1C4DAE3D00443545 /* ic_auth_golden@3x.png in Resources */,
 				6D5C86661CDC2AC100D7B5CB /* ic_homepage_groupbuy_close@2x.png in Resources */,
+				6DB148151D50AD7C009E3F1E /* ic_add@2x.png in Resources */,
 				5C36D41E1C496ECD00443545 /* ic_sort_price_hold_btn@3x.png in Resources */,
 				6D4592361CFD68EB00AF5B45 /* ic_edit.png in Resources */,
 				14604F551C6FB0E3009DBE10 /* ic_coachmsg_sharecoach_friendgroup@2x.png in Resources */,
@@ -2590,6 +2605,7 @@
 				6D96AE351D20F980003C1E84 /* ic_sort_nice_hold_btn@3x.png in Resources */,
 				6DBAC5C11D13942B0040BDA7 /* ic_list_best_unclick@3x.png in Resources */,
 				141F7C021C617EC7003278C6 /* ic_Star_half.png in Resources */,
+				6DB148161D50AD7C009E3F1E /* ic_add@3x.png in Resources */,
 				140EC60C1C6D68D000DA634D /* ic_coachmsg_time.png in Resources */,
 				141F7C011C617EC7003278C6 /* ic_Star_grey@3x.png in Resources */,
 				5C36D4051C496ECD00443545 /* ic_sort_auto_hold_btn@2x.png in Resources */,
@@ -2710,6 +2726,7 @@
 				140EC5F21C6D542700DA634D /* ic_coachmsg_classtype@2x.png in Resources */,
 				6DFD5EB81D2E4ACE00CF2DEF /* ic_homepage_procedure@3x.png in Resources */,
 				5CDE14731C3776E20004778C /* onboard_bg@3x.png in Resources */,
+				6DB148141D50AD7C009E3F1E /* ic_add.png in Resources */,
 				1482A9B21C8236D2007F9019 /* ic_assess_paysuccess.png in Resources */,
 				140EC6321C6E3CFC00DA634D /* ic_coachmsg_attention_on@3x.png in Resources */,
 				1482A9B41C8236D2007F9019 /* ic_assess_paysuccess@3x.png in Resources */,
@@ -2832,6 +2849,7 @@
 				6D3D733F1CB92F4000E424C3 /* HHConfirmScheduleBookView.m in Sources */,
 				6D82BD521CCF6FE000D4109A /* HHWithdrawViewController.m in Sources */,
 				5CDE148C1C3A00AB0004778C /* HHLoginViewController.m in Sources */,
+				6DB148191D50BBA7009E3F1E /* HHAddBankCardViewController.m in Sources */,
 				142151151C98DB7000569DFB /* HHImageView.m in Sources */,
 				5CDE145A1C3737670004778C /* HHPhoneNumberUtility.m in Sources */,
 				6DF202FB1CD4514F002092B4 /* HHBonus.m in Sources */,
@@ -2848,7 +2866,6 @@
 				6DF53B651D46109F00CA0F6B /* HHEvent.m in Sources */,
 				5CDE14461C36E5FE0004778C /* HHIntroViewController.m in Sources */,
 				5C6D8C991C3F4D2A0055CB31 /* HHAPIClient.m in Sources */,
-				6D82BD4F1CCF5A2200D4109A /* HHBonusInfoViewController.m in Sources */,
 				141FA1011C6BB0CE00113B1A /* UIImage+ImageEffects.m in Sources */,
 				5C36D4441C4DA54000443545 /* HHCoachListViewCell.m in Sources */,
 				6DE56FCC1CFFF15A00E33BDB /* HHCoachPriceCell.m in Sources */,
@@ -2926,6 +2943,7 @@
 				14700D951C795FBF00660989 /* HHPurchasedService.m in Sources */,
 				6DE56FE41D00517C00E33BDB /* HHCoachServiceTypeView.m in Sources */,
 				14F608DA1C83BDEF00EA70A7 /* HHPayCoachExplanationView.m in Sources */,
+				6DB1481C1D50BFAB009E3F1E /* HHCardInfoInputView.m in Sources */,
 				140EC6471C6ED10600DA634D /* HHTryCoachView.m in Sources */,
 				5C2D1A4A1C51EAA80056E0D0 /* HHStudentService.m in Sources */,
 				6D52227E1D3F5E9800E92075 /* HHSupportUtility.m in Sources */,

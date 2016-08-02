@@ -8,12 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void (^HHBonusSummaryUpdateBlock)(NSNumber *redeemedAmount);
 
 @interface HHWithdrawViewController : UIViewController
 
 - (instancetype)initWithAvailableAmount:(NSNumber *)amount;
-
-@property (nonatomic, strong) HHBonusSummaryUpdateBlock updateAmountsBlock;
 
 @end

@@ -18,6 +18,7 @@
 #import <MessageUI/MessageUI.h>
 #import <UIImageView+WebCache.h>
 #import "HHConstantsStore.h"
+#import "HHWithdrawViewController.h"
 
 
 static NSString *const kRulesString = @"1）好友通过您的专属链接注册并成功报名，您的好友报名成功后，您将获得%@元，累计无上限，可随时提现\n\n2）好友需通过您的专属二维码免费试学才能建立推荐关系\n\n3）如发现作弊行为将取消用户活动资格，并扣除所获奖励\n\n4）如对本活动规则有任何疑问，请联系哈哈学车客服：400-001-6006\n\n";
@@ -79,6 +80,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     self.withdrawButton.layer.masksToBounds = YES;
     self.withdrawButton.layer.cornerRadius = 5.0f;
     self.withdrawButton.layer.borderWidth = 2.0f/[UIScreen mainScreen].scale;
+    [self.withdrawButton addTarget:self action:@selector(showWithdrawVC) forControlEvents:UIControlEventTouchUpInside];
     [self.topView addSubview:self.withdrawButton];
     
     HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
@@ -168,6 +170,11 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 
 - (void)popupVC {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)showWithdrawVC {
+    HHWithdrawViewController *vc = [[HHWithdrawViewController alloc] initWithAvailableAmount:@(10000)];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 
