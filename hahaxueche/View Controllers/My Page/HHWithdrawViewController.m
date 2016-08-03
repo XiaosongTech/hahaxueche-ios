@@ -19,6 +19,7 @@
 #import "HHToastManager.h"
 #import "HHStudentService.h"
 #import "HHAddBankCardViewController.h"
+#import "HHWithdrawHistoryViewController.h"
 
 
 static NSString *const kCellId = @"cellId";
@@ -58,6 +59,7 @@ static NSString *const kCellId = @"cellId";
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"提现";
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithTitle:@"提现记录" titleColor:[UIColor whiteColor] action:@selector(showHistoryVC) target:self isLeft:NO];
     [self initSubviews];
 }
 
@@ -258,6 +260,11 @@ static NSString *const kCellId = @"cellId";
 
 - (void)showAddCardView {
     HHAddBankCardViewController *vc = [[HHAddBankCardViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)showHistoryVC {
+    HHWithdrawHistoryViewController *vc = [[HHWithdrawHistoryViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

@@ -27,10 +27,10 @@
 - (void)initSubviews {
     
     
-    self.mainLabel = [[UILabel alloc] init];
-    self.mainLabel.textColor = [UIColor HHLightTextGray];
-    self.mainLabel.font = [UIFont systemFontOfSize:18.0f];
-    [self.contentView addSubview:self.mainLabel];
+    self.statusLabel = [[UILabel alloc] init];
+    self.statusLabel.textColor = [UIColor HHLightTextGray];
+    self.statusLabel.font = [UIFont systemFontOfSize:18.0f];
+    [self.contentView addSubview:self.statusLabel];
     
     self.timeLabel = [[UILabel alloc] init];
     self.timeLabel.textColor = [UIColor HHLightestTextGray];
@@ -47,23 +47,23 @@
 
 - (void)makeConstraints {
     
-    [self.mainLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.contentView.centerY).offset(-8.0f);
-        make.left.equalTo(self.contentView.left).offset(20.0f);
+    [self.statusLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.contentView.centerY);
+        make.right.equalTo(self.contentView.right).offset(-20.0f);
     }];
     [self.timeLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.contentView.centerY).offset(15.0f);
-        make.left.equalTo(self.contentView.left).offset(20.0f);
+        make.top.equalTo(self.contentView.centerY).offset(5.0f);
+        make.right.equalTo(self.contentView.right).offset(-20.0f);
     }];
     
     [self.moneyLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.contentView.centerY);
-        make.right.equalTo(self.contentView.right).offset(-15.0f);
+        make.left.equalTo(self.contentView.left).offset(20.0f);
     }];
 }
 
 - (void)setupCellWithWithdraw:(HHWithdraw *)withdraw {
-    self.mainLabel.text = @"推荐有奖提现";
+    self.statusLabel.text = @"成功";
     self.timeLabel.text = [[HHFormatUtility fullDateWithoutSecFormatter] stringFromDate:withdraw.redeemedDate];
     self.moneyLabel.text = [withdraw.amount generateMoneyString];
 }

@@ -169,5 +169,10 @@ Fetch next page of withdraw transaction history
  */
 - (void)getCityEventsWithId:(NSNumber *)cityId completion:(HHEventsCompletion)completion;
 
+/**
+ Get student QR Code URL
+ */
+- (NSString *)getStudentQRCodeURL;
+
 
 @end

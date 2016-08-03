@@ -32,6 +32,13 @@
         self.textField.tintColor = [UIColor HHOrange];
         [self addSubview:self.textField];
         
+        UIToolbar* toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth([UIScreen mainScreen].bounds), 50)];
+        toolBar.barStyle = UIBarStyleDefault;
+        
+        toolBar.items = @[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil], [[UIBarButtonItem alloc]initWithTitle:@"完成" style:UIBarButtonItemStyleDone target:self action:@selector(hideKeyboard)]];
+        [toolBar sizeToFit];
+        self.textField.inputAccessoryView = toolBar;
+        
         [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.centerY);
             make.left.equalTo(self.left).offset(20.0f);
@@ -57,6 +64,10 @@
     }
     
     return self;
+}
+
+- (void)hideKeyboard {
+    [self.textField resignFirstResponder];
 }
 
 @end

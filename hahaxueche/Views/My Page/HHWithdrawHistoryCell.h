@@ -11,7 +11,7 @@
 
 @interface HHWithdrawHistoryCell : UITableViewCell
 
-@property (nonatomic, strong) UILabel *mainLabel;
+@property (nonatomic, strong) UILabel *statusLabel;
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UILabel *moneyLabel;
 

@@ -40,7 +40,7 @@ static NSString *const kCellId = @"cellId";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.title = @"已提现";
+    self.title = @"提现历史";
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
     
      self.withdraws = [NSMutableArray array];

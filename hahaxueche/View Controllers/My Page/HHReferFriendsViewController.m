@@ -19,6 +19,9 @@
 #import <UIImageView+WebCache.h>
 #import "HHConstantsStore.h"
 #import "HHWithdrawViewController.h"
+#import "HHStudentStore.h"
+#import "HHStudentService.h"
+#import "HHToastManager.h"
 
 
 static NSString *const kRulesString = @"1）好友通过您的专属链接注册并成功报名，您的好友报名成功后，您将获得%@元，累计无上限，可随时提现\n\n2）好友需通过您的专属二维码免费试学才能建立推荐关系\n\n3）如发现作弊行为将取消用户活动资格，并扣除所获奖励\n\n4）如对本活动规则有任何疑问，请联系哈哈学车客服：400-001-6006\n\n";
@@ -30,11 +33,14 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIImageView *eventTitleImageView;
+@property (nonatomic, strong) UIImageView *myQRCodeView;
 @property (nonatomic, strong) UILabel *eventRulesLabel;
 @property (nonatomic, strong) UIView *topView;
+@property (nonatomic, strong) UIView *midView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *valueLabel;
 @property (nonatomic, strong) UIButton *withdrawButton;
+@property (nonatomic, strong) UIButton *saveButton;
 
 @end
 
@@ -68,7 +74,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     
     self.valueLabel = [[UILabel alloc] init];
     self.valueLabel.textColor = [UIColor whiteColor];
-    self.valueLabel.text = @"$100";
+    self.valueLabel.text = [[HHStudentStore sharedInstance].currentStudent.bonusBalance generateMoneyString];
     self.valueLabel.font = [UIFont systemFontOfSize:25.0f];
     [self.topView addSubview:self.valueLabel];
     
@@ -82,6 +88,22 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     self.withdrawButton.layer.borderWidth = 2.0f/[UIScreen mainScreen].scale;
     [self.withdrawButton addTarget:self action:@selector(showWithdrawVC) forControlEvents:UIControlEventTouchUpInside];
     [self.topView addSubview:self.withdrawButton];
+    
+    self.midView = [[UIView alloc] init];
+    self.midView.backgroundColor = [UIColor whiteColor];
+    [self.scrollView addSubview:self.midView];
+    
+    self.myQRCodeView = [[UIImageView alloc] init];
+    [self.myQRCodeView sd_setImageWithURL:[NSURL URLWithString:[[HHStudentService sharedInstance] getStudentQRCodeURL]]];
+    [self.midView addSubview:self.myQRCodeView];
+    
+    self.saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.saveButton setTitle:@"保存到本地" forState:UIControlStateNormal];
+    [self.saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.saveButton.titleLabel.font = [UIFont systemFontOfSize:18.0f];
+    self.saveButton.backgroundColor = [UIColor HHOrange];
+    [self.saveButton addTarget:self action:@selector(saveImage) forControlEvents:UIControlEventTouchUpInside];
+    [self.midView addSubview:self.saveButton];
     
     HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
     self.imageView = [[UIImageView alloc] init];
@@ -145,8 +167,30 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
         
     }];
     
-    [self.imageView makeConstraints:^(MASConstraintMaker *make) {
+    CGFloat midViewHeight = 70.0f + (CGRectGetWidth(self.view.bounds) - 60.0f) * 880.0f/664.0f;
+    [self.midView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.topView.bottom);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(midViewHeight);
+    }];
+    
+    [self.myQRCodeView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.midView.top).offset(10.0f);
+        make.centerX.equalTo(self.midView.centerX);
+        make.width.equalTo(self.midView.width).offset(-40.0f);
+        make.height.mas_equalTo((CGRectGetWidth(self.view.bounds) - 60.0f) * 880.0f/664.0f);
+    }];
+    
+    [self.saveButton makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.myQRCodeView.bottom).offset(-10.0f);
+        make.centerX.equalTo(self.midView.centerX);
+        make.width.equalTo(self.myQRCodeView.width).offset(-10.0f);
+        make.height.mas_equalTo(50.0f);
+    }];
+    
+    [self.imageView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.midView.bottom);
         make.left.equalTo(self.scrollView.left);
         make.width.equalTo(self.scrollView.width);
         make.height.mas_equalTo(335.0f);
@@ -173,8 +217,23 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 }
 
 - (void)showWithdrawVC {
-    HHWithdrawViewController *vc = [[HHWithdrawViewController alloc] initWithAvailableAmount:@(10000)];
+    HHWithdrawViewController *vc = [[HHWithdrawViewController alloc] initWithAvailableAmount:[HHStudentStore sharedInstance].currentStudent.bonusBalance];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)saveImage {
+    UIImageWriteToSavedPhotosAlbum(self.myQRCodeView.image,
+                                   self, // send the message to 'self' when calling the callback
+                                   @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:), // the selector to tell the method to call on completion
+                                   NULL); // you generally won't need a contextInfo here
+}
+
+- (void)thisImage:(UIImage *)image hasBeenSavedInPhotoAlbumWithError:(NSError *)error usingContextInfo:(void*)ctxInfo {
+    if (error) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"保存失败, 请重试!"];
+    } else {
+        [[HHToastManager sharedManager] showSuccessToastWithText:@"保存成功!"];
+    }
 }
 
 

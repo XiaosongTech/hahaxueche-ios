@@ -17,6 +17,7 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) HHCardInfoInputView *nameView;
 @property (nonatomic, strong) HHCardInfoInputView *cardNoView;
+@property (nonatomic, strong) UIButton *confirmButton;
 
 @end
 
@@ -24,9 +25,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"银行卡绑定";
     self.view.backgroundColor = [UIColor HHBackgroundGary];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithTitle:@"确认" titleColor:[UIColor whiteColor] action:@selector(confirm) target:self isLeft:NO];
     
     self.titleLabel = [[UILabel alloc] init];
     self.titleLabel.text = @"请绑定持卡人本人的银行卡";
@@ -40,6 +41,15 @@
     self.cardNoView = [[HHCardInfoInputView alloc] initWithTitle:@"卡号" placeholder:@"银行卡号"];
     self.cardNoView.textField.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:self.cardNoView];
+    
+    self.confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.confirmButton setTitle:@"确认" forState:UIControlStateNormal];
+    [self.confirmButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.confirmButton.backgroundColor = [UIColor HHOrange];
+    self.confirmButton.layer.masksToBounds = YES;
+    self.confirmButton.layer.cornerRadius = 5.0f;
+    [self.confirmButton addTarget:self action:@selector(confirm) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.confirmButton];
     
     
     [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
@@ -59,6 +69,13 @@
         make.left.equalTo(self.view.left);
         make.width.equalTo(self.view.width);
         make.height.mas_equalTo(55.0f);
+    }];
+    
+    [self.confirmButton makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.cardNoView.bottom).offset(20.0f);
+        make.centerX.equalTo(self.view.centerX);
+        make.width.equalTo(self.view.width).offset(-60.0f);
+        make.height.mas_equalTo(50.0f);
     }];
     
     

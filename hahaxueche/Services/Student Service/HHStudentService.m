@@ -338,4 +338,12 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     }];
 }
 
+- (NSString *)getStudentQRCodeURL {
+    #ifdef DEBUG
+        return [NSString stringWithFormat:@"http://staging-api.hahaxueche.net/share/students/%@/image", [HHStudentStore sharedInstance].currentStudent.studentId];
+    #else
+        return [NSString stringWithFormat:@"http://api.hahaxueche.net/share/students/%@/image", [HHStudentStore sharedInstance].currentStudent.studentId];
+    #endif
+}
+
 @end
