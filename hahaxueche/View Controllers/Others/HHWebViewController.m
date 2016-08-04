@@ -34,7 +34,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
+    self.navigationItem.leftBarButtonItems = @[[UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(backPage) target:self], [UIBarButtonItem buttonItemWithTitle:@"关闭" titleColor:[UIColor whiteColor] action:@selector(dismissVC) target:self isLeft:NO]];
     
     self.webView = [[UIWebView alloc] init];
     self.webView.backgroundColor = [UIColor whiteColor];
@@ -114,6 +114,14 @@
     };
     weakSelf.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
     [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
+}
+
+- (void)backPage {
+    if ([self.webView canGoBack]) {
+        [self.webView goBack];
+    } else {
+        [self dismissVC];
+    }
 }
 
 @end
