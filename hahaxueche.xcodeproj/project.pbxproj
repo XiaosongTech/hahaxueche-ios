@@ -445,6 +445,12 @@
 		6DB148161D50AD7C009E3F1E /* ic_add@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB148131D50AD7C009E3F1E /* ic_add@3x.png */; };
 		6DB148191D50BBA7009E3F1E /* HHAddBankCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB148181D50BBA7009E3F1E /* HHAddBankCardViewController.m */; };
 		6DB1481C1D50BFAB009E3F1E /* HHCardInfoInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB1481B1D50BFAB009E3F1E /* HHCardInfoInputView.m */; };
+		6DB79D551D558F18008F31C9 /* NSString+PinYin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB79D541D558F18008F31C9 /* NSString+PinYin.m */; };
+		6DB79D581D559C78008F31C9 /* HHCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB79D571D559C78008F31C9 /* HHCityViewController.m */; };
+		6DB79D5C1D55ACCB008F31C9 /* ic_search.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB79D591D55ACCB008F31C9 /* ic_search.png */; };
+		6DB79D5D1D55ACCB008F31C9 /* ic_search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB79D5A1D55ACCB008F31C9 /* ic_search@2x.png */; };
+		6DB79D5E1D55ACCB008F31C9 /* ic_search@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB79D5B1D55ACCB008F31C9 /* ic_search@3x.png */; };
+		6DB79D611D55CA17008F31C9 /* HHCityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB79D601D55CA17008F31C9 /* HHCityCell.m */; };
 		6DBAC5B31D12E4080040BDA7 /* ic_list_best_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DBAC5B01D12E4080040BDA7 /* ic_list_best_small.png */; };
 		6DBAC5B41D12E4080040BDA7 /* ic_list_best_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DBAC5B11D12E4080040BDA7 /* ic_list_best_small@2x.png */; };
 		6DBAC5B51D12E4080040BDA7 /* ic_list_best_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DBAC5B21D12E4080040BDA7 /* ic_list_best_small@3x.png */; };
@@ -1129,6 +1135,15 @@
 		6DB148181D50BBA7009E3F1E /* HHAddBankCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHAddBankCardViewController.m; sourceTree = "<group>"; };
 		6DB1481A1D50BFAB009E3F1E /* HHCardInfoInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCardInfoInputView.h; sourceTree = "<group>"; };
 		6DB1481B1D50BFAB009E3F1E /* HHCardInfoInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCardInfoInputView.m; sourceTree = "<group>"; };
+		6DB79D531D558F18008F31C9 /* NSString+PinYin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+PinYin.h"; sourceTree = "<group>"; };
+		6DB79D541D558F18008F31C9 /* NSString+PinYin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PinYin.m"; sourceTree = "<group>"; };
+		6DB79D561D559C78008F31C9 /* HHCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCityViewController.h; sourceTree = "<group>"; };
+		6DB79D571D559C78008F31C9 /* HHCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCityViewController.m; sourceTree = "<group>"; };
+		6DB79D591D55ACCB008F31C9 /* ic_search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_search.png; sourceTree = "<group>"; };
+		6DB79D5A1D55ACCB008F31C9 /* ic_search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_search@2x.png"; sourceTree = "<group>"; };
+		6DB79D5B1D55ACCB008F31C9 /* ic_search@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_search@3x.png"; sourceTree = "<group>"; };
+		6DB79D5F1D55CA17008F31C9 /* HHCityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCityCell.h; sourceTree = "<group>"; };
+		6DB79D601D55CA17008F31C9 /* HHCityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCityCell.m; sourceTree = "<group>"; };
 		6DBAC5B01D12E4080040BDA7 /* ic_list_best_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_list_best_small.png; sourceTree = "<group>"; };
 		6DBAC5B11D12E4080040BDA7 /* ic_list_best_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_list_best_small@2x.png"; sourceTree = "<group>"; };
 		6DBAC5B21D12E4080040BDA7 /* ic_list_best_small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_list_best_small@3x.png"; sourceTree = "<group>"; };
@@ -1377,6 +1392,8 @@
 				6DF202DC1CD0C0C5002092B4 /* HHWithdrawHistoryCell.m */,
 				6DB1481A1D50BFAB009E3F1E /* HHCardInfoInputView.h */,
 				6DB1481B1D50BFAB009E3F1E /* HHCardInfoInputView.m */,
+				6DB79D5F1D55CA17008F31C9 /* HHCityCell.h */,
+				6DB79D601D55CA17008F31C9 /* HHCityCell.m */,
 			);
 			path = "My Page";
 			sourceTree = "<group>";
@@ -1508,6 +1525,8 @@
 				6DF202F31CD34600002092B4 /* HHLongImageViewController.m */,
 				14EAFDD11C8B79E0005BEF10 /* HHWebViewController.h */,
 				14EAFDD21C8B79E1005BEF10 /* HHWebViewController.m */,
+				6DB79D561D559C78008F31C9 /* HHCityViewController.h */,
+				6DB79D571D559C78008F31C9 /* HHCityViewController.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -1573,6 +1592,8 @@
 				141FA1001C6BB0CE00113B1A /* UIImage+ImageEffects.m */,
 				5C3980781B4ACA2B0057B049 /* UIView+HHRect.h */,
 				5C3980791B4ACA2B0057B049 /* UIView+HHRect.m */,
+				6DB79D531D558F18008F31C9 /* NSString+PinYin.h */,
+				6DB79D541D558F18008F31C9 /* NSString+PinYin.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1927,6 +1948,9 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6DB79D591D55ACCB008F31C9 /* ic_search.png */,
+				6DB79D5A1D55ACCB008F31C9 /* ic_search@2x.png */,
+				6DB79D5B1D55ACCB008F31C9 /* ic_search@3x.png */,
 				6DB148111D50AD7C009E3F1E /* ic_add.png */,
 				6DB148121D50AD7C009E3F1E /* ic_add@2x.png */,
 				6DB148131D50AD7C009E3F1E /* ic_add@3x.png */,
@@ -2521,6 +2545,7 @@
 				5C6D8C8F1C3AD6840055CB31 /* ic_toast_right@3x.png in Resources */,
 				6DBAC5C01D13942B0040BDA7 /* ic_list_best_unclick@2x.png in Resources */,
 				5C36D3BB1C474FF600443545 /* ic_screen_normal_btn@2x.png in Resources */,
+				6DB79D5E1D55ACCB008F31C9 /* ic_search@3x.png in Resources */,
 				5C36D37B1C42D9F800443545 /* ic_bottombar_list_hold_btn@1x.png in Resources */,
 				6D8309AD1CC70DB700BA6977 /* ic_mycoach_sharecoach@3x.png in Resources */,
 				6DBAC5BB1D1394250040BDA7 /* ic_list_best_click@3x.png in Resources */,
@@ -2557,6 +2582,7 @@
 				5C36D4271C4C2B8700443545 /* ic_maplist_btn@3x.png in Resources */,
 				141F7C071C617EC7003278C6 /* ic_Star_light@3x.png in Resources */,
 				6D6F9B4B1D34F7A800855D2F /* ic-explain@1x.png in Resources */,
+				6DB79D5C1D55ACCB008F31C9 /* ic_search.png in Resources */,
 				5CDE14721C3776E20004778C /* onboard_bg@2x.png in Resources */,
 				5C36D4041C496ECD00443545 /* ic_sort_auto_hold_btn@1x.png in Resources */,
 				6D82BD3A1CCE4F9600D4109A /* ic_coachmsg_sharecoach_weibo@2x.png in Resources */,
@@ -2660,6 +2686,7 @@
 				6D8309AB1CC70DB700BA6977 /* ic_mycoach_sharecoach.png in Resources */,
 				5CDE14821C3787CF0004778C /* ic_triangle@2x.png in Resources */,
 				6D6F9B5D1D35EB4D00855D2F /* ticket-gray@1x.png in Resources */,
+				6DB79D5D1D55ACCB008F31C9 /* ic_search@2x.png in Resources */,
 				6D96AE3C1D20F980003C1E84 /* ic_sort_zan_normal_btn.png in Resources */,
 				5C36D3821C42D9F800443545 /* ic_bottombar_mypage_hold_btn@2x.png in Resources */,
 				5C36D3801C42D9F800443545 /* ic_bottombar_list_normal_btn@3x.png in Resources */,
@@ -2829,6 +2856,7 @@
 				6D45923B1CFD6E5000AF5B45 /* HHEditNameView.m in Sources */,
 				147A9FED1C7A73F3000DED3B /* HHPaymentStatusCell.m in Sources */,
 				141FA0FA1C6BAD1A00113B1A /* ParallaxHeaderView.m in Sources */,
+				6DB79D611D55CA17008F31C9 /* HHCityCell.m in Sources */,
 				1405CC9A1C7699900030B114 /* HHMyCoachCourseInfoCell.m in Sources */,
 				5CDE14571C3723020004778C /* HHTextFieldView.m in Sources */,
 				14604F4A1C6FAA04009DBE10 /* HHShareViewItem.m in Sources */,
@@ -2880,9 +2908,11 @@
 				6D4592321CFC6F1D00AF5B45 /* HHTOUViewController.m in Sources */,
 				1405CC801C7641690030B114 /* HHMyPageItemView.m in Sources */,
 				1405CC8F1C7664080030B114 /* HHMyPageLogoutCell.m in Sources */,
+				6DB79D581D559C78008F31C9 /* HHCityViewController.m in Sources */,
 				6DDAE6D21CB7C26E00CE461A /* HHCoachScheduleCellTableViewCell.m in Sources */,
 				5C36D3D21C48506300443545 /* HHSwitchView.m in Sources */,
 				14F608DD1C83D4CE00EA70A7 /* HHMakeReviewView.m in Sources */,
+				6DB79D551D558F18008F31C9 /* NSString+PinYin.m in Sources */,
 				6DDF25F11CBF789F00C92C5C /* HHNotification.m in Sources */,
 				5C6D8C9D1C40125D0055CB31 /* HHUserAuthService.m in Sources */,
 				6D4CCAF11D3E160500AD896F /* HHAddPromoCodeView.m in Sources */,

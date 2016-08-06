@@ -11,12 +11,17 @@
 #import "Masonry.h"
 #import "HHCardInfoInputView.h"
 #import "UIBarButtonItem+HHCustomButton.h"
+#import "HHCityViewController.h"
+#import "HHConstantsStore.h"
+#import "HHCity.h"
 
 @interface HHAddBankCardViewController ()
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) HHCardInfoInputView *nameView;
 @property (nonatomic, strong) HHCardInfoInputView *cardNoView;
+@property (nonatomic, strong) HHCardInfoInputView *bankView;
+@property (nonatomic, strong) HHCardInfoInputView *cityView;
 @property (nonatomic, strong) UIButton *confirmButton;
 
 @end
@@ -35,12 +40,38 @@
     self.titleLabel.textColor = [UIColor HHLightTextGray];
     [self.view addSubview:self.titleLabel];
     
-    self.nameView = [[HHCardInfoInputView alloc] initWithTitle:@"持卡人" placeholder:@"持卡人姓名"];
+    self.nameView = [[HHCardInfoInputView alloc] initWithTitle:@"持卡人:" placeholder:@"持卡人姓名"];
     [self.view addSubview:self.nameView];
     
-    self.cardNoView = [[HHCardInfoInputView alloc] initWithTitle:@"卡号" placeholder:@"银行卡号"];
+    self.cardNoView = [[HHCardInfoInputView alloc] initWithTitle:@"卡号:" placeholder:@"银行卡号"];
     self.cardNoView.textField.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:self.cardNoView];
+    
+    __weak HHAddBankCardViewController *weakSelf = self;
+    self.bankView = [[HHCardInfoInputView alloc] initWithTitle:@"银行:" placeholder:@"请选择银行"];
+    self.bankView.textField.enabled = NO;
+    self.bankView.block = ^() {
+    };
+    [self.view addSubview:self.bankView];
+    
+    self.cityView = [[HHCardInfoInputView alloc] initWithTitle:@"开户地:" placeholder:@"请选择开户城市"];
+    self.cityView.textField.enabled = NO;
+    self.cityView.block = ^() {
+        NSMutableArray *popularCities = [NSMutableArray array];
+        for (HHCity *city in [[HHConstantsStore sharedInstance] getSupporteCities]) {
+            [popularCities addObject:city.cityName];
+            [popularCities addObject:city.cityName];
+            [popularCities addObject:city.cityName];
+        }
+        
+        HHCityViewController *vc = [[HHCityViewController alloc] initWithPopularCities:popularCities allCities:nil selectedCity:nil];
+        vc.block = ^(NSString *city) {
+            weakSelf.cityView.textField.text = city;
+        };
+        [weakSelf.navigationController pushViewController:vc animated:YES];
+
+    };
+    [self.view addSubview:self.cityView];
     
     self.confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.confirmButton setTitle:@"确认" forState:UIControlStateNormal];
@@ -71,8 +102,22 @@
         make.height.mas_equalTo(55.0f);
     }];
     
+    [self.bankView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.cardNoView.bottom);
+        make.left.equalTo(self.view.left);
+        make.width.equalTo(self.view.width);
+        make.height.mas_equalTo(55.0f);
+    }];
+    
+    [self.cityView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.bankView.bottom);
+        make.left.equalTo(self.view.left);
+        make.width.equalTo(self.view.width);
+        make.height.mas_equalTo(55.0f);
+    }];
+    
     [self.confirmButton makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.cardNoView.bottom).offset(20.0f);
+        make.top.equalTo(self.cityView.bottom).offset(20.0f);
         make.centerX.equalTo(self.view.centerX);
         make.width.equalTo(self.view.width).offset(-60.0f);
         make.height.mas_equalTo(50.0f);

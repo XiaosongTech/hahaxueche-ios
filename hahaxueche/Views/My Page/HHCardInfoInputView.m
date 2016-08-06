@@ -17,6 +17,9 @@
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
         
+        UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped)];
+        [self addGestureRecognizer:tapRec];
+        
         self.titleLabel = [[UILabel alloc] init];
         self.titleLabel.text = title;
         self.titleLabel.font = [UIFont systemFontOfSize:14.0f];
@@ -26,8 +29,8 @@
         
         self.textField = [[UITextField alloc] init];
         self.textField.placeholder = placeholder;
-        self.textField.textColor = [UIColor HHTextDarkGray];
-        self.textField.font = [UIFont systemFontOfSize:14.0f];
+        self.textField.textColor = [UIColor blackColor];
+        self.textField.font = [UIFont systemFontOfSize:15.0f];
         self.textField.textAlignment = NSTextAlignmentLeft;
         self.textField.tintColor = [UIColor HHOrange];
         [self addSubview:self.textField];
@@ -46,7 +49,7 @@
         
         [self.textField makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.centerY);
-            make.left.equalTo(self.left).offset(70.0f);
+            make.left.equalTo(self.left).offset(80.0f);
             make.width.equalTo(self.width).offset(-70.0f);
             make.height.equalTo(self.height);
         }];
@@ -68,6 +71,12 @@
 
 - (void)hideKeyboard {
     [self.textField resignFirstResponder];
+}
+
+- (void)viewTapped {
+    if (self.block) {
+        self.block();
+    }
 }
 
 @end
