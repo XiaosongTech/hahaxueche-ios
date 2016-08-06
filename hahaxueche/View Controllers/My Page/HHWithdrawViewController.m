@@ -23,6 +23,9 @@
 
 
 static NSString *const kCellId = @"cellId";
+static NSString *const kRulesString = @"1）每次最低提现金额不得小于100元\n\n2）具体到账时间以各大银行为准\n\n";
+
+static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学车有权对活动规则进行解释";
 
 @interface HHWithdrawViewController ()
 
@@ -40,7 +43,9 @@ static NSString *const kCellId = @"cellId";
 
 @property (nonatomic, strong) UIView *noCardView;
 @property (nonatomic, strong) UIView *cardView;
-
+@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) UIImageView *eventTitleImageView;
+@property (nonatomic, strong) UILabel *eventRulesLabel;
 
 @end
 
@@ -93,6 +98,10 @@ static NSString *const kCellId = @"cellId";
     self.cashAmountField.inputView = keyboard;
     [self.topView addSubview:self.cashAmountField];
     
+    self.scrollView = [[UIScrollView alloc] init];
+    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), 330.0f);
+    [self.view addSubview:self.scrollView];
+    
     self.withdrawButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.withdrawButton setTitle:@"确认提现" forState:UIControlStateNormal];
     [self.withdrawButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -100,9 +109,17 @@ static NSString *const kCellId = @"cellId";
     self.withdrawButton.layer.masksToBounds = YES;
     self.withdrawButton.layer.cornerRadius = 5.0f;
     [self.withdrawButton addTarget:self action:@selector(withdrawCash) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.withdrawButton];
+    [self.scrollView addSubview:self.withdrawButton];
     
     [self buildNoCardView];
+    
+    self.eventTitleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_notice"]];
+    [self.scrollView addSubview:self.eventTitleImageView];
+    
+    self.eventRulesLabel = [[UILabel alloc] init];
+    self.eventRulesLabel.numberOfLines = 0;
+    self.eventRulesLabel.attributedText = [self buildRulesString];
+    [self.scrollView addSubview:self.eventRulesLabel];
     
     [self makeConstraints];
 }
@@ -113,6 +130,14 @@ static NSString *const kCellId = @"cellId";
     label.textColor = textColor;
     label.font = font;
     return label;
+}
+
+- (NSMutableAttributedString *)buildRulesString {
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:kRulesString attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}];
+    
+    NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:kLawString attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}];
+    [attrString appendAttributedString:attrString2];
+    return attrString;
 }
 
 - (void)makeConstraints {
@@ -145,12 +170,40 @@ static NSString *const kCellId = @"cellId";
         make.height.mas_equalTo(40.0f);
     }];
     
+    [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.topView.bottom);
+        make.left.equalTo(self.view.left);
+        make.bottom.equalTo(self.view.bottom);
+        make.width.equalTo(self.view.width);
+    }];
     
-    [self.withdrawButton makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view.bottom).offset(-50.0f);
-        make.width.mas_equalTo(315.0f);
-        make.centerX.equalTo(self.view.centerX);
-        make.height.mas_equalTo (50.0f);
+    if (self.noCardView) {
+        [self.withdrawButton makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.noCardView.bottom).offset(20.0f);
+            make.width.equalTo(self.scrollView.width).offset(-40.0f);
+            make.centerX.equalTo(self.scrollView.centerX);
+            make.height.mas_equalTo (50.0f);
+        }];
+    } else {
+        [self.withdrawButton makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.cardView.bottom).offset(20.0f);
+            make.width.equalTo(self.scrollView.width).offset(-40.0f);
+            make.centerX.equalTo(self.scrollView.centerX);
+            make.height.mas_equalTo (50.0f);
+        }];
+    }
+    
+    [self.eventTitleImageView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.withdrawButton.bottom).offset(60.0f);
+        make.centerX.equalTo(self.scrollView.centerX);
+        make.width.equalTo(self.scrollView.width);
+        
+    }];
+    
+    [self.eventRulesLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.eventTitleImageView.bottom).offset(20.0f);
+        make.centerX.equalTo(self.scrollView.centerX);
+        make.width.equalTo(self.scrollView.width).offset(-60.0f);
     }];
 }
 
@@ -214,7 +267,7 @@ static NSString *const kCellId = @"cellId";
 
 - (void)buildNoCardView {
     self.noCardView = [[UIView alloc] init];
-    [self.view addSubview:self.noCardView];
+    [self.scrollView addSubview:self.noCardView];
     
     UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_add"]];
     [self.noCardView addSubview:imgView];
@@ -230,9 +283,9 @@ static NSString *const kCellId = @"cellId";
     [self.noCardView addSubview:line];
     
     [self.noCardView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.topView.bottom).offset(20.0f);
-        make.left.equalTo(self.view.left);
-        make.width.equalTo(self.view.width);
+        make.top.equalTo(self.scrollView.top);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
         make.height.mas_equalTo(70.0f);
     }];
     
@@ -249,7 +302,7 @@ static NSString *const kCellId = @"cellId";
     [line makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.noCardView.centerX);
         make.bottom.equalTo(self.noCardView.bottom);
-        make.width.equalTo(self.noCardView.width).offset (-40.0f);
+        make.width.equalTo(self.noCardView.width);
         make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
     }];
     
