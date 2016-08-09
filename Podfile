@@ -36,7 +36,7 @@ target "hahaxueche" do
     pod 'Instabug'
     pod 'TTTAttributedLabel'
     pod 'QIYU_iOS_SDK', '~> 2.5'
-
+    pod 'HMSegmentedControl'
 
 end
 
