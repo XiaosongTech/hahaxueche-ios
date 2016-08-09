@@ -36,6 +36,8 @@
 #import "HHFreeTrialUtility.h"
 #import "HHEventView.h"
 #import "HHEventsViewController.h"
+#import "HMSegmentedControl.h"
+#import "HHTestView.h"
 
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach";
@@ -65,6 +67,11 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
 @property (nonatomic, strong) HHEventView *activityView2;
 @property (nonatomic, strong) UIView *activitySectionView;
 @property (nonatomic, strong) NSArray *events;
+@property (nonatomic, strong) HMSegmentedControl *segControl;
+@property (nonatomic, strong) HHTestView *orderTestView;
+@property (nonatomic, strong) HHTestView *simuTestView;
+@property (nonatomic, strong) HHTestView *randTestView;
+@property (nonatomic, strong) HHTestView *myQuestionView;
 
 @end
 
@@ -153,7 +160,7 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     } else if ([self.events count] >= 2) {
         eventSectionHeight = 60.0f + 140.0f;
     }
-    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) * 0.8f + 318.0f + eventSectionHeight);
+    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) * 0.8f + 318.0f + eventSectionHeight + 250.0f);
     [self.view addSubview:self.scrollView];
     
     self.bannerView = [[SDCycleScrollView alloc] init];
@@ -223,6 +230,31 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     [self.scrollView addSubview:self.onlineSupportView];
     
     [self buildEventViews];
+    
+    self.segControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"科目一", @"科目四"]];
+    self.segControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe;
+    self.segControl.selectionIndicatorHeight = 4.0f/[UIScreen mainScreen].scale;
+    self.segControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
+    self.segControl.selectionIndicatorColor = [UIColor HHOrange];
+    self.segControl.backgroundColor = [UIColor whiteColor];
+    self.segControl.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor HHLightestTextGray], NSFontAttributeName: [UIFont systemFontOfSize:16.0f]};
+    self.segControl.selectedTitleTextAttributes = @{NSForegroundColorAttributeName : [UIColor HHOrange], NSFontAttributeName: [UIFont boldSystemFontOfSize:16.0f]};
+    [self.segControl addTarget:self action:@selector(segmentedControlChangedValue:) forControlEvents:UIControlEventValueChanged];
+    [self.scrollView addSubview:self.segControl];
+    
+    self.orderTestView = [[HHTestView alloc] initWithTitle:@"顺序练题" image:nil showVerticalLine:YES showBottomLine:YES];
+    [self.scrollView addSubview:self.orderTestView];
+    
+    self.randTestView = [[HHTestView alloc] initWithTitle:@"随机练题" image:nil showVerticalLine:NO showBottomLine:YES];
+    [self.scrollView addSubview:self.randTestView];
+    
+    self.simuTestView = [[HHTestView alloc] initWithTitle:@"模拟考试" image:nil showVerticalLine:YES showBottomLine:NO];
+    [self.scrollView addSubview:self.simuTestView];
+    
+    self.myQuestionView = [[HHTestView alloc] initWithTitle:@"我的题库" image:nil showVerticalLine:NO showBottomLine:NO];
+    [self.scrollView addSubview:self.myQuestionView];
+    
+    
 
     [self makeConstraints];
 }
@@ -382,12 +414,47 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     
     if (self.activityView2) {
         [self.activityView2 makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.self.activityView1.bottom);
+            make.top.equalTo(self.activityView1.bottom);
             make.width.equalTo(self.scrollView.width);
             make.left.equalTo(self.scrollView.left);
             make.height.mas_equalTo(70.0f);
         }];
     }
+    
+    [self.segControl makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.freeTrialContainerView.bottom).offset(10.0f);
+        make.width.equalTo(self.scrollView.width);
+        make.left.equalTo(self.scrollView.left);
+        make.height.mas_equalTo(50.0f);
+    }];
+    
+    [self.orderTestView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.segControl.bottom);
+        make.width.equalTo(self.scrollView.width).multipliedBy(0.5f);
+        make.left.equalTo(self.scrollView.left);
+        make.height.mas_equalTo(90.0f);
+    }];
+    
+    [self.randTestView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.segControl.bottom);
+        make.width.equalTo(self.scrollView.width).multipliedBy(0.5f);
+        make.left.equalTo(self.orderTestView.right);
+        make.height.mas_equalTo(90.0f);
+    }];
+    
+    [self.simuTestView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.orderTestView.bottom);
+        make.width.equalTo(self.scrollView.width).multipliedBy(0.5f);
+        make.left.equalTo(self.scrollView.left);
+        make.height.mas_equalTo(90.0f);
+    }];
+    
+    [self.myQuestionView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.randTestView.bottom);
+        make.width.equalTo(self.scrollView.width).multipliedBy(0.5f);
+        make.left.equalTo(self.simuTestView.right);
+        make.height.mas_equalTo(90.0f);
+    }];
     
     [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.top);
@@ -475,5 +542,10 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+- (void)segmentedControlChangedValue:(HMSegmentedControl *)segmentedControl {
+    
+}
+
 
 @end
