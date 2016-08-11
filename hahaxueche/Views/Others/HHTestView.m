@@ -32,7 +32,7 @@
         self.titleLbel = [[UILabel alloc] init];
         self.titleLbel.text = title;
         self.titleLbel.textColor = [UIColor HHLightTextGray];
-        self.titleLbel.font = [UIFont systemFontOfSize:16.0f];
+        self.titleLbel.font = [UIFont systemFontOfSize:15.0f];
         [self addSubview:self.titleLbel];
         
         [self.imgView makeConstraints:^(MASConstraintMaker *make) {
@@ -71,8 +71,16 @@
             }];
         }
         
+        UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped)];
+        [self addGestureRecognizer:tapRec];
     }
     return self;
+}
+
+- (void)viewTapped {
+    if (self.tapBlock) {
+        self.tapBlock();
+    }
 }
 
 @end

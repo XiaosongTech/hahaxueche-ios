@@ -8,7 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+
+typedef void (^HHTestViewBlock)();
+
 @interface HHTestView : UIView
+
+@property (nonatomic, strong) HHTestViewBlock tapBlock;
 
 - (instancetype)initWithTitle:(NSString *)title image:(UIImage *)image showVerticalLine:(BOOL)showVerticalLine showBottomLine:(BOOL)showBottomLine;
 

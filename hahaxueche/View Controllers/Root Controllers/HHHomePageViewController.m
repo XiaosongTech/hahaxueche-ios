@@ -38,6 +38,7 @@
 #import "HHEventsViewController.h"
 #import "HMSegmentedControl.h"
 #import "HHTestView.h"
+#import "HHTestQuestionViewController.h"
 
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach";
@@ -242,16 +243,25 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     [self.segControl addTarget:self action:@selector(segmentedControlChangedValue:) forControlEvents:UIControlEventValueChanged];
     [self.scrollView addSubview:self.segControl];
     
-    self.orderTestView = [[HHTestView alloc] initWithTitle:@"顺序练题" image:nil showVerticalLine:YES showBottomLine:YES];
+    self.orderTestView = [[HHTestView alloc] initWithTitle:@"顺序练题" image:[UIImage imageNamed:@"ic_question_turn"] showVerticalLine:YES showBottomLine:YES];
+    self.orderTestView.tapBlock = ^() {
+        [weakSelf showTestVCWithMode:TestModeOrder];
+    };
     [self.scrollView addSubview:self.orderTestView];
     
-    self.randTestView = [[HHTestView alloc] initWithTitle:@"随机练题" image:nil showVerticalLine:NO showBottomLine:YES];
+    self.randTestView = [[HHTestView alloc] initWithTitle:@"随机练题" image:[UIImage imageNamed:@"ic_question_random"] showVerticalLine:NO showBottomLine:YES];
+    self.randTestView.tapBlock = ^() {
+        [weakSelf showTestVCWithMode:TestModeRandom];
+    };
     [self.scrollView addSubview:self.randTestView];
     
-    self.simuTestView = [[HHTestView alloc] initWithTitle:@"模拟考试" image:nil showVerticalLine:YES showBottomLine:NO];
+    self.simuTestView = [[HHTestView alloc] initWithTitle:@"模拟考试" image:[UIImage imageNamed:@"ic_question_exam"] showVerticalLine:YES showBottomLine:NO];
+    self.simuTestView.tapBlock = ^() {
+        [weakSelf showTestVCWithMode:TestModeSimu];
+    };
     [self.scrollView addSubview:self.simuTestView];
     
-    self.myQuestionView = [[HHTestView alloc] initWithTitle:@"我的题库" image:nil showVerticalLine:NO showBottomLine:NO];
+    self.myQuestionView = [[HHTestView alloc] initWithTitle:@"我的题库" image:[UIImage imageNamed:@"ic_question_lib"] showVerticalLine:NO showBottomLine:NO];
     [self.scrollView addSubview:self.myQuestionView];
     
     
@@ -545,6 +555,12 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
 
 - (void)segmentedControlChangedValue:(HMSegmentedControl *)segmentedControl {
     
+}
+
+- (void)showTestVCWithMode:(TestMode)mode {
+    HHTestQuestionViewController *vc = [[HHTestQuestionViewController alloc] initWithTestMode:mode];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 
