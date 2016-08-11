@@ -10,7 +10,7 @@
 
 @interface HHQuestion : MTLModel <MTLJSONSerializing>
 
-@property (nonatomic, copy) NSString *questionId;
+@property (nonatomic, copy) NSNumber *questionId;
 @property (nonatomic, copy) NSString *questionDes;
 @property (nonatomic, copy) NSString *answer;
 @property (nonatomic, copy) NSString *item1;
@@ -22,6 +22,8 @@
 
 - (BOOL)isAnswerCorrect:(NSMutableArray *)answers;
 - (BOOL)isSingleAnswer;
+- (BOOL)isFavorated;
+- (BOOL)hasImage;
 
 
 @end

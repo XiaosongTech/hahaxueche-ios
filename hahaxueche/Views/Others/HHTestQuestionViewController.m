@@ -10,19 +10,18 @@
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
 #import "UIBarButtonItem+HHCustomButton.h"
+#import "SwipeView.h"
+#import "HHTestQuestionView.h"
+#import "HHTestQuestionBottomBar.h"
 
-@interface HHTestQuestionViewController ()
+@interface HHTestQuestionViewController () <SwipeViewDataSource, SwipeViewDelegate>
 
 @property (nonatomic) TestMode currentMode;
 @property (nonatomic, strong) NSMutableArray *questions;
-@property (nonatomic) NSInteger startIndex;
+@property (nonatomic) NSInteger currentIndex;
 
-@property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UIView *questionTitleView;
-@property (nonatomic, strong) UIImageView *questionTypeView;
-@property (nonatomic, strong) UILabel *questionTitleLabel;
-@property (nonatomic, strong) UIImageView *starView;
-@property (nonatomic, strong) UILabel *saveQuestionLabel;
+@property (nonatomic, strong) SwipeView *swipeView;
+@property (nonatomic, strong) HHTestQuestionBottomBar *botBar;
 
 @end
 
@@ -32,8 +31,8 @@
     self = [super init];
     if (self) {
         self.currentMode = testMode;
-        self.startIndex = startIndex;
-        self.questions = self.questions;
+        self.currentIndex = startIndex;
+        self.questions = questions;
     }
     return self;
 }
@@ -64,16 +63,75 @@
 }
 
 - (void)initSubviews {
-    self.questionTitleView = [[UIView alloc] init];
-    self.questionTitleView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:self.questionTitleView];
+    __weak HHTestQuestionViewController *weakSelf = self;
     
-    self.questionTypeView = [[UIImageView alloc] init];
+    self.swipeView = [[SwipeView alloc] init];
+    self.swipeView.pagingEnabled = YES;
+    self.swipeView.dataSource = self;
+    self.swipeView.delegate = self;
+    [self.view addSubview:self.swipeView];
+    [self.swipeView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.top);
+        make.left.equalTo(self.view.left);
+        make.width.equalTo(self.view.width);
+        make.height.equalTo(self.view.height).offset(-60.0f);
+    }];
+    
+    self.botBar = [[HHTestQuestionBottomBar alloc] init];
+    self.botBar.prevAction = ^() {
+        weakSelf.currentIndex = self.currentIndex - 1;
+        [weakSelf pageChangedTo:weakSelf.currentIndex];
+        [weakSelf.swipeView scrollToPage:weakSelf.currentIndex duration:0.5f];
+    };
+    self.botBar.nextAction = ^() {
+        weakSelf.currentIndex = self.currentIndex + 1;
+        [weakSelf pageChangedTo:weakSelf.currentIndex];
+        [weakSelf.swipeView scrollToPage:weakSelf.currentIndex duration:0.5f];
+    };
+    self.botBar.infoLabel.attributedText = [self buildAttrString];
+    [self.view addSubview:self.botBar];
+    [self.botBar makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.swipeView.bottom);
+        make.left.equalTo(self.view.left);
+        make.width.equalTo(self.view.width);
+        make.height.mas_equalTo(60.0f);
+    }];
     
 }
 
 - (void)dismissVC {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark -SwipeView methods
+
+- (NSInteger)numberOfItemsInSwipeView:(SwipeView *)swipeView {
+    return self.questions.count;
+}
+
+- (UIView *)swipeView:(SwipeView *)swipeView viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view {
+    return [[HHTestQuestionView alloc] initWithQuestion:self.questions[index]];
+}
+
+- (CGSize)swipeViewItemSize:(SwipeView *)swipeView {
+    return self.swipeView.bounds.size;
+}
+
+- (void)swipeViewDidEndDecelerating:(SwipeView *)swipeView {
+    [self pageChangedTo:swipeView.currentPage];
+}
+
+- (NSMutableAttributedString *)buildAttrString {
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld/", self.currentIndex + 1] attributes:@{NSForegroundColorAttributeName : [UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:18.0f]}];
+    
+    NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", self.questions.count] attributes:@{NSForegroundColorAttributeName : [UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:15.0f]}];
+    [string appendAttributedString:string2];
+    return string;
+}
+
+- (void)pageChangedTo:(NSInteger)currentPage {
+    self.currentIndex = currentPage;
+    self.botBar.infoLabel.attributedText = [self buildAttrString];
 }
 
 @end

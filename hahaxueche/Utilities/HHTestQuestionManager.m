@@ -49,15 +49,20 @@
     
     NSString *filePath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"txt"];
     NSData *data = [NSData dataWithContentsOfFile:filePath];
-    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data
-                                                        options:kNilOptions error:nil];
-    NSArray *questions = dic[@"result"];
-    NSMutableArray *questionObjects = [NSMutableArray array];
-    for (NSDictionary *dictionary in questions) {
-        HHQuestion *question = [MTLJSONAdapter modelOfClass:[HHQuestion class] fromJSONDictionary:dictionary error:nil];
-        [questionObjects addObject:question];
+    if (data) {
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data
+                                                            options:kNilOptions error:nil];
+        NSArray *questions = dic[@"result"];
+        NSMutableArray *questionObjects = [NSMutableArray array];
+        for (NSDictionary *dictionary in questions) {
+            HHQuestion *question = [MTLJSONAdapter modelOfClass:[HHQuestion class] fromJSONDictionary:dictionary error:nil];
+            [questionObjects addObject:question];
+        }
+        return questionObjects;
+    } else {
+        return nil;
     }
-    return questionObjects;
+   
 }
 
 - (NSMutableArray *)generateQuestionsWithMode:(TestMode)testMode courseMode:(CourseMode)courseMode {

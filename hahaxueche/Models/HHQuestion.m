@@ -153,4 +153,16 @@
     }
 }
 
+- (BOOL)isFavorated {
+    return YES;
+}
+
+- (BOOL)hasImage {
+    if (self.imgURL && ![self.imgURL isEqualToString:@""]) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 @end

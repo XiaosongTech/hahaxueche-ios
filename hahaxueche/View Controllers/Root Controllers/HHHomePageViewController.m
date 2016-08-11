@@ -558,7 +558,12 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
 }
 
 - (void)showTestVCWithMode:(TestMode)mode {
-    HHTestQuestionViewController *vc = [[HHTestQuestionViewController alloc] initWithTestMode:mode];
+    NSInteger startIndex = 0;
+    if (mode == TestModeOrder) {
+        
+    }
+    NSMutableArray *questions = [[HHTestQuestionManager sharedManager] generateQuestionsWithMode:mode courseMode:self.segControl.selectedSegmentIndex];
+    HHTestQuestionViewController *vc = [[HHTestQuestionViewController alloc] initWithTestMode:mode questions:questions startIndex:startIndex];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }

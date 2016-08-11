@@ -76,6 +76,7 @@ PODS:
   - SSKeychain (1.4.0)
   - StepSlider (0.1.2)
   - SVProgressHUD (2.0.3)
+  - SwipeView (1.3.2)
   - TTTAttributedLabel (2.0.0)
   - UMengAnalytics-NO-IDFA (4.0.5)
 
@@ -113,6 +114,7 @@ DEPENDENCIES:
   - SSKeychain
   - StepSlider
   - SVProgressHUD
+  - SwipeView (~> 1.3)
   - TTTAttributedLabel
   - UMengAnalytics-NO-IDFA
 
@@ -150,9 +152,10 @@ SPEC CHECKSUMS:
   SSKeychain: c71293fa57216a40ab06c23f4085387583293de4
   StepSlider: 54466ab1de9002435b6839091f97ff62967fdd7e
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
+  SwipeView: bd67cfaf7760c036438446b3ccb28a3b84fce009
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
 
-PODFILE CHECKSUM: 54dee908856c6e06a3e594c872234eceece6ea8a
+PODFILE CHECKSUM: 3fd507fe57072bec6daa2b3ca0f493a6c47ef174
 
 COCOAPODS: 1.0.0
