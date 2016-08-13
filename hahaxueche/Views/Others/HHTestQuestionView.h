@@ -9,8 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "HHQuestion.h"
 
+typedef void (^HHTestQuestionFavBlock)(HHQuestion *question);
+
 @interface HHTestQuestionView : UIView
 
-- (instancetype)initWithQuestion:(HHQuestion *)question;
+- (void)fillUpViewWithQuestion:(HHQuestion *)question favorated:(BOOL)favorated;
+- (void)setupFavViews:(BOOL)favorated;
+
+@property (nonatomic, strong) HHTestQuestionFavBlock favBlock;
+
+
 
 @end

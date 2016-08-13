@@ -13,11 +13,14 @@
 #import "SwipeView.h"
 #import "HHTestQuestionView.h"
 #import "HHTestQuestionBottomBar.h"
+#import "HHTestQuestionManager.h"
 
 @interface HHTestQuestionViewController () <SwipeViewDataSource, SwipeViewDelegate>
 
-@property (nonatomic) TestMode currentMode;
+@property (nonatomic) TestMode currentTestMode;
+@property (nonatomic) CourseMode currentCourseMode;
 @property (nonatomic, strong) NSMutableArray *questions;
+@property (nonatomic, strong) NSMutableArray *questionViews;
 @property (nonatomic) NSInteger currentIndex;
 
 @property (nonatomic, strong) SwipeView *swipeView;
@@ -27,10 +30,11 @@
 
 @implementation HHTestQuestionViewController
 
-- (instancetype)initWithTestMode:(TestMode)testMode questions:(NSMutableArray *)questions startIndex:(NSInteger)startIndex {
+- (instancetype)initWithTestMode:(TestMode)testMode courseMode:(CourseMode)courseMode questions:(NSMutableArray *)questions startIndex:(NSInteger)startIndex {
     self = [super init];
     if (self) {
-        self.currentMode = testMode;
+        self.currentTestMode = testMode;
+        self.currentCourseMode = courseMode;
         self.currentIndex = startIndex;
         self.questions = questions;
     }
@@ -39,7 +43,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    switch (self.currentMode) {
+    
+    self.questionViews = [NSMutableArray array];
+    
+    switch (self.currentTestMode) {
         case TestModeOrder:{
             self.title = @"顺序练题";
         } break;
@@ -79,14 +86,28 @@
     
     self.botBar = [[HHTestQuestionBottomBar alloc] init];
     self.botBar.prevAction = ^() {
+        if (weakSelf.currentIndex <= 0) {
+            return ;
+        }
         weakSelf.currentIndex = self.currentIndex - 1;
         [weakSelf pageChangedTo:weakSelf.currentIndex];
         [weakSelf.swipeView scrollToPage:weakSelf.currentIndex duration:0.5f];
+        if (weakSelf.currentTestMode == TestModeOrder) {
+            [weakSelf saveOrderTestIndex];
+        }
+        
     };
     self.botBar.nextAction = ^() {
+        if (weakSelf.currentIndex >= weakSelf.questions.count) {
+            return ;
+        }
         weakSelf.currentIndex = self.currentIndex + 1;
         [weakSelf pageChangedTo:weakSelf.currentIndex];
         [weakSelf.swipeView scrollToPage:weakSelf.currentIndex duration:0.5f];
+        [weakSelf saveOrderTestIndex];
+        if (weakSelf.currentTestMode == TestModeOrder) {
+            [weakSelf saveOrderTestIndex];
+        }
     };
     self.botBar.infoLabel.attributedText = [self buildAttrString];
     [self.view addSubview:self.botBar];
@@ -96,6 +117,11 @@
         make.width.equalTo(self.view.width);
         make.height.mas_equalTo(60.0f);
     }];
+    
+    if (self.currentTestMode == TestModeOrder) {
+        [self.swipeView scrollToPage:self.currentIndex duration:0.5f];
+    }
+    
     
 }
 
@@ -110,7 +136,26 @@
 }
 
 - (UIView *)swipeView:(SwipeView *)swipeView viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view {
-    return [[HHTestQuestionView alloc] initWithQuestion:self.questions[index]];
+    __weak HHTestQuestionViewController *weakSelf = self;
+    BOOL favorated = [[HHTestQuestionManager sharedManager] isFavoratedQuestion:self.questions[index] courseMode:self.currentCourseMode];
+    __weak HHTestQuestionView *weakView;
+    if (view) {
+        HHTestQuestionView *questionView = (HHTestQuestionView *)view;
+        weakView = questionView;
+        questionView.favBlock = ^(HHQuestion *question) {
+            [weakView setupFavViews:[[HHTestQuestionManager sharedManager] favorateQuestion:question courseMode:weakSelf.currentCourseMode]];
+        };
+        [questionView fillUpViewWithQuestion:self.questions[index] favorated:favorated];
+        return questionView;
+    }
+    HHTestQuestionView *questionView = [[HHTestQuestionView alloc] init];
+    weakView = questionView;
+    questionView.favBlock = ^(HHQuestion *question) {
+        [weakView setupFavViews:[[HHTestQuestionManager sharedManager] favorateQuestion:question courseMode:weakSelf.currentCourseMode]];
+    };
+    [questionView fillUpViewWithQuestion:self.questions[index] favorated:favorated];
+    
+    return questionView;
 }
 
 - (CGSize)swipeViewItemSize:(SwipeView *)swipeView {
@@ -119,6 +164,10 @@
 
 - (void)swipeViewDidEndDecelerating:(SwipeView *)swipeView {
     [self pageChangedTo:swipeView.currentPage];
+    self.currentIndex = swipeView.currentPage;
+    if (self.currentTestMode == TestModeOrder) {
+        [self saveOrderTestIndex];
+    }
 }
 
 - (NSMutableAttributedString *)buildAttrString {
@@ -132,6 +181,12 @@
 - (void)pageChangedTo:(NSInteger)currentPage {
     self.currentIndex = currentPage;
     self.botBar.infoLabel.attributedText = [self buildAttrString];
+}
+
+- (void)saveOrderTestIndex {
+    if (self.currentTestMode == TestModeOrder) {
+        [[HHTestQuestionManager sharedManager] saveOrderTestIndexWithCourseMode:self.currentCourseMode index:self.currentIndex];
+    }
 }
 
 @end

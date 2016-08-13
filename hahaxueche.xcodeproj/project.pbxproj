@@ -386,6 +386,13 @@
 		6D6F9B611D35EB4D00855D2F /* ticket-normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D6F9B5B1D35EB4D00855D2F /* ticket-normal@2x.png */; };
 		6D6F9B621D35EB4D00855D2F /* ticket-normal@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D6F9B5C1D35EB4D00855D2F /* ticket-normal@3x.png */; };
 		6D6F9B651D3765E100855D2F /* HHCouponFAQView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6F9B641D3765E100855D2F /* HHCouponFAQView.m */; };
+		6D7D0C561D5EC0BD0002FC56 /* HHOptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D7D0C551D5EC0BD0002FC56 /* HHOptionView.m */; };
+		6D7D0C5D1D5ED69D0002FC56 /* ic_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D7D0C571D5ED69D0002FC56 /* ic_right.png */; };
+		6D7D0C5E1D5ED69D0002FC56 /* ic_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D7D0C581D5ED69D0002FC56 /* ic_right@2x.png */; };
+		6D7D0C5F1D5ED69D0002FC56 /* ic_right@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D7D0C591D5ED69D0002FC56 /* ic_right@3x.png */; };
+		6D7D0C601D5ED69D0002FC56 /* ic_wrong.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D7D0C5A1D5ED69D0002FC56 /* ic_wrong.png */; };
+		6D7D0C611D5ED69D0002FC56 /* ic_wrong@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D7D0C5B1D5ED69D0002FC56 /* ic_wrong@2x.png */; };
+		6D7D0C621D5ED69D0002FC56 /* ic_wrong@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D7D0C5C1D5ED69D0002FC56 /* ic_wrong@3x.png */; };
 		6D82BD2C1CCE24EF00D4109A /* HHMyPageReferCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D82BD2B1CCE24EF00D4109A /* HHMyPageReferCell.m */; };
 		6D82BD2F1CCE2AD400D4109A /* HHReferFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D82BD2E1CCE2AD400D4109A /* HHReferFriendsViewController.m */; };
 		6D82BD391CCE4F9600D4109A /* ic_coachmsg_sharecoach_weibo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D82BD361CCE4F9600D4109A /* ic_coachmsg_sharecoach_weibo.png */; };
@@ -1074,6 +1081,14 @@
 		6D6F9B5C1D35EB4D00855D2F /* ticket-normal@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ticket-normal@3x.png"; sourceTree = "<group>"; };
 		6D6F9B631D3765E100855D2F /* HHCouponFAQView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCouponFAQView.h; sourceTree = "<group>"; };
 		6D6F9B641D3765E100855D2F /* HHCouponFAQView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCouponFAQView.m; sourceTree = "<group>"; };
+		6D7D0C541D5EC0BD0002FC56 /* HHOptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHOptionView.h; sourceTree = "<group>"; };
+		6D7D0C551D5EC0BD0002FC56 /* HHOptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHOptionView.m; sourceTree = "<group>"; };
+		6D7D0C571D5ED69D0002FC56 /* ic_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_right.png; sourceTree = "<group>"; };
+		6D7D0C581D5ED69D0002FC56 /* ic_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_right@2x.png"; sourceTree = "<group>"; };
+		6D7D0C591D5ED69D0002FC56 /* ic_right@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_right@3x.png"; sourceTree = "<group>"; };
+		6D7D0C5A1D5ED69D0002FC56 /* ic_wrong.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_wrong.png; sourceTree = "<group>"; };
+		6D7D0C5B1D5ED69D0002FC56 /* ic_wrong@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_wrong@2x.png"; sourceTree = "<group>"; };
+		6D7D0C5C1D5ED69D0002FC56 /* ic_wrong@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_wrong@3x.png"; sourceTree = "<group>"; };
 		6D82BD2A1CCE24EF00D4109A /* HHMyPageReferCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyPageReferCell.h; sourceTree = "<group>"; };
 		6D82BD2B1CCE24EF00D4109A /* HHMyPageReferCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyPageReferCell.m; sourceTree = "<group>"; };
 		6D82BD2D1CCE2AD400D4109A /* HHReferFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHReferFriendsViewController.h; sourceTree = "<group>"; };
@@ -1545,6 +1560,8 @@
 				6DE24BE91D5C45EC0078A21E /* HHTestQuestionView.m */,
 				6DE24BF71D5C6ACB0078A21E /* HHTestQuestionBottomBar.h */,
 				6DE24BF81D5C6ACB0078A21E /* HHTestQuestionBottomBar.m */,
+				6D7D0C541D5EC0BD0002FC56 /* HHOptionView.h */,
+				6D7D0C551D5EC0BD0002FC56 /* HHOptionView.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -1987,6 +2004,12 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6D7D0C571D5ED69D0002FC56 /* ic_right.png */,
+				6D7D0C581D5ED69D0002FC56 /* ic_right@2x.png */,
+				6D7D0C591D5ED69D0002FC56 /* ic_right@3x.png */,
+				6D7D0C5A1D5ED69D0002FC56 /* ic_wrong.png */,
+				6D7D0C5B1D5ED69D0002FC56 /* ic_wrong@2x.png */,
+				6D7D0C5C1D5ED69D0002FC56 /* ic_wrong@3x.png */,
 				6DE24BEB1D5C56740078A21E /* ic_question_alcollect.png */,
 				6DE24BEC1D5C56740078A21E /* ic_question_alcollect@2x.png */,
 				6DE24BED1D5C56740078A21E /* ic_question_alcollect@3x.png */,
@@ -2510,6 +2533,7 @@
 				6D52228D1D3F9BF000E92075 /* ic_ask_message@3x.png in Resources */,
 				143D15E01C8F2C8200432A74 /* ic_mypage_ava.png in Resources */,
 				5CDE14811C3787CF0004778C /* ic_triangle@1x.png in Resources */,
+				6D7D0C611D5ED69D0002FC56 /* ic_wrong@2x.png in Resources */,
 				6DE56FEA1D00791A00E33BDB /* ic_pull_down@3x.png in Resources */,
 				6D44B6AA1D0D12DF00E2F455 /* ic_coupon@2x.png in Resources */,
 				5C36D4251C4C2B8700443545 /* ic_maplist_btn@1x.png in Resources */,
@@ -2554,6 +2578,7 @@
 				6D82BD6B1CCF980D00D4109A /* ic_cashout_chack_btn.png in Resources */,
 				6D4152011CF7370A004A7EE8 /* icon_selected_press.png in Resources */,
 				6DDAE6CE1CB78B1B00CE461A /* ic_aboutmsg_logo@2x.png in Resources */,
+				6D7D0C5E1D5ED69D0002FC56 /* ic_right@2x.png in Resources */,
 				5C36D3BC1C474FF600443545 /* ic_screen_normal_btn@3x.png in Resources */,
 				14604F5A1C6FB0E3009DBE10 /* ic_coachmsg_sharecoach_wechat.png in Resources */,
 				6D6F9B5F1D35EB4D00855D2F /* ticket-gray@3x.png in Resources */,
@@ -2595,6 +2620,7 @@
 				141F7C061C617EC7003278C6 /* ic_Star_light@2x.png in Resources */,
 				5C6D8C8F1C3AD6840055CB31 /* ic_toast_right@3x.png in Resources */,
 				6DBAC5C01D13942B0040BDA7 /* ic_list_best_unclick@2x.png in Resources */,
+				6D7D0C601D5ED69D0002FC56 /* ic_wrong.png in Resources */,
 				5C36D3BB1C474FF600443545 /* ic_screen_normal_btn@2x.png in Resources */,
 				5C36D37B1C42D9F800443545 /* ic_bottombar_list_hold_btn@1x.png in Resources */,
 				6D8309AD1CC70DB700BA6977 /* ic_mycoach_sharecoach@3x.png in Resources */,
@@ -2642,6 +2668,7 @@
 				6D44B6AF1D0D213B00E2F455 /* input.png in Resources */,
 				6DE56FE91D00791A00E33BDB /* ic_pull_down@2x.png in Resources */,
 				147A9FF61C7AAA29000DED3B /* ic_paylist_message_btn_unfocus@3x.png in Resources */,
+				6D7D0C5D1D5ED69D0002FC56 /* ic_right.png in Resources */,
 				5C36D44A1C4DAE3D00443545 /* ic_auth_golden@3x.png in Resources */,
 				6DE24BD91D5B44A10078A21E /* ic_question_exam@2x.png in Resources */,
 				6D5C86661CDC2AC100D7B5CB /* ic_homepage_groupbuy_close@2x.png in Resources */,
@@ -2656,6 +2683,7 @@
 				6DE24BF11D5C56740078A21E /* ic_question_alcollect.png in Resources */,
 				6D5222891D3F9BF000E92075 /* ic_ask_call@2x.png in Resources */,
 				6D44B6B11D0D213B00E2F455 /* input@3x.png in Resources */,
+				6D7D0C621D5ED69D0002FC56 /* ic_wrong@3x.png in Resources */,
 				5C36D3791C42D9F800443545 /* ic_bottombar_haha_normal_btn@2x.png in Resources */,
 				5CDE14711C3776E20004778C /* onboard_bg@1x.png in Resources */,
 				6D4886C51CD881E800E28BB3 /* ic_cash_havenot@3x.png in Resources */,
@@ -2716,6 +2744,7 @@
 				140EC60D1C6D68D000DA634D /* ic_coachmsg_time@2x.png in Resources */,
 				140EC6071C6D68D000DA634D /* ic_coachmsg_coachlevel@2x.png in Resources */,
 				6DE24BF51D5C56740078A21E /* ic_question_collect@2x.png in Resources */,
+				6D7D0C5F1D5ED69D0002FC56 /* ic_right@3x.png in Resources */,
 				6DFD5EB61D2E4ACE00CF2DEF /* ic_homepage_procedure.png in Resources */,
 				140EC60B1C6D68D000DA634D /* ic_coachmsg_manyidu@3x.png in Resources */,
 				5C6D8C8E1C3AD6840055CB31 /* ic_toast_right@2x.png in Resources */,
@@ -3079,6 +3108,7 @@
 				5C36D3CF1C47642400443545 /* HHSliderView.m in Sources */,
 				6D4151F11CF72081004A7EE8 /* HHPurchaseConfirmViewController.m in Sources */,
 				1405CC861C76460C0030B114 /* HHMyPageItemTitleView.m in Sources */,
+				6D7D0C561D5EC0BD0002FC56 /* HHOptionView.m in Sources */,
 				6D82BD731CCFAA9900D4109A /* HHGenericOneButtonPopupView.m in Sources */,
 				6DF202DD1CD0C0C5002092B4 /* HHWithdrawHistoryCell.m in Sources */,
 				6DF202D71CD0B8C2002092B4 /* HHReferral.m in Sources */,

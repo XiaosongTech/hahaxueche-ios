@@ -19,10 +19,11 @@
 @property (nonatomic, copy) NSString *item4;
 @property (nonatomic, copy) NSString *explains;
 @property (nonatomic, copy) NSString *imgURL;
+@property (nonatomic, copy) NSNumber *answered;
+@property (nonatomic, copy) NSMutableArray *userAnswers;
 
 - (BOOL)isAnswerCorrect:(NSMutableArray *)answers;
-- (BOOL)isSingleAnswer;
-- (BOOL)isFavorated;
+- (NSString *)getQuestionTypeString;
 - (BOOL)hasImage;
 
 

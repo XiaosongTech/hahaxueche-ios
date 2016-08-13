@@ -8,6 +8,12 @@
 
 #import "HHTestQuestionManager.h"
 
+static NSString *const kCourse1OrderIndex = @"kCourse1OrderIndex";
+static NSString *const kCourse4OrderIndex = @"kCourse4OrderIndex";
+
+static NSString *const kCourse1FavoratedKey = @"kCourse1FavoratedKey";
+static NSString *const kCourse4FavoratedKey = @"kCourse4FavoratedKey";
+
 @implementation HHTestQuestionManager
 
 + (HHTestQuestionManager *)sharedManager {
@@ -126,6 +132,87 @@
 
 - (NSNumber *)getRandomNumberBetween:(int)from to:(int)to {
     return @((int)from + arc4random() % (to-from+1));
+}
+
+- (void)saveOrderTestIndexWithCourseMode:(CourseMode)courseMode index:(NSInteger)index {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    switch (courseMode) {
+        case CourseMode1: {
+            [defaults setObject:@(index) forKey:kCourse1OrderIndex];
+        } break;
+            
+        case CourseMode4: {
+            
+            [defaults setObject:@(index) forKey:kCourse4OrderIndex];
+        } break;
+            
+        default:
+            break;
+    }
+    
+}
+
+- (NSInteger)getOrderTestIndexWithCourseMode:(CourseMode)courseMode {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *index;
+    switch (courseMode) {
+        case CourseMode1: {
+            index = [defaults objectForKey:kCourse1OrderIndex];
+            if ([index integerValue] >= self.allCourseMode1Questions.count) {
+                index = @(0);
+            }
+        } break;
+            
+        case CourseMode4: {
+            index = [defaults objectForKey:kCourse4OrderIndex];
+            if ([index integerValue] >= self.allCourseMode4Questions.count) {
+                index = @(0);
+            }
+        } break;
+            
+        default: {
+            index = [defaults objectForKey:kCourse1OrderIndex];
+            if ([index integerValue] >= self.allCourseMode1Questions.count) {
+                index = @(0);
+            }
+
+        } break;
+    }
+    return [index integerValue];
+
+}
+
+- (BOOL)favorateQuestion:(HHQuestion *)question courseMode:(CourseMode)mode {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *key = kCourse1FavoratedKey;
+    if (mode == CourseMode4) {
+        key = kCourse4OrderIndex;
+    }
+    NSMutableArray *array =  [NSMutableArray arrayWithArray:[defaults arrayForKey:key]];
+    
+    if ([array containsObject:question.questionId]) {
+        [array removeObject:question.questionId];
+        [defaults setObject:array forKey:key];
+        return NO;
+    } else {
+        [array addObject:question.questionId];
+        [defaults setObject:array forKey:key];
+        return YES;
+    }
+    
+}
+
+- (BOOL)isFavoratedQuestion:(HHQuestion *)question courseMode:(CourseMode)mode {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *key = kCourse1FavoratedKey;
+    if (mode == CourseMode4) {
+        key = kCourse4OrderIndex;
+    }
+
+    NSMutableArray *array =  [NSMutableArray arrayWithArray:[defaults arrayForKey:key]];
+    
+    return [array containsObject:question.questionId];
+
 }
 
 

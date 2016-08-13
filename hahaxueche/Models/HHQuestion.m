@@ -7,6 +7,7 @@
 //
 
 #import "HHQuestion.h"
+#import "HHTestQuestionManager.h"
 
 @implementation HHQuestion
 
@@ -145,17 +146,20 @@
     return YES;
 }
 
-- (BOOL)isSingleAnswer {
+
+- (NSString *)getQuestionTypeString {
     if ([self.answer integerValue] > 4) {
-        return NO;
+        return @"多选题";
     } else {
-        return YES;
+        if (!self.item3 || [self.item3 isEqualToString:@""]) {
+            return @"判断题";
+        } else {
+            return @"单选题";
+        }
     }
+
 }
 
-- (BOOL)isFavorated {
-    return YES;
-}
 
 - (BOOL)hasImage {
     if (self.imgURL && ![self.imgURL isEqualToString:@""]) {

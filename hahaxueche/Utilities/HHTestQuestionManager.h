@@ -27,5 +27,10 @@ typedef NS_ENUM(NSInteger, CourseMode) {
 
 + (HHTestQuestionManager *)sharedManager;
 - (NSMutableArray *)generateQuestionsWithMode:(TestMode)testMode courseMode:(CourseMode)courseMode;
+- (void)saveOrderTestIndexWithCourseMode:(CourseMode)courseMode index:(NSInteger)index;
+- (NSInteger)getOrderTestIndexWithCourseMode:(CourseMode)courseMode;
+
+- (BOOL)favorateQuestion:(HHQuestion *)question courseMode:(CourseMode)mode;// Yes: save question; No, remove question
+- (BOOL)isFavoratedQuestion:(HHQuestion *)question courseMode:(CourseMode)mode;
 
 @end

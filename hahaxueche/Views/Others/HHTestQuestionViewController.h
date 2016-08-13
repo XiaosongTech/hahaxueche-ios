@@ -11,6 +11,6 @@
 
 @interface HHTestQuestionViewController : UIViewController
 
-- (instancetype)initWithTestMode:(TestMode)testMode questions:(NSMutableArray *)questions startIndex:(NSInteger)startIndex;
+- (instancetype)initWithTestMode:(TestMode)testMode courseMode:(CourseMode)courseMode questions:(NSMutableArray *)questions startIndex:(NSInteger)startIndex;
 
 @end
