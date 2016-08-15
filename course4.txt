@@ -374,7 +374,7 @@
             "item3": "",
             "item4": "",
             "explains": "由动画可知，前方是无人看守的铁路道口，并设有停车让行标志，而驾驶人做到了停车观看，因此本题正确。",
-            "url": "http://images.juheapi.com/jztk/subject4/34.swf"
+            "url": "http://p1.hahaxueche.com/tiku/34.gif"
         },
         {
             "id": 35,
@@ -418,7 +418,7 @@
             "item3": "鸣喇叭示意行人让道",
             "item4": "先注意观察行人、非机动车动态，再通过",
             "explains": "由动画可知，前方是人行横道，遇到这种情况应当一看二慢三通过，因此本题选D。",
-            "url": "http://images.juheapi.com/jztk/subject4/38.swf"
+            "url": "http://p1.hahaxueche.com/tiku/38.gif"
         },
         {
             "id": 39,
@@ -616,7 +616,7 @@
             "item3": "",
             "item4": "",
             "explains": "动画中的车辆右转的车道不对，如果是右转应该在在最右侧的车道向右转！",
-            "url": "http://images.juheapi.com/jztk/subject4/56.swf"
+            "url": "http://p1.hahaxueche.com/tiku/56.gif"
         },
         {
             "id": 57,
@@ -748,7 +748,7 @@
             "item3": "靠弯道外侧行驶",
             "item4": "充分减速并靠右侧行驶",
             "explains": "由动画可知前方是向左急转弯道路，此时应当减速靠右行，避免对向有来车发生碰撞，因此本题选D。",
-            "url": "http://images.juheapi.com/jztk/subject4/68.swf"
+            "url": "http://p1.hahaxueche.com/tiku/68.gif"
         },
         {
             "id": 69,
@@ -770,7 +770,7 @@
             "item3": "抢在行人之前通过",
             "item4": "立即变道绕过行人",
             "explains": "由动画可知，前方有行人横穿道路，此时应当注意避让，采取减速的方式，必要时停车让行。因此本题选A。",
-            "url": "http://images.juheapi.com/jztk/subject4/70.swf"
+            "url": "http://p1.hahaxueche.com/tiku/70.gif"
         },
         {
             "id": 71,
@@ -1969,7 +1969,7 @@
             "item3": "",
             "item4": "",
             "explains": "实线是不能碾压的。",
-            "url": "http://images.juheapi.com/jztk/subject4/179.swf"
+            "url": "http://p1.hahaxueche.com/tiku/179.gif"
         },
         {
             "id": 180,
@@ -3366,7 +3366,7 @@
             "item3": "减速靠道路右侧让行",
             "item4": "靠道路右侧加速行驶",
             "explains": "由动画可知，此时前车应当让后车超越，所以前车应当减速靠右侧行驶，并让后车超越。因此本题选C。",
-            "url": "http://images.juheapi.com/jztk/subject4/306.swf"
+            "url": "http://p1.hahaxueche.com/tiku/306.gif"
         },
         {
             "id": 307,
@@ -3663,7 +3663,7 @@
             "item3": "",
             "item4": "",
             "explains": "比如南方的山区道路，你那怕只走过一次，对这个做法就会深表认同，因为这个真是太重要了。",
-            "url": "http://images.juheapi.com/jztk/subject4/333.swf"
+            "url": "http://p1.hahaxueche.com/tiku/333.gif
         },
         {
             "id": 334,
@@ -4983,7 +4983,7 @@
             "item3": "三种违法行为",
             "item4": "四种违法行为",
             "explains": "有2种违法行为：1、遮挡号牌；2、违反禁止左转弯标志！",
-            "url": "http://images.juheapi.com/jztk/subject4/453.swf"
+            "url": "http://p1.hahaxueche.com/tiku/453.gif"
         },
         {
             "id": 454,
@@ -5764,7 +5764,7 @@
             "item3": "三种违法行为",
             "item4": "四种违法行为",
             "explains": "有3种违法行为：1、打电话；2、不系安全带；3、与前方拥堵走应急车道！",
-            "url": "http://images.juheapi.com/jztk/subject4/524.swf"
+            "url": "http://p1.hahaxueche.com/tiku/524.gif"
         },
         {
             "id": 525,
@@ -6237,7 +6237,7 @@
             "item3": "三种违法行为",
             "item4": "四种违法行为",
             "explains": "有2种违法行为：1、打电话；2、堵车时占用公交车道通行！",
-            "url": "http://images.juheapi.com/jztk/subject4/567.swf"
+            "url": "http://p1.hahaxueche.com/tiku/567.gif"
         },
         {
             "id": 568,
@@ -6776,7 +6776,7 @@
             "item3": "三种违法行为",
             "item4": "四种违法行为",
             "explains": "有2种违法行为：1、遮挡号牌 2、进入非机动车道右转弯这一题要特别注意的就是：鸣喇叭催促前方机动车，不算违法行为。",
-            "url": "http://images.juheapi.com/jztk/subject4/616.swf"
+            "url": "http://p1.hahaxueche.com/tiku/616.gif"
         },
         {
             "id": 617,
@@ -7128,7 +7128,7 @@
             "item3": "迅速躲避不发生碰撞",
             "item4": "平稳停车",
             "explains": "由动画可知，前方路段出现了障碍物。并且左侧车道有车辆，在这样的情况下应当停车，因此本题选D。",
-            "url": "http://images.juheapi.com/jztk/subject4/648.swf"
+            "url": "http://p1.hahaxueche.com/tiku/648.gif"
         },
         {
             "id": 649,
@@ -7656,7 +7656,7 @@
             "item3": "减速停车，依次排队等候",
             "item4": "鸣喇叭催促",
             "explains": "前边堵车了，老实在后边排队等候吧，和谐第一。",
-            "url": "http://images.juheapi.com/jztk/subject4/696.swf"
+            "url": "http://p1.hahaxueche.com/tiku/696.gif"
         },
         {
             "id": 697,
@@ -7766,7 +7766,7 @@
             "item3": "三种违法行为",
             "item4": "四种违法行为",
             "explains": "有2种违法行为：1、行驶中遮挡号牌；2、超速行驶！",
-            "url": "http://images.juheapi.com/jztk/subject4/706.swf"
+            "url": "http://p1.hahaxueche.com/tiku/706.gif"
         },
         {
             "id": 707,
@@ -7777,7 +7777,7 @@
             "item3": "临近时紧急制动",
             "item4": "加速通过",
             "explains": "由动画可知，机动车要经过路边有停车的路段，为了避免停放车辆会突然起步，因此要留出空间，同时减速慢行。所以本题选A。",
-            "url": "http://images.juheapi.com/jztk/subject4/707.swf"
+            "url": "http://p1.hahaxueche.com/tiku/707.gif"
         },
         {
             "id": 708,
@@ -9042,7 +9042,7 @@
             "item3": "",
             "item4": "",
             "explains": "由动画可知，有行人正通过人行横道线，遇到这种情况，驾驶人应当停车让行，等行人通过后再通过。因此本题错误。",
-            "url": "http://images.juheapi.com/jztk/subject4/822.swf"
+            "url": "http://p1.hahaxueche.com/tiku/822.gif"
         },
         {
             "id": 823,
@@ -9196,7 +9196,7 @@
             "item3": "",
             "item4": "",
             "explains": "由动画可知，机动车频繁变更车道超越其他车辆，这种做法是错误的。因此本题错误。",
-            "url": "http://images.juheapi.com/jztk/subject4/836.swf"
+            "url": "http://p1.hahaxueche.com/tiku/836.gif"
         },
         {
             "id": 837,
@@ -9636,7 +9636,7 @@
             "item3": "",
             "item4": "",
             "explains": "由动画可知，前方道路拥堵，此时应当减速慢行，必要时停车，依次排队等候通过。因此本题错误。",
-            "url": "http://images.juheapi.com/jztk/subject4/876.swf"
+            "url": "http://p1.hahaxueche.com/tiku/876.gif"
         },
         {
             "id": 877,
@@ -9955,7 +9955,7 @@
             "item3": "三种违法行为",
             "item4": "四种违法行为",
             "explains": "有3种违法行为：1、遮挡号牌；2、闯红灯；3、不按导向箭头行驶！",
-            "url": "http://images.juheapi.com/jztk/subject4/905.swf"
+            "url": "http://p1.hahaxueche.com/tiku/905.gif"
         },
         {
             "id": 906,
@@ -10681,7 +10681,7 @@
             "item3": "三种违法行为",
             "item4": "四种违法行为",
             "explains": "有2种违法行为：1、打电话；2、不系安全带！",
-            "url": "http://images.juheapi.com/jztk/subject4/971.swf"
+            "url": "http://p1.hahaxueche.com/tiku/971.gif"
         },
         {
             "id": 972,
@@ -10703,7 +10703,7 @@
             "item3": "三种违法行为",
             "item4": "四种违法行为",
             "explains": "有3种违法行为：1、开车打电话；2、酒后驾驶；3、无证驾驶。通过驾驶人打电话时的内容来体现是酒后驾驶，无证驾驶，驾驶人电话内容为:“刚喝完酒，在去驾校的路上，准备报名学个驾驶本”！",
-            "url": "http://images.juheapi.com/jztk/subject4/973.swf"
+            "url": "http://p1.hahaxueche.com/tiku/973.gif"
         },
         {
             "id": 974,
@@ -10835,7 +10835,7 @@
             "item3": "保持正常车速通过",
             "item4": "低档加速通过",
             "explains": "过积水路面应低速通过，因此本题选A。",
-            "url": "http://images.juheapi.com/jztk/subject4/985.swf"
+            "url": "http://p1.hahaxueche.com/tiku/985.gif"
         },
         {
             "id": 986,
