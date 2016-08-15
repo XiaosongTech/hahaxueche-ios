@@ -262,6 +262,9 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     [self.scrollView addSubview:self.simuTestView];
     
     self.myQuestionView = [[HHTestView alloc] initWithTitle:@"我的题库" image:[UIImage imageNamed:@"ic_question_lib"] showVerticalLine:NO showBottomLine:NO];
+    self.myQuestionView.tapBlock = ^() {
+        [weakSelf showTestVCWithMode:TestModeFavQuestions];
+    };
     [self.scrollView addSubview:self.myQuestionView];
     
     
@@ -567,6 +570,8 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+
 
 
 @end

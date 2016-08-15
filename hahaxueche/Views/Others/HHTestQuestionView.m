@@ -11,7 +11,6 @@
 #import "UIColor+HHColor.h"
 #import <UIImageView+WebCache.h>
 #import "HHOptionView.h"
-#import "HHTestQuestionManager.h"
 
 @interface HHTestQuestionView ()
 
@@ -75,6 +74,7 @@
     [self.questionTitleContainerView addSubview:self.favoriteLabel];
     
     self.imgView = [[UIImageView alloc] init];
+    self.imgView.contentMode = UIViewContentModeScaleAspectFit;
     [self.questionTitleContainerView addSubview:self.imgView];
    
     
@@ -142,12 +142,12 @@
     }];
 }
 
-- (void)fillUpViewWithQuestion:(HHQuestion *)question favorated:(BOOL)favorated {
+- (void)fillUpViewWithQuestion:(HHQuestion *)question favorated:(BOOL)favorated testMode:(TestMode)testMode {
     self.question = question;
     self.questionTitleLabel.text = self.question.questionDes;
     self.questionTypeLabel.text = [self.question getQuestionTypeString];
     
-    [self setupFavViews:favorated];
+    [self setupFavViews:favorated testMode:testMode];
     
     if ([self.question hasImage]) {
         [self.imgView sd_setImageWithURL:[NSURL URLWithString:self.question.imgURL]];
@@ -232,7 +232,12 @@
     
 }
 
-- (void)setupFavViews:(BOOL)favorated {
+- (void)setupFavViews:(BOOL)favorated testMode:(TestMode)testMode {
+    if (testMode == TestModeFavQuestions) {
+        [self.starView setBackgroundImage:[UIImage imageNamed:@"ic_question_delete"] forState:UIControlStateNormal];
+        self.favoriteLabel.text = @"移除";
+        return;
+    }
     if (favorated) {
         [self.starView setBackgroundImage:[UIImage imageNamed:@"ic_question_alcollect"] forState:UIControlStateNormal];
         self.favoriteLabel.text = @"已收藏";

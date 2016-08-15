@@ -109,6 +109,10 @@ static NSString *const kCourse4FavoratedKey = @"kCourse4FavoratedKey";
             }
         } break;
             
+        case TestModeFavQuestions: {
+            finalquestions = [self getFavQuestionsWithCourseMode:courseMode];
+        } break;
+            
         default: {
             finalquestions = questions;
         } break;
@@ -213,6 +217,25 @@ static NSString *const kCourse4FavoratedKey = @"kCourse4FavoratedKey";
     
     return [array containsObject:question.questionId];
 
+}
+
+- (NSMutableArray *)getFavQuestionsWithCourseMode:(CourseMode)mode {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *allQuestions = self.allCourseMode1Questions;
+    NSString *key = kCourse1FavoratedKey;
+    if (mode == CourseMode4) {
+        key = kCourse4OrderIndex;
+        allQuestions = self.allCourseMode4Questions;
+    }
+    
+    NSMutableArray *questionIdArray = [NSMutableArray arrayWithArray:[defaults arrayForKey:key]];
+
+    NSMutableArray *questions = [NSMutableArray array];
+    for (NSNumber *questionId in questionIdArray) {
+         NSArray *question = [allQuestions filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"questionId == %@", questionId]];
+        [questions addObjectsFromArray:question];
+    }
+    return questions;
 }
 
 

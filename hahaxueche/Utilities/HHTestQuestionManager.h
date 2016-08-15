@@ -13,6 +13,7 @@ typedef NS_ENUM(NSInteger, TestMode) {
     TestModeOrder, // 顺序练题
     TestModeRandom, // 随机练题
     TestModeSimu, //全真模拟
+    TestModeFavQuestions, //我的题集
 };
 
 typedef NS_ENUM(NSInteger, CourseMode) {
@@ -32,5 +33,7 @@ typedef NS_ENUM(NSInteger, CourseMode) {
 
 - (BOOL)favorateQuestion:(HHQuestion *)question courseMode:(CourseMode)mode;// Yes: save question; No, remove question
 - (BOOL)isFavoratedQuestion:(HHQuestion *)question courseMode:(CourseMode)mode;
+
+- (NSMutableArray *)getFavQuestionsWithCourseMode:(CourseMode)mode;
 
 @end

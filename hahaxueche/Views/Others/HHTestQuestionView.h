@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "HHQuestion.h"
+#import "HHTestQuestionManager.h"
 
 typedef void (^HHTestQuestionFavBlock)(HHQuestion *question);
 
 @interface HHTestQuestionView : UIView
 
-- (void)fillUpViewWithQuestion:(HHQuestion *)question favorated:(BOOL)favorated;
-- (void)setupFavViews:(BOOL)favorated;
+- (void)fillUpViewWithQuestion:(HHQuestion *)question favorated:(BOOL)favorated testMode:(TestMode)testMode;
+- (void)setupFavViews:(BOOL)favorated testMode:(TestMode)testMode;
 
 @property (nonatomic, strong) HHTestQuestionFavBlock favBlock;
 

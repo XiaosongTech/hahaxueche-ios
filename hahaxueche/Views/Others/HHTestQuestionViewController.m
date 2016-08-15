@@ -59,6 +59,10 @@
             self.title = @"模拟考试";
         } break;
             
+        case TestModeFavQuestions: {
+            self.title = @"我的题集";
+        } break;
+            
         default:
             break;
     }
@@ -143,17 +147,23 @@
         HHTestQuestionView *questionView = (HHTestQuestionView *)view;
         weakView = questionView;
         questionView.favBlock = ^(HHQuestion *question) {
-            [weakView setupFavViews:[[HHTestQuestionManager sharedManager] favorateQuestion:question courseMode:weakSelf.currentCourseMode]];
+            [weakView setupFavViews:[[HHTestQuestionManager sharedManager] favorateQuestion:question courseMode:weakSelf.currentCourseMode] testMode:weakSelf.currentTestMode];
+            if (weakSelf.currentTestMode == TestModeFavQuestions) {
+                [weakSelf removeFavQuestion:question];
+            }
         };
-        [questionView fillUpViewWithQuestion:self.questions[index] favorated:favorated];
+        [questionView fillUpViewWithQuestion:self.questions[index] favorated:favorated testMode:self.currentTestMode];
         return questionView;
     }
     HHTestQuestionView *questionView = [[HHTestQuestionView alloc] init];
     weakView = questionView;
     questionView.favBlock = ^(HHQuestion *question) {
-        [weakView setupFavViews:[[HHTestQuestionManager sharedManager] favorateQuestion:question courseMode:weakSelf.currentCourseMode]];
+        [weakView setupFavViews:[[HHTestQuestionManager sharedManager] favorateQuestion:question courseMode:weakSelf.currentCourseMode] testMode:weakSelf.currentTestMode];
+        if (weakSelf.currentTestMode == TestModeFavQuestions) {
+            [weakSelf removeFavQuestion:question];
+        }
     };
-    [questionView fillUpViewWithQuestion:self.questions[index] favorated:favorated];
+    [questionView fillUpViewWithQuestion:self.questions[index] favorated:favorated testMode:self.currentTestMode];
     
     return questionView;
 }
@@ -171,6 +181,9 @@
 }
 
 - (NSMutableAttributedString *)buildAttrString {
+    if(self.questions.count == 0) {
+        self.currentIndex = -1;
+    }
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld/", self.currentIndex + 1] attributes:@{NSForegroundColorAttributeName : [UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:18.0f]}];
     
     NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", self.questions.count] attributes:@{NSForegroundColorAttributeName : [UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:15.0f]}];
@@ -187,6 +200,12 @@
     if (self.currentTestMode == TestModeOrder) {
         [[HHTestQuestionManager sharedManager] saveOrderTestIndexWithCourseMode:self.currentCourseMode index:self.currentIndex];
     }
+}
+
+- (void)removeFavQuestion:(HHQuestion *)question {
+    [self.questions removeObject:question];
+    [self.swipeView reloadData];
+    self.botBar.infoLabel.attributedText = [self buildAttrString];
 }
 
 @end
