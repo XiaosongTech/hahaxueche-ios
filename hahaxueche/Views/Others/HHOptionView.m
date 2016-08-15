@@ -44,7 +44,7 @@
         
         [self.textLabel makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.titleButton.right).offset(8.0f);
-            make.right.equalTo(self.right);
+            make.width.equalTo(self.width).offset(-10.0f);
             make.centerY.equalTo(self.centerY);
         }];
         

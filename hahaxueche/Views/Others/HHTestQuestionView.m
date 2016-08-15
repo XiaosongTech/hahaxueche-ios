@@ -26,6 +26,8 @@
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NSMutableArray *optionViews;
+@property (nonatomic, strong) UIImageView *seporatorView;
+@property (nonatomic, strong) UILabel *explanationLabel;
 
 @end
 
@@ -77,7 +79,7 @@
    
     
     self.scrollView = [[UIScrollView alloc] init];
-    self.scrollView.showsVerticalScrollIndicator = NO;
+    self.scrollView.showsVerticalScrollIndicator = YES;
     [self addSubview:self.scrollView];
     
     
@@ -90,30 +92,6 @@
         make.right.equalTo(self.questionTitleContainerView.right).offset(-50.0f);
         make.top.equalTo(self.questionTitleContainerView.top).offset(20.0f);
     }];
-    
-    if ([self.question hasImage]) {
-        [self.imgView makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self.questionTitleContainerView.centerX);
-            make.top.equalTo(self.questionTitleLabel.bottom).offset(20.0f);
-            make.width.lessThanOrEqualTo(self.questionTitleContainerView.width);
-        }];
-        [self.questionTitleContainerView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.top);
-            make.left.equalTo(self.left);
-            make.bottom.equalTo(self.imgView.bottom).offset(20.0f);
-            make.width.equalTo(self.width);
-        }];
-
-    } else {
-        [self.questionTitleContainerView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.top);
-            make.left.equalTo(self.left);
-            make.height.equalTo(self.questionTitleLabel.height).offset(50.0f);
-            make.width.equalTo(self.width);
-        }];
-
-    }
-    
     
     [self.questionTypeLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.questionTitleLabel.top);
@@ -132,11 +110,35 @@
         make.centerX.equalTo(self.starView.centerX);
     }];
     
+    if ([self.question hasImage]) {
+        [self.imgView makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.questionTitleContainerView.centerX);
+            make.top.equalTo(self.questionTitleLabel.bottom).offset(20.0f);
+            make.width.lessThanOrEqualTo(self.questionTitleContainerView.width);
+            make.height.mas_lessThanOrEqualTo(100.0f);
+        }];
+        [self.questionTitleContainerView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.top);
+            make.left.equalTo(self.left);
+            make.bottom.equalTo(self.imgView.bottom).offset(20.0f);
+            make.width.equalTo(self.width);
+        }];
+        
+    } else {
+        [self.questionTitleContainerView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.top);
+            make.left.equalTo(self.left);
+            make.height.equalTo(self.questionTitleLabel.height).offset(50.0f);
+            make.width.equalTo(self.width);
+        }];
+        
+    }
+    
     [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.left);
         make.width.equalTo(self.width);
         make.top.equalTo(self.questionTitleContainerView.bottom);
-        make.height.equalTo(self.height).offset(CGRectGetHeight(self.questionTitleContainerView.bounds));
+        make.bottom.equalTo(self.bottom);
     }];
 }
 
@@ -149,10 +151,85 @@
     
     if ([self.question hasImage]) {
         [self.imgView sd_setImageWithURL:[NSURL URLWithString:self.question.imgURL]];
+    } else {
+        self.imgView.image = nil;
     }
     
+    if ([self.question hasImage]) {
+        [self.imgView remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.questionTitleContainerView.centerX);
+            make.top.equalTo(self.questionTitleLabel.bottom).offset(20.0f);
+            make.width.lessThanOrEqualTo(self.questionTitleContainerView.width);
+        }];
+        [self.questionTitleContainerView remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.top);
+            make.left.equalTo(self.left);
+            make.bottom.equalTo(self.imgView.bottom).offset(20.0f);
+            make.width.equalTo(self.width);
+        }];
+        
+    } else {
+        [self.questionTitleContainerView remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.top);
+            make.left.equalTo(self.left);
+            make.height.equalTo(self.questionTitleLabel.height).offset(50.0f);
+            make.width.equalTo(self.width);
+        }];
+    }
+    
+    [self layoutIfNeeded];
+    
     [self buildOptionViews];
+    [self buildExplanationView];
     [self makeConstraints];
+}
+
+- (void)buildExplanationView {
+    if (self.explanationLabel) {
+        self.seporatorView.hidden = ![self.question.answered boolValue];
+        self.explanationLabel.hidden = ![self.question.answered boolValue];
+        self.explanationLabel.text = self.question.explains;
+
+    } else {
+        self.seporatorView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_question_msg"]];
+        [self.scrollView addSubview:self.seporatorView];
+        
+        self.explanationLabel = [[UILabel alloc] init];
+        self.explanationLabel.textColor = [UIColor HHLightTextGray];
+        self.explanationLabel.font = [UIFont systemFontOfSize:18.0f];
+        self.explanationLabel.numberOfLines = 0;
+        self.explanationLabel.text = self.question.explains;
+        [self.scrollView addSubview:self.explanationLabel];
+    }
+    
+    HHOptionView *lastOptionView = [self.optionViews lastObject];
+    [self.seporatorView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.top.equalTo(lastOptionView.bottom).offset(40.0f);
+    }];
+    
+    
+    [self.explanationLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.scrollView.left).offset(20.0f);
+        make.width.equalTo(self.scrollView.width).offset(-40.0f);
+        make.top.equalTo(self.seporatorView.bottom).offset(30.0f);
+    }];
+    
+    self.seporatorView.hidden = ![self.question.answered boolValue];
+    self.explanationLabel.hidden = ![self.question.answered boolValue];
+    
+    
+    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.explanationLabel
+                                                           attribute:NSLayoutAttributeBottom
+                                                           relatedBy:NSLayoutRelationEqual
+                                                              toItem:self.scrollView
+                                                           attribute:NSLayoutAttributeBottom
+                                                          multiplier:1.0
+                                                            constant:-20.0f]];
+    
+
+    
 }
 
 - (void)setupFavViews:(BOOL)favorated {
@@ -171,6 +248,12 @@
     }
     [self.optionViews removeAllObjects];
     
+    if ([self.question.item1 isEqualToString:@""]) {
+        self.question.item1 = @"正确";
+    }
+    if ([self.question.item2 isEqualToString:@""]) {
+        self.question.item2 = @"错误";
+    }
     [self initOptionViewWithTitle:@"A" text:self.question.item1];
     [self initOptionViewWithTitle:@"B" text:self.question.item2];
     
@@ -188,7 +271,7 @@
             [view makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(self.scrollView.top).offset(20.0f);
                 make.left.equalTo(self.scrollView.left).offset(40.0f);
-                make.right.equalTo(self.scrollView.right).offset(-20.0f);
+                make.width.equalTo(self.scrollView.width).offset(-60.0f);
                 make.height.equalTo(view.textLabel.height);
             }];
         } else {
@@ -196,7 +279,7 @@
             [view makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(prevView.bottom).offset(15.0f);
                 make.left.equalTo(self.scrollView.left).offset(40.0f);
-                make.right.equalTo(self.scrollView.right).offset(-20.0f);
+                make.width.equalTo(self.scrollView.width).offset(-60.0f);
                 make.height.equalTo(view.textLabel.height);
             }];
         }
@@ -241,7 +324,7 @@
         [self updateOptionViewsForSingleAnswerQuestion:userAnswers];
         self.question.answered = @(1);
         self.question.userAnswers = userAnswers;
-        
+        [self buildExplanationView];
     }
     
 }
