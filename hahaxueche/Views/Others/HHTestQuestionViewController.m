@@ -14,6 +14,7 @@
 #import "HHTestQuestionView.h"
 #import "HHTestQuestionBottomBar.h"
 #import "HHTestQuestionManager.h"
+#import "HHWebViewController.h"
 
 @interface HHTestQuestionViewController () <SwipeViewDataSource, SwipeViewDelegate>
 
@@ -143,19 +144,12 @@
     __weak HHTestQuestionViewController *weakSelf = self;
     BOOL favorated = [[HHTestQuestionManager sharedManager] isFavoratedQuestion:self.questions[index] courseMode:self.currentCourseMode];
     __weak HHTestQuestionView *weakView;
+    HHTestQuestionView *questionView;
     if (view) {
-        HHTestQuestionView *questionView = (HHTestQuestionView *)view;
-        weakView = questionView;
-        questionView.favBlock = ^(HHQuestion *question) {
-            [weakView setupFavViews:[[HHTestQuestionManager sharedManager] favorateQuestion:question courseMode:weakSelf.currentCourseMode] testMode:weakSelf.currentTestMode];
-            if (weakSelf.currentTestMode == TestModeFavQuestions) {
-                [weakSelf removeFavQuestion:question];
-            }
-        };
-        [questionView fillUpViewWithQuestion:self.questions[index] favorated:favorated testMode:self.currentTestMode];
-        return questionView;
+        questionView = (HHTestQuestionView *)view;
+    } else {
+        questionView = [[HHTestQuestionView alloc] init];
     }
-    HHTestQuestionView *questionView = [[HHTestQuestionView alloc] init];
     weakView = questionView;
     questionView.favBlock = ^(HHQuestion *question) {
         [weakView setupFavViews:[[HHTestQuestionManager sharedManager] favorateQuestion:question courseMode:weakSelf.currentCourseMode] testMode:weakSelf.currentTestMode];
@@ -163,8 +157,11 @@
             [weakSelf removeFavQuestion:question];
         }
     };
+    questionView.explaBlock = ^(NSURL *url) {
+        HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:url];
+        [weakSelf.navigationController pushViewController:vc animated:YES];
+    };
     [questionView fillUpViewWithQuestion:self.questions[index] favorated:favorated testMode:self.currentTestMode];
-    
     return questionView;
 }
 

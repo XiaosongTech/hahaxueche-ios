@@ -11,6 +11,7 @@
 #import "HHTestQuestionManager.h"
 
 typedef void (^HHTestQuestionFavBlock)(HHQuestion *question);
+typedef void (^HHTestQuestionExplanationBlock)(NSURL *url);
 
 @interface HHTestQuestionView : UIView
 
@@ -18,7 +19,7 @@ typedef void (^HHTestQuestionFavBlock)(HHQuestion *question);
 - (void)setupFavViews:(BOOL)favorated testMode:(TestMode)testMode;
 
 @property (nonatomic, strong) HHTestQuestionFavBlock favBlock;
-
+@property (nonatomic, strong) HHTestQuestionExplanationBlock explaBlock;
 
 
 @end

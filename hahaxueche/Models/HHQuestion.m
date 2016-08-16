@@ -169,4 +169,42 @@
     }
 }
 
+- (NSArray *)standardAnswers {
+    if ([self.answer isEqualToString:@"1"]) {
+        return @[@(1)];
+    } else if ([self.answer isEqualToString:@"2"]) {
+        return @[@(2)];
+    } else if ([self.answer isEqualToString:@"3"]) {
+        return @[@(3)];
+    } else if ([self.answer isEqualToString:@"4"]) {
+        return @[@(4)];
+    } else if ([self.answer isEqualToString:@"7"]) {
+        return @[@(1), @(2)];
+    } else if ([self.answer isEqualToString:@"8"]) {
+        return @[@(1), @(3)];
+    } else if ([self.answer isEqualToString:@"9"]) {
+        return @[@(1), @(4)];
+    } else if ([self.answer isEqualToString:@"10"]) {
+        return @[@(2), @(3)];
+    } else if ([self.answer isEqualToString:@"11"]) {
+        return @[@(2), @(4)];
+    } else if ([self.answer isEqualToString:@"12"]) {
+        return @[@(3), @(4)];
+    } else if ([self.answer isEqualToString:@"13"]) {
+        return @[@(1), @(2), @(3)];
+    } else if ([self.answer isEqualToString:@"14"]) {
+        return @[@(1), @(2), @(4)];
+        
+    } else if ([self.answer isEqualToString:@"15"]) {
+        return @[@(1), @(3), @(4)];
+        
+    } else if ([self.answer isEqualToString:@"16"]) {
+        return @[@(2), @(3), @(4)];
+        
+    } else if ([self.answer isEqualToString:@"17"]) {
+        return @[@(1), @(2), @(3), @(4)];
+    }
+    return nil;
+}
+
 @end

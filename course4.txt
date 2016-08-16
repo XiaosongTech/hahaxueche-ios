@@ -3663,7 +3663,7 @@
             "item3": "",
             "item4": "",
             "explains": "比如南方的山区道路，你那怕只走过一次，对这个做法就会深表认同，因为这个真是太重要了。",
-            "url": "http://p1.hahaxueche.com/tiku/333.gif
+            "url": "http://p1.hahaxueche.com/tiku/333.gif"
         },
         {
             "id": 334,

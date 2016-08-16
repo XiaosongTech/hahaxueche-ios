@@ -11,8 +11,9 @@
 #import "UIColor+HHColor.h"
 #import <UIImageView+WebCache.h>
 #import "HHOptionView.h"
+#import <TTTAttributedLabel.h>
 
-@interface HHTestQuestionView ()
+@interface HHTestQuestionView () <TTTAttributedLabelDelegate>
 
 @property (nonatomic, strong) HHQuestion *question;
 
@@ -25,8 +26,11 @@
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NSMutableArray *optionViews;
+@property (nonatomic, strong) NSMutableArray *userAnswers;
 @property (nonatomic, strong) UIImageView *seporatorView;
-@property (nonatomic, strong) UILabel *explanationLabel;
+@property (nonatomic, strong) TTTAttributedLabel *explanationLabel;
+
+@property (nonatomic, strong) UIButton *confirmButton;
 
 @end
 
@@ -37,7 +41,7 @@
     if (self) {
         self.backgroundColor = [UIColor HHBackgroundGary];
         self.optionViews = [NSMutableArray array];
-        
+        self.userAnswers = [NSMutableArray array];
         [self initSubviews];
     }
     return self;
@@ -146,6 +150,7 @@
     self.question = question;
     self.questionTitleLabel.text = self.question.questionDes;
     self.questionTypeLabel.text = [self.question getQuestionTypeString];
+    [self.userAnswers removeAllObjects];
     
     [self setupFavViews:favorated testMode:testMode];
     
@@ -194,10 +199,12 @@
         self.seporatorView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_question_msg"]];
         [self.scrollView addSubview:self.seporatorView];
         
-        self.explanationLabel = [[UILabel alloc] init];
+        self.explanationLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
         self.explanationLabel.textColor = [UIColor HHLightTextGray];
         self.explanationLabel.font = [UIFont systemFontOfSize:18.0f];
         self.explanationLabel.numberOfLines = 0;
+        self.explanationLabel.delegate = self;
+        self.explanationLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink;
         self.explanationLabel.text = self.question.explains;
         [self.scrollView addSubview:self.explanationLabel];
     }
@@ -290,6 +297,37 @@
         }
         i++;
     }
+    HHOptionView *lastView = [self.optionViews lastObject];
+    if ([self.questionTypeLabel.text isEqualToString:@"多选题"]) {
+        [self.confirmButton makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(lastView.bottom);
+            make.centerX.equalTo(self.scrollView.centerX);
+            make.width.equalTo(self.scrollView.width).offset(-60.0f);
+            make.height.mas_equalTo(60.0f);
+        }];
+    }
+    
+    if ([[self.question getQuestionTypeString] isEqualToString:@"多选题"]) {
+        [self.confirmButton removeFromSuperview];
+        self.confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.confirmButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        self.confirmButton.backgroundColor = [UIColor HHOrange];
+        self.confirmButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
+        self.confirmButton.layer.masksToBounds = YES;
+        self.confirmButton.layer.cornerRadius = 5.0f;
+        [self.confirmButton addTarget:self action:@selector(confirmSelection) forControlEvents:UIControlEventTouchUpInside];
+        [self.confirmButton setTitle:@"提交答案" forState:UIControlStateNormal];
+        [self.scrollView addSubview:self.confirmButton];
+        [self.confirmButton remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(lastView.bottom).offset(30.0f);
+            make.centerX.equalTo(self.scrollView.centerX);
+            make.width.equalTo(self.scrollView.width).offset(-60.0f);
+            make.height.mas_equalTo(60.0f);
+        }];
+        if ([self.question.answered boolValue]) {
+            [self updateOptionViewsForMultiAnswerQuestion];
+        }
+    }
     
     if ([self.question.userAnswers count]) {
         if ([self.questionTypeLabel.text isEqualToString:@"多选题"]) {
@@ -303,6 +341,7 @@
 - (void)initOptionViewWithTitle:(NSString *)title text:(NSString *)text {
     HHOptionView *view = [[HHOptionView alloc] initWithOptionTilte:title text:text];
     UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(optionSelected:)];
+    tapGes.cancelsTouchesInView = NO;
     [view addGestureRecognizer:tapGes];
     [self.scrollView addSubview:view];
     [self.optionViews addObject:view];
@@ -321,16 +360,28 @@
         return;
     }
     HHOptionView *view  = (HHOptionView *)recognizer.view;
-    NSMutableArray *userAnswers = [NSMutableArray array];
     if ([[self.question getQuestionTypeString] isEqualToString:@"多选题"]) {
+        if ([self.userAnswers containsObject:@(view.tag + 1)]) {
+            [self.userAnswers removeObject:@(view.tag + 1)];
+            [view.titleButton setTitleColor:[UIColor HHLightestTextGray] forState:UIControlStateNormal];
+            view.titleButton.layer.borderColor = [UIColor HHLightestTextGray].CGColor;
+            view.titleButton.backgroundColor = [UIColor whiteColor];
+        } else {
+            [self.userAnswers addObject:@(view.tag + 1)];
+            [view.titleButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
+            view.titleButton.layer.borderColor = [UIColor HHOrange].CGColor;
+            view.titleButton.backgroundColor = [UIColor HHLightOrange];
+        }
         
     } else {
-        [userAnswers addObject:@(view.tag + 1)];
-        [self updateOptionViewsForSingleAnswerQuestion:userAnswers];
+        [self.userAnswers removeAllObjects];
+        [self.userAnswers addObject:@(view.tag + 1)];
+        [self updateOptionViewsForSingleAnswerQuestion:self.userAnswers];
         self.question.answered = @(1);
-        self.question.userAnswers = userAnswers;
+        self.question.userAnswers = self.userAnswers;
         [self buildExplanationView];
     }
+    
     
 }
 
@@ -346,6 +397,34 @@
         correctOption.titleButton.layer.borderWidth = 0;
         [correctOption.titleButton setImage:[UIImage imageNamed:@"ic_right"] forState:UIControlStateNormal];
     }
+}
+
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+    if (self.explaBlock) {
+        self.explaBlock(url);
+    }
+}
+
+- (void)confirmSelection {
+    self.question.answered = @(1);
+    self.question.userAnswers = self.userAnswers;
+    [self updateOptionViewsForMultiAnswerQuestion];
+    [self buildExplanationView];
+}
+
+- (void)updateOptionViewsForMultiAnswerQuestion {
+    for (HHOptionView *view in self.optionViews) {
+        if ([[self.question standardAnswers] containsObject:@(view.tag + 1)]) {
+            [view.titleButton setImage:[UIImage imageNamed:@"ic_right"] forState:UIControlStateNormal];
+        } else {
+            [view.titleButton setImage:[UIImage imageNamed:@"ic_wrong"] forState:UIControlStateNormal];
+        }
+        view.titleButton.layer.borderWidth = 0;
+    }
+    self.question.answered = @(1);
+    self.question.userAnswers = self.userAnswers;
+    self.confirmButton.hidden = YES;
+    
 }
 
 

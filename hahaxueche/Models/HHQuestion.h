@@ -25,6 +25,6 @@
 - (BOOL)isAnswerCorrect:(NSMutableArray *)answers;
 - (NSString *)getQuestionTypeString;
 - (BOOL)hasImage;
-
+- (NSArray *)standardAnswers;;
 
 @end
