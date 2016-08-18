@@ -6,6 +6,7 @@
 //  Copyright © 2016 Zixiao Wang. All rights reserved.
 //
 
+
 #import "HHTestQuestionManager.h"
 
 static NSString *const kCourse1OrderIndex = @"kCourse1OrderIndex";
@@ -104,7 +105,7 @@ static NSString *const kCourse4FavoratedKey = @"kCourse4FavoratedKey";
             
         case TestModeSimu: {
             finalquestions = [NSMutableArray array];
-            for (NSNumber *index in [self getSimuQuestionsIndex:questions]) {
+            for (NSNumber *index in [self getSimuQuestionsIndex:questions courseMode:courseMode]) {
                 [finalquestions addObject:questions[[index integerValue]]];
             }
         } break;
@@ -122,9 +123,13 @@ static NSString *const kCourse4FavoratedKey = @"kCourse4FavoratedKey";
 
 }
 
-- (NSMutableArray *)getSimuQuestionsIndex:(NSMutableArray *)questions {
+- (NSMutableArray *)getSimuQuestionsIndex:(NSMutableArray *)questions courseMode:(CourseMode)courseMode{
     NSMutableArray *numbers = [NSMutableArray array];
-    while ([numbers count] < 100) {
+    NSInteger count = kSimuCourse1QuestionCount;
+    if (courseMode == CourseMode4) {
+        count = kSimuCourse4QuestionCount;
+    }
+    while ([numbers count] < count) {
         NSNumber *number = [self getRandomNumberBetween:0 to:(int)questions.count-1];
         if (![numbers containsObject:number]) {
             [numbers addObject:number];

@@ -39,6 +39,7 @@
 #import "HMSegmentedControl.h"
 #import "HHTestView.h"
 #import "HHTestQuestionViewController.h"
+#import "HHTestSimuLandingViewController.h"
 
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach";
@@ -561,6 +562,12 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
 }
 
 - (void)showTestVCWithMode:(TestMode)mode {
+    if (mode == TestModeSimu) {
+        HHTestSimuLandingViewController *vc = [[HHTestSimuLandingViewController alloc] initWithCourseMode:self.segControl.selectedSegmentIndex];
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+        [self presentViewController:navVC animated:YES completion:nil];
+        return;
+    }
     NSInteger startIndex = 0;
     if (mode == TestModeOrder) {
         startIndex = [[HHTestQuestionManager sharedManager] getOrderTestIndexWithCourseMode:self.segControl.selectedSegmentIndex];

@@ -376,9 +376,9 @@
     } else {
         [self.userAnswers removeAllObjects];
         [self.userAnswers addObject:@(view.tag + 1)];
-        [self updateOptionViewsForSingleAnswerQuestion:self.userAnswers];
         self.question.answered = @(1);
         self.question.userAnswers = self.userAnswers;
+        [self updateOptionViewsForSingleAnswerQuestion:self.userAnswers];
         [self buildExplanationView];
     }
     
@@ -396,6 +396,9 @@
         HHOptionView *correctOption = self.optionViews[[self.question.answer integerValue] - 1];
         correctOption.titleButton.layer.borderWidth = 0;
         [correctOption.titleButton setImage:[UIImage imageNamed:@"ic_right"] forState:UIControlStateNormal];
+    }
+    if (self.answeredBlock) {
+        self.answeredBlock(self.question);
     }
 }
 
@@ -424,6 +427,10 @@
     self.question.answered = @(1);
     self.question.userAnswers = self.userAnswers;
     self.confirmButton.hidden = YES;
+    
+    if (self.answeredBlock) {
+        self.answeredBlock(self.question);
+    }
     
 }
 

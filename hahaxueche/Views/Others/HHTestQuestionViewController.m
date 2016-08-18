@@ -15,6 +15,8 @@
 #import "HHTestQuestionBottomBar.h"
 #import "HHTestQuestionManager.h"
 #import "HHWebViewController.h"
+#import "CountDown.h"
+#import "HHTestResultViewController.h"
 
 @interface HHTestQuestionViewController () <SwipeViewDataSource, SwipeViewDelegate>
 
@@ -23,9 +25,13 @@
 @property (nonatomic, strong) NSMutableArray *questions;
 @property (nonatomic, strong) NSMutableArray *questionViews;
 @property (nonatomic) NSInteger currentIndex;
+@property (nonatomic) NSInteger currentMin;
 
 @property (nonatomic, strong) SwipeView *swipeView;
 @property (nonatomic, strong) HHTestQuestionBottomBar *botBar;
+@property (nonatomic, strong) NSMutableArray *wrongQuestions;
+@property (nonatomic, strong) NSMutableArray *correctQuestions;
+@property (nonatomic, strong) NSMutableArray *answeredQuestions;
 
 @end
 
@@ -38,6 +44,9 @@
         self.currentCourseMode = courseMode;
         self.currentIndex = startIndex;
         self.questions = questions;
+        self.wrongQuestions = [NSMutableArray array];
+        self.answeredQuestions = [NSMutableArray array];
+        self.correctQuestions = [NSMutableArray array];
     }
     return self;
 }
@@ -58,11 +67,18 @@
             
         case TestModeSimu: {
             self.title = @"模拟考试";
+            self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_question_upexam"] action:@selector(finishTest) target:self];
+            
+            [self updateCountdown];
         } break;
             
         case TestModeFavQuestions: {
             self.title = @"我的题集";
         } break;
+            
+        case TestModeWrongQuestions: {
+            self.title = @"查看错题";
+        }
             
         default:
             break;
@@ -161,6 +177,24 @@
         HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:url];
         [weakSelf.navigationController pushViewController:vc animated:YES];
     };
+    
+    questionView.answeredBlock = ^(HHQuestion *question) {
+        if (![question isAnswerCorrect:question.userAnswers]) {
+            [weakSelf.wrongQuestions addObject:question];
+            if (![[HHTestQuestionManager sharedManager] isFavoratedQuestion:question courseMode:self.currentCourseMode]) {
+                [[HHTestQuestionManager sharedManager] favorateQuestion:question courseMode:weakSelf.currentCourseMode];
+            }
+            
+        } else {
+            [weakSelf.correctQuestions addObject:question];
+        }
+        [weakSelf.answeredQuestions addObject:question];
+        
+        if (weakSelf.currentIndex == weakSelf.questions.count-1 && weakSelf.currentTestMode == TestModeSimu) {
+            [weakSelf showResultVC];
+        }
+        
+    };
     [questionView fillUpViewWithQuestion:self.questions[index] favorated:favorated testMode:self.currentTestMode];
     return questionView;
 }
@@ -203,6 +237,50 @@
     [self.questions removeObject:question];
     [self.swipeView reloadData];
     self.botBar.infoLabel.attributedText = [self buildAttrString];
+}
+
+- (void)finishTest {
+    __weak HHTestQuestionViewController *weakSelf = self;
+    NSString *msg = [NSString stringWithFormat:@"您已经回答了%ld道题, 答错了%ld道题, 确认交卷吗?", self.answeredQuestions.count, self.wrongQuestions.count];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"交卷提示" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"继续做题" style:UIAlertActionStyleCancel handler:nil];
+    
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确认交卷" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [weakSelf showResultVC];
+    }];
+    
+    [alertController addAction:cancelAction];
+    [alertController addAction:confirmAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+- (void)updateCountdown {
+    __weak HHTestQuestionViewController *weakSelf = self;
+    CountDown *countDown = [[CountDown alloc] init];
+    NSDate *finishDate = [NSDate dateWithTimeIntervalSinceNow:45*60 -1];
+    if (self.currentCourseMode == CourseMode4) {
+        finishDate = [NSDate dateWithTimeIntervalSinceNow:30*60 -1];
+    }
+    [countDown countDownWithStratDate:[NSDate date] finishDate:finishDate completeBlock:^(NSInteger day, NSInteger hour, NSInteger minute, NSInteger second) {
+        if (minute == 0 && second == 0) {
+            [weakSelf showResultVC];
+            return;
+        }
+        weakSelf.currentMin = minute;
+        self.title = [NSString stringWithFormat:@"模拟考试 %ld:%ld", minute, second];
+    }];
+}
+
+- (void)showResultVC {
+    NSInteger min = 45-self.currentMin;
+    if (self.currentCourseMode == CourseMode4) {
+        min = 30-self.currentMin;
+    }
+    HHTestResultViewController *vc = [[HHTestResultViewController alloc] initWithCorrectQuestions:self.correctQuestions min:min courseMode:self.currentCourseMode wrongQuestions:self.wrongQuestions];
+
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

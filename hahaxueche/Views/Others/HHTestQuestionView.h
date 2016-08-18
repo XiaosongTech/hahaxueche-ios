@@ -19,6 +19,7 @@ typedef void (^HHTestQuestionExplanationBlock)(NSURL *url);
 - (void)setupFavViews:(BOOL)favorated testMode:(TestMode)testMode;
 
 @property (nonatomic, strong) HHTestQuestionFavBlock favBlock;
+@property (nonatomic, strong) HHTestQuestionFavBlock answeredBlock;
 @property (nonatomic, strong) HHTestQuestionExplanationBlock explaBlock;
 
 

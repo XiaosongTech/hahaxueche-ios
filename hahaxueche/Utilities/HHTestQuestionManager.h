@@ -6,14 +6,19 @@
 //  Copyright © 2016 Zixiao Wang. All rights reserved.
 //
 
+const static NSInteger kSimuCourse1QuestionCount = 100;
+const static NSInteger kSimuCourse4QuestionCount = 50;
+
 #import <Foundation/Foundation.h>
 #import "HHQuestion.h"
+
 
 typedef NS_ENUM(NSInteger, TestMode) {
     TestModeOrder, // 顺序练题
     TestModeRandom, // 随机练题
     TestModeSimu, //全真模拟
     TestModeFavQuestions, //我的题集
+    TestModeWrongQuestions, //我的错题
 };
 
 typedef NS_ENUM(NSInteger, CourseMode) {
