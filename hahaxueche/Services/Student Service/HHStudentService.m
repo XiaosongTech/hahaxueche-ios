@@ -237,17 +237,16 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     }];
 }
 
-- (void)withdrawBonusWithAmount:(NSNumber *)amount accountName:(NSString *)accountName account:(NSString *)account completion:(HHWithdrawCompletion)completion {
+- (void)withdrawBonusWithAmount:(NSNumber *)amount completion:(HHWithdrawCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentWithdraw, [HHStudentStore sharedInstance].currentStudent.studentId]];
-    [APIClient postWithParameters:@{@"account":account, @"account_owner_name":accountName, @"amount":amount} completion:^(NSDictionary *response, NSError *error) {
+    [APIClient postWithParameters:@{@"amount":amount} completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
-            HHWithdraw *withdraw = [MTLJSONAdapter modelOfClass:[HHWithdraw class] fromJSONDictionary:response error:nil];
             if (completion) {
-                completion(withdraw, nil);
+                completion(YES);
             }
         } else {
             if (completion) {
-                completion(nil, error);
+                completion(NO);
             }
         }
     }];
@@ -344,6 +343,24 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     #else
         return [NSString stringWithFormat:@"http://api.hahaxueche.net/share/students/%@/image", [HHStudentStore sharedInstance].currentStudent.studentId];
     #endif
+}
+
+- (void)addBankCardToStudent:(HHBankCard *)card completion:(HHCardCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIBankCards];
+    NSDictionary *dic = @{@"name":card.cardHolderName, @"card_number":card.cardNumber, @"open_bank_code":card.bankCode, @"transferable_type":@"Student", @"transferable_id":[HHStudentStore sharedInstance].currentStudent.studentId};
+    [APIClient postWithParameters:dic completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHBankCard *card = [MTLJSONAdapter modelOfClass:[HHBankCard class] fromJSONDictionary:response error:nil];
+            [HHStudentStore sharedInstance].currentStudent.bankCard = card;
+            if (completion) {
+                completion(card, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
 }
 
 @end

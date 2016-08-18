@@ -144,4 +144,27 @@ static NSString *const kSavedConstants = @"kSavedConstant";
     return city.referrerBonus;
 }
 
+- (NSArray *)getAllBanks {
+    return [HHConstantsStore sharedInstance].constants.banks;
+}
+
+- (NSMutableArray *)getPopularBanks {
+    NSMutableArray *array = [NSMutableArray array];
+    for (HHBank *bank in [HHConstantsStore sharedInstance].constants.banks) {
+        if ([bank.isPopular boolValue]) {
+            [array addObject:bank];
+        }
+    }
+    return array;
+}
+
+- (HHBank *)getCardBankWithCode:(NSString *)bankCode {
+    for (HHBank *bank in [HHConstantsStore sharedInstance].constants.banks) {
+        if ([bank.bankCode isEqualToString:bankCode]) {
+            return bank;
+        }
+    }
+    return nil;
+}
+
 @end

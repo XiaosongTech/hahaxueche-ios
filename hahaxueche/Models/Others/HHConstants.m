@@ -11,6 +11,7 @@
 #import "HHField.h"
 #import "HHNotification.h"
 #import "HHBanner.h"
+#import "HHBank.h"
 
 @implementation HHConstants
 
@@ -21,6 +22,7 @@
              @"loginBanners": @"new_login_banners",
              @"homePageBanners": @"new_home_page_banners",
              @"notifications": @"banner_highlights",
+             @"banks": @"banks",
              };
 }
 
@@ -44,5 +46,8 @@
     return [MTLJSONAdapter arrayTransformerWithModelClass:[HHBanner class]];
 }
 
++ (NSValueTransformer *)banksJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[HHBank class]];
+}
 
 @end

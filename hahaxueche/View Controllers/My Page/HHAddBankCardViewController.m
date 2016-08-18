@@ -11,9 +11,13 @@
 #import "Masonry.h"
 #import "HHCardInfoInputView.h"
 #import "UIBarButtonItem+HHCustomButton.h"
-#import "HHCityViewController.h"
+#import "HHBankSelectionViewController.h"
 #import "HHConstantsStore.h"
 #import "HHCity.h"
+#import "HHConstantsStore.h"
+#import "HHToastManager.h"
+#import "HHStudentService.h"
+#import "HHLoadingViewUtility.h"
 
 @interface HHAddBankCardViewController ()
 
@@ -21,15 +25,27 @@
 @property (nonatomic, strong) HHCardInfoInputView *nameView;
 @property (nonatomic, strong) HHCardInfoInputView *cardNoView;
 @property (nonatomic, strong) HHCardInfoInputView *bankView;
-@property (nonatomic, strong) HHCardInfoInputView *cityView;
 @property (nonatomic, strong) UIButton *confirmButton;
+
+@property (nonatomic, strong) HHBankCard *card;
 
 @end
 
 @implementation HHAddBankCardViewController
 
+- (instancetype)initWithCard:(HHBankCard *)card {
+    self = [super init];
+    if (self) {
+        self.card = card;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if (!self.card) {
+        self.card = [[HHBankCard alloc] init];
+    }
     self.title = @"银行卡绑定";
     self.view.backgroundColor = [UIColor HHBackgroundGary];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
@@ -41,37 +57,28 @@
     [self.view addSubview:self.titleLabel];
     
     self.nameView = [[HHCardInfoInputView alloc] initWithTitle:@"持卡人:" placeholder:@"持卡人姓名"];
+    self.nameView.textField.text = self.card.cardHolderName;
     [self.view addSubview:self.nameView];
     
     self.cardNoView = [[HHCardInfoInputView alloc] initWithTitle:@"卡号:" placeholder:@"银行卡号"];
     self.cardNoView.textField.keyboardType = UIKeyboardTypeNumberPad;
+    self.cardNoView.textField.text = self.card.cardNumber;
     [self.view addSubview:self.cardNoView];
     
     __weak HHAddBankCardViewController *weakSelf = self;
     self.bankView = [[HHCardInfoInputView alloc] initWithTitle:@"银行:" placeholder:@"请选择银行"];
+    self.bankView.textField.text = self.card.bankName;
     self.bankView.textField.enabled = NO;
     self.bankView.block = ^() {
-    };
-    [self.view addSubview:self.bankView];
-    
-    self.cityView = [[HHCardInfoInputView alloc] initWithTitle:@"开户地:" placeholder:@"请选择开户城市"];
-    self.cityView.textField.enabled = NO;
-    self.cityView.block = ^() {
-        NSMutableArray *popularCities = [NSMutableArray array];
-        for (HHCity *city in [[HHConstantsStore sharedInstance] getSupporteCities]) {
-            [popularCities addObject:city.cityName];
-            [popularCities addObject:city.cityName];
-            [popularCities addObject:city.cityName];
-        }
-        
-        HHCityViewController *vc = [[HHCityViewController alloc] initWithPopularCities:popularCities allCities:nil selectedCity:nil];
-        vc.block = ^(NSString *city) {
-            weakSelf.cityView.textField.text = city;
+        HHBankSelectionViewController *vc = [[HHBankSelectionViewController alloc] initWithPopularbanks:[[HHConstantsStore sharedInstance] getPopularBanks] allBanks:[[HHConstantsStore sharedInstance] getAllBanks] selectedBank:[[HHConstantsStore sharedInstance] getCardBankWithCode:weakSelf.card.bankCode]];
+        vc.block = ^(HHBank *bank) {
+            weakSelf.bankView.textField.text = bank.bankName;
+            weakSelf.card.bankName = bank.bankName;
+            weakSelf.card.bankCode = bank.bankCode;
         };
         [weakSelf.navigationController pushViewController:vc animated:YES];
-
     };
-    [self.view addSubview:self.cityView];
+    [self.view addSubview:self.bankView];
     
     self.confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.confirmButton setTitle:@"确认" forState:UIControlStateNormal];
@@ -109,15 +116,8 @@
         make.height.mas_equalTo(55.0f);
     }];
     
-    [self.cityView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bankView.bottom);
-        make.left.equalTo(self.view.left);
-        make.width.equalTo(self.view.width);
-        make.height.mas_equalTo(55.0f);
-    }];
-    
     [self.confirmButton makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.cityView.bottom).offset(20.0f);
+        make.top.equalTo(self.bankView.bottom).offset(20.0f);
         make.centerX.equalTo(self.view.centerX);
         make.width.equalTo(self.view.width).offset(-60.0f);
         make.height.mas_equalTo(50.0f);
@@ -131,6 +131,38 @@
 }
 
 - (void)confirm {
+    self.card.cardNumber = self.cardNoView.textField.text;
+    self.card.cardHolderName = self.nameView.textField.text;
+
+    if (!self.card.cardNumber || [self.card.cardHolderName isEqualToString:@""]) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"请填写卡号"];
+        return;
+    }
+    
+    if (!self.card.cardHolderName || [self.card.cardHolderName isEqualToString:@""]) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"请填写卡号"];
+        return;
+    }
+    
+    if (!self.card.bankCode || [self.card.bankCode isEqualToString:@""]) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"请选择银行"];
+        return;
+    }
+    
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    
+    __weak HHAddBankCardViewController *weakSelf = self;
+    [[HHStudentService sharedInstance] addBankCardToStudent:self.card completion:^(HHBankCard *card, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (!error) {
+            if (weakSelf.cardBlock) {
+                weakSelf.cardBlock(weakSelf.card);
+                [weakSelf.navigationController popViewControllerAnimated:YES];
+            }
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"银行卡添加失败, 请仔细检查"];
+        }
+    }];
     
 }
 

@@ -39,10 +39,11 @@
 #define kAPIStudentBonusSummary @"students/%@/referal_bonus_summary"
 #define kAPIStudentReferees @"students/%@/referees"
 #define kAPIStudentWithdrawTransacion @"students/%@/referal_bonus_transactions"
-#define kAPIStudentWithdraw @"students/%@/withdraw_referal_bonus"
 #define kAPIGroupPurchase @"activity_users"
 #define kAPILikeCoach @"students/%@/like/%@"
 #define kAPIEvents @"events"
+#define kAPIBankCards @"bank_cards"
+#define kAPIStudentWithdraw @"students/%@/withdraw"
 
 
 

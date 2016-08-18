@@ -7,7 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HHBankCard.h"
+
+typedef void (^HHBankCardBlock)(HHBankCard *card);
 
 @interface HHAddBankCardViewController : UIViewController
+
+- (instancetype)initWithCard:(HHBankCard *)card;
+
+@property (nonatomic, strong) HHBankCardBlock cardBlock;
 
 @end

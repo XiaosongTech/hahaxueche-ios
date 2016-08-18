@@ -20,6 +20,8 @@
 #import "HHStudentService.h"
 #import "HHAddBankCardViewController.h"
 #import "HHWithdrawHistoryViewController.h"
+#import "HHStudentStore.h"
+#import "HHLoadingViewUtility.h"
 
 
 static NSString *const kCellId = @"cellId";
@@ -38,7 +40,6 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 @property (nonatomic, strong) UIButton *withdrawButton;
 @property (nonatomic, strong) KLCPopup *popup;
 
-@property (nonatomic, strong) NSNumber *withdrawAmount;
 @property (nonatomic, strong) NSNumber *availableAmount;
 
 @property (nonatomic, strong) UIView *noCardView;
@@ -46,6 +47,8 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIImageView *eventTitleImageView;
 @property (nonatomic, strong) UILabel *eventRulesLabel;
+
+@property (nonatomic, strong) HHBankCard *bankCard;
 
 @end
 
@@ -61,6 +64,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.bankCard = [HHStudentStore sharedInstance].currentStudent.bankCard;
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"提现";
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
@@ -111,7 +115,12 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     [self.withdrawButton addTarget:self action:@selector(withdrawCash) forControlEvents:UIControlEventTouchUpInside];
     [self.scrollView addSubview:self.withdrawButton];
     
-    [self buildNoCardView];
+    if (self.bankCard) {
+        [self buildCardView];
+    } else {
+        [self buildNoCardView];
+    }
+    
     
     self.eventTitleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_notice"]];
     [self.scrollView addSubview:self.eventTitleImageView];
@@ -208,7 +217,33 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 }
 
 - (void)withdrawCash {
+    __weak HHWithdrawViewController *weakSelf = self;
+    if (!self.bankCard) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"请先添加银行卡"];
+        return;
+    }
     
+    if ([self.cashAmountField.text floatValue] * 100 > [self.availableAmount floatValue]) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"本次提现金额超过了您可提现金额"];
+        return;
+    }
+    
+    if ([self.cashAmountField.text floatValue] < 100 ) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"每次提现金额必须大于100元"];
+        return;
+    }
+    
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    [[HHStudentService sharedInstance] withdrawBonusWithAmount:@([self.cashAmountField.text floatValue] * 100) completion:^(BOOL succeed) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (succeed) {
+            [[HHToastManager sharedManager] showSuccessToastWithText:@"提现提交成功, 请在提现记录里查看状态"];
+            weakSelf.availableAmount = @([weakSelf.availableAmount floatValue] - [self.cashAmountField.text floatValue] * 100);
+            weakSelf.cashAmountField.text = @"";
+        } else {
+            [[HHToastManager sharedManager] showSuccessToastWithText:@"提现失败!"];
+        }
+    }];
 }
 
 
@@ -265,7 +300,71 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)buildCardView {
+    if (self.cardView) {
+        [self.cardView removeFromSuperview];
+    }
+    [self.noCardView removeFromSuperview];
+    self.cardView = [[UIView alloc] init];
+    [self.scrollView addSubview:self.cardView];
+    
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_arrow_more"]];
+    [self.cardView addSubview:imgView];
+    
+    UILabel *label = [[UILabel alloc] init];
+    label.text = self.bankCard.bankName;
+    label.textColor = [UIColor HHLightTextGray];
+    label.font = [UIFont systemFontOfSize:20.0f];
+    [self.cardView addSubview:label];
+    
+    UILabel *label2 = [[UILabel alloc] init];
+    label2.text = [NSString stringWithFormat:@"%@, 尾号%@", self.bankCard.cardHolderName, [self.bankCard.cardNumber substringFromIndex:MAX((int)[self.bankCard.cardNumber length]-4, 0)]];
+    label2.textColor = [UIColor HHLightestTextGray];
+    label2.font = [UIFont systemFontOfSize:12.0f];
+    [self.cardView addSubview:label2];
+    
+    UIView *line = [[UIView alloc] init];
+    line.backgroundColor = [UIColor HHLightLineGray];
+    [self.cardView addSubview:line];
+    
+    [self.cardView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.scrollView.top);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(70.0f);
+    }];
+    
+    [imgView makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.cardView.centerY);
+        make.right.equalTo(self.cardView.right).offset(-20.0f);
+    }];
+    
+    [label makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.cardView.centerY);
+        make.left.equalTo(self.cardView.left).offset(20.0f);
+    }];
+    
+    [label2 makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.cardView.centerY).offset(5.0f);
+        make.left.equalTo(self.cardView.left).offset(20.0f);
+    }];
+    
+    [line makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.cardView.centerX);
+        make.bottom.equalTo(self.cardView.bottom);
+        make.width.equalTo(self.cardView.width);
+        make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+    }];
+    
+    UITapGestureRecognizer *rec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showAddCardView)];
+    [self.cardView addGestureRecognizer:rec];
+}
+
 - (void)buildNoCardView {
+    if (self.noCardView) {
+        [self.noCardView removeFromSuperview];
+    }
+    [self.cardView removeFromSuperview];
     self.noCardView = [[UIView alloc] init];
     [self.scrollView addSubview:self.noCardView];
     
@@ -312,13 +411,23 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 }
 
 - (void)showAddCardView {
-    HHAddBankCardViewController *vc = [[HHAddBankCardViewController alloc] init];
+    __weak HHWithdrawViewController *weakSelf = self;
+    HHAddBankCardViewController *vc = [[HHAddBankCardViewController alloc] initWithCard:self.bankCard];
+    vc.cardBlock = ^(HHBankCard *card) {
+        weakSelf.bankCard = card;
+        [weakSelf buildCardView];
+    };
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)showHistoryVC {
     HHWithdrawHistoryViewController *vc = [[HHWithdrawHistoryViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)setAvailableAmount:(NSNumber *)availableAmount {
+    _availableAmount = availableAmount;
+    self.availabeAmountValueLabel.text = [self.availableAmount generateMoneyString];
 }
 
 @end

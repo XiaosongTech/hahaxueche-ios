@@ -6,7 +6,7 @@
 //  Copyright © 2016 Zixiao Wang. All rights reserved.
 //
 
-#import "HHCityViewController.h"
+#import "HHBankSelectionViewController.h"
 #import "Masonry.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "UIColor+HHColor.h"
@@ -15,32 +15,30 @@
 
 static NSString *const kCellId = @"kCellId";
 
-@interface HHCityViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface HHBankSelectionViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UITableView *searchResultTableView;
-@property (nonatomic, strong) NSMutableArray *popularCityViewArray;
-@property (nonatomic, strong) UILabel *popularCityLabel;
+@property (nonatomic, strong) NSMutableArray *popularBankViewArray;
+@property (nonatomic, strong) UILabel *popularBankLabel;
 @property (nonatomic, strong) UIView *line;
-@property (nonatomic, strong) NSArray *popularCities;
-@property (nonatomic, strong) NSArray *allCities;
-@property (nonatomic, strong) NSArray *groupedCities;
-@property (nonatomic, strong) NSMutableArray *searchResultCities;
-@property (nonatomic, strong) NSString *selectedCity;
+@property (nonatomic, strong) NSArray *popularBanks;
+@property (nonatomic, strong) NSArray *allBanks;
+@property (nonatomic, strong) NSMutableArray *searchResultBanks;
+@property (nonatomic, strong) HHBank *selectedBank;
 
 @end
 
-@implementation HHCityViewController
+@implementation HHBankSelectionViewController
 
-- (instancetype)initWithPopularCities:(NSArray *)popularCities allCities:(NSArray *)allCities selectedCity:(NSString *)selectedCity {
+- (instancetype)initWithPopularbanks:(NSArray *)popularBanks allBanks:(NSArray *)allBanks selectedBank:(HHBank *)selectedBank {
     self = [super init];
     if (self) {
-        self.popularCities = popularCities;
-        self.allCities = allCities;
-        self.selectedCity = selectedCity;
-        self.groupedCities = [self.allCities sortAndGroupStringByFirstLetter];
-        self.popularCityViewArray = [NSMutableArray array];
+        self.popularBanks = popularBanks;
+        self.allBanks = allBanks;
+        self.selectedBank = selectedBank;
+        self.popularBankViewArray = [NSMutableArray array];
     }
     return self;
 }
@@ -48,23 +46,24 @@ static NSString *const kCellId = @"kCellId";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
-    self.title = @"选择开户城市";
+    self.title = @"选择银行";
     self.view.backgroundColor = [UIColor HHBackgroundGary];
     
     self.searchBar = [[UISearchBar alloc] init];
     self.searchBar.backgroundColor = [UIColor HHBackgroundGary];
     self.searchBar.tintColor = [UIColor HHOrange];
     self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
-    self.searchBar.placeholder = @"搜索城市";
+    self.searchBar.placeholder = @"搜索银行";
+    self.searchBar.delegate = self;
     [self.view addSubview:self.searchBar];
     
-    self.popularCityLabel = [[UILabel alloc] init];
-    self.popularCityLabel.text = @"热门城市";
-    self.popularCityLabel.textColor = [UIColor HHLightestTextGray];
-    self.popularCityLabel.font = [UIFont systemFontOfSize:15.0f];
-    [self.view addSubview:self.popularCityLabel];
+    self.popularBankLabel = [[UILabel alloc] init];
+    self.popularBankLabel.text = @"常用银行";
+    self.popularBankLabel.textColor = [UIColor HHLightestTextGray];
+    self.popularBankLabel.font = [UIFont systemFontOfSize:15.0f];
+    [self.view addSubview:self.popularBankLabel];
     
-    [self buildPopularCitiesView];
+    [self buildPopularBanksView];
     
     self.line = [[UIView alloc] init];
     self.line.backgroundColor = [UIColor HHLightLineGray];
@@ -77,6 +76,7 @@ static NSString *const kCellId = @"kCellId";
     [self.view addSubview:self.tableView];
     
     self.searchResultTableView = [[UITableView alloc] init];
+    self.searchResultTableView.hidden = YES;
     self.searchResultTableView.delegate = self;
     self.searchResultTableView.dataSource = self;
     self.searchResultTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -95,12 +95,12 @@ static NSString *const kCellId = @"kCellId";
         make.width.equalTo(self.view.width).offset(-30.0f);
     }];
     
-    [self.popularCityLabel makeConstraints:^(MASConstraintMaker *make) {
+    [self.popularBankLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.searchBar.bottom).offset(10.0f);
         make.left.equalTo(self.view.left).offset(20.0f);
     }];
     
-    UIButton *lastButton = [self.popularCityViewArray lastObject];
+    UIButton *lastButton = [self.popularBankViewArray lastObject];
     [self.line makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(lastButton.bottom).offset(20.0f);
         make.left.equalTo(self.view.left);
@@ -114,35 +114,45 @@ static NSString *const kCellId = @"kCellId";
         make.width.equalTo(self.view.width);
         make.bottom.equalTo(self.view.bottom);
     }];
+    
+    [self.searchResultTableView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.popularBankLabel.top);
+        make.left.equalTo(self.view.left);
+        make.width.equalTo(self.view.width);
+        make.bottom.equalTo(self.view.bottom);
+    }];
 }
 
 - (void)dismissVC {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)buildPopularCitiesView {
-    for (NSString *popularCity in self.popularCities) {
+- (void)buildPopularBanksView {
+    int j = 0;
+    for (HHBank *bank in self.popularBanks) {
         UIButton *cityButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [cityButton setTitle:popularCity forState:UIControlStateNormal];
+        cityButton.tag = j;
+        [cityButton setTitle:bank.bankName forState:UIControlStateNormal];
         cityButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
         [cityButton addTarget:self action:@selector(cityButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:cityButton];
-        [self.popularCityViewArray addObject:cityButton];
+        [self.popularBankViewArray addObject:cityButton];
         
-        if ([popularCity isEqualToString:self.selectedCity]) {
+        if ([bank.bankCode isEqualToString:self.selectedBank.bankCode]) {
             cityButton.backgroundColor = [UIColor HHOrange];
             [cityButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         } else {
             cityButton.backgroundColor = [UIColor whiteColor];
             [cityButton setTitleColor:[UIColor HHTextDarkGray] forState:UIControlStateNormal];
         }
+        j++;
     }
     
     int i = 0;
-    for (UIButton *button in self.popularCityViewArray) {
+    for (UIButton *button in self.popularBankViewArray) {
         [button makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.view.left).offset(20.0f + (i%3) * ((CGRectGetWidth(self.view.bounds)-60.0f)/3.0f + 10.0f));
-            make.top.equalTo(self.popularCityLabel.bottom).offset(15.0f + (i/3) * 50.0f);
+            make.top.equalTo(self.popularBankLabel.bottom).offset(15.0f + (i/3) * 50.0f);
             make.width.mas_equalTo ((CGRectGetWidth(self.view.bounds)-60.0f)/3.0f);
             make.height.mas_equalTo(40.0f);
         }];
@@ -152,19 +162,19 @@ static NSString *const kCellId = @"kCellId";
 }
 
 - (void)cityButtonTapped:(UIButton *)button {
-    for (UIButton *cityButton in self.popularCityViewArray) {
+    for (UIButton *cityButton in self.popularBankViewArray) {
         cityButton.backgroundColor = [UIColor whiteColor];
         [cityButton setTitleColor:[UIColor HHTextDarkGray] forState:UIControlStateNormal];
     }
     button.backgroundColor = [UIColor HHOrange];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.selectedCity = button.titleLabel.text;
-    [self citySelected];
+    self.selectedBank = self.popularBanks[button.tag];
+    [self bakSelected];
 }
 
-- (void)citySelected {
+- (void)bakSelected {
     if (self.block) {
-        self.block(self.selectedCity);
+        self.block(self.selectedBank);
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -173,27 +183,25 @@ static NSString *const kCellId = @"kCellId";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HHCityCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
+    HHBank *bank;
     if ([tableView isEqual:self.tableView]) {
-        cell.label.text = self.groupedCities[indexPath.section][indexPath.row];
+        bank = self.allBanks[indexPath.row];
     } else {
-        cell.label.text = self.searchResultCities[indexPath.row];
+        bank = self.searchResultBanks[indexPath.row];
     }
+    cell.label.text = bank.bankName;
     return cell;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if ([tableView isEqual:self.tableView]) {
-        return 4;
-    } else {
-        return 0;
-    }
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([tableView isEqual:self.tableView]) {
-        return 2;
+        return self.allBanks.count;
     } else {
-        return 2;
+        return self.searchResultBanks.count;
     }
 }
 
@@ -201,21 +209,26 @@ static NSString *const kCellId = @"kCellId";
     return 40.0f;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if ([tableView isEqual:self.tableView]) {
-        return 30.0f;
-    } else {
-        return 0;
-    }
-}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([tableView isEqual:self.tableView]) {
-         self.selectedCity = self.groupedCities[indexPath.section][indexPath.row];
+         self.selectedBank = self.allBanks[indexPath.row];
     } else {
-        
+        self.selectedBank = self.searchResultBanks[indexPath.row];
     }
-    [self citySelected];
+    [self bakSelected];
 }
 
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    if ([searchText isEqualToString:@""] || !searchText) {
+        [self.tableView reloadData];
+        self.searchResultTableView.hidden = YES;
+    } else {
+        self.searchResultTableView.hidden = NO;
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bankName CONTAINS[cd] %@",searchText];
+        self.searchResultBanks = [NSMutableArray arrayWithArray:[self.allBanks filteredArrayUsingPredicate:predicate]];
+        [self.searchResultTableView reloadData];
+    }
+}
 @end

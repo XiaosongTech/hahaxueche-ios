@@ -10,6 +10,7 @@
 #import "HHConstants.h"
 #import "HHField.h"
 #import "HHCity.h"
+#import "HHBank.h"
 
 typedef void (^HHConstantsCompletion)(HHConstants *constants);
 
@@ -27,6 +28,10 @@ typedef void (^HHConstantsCompletion)(HHConstants *constants);
 - (NSArray *)getHomePageBanners;
 - (NSArray *)getNotifications;
 - (NSNumber *)getCityReferrerBonus;
+
+- (NSArray *)getAllBanks;
+- (NSArray *)getPopularBanks;
+- (HHBank *)getCardBankWithCode:(NSString *)bankCode;
 
 
 @end

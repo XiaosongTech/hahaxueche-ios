@@ -23,7 +23,8 @@
              @"currentCourse":@"current_course",
              @"bonusBalance":@"bonus_balance",
              @"byReferal":@"by_referal",
-             @"coupons":@"coupons"
+             @"coupons":@"coupons",
+             @"bankCard":@"bank_card",
              };
 }
 
@@ -33,6 +34,10 @@
 
 + (NSValueTransformer *)purchasedServiceArrayJSONTransformer {
     return [MTLJSONAdapter arrayTransformerWithModelClass:[HHPurchasedService class]];
+}
+
++ (NSValueTransformer *)bankCardJSONTransformer {
+    return [MTLJSONAdapter dictionaryTransformerWithModelClass:[HHBankCard class]];
 }
 
 - (NSString *)getCourseName {

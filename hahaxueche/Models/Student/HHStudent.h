@@ -9,6 +9,7 @@
 #import <Mantle/Mantle.h>
 #import "HHPurchasedService.h"
 #import "HHCoupon.h"
+#import "HHBankCard.h"
 
 @interface HHStudent : MTLModel <MTLJSONSerializing>
 
@@ -24,6 +25,7 @@
 @property (nonatomic, copy) NSNumber *bonusBalance;
 @property (nonatomic, copy) NSNumber *byReferal;
 @property (nonatomic, strong) NSArray *coupons;
+@property (nonatomic, strong) HHBankCard *bankCard;
 
 
 - (NSString *)getCourseName;
