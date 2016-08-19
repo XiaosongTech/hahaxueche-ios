@@ -26,7 +26,7 @@
     [self.view addSubview:self.imageView];
     
     self.indicatorView = [[UIActivityIndicatorView alloc] init];
-    self.indicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+    self.indicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     [self.imageView addSubview:self.indicatorView];
     [self.indicatorView startAnimating];
     

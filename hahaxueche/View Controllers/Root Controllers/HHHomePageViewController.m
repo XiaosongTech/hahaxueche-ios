@@ -134,13 +134,6 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     self.scrollView.scrollEnabled = YES;
     self.scrollView.bounces = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
-    CGFloat eventSectionHeight = 0;
-    if ([self.events count] == 1) {
-        eventSectionHeight = 60.0f + 70.0f;
-    } else if ([self.events count] >= 2) {
-        eventSectionHeight = 60.0f + 140.0f;
-    }
-    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) * 0.8f + 318.0f + eventSectionHeight + 250.0f);
     [self.view addSubview:self.scrollView];
     
     self.bannerView = [[SDCycleScrollView alloc] init];
@@ -454,13 +447,13 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
         make.height.equalTo(self.view.height).offset(-1 * CGRectGetHeight(self.tabBarController.tabBar.bounds));
     }];
     
-    CGFloat eventSectionHeight = 0;
-    if ([self.events count] == 1) {
-        eventSectionHeight = 60.0f + 70.0f;
-    } else if ([self.events count] >= 2) {
-        eventSectionHeight = 60.0f + 140.0f;
-    }
-    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) * 0.8f + 318.0f + eventSectionHeight);
+    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.myQuestionView
+                                                                attribute:NSLayoutAttributeBottom
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self.scrollView
+                                                                attribute:NSLayoutAttributeBottom
+                                                               multiplier:1.0
+                                                                 constant:-20.0f]];
 
 }
 
