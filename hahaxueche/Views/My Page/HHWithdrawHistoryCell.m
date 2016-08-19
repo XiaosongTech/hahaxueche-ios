@@ -39,7 +39,7 @@
     
     self.moneyLabel = [[UILabel alloc] init];
     self.moneyLabel.textColor = [UIColor HHOrange];
-    self.moneyLabel.font = [UIFont systemFontOfSize:30.0f];
+    self.moneyLabel.font = [UIFont systemFontOfSize:25.0f];
     [self.contentView addSubview:self.moneyLabel];
     
     [self makeConstraints];
@@ -63,8 +63,8 @@
 }
 
 - (void)setupCellWithWithdraw:(HHWithdraw *)withdraw {
-    self.statusLabel.text = @"成功";
-    self.timeLabel.text = [[HHFormatUtility fullDateWithoutSecFormatter] stringFromDate:withdraw.redeemedDate];
+    self.statusLabel.text = [withdraw getStatusString];
+    self.timeLabel.text = [[HHFormatUtility fullDateWithoutSecFormatter] stringFromDate:withdraw.withdrawedAt];
     self.moneyLabel.text = [withdraw.amount generateMoneyString];
 }
 

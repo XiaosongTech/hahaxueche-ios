@@ -10,8 +10,10 @@
 
 @interface HHWithdraw : MTLModel <MTLJSONSerializing>
 
-@property (nonatomic, copy) NSString *withdrawId;
+@property (nonatomic, copy) NSNumber *status;
 @property (nonatomic, copy) NSNumber *amount;
-@property (nonatomic, copy) NSDate *redeemedDate;
+@property (nonatomic, copy) NSDate *withdrawedAt;
+
+- (NSString *)getStatusString;
 
 @end

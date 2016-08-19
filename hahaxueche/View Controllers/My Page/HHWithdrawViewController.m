@@ -22,6 +22,7 @@
 #import "HHWithdrawHistoryViewController.h"
 #import "HHStudentStore.h"
 #import "HHLoadingViewUtility.h"
+#import "HHReferralDetailViewController.h"
 
 
 static NSString *const kCellId = @"cellId";
@@ -35,6 +36,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 @property (nonatomic, strong) UILabel *availabeAmountTitleLabel;
 @property (nonatomic, strong) UILabel *availabeAmountValueLabel;
 @property (nonatomic, strong) UILabel *cashAmountTitleLabel;
+@property (nonatomic, strong) UIButton *arrowButton;
 @property (nonatomic, strong) UITextField *cashAmountField;
 
 @property (nonatomic, strong) UIButton *withdrawButton;
@@ -102,8 +104,12 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     self.cashAmountField.inputView = keyboard;
     [self.topView addSubview:self.cashAmountField];
     
+    self.arrowButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.arrowButton setImage:[UIImage imageNamed:@"ic_arrow_more_white"] forState:UIControlStateNormal];
+    [self.arrowButton addTarget:self action:@selector(showReferralDetailVC) forControlEvents:UIControlEventTouchUpInside];
+    [self.topView addSubview:self.arrowButton];
+    
     self.scrollView = [[UIScrollView alloc] init];
-    self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), 330.0f);
     [self.view addSubview:self.scrollView];
     
     self.withdrawButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -179,6 +185,11 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
         make.height.mas_equalTo(40.0f);
     }];
     
+    [self.arrowButton makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.availabeAmountValueLabel.centerY);
+        make.left.equalTo(self.availabeAmountValueLabel.right).offset(5.0f);
+    }];
+    
     [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.topView.bottom);
         make.left.equalTo(self.view.left);
@@ -214,6 +225,14 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
         make.centerX.equalTo(self.scrollView.centerX);
         make.width.equalTo(self.scrollView.width).offset(-60.0f);
     }];
+    
+    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.eventRulesLabel
+                                                            attribute:NSLayoutAttributeBottom
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:self.scrollView
+                                                            attribute:NSLayoutAttributeBottom
+                                                           multiplier:1.0
+                                                             constant:-20.0f]];
 }
 
 - (void)withdrawCash {
@@ -247,55 +266,6 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 }
 
 
-
-//- (void)showConfirmPopup {
-//    if (!self.alipayAccount || !self.ownerName) {
-//        [[HHToastManager sharedManager] showErrorToastWithText:@"请输入支付宝账户信息"];
-//        return;
-//    }
-//    
-//    __weak HHWithdrawViewController *weakSelf = self;
-//    
-//    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-//    paragraphStyle.alignment = NSTextAlignmentCenter;
-//    paragraphStyle.lineSpacing = 8.0f;
-//    
-//    NSNumber *alipayFee = @([self.withdrawAmount floatValue] * 0.005);
-//    if ([alipayFee floatValue] < 100.0f) {
-//        alipayFee = @(100);
-//    }
-//    
-//    if ([alipayFee floatValue] > 2500.0f) {
-//        alipayFee = @(2500);
-//    }
-//    
-//    NSNumber *trueAmount = @([self.withdrawAmount floatValue] - [alipayFee floatValue]);
-//    
-//    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"提现金额: %@\n支付宝手续费: %@\n实际提现: %@", [self.withdrawAmount generateMoneyString], [alipayFee generateMoneyString], [trueAmount generateMoneyString]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
-//    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 300.0f) title:@"确认提现" subTitle:@"提现明细" info:attrString leftButtonTitle:@"取消返回" rightButtonTitle:@"确认提现"];
-//    view.cancelBlock = ^() {
-//        [HHPopupUtility dismissPopup:weakSelf.popup];
-//    };
-//    view.confirmBlock = ^() {
-//        [[HHStudentService sharedInstance] withdrawBonusWithAmount:self.withdrawAmount accountName:self.ownerName account:self.alipayAccount completion:^(HHWithdraw *withdraw, NSError *error) {
-//            if (!error) {
-//                [HHPopupUtility dismissPopup:weakSelf.popup];
-//                [[HHToastManager sharedManager] showSuccessToastWithText:@"客官请稍等,已奔赴银行取钱!"];
-//                self.availableAmount = @([self.availableAmount floatValue] - [withdraw.amount floatValue]);
-//                self.availabeAmountValueLabel.text = [self.availableAmount generateMoneyString];
-//                if (self.updateAmountsBlock) {
-//                    self.updateAmountsBlock(withdraw.amount);
-//                }
-//            } else {
-//                [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
-//            }
-//        }];
-//    };
-//    self.popup = [HHPopupUtility createPopupWithContentView:view];
-//    [HHPopupUtility showPopup:self.popup];
-//    
-//}
-
 -(void)dismissVC {
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -313,13 +283,13 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     
     UILabel *label = [[UILabel alloc] init];
     label.text = self.bankCard.bankName;
-    label.textColor = [UIColor HHLightTextGray];
+    label.textColor = [UIColor HHTextDarkGray];
     label.font = [UIFont systemFontOfSize:20.0f];
     [self.cardView addSubview:label];
     
     UILabel *label2 = [[UILabel alloc] init];
     label2.text = [NSString stringWithFormat:@"%@, 尾号%@", self.bankCard.cardHolderName, [self.bankCard.cardNumber substringFromIndex:MAX((int)[self.bankCard.cardNumber length]-4, 0)]];
-    label2.textColor = [UIColor HHLightestTextGray];
+    label2.textColor = [UIColor HHLightTextGray];
     label2.font = [UIFont systemFontOfSize:12.0f];
     [self.cardView addSubview:label2];
     
@@ -430,4 +400,8 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     self.availabeAmountValueLabel.text = [self.availableAmount generateMoneyString];
 }
 
+- (void)showReferralDetailVC {
+    HHReferralDetailViewController *vc = [[HHReferralDetailViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 @end

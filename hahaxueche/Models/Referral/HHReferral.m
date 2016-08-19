@@ -7,26 +7,26 @@
 //
 
 #import "HHReferral.h"
+#import "HHFormatUtility.h"
 
 @implementation HHReferral
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-             @"referralId": @"id",
-             @"refereeBonusAmount": @"referee_bonus_amount",
-             @"refererBonusAmount":@"referer_bonus_amount",
-             @"refereeName": @"referee_status.name",
-             @"refereeAvatar":@"referee_status.avatar_url",
-             @"status":@"referee_status.status",
+             @"name": @"name",
+             @"phone": @"phone",
+             @"purchasedAt":@"purchased_at",
              };
 }
 
-- (NSString *)getStatusString {
-    if ([self.status integerValue] == 1) {
-        return @"已经报名教练并付款";
-    } else {
-        return @"已注册, 还没有报名教练";
-    }
++ (NSValueTransformer *)purchasedAtJSONTransformer {
+    return [MTLValueTransformer transformerUsingForwardBlock:^id(NSString *dateString, BOOL *success, NSError *__autoreleasing *error) {
+        return [[HHFormatUtility backendDateFormatter] dateFromString:dateString];
+    } reverseBlock:^id(NSDate *date, BOOL *success, NSError *__autoreleasing *error) {
+        return [[HHFormatUtility backendDateFormatter] stringFromDate:date];
+    }];
 }
+
+
 
 @end

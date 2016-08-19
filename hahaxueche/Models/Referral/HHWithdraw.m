@@ -13,13 +13,13 @@
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-             @"withdrawId": @"id",
-             @"amount": @"bonus_amount",
-             @"redeemedDate":@"created_at"
+             @"status": @"status",
+             @"amount": @"amount",
+             @"withdrawedAt":@"withdrawed_at"
              };
 }
 
-+ (NSValueTransformer *)redeemedDateJSONTransformer {
++ (NSValueTransformer *)withdrawedAtJSONTransformer {
     return [MTLValueTransformer transformerUsingForwardBlock:^id(NSString *dateString, BOOL *success, NSError *__autoreleasing *error) {
         return [[HHFormatUtility backendDateFormatter] dateFromString:dateString];
     } reverseBlock:^id(NSDate *date, BOOL *success, NSError *__autoreleasing *error) {
@@ -27,5 +27,14 @@
     }];
 }
 
+- (NSString *)getStatusString {
+    if ([self.status isEqual:@(0)]) {
+        return @"处理中";
+    } else if ([self.status isEqual:@(1)]) {
+        return @"成功";
+    } else {
+        return @"失败";
+    }
+}
 
 @end

@@ -25,7 +25,7 @@ typedef void (^HHScheduleCompletion)(HHCoachSchedule *schedule, NSError *error);
 typedef void (^HHSchedulesCompletion)(HHCoachSchedules *schedules, NSError *error);
 typedef void (^HHBonusSummaryCompletion)(HHBonusSummary *bonusSummary, NSError *error);
 typedef void (^HHReferralsCompletion)(HHReferrals *referralsObject, NSError *error);
-typedef void (^HHWithdrawsCompletion)(HHWithdraws *withdrawsObject, NSError *error);
+typedef void (^HHWithdrawsCompletion)(NSArray *withdraws, NSError *error);
 typedef void (^HHWithdrawCompletion)(BOOL succeed);
 typedef void (^HHLikeCompletion)(HHCoach *coach, NSError *error);
 typedef void (^HHEventsCompletion)(NSArray *events, NSError *error);
@@ -132,12 +132,6 @@ typedef void (^HHCardCompletion)(HHBankCard *card, NSError *error);
  */
 - (void)fetchWithdrawTransactionWithCompletion:(HHWithdrawsCompletion)completion;
 
-/**
-Fetch next page of withdraw transaction history
-@param URL The URL of next page
-@param completion The completion block to execute on completion
-*/
-- (void)fetchMoreWithdrawTransactionsWithURL:(NSString *)URL completion:(HHWithdrawsCompletion)completion;
 
 /**
  Student withdraw

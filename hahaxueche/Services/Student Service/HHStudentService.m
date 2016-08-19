@@ -206,28 +206,17 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
 }
 
 - (void)fetchWithdrawTransactionWithCompletion:(HHWithdrawsCompletion)completion {
-    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentWithdrawTransacion, [HHStudentStore sharedInstance].currentStudent.studentId]];
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIStudentWithdrawTransacion];
     [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
-            HHWithdraws *withdraws = [MTLJSONAdapter modelOfClass:[HHWithdraws class] fromJSONDictionary:response error:nil];
-            if (completion) {
-                completion(withdraws, nil);
+            NSMutableArray *data = [NSMutableArray array];
+            for (NSDictionary *dic in response) {
+                HHWithdraw *withdraw = [MTLJSONAdapter modelOfClass:[HHWithdraw class] fromJSONDictionary:dic error:nil];
+                [data addObject:withdraw];
             }
-        } else {
+            
             if (completion) {
-                completion(nil, error);
-            }
-        }
-    }];
-}
-
-- (void)fetchMoreWithdrawTransactionsWithURL:(NSString *)URL completion:(HHWithdrawsCompletion)completion {
-    HHAPIClient *APIClient = [HHAPIClient apiClient];
-    [APIClient getWithURL:URL completion:^(NSDictionary *response, NSError *error) {
-        if (!error) {
-           HHWithdraws *withdraws = [MTLJSONAdapter modelOfClass:[HHWithdraws class] fromJSONDictionary:response error:nil];
-            if (completion) {
-                completion(withdraws, nil);
+                completion(data, nil);
             }
         } else {
             if (completion) {

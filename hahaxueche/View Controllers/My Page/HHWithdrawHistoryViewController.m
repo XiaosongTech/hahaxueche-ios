@@ -26,7 +26,6 @@ static NSString *const kCellId = @"cellId";
 
 @property (nonatomic, strong) UITableView *tableView;
 
-@property (nonatomic, strong) HHWithdraws *withdrawsObject;
 @property (nonatomic, strong) NSMutableArray *withdraws;
 
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
@@ -65,14 +64,6 @@ static NSString *const kCellId = @"cellId";
     self.refreshHeader.lastUpdatedTimeLabel.hidden = YES;
     self.tableView.mj_header = self.refreshHeader;
     
-    self.loadMoreFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-    [self.loadMoreFooter setTitle:@"加载更多提现记录" forState:MJRefreshStateIdle];
-    [self.loadMoreFooter setTitle:@"正在加载更多提现记录" forState:MJRefreshStateRefreshing];
-    [self.loadMoreFooter setTitle:@"没有更多提现记录" forState:MJRefreshStateNoMoreData];
-    self.loadMoreFooter.automaticallyRefresh = NO;
-    self.loadMoreFooter.stateLabel.font = [UIFont systemFontOfSize:14.0f];
-    self.loadMoreFooter.stateLabel.textColor = [UIColor HHLightTextGray];
-    self.tableView.mj_footer = self.loadMoreFooter;
     
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
     [self refreshWithdrawsWithCompletion:^{
@@ -83,32 +74,17 @@ static NSString *const kCellId = @"cellId";
 
 
 - (void)refreshWithdrawsWithCompletion:(HHWithdrawTransactionCompletion)completion {
-    [[HHStudentService sharedInstance] fetchWithdrawTransactionWithCompletion:^(HHWithdraws *withdrawsObject, NSError *error) {
+    [[HHStudentService sharedInstance] fetchWithdrawTransactionWithCompletion:^(NSArray *withdraws, NSError *error) {
         if (completion) {
             completion();
         }
         if (!error) {
-            self.withdrawsObject = withdrawsObject;
-            self.withdraws = [NSMutableArray arrayWithArray:self.withdrawsObject.withdraws];
+            self.withdraws = [NSMutableArray arrayWithArray:withdraws];
             [self.tableView reloadData];
         } else {
             [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
         }
-    }];
-}
-
-- (void)loadMoreWithdrawsWithCompletion:(HHWithdrawTransactionCompletion)completion {
-    [[HHStudentService sharedInstance] fetchMoreWithdrawTransactionsWithURL:self.withdrawsObject.nextPage completion:^(HHWithdraws *withdrawsObject, NSError *error) {
-        if (completion) {
-            completion();
-        }
-        if (!error) {
-            self.withdrawsObject = withdrawsObject;
-            [self.withdraws addObjectsFromArray:self.withdrawsObject.withdraws];
-            [self.tableView reloadData];
-        } else {
-            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
-        }
+       
     }];
 }
 
@@ -138,22 +114,6 @@ static NSString *const kCellId = @"cellId";
     [self refreshWithdrawsWithCompletion:^{
         [weakSelf.refreshHeader endRefreshing];
     }];
-}
-
-- (void)loadMoreData {
-    __weak HHWithdrawHistoryViewController *weakSelf = self;
-    [self loadMoreWithdrawsWithCompletion:^{
-        [weakSelf.loadMoreFooter endRefreshing];
-    }];
-}
-
-- (void)setWithdrawsObject:(HHWithdraws *)withdrawsObject {
-    _withdrawsObject = withdrawsObject;
-    if (!self.withdrawsObject.nextPage) {
-        [self.loadMoreFooter setState:MJRefreshStateNoMoreData];
-    } else {
-        [self.loadMoreFooter setState:MJRefreshStateIdle];
-    }
 }
 
 

@@ -38,7 +38,7 @@
 #define kAPIStudentReviewSchedule @"students/%@/%@/review_schedule_event"
 #define kAPIStudentBonusSummary @"students/%@/referal_bonus_summary"
 #define kAPIStudentReferees @"students/%@/referees"
-#define kAPIStudentWithdrawTransacion @"students/%@/referal_bonus_transactions"
+#define kAPIStudentWithdrawTransacion @"bank_cards/withdraw_records"
 #define kAPIGroupPurchase @"activity_users"
 #define kAPILikeCoach @"students/%@/like/%@"
 #define kAPIEvents @"events"

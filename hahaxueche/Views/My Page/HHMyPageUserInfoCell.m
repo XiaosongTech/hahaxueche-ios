@@ -148,7 +148,7 @@ static CGFloat const avatarRadius = 35.0f;
         purchasedService = [student.purchasedServiceArray firstObject];
     }
     
-    NSString *balanceString = [student.bonusBalance generateMoneyString];
+    NSString *balanceString = [@(0) generateMoneyString];
     NSString *stageString = @"未购买教练";
     BOOL showStageArrow = NO;
     if (purchasedService) {
