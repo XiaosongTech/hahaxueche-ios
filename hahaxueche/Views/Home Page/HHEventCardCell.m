@@ -99,6 +99,9 @@
 - (void)setupCellWithEvent:(HHEvent *)event {
     self.titleLabel.text = event.title;
     
+    if (self.countDownView) {
+        [self.countDownView removeFromSuperview];
+    }
     self.countDownView = [[HHCountDownView alloc] initWithStartDate:[NSDate date] finishDate:event.endDate numberColor:[UIColor HHOrange] textColor:[UIColor HHLightTextGray] numberFont:[UIFont systemFontOfSize:15.0f] textFont:[UIFont systemFontOfSize:12.0f]];
     [self.botView addSubview:self.countDownView];
     

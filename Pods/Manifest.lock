@@ -38,6 +38,7 @@ PODS:
   - Fabric (1.6.7)
   - Harpy (3.4.8)
   - HCSStarRatingView (1.4.5)
+  - HMSegmentedControl (1.5.2)
   - Instabug (5.2.5)
   - INTULocationManager (4.2.0)
   - KLCPopup (1.0)
@@ -75,6 +76,7 @@ PODS:
   - SSKeychain (1.4.0)
   - StepSlider (0.1.2)
   - SVProgressHUD (2.0.3)
+  - SwipeView (1.3.2)
   - TTTAttributedLabel (2.0.0)
   - UMengAnalytics-NO-IDFA (4.0.5)
 
@@ -91,6 +93,7 @@ DEPENDENCIES:
   - Fabric
   - Harpy
   - HCSStarRatingView (~> 1.4)
+  - HMSegmentedControl
   - Instabug
   - INTULocationManager (~> 4.2)
   - KLCPopup
@@ -111,6 +114,7 @@ DEPENDENCIES:
   - SSKeychain
   - StepSlider
   - SVProgressHUD
+  - SwipeView (~> 1.3)
   - TTTAttributedLabel
   - UMengAnalytics-NO-IDFA
 
@@ -128,6 +132,7 @@ SPEC CHECKSUMS:
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   Harpy: 7253bc78a0c3e239e8e4bd21b63403c7cf0be9c9
   HCSStarRatingView: bff3f89314d3b5013ce826ea11897d3129ff6b8c
+  HMSegmentedControl: 83b9686022d2176fb6457d2bdb61e5d6393fed7d
   Instabug: 93caed1398c934ee2fbb227fb83d5a0d43c48d71
   INTULocationManager: 73f8254b3d05c897c56bb13c190e5b7c648c0998
   KLCPopup: 76c5a19227977f1e53d85236f9ef42257c168d98
@@ -147,9 +152,10 @@ SPEC CHECKSUMS:
   SSKeychain: c71293fa57216a40ab06c23f4085387583293de4
   StepSlider: 54466ab1de9002435b6839091f97ff62967fdd7e
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
+  SwipeView: bd67cfaf7760c036438446b3ccb28a3b84fce009
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
 
-PODFILE CHECKSUM: 4646c68b0d01ac14dfb4cdcee78230e2fbeb52b0
+PODFILE CHECKSUM: 3fd507fe57072bec6daa2b3ca0f493a6c47ef174
 
 COCOAPODS: 1.0.0
