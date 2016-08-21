@@ -22,6 +22,10 @@
 #import "HHStudentStore.h"
 #import "HHStudentService.h"
 #import "HHToastManager.h"
+#import "HHSocialMediaShareUtility.h"
+#import "HHShareView.h"
+#import "HHPopupUtility.h"
+#import "HHReferralDetailViewController.h"
 
 
 static NSString *const kRulesString = @"1）好友通过您的专属链接注册并成功报名，您的好友报名成功后，您将获得%@元，累计无上限，可随时提现\n\n2）好友需通过您的专属二维码免费试学才能建立推荐关系\n\n3）如发现作弊行为将取消用户活动资格，并扣除所获奖励\n\n4）如对本活动规则有任何疑问，请联系哈哈学车客服：400-001-6006\n\n";
@@ -41,6 +45,9 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 @property (nonatomic, strong) UILabel *valueLabel;
 @property (nonatomic, strong) UIButton *withdrawButton;
 @property (nonatomic, strong) UIButton *saveButton;
+@property (nonatomic, strong) HHShareView *shareView;
+@property (nonatomic, strong) KLCPopup *popup;
+@property (nonatomic, strong) UIButton *arrowButton;
 
 @end
 
@@ -52,6 +59,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     
     self.view.backgroundColor = [UIColor HHBackgroundGary];
      self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(popupVC) target:self];
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_mycoach_sharecoach"] action:@selector(shareImg) target:self];
     
     self.scrollView = [[UIScrollView alloc] init];
     self.scrollView.showsVerticalScrollIndicator = NO;
@@ -75,7 +83,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     self.valueLabel = [[UILabel alloc] init];
     self.valueLabel.textColor = [UIColor whiteColor];
     self.valueLabel.text = [[HHStudentStore sharedInstance].currentStudent.bonusBalance generateMoneyString];
-    self.valueLabel.font = [UIFont systemFontOfSize:25.0f];
+    self.valueLabel.font = [UIFont systemFontOfSize:28.0f];
     [self.topView addSubview:self.valueLabel];
     
     self.withdrawButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -88,6 +96,11 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     self.withdrawButton.layer.borderWidth = 2.0f/[UIScreen mainScreen].scale;
     [self.withdrawButton addTarget:self action:@selector(showWithdrawVC) forControlEvents:UIControlEventTouchUpInside];
     [self.topView addSubview:self.withdrawButton];
+    
+    self.arrowButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.arrowButton setImage:[UIImage imageNamed:@"ic_arrow_more_white"] forState:UIControlStateNormal];
+    [self.arrowButton addTarget:self action:@selector(showReferralDetailVC) forControlEvents:UIControlEventTouchUpInside];
+    [self.topView addSubview:self.arrowButton];
     
     self.midView = [[UIView alloc] init];
     self.midView.backgroundColor = [UIColor whiteColor];
@@ -167,6 +180,11 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
         
     }];
     
+    [self.arrowButton makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.valueLabel.centerY);
+        make.left.equalTo(self.valueLabel.right).offset(5.0f);
+    }];
+    
     CGFloat midViewHeight = 70.0f + (CGRectGetWidth(self.view.bounds) - 60.0f) * 880.0f/664.0f;
     [self.midView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.topView.bottom);
@@ -234,6 +252,47 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     } else {
         [[HHToastManager sharedManager] showSuccessToastWithText:@"保存成功!"];
     }
+}
+
+- (void)shareImg {
+    __weak HHReferFriendsViewController *weakSelf = self;
+    if (self.myQRCodeView.image) {
+        HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 0)];
+        
+        shareView.dismissBlock = ^() {
+            [HHPopupUtility dismissPopup:weakSelf.popup];
+        };
+        shareView.actionBlock = ^(SocialMedia selecteItem) {
+            switch (selecteItem) {
+                case SocialMediaQQFriend: {
+                    [[HHSocialMediaShareUtility sharedInstance] shareMyQRCode:weakSelf.myQRCodeView.image shareType:ShareTypeQQ];
+                } break;
+                    
+                case SocialMediaWeibo: {
+                    [[HHSocialMediaShareUtility sharedInstance] shareMyQRCode:weakSelf.myQRCodeView.image shareType:ShareTypeWeibo];
+                } break;
+                    
+                case SocialMediaWeChatFriend: {
+                    [[HHSocialMediaShareUtility sharedInstance] shareMyQRCode:weakSelf.myQRCodeView.image shareType:ShareTypeWeChat];
+                } break;
+                    
+                case SocialMediaWeChaPYQ: {
+                    [[HHSocialMediaShareUtility sharedInstance] shareMyQRCode:weakSelf.myQRCodeView.image shareType:ShareTypeWeChatTimeLine];
+                } break;
+                    
+                default:
+                    break;
+                    
+            }
+        };
+        weakSelf.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
+        [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
+    }
+}
+
+- (void)showReferralDetailVC {
+    HHReferralDetailViewController *vc = [[HHReferralDetailViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 

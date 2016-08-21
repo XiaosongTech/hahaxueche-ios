@@ -22,7 +22,6 @@
 #import "HHWithdrawHistoryViewController.h"
 #import "HHStudentStore.h"
 #import "HHLoadingViewUtility.h"
-#import "HHReferralDetailViewController.h"
 
 
 static NSString *const kCellId = @"cellId";
@@ -36,7 +35,6 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 @property (nonatomic, strong) UILabel *availabeAmountTitleLabel;
 @property (nonatomic, strong) UILabel *availabeAmountValueLabel;
 @property (nonatomic, strong) UILabel *cashAmountTitleLabel;
-@property (nonatomic, strong) UIButton *arrowButton;
 @property (nonatomic, strong) UITextField *cashAmountField;
 
 @property (nonatomic, strong) UIButton *withdrawButton;
@@ -103,11 +101,6 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     self.cashAmountField.placeholder = @"本次想要提现金额";
     self.cashAmountField.inputView = keyboard;
     [self.topView addSubview:self.cashAmountField];
-    
-    self.arrowButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.arrowButton setImage:[UIImage imageNamed:@"ic_arrow_more_white"] forState:UIControlStateNormal];
-    [self.arrowButton addTarget:self action:@selector(showReferralDetailVC) forControlEvents:UIControlEventTouchUpInside];
-    [self.topView addSubview:self.arrowButton];
     
     self.scrollView = [[UIScrollView alloc] init];
     [self.view addSubview:self.scrollView];
@@ -183,11 +176,6 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
         make.centerX.equalTo(self.topView.centerX);
         make.width.mas_equalTo(250.0f);
         make.height.mas_equalTo(40.0f);
-    }];
-    
-    [self.arrowButton makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.availabeAmountValueLabel.centerY);
-        make.left.equalTo(self.availabeAmountValueLabel.right).offset(5.0f);
     }];
     
     [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
@@ -400,8 +388,4 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     self.availabeAmountValueLabel.text = [self.availableAmount generateMoneyString];
 }
 
-- (void)showReferralDetailVC {
-    HHReferralDetailViewController *vc = [[HHReferralDetailViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
-}
 @end

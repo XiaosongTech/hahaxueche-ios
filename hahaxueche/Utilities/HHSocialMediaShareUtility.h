@@ -27,6 +27,7 @@ typedef void (^LinkCompletion) (NSString *link);
 
 
 - (void)shareCoach:(HHCoach *)coach shareType:(ShareType)shareType;
+- (void)shareMyQRCode:(UIImage *)qrCode shareType:(ShareType)shareType;
 - (void)shareEvent:(HHEvent *)event shareType:(ShareType)shareType;
 
 - (void)shareUserLinkWithType:(ShareType)shareType;

@@ -503,6 +503,12 @@
 		6DD568371D670B7D00B9B319 /* launch@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD568361D670B7D00B9B319 /* launch@3x.png */; };
 		6DD568391D670B8400B9B319 /* launch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD568381D670B8400B9B319 /* launch@2x.png */; };
 		6DD5683B1D670B8900B9B319 /* launch.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD5683A1D670B8900B9B319 /* launch.png */; };
+		6DD5684A1D6948E000B9B319 /* OpenShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5683E1D6948E000B9B319 /* OpenShare.m */; };
+		6DD5684B1D6948E000B9B319 /* OpenShare+Alipay.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD568401D6948E000B9B319 /* OpenShare+Alipay.m */; };
+		6DD5684C1D6948E000B9B319 /* OpenShare+QQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD568421D6948E000B9B319 /* OpenShare+QQ.m */; };
+		6DD5684D1D6948E000B9B319 /* OpenShare+Renren.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD568441D6948E000B9B319 /* OpenShare+Renren.m */; };
+		6DD5684E1D6948E000B9B319 /* OpenShare+Weibo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD568461D6948E000B9B319 /* OpenShare+Weibo.m */; };
+		6DD5684F1D6948E000B9B319 /* OpenShare+Weixin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD568481D6948E000B9B319 /* OpenShare+Weixin.m */; };
 		6DDAE6C31CB7566900CE461A /* HHNoCoachView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */; };
 		6DDAE6C91CB7899F00CE461A /* HHAppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C81CB7899F00CE461A /* HHAppInfoViewController.m */; };
 		6DDAE6CD1CB78B1B00CE461A /* ic_aboutmsg_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDAE6CA1CB78B1B00CE461A /* ic_aboutmsg_logo.png */; };
@@ -1262,6 +1268,19 @@
 		6DD568361D670B7D00B9B319 /* launch@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch@3x.png"; sourceTree = "<group>"; };
 		6DD568381D670B8400B9B319 /* launch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch@2x.png"; sourceTree = "<group>"; };
 		6DD5683A1D670B8900B9B319 /* launch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch.png; sourceTree = "<group>"; };
+		6DD5683D1D6948E000B9B319 /* OpenShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenShare.h; sourceTree = "<group>"; };
+		6DD5683E1D6948E000B9B319 /* OpenShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenShare.m; sourceTree = "<group>"; };
+		6DD5683F1D6948E000B9B319 /* OpenShare+Alipay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OpenShare+Alipay.h"; sourceTree = "<group>"; };
+		6DD568401D6948E000B9B319 /* OpenShare+Alipay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OpenShare+Alipay.m"; sourceTree = "<group>"; };
+		6DD568411D6948E000B9B319 /* OpenShare+QQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OpenShare+QQ.h"; sourceTree = "<group>"; };
+		6DD568421D6948E000B9B319 /* OpenShare+QQ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OpenShare+QQ.m"; sourceTree = "<group>"; };
+		6DD568431D6948E000B9B319 /* OpenShare+Renren.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OpenShare+Renren.h"; sourceTree = "<group>"; };
+		6DD568441D6948E000B9B319 /* OpenShare+Renren.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OpenShare+Renren.m"; sourceTree = "<group>"; };
+		6DD568451D6948E000B9B319 /* OpenShare+Weibo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OpenShare+Weibo.h"; sourceTree = "<group>"; };
+		6DD568461D6948E000B9B319 /* OpenShare+Weibo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OpenShare+Weibo.m"; sourceTree = "<group>"; };
+		6DD568471D6948E000B9B319 /* OpenShare+Weixin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OpenShare+Weixin.h"; sourceTree = "<group>"; };
+		6DD568481D6948E000B9B319 /* OpenShare+Weixin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OpenShare+Weixin.m"; sourceTree = "<group>"; };
+		6DD568491D6948E000B9B319 /* OpenShareHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenShareHeader.h; sourceTree = "<group>"; };
 		6DDAE6C11CB7566900CE461A /* HHNoCoachView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNoCoachView.h; sourceTree = "<group>"; };
 		6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNoCoachView.m; sourceTree = "<group>"; };
 		6DDAE6C71CB7899F00CE461A /* HHAppInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAppInfoViewController.h; sourceTree = "<group>"; };
@@ -1585,6 +1604,7 @@
 		141FA0F71C6BAD0C00113B1A /* Third Party Libs */ = {
 			isa = PBXGroup;
 			children = (
+				6DD5683C1D6948C200B9B319 /* Openshare */,
 				6DF53B6C1D4707BA00CA0F6B /* CountDown */,
 				143F57B81C6D39C400835AA4 /* ParallaxHeaderView */,
 			);
@@ -2495,6 +2515,26 @@
 			path = Referral;
 			sourceTree = "<group>";
 		};
+		6DD5683C1D6948C200B9B319 /* Openshare */ = {
+			isa = PBXGroup;
+			children = (
+				6DD5683D1D6948E000B9B319 /* OpenShare.h */,
+				6DD5683E1D6948E000B9B319 /* OpenShare.m */,
+				6DD5683F1D6948E000B9B319 /* OpenShare+Alipay.h */,
+				6DD568401D6948E000B9B319 /* OpenShare+Alipay.m */,
+				6DD568411D6948E000B9B319 /* OpenShare+QQ.h */,
+				6DD568421D6948E000B9B319 /* OpenShare+QQ.m */,
+				6DD568431D6948E000B9B319 /* OpenShare+Renren.h */,
+				6DD568441D6948E000B9B319 /* OpenShare+Renren.m */,
+				6DD568451D6948E000B9B319 /* OpenShare+Weibo.h */,
+				6DD568461D6948E000B9B319 /* OpenShare+Weibo.m */,
+				6DD568471D6948E000B9B319 /* OpenShare+Weixin.h */,
+				6DD568481D6948E000B9B319 /* OpenShare+Weixin.m */,
+				6DD568491D6948E000B9B319 /* OpenShareHeader.h */,
+			);
+			name = Openshare;
+			sourceTree = "<group>";
+		};
 		6DF53B5F1D4609F600CA0F6B /* Home Page */ = {
 			isa = PBXGroup;
 			children = (
@@ -3096,6 +3136,7 @@
 				141FA0FA1C6BAD1A00113B1A /* ParallaxHeaderView.m in Sources */,
 				6DB79D611D55CA17008F31C9 /* HHCityCell.m in Sources */,
 				1405CC9A1C7699900030B114 /* HHMyCoachCourseInfoCell.m in Sources */,
+				6DD5684A1D6948E000B9B319 /* OpenShare.m in Sources */,
 				5CDE14571C3723020004778C /* HHTextFieldView.m in Sources */,
 				14604F4A1C6FAA04009DBE10 /* HHShareViewItem.m in Sources */,
 				6DACD0141D34EF3300BDE2EE /* HHCouponViewController.m in Sources */,
@@ -3125,6 +3166,7 @@
 				6D8552311CD8408B0021D4C9 /* HHWithdraws.m in Sources */,
 				14604F651C6FF926009DBE10 /* NSNumber+HHNumber.m in Sources */,
 				6DE56FDE1D00297100E33BDB /* HHCoachServiceTypeCell.m in Sources */,
+				6DD5684D1D6948E000B9B319 /* OpenShare+Renren.m in Sources */,
 				5CDE14891C3859290004778C /* HHPopupUtility.m in Sources */,
 				6DF202E01CD0C217002092B4 /* HHWithdraw.m in Sources */,
 				6D4CCAEE1D3E070400AD896F /* HHActivateCouponView.m in Sources */,
@@ -3142,6 +3184,7 @@
 				1482A9A51C80D0D3007F9019 /* HHReviewCell.m in Sources */,
 				141FA0FE1C6BAF6600113B1A /* HHCoachDetailDescriptionCell.m in Sources */,
 				14B5EB7D1C7CCE0D00A37669 /* HHFollowedCoachListViewController.m in Sources */,
+				6DD5684F1D6948E000B9B319 /* OpenShare+Weixin.m in Sources */,
 				5C6D8C951C3AE38C0055CB31 /* HHLoadingViewUtility.m in Sources */,
 				6DE24BEA1D5C45EC0078A21E /* HHTestQuestionView.m in Sources */,
 				6DD1AABE1D487C91001D50FC /* HHEventCardCell.m in Sources */,
@@ -3169,6 +3212,7 @@
 				6D4151DC1CF321AB004A7EE8 /* HHSearchCoachViewController.m in Sources */,
 				140EC6201C6D776400DA634D /* HHCoachCellView.m in Sources */,
 				14604F5F1C6FEE10009DBE10 /* HHPriceDetailView.m in Sources */,
+				6DD5684E1D6948E000B9B319 /* OpenShare+Weibo.m in Sources */,
 				6D3D73451CB9FFB300E424C3 /* HHScheduleRateView.m in Sources */,
 				6D4CCAEB1D3DD2C100AD896F /* HHCoupon.m in Sources */,
 				6D7D0C831D65933F0002FC56 /* HHBankCard.m in Sources */,
@@ -3189,6 +3233,7 @@
 				6D5C86611CDC270900D7B5CB /* HHGroupPurchaseView.m in Sources */,
 				5C36D34D1C42D7B800443545 /* HHHomePageViewController.m in Sources */,
 				5C36D34A1C42D69700443545 /* HHRootViewController.m in Sources */,
+				6DD5684C1D6948E000B9B319 /* OpenShare+QQ.m in Sources */,
 				5C36D39A1C4311FF00443545 /* HHConstantsStore.m in Sources */,
 				5C36D3A01C442A6300443545 /* HHStudentStore.m in Sources */,
 				14700D9B1C797C7600660989 /* HHMoneyAmountView.m in Sources */,
@@ -3225,6 +3270,7 @@
 				6DB1481C1D50BFAB009E3F1E /* HHCardInfoInputView.m in Sources */,
 				140EC6471C6ED10600DA634D /* HHTryCoachView.m in Sources */,
 				5C2D1A4A1C51EAA80056E0D0 /* HHStudentService.m in Sources */,
+				6DD5684B1D6948E000B9B319 /* OpenShare+Alipay.m in Sources */,
 				6D52227E1D3F5E9800E92075 /* HHSupportUtility.m in Sources */,
 				6DF202EF1CD33212002092B4 /* HHInputPaymentMethodView.m in Sources */,
 				6DF53B761D47279A00CA0F6B /* HHCountDownView.m in Sources */,

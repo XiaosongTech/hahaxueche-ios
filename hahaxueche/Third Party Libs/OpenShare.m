@@ -117,7 +117,7 @@ static OSMessage *message;
         shareFailCallback=fail;
         return YES;
     }else{
-        NSLog(@"place connect%@ before you can share to it!!!",platform);
+        NSLog(@"please connect%@ before you can share to it!!!",platform);
         return NO;
     }
 }
@@ -127,7 +127,7 @@ static OSMessage *message;
         authFailCallback=fail;
         return YES;
     }else{
-        NSLog(@"place connect%@ before you can share to it!!!",platform);
+        NSLog(@"please connect%@ before you can share to it!!!",platform);
         return NO;
     }
 }
@@ -248,6 +248,27 @@ static OSMessage *message;
     UIGraphicsEndImageContext();
     return image;
 }
+
++ (NSData *)dataWithImage:(UIImage *)image {
+    return UIImageJPEGRepresentation(image, 1);
+}
+
++ (NSData *)dataWithImage:(UIImage *)image scale:(CGSize)size {
+    UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0,0, size.width, size.height)];
+    UIImage* scaledImage =UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return UIImageJPEGRepresentation(scaledImage, 1);
+}
+
+- (UIImage *)scaleImage:(UIImage *)image toSize:(CGSize)size{
+       UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0,0, size.width, size.height)];
+    UIImage* scaledImage =UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return scaledImage;
+}
+
 @end
 
 @implementation OSMessage
