@@ -37,6 +37,7 @@ target "hahaxueche" do
     pod 'QIYU_iOS_SDK', '~> 2.5'
     pod 'HMSegmentedControl'
     pod 'SwipeView', '~> 1.3'
+    pod 'FLAnimatedImage', '~> 1.0'
 
 end
 

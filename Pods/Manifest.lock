@@ -36,6 +36,7 @@ PODS:
   - CRToast (0.0.9)
   - DateTools (1.7.0)
   - Fabric (1.6.7)
+  - FLAnimatedImage (1.0.12)
   - Harpy (3.4.8)
   - HCSStarRatingView (1.4.5)
   - HMSegmentedControl (1.5.2)
@@ -90,6 +91,7 @@ DEPENDENCIES:
   - CRToast
   - DateTools
   - Fabric
+  - FLAnimatedImage (~> 1.0)
   - Harpy
   - HCSStarRatingView (~> 1.4)
   - HMSegmentedControl
@@ -128,6 +130,7 @@ SPEC CHECKSUMS:
   CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Harpy: 7253bc78a0c3e239e8e4bd21b63403c7cf0be9c9
   HCSStarRatingView: bff3f89314d3b5013ce826ea11897d3129ff6b8c
   HMSegmentedControl: 83b9686022d2176fb6457d2bdb61e5d6393fed7d
@@ -153,6 +156,6 @@ SPEC CHECKSUMS:
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
 
-PODFILE CHECKSUM: 953539aa5f2360b718758c5a1b9aaf4ac3a2785c
+PODFILE CHECKSUM: f9e5ad88da3b20ac5c6c030c6507928b21b4ca0c
 
 COCOAPODS: 1.0.0

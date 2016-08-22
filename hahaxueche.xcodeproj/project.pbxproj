@@ -510,6 +510,7 @@
 		6DD5684E1D6948E000B9B319 /* OpenShare+Weibo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD568461D6948E000B9B319 /* OpenShare+Weibo.m */; };
 		6DD5684F1D6948E000B9B319 /* OpenShare+Weixin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD568481D6948E000B9B319 /* OpenShare+Weixin.m */; };
 		6DD568511D6AEE8000B9B319 /* loading_car.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6DD568501D6AEE8000B9B319 /* loading_car.gif */; };
+		6DD568541D6B3B4C00B9B319 /* HHGifRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD568531D6B3B4B00B9B319 /* HHGifRefreshHeader.m */; };
 		6DDAE6C31CB7566900CE461A /* HHNoCoachView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */; };
 		6DDAE6C91CB7899F00CE461A /* HHAppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C81CB7899F00CE461A /* HHAppInfoViewController.m */; };
 		6DDAE6CD1CB78B1B00CE461A /* ic_aboutmsg_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDAE6CA1CB78B1B00CE461A /* ic_aboutmsg_logo.png */; };
@@ -1283,6 +1284,8 @@
 		6DD568481D6948E000B9B319 /* OpenShare+Weixin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OpenShare+Weixin.m"; sourceTree = "<group>"; };
 		6DD568491D6948E000B9B319 /* OpenShareHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenShareHeader.h; sourceTree = "<group>"; };
 		6DD568501D6AEE8000B9B319 /* loading_car.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading_car.gif; sourceTree = "<group>"; };
+		6DD568521D6B3B4B00B9B319 /* HHGifRefreshHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHGifRefreshHeader.h; sourceTree = "<group>"; };
+		6DD568531D6B3B4B00B9B319 /* HHGifRefreshHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHGifRefreshHeader.m; sourceTree = "<group>"; };
 		6DDAE6C11CB7566900CE461A /* HHNoCoachView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNoCoachView.h; sourceTree = "<group>"; };
 		6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNoCoachView.m; sourceTree = "<group>"; };
 		6DDAE6C71CB7899F00CE461A /* HHAppInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAppInfoViewController.h; sourceTree = "<group>"; };
@@ -1673,6 +1676,8 @@
 				6DE24BE91D5C45EC0078A21E /* HHTestQuestionView.m */,
 				6DE24BC01D59D4720078A21E /* HHTestView.h */,
 				6DE24BC11D59D4720078A21E /* HHTestView.m */,
+				6DD568521D6B3B4B00B9B319 /* HHGifRefreshHeader.h */,
+				6DD568531D6B3B4B00B9B319 /* HHGifRefreshHeader.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -3146,6 +3151,7 @@
 				6DACD0141D34EF3300BDE2EE /* HHCouponViewController.m in Sources */,
 				141F7C131C626118003278C6 /* HHCoachService.m in Sources */,
 				5CDE14861C3852E30004778C /* HHCitySelectView.m in Sources */,
+				6DD568541D6B3B4C00B9B319 /* HHGifRefreshHeader.m in Sources */,
 				5CD4EA421B5DE6BC003CF15E /* HHFormatUtility.m in Sources */,
 				6D82BD2C1CCE24EF00D4109A /* HHMyPageReferCell.m in Sources */,
 				6DD1AADC1D49C65F001D50FC /* HHNetworkUtility.m in Sources */,

@@ -32,6 +32,7 @@
 #import <KLCPopup/KLCPopup.h>
 #import "HHCoachDetailViewController.h"
 #import "HHSearchCoachViewController.h"
+#import "HHGifRefreshHeader.h"
 
 static NSString *const kCellId = @"kCoachListCellId";
 static CGFloat const kCellHeightNormal = 100.0f;
@@ -54,7 +55,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 @property (nonatomic) SortOption currentSortOption;
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
+@property (nonatomic, strong) HHGifRefreshHeader *refreshHeader;
 @property (nonatomic, strong) MJRefreshAutoNormalFooter *loadMoreFooter;
 
 @property (nonatomic, strong) NSMutableArray *selectedFields;
@@ -209,15 +210,10 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    self.refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
-    self.refreshHeader.stateLabel.font = [UIFont systemFontOfSize:14.0f];
-    [self.refreshHeader setTitle:@"正在刷新教练列表" forState:MJRefreshStateRefreshing];
-    self.refreshHeader.stateLabel.textColor = [UIColor HHLightTextGray];
-    self.refreshHeader.automaticallyChangeAlpha = YES;
-    self.refreshHeader.lastUpdatedTimeLabel.hidden = YES;
-    //[self.refreshHeader setImages:@[] forState:MJRefreshStateRefreshing];
-    self.refreshHeader.im
-
+    self.refreshHeader = [HHGifRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
+    NSString *imgString = [[NSBundle mainBundle] pathForResource:@"loading_car" ofType:@"gif"];
+    NSData *imgData = [NSData dataWithContentsOfFile:imgString];
+    self.refreshHeader.imgView.animatedImage = [FLAnimatedImage animatedImageWithGIFData:imgData];
     self.tableView.mj_header = self.refreshHeader;
     
     self.loadMoreFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
