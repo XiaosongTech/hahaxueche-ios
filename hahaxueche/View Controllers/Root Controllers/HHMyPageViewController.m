@@ -111,7 +111,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     // Guest
     if (![HHStudentStore sharedInstance].currentStudent.studentId) {
         self.titleLabel = [[UILabel alloc] init];
-        self.titleLabel.text = @"您还没有登录";
+        self.titleLabel.text = @"你怎么还没登录呀〒▽〒";
         self.titleLabel.textColor = [UIColor HHLightTextGray];
         self.titleLabel.font = [UIFont systemFontOfSize:14.0f];
         [self.view addSubview:self.titleLabel];

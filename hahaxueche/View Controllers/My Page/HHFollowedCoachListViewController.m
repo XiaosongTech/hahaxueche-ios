@@ -74,9 +74,9 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     self.tableView.mj_header = self.refreshHeader;
     
     self.loadMoreFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-    [self.loadMoreFooter setTitle:@"加载更多教练" forState:MJRefreshStateIdle];
+    [self.loadMoreFooter setTitle:@"一大波教练接近中~~~" forState:MJRefreshStateIdle];
     [self.loadMoreFooter setTitle:@"正在加载更多教练" forState:MJRefreshStateRefreshing];
-    [self.loadMoreFooter setTitle:@"没有更多教练" forState:MJRefreshStateNoMoreData];
+    [self.loadMoreFooter setTitle:@"已经到底啦~再往上选选吧！" forState:MJRefreshStateNoMoreData];
     self.loadMoreFooter.automaticallyRefresh = NO;
     self.loadMoreFooter.stateLabel.font = [UIFont systemFontOfSize:14.0f];
     self.loadMoreFooter.stateLabel.textColor = [UIColor HHLightTextGray];

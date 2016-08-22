@@ -36,7 +36,7 @@
             case AFNetworkReachabilityStatusReachableViaWiFi:
                 break;
             case AFNetworkReachabilityStatusNotReachable: {
-                [[HHToastManager sharedManager] showErrorToastWithText:@"网络异常, 请检查网络设置!"];
+                [[HHToastManager sharedManager] showErrorToastWithText:@"没有网络连接，小哈接收不到电波！"];
             } break;
             default:
                 break;

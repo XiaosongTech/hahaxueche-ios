@@ -17,7 +17,7 @@
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         UILabel *label = [[UILabel alloc] init];
-        label.text = @"抱歉, 没有找到教练";
+        label.text = @"(≧口≦)Ｏ没有找到教练啊！";
         label.textColor = [UIColor HHLightTextGray];
         label.font = [UIFont systemFontOfSize:15.0f];
         [self.contentView addSubview:label];

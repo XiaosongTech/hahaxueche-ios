@@ -93,7 +93,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     }];
     
     self.noDataLabel = [[UILabel alloc] init];
-    self.noDataLabel.text = @"抱歉, 没有找到附近的教练. 点击左上角筛选按钮, 并调节距离等因素来寻找更多教练.";
+    self.noDataLabel.text = @"啥？！没有匹配到教练啊/(ㄒoㄒ)/~~点击左上角筛选按钮，并调节距离等因素来寻找更多教练吧";
     self.noDataLabel.textAlignment = NSTextAlignmentCenter;
     self.noDataLabel.textColor = [UIColor HHLightTextGray];
     self.noDataLabel.font = [UIFont systemFontOfSize:15.0f];
@@ -215,12 +215,15 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     self.refreshHeader.stateLabel.textColor = [UIColor HHLightTextGray];
     self.refreshHeader.automaticallyChangeAlpha = YES;
     self.refreshHeader.lastUpdatedTimeLabel.hidden = YES;
+    //[self.refreshHeader setImages:@[] forState:MJRefreshStateRefreshing];
+    self.refreshHeader.im
+
     self.tableView.mj_header = self.refreshHeader;
     
     self.loadMoreFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     [self.loadMoreFooter setTitle:@"加载更多教练" forState:MJRefreshStateIdle];
-    [self.loadMoreFooter setTitle:@"正在加载更多教练" forState:MJRefreshStateRefreshing];
-    [self.loadMoreFooter setTitle:@"没有更多教练" forState:MJRefreshStateNoMoreData];
+    [self.loadMoreFooter setTitle:@"一大波教练接近中~~~" forState:MJRefreshStateRefreshing];
+    [self.loadMoreFooter setTitle:@"已经到底啦~再往上选选吧！" forState:MJRefreshStateNoMoreData];
     self.loadMoreFooter.automaticallyRefresh = NO;
     self.loadMoreFooter.stateLabel.font = [UIFont systemFontOfSize:14.0f];
     self.loadMoreFooter.stateLabel.textColor = [UIColor HHLightTextGray];
