@@ -316,6 +316,36 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     
     UITapGestureRecognizer *rec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showAddCardView)];
     [self.cardView addGestureRecognizer:rec];
+    
+    if (self.noCardView) {
+        [self.withdrawButton remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.noCardView.bottom).offset(20.0f);
+            make.width.equalTo(self.scrollView.width).offset(-40.0f);
+            make.centerX.equalTo(self.scrollView.centerX);
+            make.height.mas_equalTo (50.0f);
+        }];
+    } else {
+        [self.withdrawButton remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.cardView.bottom).offset(20.0f);
+            make.width.equalTo(self.scrollView.width).offset(-40.0f);
+            make.centerX.equalTo(self.scrollView.centerX);
+            make.height.mas_equalTo (50.0f);
+        }];
+    }
+    
+    [self.eventTitleImageView remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.withdrawButton.bottom).offset(60.0f);
+        make.centerX.equalTo(self.scrollView.centerX);
+        make.width.equalTo(self.scrollView.width);
+        
+    }];
+    
+    [self.eventRulesLabel remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.eventTitleImageView.bottom).offset(20.0f);
+        make.centerX.equalTo(self.scrollView.centerX);
+        make.width.equalTo(self.scrollView.width).offset(-60.0f);
+    }];
+    
 }
 
 - (void)buildNoCardView {
