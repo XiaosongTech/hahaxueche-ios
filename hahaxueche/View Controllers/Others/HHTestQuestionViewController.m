@@ -119,7 +119,7 @@
         
     };
     self.botBar.nextAction = ^() {
-        if (weakSelf.currentIndex >= weakSelf.questions.count) {
+        if (weakSelf.currentIndex >= weakSelf.questions.count - 1) {
             return ;
         }
         weakSelf.currentIndex = self.currentIndex + 1;

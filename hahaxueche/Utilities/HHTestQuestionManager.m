@@ -167,15 +167,24 @@ static NSString *const kCourse4FavoratedKey = @"kCourse4FavoratedKey";
     switch (courseMode) {
         case CourseMode1: {
             index = [defaults objectForKey:kCourse1OrderIndex];
-            if ([index integerValue] >= self.allCourseMode1Questions.count) {
+            if (![index isKindOfClass:[NSNumber class]]) {
                 index = @(0);
+            } else {
+                if ([index integerValue] >= self.allCourseMode1Questions.count) {
+                    index = @(0);
+                }
             }
+            
         } break;
             
         case CourseMode4: {
             index = [defaults objectForKey:kCourse4OrderIndex];
-            if ([index integerValue] >= self.allCourseMode4Questions.count) {
+            if (![index isKindOfClass:[NSNumber class]]) {
                 index = @(0);
+            } else {
+                if ([index integerValue] >= self.allCourseMode4Questions.count) {
+                    index = @(0);
+                }
             }
         } break;
             
@@ -195,7 +204,7 @@ static NSString *const kCourse4FavoratedKey = @"kCourse4FavoratedKey";
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *key = kCourse1FavoratedKey;
     if (mode == CourseMode4) {
-        key = kCourse4OrderIndex;
+        key = kCourse4FavoratedKey;
     }
     NSMutableArray *array =  [NSMutableArray arrayWithArray:[defaults arrayForKey:key]];
     
@@ -215,7 +224,7 @@ static NSString *const kCourse4FavoratedKey = @"kCourse4FavoratedKey";
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *key = kCourse1FavoratedKey;
     if (mode == CourseMode4) {
-        key = kCourse4OrderIndex;
+        key = kCourse4FavoratedKey;
     }
 
     NSMutableArray *array =  [NSMutableArray arrayWithArray:[defaults arrayForKey:key]];
@@ -229,7 +238,7 @@ static NSString *const kCourse4FavoratedKey = @"kCourse4FavoratedKey";
     NSMutableArray *allQuestions = self.allCourseMode1Questions;
     NSString *key = kCourse1FavoratedKey;
     if (mode == CourseMode4) {
-        key = kCourse4OrderIndex;
+        key = kCourse4FavoratedKey;
         allQuestions = self.allCourseMode4Questions;
     }
     
