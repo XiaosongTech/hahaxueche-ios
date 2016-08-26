@@ -346,8 +346,8 @@ static NSString *const kSupportQQ = @"3319762526";
         } break;
             
         case ShareTypeWeibo: {
-            if (![OpenShare isQQInstalled]) {
-                [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
+            if (![OpenShare isWeiboInstalled]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微博应用, 然后重试"];
                 return;
             }
             [[HHSocialMediaShareUtility sharedInstance] generateUserReferLinkWithShareType:shareType completion:^(OSMessage *message) {
@@ -403,8 +403,8 @@ static NSString *const kSupportQQ = @"3319762526";
         } break;
             
         case ShareTypeWeibo: {
-            if (![OpenShare isQQInstalled]) {
-                [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
+            if (![OpenShare isWeiboInstalled]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微博应用, 然后重试"];
                 return;
             }
             msg.thumbnail = qrCode;
