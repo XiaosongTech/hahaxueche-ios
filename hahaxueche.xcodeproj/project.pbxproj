@@ -500,7 +500,6 @@
 		6DD5682F1D66DF5000B9B319 /* ic_arrow_more_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD5682C1D66DF5000B9B319 /* ic_arrow_more_white@3x.png */; };
 		6DD568321D66E2EC00B9B319 /* HHReferralDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD568311D66E2EC00B9B319 /* HHReferralDetailViewController.m */; };
 		6DD568351D66E56F00B9B319 /* HHReferreeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD568341D66E56F00B9B319 /* HHReferreeCell.m */; };
-		6DD568371D670B7D00B9B319 /* launch@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD568361D670B7D00B9B319 /* launch@3x.png */; };
 		6DD568391D670B8400B9B319 /* launch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD568381D670B8400B9B319 /* launch@2x.png */; };
 		6DD5683B1D670B8900B9B319 /* launch.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD5683A1D670B8900B9B319 /* launch.png */; };
 		6DD5684A1D6948E000B9B319 /* OpenShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5683E1D6948E000B9B319 /* OpenShare.m */; };
@@ -511,6 +510,7 @@
 		6DD5684F1D6948E000B9B319 /* OpenShare+Weixin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD568481D6948E000B9B319 /* OpenShare+Weixin.m */; };
 		6DD568541D6B3B4C00B9B319 /* HHGifRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD568531D6B3B4B00B9B319 /* HHGifRefreshHeader.m */; };
 		6DD568561D6E83AA00B9B319 /* loading_car.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6DD568551D6E83AA00B9B319 /* loading_car.gif */; };
+		6DD568581D6FCBE900B9B319 /* launch@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD568571D6FCBE900B9B319 /* launch@3x.png */; };
 		6DDAE6C31CB7566900CE461A /* HHNoCoachView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */; };
 		6DDAE6C91CB7899F00CE461A /* HHAppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C81CB7899F00CE461A /* HHAppInfoViewController.m */; };
 		6DDAE6CD1CB78B1B00CE461A /* ic_aboutmsg_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDAE6CA1CB78B1B00CE461A /* ic_aboutmsg_logo.png */; };
@@ -1267,7 +1267,6 @@
 		6DD568311D66E2EC00B9B319 /* HHReferralDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReferralDetailViewController.m; sourceTree = "<group>"; };
 		6DD568331D66E56F00B9B319 /* HHReferreeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHReferreeCell.h; sourceTree = "<group>"; };
 		6DD568341D66E56F00B9B319 /* HHReferreeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReferreeCell.m; sourceTree = "<group>"; };
-		6DD568361D670B7D00B9B319 /* launch@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch@3x.png"; sourceTree = "<group>"; };
 		6DD568381D670B8400B9B319 /* launch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch@2x.png"; sourceTree = "<group>"; };
 		6DD5683A1D670B8900B9B319 /* launch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch.png; sourceTree = "<group>"; };
 		6DD5683D1D6948E000B9B319 /* OpenShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenShare.h; sourceTree = "<group>"; };
@@ -1286,6 +1285,7 @@
 		6DD568521D6B3B4B00B9B319 /* HHGifRefreshHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHGifRefreshHeader.h; sourceTree = "<group>"; };
 		6DD568531D6B3B4B00B9B319 /* HHGifRefreshHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHGifRefreshHeader.m; sourceTree = "<group>"; };
 		6DD568551D6E83AA00B9B319 /* loading_car.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading_car.gif; sourceTree = "<group>"; };
+		6DD568571D6FCBE900B9B319 /* launch@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launch@3x.png"; sourceTree = "<group>"; };
 		6DDAE6C11CB7566900CE461A /* HHNoCoachView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNoCoachView.h; sourceTree = "<group>"; };
 		6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNoCoachView.m; sourceTree = "<group>"; };
 		6DDAE6C71CB7899F00CE461A /* HHAppInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAppInfoViewController.h; sourceTree = "<group>"; };
@@ -2128,10 +2128,10 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6DD568571D6FCBE900B9B319 /* launch@3x.png */,
 				6DD568551D6E83AA00B9B319 /* loading_car.gif */,
 				6DD5683A1D670B8900B9B319 /* launch.png */,
 				6DD568381D670B8400B9B319 /* launch@2x.png */,
-				6DD568361D670B7D00B9B319 /* launch@3x.png */,
 				6D6F9B511D34FFAB00855D2F /* Line-normal@1x.png */,
 				6D6F9B521D34FFAB00855D2F /* Line-normal@2x.png */,
 				6D6F9B531D34FFAB00855D2F /* Line-normal@3x.png */,
@@ -2810,6 +2810,7 @@
 				14604F591C6FB0E3009DBE10 /* ic_coachmsg_sharecoach_qq@3x.png in Resources */,
 				6D7D0C791D6323D70002FC56 /* ic_question_upexam@2x.png in Resources */,
 				6DD1AAD41D48C08A001D50FC /* pic_startscreen_bk.png in Resources */,
+				6DD568581D6FCBE900B9B319 /* launch@3x.png in Resources */,
 				6DFD5EB51D2E4ACE00CF2DEF /* ic_homepage_haha@3x.png in Resources */,
 				6DB1480F1D4B4EF0009E3F1E /* pic_xiaoha@2x.png in Resources */,
 				140EC6141C6D732D00DA634D /* ic_coachmsg_more_arrow@3x.png in Resources */,
@@ -2919,7 +2920,6 @@
 				147A9FF41C7AAA29000DED3B /* ic_paylist_message_btn_unfocus.png in Resources */,
 				5C6D8C8D1C3AD6840055CB31 /* ic_toast_right@1x.png in Resources */,
 				6D44B6B01D0D213B00E2F455 /* input@2x.png in Resources */,
-				6DD568371D670B7D00B9B319 /* launch@3x.png in Resources */,
 				5C36D3B71C474FF600443545 /* ic_screen_hold_btn@1X.png in Resources */,
 				6D3D6F9F1CC0933100E3BD8E /* ic_class_emptyava@2x.png in Resources */,
 				6DD1AAC51D4882D9001D50FC /* ic_group_ic.png in Resources */,
