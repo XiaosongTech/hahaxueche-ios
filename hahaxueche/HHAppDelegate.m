@@ -26,7 +26,6 @@
 #import <Pingpp/Pingpp.h>
 #import "HHStudentService.h"
 #import "HHToastManager.h"
-#import "HHEventTrackingManager.h"
 #import <Appirater.h>
 #import "Branch.h"
 #import "HHCoachDetailViewController.h"
@@ -147,9 +146,9 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
 - (void)setupAllThirdPartyServices {
     
+    //Appirater
     [Appirater setAppId:@"1011236187"];
     
-    // Instabug
 #ifdef DEBUG
     [Pingpp setDebugMode:YES];
     [Appirater setDebug:YES];
@@ -172,20 +171,20 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [HHEventTrackingManager sharedManager];
     
     //SDWebImage
-    
     [SDWebImageManager sharedManager].imageCache.maxCacheSize = 20000000;
     [[[SDWebImageManager sharedManager] imageDownloader] setMaxConcurrentDownloads:10];
     [[[SDWebImageManager sharedManager] imageDownloader] setExecutionOrder:SDWebImageDownloaderLIFOExecutionOrder];
     
-    
+    //高德
     [AMapServices sharedServices].apiKey =kMapServiceKey;
     
+    //Openshare
     [HHSocialMediaShareUtility sharedInstance];
     
+    //SSKeychain
     [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
     
-    [HHEventTrackingManager sharedManager];
-    
+    //七牛
     [[QYSDK sharedSDK] registerAppId:@"2f328da38ac77ce6d796c2977248f7e2" appName:@"hahaxueche-ios"];
 
 }

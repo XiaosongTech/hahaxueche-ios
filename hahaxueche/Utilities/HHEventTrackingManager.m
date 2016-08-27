@@ -28,19 +28,18 @@
     if (self) {
         
     #ifdef DEBUG
-        UMConfigInstance.appKey = @"5645831de0f55a1d0300031d";
-        UMConfigInstance.channelId = @"App Store";
-        [MobClick setLogEnabled:YES];
-        
-    #else
         UMConfigInstance.appKey = @"564a6b5ee0f55a2646005412";
         UMConfigInstance.channelId = @"App Store";
-        [MobClick setLogEnabled:NO];
+        
+    #else
+        UMConfigInstance.appKey = @"5645831de0f55a1d0300031d";
+        UMConfigInstance.channelId = @"App Store";
 
     #endif
         
         NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         [MobClick setAppVersion:version];
+        [MobClick startWithConfigure:UMConfigInstance];
     }
     
     return self;
