@@ -364,7 +364,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         }
             
         case CoachCellField: {
-            return 141.0f;
+            return 126.0f;
         }
             
             

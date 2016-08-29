@@ -30,7 +30,7 @@
         make.top.equalTo(self.contentView.top);
         make.left.equalTo(self.contentView.left);
         make.width.equalTo(self.contentView.width);
-        make.height.equalTo(self.contentView.height).offset(-15.0f);
+        make.height.equalTo(self.contentView.height);
     }];
     
     self.titleLabel = [[UILabel alloc] init];
