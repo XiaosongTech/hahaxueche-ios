@@ -148,12 +148,17 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     
     //Appirater
     [Appirater setAppId:@"1011236187"];
+    [Appirater setDaysUntilPrompt:2];
+    [Appirater setUsesUntilPrompt:0];
+    [Appirater setSignificantEventsUntilPrompt:-1];
+    [Appirater setTimeBeforeReminding:2];
+    [Appirater setDebug:NO];
+    [Appirater appLaunched:YES];
     
 #ifdef DEBUG
     [Pingpp setDebugMode:YES];
     [Appirater setDebug:YES];
 #else
-    [Appirater setDebug:NO];
     NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
     NSString *receiptURLString = [receiptURL path];
     BOOL isRunningTestFlightBeta =  ([receiptURLString rangeOfString:@"sandboxReceipt"].location != NSNotFound);
