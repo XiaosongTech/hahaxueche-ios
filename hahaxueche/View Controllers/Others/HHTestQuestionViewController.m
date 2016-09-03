@@ -147,6 +147,9 @@
 }
 
 - (void)dismissVC {
+    if (self.dismissBlock) {
+        self.dismissBlock();
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 

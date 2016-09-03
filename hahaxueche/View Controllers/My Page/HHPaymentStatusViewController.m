@@ -22,6 +22,8 @@
 #import "HHToastManager.h"
 #import "HHCoachService.h"
 #import "HHStudentStore.h"
+#import "HHReferralShareView.h"
+#import "HHReferFriendsViewController.h"
 
 
 static NSString *const kExplanationText = @"注：学员支付的学费将由平台保管，每个阶段结束后，学员可以根据情况，点击确认打款按钮。点击后，平台将阶段对应金额打给教练，然后进入下个阶段。每个阶段的金额会在点击付款后的第一个周二转到教练账户。";
@@ -181,7 +183,7 @@ static NSString *const kCellId = @"CellId";
         if ([stage.reviewable boolValue]) {
             if (![stage.reviewed boolValue]) {
                 if ([stage.readyForReview boolValue]) {
-                    [weakSelf makeReviewWithPaymentStage:stage];
+                    [weakSelf makeReviewWithPaymentStage:stage showReferPopup:YES];
                 } else {
                     weakSelf.infoView = [self buildInfoViewWithStage:self.purchasedService.paymentStages[indexPath.row]];
                     weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.infoView];
@@ -254,7 +256,7 @@ static NSString *const kCellId = @"CellId";
     return infoView;
 }
 
-- (void)makeReviewWithPaymentStage:(HHPaymentStage *)paymentStage {
+- (void)makeReviewWithPaymentStage:(HHPaymentStage *)paymentStage showReferPopup:(BOOL)showReferPopup {
     
     __weak HHPaymentStatusViewController *weakSelf = self;
     HHMakeReviewView *reviewView = [[HHMakeReviewView alloc] initWithFrame:CGRectMake(0, 0, 300.0f, 230.0f)];
@@ -270,6 +272,9 @@ static NSString *const kCellId = @"CellId";
                 [[HHToastManager sharedManager] showSuccessToastWithText:@"成功评价教练！"];
                 [self updateReviewed:paymentStage];
                 [weakSelf.tableView reloadData];
+                if (showReferPopup) {
+                    [weakSelf showReferPopup];
+                }
             } else {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"评价教练失败,请重试!"];
             }
@@ -278,8 +283,12 @@ static NSString *const kCellId = @"CellId";
     
     reviewView.cancelBlock = ^(){
         [HHPopupUtility dismissPopup:self.popup];
+        if (showReferPopup) {
+            [weakSelf showReferPopup];
+        }
     };
     self.popup = [HHPopupUtility createPopupWithContentView:reviewView];
+    self.popup.shouldDismissOnBackgroundTouch = NO;
     [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
 
 }
@@ -299,7 +308,9 @@ static NSString *const kCellId = @"CellId";
             [HHPopupUtility dismissPopup:self.popup];
             
             if ([self.currentPaymentStage.reviewable boolValue]) {
-                [self makeReviewWithPaymentStage:self.currentPaymentStage];
+                [self makeReviewWithPaymentStage:self.currentPaymentStage showReferPopup:YES];
+            } else {
+                [self showReferPopup];
             }
             
             if (self.updatePSBlock) {
@@ -335,6 +346,25 @@ static NSString *const kCellId = @"CellId";
             break;
         }
     }
+}
+
+- (void)showReferPopup {
+    __weak HHPaymentStatusViewController *weakSelf = self;
+    HHReferralShareView *shareView = [[HHReferralShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 300.0f)];
+    shareView.cancelBlock = ^(){
+        [weakSelf.popup dismiss:YES];
+    };
+    
+    shareView.shareBlock = ^(){
+        [weakSelf.popup dismiss:YES];
+        
+        HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+        [weakSelf presentViewController:navVC animated:YES completion:nil];
+    };
+    self.popup = [HHPopupUtility createPopupWithContentView:shareView];
+    self.popup.shouldDismissOnBackgroundTouch = NO;
+    [HHPopupUtility showPopup:self.popup];
 }
 
 @end

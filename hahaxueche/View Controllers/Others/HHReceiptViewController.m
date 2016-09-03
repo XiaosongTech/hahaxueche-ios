@@ -45,7 +45,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"付款明细";
+    self.title = @"付款成功";
     self.view.backgroundColor = [UIColor HHLightBackgroundYellow];
     self.ps = [[HHStudentStore sharedInstance].currentStudent.purchasedServiceArray firstObject];
     self.navigationItem.leftBarButtonItem = nil;
@@ -85,7 +85,7 @@
     self.supportLable.numberOfLines = 0;
     [self.scrollView addSubview:self.supportLable];
     
-    self.coachView = [[HHReceiptItemView alloc] initWithTitle:@"付款教练" value:self.coach.name];
+    self.coachView = [[HHReceiptItemView alloc] initWithTitle:@"购买教练" value:self.coach.name];
     [self.scrollView addSubview:self.coachView];
     
     self.amountView = [[HHReceiptItemView alloc] initWithTitle:@"付款金额" value:[self.ps.totalAmount generateMoneyString]];

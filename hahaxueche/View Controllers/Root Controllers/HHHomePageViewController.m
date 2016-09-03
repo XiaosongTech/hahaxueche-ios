@@ -40,6 +40,7 @@
 #import "HHTestView.h"
 #import "HHTestQuestionViewController.h"
 #import "HHTestSimuLandingViewController.h"
+#import "HHReferralShareView.h"
 
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach";
@@ -540,6 +541,7 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
 }
 
 - (void)showTestVCWithMode:(TestMode)mode {
+    __weak HHHomePageViewController *weakSelf = self;
     if (mode == TestModeSimu) {
         HHTestSimuLandingViewController *vc = [[HHTestSimuLandingViewController alloc] initWithCourseMode:self.segControl.selectedSegmentIndex];
         UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
@@ -553,7 +555,34 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     NSMutableArray *questions = [[HHTestQuestionManager sharedManager] generateQuestionsWithMode:mode courseMode:self.segControl.selectedSegmentIndex];
     HHTestQuestionViewController *vc = [[HHTestQuestionViewController alloc] initWithTestMode:mode courseMode:self.segControl.selectedSegmentIndex questions:questions startIndex:startIndex];
     vc.hidesBottomBarWhenPushed = YES;
+    if (mode == TestModeOrder || mode == TestModeRandom) {
+        vc.dismissBlock = ^() {
+            [weakSelf showReferPopup];
+        };
+    }
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)showReferPopup {
+    if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+        return;
+    }
+    __weak HHHomePageViewController *weakSelf = self;
+    HHReferralShareView *shareView = [[HHReferralShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 300.0f)];
+    shareView.cancelBlock = ^(){
+        [weakSelf.popup dismiss:YES];
+    };
+    
+    shareView.shareBlock = ^(){
+        [weakSelf.popup dismiss:YES];
+        
+        HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+        [weakSelf presentViewController:navVC animated:YES completion:nil];
+    };
+    self.popup = [HHPopupUtility createPopupWithContentView:shareView];
+    self.popup.shouldDismissOnBackgroundTouch = NO;
+    [HHPopupUtility showPopup:self.popup];
 }
 
 
