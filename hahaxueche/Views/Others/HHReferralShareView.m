@@ -33,13 +33,13 @@
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentCenter;
     paragraphStyle.lineSpacing = 5.0f;
-    NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] initWithString:@"我正在用哈哈学车学开车\n感觉棒棒哒! 马上分享给大家" attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:18.0f], NSForegroundColorAttributeName:[UIColor whiteColor], NSParagraphStyleAttributeName:paragraphStyle}];
+    NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] initWithString:@"用@哈哈学车爽到飞起  \n好东西不私藏~马上分享给大家" attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:18.0f], NSForegroundColorAttributeName:[UIColor whiteColor], NSParagraphStyleAttributeName:paragraphStyle}];
     self.titleLabel = [[UILabel alloc] init];
     self.titleLabel.numberOfLines = 0;
     self.titleLabel.attributedText = titleString;
     [self.topView addSubview:self.titleLabel];
     
-    NSMutableAttributedString *subTitleString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"好东西要分享给朋友, 好友通过分享链接报名哈哈学车后, 你可获得%@元现金奖励, 上不封顶哦~", [[[HHConstantsStore sharedInstance] getCityReferrerBonus] generateMoneyString]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor whiteColor], NSParagraphStyleAttributeName:paragraphStyle}];
+    NSMutableAttributedString *subTitleString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"好东西要分享给朋友，好友通过分享链接并报名哈哈学车后，你将获得%@元现金奖励，更有机会获得保时捷试驾一日游，上不封顶哦~", [[[HHConstantsStore sharedInstance] getCityReferrerBonus] generateMoneyString]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor whiteColor], NSParagraphStyleAttributeName:paragraphStyle}];
     
     self.subTitleLabel = [[UILabel alloc] init];
     self.subTitleLabel.numberOfLines = 0;
@@ -93,7 +93,7 @@
     }];
     
     [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.topView.top).offset(30.0f);
+        make.top.equalTo(self.topView.top).offset(20.0f);
         make.centerX.equalTo(self.centerX);
     }];
     
@@ -103,7 +103,7 @@
     }];
     
     [self.subTitleLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.imgView.top);
+        make.top.equalTo(self.imgView.top).offset(-15.0f);
         make.left.equalTo(self.left).offset(140.0f);
         make.right.equalTo(self.right).offset(-20.0f);
         make.bottom.lessThanOrEqualTo(self.bottom);
