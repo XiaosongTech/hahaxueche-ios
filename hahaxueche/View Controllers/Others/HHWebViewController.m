@@ -107,6 +107,9 @@
                 [[HHSocialMediaShareUtility sharedInstance] shareEvent:weakSelf.event shareType:ShareTypeWeChatTimeLine];
             } break;
                 
+            case SocialMediaQZone: {
+                [[HHSocialMediaShareUtility sharedInstance] shareEvent:weakSelf.event shareType:ShareTypeQZone];
+            } break;
             default:
                 break;
                 

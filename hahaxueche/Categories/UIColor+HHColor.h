@@ -38,4 +38,6 @@
 
 + (UIColor *)HHLightDarkTextGray;
 
++ (UIColor *)HHLightBackgroundYellow;
+
 @end

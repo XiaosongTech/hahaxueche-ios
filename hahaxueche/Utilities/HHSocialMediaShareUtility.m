@@ -92,6 +92,16 @@ static NSString *const kSupportQQ = @"3319762526";
 
         } break;
             
+        case ShareTypeQZone: {
+            if (![OpenShare isQQInstalled]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
+                return;
+            }
+            [[HHSocialMediaShareUtility sharedInstance] generateShareMessageWithCoach:coach shareType:shareType completion:^(OSMessage *message) {
+                [OpenShare shareToQQZone:message Success:nil Fail:nil];
+            }];
+        } break;
+            
         default:
             break;
     }
@@ -142,6 +152,16 @@ static NSString *const kSupportQQ = @"3319762526";
             }
             [OpenShare shareToWeixinTimeline:msg Success:nil Fail:nil];
 
+            
+        } break;
+            
+        case ShareTypeQZone: {
+            if (![OpenShare isQQInstalled]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
+                return;
+            }
+            [OpenShare shareToQQZone:msg Success:nil Fail:nil];
+            
             
         } break;
             
@@ -216,6 +236,19 @@ static NSString *const kSupportQQ = @"3319762526";
             
         } break;
             
+        case ShareTypeQZone: {
+            msg.multimediaType = OSMultimediaTypeNews;
+            msg.title = @"哈哈学车-开启快乐学车之旅吧~";
+            msg.desc = [NSString stringWithFormat:@"墙裂推荐:\n哈哈学车优秀教练%@", coach.name];
+            [HHSocialMediaShareUtility generateBranchLink:coach completion:^(NSString *url, NSError *error) {
+                [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+                msg.link = [NSString stringWithFormat:baseURL, coach.coachId, [url urlEncode]];
+                if (completion) {
+                    completion(msg);
+                }
+            }];
+
+        } break;
         default:
             break;
     }
@@ -433,6 +466,14 @@ static NSString *const kSupportQQ = @"3319762526";
             
         } break;
             
+        case ShareTypeQZone: {
+            if (![OpenShare isQQInstalled]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
+                return;
+            }
+            
+            [OpenShare shareToQQZone:msg Success:nil Fail:nil];
+        } break;
         default:
             break;
     }

@@ -44,7 +44,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *valueLabel;
 @property (nonatomic, strong) UIButton *withdrawButton;
-@property (nonatomic, strong) UIButton *saveButton;
+@property (nonatomic, strong) UIButton *shareButton;
 @property (nonatomic, strong) HHShareView *shareView;
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) UIButton *arrowButton;
@@ -59,7 +59,6 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     
     self.view.backgroundColor = [UIColor HHBackgroundGary];
      self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(popupVC) target:self];
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_mycoach_sharecoach"] action:@selector(shareImg) target:self];
     
     self.scrollView = [[UIScrollView alloc] init];
     self.scrollView.showsVerticalScrollIndicator = NO;
@@ -110,13 +109,15 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     [self.myQRCodeView sd_setImageWithURL:[NSURL URLWithString:[[HHStudentService sharedInstance] getStudentQRCodeURL]]];
     [self.midView addSubview:self.myQRCodeView];
     
-    self.saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.saveButton setTitle:@"保存到本地" forState:UIControlStateNormal];
-    [self.saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.saveButton.titleLabel.font = [UIFont systemFontOfSize:18.0f];
-    self.saveButton.backgroundColor = [UIColor HHOrange];
-    [self.saveButton addTarget:self action:@selector(saveImage) forControlEvents:UIControlEventTouchUpInside];
-    [self.midView addSubview:self.saveButton];
+    self.shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.shareButton setTitle:@"点击分享, 赚回学费" forState:UIControlStateNormal];
+    [self.shareButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.shareButton.titleLabel.font = [UIFont boldSystemFontOfSize:18.0f];
+    self.shareButton.backgroundColor = [UIColor HHOrange];
+    self.shareButton.layer.masksToBounds = YES;
+    self.shareButton.layer.cornerRadius = 25.0f;
+    [self.shareButton addTarget:self action:@selector(shareImg) forControlEvents:UIControlEventTouchUpInside];
+    [self.midView addSubview:self.shareButton];
     
     HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
     self.imageView = [[UIImageView alloc] init];
@@ -185,7 +186,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
         make.left.equalTo(self.valueLabel.right).offset(5.0f);
     }];
     
-    CGFloat midViewHeight = 70.0f + (CGRectGetWidth(self.view.bounds) - 60.0f) * 880.0f/664.0f;
+    CGFloat midViewHeight = 100.0f + CGRectGetWidth(self.view.bounds) - 30.0f;
     [self.midView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.topView.bottom);
         make.left.equalTo(self.scrollView.left);
@@ -196,14 +197,14 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     [self.myQRCodeView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.midView.top).offset(10.0f);
         make.centerX.equalTo(self.midView.centerX);
-        make.width.equalTo(self.midView.width).offset(-40.0f);
-        make.height.mas_equalTo((CGRectGetWidth(self.view.bounds) - 60.0f) * 880.0f/664.0f);
+        make.width.equalTo(self.midView.width).offset(-30.0f);
+        make.height.equalTo(self.myQRCodeView.width);
     }];
     
-    [self.saveButton makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.myQRCodeView.bottom).offset(-10.0f);
+    [self.shareButton makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.midView.bottom).offset(-30.0f);
         make.centerX.equalTo(self.midView.centerX);
-        make.width.equalTo(self.myQRCodeView.width).offset(-10.0f);
+        make.width.equalTo(self.midView.width).offset(-60.0f);
         make.height.mas_equalTo(50.0f);
     }];
     
@@ -231,7 +232,12 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 }
 
 - (void)popupVC {
-    [self.navigationController popViewControllerAnimated:YES];
+    if ([[self.navigationController.viewControllers firstObject] isEqual:self]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+
 }
 
 - (void)showWithdrawVC {
@@ -279,7 +285,10 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
                 case SocialMediaWeChaPYQ: {
                     [[HHSocialMediaShareUtility sharedInstance] shareMyQRCode:weakSelf.myQRCodeView.image shareType:ShareTypeWeChatTimeLine];
                 } break;
-                    
+                
+                case SocialMediaQZone: {
+                    [[HHSocialMediaShareUtility sharedInstance] shareMyQRCode:weakSelf.myQRCodeView.image shareType:ShareTypeQZone];
+                } break;
                 default:
                     break;
                     

@@ -69,4 +69,8 @@
     return [UIColor colorWithRed:0.38 green:0.38 blue:0.38 alpha:1.00];
 }
 
++ (UIColor *)HHLightBackgroundYellow {
+    return [UIColor colorWithRed:1.00 green:0.98 blue:0.95 alpha:1.00];
+}
+
 @end

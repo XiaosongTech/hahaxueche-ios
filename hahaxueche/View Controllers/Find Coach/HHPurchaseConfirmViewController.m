@@ -23,6 +23,7 @@
 #import "HHCoachServiceTypeView.h"
 #import "HHPopupUtility.h"
 #import "HHPriceDetailView.h"
+#import "HHReceiptViewController.h"
 
 
 @interface HHPurchaseConfirmViewController ()
@@ -312,10 +313,16 @@
     [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
         if ([student.purchasedServiceArray count]) {
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-            [[HHToastManager sharedManager] showSuccessToastWithText:@"支付成功! 请到我的页面查看具体信息."];
             [HHStudentStore sharedInstance].currentStudent = student;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"coachPurchased" object:nil];
-            [weakSelf.navigationController popViewControllerAnimated:YES];
+            
+            HHReceiptViewController *vc = [[HHReceiptViewController alloc] initWithCoach:weakSelf.coach];
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+            NSMutableArray *vcArray = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+            [vcArray removeLastObject];
+            [self.navigationController setViewControllers:vcArray];
+            [self presentViewController:navVC animated:YES completion:nil];
+            
         } else {
             [self fetchStudentAfterPurchase];
         }

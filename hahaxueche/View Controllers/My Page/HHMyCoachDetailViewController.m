@@ -222,6 +222,10 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
                 [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeChatTimeLine];
             } break;
                 
+            case SocialMediaQZone: {
+                [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeQZone];
+            } break;
+                
             default:
                 break;
         }
