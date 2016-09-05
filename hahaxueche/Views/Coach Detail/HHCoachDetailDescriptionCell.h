@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HHCoach.h"
+#import "HHCoachTagView.h"
 
 typedef void (^HHLikeCoachBlock)(UIButton *likeButton, UILabel *likeCountLabel);
 
@@ -20,6 +21,7 @@ typedef void (^HHLikeCoachBlock)(UIButton *likeButton, UILabel *likeCountLabel);
 
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *descriptionLabel;
+@property (nonatomic, strong) HHCoachTagView *jiaxiaoView;
 
 @property (nonatomic, strong) HHLikeCoachBlock likeBlock;
 

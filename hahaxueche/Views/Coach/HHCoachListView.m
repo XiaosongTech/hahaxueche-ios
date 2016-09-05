@@ -50,26 +50,6 @@ static CGFloat const kAvatarRadius = 30.0f;
     [self.trainingYearLabel sizeToFit];
     [self addSubview:self.trainingYearLabel];
     
-    self.priceLabel = [self createLabelWithFont:[UIFont systemFontOfSize:20.0f] textColor:[UIColor HHOrange]];
-    [self.priceLabel sizeToFit];
-    [self addSubview:self.priceLabel];
-    
-    self.VIPPriceLabel = [[UILabel alloc] init];
-    self.VIPPriceLabel.textColor = [UIColor HHOrange];
-    self.VIPPriceLabel.font = [UIFont systemFontOfSize:14.0f];
-    [self addSubview:self.VIPPriceLabel];
-    
-    self.vipIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_VIP_listing"]];
-    [self addSubview:self.vipIcon];
-    
-    if ([self.coach.VIPPrice floatValue] > 0) {
-        self.VIPPriceLabel.hidden = NO;
-        self.vipIcon.hidden = NO;
-    } else {
-        self.VIPPriceLabel.hidden = YES;
-        self.vipIcon.hidden = YES;
-    }
-    
     self.starRatingView = [[HHStarRatingView alloc] initWithInteraction:NO];
     self.starRatingView.value = 5.0;
     [self addSubview:self.starRatingView];
@@ -135,20 +115,11 @@ static CGFloat const kAvatarRadius = 30.0f;
         make.top.equalTo(self.starRatingView.bottom).offset(5.0f);
     }];
     
-    [self.priceLabel makeConstraints:^(MASConstraintMaker *make) {
+    [self.trainingYearLabel remakeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.right).offset(-15.0f);
         make.centerY.equalTo(self.nameLabel.centerY);
-        make.right.equalTo(self.right).offset(-15.0f);
     }];
-    
-    [self.VIPPriceLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.ratingLabel.centerY);
-        make.right.equalTo(self.right).offset(-15.0f);
-    }];
-    
-    [self.vipIcon makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.VIPPriceLabel.centerY);
-        make.right.equalTo(self.VIPPriceLabel.left);
-    }];
+
     
     [self.likeCountLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.mapButton.centerY).offset(2.0f);
@@ -192,27 +163,10 @@ static CGFloat const kAvatarRadius = 30.0f;
             make.left.equalTo(self.nameLabel.right).offset(3.0f);
             make.centerY.equalTo(self.nameLabel.centerY);
         }];
-        
-        [self.trainingYearLabel remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.goldenCoachIcon.right).offset(3.0f);
-            make.bottom.equalTo(self.nameLabel.bottom);
-        }];
     } else {
         self.goldenCoachIcon.hidden = YES;
-        [self.trainingYearLabel remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.nameLabel.right).offset(5.0f);
-            make.bottom.equalTo(self.nameLabel.bottom);
-        }];
     }
     self.starRatingView.value = [coach.averageRating floatValue];
-    
-    
-    self.priceLabel.text = [coach.price generateMoneyString];
-    
-    if ([self.coach.VIPPrice floatValue] > 0) {
-        self.VIPPriceLabel.text = [self.coach.VIPPrice generateMoneyString];
-    }
-    
     
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[field cityAndDistrict] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
     
@@ -225,6 +179,23 @@ static CGFloat const kAvatarRadius = 30.0f;
     }
     
     self.likeCountLabel.text = [coach.likeCount stringValue];
+    
+    UIView *baseView = self.goldenCoachIcon;
+    if (self.goldenCoachIcon.hidden) {
+        baseView = self.nameLabel;
+    }
+    if (self.coach.drivingSchool && ![self.coach.drivingSchool isEqualToString:@""]) {
+        self.jiaxiaoView = [[HHCoachTagView alloc] init];
+        [self.jiaxiaoView setDotColor:[UIColor HHOrange] title:coach.drivingSchool];
+        [self addSubview:self.jiaxiaoView];
+        [self.jiaxiaoView makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.nameLabel.centerY);
+            make.left.equalTo(baseView.right).offset(3.0f);
+            make.width.equalTo(self.jiaxiaoView.label.width).offset(20.0f);
+            make.height.mas_equalTo(16.0f);
+        }];
+    }
+    
 }
 
 - (NSMutableAttributedString *)generateDistanceStringWithField:(HHField *)field userLocation:(CLLocation *)location {
