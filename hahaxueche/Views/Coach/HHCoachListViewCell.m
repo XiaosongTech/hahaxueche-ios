@@ -234,7 +234,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     if (self.goldenCoachIcon.hidden) {
         baseView = self.nameLabel;
     }
-    [self.jiaxiaoView makeConstraints:^(MASConstraintMaker *make) {
+    [self.jiaxiaoView remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.nameLabel.centerY);
         make.left.equalTo(baseView.right).offset(3.0f);
         make.width.equalTo(self.jiaxiaoView.label.width).offset(20.0f);
@@ -252,7 +252,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     }
     self.priceView = [[HHPriceView alloc] initWithTitle:@"超值" subTitle:@"四人一车, 性价比高" price:coach.price];
     [self.contentView addSubview:self.priceView];
-    [self.priceView makeConstraints:^(MASConstraintMaker *make) {
+    [self.priceView remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(baseView.bottom).offset(15.0f);
         make.left.equalTo(self.nameLabel.left);
         make.right.equalTo(self.contentView.right);
@@ -266,7 +266,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     if ([coach.VIPPrice floatValue] > 0) {
         self.VIPPriceView = [[HHPriceView alloc] initWithTitle:@"VIP" subTitle:@"一人一车, 极速拿证" price:coach.VIPPrice];
         [self.contentView addSubview:self.VIPPriceView];
-        [self.VIPPriceView makeConstraints:^(MASConstraintMaker *make) {
+        [self.VIPPriceView remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.priceView.bottom);
             make.left.equalTo(self.priceView.left);
             make.right.equalTo(self.contentView.right);
