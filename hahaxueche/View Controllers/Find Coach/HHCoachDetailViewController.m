@@ -186,6 +186,10 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
                     [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeChatTimeLine];
                 } break;
                     
+                case SocialMediaQZone: {
+                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeQZone];
+                } break;
+                    
                 default:
                     break;
 

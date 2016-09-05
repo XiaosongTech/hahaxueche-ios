@@ -112,6 +112,22 @@ static CGFloat const avatarRadius = 30.0f;
         [self.likeButton setImage:[UIImage imageNamed:@"ic_list_best_unclick"] forState:UIControlStateNormal];
     }
     self.likeCountLabel.text = [coach.likeCount stringValue];
+    
+    if (coach.drivingSchool && ![coach.drivingSchool isEqualToString:@""]) {
+        [self.jiaxiaoView removeFromSuperview];
+        self.jiaxiaoView = [[HHCoachTagView alloc] init];
+        [self.contentView addSubview:self.jiaxiaoView];
+        [self.jiaxiaoView setDotColor:[UIColor HHOrange] title:coach.drivingSchool];
+        [self.jiaxiaoView makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.nameLabel.centerY);
+            make.left.equalTo(self.nameLabel.right).offset(3.0f);
+            make.width.equalTo(self.jiaxiaoView.label.width).offset(20.0f);
+            make.height.mas_equalTo(16.0f);
+        }];
+    } else {
+        [self.jiaxiaoView removeFromSuperview];
+    }
+    
 }
 
 - (void)likeButtonTapped {

@@ -13,7 +13,7 @@
 #import "HHShareViewItem.h"
 
 static CGFloat const kItemViewHeight = 100.0f;
-static NSInteger const kCountPerLine = 4;
+static NSInteger const kCountPerLine = 5;
 
 @implementation HHShareView
 
@@ -44,7 +44,7 @@ static NSInteger const kCountPerLine = 4;
     self.cancelLabel = [[UILabel alloc] init];
     self.cancelLabel.font = [UIFont systemFontOfSize:16.0f];
     self.cancelLabel.text = @"取消";
-    self.cancelLabel.textColor = [UIColor HHCancelRed];
+    self.cancelLabel.textColor = [UIColor HHOrange];
     [self.botView addSubview:self.cancelLabel];
     
 
@@ -71,6 +71,10 @@ static NSInteger const kCountPerLine = 4;
                 
             case SocialMediaWeChaPYQ: {
                 item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_friendgroup"] title:@"朋友圈"];
+            } break;
+                
+            case SocialMediaQZone: {
+                item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_kongjian"] title:@"空间"];
             } break;
                 
             default:

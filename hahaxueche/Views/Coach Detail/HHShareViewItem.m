@@ -10,7 +10,7 @@
 #import "Masonry.h"
 #import "UIColor+HHColor.h"
 
-static CGFloat const kImageRadius = 30.0f;
+static CGFloat const kImageRadius = 25.0f;
 
 @implementation HHShareViewItem
 

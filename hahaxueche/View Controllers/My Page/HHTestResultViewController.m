@@ -14,6 +14,9 @@
 #import "HHStudentStore.h"
 #import "HHTestSimuInfoView.h"
 #import "HHTestQuestionViewController.h"
+#import "HHReferFriendsViewController.h"
+#import "HHReferralShareView.h"
+#import "HHPopupUtility.h"
 
 @interface HHTestResultViewController ()
 
@@ -29,6 +32,7 @@
 @property (nonatomic, strong) UIButton *checkWrongQuestionsButton;
 
 @property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) KLCPopup *popup;
 
 @end
 
@@ -198,6 +202,8 @@
                                                                multiplier:1.0
                                                                  constant:-30.0f]];
     
+    [self showReferPopup];
+    
 }
 
 - (void)dismissVC {
@@ -215,6 +221,28 @@
 
 - (void)startTest {
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)showReferPopup {
+    if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+        return;
+    }
+    __weak HHTestResultViewController *weakSelf = self;
+    HHReferralShareView *shareView = [[HHReferralShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 300.0f)];
+    shareView.cancelBlock = ^(){
+        [weakSelf.popup dismiss:YES];
+    };
+    
+    shareView.shareBlock = ^(){
+        [weakSelf.popup dismiss:YES];
+        
+        HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+        [weakSelf presentViewController:navVC animated:YES completion:nil];
+    };
+    self.popup = [HHPopupUtility createPopupWithContentView:shareView];
+    self.popup.shouldDismissOnBackgroundTouch = NO;
+    [HHPopupUtility showPopup:self.popup];
 }
 
 @end

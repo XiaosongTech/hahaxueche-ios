@@ -25,7 +25,7 @@ static NSString *const kCellId = @"kCoachListCellId";
 static NSString *const kEmptyCellId = @"kEmptyCellId";
 
 static CGFloat const kCellHeightNormal = 100.0f;
-static CGFloat const kCellHeightExpanded = 300.0f;
+static CGFloat const kCellHeightExpanded = 305.0f;
 
 @interface HHSearchCoachViewController () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -94,7 +94,7 @@ static CGFloat const kCellHeightExpanded = 300.0f;
     __weak HHCoachListViewCell *weakCell = cell;
     
     HHCoach *coach = self.coaches[indexPath.row];
-    [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId] userLocation:[HHStudentStore sharedInstance].currentLocation];
+    [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId] userLocation:[HHStudentStore sharedInstance].currentLocation mapShowed:[weakSelf.expandedCellIndexPath containsObject:indexPath]];
     
     if ([self.expandedCellIndexPath containsObject:indexPath]) {
         cell.mapView.hidden = NO;
@@ -130,9 +130,19 @@ static CGFloat const kCellHeightExpanded = 300.0f;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.coaches count]) {
         if ([self.expandedCellIndexPath containsObject:indexPath]) {
-            return kCellHeightExpanded;
+            CGFloat height = kCellHeightExpanded + 40.0f;
+            HHCoach *coach = self.coaches[indexPath.row];
+            if ([coach.VIPPrice floatValue] > 0) {
+                height = height + 40.0f;
+            }
+            return height;
         } else {
-            return kCellHeightNormal;
+            CGFloat height = kCellHeightNormal + 40.0f;
+            HHCoach *coach = self.coaches[indexPath.row];
+            if ([coach.VIPPrice floatValue] > 0) {
+                height = height + 40.0f;
+            }
+            return height;
         }
     } else {
         return CGRectGetHeight(self.view.bounds);

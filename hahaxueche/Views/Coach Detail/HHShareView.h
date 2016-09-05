@@ -10,9 +10,10 @@
 
 typedef NS_ENUM(NSInteger, SocialMedia) {
     SocialMediaQQFriend, // QQ好友
-    SocialMediaWeibo, // 微博
     SocialMediaWeChatFriend, // 微信好友
+    SocialMediaQZone, // qq空间
     SocialMediaWeChaPYQ,    // 微信朋友圈
+    SocialMediaWeibo, // 微博
     SocialMediaCount
 };
 

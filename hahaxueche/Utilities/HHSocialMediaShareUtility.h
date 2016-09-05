@@ -16,6 +16,7 @@ typedef NS_ENUM(NSInteger, ShareType) {
     ShareTypeWeibo,
     ShareTypeWeChat,
     ShareTypeWeChatTimeLine,
+    ShareTypeQZone,
 };
 
 typedef void (^MessageCompletion) (OSMessage *message);

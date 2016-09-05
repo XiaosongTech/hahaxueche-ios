@@ -39,6 +39,7 @@
              @"images":@"images",
              @"liked":@"liked",
              @"likeCount":@"like_count",
+             @"drivingSchool":@"driving_school",
              };
 }
 
