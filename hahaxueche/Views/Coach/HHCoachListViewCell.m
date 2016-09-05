@@ -222,7 +222,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     
     self.likeCountLabel.text = [coach.likeCount stringValue];
     
-    if (![coach.drivingSchool isEqualToString:@""]) {
+    if (coach.drivingSchool && ![coach.drivingSchool isEqualToString:@""]) {
         [self.jiaxiaoView setDotColor:[UIColor HHOrange] title:coach.drivingSchool];
         self.jiaxiaoView.hidden = NO;
     } else {
