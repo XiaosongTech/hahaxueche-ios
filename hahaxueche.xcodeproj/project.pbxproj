@@ -463,6 +463,8 @@
 		6D98E9BE1D7AC46F00A324B2 /* ic_yourletter.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D98E9BB1D7AC46F00A324B2 /* ic_yourletter.png */; };
 		6D98E9BF1D7AC46F00A324B2 /* ic_yourletter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D98E9BC1D7AC46F00A324B2 /* ic_yourletter@2x.png */; };
 		6D98E9C01D7AC46F00A324B2 /* ic_yourletter@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D98E9BD1D7AC46F00A324B2 /* ic_yourletter@3x.png */; };
+		6D98E9C31D7D204600A324B2 /* HHCoachTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D98E9C21D7D204600A324B2 /* HHCoachTagView.m */; };
+		6D98E9C61D7D2BF800A324B2 /* HHPriceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D98E9C51D7D2BF800A324B2 /* HHPriceView.m */; };
 		6D9B80971CBF32AE004B90C6 /* HHNotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9B80961CBF32AE004B90C6 /* HHNotificationCell.m */; };
 		6DACD0111D34CA0700BDE2EE /* HHMyPageCouponCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DACD0101D34CA0700BDE2EE /* HHMyPageCouponCell.m */; };
 		6DACD0141D34EF3300BDE2EE /* HHCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DACD0131D34EF3300BDE2EE /* HHCouponViewController.m */; };
@@ -1233,6 +1235,10 @@
 		6D98E9BB1D7AC46F00A324B2 /* ic_yourletter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_yourletter.png; sourceTree = "<group>"; };
 		6D98E9BC1D7AC46F00A324B2 /* ic_yourletter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_yourletter@2x.png"; sourceTree = "<group>"; };
 		6D98E9BD1D7AC46F00A324B2 /* ic_yourletter@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_yourletter@3x.png"; sourceTree = "<group>"; };
+		6D98E9C11D7D204600A324B2 /* HHCoachTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachTagView.h; sourceTree = "<group>"; };
+		6D98E9C21D7D204600A324B2 /* HHCoachTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachTagView.m; sourceTree = "<group>"; };
+		6D98E9C41D7D2BF800A324B2 /* HHPriceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPriceView.h; sourceTree = "<group>"; };
+		6D98E9C51D7D2BF800A324B2 /* HHPriceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPriceView.m; sourceTree = "<group>"; };
 		6D9B80951CBF32AE004B90C6 /* HHNotificationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNotificationCell.h; sourceTree = "<group>"; };
 		6D9B80961CBF32AE004B90C6 /* HHNotificationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNotificationCell.m; sourceTree = "<group>"; };
 		6DACD00F1D34CA0700BDE2EE /* HHMyPageCouponCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyPageCouponCell.h; sourceTree = "<group>"; };
@@ -1709,6 +1715,10 @@
 				6D98E98C1D7A523F00A324B2 /* HHReceiptItemView.m */,
 				6D98E9AC1D7A880F00A324B2 /* HHReferralShareView.h */,
 				6D98E9AD1D7A880F00A324B2 /* HHReferralShareView.m */,
+				6D98E9C11D7D204600A324B2 /* HHCoachTagView.h */,
+				6D98E9C21D7D204600A324B2 /* HHCoachTagView.m */,
+				6D98E9C41D7D2BF800A324B2 /* HHPriceView.h */,
+				6D98E9C51D7D2BF800A324B2 /* HHPriceView.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -3271,8 +3281,10 @@
 				1405CC741C762CE80030B114 /* HHMyPageUserInfoCell.m in Sources */,
 				6D82BD701CCF9DEC00D4109A /* HHGenericTwoButtonsPopupView.m in Sources */,
 				5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */,
+				6D98E9C61D7D2BF800A324B2 /* HHPriceView.m in Sources */,
 				6D4151DC1CF321AB004A7EE8 /* HHSearchCoachViewController.m in Sources */,
 				140EC6201C6D776400DA634D /* HHCoachCellView.m in Sources */,
+				6D98E9C31D7D204600A324B2 /* HHCoachTagView.m in Sources */,
 				14604F5F1C6FEE10009DBE10 /* HHPriceDetailView.m in Sources */,
 				6DD5684E1D6948E000B9B319 /* OpenShare+Weibo.m in Sources */,
 				6D3D73451CB9FFB300E424C3 /* HHScheduleRateView.m in Sources */,

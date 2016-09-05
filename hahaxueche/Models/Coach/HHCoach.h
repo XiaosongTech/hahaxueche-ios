@@ -37,6 +37,7 @@
 @property (nonatomic, copy) NSArray *images;
 @property (nonatomic, copy) NSNumber *liked;
 @property (nonatomic, copy) NSNumber *likeCount;
+@property (nonatomic, copy) NSString *drivingSchool;
 
 // 0 = 优秀教练; 1 = 金牌教练
 - (BOOL)isGoldenCoach;

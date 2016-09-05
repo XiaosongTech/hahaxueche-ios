@@ -46,17 +46,6 @@ static CGFloat const kAvatarRadius = 30.0f;
     [self.trainingYearLabel sizeToFit];
     [self.contentView addSubview:self.trainingYearLabel];
     
-    self.priceLabel = [self createLabelWithFont:[UIFont systemFontOfSize:20.0f] textColor:[UIColor HHOrange]];
-    [self.priceLabel sizeToFit];
-    [self.contentView addSubview:self.priceLabel];
-    
-    self.vipPriceLabel = [self createLabelWithFont:[UIFont systemFontOfSize:14.0f] textColor:[UIColor HHOrange]];
-    [self.vipPriceLabel sizeToFit];
-    [self.contentView addSubview:self.vipPriceLabel];
-    
-    self.vipIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_VIP_listing"]];
-    [self.contentView addSubview:self.vipIcon];
-    
     self.starRatingView = [[HHStarRatingView alloc] initWithInteraction:NO];
     self.starRatingView.value = 5.0;
     [self.contentView addSubview:self.starRatingView];
@@ -101,6 +90,9 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.likeCountLabel.font = [UIFont systemFontOfSize:13.0f];
     [self.contentView addSubview:self.likeCountLabel];
     
+    self.jiaxiaoView = [[HHCoachTagView alloc] init];
+    [self.contentView addSubview:self.jiaxiaoView];
+    
     [self makeConstraints];
     
 }
@@ -135,21 +127,10 @@ static CGFloat const kAvatarRadius = 30.0f;
         make.top.equalTo(self.starRatingView.bottom).offset(5.0f);
     }];
     
-    [self.priceLabel makeConstraints:^(MASConstraintMaker *make) {
+    [self.trainingYearLabel remakeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.contentView.right).offset(-15.0f);
         make.centerY.equalTo(self.nameLabel.centerY);
-        make.right.equalTo(self.contentView.right).offset(-15.0f);
     }];
-    
-    [self.vipPriceLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.ratingLabel.centerY);
-        make.right.equalTo(self.contentView.right).offset(-15.0f);
-    }];
-    
-    [self.vipIcon makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.vipPriceLabel.centerY);
-        make.right.equalTo(self.vipPriceLabel.left);
-    }];
-    
     
     [self.mapView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.mapButton.bottom).offset(5.0f);
@@ -159,7 +140,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     }];
     
     [self.likeCountLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.mapButton.centerY).offset(2.0f);
+        make.centerY.equalTo(self.mapButton.centerY);
         make.right.equalTo(self.contentView.right).offset(-20.0f);
     }];
     
@@ -171,7 +152,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     
     [self.bottomLine makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.contentView.bottom);
-        make.left.equalTo(self.avatarView.right).offset(15.0f);
+        make.left.equalTo(self.avatarView.left);
         make.right.equalTo(self.contentView.right);
         make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
     }];
@@ -208,7 +189,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     [self.mapView addAnnotation:pointAnnotation];
 }
 
-- (void)setupCellWithCoach:(HHCoach *)coach field:(HHField *)field userLocation:(CLLocation *)location {
+- (void)setupCellWithCoach:(HHCoach *)coach field:(HHField *)field userLocation:(CLLocation *)location mapShowed:(BOOL)mapShowed {
     self.field = field;
     self.ratingLabel.text = [NSString stringWithFormat:@"%.1f (%@)",[coach.averageRating floatValue], [coach.reviewCount stringValue]];;
     [self.avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl] placeholderImage:[UIImage imageNamed:@"ic_coach_ava"]];
@@ -222,30 +203,10 @@ static CGFloat const kAvatarRadius = 30.0f;
             make.centerY.equalTo(self.nameLabel.centerY);
         }];
         
-        [self.trainingYearLabel remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.goldenCoachIcon.right).offset(3.0f);
-            make.bottom.equalTo(self.nameLabel.bottom);
-        }];
     } else {
          self.goldenCoachIcon.hidden = YES;
-        [self.trainingYearLabel remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.nameLabel.right).offset(5.0f);
-            make.bottom.equalTo(self.nameLabel.bottom);
-        }];
     }
     self.starRatingView.value = [coach.averageRating floatValue];
-    
-    
-    self.priceLabel.text = [coach.price generateMoneyString];
-    
-    if ([coach.VIPPrice floatValue] > 0) {
-        self.vipPriceLabel.text = [coach.VIPPrice generateMoneyString];
-        self.vipIcon.hidden = NO;
-        
-    } else {
-        self.vipPriceLabel.text = @"";
-        self.vipIcon.hidden = YES;
-    }
     
     NSMutableAttributedString *attributedString;
     if ([field cityAndDistrict]) {
@@ -260,6 +221,59 @@ static CGFloat const kAvatarRadius = 30.0f;
     }
     
     self.likeCountLabel.text = [coach.likeCount stringValue];
+    
+    if (![coach.drivingSchool isEqualToString:@""]) {
+        [self.jiaxiaoView setDotColor:[UIColor HHOrange] title:coach.drivingSchool];
+        self.jiaxiaoView.hidden = NO;
+    } else {
+        self.jiaxiaoView.hidden = YES;
+    }
+    
+    
+    UIView *baseView = self.goldenCoachIcon;
+    if (self.goldenCoachIcon.hidden) {
+        baseView = self.nameLabel;
+    }
+    [self.jiaxiaoView makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.nameLabel.centerY);
+        make.left.equalTo(baseView.right).offset(3.0f);
+        make.width.equalTo(self.jiaxiaoView.label.width).offset(20.0f);
+        make.height.mas_equalTo(16.0f);
+    }];
+    
+    if (self.priceView) {
+        [self.priceView removeFromSuperview];
+        self.priceView = nil;
+    }
+    
+    baseView = self.mapButton;
+    if (mapShowed) {
+        baseView = self.mapView;
+    }
+    self.priceView = [[HHPriceView alloc] initWithTitle:@"超值" subTitle:@"四人一车, 性价比高" price:coach.price];
+    [self.contentView addSubview:self.priceView];
+    [self.priceView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(baseView.bottom).offset(15.0f);
+        make.left.equalTo(self.nameLabel.left);
+        make.right.equalTo(self.contentView.right);
+        make.height.mas_equalTo(40.0f);
+    }];
+    
+    if (self.VIPPriceView) {
+        [self.VIPPriceView removeFromSuperview];
+        self.VIPPriceView = nil;
+    }
+    if ([coach.VIPPrice floatValue] > 0) {
+        self.VIPPriceView = [[HHPriceView alloc] initWithTitle:@"VIP" subTitle:@"一人一车, 极速拿证" price:coach.VIPPrice];
+        [self.contentView addSubview:self.VIPPriceView];
+        [self.VIPPriceView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.priceView.bottom);
+            make.left.equalTo(self.priceView.left);
+            make.right.equalTo(self.contentView.right);
+            make.height.mas_equalTo(40.0f);
+        }];
+    }
+    
 }
 
 #pragma mark - MapView Delegate Methods
