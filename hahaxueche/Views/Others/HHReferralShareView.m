@@ -32,7 +32,7 @@
     
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentCenter;
-    paragraphStyle.lineSpacing = 5.0f;
+    paragraphStyle.lineSpacing = 3.0f;
     NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] initWithString:@"用@哈哈学车爽到飞起  \n好东西不私藏~马上分享给大家" attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:18.0f], NSForegroundColorAttributeName:[UIColor whiteColor], NSParagraphStyleAttributeName:paragraphStyle}];
     self.titleLabel = [[UILabel alloc] init];
     self.titleLabel.numberOfLines = 0;

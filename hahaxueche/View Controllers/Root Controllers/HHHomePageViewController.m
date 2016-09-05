@@ -76,6 +76,8 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
 @property (nonatomic, strong) HHTestView *randTestView;
 @property (nonatomic, strong) HHTestView *myQuestionView;
 
+@property (nonatomic, strong) UIView *mailFromCEOView;
+
 @end
 
 @implementation HHHomePageViewController
@@ -239,6 +241,9 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
         [weakSelf showTestVCWithMode:TestModeFavQuestions];
     };
     [self.scrollView addSubview:self.myQuestionView];
+    
+    self.mailFromCEOView = [self buildMailView];
+    [self.scrollView addSubview:self.mailFromCEOView];
 
     [self makeConstraints];
 }
@@ -303,16 +308,23 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
         make.height.equalTo(self.view.width).multipliedBy(4.0f/5.0f);
     }];
     
-    [self.callSupportView remakeConstraints:^(MASConstraintMaker *make) {
+    [self.mailFromCEOView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.bannerView.bottom);
         make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
+        make.bottom.equalTo(self.onlineSupportView.bottom);
+    }];
+    
+    [self.callSupportView remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.bannerView.bottom);
+        make.left.equalTo(self.mailFromCEOView.right);
         make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
         make.height.mas_equalTo(60.0f);
     }];
     
     [self.onlineSupportView remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bannerView.bottom);
-        make.left.equalTo(self.callSupportView.right);
+        make.top.equalTo(self.callSupportView.bottom);
+        make.left.equalTo(self.mailFromCEOView.right);
         make.width.equalTo(self.view).multipliedBy(1.0f/2.0f);
         make.height.mas_equalTo(60.0f);
     }];
@@ -371,7 +383,7 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     }];
     
     [self.freeTrialContainerView remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.thirdView.bottom);
+        make.top.equalTo(self.mailFromCEOView.bottom);
         make.centerX.equalTo(self.scrollView.centerX);
         make.width.equalTo(self.scrollView.width);
         make.height.mas_equalTo(78.0f);
@@ -379,7 +391,7 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     
     if (self.activitySectionView) {
         [self.activitySectionView remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.onlineSupportView.bottom).offset(10.0f);
+            make.top.equalTo(self.freeTrialContainerView.bottom).offset(10.0f);
             make.width.equalTo(self.scrollView.width);
             make.left.equalTo(self.scrollView.left);
             make.height.mas_equalTo(50.0f);
@@ -407,7 +419,7 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     }
     
     [self.segControl makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.freeTrialContainerView.bottom).offset(10.0f);
+        make.top.equalTo(self.thirdView.bottom).offset(10.0f);
         make.width.equalTo(self.scrollView.width);
         make.left.equalTo(self.scrollView.left);
         make.height.mas_equalTo(50.0f);
@@ -585,6 +597,59 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     [HHPopupUtility showPopup:self.popup];
 }
 
+
+- (UIView *)buildMailView {
+    UIView *view = [[UIView alloc] init];
+    view.backgroundColor = [UIColor whiteColor];
+    
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_yourletter"]];
+    imgView.contentMode = UIViewContentModeScaleAspectFit;
+    [view addSubview:imgView];
+    [imgView makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(view.centerY).offset(-10.0f);
+        make.centerX.equalTo(view.centerX);
+        make.width.equalTo(view.width).offset(-10.0f);
+    }];
+    
+    UILabel *label = [[UILabel alloc] init];
+    label.text = @"请查收 >>";
+    label.textColor = [UIColor HHOrange];
+    label.font = [UIFont systemFontOfSize:13.0f];
+    [view addSubview:label];
+    [label makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.left).offset(15.0f);
+        make.bottom.equalTo(view.bottom).offset(-10.0f);
+    }];
+    
+    UIView *botLine = [[UIView alloc] init];
+    botLine.backgroundColor = [UIColor HHLightLineGray];
+    [view addSubview:botLine];
+    [botLine makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.left);
+        make.width.equalTo(view.width);
+        make.bottom.equalTo(view.bottom);
+        make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+    }];
+    
+    UIView *rightLine = [[UIView alloc] init];
+    rightLine.backgroundColor = [UIColor HHLightLineGray];
+    [view addSubview:rightLine];
+    [rightLine makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(view.right);
+        make.width.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+        make.top.equalTo(view.top);
+        make.height.equalTo(view.height);
+    }];
+    
+    UITapGestureRecognizer *rec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showMailPage)];
+    [view addGestureRecognizer:rec];
+    
+    return view;
+}
+
+- (void)showMailPage {
+    [self openWebPage:[NSURL URLWithString:@"http://m.hahaxueche.com/letter-for-customer"]];
+}
 
 
 
