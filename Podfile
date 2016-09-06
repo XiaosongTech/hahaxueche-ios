@@ -34,7 +34,7 @@ target "hahaxueche" do
     pod 'NJKWebViewProgress'
     pod 'Instabug'
     pod 'TTTAttributedLabel'
-    pod 'QIYU_iOS_SDK', '~> 2.5'
+    pod 'QIYU_iOS_SDK', '~> 2.7.0'
     pod 'HMSegmentedControl'
     pod 'SwipeView', '~> 1.3'
     pod 'FLAnimatedImage', '~> 1.0'

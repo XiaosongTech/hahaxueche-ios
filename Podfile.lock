@@ -66,7 +66,7 @@ PODS:
   - Pingpp/WebView (2.2.5):
     - Pingpp/Core
   - pop (1.0.9)
-  - QIYU_iOS_SDK (2.5.1)
+  - QIYU_iOS_SDK (2.7.0)
   - RSKImageCropper (1.5.1)
   - SDCycleScrollView (1.65):
     - SDWebImage (~> 3.7)
@@ -107,7 +107,7 @@ DEPENDENCIES:
   - Pingpp/Alipay (~> 2.2.5)
   - Pingpp/Fqlpay (~> 2.2.5)
   - pop (~> 1.0)
-  - QIYU_iOS_SDK (~> 2.5)
+  - QIYU_iOS_SDK (~> 2.7.0)
   - RSKImageCropper
   - SDCycleScrollView (~> 1.6)
   - SDWebImage (~> 3.7)
@@ -145,7 +145,7 @@ SPEC CHECKSUMS:
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   Pingpp: 98db8836e52fb8ab1da494e65a9835540039646c
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
-  QIYU_iOS_SDK: eab023b669ccfe07bf406cf4e93f42918a4aada8
+  QIYU_iOS_SDK: 0aa24ac9070dab7a49030d544e43635c60816ac4
   RSKImageCropper: edd65fedb3734332818deb139906d6b7f54b8a44
   SDCycleScrollView: f72904c77698a7f93a41bcbbc2d78b073bf7326c
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
@@ -156,6 +156,6 @@ SPEC CHECKSUMS:
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
 
-PODFILE CHECKSUM: f9e5ad88da3b20ac5c6c030c6507928b21b4ca0c
+PODFILE CHECKSUM: e9f17454442117257767bb94a69bd90cb1eaae13
 
 COCOAPODS: 1.0.0
