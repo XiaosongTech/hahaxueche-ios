@@ -38,6 +38,7 @@ target "hahaxueche" do
     pod 'HMSegmentedControl'
     pod 'SwipeView', '~> 1.3'
     pod 'FLAnimatedImage', '~> 1.0'
+    pod 'EAFeatureGuideView'
 
 end
 

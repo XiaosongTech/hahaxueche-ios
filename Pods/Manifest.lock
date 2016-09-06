@@ -35,6 +35,7 @@ PODS:
     - Fabric (~> 1.6.3)
   - CRToast (0.0.9)
   - DateTools (1.7.0)
+  - EAFeatureGuideView (1.0.8)
   - Fabric (1.6.7)
   - FLAnimatedImage (1.0.12)
   - Harpy (3.4.8)
@@ -90,6 +91,7 @@ DEPENDENCIES:
   - Crashlytics
   - CRToast
   - DateTools
+  - EAFeatureGuideView
   - Fabric
   - FLAnimatedImage (~> 1.0)
   - Harpy
@@ -129,6 +131,7 @@ SPEC CHECKSUMS:
   Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
+  EAFeatureGuideView: f5ca8144e2cfe59e5cf04c744355890902b01a1b
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Harpy: 7253bc78a0c3e239e8e4bd21b63403c7cf0be9c9
@@ -156,6 +159,6 @@ SPEC CHECKSUMS:
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
 
-PODFILE CHECKSUM: e9f17454442117257767bb94a69bd90cb1eaae13
+PODFILE CHECKSUM: c66beb9a199a4d5188198e7241fb55d817ba07c8
 
 COCOAPODS: 1.0.0

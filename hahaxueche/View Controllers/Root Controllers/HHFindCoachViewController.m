@@ -33,6 +33,7 @@
 #import "HHCoachDetailViewController.h"
 #import "HHSearchCoachViewController.h"
 #import "HHGifRefreshHeader.h"
+#import "UIView+EAFeatureGuideView.h"
 
 static NSString *const kCellId = @"kCoachListCellId";
 static CGFloat const kCellHeightNormal = 100.0f;
@@ -109,6 +110,14 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 
     self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    EAFeatureItem *recents = [[EAFeatureItem alloc] initWithFocusView:self.filterButton focusCornerRadius:0 focusInsets:UIEdgeInsetsMake(5.0f, 10.0f, -5.0f, -10.0f)];
+    recents.introduce = @"距离, 价格, 类型,\n帮你筛选出最心仪的那个Ta";
+    
+    [self.view showWithFeatureItems:@[recents] saveKeyName:@"keyName" inVersion:nil];
 }
 
 - (void)refreshCoachListWithCompletion:(HHRefreshCoachCompletionBlock)completion {
