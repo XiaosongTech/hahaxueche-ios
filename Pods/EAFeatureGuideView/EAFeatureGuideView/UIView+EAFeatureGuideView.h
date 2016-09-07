@@ -9,7 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "EAFeatureItem.h"
 
+typedef void (^HHViewDismissCompletion)();
+
 @interface UIView (EAFeatureGuideView)
+
+@property (nonatomic, copy) HHViewDismissCompletion guideViewDismissCompletion;
 
 /**
  *  展示提示页面

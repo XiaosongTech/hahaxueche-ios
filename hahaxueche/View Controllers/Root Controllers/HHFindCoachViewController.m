@@ -36,6 +36,7 @@
 #import "UIView+EAFeatureGuideView.h"
 
 static NSString *const kCellId = @"kCoachListCellId";
+static NSString *const kFindCoachGuideKey = @"kFindCoachGuideKey";
 static CGFloat const kCellHeightNormal = 100.0f;
 static CGFloat const kCellHeightExpanded = 305.0f;
 
@@ -90,8 +91,11 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     self.expandedCellIndexPath = [NSMutableArray array];
     [self initSubviews];
      __weak HHFindCoachViewController *weakSelf = self;
+    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];
     [self getUserLocationWithCompletion:^{
-        [weakSelf refreshCoachListWithCompletion:nil];
+        [weakSelf refreshCoachList:YES completion:^{
+            [weakSelf showUserGuideView];
+        }];
     }];
     
     self.noDataLabel = [[UILabel alloc] init];
@@ -112,18 +116,10 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
 }
 
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    EAFeatureItem *recents = [[EAFeatureItem alloc] initWithFocusView:self.filterButton focusCornerRadius:0 focusInsets:UIEdgeInsetsMake(5.0f, 10.0f, -5.0f, -10.0f)];
-    recents.introduce = @"距离, 价格, 类型,\n帮你筛选出最心仪的那个Ta";
-    
-    [self.view showWithFeatureItems:@[recents] saveKeyName:@"keyName" inVersion:nil];
-}
-
-- (void)refreshCoachListWithCompletion:(HHRefreshCoachCompletionBlock)completion {
+- (void)refreshCoachList:(BOOL)showLoading completion:(HHRefreshCoachCompletionBlock)completion {
     [self.expandedCellIndexPath removeAllObjects];
     __weak HHFindCoachViewController *weakSelf = self;
-    if (!completion) {
+    if (showLoading) {
         [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];
     }
     NSNumber *lat = @(weakSelf.userLocation.coordinate.latitude);
@@ -370,7 +366,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     self.filtersView = [[HHFiltersView alloc] initWithFilters:[self.coachFilters copy] frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 440.0f) city:self.userCity];
     self.filtersView.confirmBlock = ^(HHCoachFilters *filters){
         weakSelf.coachFilters = filters;
-        [weakSelf refreshCoachListWithCompletion:nil];
+        [weakSelf refreshCoachList:YES completion:nil];
         [weakSelf.popup dismiss:YES];
     };
     self.filtersView.cancelBlock = ^(){
@@ -386,7 +382,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     self.sortView.frame = CGRectMake(0, 0, 130.0f, 200.0f);
     self.sortView.selectedOptionBlock = ^(SortOption sortOption){
         weakSelf.currentSortOption = sortOption;
-        [weakSelf refreshCoachListWithCompletion:nil];
+        [weakSelf refreshCoachList:YES completion:nil];
         [weakSelf.popup dismiss:YES];
     };
     self.popup = [HHPopupUtility createPopupWithContentView:self.sortView];
@@ -403,17 +399,20 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         HHFieldsMapViewController *mapVC = [[HHFieldsMapViewController alloc] initWithUserLocation:self.userLocation selectedFields:self.selectedFields];
         mapVC.conformBlock = ^(NSMutableArray *selectedFields) {
             weakSelf.selectedFields = selectedFields;
-            [weakSelf refreshCoachListWithCompletion:nil];
+            [weakSelf refreshCoachList:YES completion:nil];
         };
         UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:mapVC];
         [self presentViewController:navVC animated:YES completion:nil];
     } else {
+        [[HHLoadingViewUtility sharedInstance] showLoadingView];
         [self getUserLocationWithCompletion:^() {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
             if (weakSelf.userLocation) {
                 HHFieldsMapViewController *mapVC = [[HHFieldsMapViewController alloc] initWithUserLocation:weakSelf.userLocation selectedFields:weakSelf.selectedFields];
                 mapVC.conformBlock = ^(NSMutableArray *selectedFields) {
                     weakSelf.selectedFields = selectedFields;
-                    [weakSelf refreshCoachListWithCompletion:nil];
+                    [weakSelf refreshCoachList:YES completion:nil];
+
                 };
                 UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:mapVC];
                 [weakSelf presentViewController:navVC animated:YES completion:nil];
@@ -425,9 +424,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 
 
 - (void)getUserLocationWithCompletion:(HHUserLocationCompletionBlock)completion {
-    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"正在定位附近教练和训练场"];
     [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyBlock timeout:2.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
-        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (status == INTULocationStatusSuccess) {
             self.userLocation = currentLocation;
             [HHStudentStore sharedInstance].currentLocation = currentLocation;
@@ -456,7 +453,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 
 - (void)refreshData {
     __weak HHFindCoachViewController *weakSelf = self;
-    [self refreshCoachListWithCompletion:^{
+    [self refreshCoachList:NO completion:^{
         [weakSelf.refreshHeader endRefreshing];
     }];
 }
@@ -475,5 +472,37 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     [self presentViewController:navVC animated:NO completion:nil];
 }
 
+
+- (void)showUserGuideView {
+    if ([UIView hasShowFeatureGuideWithKey:kFindCoachGuideKey version:nil]) {
+        return;
+    }
+    
+    __weak HHFindCoachViewController *weakSelf = self;
+    EAFeatureItem *filter = [[EAFeatureItem alloc] initWithFocusView:self.filterButton focusCornerRadius:0 focusInsets:UIEdgeInsetsMake(5.0f, 20.0f, -5.0f, -20.0f)];
+    filter.introduce = @"select.png";
+    filter.indicatorImageName = @"arrow.png";
+    self.view.guideViewDismissCompletion = ^() {
+        EAFeatureItem *leftTop = [[EAFeatureItem alloc] initWithFocusRect:CGRectMake(10.0f, 25.0f, 35.0f, 35.0f) focusCornerRadius:15.5f focusInsets:UIEdgeInsetsZero];
+        leftTop.introduce = @"pointtomap.png";
+        leftTop.indicatorImageName = @"arrow.png";
+        if ([weakSelf.coaches count] > 0) {
+            weakSelf.view.guideViewDismissCompletion = ^() {
+                EAFeatureItem *mapButton = [[EAFeatureItem alloc] initWithFocusRect:CGRectMake(85.0f, 165.0f, 90.0f, 25.0f) focusCornerRadius:0 focusInsets:UIEdgeInsetsZero];
+                mapButton.introduce = @"wheretopractice.png";
+                mapButton.indicatorImageName = @"arrow.png";
+                weakSelf.view.guideViewDismissCompletion = nil;
+                [weakSelf.view showWithFeatureItems:@[mapButton] saveKeyName:kFindCoachGuideKey inVersion:nil];
+            };
+        } else {
+            weakSelf.view.guideViewDismissCompletion = nil;
+        }
+        
+        [weakSelf.view showWithFeatureItems:@[leftTop] saveKeyName:kFindCoachGuideKey inVersion:nil];
+    };
+    
+    [self.view showWithFeatureItems:@[filter] saveKeyName:kFindCoachGuideKey inVersion:nil];
+    
+}
 
 @end

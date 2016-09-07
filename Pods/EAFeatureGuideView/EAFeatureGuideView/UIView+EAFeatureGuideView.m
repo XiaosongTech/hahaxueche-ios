@@ -71,7 +71,7 @@ typedef NS_ENUM(NSUInteger, EAFeatureItemLocation) {
     shapeLayer.path = path.CGPath;
     shapeLayer.fillRule = kCAFillRuleEvenOdd;
     shapeLayer.fillColor = [UIColor blackColor].CGColor;
-    shapeLayer.opacity =0.8;
+    shapeLayer.opacity =0.6;
     
     [containerView.layer addSublayer:shapeLayer];
     
@@ -475,6 +475,9 @@ typedef NS_ENUM(NSUInteger, EAFeatureItemLocation) {
     [UIView setShowStatusWithKey:[self getKeyName] status:YES];
     [[self getContainerView] removeFromSuperview];
     [self setContainerView:nil];
+    if (self.guideViewDismissCompletion) {
+        self.guideViewDismissCompletion();
+    }
 }
 
 - (void)touchedEvent:(UITapGestureRecognizer *)tap
@@ -550,6 +553,14 @@ typedef NS_ENUM(NSUInteger, EAFeatureItemLocation) {
 - (void)setRotationOberserver:(id)rotationOberserver
 {
     objc_setAssociatedObject(self, @selector(getRotationOberserver), rotationOberserver, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (void)setGuideViewDismissCompletion:(HHViewDismissCompletion)guideViewDismissCompletion {
+    objc_setAssociatedObject(self, @"dismissKey", guideViewDismissCompletion, OBJC_ASSOCIATION_COPY);
+}
+
+- (HHViewDismissCompletion)guideViewDismissCompletion {
+    return objc_getAssociatedObject(self, @"dismissKey");
 }
 
 

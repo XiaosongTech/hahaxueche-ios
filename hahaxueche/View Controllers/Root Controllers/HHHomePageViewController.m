@@ -41,12 +41,14 @@
 #import "HHTestQuestionViewController.h"
 #import "HHTestSimuLandingViewController.h"
 #import "HHReferralShareView.h"
+#import "UIView+EAFeatureGuideView.h"
 
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach";
 static NSString *const kFeatureLink = @"http://activity.hahaxueche.com/share/features";
 static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps";
 
+static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
 
 @interface HHHomePageViewController () <SDCycleScrollViewDelegate>
 
@@ -75,6 +77,7 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
 @property (nonatomic, strong) HHTestView *simuTestView;
 @property (nonatomic, strong) HHTestView *randTestView;
 @property (nonatomic, strong) HHTestView *myQuestionView;
+@property (nonatomic, strong) UIButton *moreEventsButton;
 
 @property (nonatomic, strong) UIView *mailFromCEOView;
 
@@ -102,6 +105,8 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
                 }
                 [weakSelf fetchEvents];
                 [HHPopupUtility dismissPopup:weakSelf.popup];
+                [weakSelf showUserGuideView];
+                
             };
             [HHStudentStore sharedInstance].currentStudent.cityId = @(0);
             weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.citySelectView];
@@ -126,6 +131,13 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO];    // it shows
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+        [self showUserGuideView];
+    }
 }
 
 - (void)initSubviews {
@@ -507,14 +519,14 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
     [self.activitySectionView addSubview:label];
     
     if ([self.events count] > 2) {
-        UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [moreButton setTitle:@"查看更多" forState:UIControlStateNormal];
-        [moreButton setTitleColor:[UIColor HHLightTextGray] forState:UIControlStateNormal];
-        moreButton.titleLabel.font = [UIFont systemFontOfSize:13.0f];
-        [moreButton addTarget:self action:@selector(showMoreEvents) forControlEvents:UIControlEventTouchUpInside];
-        [self.activitySectionView addSubview:moreButton];
+        self.moreEventsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.moreEventsButton setTitle:@"查看更多" forState:UIControlStateNormal];
+        [self.moreEventsButton setTitleColor:[UIColor HHLightTextGray] forState:UIControlStateNormal];
+        self.moreEventsButton.titleLabel.font = [UIFont systemFontOfSize:13.0f];
+        [self.moreEventsButton addTarget:self action:@selector(showMoreEvents) forControlEvents:UIControlEventTouchUpInside];
+        [self.activitySectionView addSubview:self.moreEventsButton];
         
-        [moreButton makeConstraints:^(MASConstraintMaker *make) {
+        [self.moreEventsButton makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.activitySectionView.centerY);
             make.right.equalTo(self.activitySectionView.right).offset(-15.0f);
         }];
@@ -649,6 +661,27 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
 
 - (void)showMailPage {
     [self openWebPage:[NSURL URLWithString:@"http://m.hahaxueche.com/letter-for-customer"]];
+}
+
+- (void)showUserGuideView {
+    if ([UIView hasShowFeatureGuideWithKey:kHomePageGuideKey version:nil]) {
+        return;
+    }
+
+    __weak HHHomePageViewController *weakSelf = self;
+    EAFeatureItem *support = [[EAFeatureItem alloc] initWithFocusView:self.onlineSupportView  focusCornerRadius:0 focusInsets:UIEdgeInsetsMake(5.0f, 20.0f, -5.0f, -20.0f)];
+    support.introduce = @"xiaoha.png";
+    support.indicatorImageName = @"arrow";
+    self.view.guideViewDismissCompletion = ^() {
+        EAFeatureItem *coachTab = [[EAFeatureItem alloc] initWithFocusRect:CGRectMake(CGRectGetWidth(weakSelf.tabBarController.tabBar.frame)/4.0f, CGRectGetHeight(weakSelf.view.bounds)-CGRectGetHeight(weakSelf.tabBarController.tabBar.frame), CGRectGetWidth(weakSelf.tabBarController.tabBar.frame)/4.0f, CGRectGetHeight(weakSelf.tabBarController.tabBar.frame))  focusCornerRadius:0 focusInsets:UIEdgeInsetsZero];
+        coachTab.introduce = @"lookingforcoach.png";
+        coachTab.indicatorImageName = @"arrow";
+        weakSelf.view.guideViewDismissCompletion = nil;
+        [weakSelf.view showWithFeatureItems:@[coachTab] saveKeyName:@"coach" inVersion:nil];
+        
+    };
+    [self.view showWithFeatureItems:@[support] saveKeyName:kHomePageGuideKey inVersion:nil];
+    
 }
 
 
