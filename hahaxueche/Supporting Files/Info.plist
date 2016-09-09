@@ -72,10 +72,26 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>需要位置信息来帮助您寻找附近的优秀教练</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>需要位置信息来帮助您寻找附近的优秀教练</string>
+    <!-- 🖼 Photo Library -->
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>需要您的照片库的权限</string>
+    
+    <!-- 📷 Camera -->
+    <key>NSCameraUsageDescription</key>
+    <string>需要您的摄像头的权限</string>
+
+    <!-- 📍 Location -->
+    <key>NSLocationUsageDescription</key>
+    <string>需要位置信息来帮助您寻找附近的优秀教练</string>
+    
+    <!-- 📍 Location When In Use -->
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>需要位置信息来帮助您寻找附近的优秀教练</string>
+    
+    <!-- 📍 Location Always -->
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>需要位置信息来帮助您寻找附近的优秀教练</string>
+    
 	<key>UIAppFonts</key>
 	<array/>
 	<key>UIRequiredDeviceCapabilities</key>
