@@ -145,7 +145,7 @@
         // 获得设备的语言
         NSString *language = [NSLocale preferredLanguages].firstObject;
         // 如果是iOS9以上，截取前面的语言标识
-        if ([UIDevice currentDevice].systemVersion.floatValue >= 9.0) {
+        if ([UIDevice currentDevice].systemVersion.floatValue >= 9.0 && [UIDevice currentDevice].systemVersion.floatValue < 10.0) {
             NSRange range = [language rangeOfString:@"-" options:NSBackwardsSearch];
             language = [language substringToIndex:range.location];
         }
