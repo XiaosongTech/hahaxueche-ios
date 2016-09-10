@@ -7,8 +7,6 @@
 //
 
 #import "HHAppDelegate.h"
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
 #import "HHEventTrackingManager.h"
 #import "SDWebImage/SDWebImageManager.h"
 #import <SSKeychain/SSKeychain.h>
@@ -167,10 +165,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     }
     
 #endif
-
-    //Crashlytics
-    [Fabric with:@[[Crashlytics class]]];
-    
     
     //Umeng
     [HHEventTrackingManager sharedManager];

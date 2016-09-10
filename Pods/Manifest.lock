@@ -31,12 +31,9 @@ PODS:
     - Branch/without-IDFA (= 0.12.2)
   - Branch/Core (0.12.2)
   - Branch/without-IDFA (0.12.2)
-  - Crashlytics (3.7.0):
-    - Fabric (~> 1.6.3)
   - CRToast (0.0.9)
   - DateTools (1.7.0)
   - EAFeatureGuideView (1.0.8)
-  - Fabric (1.6.7)
   - FLAnimatedImage (1.0.12)
   - Harpy (3.4.8)
   - HCSStarRatingView (1.4.5)
@@ -88,11 +85,9 @@ DEPENDENCIES:
   - Appirater
   - BEMCheckBox
   - Branch
-  - Crashlytics
   - CRToast
   - DateTools
   - EAFeatureGuideView
-  - Fabric
   - FLAnimatedImage (~> 1.0)
   - Harpy
   - HCSStarRatingView (~> 1.4)
@@ -128,11 +123,9 @@ SPEC CHECKSUMS:
   Appirater: e7c0a47fb67ee5041ce8479e6ba960927fb40264
   BEMCheckBox: 264b8b72aa92adbfefa265cc58a0cdb86b207b9f
   Branch: 8dc4c9b6c3bcdc6ad590938a0b333ddbfe60efe4
-  Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   EAFeatureGuideView: f5ca8144e2cfe59e5cf04c744355890902b01a1b
-  Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Harpy: 7253bc78a0c3e239e8e4bd21b63403c7cf0be9c9
   HCSStarRatingView: bff3f89314d3b5013ce826ea11897d3129ff6b8c
@@ -159,6 +152,6 @@ SPEC CHECKSUMS:
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
 
-PODFILE CHECKSUM: ddfff1395303a61bb528481199b617dcaa5b12f8
+PODFILE CHECKSUM: 5cdf50dfaf0afc0d7db7b35ffe1d6ab9b262a576
 
 COCOAPODS: 1.0.0

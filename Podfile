@@ -7,8 +7,6 @@ target "hahaxueche" do
     pod 'libPhoneNumber-iOS', '~> 0.8'
     pod 'DateTools'
     pod "Appirater"
-    pod 'Fabric'
-    pod 'Crashlytics'
     pod 'AFNetworking', '~> 2.6.1'
     pod 'SSKeychain'
     pod 'MJRefresh'
