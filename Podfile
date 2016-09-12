@@ -7,8 +7,6 @@ target "hahaxueche" do
     pod 'libPhoneNumber-iOS', '~> 0.8'
     pod 'DateTools'
     pod "Appirater"
-    pod 'Fabric'
-    pod 'Crashlytics'
     pod 'AFNetworking', '~> 2.6.1'
     pod 'SSKeychain'
     pod 'MJRefresh'
@@ -34,10 +32,11 @@ target "hahaxueche" do
     pod 'NJKWebViewProgress'
     pod 'Instabug'
     pod 'TTTAttributedLabel'
-    pod 'QIYU_iOS_SDK', '~> 2.5'
+    pod 'QIYU_iOS_SDK', '~> 2.7.0'
     pod 'HMSegmentedControl'
     pod 'SwipeView', '~> 1.3'
     pod 'FLAnimatedImage', '~> 1.0'
+    pod 'EAFeatureGuideView'
 
 end
 
