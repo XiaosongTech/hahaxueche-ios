@@ -11,7 +11,7 @@
 
 #define kStagingAPIBaseURL @"https://staging-api.hahaxueche.net/api/v1/"
 
-#define kProductionAPIBaseURL @"http://api.hahaxueche.net/api/v1/"
+#define kProductionAPIBaseURL @"https://api.hahaxueche.net/api/v1/"
 
 #define kContentTypeHeaderKey @"Content-Type"
 #define kContentTypeHeaderValue @"application/json"
