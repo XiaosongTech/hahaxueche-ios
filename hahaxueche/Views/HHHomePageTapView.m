@@ -12,7 +12,7 @@
 
 @implementation HHHomePageTapView
 
-- (instancetype)initWithImage:(UIImage *)image title:(NSString *)title subTitle:(NSString *)subTitle showRightLine:(BOOL)showRightLine {
+- (instancetype)initWithImage:(UIImage *)image title:(NSString *)title showRightLine:(BOOL)showRightLine showBotLine:(BOOL)showBotLine {
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
@@ -22,16 +22,10 @@
         self.titleLabel = [[UILabel alloc] init];
         self.titleLabel.text = title;
         self.titleLabel.textColor = [UIColor HHTextDarkGray];
-        self.titleLabel.font = [UIFont boldSystemFontOfSize:16.0f];
+        self.titleLabel.font = [UIFont systemFontOfSize:16.0f];
         [self.titleLabel sizeToFit];
         [self addSubview:self.titleLabel];
-        
-        self.subTitleLabel = [[UILabel alloc] init];
-        self.subTitleLabel.text = subTitle;
-        self.subTitleLabel.textColor = [UIColor HHLightTextGray];
-        self.subTitleLabel.font = [UIFont systemFontOfSize:12.0f];
-        [self.subTitleLabel sizeToFit];
-        [self addSubview:self.subTitleLabel];
+
         
         self.rightLine = [[UIView alloc] init];
         self.rightLine.backgroundColor = [UIColor HHLightLineGray];
@@ -47,6 +41,12 @@
         self.bottomLine.backgroundColor = [UIColor HHLightLineGray];
         [self addSubview:self.bottomLine];
         
+        if (showBotLine) {
+            self.bottomLine.hidden = NO;
+        } else {
+            self.bottomLine.hidden = YES;
+        }
+        
         [self makeConstraints];
         
         UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped)];
@@ -58,24 +58,19 @@
 - (void)makeConstraints {
     [self.imageView makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.centerY);
-        make.right.equalTo(self.centerX).offset(-6.0f);
+        make.centerX.equalTo(self.centerX).multipliedBy(0.5f);
     }];
     
     [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.centerY).offset(-11.0f);
-        make.left.equalTo(self.centerX).offset(6.0f);
-    }];
-    
-    [self.subTitleLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.centerY).offset(11.0f);
-        make.left.equalTo(self.titleLabel.left);
+        make.centerY.equalTo(self.centerY);
+        make.centerX.equalTo(self.centerX).multipliedBy(1.3f);
     }];
     
     [self.rightLine makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.centerY);
         make.right.equalTo(self.right);
         make.width.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-        make.height.mas_equalTo(60.0f);
+        make.height.equalTo(self.height);
     }];
     
     [self.bottomLine makeConstraints:^(MASConstraintMaker *make) {

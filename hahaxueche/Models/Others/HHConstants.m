@@ -23,6 +23,9 @@
              @"homePageBanners": @"new_home_page_banners",
              @"notifications": @"banner_highlights",
              @"banks": @"banks",
+             @"drivingSchoolCount": @"statistics.driving_school_count",
+             @"paidStudentCount": @"statistics.paid_student_count",
+             @"coachCount": @"statistics.coach_count",
              };
 }
 

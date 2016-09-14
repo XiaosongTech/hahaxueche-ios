@@ -15,7 +15,6 @@ static NSString *const kSavedConstants = @"kSavedConstant";
 
 @interface HHConstantsStore ()
 
-@property (nonatomic, strong) HHConstants *constants;
 
 @end
 

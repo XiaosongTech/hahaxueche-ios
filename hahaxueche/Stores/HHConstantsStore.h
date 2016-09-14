@@ -16,6 +16,8 @@ typedef void (^HHConstantsCompletion)(HHConstants *constants);
 
 @interface HHConstantsStore : NSObject
 
+@property (nonatomic, strong) HHConstants *constants;
+
 + (instancetype)sharedInstance;
 - (void)getConstantsWithCompletion:(HHConstantsCompletion)completion;
 

@@ -13,6 +13,9 @@
 #import "HHEvent.h"
 #import "HHEventCardCell.h"
 #import "HHWebViewController.h"
+#import "HHLoadingViewUtility.h"
+#import "HHStudentService.h"
+#import "HHStudentStore.h"
 
 static NSString *const kCellID = @"kEventCardCellId";
 
@@ -26,14 +29,6 @@ static NSString *const kCellID = @"kEventCardCellId";
 
 
 @implementation HHEventsViewController
-
-- (instancetype)initWithEvents:(NSArray *)events {
-    self = [super init];
-    if (self) {
-        self.events = events;
-    }
-    return self;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -67,6 +62,16 @@ static NSString *const kCellID = @"kEventCardCellId";
     
     [self.tableView registerClass:[HHEventCardCell class] forCellReuseIdentifier:kCellID];
     
+    
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    [[HHStudentService sharedInstance] getCityEventsWithId:[HHStudentStore sharedInstance].currentStudent.cityId completion:^(NSArray *events, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (!error) {
+            self.events = events;
+            [self.tableView reloadData];
+        }
+    }];
+
 }
 
 #pragma mark - TableView Delegate & Datasource Methods

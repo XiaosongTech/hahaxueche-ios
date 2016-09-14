@@ -22,7 +22,7 @@
         self.titleLabel = [[UILabel alloc] init];
         self.titleLabel.text = title;
         self.titleLabel.textColor = [UIColor HHLightTextGray];
-        self.titleLabel.font = [UIFont boldSystemFontOfSize:16.0f];
+        self.titleLabel.font = [UIFont systemFontOfSize:13.0f];
         [self.titleLabel sizeToFit];
         [self addSubview:self.titleLabel];
         
@@ -52,7 +52,7 @@
 - (void)makeConstraints {
     [self.imageView makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.centerY);
-        make.right.equalTo(self.centerX).multipliedBy(0.65f);
+        make.centerX.equalTo(self.centerX).multipliedBy(0.4f);
     }];
     
     [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
@@ -64,7 +64,7 @@
         make.centerY.equalTo(self.centerY);
         make.right.equalTo(self.right);
         make.width.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-        make.height.mas_equalTo(40.0f);
+        make.height.equalTo(self.height);
     }];
     
     [self.bottomLine makeConstraints:^(MASConstraintMaker *make) {
