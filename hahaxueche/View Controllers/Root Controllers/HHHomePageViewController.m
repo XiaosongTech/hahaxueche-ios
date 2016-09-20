@@ -35,10 +35,7 @@
 #import "HHSupportUtility.h"
 #import "HHFreeTrialUtility.h"
 #import "HHEventsViewController.h"
-#import "HMSegmentedControl.h"
 #import "HHTestView.h"
-#import "HHTestQuestionViewController.h"
-#import "HHTestSimuLandingViewController.h"
 #import "HHReferralShareView.h"
 #import "UIView+EAFeatureGuideView.h"
 #import "HHHomPageCardView.h"
@@ -72,14 +69,6 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
 @property (nonatomic, strong) HHHomPageCardView *drivingSchoolView;
 @property (nonatomic, strong) HHHomPageCardView *coachView;
 @property (nonatomic, strong) HHHomPageCardView *adviserView;
-
-
-@property (nonatomic, strong) HMSegmentedControl *segControl;
-@property (nonatomic, strong) HHTestView *orderTestView;
-@property (nonatomic, strong) HHTestView *simuTestView;
-@property (nonatomic, strong) HHTestView *randTestView;
-@property (nonatomic, strong) HHTestView *myQuestionView;
-@property (nonatomic, strong) UIButton *moreEventsButton;
 
 @end
 
@@ -233,41 +222,6 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     };
     [self.scrollView addSubview:self.eventView];
     
-//    self.segControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"科目一", @"科目四"]];
-//    self.segControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe;
-//    self.segControl.selectionIndicatorHeight = 4.0f/[UIScreen mainScreen].scale;
-//    self.segControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
-//    self.segControl.selectionIndicatorColor = [UIColor HHOrange];
-//    self.segControl.backgroundColor = [UIColor whiteColor];
-//    self.segControl.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor HHLightestTextGray], NSFontAttributeName: [UIFont systemFontOfSize:16.0f]};
-//    self.segControl.selectedTitleTextAttributes = @{NSForegroundColorAttributeName : [UIColor HHOrange], NSFontAttributeName: [UIFont boldSystemFontOfSize:16.0f]};
-//    [self.segControl addTarget:self action:@selector(segmentedControlChangedValue:) forControlEvents:UIControlEventValueChanged];
-//    [self.scrollView addSubview:self.segControl];
-//    
-//    self.orderTestView = [[HHTestView alloc] initWithTitle:@"顺序练题" image:[UIImage imageNamed:@"ic_question_turn"] showVerticalLine:YES showBottomLine:YES];
-//    self.orderTestView.tapBlock = ^() {
-//        [weakSelf showTestVCWithMode:TestModeOrder];
-//    };
-//    [self.scrollView addSubview:self.orderTestView];
-//    
-//    self.randTestView = [[HHTestView alloc] initWithTitle:@"随机练题" image:[UIImage imageNamed:@"ic_question_random"] showVerticalLine:NO showBottomLine:YES];
-//    self.randTestView.tapBlock = ^() {
-//        [weakSelf showTestVCWithMode:TestModeRandom];
-//    };
-//    [self.scrollView addSubview:self.randTestView];
-//    
-//    self.simuTestView = [[HHTestView alloc] initWithTitle:@"模拟考试" image:[UIImage imageNamed:@"ic_question_exam"] showVerticalLine:YES showBottomLine:NO];
-//    self.simuTestView.tapBlock = ^() {
-//        [weakSelf showTestVCWithMode:TestModeSimu];
-//    };
-//    [self.scrollView addSubview:self.simuTestView];
-//    
-//    self.myQuestionView = [[HHTestView alloc] initWithTitle:@"我的题库" image:[UIImage imageNamed:@"ic_question_lib"] showVerticalLine:NO showBottomLine:NO];
-//    self.myQuestionView.tapBlock = ^() {
-//        [weakSelf showTestVCWithMode:TestModeFavQuestions];
-//    };
-//    [self.scrollView addSubview:self.myQuestionView];
-
     [self makeConstraints];
 }
 
@@ -366,40 +320,6 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
         make.width.equalTo(self.scrollView.width).multipliedBy(1/2.0f);
         make.height.mas_equalTo(50.0f);
     }];
-//    [self.segControl makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.thirdView.bottom).offset(10.0f);
-//        make.width.equalTo(self.scrollView.width);
-//        make.left.equalTo(self.scrollView.left);
-//        make.height.mas_equalTo(50.0f);
-//    }];
-//    
-//    [self.orderTestView makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.segControl.bottom);
-//        make.width.equalTo(self.scrollView.width).multipliedBy(0.5f);
-//        make.left.equalTo(self.scrollView.left);
-//        make.height.mas_equalTo(90.0f);
-//    }];
-//    
-//    [self.randTestView makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.segControl.bottom);
-//        make.width.equalTo(self.scrollView.width).multipliedBy(0.5f);
-//        make.left.equalTo(self.orderTestView.right);
-//        make.height.mas_equalTo(90.0f);
-//    }];
-//    
-//    [self.simuTestView makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.orderTestView.bottom);
-//        make.width.equalTo(self.scrollView.width).multipliedBy(0.5f);
-//        make.left.equalTo(self.scrollView.left);
-//        make.height.mas_equalTo(90.0f);
-//    }];
-//    
-//    [self.myQuestionView makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.randTestView.bottom);
-//        make.width.equalTo(self.scrollView.width).multipliedBy(0.5f);
-//        make.left.equalTo(self.simuTestView.right);
-//        make.height.mas_equalTo(90.0f);
-//    }];
     
     [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.top);
@@ -450,55 +370,6 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     HHEventsViewController *vc = [[HHEventsViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)segmentedControlChangedValue:(HMSegmentedControl *)segmentedControl {
-    
-}
-
-- (void)showTestVCWithMode:(TestMode)mode {
-    __weak HHHomePageViewController *weakSelf = self;
-    if (mode == TestModeSimu) {
-        HHTestSimuLandingViewController *vc = [[HHTestSimuLandingViewController alloc] initWithCourseMode:self.segControl.selectedSegmentIndex];
-        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-        [self presentViewController:navVC animated:YES completion:nil];
-        return;
-    }
-    NSInteger startIndex = 0;
-    if (mode == TestModeOrder) {
-        startIndex = [[HHTestQuestionManager sharedManager] getOrderTestIndexWithCourseMode:self.segControl.selectedSegmentIndex];
-    }
-    NSMutableArray *questions = [[HHTestQuestionManager sharedManager] generateQuestionsWithMode:mode courseMode:self.segControl.selectedSegmentIndex];
-    HHTestQuestionViewController *vc = [[HHTestQuestionViewController alloc] initWithTestMode:mode courseMode:self.segControl.selectedSegmentIndex questions:questions startIndex:startIndex];
-    vc.hidesBottomBarWhenPushed = YES;
-    if (mode == TestModeOrder || mode == TestModeRandom) {
-        vc.dismissBlock = ^() {
-            [weakSelf showReferPopup];
-        };
-    }
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)showReferPopup {
-    if (![HHStudentStore sharedInstance].currentStudent.studentId) {
-        return;
-    }
-    __weak HHHomePageViewController *weakSelf = self;
-    HHReferralShareView *shareView = [[HHReferralShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 300.0f)];
-    shareView.cancelBlock = ^(){
-        [weakSelf.popup dismiss:YES];
-    };
-    
-    shareView.shareBlock = ^(){
-        [weakSelf.popup dismiss:YES];
-        
-        HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
-        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-        [weakSelf presentViewController:navVC animated:YES completion:nil];
-    };
-    self.popup = [HHPopupUtility createPopupWithContentView:shareView];
-    self.popup.shouldDismissOnBackgroundTouch = NO;
-    [HHPopupUtility showPopup:self.popup];
 }
 
 //- (void)showMailPage {
