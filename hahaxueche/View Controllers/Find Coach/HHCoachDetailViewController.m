@@ -70,7 +70,6 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 @property (nonatomic, strong) NSString *coachId;
 @property (nonatomic, strong) HHCoachDetailBottomBarView *bottomBar;
 @property (nonatomic, strong) KLCPopup *popup;
-@property (nonatomic, strong) HHStudent *currentStudent;
 @property (nonatomic, strong) HHReviews *reviewsObject;
 @property (nonatomic, strong) NSArray *reviews;
 @property (nonatomic) BOOL liking;
@@ -87,7 +86,6 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     self = [super init];
     if (self) {
         self.coach = coach;
-        self.currentStudent = [HHStudentStore sharedInstance].currentStudent;
     }
     return self;
 }
@@ -96,7 +94,6 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     self = [super init];
     if (self) {
         self.coachId = coachId;
-        self.currentStudent = [HHStudentStore sharedInstance].currentStudent;
         [[HHCoachService sharedInstance] fetchCoachWithId:self.coachId completion:^(HHCoach *coach, NSError *error) {
             if (!error) {
                 self.coach = coach;
@@ -200,7 +197,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.followAction = ^(){
-        if (!weakSelf.currentStudent.studentId) {
+        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
             [weakSelf showLoginSignupAlertView];
             return ;
         }
@@ -214,7 +211,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.unFollowAction = ^(){
-        if (!weakSelf.currentStudent.studentId) {
+        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
             [weakSelf showLoginSignupAlertView];
             return ;
         }
@@ -232,7 +229,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.purchaseCoachAction = ^(){
-        if (!weakSelf.currentStudent.studentId) {
+        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
             [weakSelf showLoginSignupAlertView];
             return ;
         }
