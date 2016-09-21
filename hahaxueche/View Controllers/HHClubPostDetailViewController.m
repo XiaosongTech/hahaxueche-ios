@@ -11,6 +11,8 @@
 #import "Masonry.h"
 #import "UIColor+HHColor.h"
 #import "HHClubPostStatView.h"
+#import "HHPopupUtility.h"
+#import "HHShareView.h"
 
 @interface HHClubPostDetailViewController ()
 
@@ -19,6 +21,8 @@
 @property (nonatomic, strong) UIView *botToolBar;
 @property (nonatomic, strong) UIButton *commentButton;
 @property (nonatomic, strong) HHClubPostStatView *statView;
+@property (nonatomic, strong) UITextView *textView;
+@property (nonatomic, strong) KLCPopup *popup;
 
 @end
 
@@ -115,7 +119,40 @@
 }
 
 - (void)sharePost {
+    __weak HHClubPostDetailViewController *weakSelf = self;
+    HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 0)];
+    shareView.dismissBlock = ^() {
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+    };
+    shareView.actionBlock = ^(SocialMedia selecteItem) {
+        switch (selecteItem) {
+            case SocialMediaQQFriend: {
+                
+            } break;
+                
+            case SocialMediaWeibo: {
+                ;
+            } break;
+                
+            case SocialMediaWeChatFriend: {
+                
+            } break;
+                
+            case SocialMediaWeChaPYQ: {
+                
+            } break;
+                
+            case SocialMediaQZone: {
+                
+            } break;
+                
+            default:
+                break;
+        }
+    };
     
+    self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
+    [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
 }
 
 - (void)showCommentTextView {
