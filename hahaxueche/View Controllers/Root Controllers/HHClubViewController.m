@@ -12,8 +12,12 @@
 #import "HHClubItemView.h"
 #import "HHEventsViewController.h"
 #import "HHTestStartViewController.h"
+#import "HHClubPostTableViewCell.h"
+#import "HHClubPostDetailViewController.h"
 
-@interface HHClubViewController ()
+static NSString *const kCellID = @"kCellId";
+
+@interface HHClubViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UIView *topView;
 @property (nonatomic, strong) UITableView *tableView;
@@ -72,6 +76,13 @@
     };
     [self.topView addSubview:self.trainingskillView];
     
+    self.tableView = [[UITableView alloc] init];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.tableView registerClass:[HHClubPostTableViewCell class] forCellReuseIdentifier:kCellID];
+    [self.view addSubview:self.tableView];
+    
     [self makeConstraints];
 }
 
@@ -110,7 +121,43 @@
         make.width.equalTo(self.topView.width).multipliedBy(0.5f);
         make.height.mas_equalTo(80.0f);
     }];
+    
+    [self.tableView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.trainingskillView.bottom).offset(10.0f);
+        make.left.equalTo(self.view.left);
+        make.width.equalTo(self.view.width);
+        make.bottom.equalTo(self.view.bottom).offset(-1 * CGRectGetHeight(self.tabBarController.tabBar.frame));
+
+    }];
 }
+
+#pragma mark - UITableView Delegate & Datasource
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    HHClubPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellID forIndexPath:indexPath];
+    [cell setupCellWithClubPost:nil];
+    return cell;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 2;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 333.0f;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    HHClubPostDetailViewController *vc = [[HHClubPostDetailViewController alloc] initWithClubPost:nil];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 
 
 
