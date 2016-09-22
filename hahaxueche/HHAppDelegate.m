@@ -32,10 +32,15 @@
 #import <Instabug/Instabug.h>
 #import "QYSDK.h"
 #import "HHNetworkUtility.h"
+#import "GeTuiSdk.h"
+
+#define kGtAppId           @"iMahVVxurw6BNr7XSn9EF2"
+#define kGtAppKey          @"yIPfqwq6OMAPp6dkqgLpG5"
+#define kGtAppSecret       @"G0aBqAD6t79JfzTB6Z5lo5"
 
 static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
-@interface HHAppDelegate () <HarpyDelegate>
+@interface HHAppDelegate () <HarpyDelegate, GeTuiSdkDelegate>
 
 @property (nonatomic, strong) __block UIViewController *finalRootVC;
 
@@ -99,6 +104,10 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [self setWindow:self.window];
     [self setupAllThirdPartyServices];
     [self setAppearance];
+    [GeTuiSdk startSdkWithAppId:kGtAppId appKey:kGtAppKey appSecret:kGtAppSecret delegate:self];
+    // 注册APNS
+    [self registerRemoteNotification];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     return YES;
 }
 
@@ -240,8 +249,71 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
             
         }
     }];
+}
 
+/** 注册APNS */
+- (void)registerRemoteNotification {
+#ifdef __IPHONE_8_0
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+        
+        UIUserNotificationType types = (UIUserNotificationTypeAlert |
+                                        UIUserNotificationTypeSound |
+                                        UIUserNotificationTypeBadge);
+        
+        UIUserNotificationSettings *settings;
+        settings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+        
+    } else {
+        UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert |
+                                                                       UIRemoteNotificationTypeSound |
+                                                                       UIRemoteNotificationTypeBadge);
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
+    }
+#else
+    UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert |
+                                                                   UIRemoteNotificationTypeSound |
+                                                                   UIRemoteNotificationTypeBadge);
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
+#endif
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSLog(@"\n>>>[DeviceToken Success]:%@\n\n", token);
     
+    //向个推服务器注册deviceToken
+    [GeTuiSdk registerDeviceToken:token];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    application.applicationIconBadgeNumber = 0;
+}
+
+- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    /// Background Fetch 恢复SDK 运行
+    [GeTuiSdk resume];
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    // 将收到的APNs信息传给个推统计
+    [GeTuiSdk handleRemoteNotification:userInfo];
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+/** SDK启动成功返回cid */
+- (void)GeTuiSdkDidRegisterClient:(NSString *)clientId {
+    //个推SDK已注册，返回clientId
+    NSLog(@"\n>>>[GeTuiSdk RegisterClient]:%@\n\n", clientId);
+}
+
+/** SDK遇到错误回调 */
+- (void)GeTuiSdkDidOccurError:(NSError *)error {
+    //个推错误报告，集成步骤发生的任何错误都在这里通知，如果集成后，无法正常收到消息，查看这里的通知。
+    NSLog(@"\n>>>[GexinSdk error]:%@\n\n", [error localizedDescription]);
 }
 
 

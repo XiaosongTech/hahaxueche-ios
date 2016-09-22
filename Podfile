@@ -37,7 +37,7 @@ target "hahaxueche" do
     pod 'SwipeView', '~> 1.3'
     pod 'FLAnimatedImage', '~> 1.0'
     pod 'EAFeatureGuideView'
-
+    pod 'GTSDK', '1.5.0-noidfa'
 end
 
 

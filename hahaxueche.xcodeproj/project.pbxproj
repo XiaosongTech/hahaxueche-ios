@@ -2764,6 +2764,12 @@
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = HYWSND54RJ;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 							com.apple.SafariKeychain = {
 								enabled = 1;
 							};
@@ -3547,7 +3553,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "4ab1f95a-32fc-483f-8955-1500400b87e8";
+				PROVISIONING_PROFILE = "720ecfde-10d0-4c81-85ea-63ce74911fda";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -3589,7 +3595,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "4ab1f95a-32fc-483f-8955-1500400b87e8";
+				PROVISIONING_PROFILE = "720ecfde-10d0-4c81-85ea-63ce74911fda";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -3602,7 +3608,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = hahaxueche/hahaxueche.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Can Zhang (N9G4ZJA58V)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wuhan Xiaosong Tech Co., Ltd. (HYWSND54RJ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3666,7 +3672,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = hahaxueche/hahaxueche.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Can Zhang (N9G4ZJA58V)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wuhan Xiaosong Tech Co., Ltd. (HYWSND54RJ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
