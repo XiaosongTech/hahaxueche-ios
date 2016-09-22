@@ -13,6 +13,8 @@
 #import "HHClubPostStatView.h"
 #import "HHPopupUtility.h"
 #import "HHShareView.h"
+#import "HHCommentView.h"
+#import "HHClubPostCommentsViewController.h"
 
 @interface HHClubPostDetailViewController ()
 
@@ -23,6 +25,7 @@
 @property (nonatomic, strong) HHClubPostStatView *statView;
 @property (nonatomic, strong) UITextView *textView;
 @property (nonatomic, strong) KLCPopup *popup;
+@property (nonatomic, strong) HHCommentView *commentView;
 
 @end
 
@@ -92,6 +95,8 @@
 
 
 - (void)buildBotToolBarView {
+    __weak HHClubPostDetailViewController *weakSelf = self;
+    
     self.botToolBar = [[UIView alloc] init];
     self.botToolBar.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.botToolBar];
@@ -109,6 +114,14 @@
     [self.botToolBar addSubview:self.commentButton];
     
     self.statView = [[HHClubPostStatView alloc] initWithInteraction:YES];
+    self.statView.likeAction = ^() {
+        
+    };
+    
+    self.statView.commentAction = ^() {
+        HHClubPostCommentsViewController *vc = [[HHClubPostCommentsViewController alloc] init];
+        [weakSelf.navigationController pushViewController:vc animated:YES];
+    };
     [self.statView setupViewWithClubPost:self.clubPost];
     [self.botToolBar addSubview:self.statView];
 
@@ -152,12 +165,30 @@
     };
     
     self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
-    [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
+    [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
 }
 
 - (void)showCommentTextView {
+    __weak HHClubPostDetailViewController *weakSelf = self;
+    self.commentView = [[HHCommentView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 158.0f)];
+    self.commentView.cancelBlock = ^(){
+        [weakSelf.commentView.textView resignFirstResponder];
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+    };
     
+    self.commentView.confirmBlock = ^() {
+        [weakSelf.commentView.textView resignFirstResponder];
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+    };
+
+    self.popup = [HHPopupUtility createPopupWithContentView:self.commentView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
+    self.popup.willStartDismissingCompletion = ^() {
+        [weakSelf.commentView.textView resignFirstResponder];
+    };
+    [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
 }
+
+
 
 
 @end

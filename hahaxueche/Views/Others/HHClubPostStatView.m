@@ -60,15 +60,22 @@
         }];
         
         
-       
-    
-        
         if (enableInteraction) {
+            self.thumbUpView.userInteractionEnabled = YES;
             UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(likeTapped)];
             [self.thumbUpView addGestureRecognizer:tapRec];
             
+            self.thumbUpCountLabel.userInteractionEnabled = YES;
+            UITapGestureRecognizer *tapRec4 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(likeTapped)];
+            [self.thumbUpCountLabel addGestureRecognizer:tapRec4];
+            
+            self.commentView.userInteractionEnabled = YES;
             UITapGestureRecognizer *tapRec2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(commentTapped)];
             [self.commentView addGestureRecognizer:tapRec2];
+            
+            self.commentCountLabel.userInteractionEnabled = YES;
+            UITapGestureRecognizer *tapRec3 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(commentTapped)];
+            [self.commentCountLabel addGestureRecognizer:tapRec3];
         }
     }
     return self;

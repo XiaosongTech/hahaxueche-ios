@@ -37,6 +37,7 @@ target "hahaxueche" do
     pod 'SwipeView', '~> 1.3'
     pod 'FLAnimatedImage', '~> 1.0'
     pod 'EAFeatureGuideView'
+    pod 'UITextView+Placeholder', '~> 1.2'
 
 end
 
