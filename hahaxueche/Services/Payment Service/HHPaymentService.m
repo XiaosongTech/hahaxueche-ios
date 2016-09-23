@@ -27,8 +27,17 @@
 }
 
 - (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod productType:(CoachProductType)productType inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion {
+    NSNumber *paymentMethodNumber = @(0);
+    if (paymentMethod == StudentPaymentMethodBankCard) {
+        paymentMethodNumber = @(4);
+    } else if (paymentMethod == StudentPaymentMethodFql) {
+        paymentMethodNumber = @(1);
+    } else {
+        paymentMethodNumber = @(0);
+    }
+    
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICharges];
-    [APIClient postWithParameters:@{@"coach_id":coachId, @"method":@(paymentMethod), @"product_type":@(productType)} completion:^(NSDictionary *response, NSError *error) {
+    [APIClient postWithParameters:@{@"coach_id":coachId, @"method":paymentMethodNumber, @"product_type":@(productType)} completion:^(NSDictionary *response, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
             [Pingpp createPayment:response

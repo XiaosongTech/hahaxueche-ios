@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^HHPaymentViewBlock)();
+
 @interface HHPaymentMethodView : UIView
 
 @property (nonatomic, strong) UIImageView *iconView;
@@ -15,9 +17,10 @@
 @property (nonatomic, strong) UILabel *subTitleLabel;
 @property (nonatomic, strong) UIImageView *selectionView;
 @property (nonatomic, strong) UIView *topLine;
-@property (nonatomic) BOOL enabled;
 @property (nonatomic) BOOL selected;
 
-- (instancetype)initWithTitle:(NSString *)title subTitle:(NSString *)subTitle icon:(UIImage *)image selected:(BOOL)selected enabled:(BOOL)enabled;
+@property (nonatomic, strong) HHPaymentViewBlock viewSelectedBlock;
+
+- (instancetype)initWithTitle:(NSString *)title subTitle:(NSString *)subTitle icon:(UIImage *)image selected:(BOOL)selected;
 
 @end
