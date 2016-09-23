@@ -27,6 +27,8 @@
 }
 
 - (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod productType:(CoachProductType)productType inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion {
+    
+    // 0-Alipay; 4-银行卡; 1-分期乐
     NSNumber *paymentMethodNumber = @(0);
     if (paymentMethod == StudentPaymentMethodBankCard) {
         paymentMethodNumber = @(4);
