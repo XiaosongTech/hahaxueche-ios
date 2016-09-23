@@ -428,6 +428,7 @@
 		6D54D4291D938ECC00EBBD98 /* icon_share@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D54D4261D938ECC00EBBD98 /* icon_share@3x.png */; };
 		6D54D42C1D9391D100EBBD98 /* HHCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D54D42B1D9391D100EBBD98 /* HHCommentView.m */; };
 		6D54D42F1D93AFF100EBBD98 /* HHClubPostCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D54D42E1D93AFF100EBBD98 /* HHClubPostCommentsViewController.m */; };
+		6D54D4381D94FFE200EBBD98 /* HHClubPostCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D54D4371D94FFE200EBBD98 /* HHClubPostCommentTableViewCell.m */; };
 		6D5C86611CDC270900D7B5CB /* HHGroupPurchaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5C86601CDC270900D7B5CB /* HHGroupPurchaseView.m */; };
 		6D5C86651CDC2AC100D7B5CB /* ic_homepage_groupbuy_close.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5C86621CDC2AC100D7B5CB /* ic_homepage_groupbuy_close.png */; };
 		6D5C86661CDC2AC100D7B5CB /* ic_homepage_groupbuy_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5C86631CDC2AC100D7B5CB /* ic_homepage_groupbuy_close@2x.png */; };
@@ -1273,6 +1274,8 @@
 		6D54D42B1D9391D100EBBD98 /* HHCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCommentView.m; sourceTree = "<group>"; };
 		6D54D42D1D93AFF100EBBD98 /* HHClubPostCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHClubPostCommentsViewController.h; sourceTree = "<group>"; };
 		6D54D42E1D93AFF100EBBD98 /* HHClubPostCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHClubPostCommentsViewController.m; sourceTree = "<group>"; };
+		6D54D4361D94FFE200EBBD98 /* HHClubPostCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHClubPostCommentTableViewCell.h; sourceTree = "<group>"; };
+		6D54D4371D94FFE200EBBD98 /* HHClubPostCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHClubPostCommentTableViewCell.m; sourceTree = "<group>"; };
 		6D5C865F1CDC270900D7B5CB /* HHGroupPurchaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHGroupPurchaseView.h; sourceTree = "<group>"; };
 		6D5C86601CDC270900D7B5CB /* HHGroupPurchaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHGroupPurchaseView.m; sourceTree = "<group>"; };
 		6D5C86621CDC2AC100D7B5CB /* ic_homepage_groupbuy_close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_homepage_groupbuy_close.png; sourceTree = "<group>"; };
@@ -1913,6 +1916,8 @@
 				6D0FB0A31D925C590045C421 /* HHClubPostStatView.m */,
 				6D54D42A1D9391D100EBBD98 /* HHCommentView.h */,
 				6D54D42B1D9391D100EBBD98 /* HHCommentView.m */,
+				6D54D4361D94FFE200EBBD98 /* HHClubPostCommentTableViewCell.h */,
+				6D54D4371D94FFE200EBBD98 /* HHClubPostCommentTableViewCell.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -3749,6 +3754,7 @@
 				14B5EB881C7E0ED600A37669 /* HHReview.m in Sources */,
 				1405CC8C1C7662C60030B114 /* HHMyPageHelpCell.m in Sources */,
 				14F9D4991C7170380010F3FA /* HHSingleFieldMapViewController.m in Sources */,
+				6D54D4381D94FFE200EBBD98 /* HHClubPostCommentTableViewCell.m in Sources */,
 				6D9B80971CBF32AE004B90C6 /* HHNotificationCell.m in Sources */,
 				5CDE146D1C3775C00004778C /* HHAccountSetupViewController.m in Sources */,
 				5C36D42E1C4C31A100443545 /* HHAskLocationPermissionViewController.m in Sources */,

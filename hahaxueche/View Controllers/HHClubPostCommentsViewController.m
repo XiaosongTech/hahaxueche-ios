@@ -12,7 +12,9 @@
 #import "Masonry.h"
 #import "HHCommentView.h"
 #import "HHPopupUtility.h"
+#import "HHClubPostCommentTableViewCell.h"
 
+static NSString *const kCellId = @"kCellId";
 
 @interface HHClubPostCommentsViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -35,6 +37,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    [self.tableView registerClass:[HHClubPostCommentTableViewCell class] forCellReuseIdentifier:kCellId];
     [self.view addSubview:self.tableView];
     [self.tableView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.top);
@@ -75,7 +78,7 @@
 #pragma mark - UITableView Delegate & Datasource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    HHClubPostCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
     return cell;
 }
 
