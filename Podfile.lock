@@ -53,15 +53,18 @@ PODS:
     - NJKWebViewProgress/ProgressView (= 0.2.3)
   - NJKWebViewProgress/Core (0.2.3)
   - NJKWebViewProgress/ProgressView (0.2.3)
-  - Pingpp/Alipay (2.2.5):
+  - Pingpp/Alipay (2.2.8):
     - Pingpp/Core
-  - Pingpp/Core (2.2.5):
-    - Pingpp/Network
-  - Pingpp/Fqlpay (2.2.5):
+  - Pingpp/CmbWallet (2.2.8):
     - Pingpp/Core
     - Pingpp/WebView
-  - Pingpp/Network (2.2.5)
-  - Pingpp/WebView (2.2.5):
+  - Pingpp/Core (2.2.8):
+    - Pingpp/Network
+  - Pingpp/Fqlpay (2.2.8):
+    - Pingpp/Core
+    - Pingpp/WebView
+  - Pingpp/Network (2.2.8)
+  - Pingpp/WebView (2.2.8):
     - Pingpp/Core
   - pop (1.0.9)
   - QIYU_iOS_SDK (2.7.0)
@@ -101,8 +104,9 @@ DEPENDENCIES:
   - MJRefresh
   - MMNumberKeyboard
   - NJKWebViewProgress
-  - Pingpp/Alipay (~> 2.2.5)
-  - Pingpp/Fqlpay (~> 2.2.5)
+  - Pingpp/Alipay (~> 2.2.8)
+  - Pingpp/CmbWallet (~> 2.2.8)
+  - Pingpp/Fqlpay (~> 2.2.8)
   - pop (~> 1.0)
   - QIYU_iOS_SDK (~> 2.7.0)
   - RSKImageCropper
@@ -139,7 +143,7 @@ SPEC CHECKSUMS:
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   MMNumberKeyboard: 12da79571d08aca21566534a74726c5469aed29a
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
-  Pingpp: 98db8836e52fb8ab1da494e65a9835540039646c
+  Pingpp: b5ad287bd6969d69cff1f2438ea63147976711c9
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   QIYU_iOS_SDK: 0aa24ac9070dab7a49030d544e43635c60816ac4
   RSKImageCropper: edd65fedb3734332818deb139906d6b7f54b8a44
@@ -152,6 +156,6 @@ SPEC CHECKSUMS:
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
 
-PODFILE CHECKSUM: 5cdf50dfaf0afc0d7db7b35ffe1d6ab9b262a576
+PODFILE CHECKSUM: 87f95d14987accb19d4cf3d23ce5eedf2b857beb
 
 COCOAPODS: 1.0.0

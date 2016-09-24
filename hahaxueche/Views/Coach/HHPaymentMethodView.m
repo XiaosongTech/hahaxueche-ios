@@ -12,11 +12,10 @@
 
 @implementation HHPaymentMethodView
 
-- (instancetype)initWithTitle:(NSString *)title subTitle:(NSString *)subTitle icon:(UIImage *)image selected:(BOOL)selected enabled:(BOOL)enabled {
+- (instancetype)initWithTitle:(NSString *)title subTitle:(NSString *)subTitle icon:(UIImage *)image selected:(BOOL)selected {
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
-        self.enabled = enabled;
         self.selected = selected;
         
         self.iconView = [[UIImageView alloc] initWithImage:image];
@@ -66,22 +65,17 @@
             make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
         }];
         
-        if (self.enabled) {
-            self.titleLabel.textColor = [UIColor HHTextDarkGray];
-            self.subTitleLabel.textColor = [UIColor HHLightTextGray];
-            self.iconView.alpha = 1.0f;
-            self.selectionView.alpha = 1.0f;
-        } else {
-            self.titleLabel.textColor = [UIColor HHLightestTextGray];
-            self.subTitleLabel.textColor = [UIColor HHLightestTextGray];
-            self.iconView.alpha = 0.5f;
-            self.selectionView.alpha = 0.5f;
-        }
+        self.titleLabel.textColor = [UIColor HHTextDarkGray];
+        self.subTitleLabel.textColor = [UIColor HHLightTextGray];
+        self.iconView.alpha = 1.0f;
+        self.selectionView.alpha = 1.0f;
         
-
         if (self.selected) {
             self.selectionView.image = [UIImage imageNamed:@"icon_selected_press"];
         }
+        
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewSelected)];
+        [self addGestureRecognizer:tapRecognizer];
 
     }
     return self;
@@ -95,6 +89,12 @@
         self.selectionView.image = [UIImage imageNamed:@"icon_selected_normal"];
     }
     
+}
+
+- (void)viewSelected {
+    if (self.viewSelectedBlock) {
+        self.viewSelectedBlock();
+    }
 }
 
 
