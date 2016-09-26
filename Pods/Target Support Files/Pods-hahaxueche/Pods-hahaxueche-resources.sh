@@ -101,7 +101,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "QIYU_iOS_SDK/SDK/QYResource.bundle"
   install_resource "$PODS_CONFIGURATION_BUILD_DIR/QIYU_iOS_SDK/QYResource.bundle"
   install_resource "RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle"
-  install_resource "SSKeychain/Support/en.lproj"
+  install_resource "SAMKeychain/Support/SAMKeychain.bundle"
   install_resource "SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -126,7 +126,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "QIYU_iOS_SDK/SDK/QYResource.bundle"
   install_resource "$PODS_CONFIGURATION_BUILD_DIR/QIYU_iOS_SDK/QYResource.bundle"
   install_resource "RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle"
-  install_resource "SSKeychain/Support/en.lproj"
+  install_resource "SAMKeychain/Support/SAMKeychain.bundle"
   install_resource "SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
 fi
 

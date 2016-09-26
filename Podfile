@@ -8,7 +8,7 @@ target "hahaxueche" do
     pod 'DateTools'
     pod "Appirater"
     pod 'AFNetworking', '~> 2.6.1'
-    pod 'SSKeychain'
+    pod 'SAMKeychain'
     pod 'MJRefresh'
     pod 'Masonry'
     pod 'Mantle'

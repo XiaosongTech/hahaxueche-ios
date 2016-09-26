@@ -9,7 +9,7 @@
 #import "HHAppDelegate.h"
 #import "HHEventTrackingManager.h"
 #import "SDWebImage/SDWebImageManager.h"
-#import <SSKeychain/SSKeychain.h>
+#import <SAMKeychain/SAMKeychain.h>
 #import "HHIntroViewController.h"
 #import "UIColor+HHColor.h"
 #import "HHConstantsStore.h"
@@ -181,7 +181,7 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [HHSocialMediaShareUtility sharedInstance];
     
     //SSKeychain
-    [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
+    [SAMKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
     
     //七牛
     [[QYSDK sharedSDK] registerAppId:@"2f328da38ac77ce6d796c2977248f7e2" appName:@"hahaxueche-ios"];
