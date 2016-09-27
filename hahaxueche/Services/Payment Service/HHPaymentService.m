@@ -39,7 +39,7 @@
     }
     
     if ([paymentMethodNumber isEqual:@(4)]) {
-        [Pingpp ignoreResultUrl: YES];
+        [Pingpp ignoreResultUrl:YES];
     }
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICharges];
     [APIClient postWithParameters:@{@"coach_id":coachId, @"method":paymentMethodNumber, @"product_type":@(productType)} completion:^(NSDictionary *response, NSError *error) {
