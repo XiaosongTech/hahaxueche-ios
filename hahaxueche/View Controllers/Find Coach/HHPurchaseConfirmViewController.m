@@ -298,10 +298,9 @@
             
             HHReceiptViewController *vc = [[HHReceiptViewController alloc] initWithCoach:weakSelf.coach];
             UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-            NSMutableArray *vcArray = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
-            [vcArray removeLastObject];
-            [self.navigationController setViewControllers:vcArray];
-            [self presentViewController:navVC animated:YES completion:nil];
+            [self presentViewController:navVC animated:YES completion:^{
+                [weakSelf.navigationController popViewControllerAnimated:NO];
+            }];
             
         } else {
             [self fetchStudentAfterPurchase];
