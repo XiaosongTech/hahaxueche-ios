@@ -2764,6 +2764,9 @@
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = HYWSND54RJ;
 						SystemCapabilities = {
+							com.apple.ApplePay = {
+								enabled = 1;
+							};
 							com.apple.SafariKeychain = {
 								enabled = 1;
 							};
