@@ -13,7 +13,7 @@
 #import "HHMyPageSupportCell.h"
 #import "HHMyPageHelpCell.h"
 #import "HHMyPageLogoutCell.h"
-#import "HHMyPageCouponCell.h"
+#import "HHMyPageMyCourseScheduleCell.h"
 #import "HHMyCoachDetailViewController.h"
 #import "HHStudentStore.h"
 #import "Masonry.h"
@@ -39,7 +39,6 @@
 #import "HHStudentService.h"
 #import "HHStudentStore.h"
 #import <RSKImageCropper/RSKImageCropper.h>
-#import "HHCouponViewController.h"
 #import "HHSupportUtility.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
@@ -48,14 +47,14 @@ static NSString *const kSupportCell = @"supportCell";
 static NSString *const kHelpCell = @"helpCell";
 static NSString *const kLogoutCell = @"logoutCell";
 static NSString *const kReferCell = @"referCell";
-static NSString *const kCouponCell = @"kCouponCell";
+static NSString *const kMyCourseScheduleCell = @"kMyCourseScheduleCell";
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 
 typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellUserInfo,
     MyPageCellRefer,
     MyPageCellCoach,
-    MyPageCellCoupon,
+    MyPageCellMyCourseSchedule,
     MyPageCellSupport,
     MyPageCellHelp,
     MyPageCellLogout,
@@ -155,7 +154,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         [self.tableView registerClass:[HHMyPageHelpCell class] forCellReuseIdentifier:kHelpCell];
         [self.tableView registerClass:[HHMyPageLogoutCell class] forCellReuseIdentifier:kLogoutCell];
         [self.tableView registerClass:[HHMyPageReferCell class] forCellReuseIdentifier:kReferCell];
-        [self.tableView registerClass:[HHMyPageCouponCell class] forCellReuseIdentifier:kCouponCell];
+        [self.tableView registerClass:[HHMyPageMyCourseScheduleCell class] forCellReuseIdentifier:kMyCourseScheduleCell];
     }
     
 }
@@ -235,12 +234,10 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             return cell;
         } break;
             
-        case MyPageCellCoupon: {
-            HHMyPageCouponCell *cell = [tableView dequeueReusableCellWithIdentifier:kCouponCell];
-            cell.myCouponView.actionBlock = ^() {
-                HHCouponViewController *vc = [[HHCouponViewController alloc] initWithStudent:weakSelf.currentStudent];
-                vc.hidesBottomBarWhenPushed = YES;
-                [weakSelf.navigationController pushViewController:vc animated:YES];
+        case MyPageCellMyCourseSchedule: {
+            HHMyPageMyCourseScheduleCell *cell = [tableView dequeueReusableCellWithIdentifier:kMyCourseScheduleCell];
+            cell.myCourseView.actionBlock = ^() {
+                
             };
             
             return cell;
@@ -252,20 +249,14 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             cell.supportOnlineView.actionBlock = ^() {
                 [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
             };
-            cell.supportNumberView.actionBlock = ^() {
-                [[HHSupportUtility sharedManager] callSupport];
+            cell.myAdvisorView.actionBlock = ^() {
+                
             };
             return cell;
         } break;
             
         case MyPageCellHelp: {
             HHMyPageHelpCell *cell = [tableView dequeueReusableCellWithIdentifier:kHelpCell];
-            cell.aboutView.actionBlock = ^() {
-                HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:kAboutStudentLink]];
-                webVC.hidesBottomBarWhenPushed = YES;
-                webVC.title = @"哈哈学车";
-                [weakSelf.navigationController pushViewController:webVC animated:YES];
-            };
             
             cell.faqView.actionBlock = ^() {
                 HHLongImageViewController *faq = [[HHLongImageViewController alloc] initWithImage:[UIImage imageNamed:@"faq.png"]];
@@ -308,14 +299,14 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellCoach:
             return kTitleViewHeight + kItemViewHeight * 2.0f;
         
-        case MyPageCellCoupon:
+        case MyPageCellMyCourseSchedule:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 1.0f;
             
         case MyPageCellSupport:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
             
         case MyPageCellHelp:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight * 4.0f;
+            return kTopPadding + kTitleViewHeight + kItemViewHeight * 3.0f;
             
         case MyPageCellLogout:
             return 50 + kTopPadding * 2.0f;

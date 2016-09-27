@@ -10,9 +10,9 @@
 #import "HHMyPageItemTitleView.h"
 #import "HHMyPageItemView.h"
 
-@interface HHMyPageCouponCell : UITableViewCell
+@interface HHMyPageMyCourseScheduleCell : UITableViewCell
 
 @property (nonatomic, strong) HHMyPageItemTitleView *titleView;
-@property (nonatomic, strong) HHMyPageItemView *myCouponView;
+@property (nonatomic, strong) HHMyPageItemView *myCourseView;
 
 @end

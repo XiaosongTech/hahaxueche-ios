@@ -27,10 +27,6 @@
     self.titleView = [[HHMyPageItemTitleView alloc] initWithTitle:@"使用帮助"];
     [self.contentView addSubview:self.titleView];
     
-    self.aboutView = [[HHMyPageItemView alloc] initWitTitle:@"关于小哈" showLine:YES];
-    self.aboutView.arrowImageView.hidden = NO;
-    [self.contentView addSubview:self.aboutView];
-    
     self.faqView = [[HHMyPageItemView alloc] initWitTitle:@"学员常见问题" showLine:YES];
     self.faqView.arrowImageView.hidden = NO;
     [self.contentView addSubview:self.faqView];
@@ -61,18 +57,9 @@
         make.height.mas_equalTo(kItemViewHeight);
         
     }];
-
-    [self.aboutView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.faqView.bottom);
-        make.left.equalTo(self.left);
-        make.width.equalTo(self.width);
-        make.height.mas_equalTo(kItemViewHeight);
-        
-    }];
-    
     
     [self.rateUsView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.aboutView.bottom);
+        make.top.equalTo(self.faqView.bottom);
         make.left.equalTo(self.left);
         make.width.equalTo(self.width);
         make.height.mas_equalTo(kItemViewHeight);

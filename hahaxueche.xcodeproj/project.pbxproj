@@ -547,8 +547,7 @@
 		6D98E9C31D7D204600A324B2 /* HHCoachTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D98E9C21D7D204600A324B2 /* HHCoachTagView.m */; };
 		6D98E9C61D7D2BF800A324B2 /* HHPriceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D98E9C51D7D2BF800A324B2 /* HHPriceView.m */; };
 		6D9B80971CBF32AE004B90C6 /* HHNotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9B80961CBF32AE004B90C6 /* HHNotificationCell.m */; };
-		6DACD0111D34CA0700BDE2EE /* HHMyPageCouponCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DACD0101D34CA0700BDE2EE /* HHMyPageCouponCell.m */; };
-		6DACD0141D34EF3300BDE2EE /* HHCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DACD0131D34EF3300BDE2EE /* HHCouponViewController.m */; };
+		6DACD0111D34CA0700BDE2EE /* HHMyPageMyCourseScheduleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DACD0101D34CA0700BDE2EE /* HHMyPageMyCourseScheduleCell.m */; };
 		6DB1480E1D4B4EF0009E3F1E /* pic_xiaoha.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB1480B1D4B4EEF009E3F1E /* pic_xiaoha.png */; };
 		6DB1480F1D4B4EF0009E3F1E /* pic_xiaoha@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB1480C1D4B4EEF009E3F1E /* pic_xiaoha@2x.png */; };
 		6DB148101D4B4EF0009E3F1E /* pic_xiaoha@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB1480D1D4B4EF0009E3F1E /* pic_xiaoha@3x.png */; };
@@ -1420,10 +1419,8 @@
 		6D98E9C51D7D2BF800A324B2 /* HHPriceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPriceView.m; sourceTree = "<group>"; };
 		6D9B80951CBF32AE004B90C6 /* HHNotificationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNotificationCell.h; sourceTree = "<group>"; };
 		6D9B80961CBF32AE004B90C6 /* HHNotificationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNotificationCell.m; sourceTree = "<group>"; };
-		6DACD00F1D34CA0700BDE2EE /* HHMyPageCouponCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyPageCouponCell.h; sourceTree = "<group>"; };
-		6DACD0101D34CA0700BDE2EE /* HHMyPageCouponCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyPageCouponCell.m; sourceTree = "<group>"; };
-		6DACD0121D34EF3300BDE2EE /* HHCouponViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCouponViewController.h; sourceTree = "<group>"; };
-		6DACD0131D34EF3300BDE2EE /* HHCouponViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCouponViewController.m; sourceTree = "<group>"; };
+		6DACD00F1D34CA0700BDE2EE /* HHMyPageMyCourseScheduleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyPageMyCourseScheduleCell.h; sourceTree = "<group>"; };
+		6DACD0101D34CA0700BDE2EE /* HHMyPageMyCourseScheduleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyPageMyCourseScheduleCell.m; sourceTree = "<group>"; };
 		6DB1480B1D4B4EEF009E3F1E /* pic_xiaoha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic_xiaoha.png; sourceTree = "<group>"; };
 		6DB1480C1D4B4EEF009E3F1E /* pic_xiaoha@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_xiaoha@2x.png"; sourceTree = "<group>"; };
 		6DB1480D1D4B4EF0009E3F1E /* pic_xiaoha@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_xiaoha@3x.png"; sourceTree = "<group>"; };
@@ -1731,8 +1728,8 @@
 				1405CC9C1C76A1060030B114 /* HHMyCoachPartnerCoachCell.m */,
 				1405CC811C7645910030B114 /* HHMyPageCoachCell.h */,
 				1405CC821C7645910030B114 /* HHMyPageCoachCell.m */,
-				6DACD00F1D34CA0700BDE2EE /* HHMyPageCouponCell.h */,
-				6DACD0101D34CA0700BDE2EE /* HHMyPageCouponCell.m */,
+				6DACD00F1D34CA0700BDE2EE /* HHMyPageMyCourseScheduleCell.h */,
+				6DACD0101D34CA0700BDE2EE /* HHMyPageMyCourseScheduleCell.m */,
 				1405CC8A1C7662C60030B114 /* HHMyPageHelpCell.h */,
 				1405CC8B1C7662C60030B114 /* HHMyPageHelpCell.m */,
 				1405CC841C76460C0030B114 /* HHMyPageItemTitleView.h */,
@@ -1778,8 +1775,6 @@
 				6DB148181D50BBA7009E3F1E /* HHAddBankCardViewController.m */,
 				6DDAE6C71CB7899F00CE461A /* HHAppInfoViewController.h */,
 				6DDAE6C81CB7899F00CE461A /* HHAppInfoViewController.m */,
-				6DACD0121D34EF3300BDE2EE /* HHCouponViewController.h */,
-				6DACD0131D34EF3300BDE2EE /* HHCouponViewController.m */,
 				6DF53B7A1D47688C00CA0F6B /* HHEventsViewController.h */,
 				6DF53B7B1D47688C00CA0F6B /* HHEventsViewController.m */,
 				14B5EB7B1C7CCE0D00A37669 /* HHFollowedCoachListViewController.h */,
@@ -3584,7 +3579,6 @@
 				6DD5684A1D6948E000B9B319 /* OpenShare.m in Sources */,
 				5CDE14571C3723020004778C /* HHTextFieldView.m in Sources */,
 				14604F4A1C6FAA04009DBE10 /* HHShareViewItem.m in Sources */,
-				6DACD0141D34EF3300BDE2EE /* HHCouponViewController.m in Sources */,
 				141F7C131C626118003278C6 /* HHCoachService.m in Sources */,
 				5CDE14861C3852E30004778C /* HHCitySelectView.m in Sources */,
 				6DD568541D6B3B4C00B9B319 /* HHGifRefreshHeader.m in Sources */,
@@ -3767,7 +3761,7 @@
 				5C6D8C831C3A277F0055CB31 /* HHResetPWDViewController.m in Sources */,
 				6DF202F41CD34600002092B4 /* HHLongImageViewController.m in Sources */,
 				5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */,
-				6DACD0111D34CA0700BDE2EE /* HHMyPageCouponCell.m in Sources */,
+				6DACD0111D34CA0700BDE2EE /* HHMyPageMyCourseScheduleCell.m in Sources */,
 				6D4886BF1CD879F400E28BB3 /* HHBonusAmountView.m in Sources */,
 				5C36D3CF1C47642400443545 /* HHSliderView.m in Sources */,
 				6D4151F11CF72081004A7EE8 /* HHPurchaseConfirmViewController.m in Sources */,

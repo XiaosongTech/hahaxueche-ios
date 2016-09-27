@@ -6,12 +6,12 @@
 //  Copyright © 2016 Zixiao Wang. All rights reserved.
 //
 
-#import "HHMyPageCouponCell.h"
+#import "HHMyPageMyCourseScheduleCell.h"
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
 #import "HHMyPageCoachCell.h"
 
-@implementation HHMyPageCouponCell
+@implementation HHMyPageMyCourseScheduleCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -24,13 +24,13 @@
 }
 
 - (void)initSubviews {
-    self.titleView = [[HHMyPageItemTitleView alloc] initWithTitle:@"优惠券"];
+    self.titleView = [[HHMyPageItemTitleView alloc] initWithTitle:@"课程信息"];
     [self.contentView addSubview:self.titleView];
     
-    self.myCouponView = [[HHMyPageItemView alloc] initWitTitle:@"我的优惠券" showLine:YES];
-    self.myCouponView.arrowImageView.hidden = NO;
-    self.myCouponView.botLine.hidden = YES;
-    [self.contentView addSubview:self.myCouponView];
+    self.myCourseView = [[HHMyPageItemView alloc] initWitTitle:@"我的课程" showLine:YES];
+    self.myCourseView.arrowImageView.hidden = NO;
+    self.myCourseView.botLine.hidden = YES;
+    [self.contentView addSubview:self.myCourseView];
     
     [self makeConstraints];
 }
@@ -43,7 +43,7 @@
         make.height.mas_equalTo(kTitleViewHeight);
     }];
     
-    [self.myCouponView makeConstraints:^(MASConstraintMaker *make) {
+    [self.myCourseView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleView.bottom);
         make.left.equalTo(self.left);
         make.width.equalTo(self.width);

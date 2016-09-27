@@ -23,7 +23,7 @@
 }
 
 - (void)initSubviews {
-    self.titleView = [[HHMyPageItemTitleView alloc] initWithTitle:@"教练信息"];
+    self.titleView = [[HHMyPageItemTitleView alloc] initWithTitle:@"我的教练"];
     [self.contentView addSubview:self.titleView];
     
     self.myCoachView = [[HHMyPageItemView alloc] initWitTitle:@"我的教练" showLine:YES];
