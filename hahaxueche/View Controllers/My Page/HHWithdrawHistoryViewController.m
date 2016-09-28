@@ -16,13 +16,14 @@
 #import "HHStudentService.h"
 #import "HHWithdraws.h"
 #import "UIColor+HHColor.h"
+#import "UIScrollView+EmptyDataSet.h"
 
 
 typedef void (^HHWithdrawTransactionCompletion)();
 
 static NSString *const kCellId = @"cellId";
 
-@interface HHWithdrawHistoryViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface HHWithdrawHistoryViewController () <UITableViewDelegate, UITableViewDataSource,DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -47,6 +48,8 @@ static NSString *const kCellId = @"cellId";
     self.tableView = [[UITableView alloc] init];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.emptyDataSetDelegate = self;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.tableView registerClass:[HHWithdrawHistoryCell class] forCellReuseIdentifier:kCellId];
     [self.view addSubview:self.tableView];
@@ -58,6 +61,8 @@ static NSString *const kCellId = @"cellId";
     
     self.refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
     self.refreshHeader.stateLabel.font = [UIFont systemFontOfSize:14.0f];
+    [self.refreshHeader setTitle:@"下拉更新" forState:MJRefreshStateIdle];
+    [self.refreshHeader setTitle:@"下拉更新" forState:MJRefreshStatePulling];
     [self.refreshHeader setTitle:@"正在刷新列表" forState:MJRefreshStateRefreshing];
     self.refreshHeader.stateLabel.textColor = [UIColor HHLightTextGray];
     self.refreshHeader.automaticallyChangeAlpha = YES;
@@ -114,6 +119,29 @@ static NSString *const kCellId = @"cellId";
     [self refreshWithdrawsWithCompletion:^{
         [weakSelf.refreshHeader endRefreshing];
     }];
+}
+
+#pragma mark - DZNEmptyDataSetSource Methods
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    return [[NSMutableAttributedString alloc] initWithString:@"您目前还没有提现记录." attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+}
+
+- (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView {
+    return [UIColor whiteColor];
+}
+
+#pragma mark - DZNEmptyDataSetDelegate Methods
+
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView {
+    return YES;
+}
+
+- (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView {
+    return NO;
+}
+
+- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView {
+    return YES;
 }
 
 

@@ -38,6 +38,7 @@ target "hahaxueche" do
     pod 'FLAnimatedImage', '~> 1.0'
     pod 'EAFeatureGuideView'
     pod 'UITextView+Placeholder', '~> 1.2'
+    pod 'DZNEmptyDataSet'
 
 end
 

@@ -34,13 +34,14 @@
 #import "HHSearchCoachViewController.h"
 #import "HHGifRefreshHeader.h"
 #import "UIView+EAFeatureGuideView.h"
+#import "UIScrollView+EmptyDataSet.h"
 
 static NSString *const kCellId = @"kCoachListCellId";
 static NSString *const kFindCoachGuideKey = @"kFindCoachGuideKey";
 static CGFloat const kCellHeightNormal = 100.0f;
 static CGFloat const kCellHeightExpanded = 305.0f;
 
-@interface HHFindCoachViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface HHFindCoachViewController () <UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (nonatomic, strong) UIView *topButtonsView;
 @property (nonatomic, strong) UIView *verticalLine;
@@ -69,7 +70,6 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 @property (nonatomic, strong) CLLocation *userLocation;
 
 @property (nonatomic, strong) HHCoaches *coachesObject;
-@property (nonatomic, strong) UILabel *noDataLabel;
 
 @end
 
@@ -97,20 +97,6 @@ static CGFloat const kCellHeightExpanded = 305.0f;
             [weakSelf showUserGuideView];
         }];
     }];
-    
-    self.noDataLabel = [[UILabel alloc] init];
-    self.noDataLabel.text = @"啥？！没有匹配到教练啊/(ㄒoㄒ)/~~点击左上角筛选按钮，并调节距离等因素来寻找更多教练吧";
-    self.noDataLabel.textAlignment = NSTextAlignmentCenter;
-    self.noDataLabel.textColor = [UIColor HHLightTextGray];
-    self.noDataLabel.font = [UIFont systemFontOfSize:15.0f];
-    [self.view addSubview:self.noDataLabel];
-    self.noDataLabel.hidden = YES;
-    self.noDataLabel.numberOfLines = 0;
-    
-    [self.noDataLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.view);
-        make.width.equalTo(self.view.width).offset(-40.0f);
-    }];
 
     self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
@@ -131,17 +117,9 @@ static CGFloat const kCellHeightExpanded = 305.0f;
             completion();
         }
         if (!error) {
-            weakSelf.coachesObject = coaches;
             weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
+            weakSelf.coachesObject = coaches;
             [weakSelf.tableView reloadData];
-            if ([weakSelf.coaches count]) {
-                weakSelf.tableView.hidden = NO;
-                weakSelf.noDataLabel.hidden = YES;
-                
-            } else {
-                weakSelf.tableView.hidden = YES;
-                weakSelf.noDataLabel.hidden = NO;
-            }
         } else {
             [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
         }
@@ -155,8 +133,8 @@ static CGFloat const kCellHeightExpanded = 305.0f;
            completion();
        }
        if (!error) {
-           self.coachesObject = coaches;
            [self.coaches addObjectsFromArray:coaches.coaches];
+           self.coachesObject = coaches;
            [self.tableView reloadData];
        }
        
@@ -167,8 +145,15 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 - (void)setCoachesObject:(HHCoaches *)coachesObject {
     _coachesObject = coachesObject;
     if (!coachesObject.nextPage) {
+        if ([self.coaches count]) {
+            [self.loadMoreFooter setHidden:NO];
+            
+        } else {
+            [self.loadMoreFooter setHidden:YES];
+        }
         [self.loadMoreFooter setState:MJRefreshStateNoMoreData];
     } else {
+        [self.loadMoreFooter setHidden:NO];
         [self.loadMoreFooter setState:MJRefreshStateIdle];
     }
 }
@@ -213,6 +198,8 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     self.tableView = [[UITableView alloc] init];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.emptyDataSetDelegate = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     self.refreshHeader = [HHGifRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
@@ -225,6 +212,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     [self.loadMoreFooter setTitle:@"加载更多教练" forState:MJRefreshStateIdle];
     [self.loadMoreFooter setTitle:@"一大波教练接近中~~~" forState:MJRefreshStateRefreshing];
     [self.loadMoreFooter setTitle:@"已经到底啦~再往上选选吧！" forState:MJRefreshStateNoMoreData];
+    [self.loadMoreFooter setHidden:YES];
     self.loadMoreFooter.automaticallyRefresh = NO;
     self.loadMoreFooter.stateLabel.font = [UIFont systemFontOfSize:14.0f];
     self.loadMoreFooter.stateLabel.textColor = [UIColor HHLightTextGray];
@@ -504,5 +492,29 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     [self.view showWithFeatureItems:@[filter] saveKeyName:kFindCoachGuideKey inVersion:nil];
     
 }
+
+#pragma mark - DZNEmptyDataSetSource Methods
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    return [[NSMutableAttributedString alloc] initWithString:@"啥？！没有匹配到教练啊/(ㄒoㄒ)/~~点击左上角筛选按钮，并调节距离等因素来寻找更多教练吧" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+}
+
+- (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView {
+    return [UIColor whiteColor];
+}
+
+#pragma mark - DZNEmptyDataSetDelegate Methods
+
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView {
+    return YES;
+}
+
+- (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView {
+    return NO;
+}
+
+- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView {
+    return NO;
+}
+
 
 @end

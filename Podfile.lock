@@ -33,6 +33,7 @@ PODS:
   - Branch/without-IDFA (0.12.2)
   - CRToast (0.0.9)
   - DateTools (1.7.0)
+  - DZNEmptyDataSet (1.8.1)
   - EAFeatureGuideView (1.0.8)
   - FLAnimatedImage (1.0.12)
   - Harpy (3.4.8)
@@ -88,6 +89,7 @@ DEPENDENCIES:
   - Branch
   - CRToast
   - DateTools
+  - DZNEmptyDataSet
   - EAFeatureGuideView
   - FLAnimatedImage (~> 1.0)
   - Harpy
@@ -127,6 +129,7 @@ SPEC CHECKSUMS:
   Branch: 8dc4c9b6c3bcdc6ad590938a0b333ddbfe60efe4
   CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
+  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   EAFeatureGuideView: f5ca8144e2cfe59e5cf04c744355890902b01a1b
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Harpy: 7253bc78a0c3e239e8e4bd21b63403c7cf0be9c9
@@ -155,6 +158,6 @@ SPEC CHECKSUMS:
   UITextView+Placeholder: 77680995fcdd07c3f52ec92fe1150874a2ac89ff
   UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
 
-PODFILE CHECKSUM: b418513c6540d236402dd2aa663748b0ff319e31
+PODFILE CHECKSUM: 851dcb023fddd6b9f9902ce605ef3fc1755f1fcc
 
 COCOAPODS: 1.0.0
