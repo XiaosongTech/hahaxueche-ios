@@ -50,8 +50,6 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
 @interface HHHomePageViewController () <SDCycleScrollViewDelegate>
 
 @property (nonatomic, strong) SDCycleScrollView *bannerView;
-@property (nonatomic, strong) HHHomePageTapView *firstView;
-@property (nonatomic, strong) HHHomePageTapView *secondView;
 @property (nonatomic, strong) HHHomePageTapView *thirdView;
 @property (nonatomic, strong) HHHomePageTapView *forthView;
 @property (nonatomic, strong) UIImageView *freeTryImageView;
@@ -170,18 +168,6 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     self.adviserView = [[HHHomPageCardView alloc] initWithIcon:[UIImage imageNamed:@"ic_adviser"] title:@"学车顾问 全程无忧" subTitle:[self generateStringWithArray:strings number:@([[HHConstantsStore sharedInstance].constants.paidStudentCount integerValue] * 10.0f) color:[UIColor HHRed]] bigIcon:[UIImage imageNamed:@"pic_xiaoha_adviser"] items:@[@"量身推荐", @"智能预约", @"贴心售后", @"全程保障"] dotColor:[UIColor  HHRed]];
     [self.scrollView addSubview:self.adviserView];
     
-    self.firstView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_haha"] title:@"关于小哈" showRightLine:YES showBotLine:YES];
-    self.firstView.actionBlock = ^() {
-        [weakSelf openWebPage:[NSURL URLWithString:kAboutStudentLink]];
-    };
-    [self.scrollView addSubview:self.firstView];
-    
-    self.secondView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_coach"] title:@"关于教练" showRightLine:NO showBotLine:YES];
-    self.secondView.actionBlock = ^() {
-        [weakSelf openWebPage:[NSURL URLWithString:kAboutCoachLink]];
-    };
-    [self.scrollView addSubview:self.secondView];
-    
     self.thirdView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_strengths"] title:@"我的优势" showRightLine:YES showBotLine:NO];
     self.thirdView.actionBlock = ^() {
         [weakSelf openWebPage:[NSURL URLWithString:kFeatureLink]];
@@ -293,30 +279,16 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
         
     }];
     
-    [self.firstView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.scrollView.left);
-        make.top.equalTo(self.adviserView.bottom).offset(10.0f);
-        make.width.equalTo(self.scrollView.width).multipliedBy(1/2.0f);
-        make.height.mas_equalTo(50.0f);
-    }];
-    
-    [self.secondView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.firstView.right);
-        make.top.equalTo(self.adviserView.bottom).offset(10.0f);
-        make.width.equalTo(self.scrollView.width).multipliedBy(1/2.0f);
-        make.height.mas_equalTo(50.0f);
-    }];
-    
     [self.thirdView makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.scrollView.right);
-        make.top.equalTo(self.firstView.bottom);
+        make.top.equalTo(self.adviserView.bottom).offset(10.0f);
         make.width.equalTo(self.scrollView.width).multipliedBy(1/2.0f);
         make.height.mas_equalTo(50.0f);
     }];
     
     [self.forthView makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.thirdView.right);
-        make.top.equalTo(self.secondView.bottom);
+        make.top.equalTo(self.adviserView.bottom).offset(10.0f);
         make.width.equalTo(self.scrollView.width).multipliedBy(1/2.0f);
         make.height.mas_equalTo(50.0f);
     }];
