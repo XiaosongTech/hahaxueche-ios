@@ -49,10 +49,6 @@
     self.imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_pop_xiaoha"]];
     [self.topView addSubview:self.imgView];
     
-    self.horizontalLine = [[UIView alloc] init];
-    self.horizontalLine.backgroundColor = [UIColor HHLightLineGray];
-    [self.topView addSubview:self.horizontalLine];
-    
     self.botView = [[UIView alloc] init];
     self.botView.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.botView];

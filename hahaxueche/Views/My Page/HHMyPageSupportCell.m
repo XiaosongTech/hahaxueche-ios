@@ -27,11 +27,11 @@
     self.titleView = [[HHMyPageItemTitleView alloc] initWithTitle:@"学车顾问"];
     [self.contentView addSubview:self.titleView];
     
-    self.supportOnlineView = [[HHMyPageItemView alloc] initWitTitle:@"在线客服" showLine:YES];
+    self.supportOnlineView = [[HHMyPageItemView alloc] initWitTitle:@"在线客服" showLine:NO];
     self.supportOnlineView.arrowImageView.hidden = NO;
     [self.contentView addSubview:self.supportOnlineView];
     
-    self.myAdvisorView = [[HHMyPageItemView alloc] initWitTitle:@"我的顾问" showLine:NO];
+    self.myAdvisorView = [[HHMyPageItemView alloc] initWitTitle:@"我的顾问" showLine:YES];
     self.myAdvisorView.arrowImageView.hidden = NO;
     [self.contentView addSubview:self.myAdvisorView];
     
@@ -47,14 +47,14 @@
     }];
     
     [self.supportOnlineView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleView.bottom);
+        make.top.equalTo(self.myAdvisorView.bottom);
         make.left.equalTo(self.left);
         make.width.equalTo(self.width);
         make.height.mas_equalTo(kItemViewHeight);
         
     }];
     [self.myAdvisorView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.supportOnlineView.bottom);
+        make.top.equalTo(self.titleView.bottom);
         make.left.equalTo(self.left);
         make.width.equalTo(self.width);
         make.height.mas_equalTo(kItemViewHeight);

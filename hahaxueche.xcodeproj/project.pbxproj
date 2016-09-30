@@ -678,6 +678,10 @@
 		6DF53B6F1D4707C700CA0F6B /* CountDown.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF53B6E1D4707C700CA0F6B /* CountDown.m */; };
 		6DF53B761D47279A00CA0F6B /* HHCountDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF53B751D47279A00CA0F6B /* HHCountDownView.m */; };
 		6DF53B7C1D47688C00CA0F6B /* HHEventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF53B7B1D47688C00CA0F6B /* HHEventsViewController.m */; };
+		6DF53EB21D9DFE210081EF50 /* HHAdvisorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF53EB11D9DFE210081EF50 /* HHAdvisorView.m */; };
+		6DF53EB61D9E025E0081EF50 /* ic_call.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DF53EB31D9E025E0081EF50 /* ic_call.png */; };
+		6DF53EB71D9E025E0081EF50 /* ic_call@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DF53EB41D9E025E0081EF50 /* ic_call@2x.png */; };
+		6DF53EB81D9E025E0081EF50 /* ic_call@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DF53EB51D9E025E0081EF50 /* ic_call@3x.png */; };
 		6DF934C91D91238900018BE9 /* HHClubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF934C81D91238900018BE9 /* HHClubViewController.m */; };
 		6DF934CC1D91278F00018BE9 /* HHClubItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF934CB1D91278F00018BE9 /* HHClubItemView.m */; };
 		6DF934D01D91312400018BE9 /* xiaohaclub.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DF934CD1D91312400018BE9 /* xiaohaclub.png */; };
@@ -1597,6 +1601,11 @@
 		6DF53B751D47279A00CA0F6B /* HHCountDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCountDownView.m; sourceTree = "<group>"; };
 		6DF53B7A1D47688C00CA0F6B /* HHEventsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHEventsViewController.h; sourceTree = "<group>"; };
 		6DF53B7B1D47688C00CA0F6B /* HHEventsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHEventsViewController.m; sourceTree = "<group>"; };
+		6DF53EB01D9DFE210081EF50 /* HHAdvisorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAdvisorView.h; sourceTree = "<group>"; };
+		6DF53EB11D9DFE210081EF50 /* HHAdvisorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHAdvisorView.m; sourceTree = "<group>"; };
+		6DF53EB31D9E025E0081EF50 /* ic_call.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_call.png; sourceTree = "<group>"; };
+		6DF53EB41D9E025E0081EF50 /* ic_call@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_call@2x.png"; sourceTree = "<group>"; };
+		6DF53EB51D9E025E0081EF50 /* ic_call@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_call@3x.png"; sourceTree = "<group>"; };
 		6DF934C71D91238900018BE9 /* HHClubViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHClubViewController.h; sourceTree = "<group>"; };
 		6DF934C81D91238900018BE9 /* HHClubViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHClubViewController.m; sourceTree = "<group>"; };
 		6DF934CA1D91278F00018BE9 /* HHClubItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHClubItemView.h; sourceTree = "<group>"; };
@@ -1913,6 +1922,8 @@
 				6D54D42B1D9391D100EBBD98 /* HHCommentView.m */,
 				6D54D4361D94FFE200EBBD98 /* HHClubPostCommentTableViewCell.h */,
 				6D54D4371D94FFE200EBBD98 /* HHClubPostCommentTableViewCell.m */,
+				6DF53EB01D9DFE210081EF50 /* HHAdvisorView.h */,
+				6DF53EB11D9DFE210081EF50 /* HHAdvisorView.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -2372,6 +2383,9 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6DF53EB31D9E025E0081EF50 /* ic_call.png */,
+				6DF53EB41D9E025E0081EF50 /* ic_call@2x.png */,
+				6DF53EB51D9E025E0081EF50 /* ic_call@3x.png */,
 				6D54D4241D938ECC00EBBD98 /* icon_share.png */,
 				6D54D4251D938ECC00EBBD98 /* icon_share@2x.png */,
 				6D54D4261D938ECC00EBBD98 /* icon_share@3x.png */,
@@ -3195,6 +3209,7 @@
 				5C36D4151C496ECD00443545 /* ic_sort_local_normal_btn@3x.png in Resources */,
 				5C36D3C51C47500700443545 /* ic_sort_hold_btn@3x.png in Resources */,
 				5C36D3721C42D9F800443545 /* ic_bottombar_date_normal_btn@1x.png in Resources */,
+				6DF53EB81D9E025E0081EF50 /* ic_call@3x.png in Resources */,
 				6D3D6F9E1CC0933100E3BD8E /* ic_class_emptyava.png in Resources */,
 				6DF934D61D91312C00018BE9 /* xiaohaclub_click.png in Resources */,
 				6D46DCBB1D88F52D001F962B /* ic_adviser@3x.png in Resources */,
@@ -3306,6 +3321,7 @@
 				6D6F9B621D35EB4D00855D2F /* ticket-normal@3x.png in Resources */,
 				6D330D3D1D7FC230003F6FC6 /* wheretopractice@3x.png in Resources */,
 				6D0FB0AF1D925FA80045C421 /* icon_comment@2x.png in Resources */,
+				6DF53EB71D9E025E0081EF50 /* ic_call@2x.png in Resources */,
 				5C36D3C61C47500700443545 /* ic_sort_normal_btn@1X.png in Resources */,
 				5CDE14681C3771880004778C /* ic_arrow_back@1x.png in Resources */,
 				141F7C031C617EC7003278C6 /* ic_Star_half@2x.png in Resources */,
@@ -3369,6 +3385,7 @@
 				6D98E9A01D7A7AF200A324B2 /* ic_coachmsg_sharecoach_kongjian.png in Resources */,
 				5CDE14821C3787CF0004778C /* ic_triangle@2x.png in Resources */,
 				6D6F9B5D1D35EB4D00855D2F /* ticket-gray@1x.png in Resources */,
+				6DF53EB61D9E025E0081EF50 /* ic_call.png in Resources */,
 				6DB79D5D1D55ACCB008F31C9 /* ic_search@2x.png in Resources */,
 				6D98E9A51D7A7AF200A324B2 /* ic_coachmsg_sharecoach_qq@3x.png in Resources */,
 				6D96AE3C1D20F980003C1E84 /* ic_sort_zan_normal_btn.png in Resources */,
@@ -3674,6 +3691,7 @@
 				6D4151EE1CF47C89004A7EE8 /* HHSearchHistoryListView.m in Sources */,
 				143778EF1C6125C300339D20 /* HHLaunchImageViewController.m in Sources */,
 				6DF53B7C1D47688C00CA0F6B /* HHEventsViewController.m in Sources */,
+				6DF53EB21D9DFE210081EF50 /* HHAdvisorView.m in Sources */,
 				6DE24BC51D5B127B0078A21E /* HHQuestion.m in Sources */,
 				5C36D3CB1C47615000443545 /* HHFiltersView.m in Sources */,
 				6DF934F31D91418B00018BE9 /* HHTestStartViewController.m in Sources */,

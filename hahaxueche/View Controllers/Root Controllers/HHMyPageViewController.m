@@ -40,6 +40,7 @@
 #import "HHStudentStore.h"
 #import <RSKImageCropper/RSKImageCropper.h>
 #import "HHSupportUtility.h"
+#import "HHAdvisorView.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -250,7 +251,12 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
             };
             cell.myAdvisorView.actionBlock = ^() {
-                
+                HHAdvisorView *view = [[HHAdvisorView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 240.0f)];
+                view.callBlock = ^() {
+                    [weakSelf callAdvisor];
+                };
+                weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                [HHPopupUtility showPopup:weakSelf.popup];
             };
             return cell;
         } break;
@@ -497,6 +503,12 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     }];
 }
 
+- (void)callAdvisor {
+    NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",@"4000016006"]];
+    if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
+        [[UIApplication sharedApplication] openURL:phoneUrl];
+    }
+}
 
 
 @end
