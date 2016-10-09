@@ -40,8 +40,10 @@
 #import "UIView+EAFeatureGuideView.h"
 #import "HHHomPageCardView.h"
 
-static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
-static NSString *const kAboutCoachLink = @"http://staging.hahaxueche.net/#/coach";
+static NSString *const kCoachLink = @"http://m.hahaxueche.com/share/best-coaches";
+static NSString *const kDrivingSchoolLink = @"http://m.hahaxueche.com/share/best-coaches";
+static NSString *const kAdvisorLink = @"http://m.hahaxueche.com/share/best-coaches";
+
 static NSString *const kFeatureLink = @"http://activity.hahaxueche.com/share/features";
 static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps";
 
@@ -154,18 +156,27 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     [strings addObject:@"已入住"];
     [strings addObject:@"所"];
     self.drivingSchoolView = [[HHHomPageCardView alloc] initWithIcon:[UIImage imageNamed:@"ic_cup"] title:@"入住驾校 权威认证" subTitle:[self generateStringWithArray:strings number:@([[HHConstantsStore sharedInstance].constants.drivingSchoolCount integerValue] * 3.0f) color:[UIColor HHOrange]] bigIcon:[UIImage imageNamed:@"pic_xiaoha_school"] items:@[@"通过率高", @"训练场地规范", @"品牌口碑佳", @"权威驾校认证"] dotColor:[UIColor  HHOrange]];
+    self.drivingSchoolView.tapAction = ^() {
+        [weakSelf openWebPage:[NSURL URLWithString:kDrivingSchoolLink]];
+    };
     [self.scrollView addSubview:self.drivingSchoolView];
     
     [strings removeAllObjects];
     [strings addObject:@"已签约"];
     [strings addObject:@"名"];
     self.coachView = [[HHHomPageCardView alloc] initWithIcon:[UIImage imageNamed:@"ic_medal_h"] title:@"签约教练 择优合作" subTitle:[self generateStringWithArray:strings number:@([[HHConstantsStore sharedInstance].constants.coachCount integerValue] * 10.0f) color:[UIColor HHLightBlue]] bigIcon:[UIImage imageNamed:@"pic_xiaoha_coach"] items:@[@"免费试学", @"价格透明", @"分阶段打款", @"灵活退学"] dotColor:[UIColor  HHLightBlue]];
+    self.coachView.tapAction = ^() {
+        [weakSelf openWebPage:[NSURL URLWithString:kCoachLink]];
+    };
     [self.scrollView addSubview:self.coachView];
     
     [strings removeAllObjects];
     [strings addObject:@"已帮助学员"];
     [strings addObject:@"名"];
     self.adviserView = [[HHHomPageCardView alloc] initWithIcon:[UIImage imageNamed:@"ic_adviser"] title:@"学车顾问 全程无忧" subTitle:[self generateStringWithArray:strings number:@([[HHConstantsStore sharedInstance].constants.paidStudentCount integerValue] * 10.0f) color:[UIColor HHRed]] bigIcon:[UIImage imageNamed:@"pic_xiaoha_adviser"] items:@[@"量身推荐", @"智能预约", @"贴心售后", @"全程保障"] dotColor:[UIColor  HHRed]];
+    self.adviserView.tapAction = ^() {
+        [weakSelf openWebPage:[NSURL URLWithString:kAdvisorLink]];
+    };
     [self.scrollView addSubview:self.adviserView];
     
     self.thirdView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_strengths"] title:@"我的优势" showRightLine:YES showBotLine:NO];

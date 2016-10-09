@@ -124,8 +124,18 @@
             make.right.equalTo(self.botContainerView.right).offset(-15.0f);
             make.centerY.equalTo(self.botContainerView.centerY);
         }];
+        
+        UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped)];
+        [self.botContainerView addGestureRecognizer:tapRec];
     }
     return self;
+}
+
+
+- (void)viewTapped {
+    if (self.tapAction) {
+        self.tapAction();
+    }
 }
 
 @end
