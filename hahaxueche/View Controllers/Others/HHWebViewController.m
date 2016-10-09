@@ -60,7 +60,7 @@
     }];
     
     if (self.event) {
-         self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_mycoach_sharecoach"] action:@selector(shareEvent) target:self];
+         self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"icon_share"] action:@selector(shareEvent) target:self];
     }
 }
 
