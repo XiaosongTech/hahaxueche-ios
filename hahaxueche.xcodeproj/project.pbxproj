@@ -354,6 +354,9 @@
 		6D3C83921DAB716C004BD28B /* ic_star_colllect.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D3C838C1DAB716C004BD28B /* ic_star_colllect.png */; };
 		6D3C83931DAB716C004BD28B /* ic_star_colllect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D3C838D1DAB716C004BD28B /* ic_star_colllect@2x.png */; };
 		6D3C83941DAB716C004BD28B /* ic_star_colllect@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D3C838E1DAB716C004BD28B /* ic_star_colllect@3x.png */; };
+		6D3C83981DAB9708004BD28B /* ic_discount.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D3C83951DAB9708004BD28B /* ic_discount.png */; };
+		6D3C83991DAB9708004BD28B /* ic_discount@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D3C83961DAB9708004BD28B /* ic_discount@2x.png */; };
+		6D3C839A1DAB9708004BD28B /* ic_discount@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D3C83971DAB9708004BD28B /* ic_discount@3x.png */; };
 		6D3D6F9A1CBFA68300E3BD8E /* HHNotificationExplanationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D6F991CBFA68300E3BD8E /* HHNotificationExplanationView.m */; };
 		6D3D6F9E1CC0933100E3BD8E /* ic_class_emptyava.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D3D6F9B1CC0933100E3BD8E /* ic_class_emptyava.png */; };
 		6D3D6F9F1CC0933100E3BD8E /* ic_class_emptyava@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D3D6F9C1CC0933100E3BD8E /* ic_class_emptyava@2x.png */; };
@@ -1189,6 +1192,9 @@
 		6D3C838C1DAB716C004BD28B /* ic_star_colllect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_star_colllect.png; sourceTree = "<group>"; };
 		6D3C838D1DAB716C004BD28B /* ic_star_colllect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_star_colllect@2x.png"; sourceTree = "<group>"; };
 		6D3C838E1DAB716C004BD28B /* ic_star_colllect@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_star_colllect@3x.png"; sourceTree = "<group>"; };
+		6D3C83951DAB9708004BD28B /* ic_discount.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_discount.png; sourceTree = "<group>"; };
+		6D3C83961DAB9708004BD28B /* ic_discount@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_discount@2x.png"; sourceTree = "<group>"; };
+		6D3C83971DAB9708004BD28B /* ic_discount@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_discount@3x.png"; sourceTree = "<group>"; };
 		6D3D6F981CBFA68300E3BD8E /* HHNotificationExplanationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNotificationExplanationView.h; sourceTree = "<group>"; };
 		6D3D6F991CBFA68300E3BD8E /* HHNotificationExplanationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNotificationExplanationView.m; sourceTree = "<group>"; };
 		6D3D6F9B1CC0933100E3BD8E /* ic_class_emptyava.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_class_emptyava.png; sourceTree = "<group>"; };
@@ -2395,6 +2401,9 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6D3C83951DAB9708004BD28B /* ic_discount.png */,
+				6D3C83961DAB9708004BD28B /* ic_discount@2x.png */,
+				6D3C83971DAB9708004BD28B /* ic_discount@3x.png */,
 				6D3C83891DAB716C004BD28B /* ic_star_collect_click.png */,
 				6D3C838A1DAB716C004BD28B /* ic_star_collect_click@2x.png */,
 				6D3C838B1DAB716C004BD28B /* ic_star_collect_click@3x.png */,
@@ -3090,6 +3099,7 @@
 				6D44B6AA1D0D12DF00E2F455 /* ic_coupon@2x.png in Resources */,
 				5C36D4251C4C2B8700443545 /* ic_maplist_btn@1x.png in Resources */,
 				6D82BD671CCF91E100D4109A /* ic_wechatpay_icon@3x.png in Resources */,
+				6D3C839A1DAB9708004BD28B /* ic_discount@3x.png in Resources */,
 				141F7C041C617EC7003278C6 /* ic_Star_half@3x.png in Resources */,
 				5C36D37E1C42D9F800443545 /* ic_bottombar_list_normal_btn@1x.png in Resources */,
 				6D6F9B561D34FFAB00855D2F /* Line-normal@3x.png in Resources */,
@@ -3419,6 +3429,7 @@
 				5C36D37A1C42D9F800443545 /* ic_bottombar_haha_normal_btn@3x.png in Resources */,
 				140EC6061C6D68D000DA634D /* ic_coachmsg_coachlevel.png in Resources */,
 				6DF934ED1D91367C00018BE9 /* exercise@3x.png in Resources */,
+				6D3C83991DAB9708004BD28B /* ic_discount@2x.png in Resources */,
 				6D46DCAD1D88F41A001F962B /* ic_medal_h.png in Resources */,
 				5C36D3841C42D9F800443545 /* ic_bottombar_mypage_normal_btn@1x.png in Resources */,
 				6D3C83911DAB716C004BD28B /* ic_star_collect_click@3x.png in Resources */,
@@ -3467,6 +3478,7 @@
 				6D088D5B1D88F18500A4C2F9 /* pic_xiaoha_school@3x.png in Resources */,
 				6D6F9B5E1D35EB4D00855D2F /* ticket-gray@2x.png in Resources */,
 				6DE24BDD1D5B44A10078A21E /* ic_question_lib@3x.png in Resources */,
+				6D3C83981DAB9708004BD28B /* ic_discount.png in Resources */,
 				6D52228B1D3F9BF000E92075 /* ic_ask_message.png in Resources */,
 				5C36D40B1C496ECD00443545 /* ic_sort_hot_hold_btn@2x.png in Resources */,
 				6D4886C41CD881E800E28BB3 /* ic_cash_havenot@2x.png in Resources */,

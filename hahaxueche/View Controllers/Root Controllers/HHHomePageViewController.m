@@ -155,7 +155,7 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     NSMutableArray *strings = [NSMutableArray array];
     [strings addObject:@"已入住"];
     [strings addObject:@"所"];
-    self.drivingSchoolView = [[HHHomPageCardView alloc] initWithIcon:[UIImage imageNamed:@"ic_cup"] title:@"入住驾校 权威认证" subTitle:[self generateStringWithArray:strings number:@([[HHConstantsStore sharedInstance].constants.drivingSchoolCount integerValue] * 3.0f) color:[UIColor HHOrange]] bigIcon:[UIImage imageNamed:@"pic_xiaoha_school"] items:@[@"通过率高", @"训练场地规范", @"品牌口碑佳", @"权威驾校认证"] dotColor:[UIColor  HHOrange]];
+    self.drivingSchoolView = [[HHHomPageCardView alloc] initWithIcon:[UIImage imageNamed:@"ic_cup"] title:@"入驻驾校 权威认证" subTitle:[self generateStringWithArray:strings number:@([[HHConstantsStore sharedInstance].constants.drivingSchoolCount integerValue] * 3.0f) color:[UIColor HHOrange]] bigIcon:[UIImage imageNamed:@"pic_xiaoha_school"] items:@[@"通过率高", @"训练场地规范", @"品牌口碑佳", @"权威驾校认证"] dotColor:[UIColor  HHOrange]];
     self.drivingSchoolView.tapAction = ^() {
         [weakSelf openWebPage:[NSURL URLWithString:kDrivingSchoolLink]];
     };
@@ -213,7 +213,7 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     };
     [self.scrollView addSubview:self.onlineSupportView];
     
-    self.eventView = [[HHHomePageSupportView alloc] initWithImage:[UIImage imageNamed:@"ic_ask_message"] title:@"限时团购" showRightLine:YES];
+    self.eventView = [[HHHomePageSupportView alloc] initWithImage:[UIImage imageNamed:@"ic_discount"] title:@"限时团购" showRightLine:YES];
     self.eventView.actionBlock = ^() {
         [weakSelf showEvents];
     };
