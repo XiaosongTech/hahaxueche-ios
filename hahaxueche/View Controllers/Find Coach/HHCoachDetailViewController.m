@@ -74,6 +74,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 @property (nonatomic, strong) HHReviews *reviewsObject;
 @property (nonatomic, strong) NSArray *reviews;
 @property (nonatomic) BOOL liking;
+@property (nonatomic) BOOL followed;
 
 @end
 
@@ -124,6 +125,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     self.title = @"教练详情";
     
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(popupVC) target:self];
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"icon_share"] action:@selector(shareCoach) target:self];
     [self initSubviews];
     
 }
@@ -157,75 +159,11 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
-    self.bottomBar = [[HHCoachDetailBottomBarView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.tableView.bounds), CGRectGetWidth(self.view.bounds), 50.0f) followed:NO];
+    self.bottomBar = [[HHCoachDetailBottomBarView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.tableView.bounds), CGRectGetWidth(self.view.bounds), 50.0f)];
     [self.view addSubview:self.bottomBar];
     
     
     __weak HHCoachDetailViewController *weakSelf = self;
-    self.bottomBar.shareAction = ^(){
-        HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds), 0)];
-        
-        shareView.dismissBlock = ^() {
-            [HHPopupUtility dismissPopup:weakSelf.popup];
-        };
-        shareView.actionBlock = ^(SocialMedia selecteItem) {
-            switch (selecteItem) {
-                case SocialMediaQQFriend: {
-                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeQQ];
-                } break;
-                    
-                case SocialMediaWeibo: {
-                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeibo];
-                } break;
-                    
-                case SocialMediaWeChatFriend: {
-                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeChat];
-                } break;
-                    
-                case SocialMediaWeChaPYQ: {
-                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeChatTimeLine];
-                } break;
-                    
-                case SocialMediaQZone: {
-                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeQZone];
-                } break;
-                    
-                default:
-                    break;
-
-            }
-        };
-        weakSelf.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
-        [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
-    };
-    
-    self.bottomBar.followAction = ^(){
-        if (!weakSelf.currentStudent.studentId) {
-            [weakSelf showLoginSignupAlertView];
-            return ;
-        }
-        
-        [[HHCoachService sharedInstance] followCoach:weakSelf.coach.userId completion:^(NSError *error) {
-            if (!error) {
-                weakSelf.bottomBar.followed = YES;
-            }
-            
-        }];
-    };
-    
-    self.bottomBar.unFollowAction = ^(){
-        if (!weakSelf.currentStudent.studentId) {
-            [weakSelf showLoginSignupAlertView];
-            return ;
-        }
-        
-        [[HHCoachService sharedInstance] unfollowCoach:weakSelf.coach.userId completion:^(NSError *error) {
-            if (!error) {
-                weakSelf.bottomBar.followed = NO;
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"kUnfollowCoach" object:@{@"coachId":weakSelf.coach.coachId}];
-            }
-        }];
-    };
     
     self.bottomBar.tryCoachAction = ^(){
         [weakSelf tryCoachForFree];
@@ -242,9 +180,14 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     [[HHCoachService sharedInstance] checkFollowedCoach:self.coach.userId completion:^(BOOL followed) {
-        weakSelf.bottomBar.followed = followed;
+        weakSelf.followed = followed;
     }];
     
+}
+
+- (void)setFollowed:(BOOL)followed {
+    _followed = followed;
+    [self.tableView reloadData];
 }
 
 #pragma mark - TableView Delegate & Datasource Methods
@@ -267,7 +210,10 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
                 }
 
             };
-            [cell setupCellWithCoach:self.coach];
+            cell.followBlock = ^() {
+                [weakSelf followUnfollowCoach];
+            };
+            [cell setupCellWithCoach:self.coach followed:weakSelf.followed];
             return cell;
         }
             
@@ -521,6 +467,72 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 - (void)tryCoachForFree {
     NSString *urlString = [[HHFreeTrialUtility sharedManager] buildFreeTrialURLStringWithCoachId:self.coach.coachId];
     [self openWebPage:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+}
+
+- (void)shareCoach {
+    HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 0)];
+    
+    shareView.dismissBlock = ^() {
+        [HHPopupUtility dismissPopup:self.popup];
+    };
+    shareView.actionBlock = ^(SocialMedia selecteItem) {
+        switch (selecteItem) {
+            case SocialMediaQQFriend: {
+                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeQQ];
+            } break;
+                
+            case SocialMediaWeibo: {
+                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeWeibo];
+            } break;
+                
+            case SocialMediaWeChatFriend: {
+                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeWeChat];
+            } break;
+                
+            case SocialMediaWeChaPYQ: {
+                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeWeChatTimeLine];
+            } break;
+                
+            case SocialMediaQZone: {
+                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeQZone];
+            } break;
+                
+            default:
+                break;
+                
+        }
+    };
+    self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
+    [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
+}
+
+- (void)followUnfollowCoach {
+    if (self.followed) {
+        if (!self.currentStudent.studentId) {
+            [self showLoginSignupAlertView];
+            return ;
+        }
+        [[HHCoachService sharedInstance] unfollowCoach:self.coach.userId completion:^(NSError *error) {
+            if (!error) {
+                self.followed = NO;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"kUnfollowCoach" object:@{@"coachId":self.coach.coachId}];
+            }
+        }];
+        
+    } else {
+        if (!self.currentStudent.studentId) {
+            [self showLoginSignupAlertView];
+            return ;
+        }
+    
+        [[HHCoachService sharedInstance] followCoach:self.coach.userId completion:^(NSError *error) {
+            if (!error) {
+                self.followed = YES;
+            }
+            
+        }];
+
+    }
 }
 
 @end

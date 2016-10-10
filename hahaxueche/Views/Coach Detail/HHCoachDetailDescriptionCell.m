@@ -60,6 +60,11 @@ static CGFloat const avatarRadius = 30.0f;
     self.likeCountLabel.font = [UIFont systemFontOfSize:16.0f];
     [self.contentView addSubview:self.likeCountLabel];
     
+    self.followButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.followButton setBackgroundImage:[UIImage imageNamed:@"ic_star_collect_click"] forState:UIControlStateNormal];
+    [self.followButton addTarget:self action:@selector(followButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:self.followButton];
+    
     [self makeConstraints];
 }
 
@@ -97,9 +102,14 @@ static CGFloat const avatarRadius = 30.0f;
         make.bottom.equalTo(self.nameLabel.bottom).offset(-1.0f);
         make.right.equalTo(self.likeCountLabel.left).offset(-3.0f);
     }];
+    
+    [self.followButton makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.likeButton.bottom);
+        make.right.equalTo(self.likeButton.left).offset(-8.0f);
+    }];
 }
 
-- (void)setupCellWithCoach:(HHCoach *)coach {
+- (void)setupCellWithCoach:(HHCoach *)coach followed:(BOOL)followed {
     self.nameLabel.text = coach.name;
     [self.nameLabel sizeToFit];
     
@@ -128,11 +138,23 @@ static CGFloat const avatarRadius = 30.0f;
         [self.jiaxiaoView removeFromSuperview];
     }
     
+    if (followed) {
+        [self.followButton setBackgroundImage:[UIImage imageNamed:@"ic_star_collect_click"] forState:UIControlStateNormal];
+    } else {
+        [self.followButton setBackgroundImage:[UIImage imageNamed:@"ic_star_colllect"] forState:UIControlStateNormal];
+    }
+    
 }
 
 - (void)likeButtonTapped {
     if (self.likeBlock) {
         self.likeBlock(self.likeButton, self.likeCountLabel);
+    }
+}
+
+- (void)followButtonTapped {
+    if (self.followBlock) {
+        self.followBlock();
     }
 }
 

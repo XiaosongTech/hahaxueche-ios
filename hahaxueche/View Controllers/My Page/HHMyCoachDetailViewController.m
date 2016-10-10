@@ -43,6 +43,7 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
 @property (nonatomic, strong) UIButton *reviewCoachButton;
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic) BOOL liking;
+@property (nonatomic) BOOL followed;
 
 @end
 
@@ -108,8 +109,12 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
             cell.likeBlock = ^(UIButton *likeButton, UILabel *likeCountLabel) {
                 [weakSelf likeOrUnlikeCoachWithButton:likeButton label:likeCountLabel];
             };
+            
+            cell.followBlock = ^() {
+                [weakSelf followUnfollowCoach];
+            };
 
-            [cell setupCellWithCoach:weakSelf.coach];
+            [cell setupCellWithCoach:weakSelf.coach followed:weakSelf.followed];
             return cell;
         }
             
@@ -280,6 +285,29 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
         }
     }];
     
+}
+
+- (void)setFollowed:(BOOL)followed {
+    _followed = followed;
+    [self.tableView reloadData];
+}
+
+- (void)followUnfollowCoach {
+    if (self.followed) {
+        [[HHCoachService sharedInstance] unfollowCoach:self.coach.userId completion:^(NSError *error) {
+            if (!error) {
+                self.followed = NO;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"kUnfollowCoach" object:@{@"coachId":self.coach.coachId}];
+            }
+        }];
+    } else {
+        [[HHCoachService sharedInstance] followCoach:self.coach.userId completion:^(NSError *error) {
+            if (!error) {
+                self.followed = YES;
+            }
+            
+        }];
+    }
 }
 
 @end
