@@ -41,6 +41,7 @@
 #import <RSKImageCropper/RSKImageCropper.h>
 #import "HHSupportUtility.h"
 #import "HHAdvisorView.h"
+#import "HHBookTrainingViewController.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -238,7 +239,9 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellMyCourseSchedule: {
             HHMyPageMyCourseScheduleCell *cell = [tableView dequeueReusableCellWithIdentifier:kMyCourseScheduleCell];
             cell.myCourseView.actionBlock = ^() {
-                
+                HHBookTrainingViewController *vc = [[HHBookTrainingViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
             };
             
             return cell;
