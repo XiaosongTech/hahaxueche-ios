@@ -317,21 +317,14 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat height = 0;
     if ([self.expandedCellIndexPath containsObject:indexPath]) {
-        CGFloat height = kCellHeightExpanded + 40.0f;
-        HHCoach *coach = self.coaches[indexPath.row];
-        if ([coach.VIPPrice floatValue] > 0) {
-            height = height + 40.0f;
-        }
-        return height;
+        height = kCellHeightExpanded + 40.0f;
+        
     } else {
-        CGFloat height = kCellHeightNormal + 40.0f;
-        HHCoach *coach = self.coaches[indexPath.row];
-        if ([coach.VIPPrice floatValue] > 0) {
-            height = height + 40.0f;
-        }
-        return height;
+        height = kCellHeightNormal + 40.0f;
     }
+    return height;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

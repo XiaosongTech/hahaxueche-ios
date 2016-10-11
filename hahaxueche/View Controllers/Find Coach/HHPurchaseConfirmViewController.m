@@ -123,7 +123,7 @@
         make.height.mas_equalTo(40.0f);
     }];
     
-    self.standardServiceView = [[HHCoachServiceTypeView alloc] initWithPrice:self.coach.price iconImage:[UIImage imageNamed:@"ic_chaozhi"] marketPrice:self.coach.marketPrice detailText:@"四人一车, 高性价比" selected:YES];
+    self.standardServiceView = [[HHCoachServiceTypeView alloc] initWithPrice:self.coach.price iconImage:[UIImage imageNamed:@"ic_chaozhi"] marketPrice:@(0) detailText:@"四人一车, 高性价比" selected:YES];
     self.standardServiceView.tag = CoachProductTypeStandard;
     self.standardServiceView.priceBlock = ^() {
         HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
@@ -146,7 +146,7 @@
     }];
     
     if ([self.coach.VIPPrice floatValue] > 0) {
-        self.VIPServiceView = [[HHCoachServiceTypeView alloc] initWithPrice:self.coach.VIPPrice iconImage:[UIImage imageNamed:@"ic_VIP_details"] marketPrice:self.coach.VIPMarketPrice detailText:@"一人一车, 极速拿证" selected:NO];
+        self.VIPServiceView = [[HHCoachServiceTypeView alloc] initWithPrice:self.coach.VIPPrice iconImage:[UIImage imageNamed:@"ic_VIP_details"] marketPrice:@(0) detailText:@"一人一车, 极速拿证" selected:NO];
         self.VIPServiceView.tag = CoachProductTypeVIP;
         
         self.VIPServiceView.priceBlock = ^() {

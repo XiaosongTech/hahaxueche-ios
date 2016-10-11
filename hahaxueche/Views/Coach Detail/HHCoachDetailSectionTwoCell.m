@@ -23,19 +23,28 @@
 }
 
 - (void)initSubviews {
-    self.satisfactionCell = [[HHCoachDetailSingleInfoView alloc] init];
-    [self.contentView addSubview:self.satisfactionCell];
+    
+    self.passDaysCell = [[HHCoachDetailSingleInfoView alloc] init];
+    [self.contentView addSubview:self.passDaysCell];
     
     self.coachLevelCell = [[HHCoachDetailSingleInfoView alloc] init];
     [self.contentView addSubview:self.coachLevelCell];
     
-    self.coachTimeCell= [[HHCoachDetailSingleInfoView alloc] init];
-    self.coachTimeCell.valueLabel.font = [UIFont systemFontOfSize:15.0f];
-    [self.contentView addSubview:self.coachTimeCell];
+    self.passRateCell = [[HHCoachDetailSingleInfoView alloc] init];
+    [self.contentView addSubview:self.passRateCell];
+    
+    self.satisfactionCell = [[HHCoachDetailSingleInfoView alloc] init];
+    [self.contentView addSubview:self.satisfactionCell];
+    
+    
     
     self.verticalLine = [[UIView alloc] init];
     self.verticalLine.backgroundColor = [UIColor HHLightLineGray];
     [self.contentView addSubview:self.verticalLine];
+    
+    self.secVerticalLine = [[UIView alloc] init];
+    self.secVerticalLine.backgroundColor = [UIColor HHLightLineGray];
+    [self.contentView addSubview:self.secVerticalLine];
     
     self.horizontalLine = [[UIView alloc] init];
     self.horizontalLine.backgroundColor = [UIColor HHLightLineGray];
@@ -52,7 +61,7 @@
 }
 
 - (void)makeConstraints {
-    [self.satisfactionCell makeConstraints:^(MASConstraintMaker *make) {
+    [self.passDaysCell makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView.top).offset(15.0f);
         make.left.equalTo(self.contentView.left);
         make.width.equalTo(self.contentView.width).multipliedBy(0.5f);
@@ -60,7 +69,7 @@
     }];
     
     [self.verticalLine makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.satisfactionCell.centerY);
+        make.centerY.equalTo(self.passDaysCell.centerY);
         make.centerX.equalTo(self.contentView.centerX);
         make.height.mas_equalTo(60.0f);
         make.width.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
@@ -68,27 +77,41 @@
     
     [self.coachLevelCell makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView.top).offset(15.0f);
-        make.left.equalTo(self.satisfactionCell.right);
+        make.left.equalTo(self.passDaysCell.right);
         make.width.equalTo(self.contentView.width).multipliedBy(0.5f);
         make.height.mas_equalTo(90.0f);
     }];
     
     [self.horizontalLine makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.satisfactionCell.bottom);
+        make.top.equalTo(self.passDaysCell.bottom);
         make.centerX.equalTo(self.contentView.centerX);
         make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
         make.width.equalTo(self.contentView.width);
     }];
     
-    [self.coachTimeCell makeConstraints:^(MASConstraintMaker *make) {
+    [self.passRateCell makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.horizontalLine.bottom);
         make.left.equalTo(self.contentView.left);
-        make.width.equalTo(self.contentView.width);
+        make.width.equalTo(self.contentView.width).multipliedBy(0.5f);
+        make.height.mas_equalTo(90.0f);
+    }];
+    
+    [self.secVerticalLine makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.passRateCell.centerY);
+        make.centerX.equalTo(self.contentView.centerX);
+        make.height.mas_equalTo(60.0f);
+        make.width.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+    }];
+    
+    [self.satisfactionCell makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.horizontalLine.bottom);
+        make.left.equalTo(self.passRateCell.right);
+        make.width.equalTo(self.contentView.width).multipliedBy(0.5f);
         make.height.mas_equalTo(90.0f);
     }];
     
     [self.secHorizontalLine makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.coachTimeCell.bottom);
+        make.top.equalTo(self.passRateCell.bottom);
         make.centerX.equalTo(self.contentView.centerX);
         make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
         make.width.equalTo(self.contentView.width);
@@ -113,10 +136,9 @@
         self.coachLevelCell.iconView.hidden = YES;
     }
     
-    [self.coachTimeCell setupViewWithTitle:@"教练练车时间" image:[UIImage imageNamed:@"ic_coachmsg_time"] value:@"周一至周日全天可选，具体情况以实际发布为准" showArrowImage:NO actionBlock:nil];
-    self.coachTimeCell.valueLabel.numberOfLines = 1;
-    self.coachTimeCell.valueLabel.adjustsFontSizeToFitWidth = YES;
-    self.coachTimeCell.valueLabel.minimumScaleFactor = 0.1f;
+    [self.passDaysCell setupViewWithTitle:@"平均拿证天数" image:[UIImage imageNamed:@"ic_coachmsg_manager"] value:@"35天" showArrowImage:NO actionBlock:nil];
+    
+    [self.passRateCell setupViewWithTitle:@"学员通过率" image:[UIImage imageNamed:@"ic_coachmsg_manyidu"] value:@"100%" showArrowImage:NO actionBlock:nil];
     
     if ([coach.peerCoaches count]) {
          self.coachesListCell.hidden = NO;

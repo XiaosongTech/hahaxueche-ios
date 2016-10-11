@@ -48,7 +48,6 @@
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
     CoachCellPrice,
-    CoachCellType,
     CoachCellField,
     CoachCellInfoTwo,
     CoachCellComments,
@@ -219,36 +218,6 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             
         case CoachCellPrice: {
             HHCoachPriceCell *cell = [tableView dequeueReusableCellWithIdentifier:kPriceCellID forIndexPath:indexPath];
-            cell.standartPriceItemView.priceDetailBlock = ^() {
-                HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
-                CGFloat height = 190.0f + (city.cityFixedFees.count + 1) * 50.0f;
-                HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"价格明细" totalPrice:weakSelf.coach.price showOKButton:YES];
-                priceView.cancelBlock = ^() {
-                    [HHPopupUtility dismissPopup:weakSelf.popup];
-                };
-                weakSelf.popup = [HHPopupUtility createPopupWithContentView:priceView];
-                [HHPopupUtility showPopup:weakSelf.popup];
-
-
-            };
-            if ([self.coach.VIPPrice floatValue] > 0) {
-                cell.VIPPriceItemView.priceDetailBlock = ^() {
-                    HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
-                    CGFloat height = 190.0f + (city.cityFixedFees.count + 1) * 50.0f;
-                    HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"价格明细" totalPrice:weakSelf.coach.VIPPrice showOKButton:YES];
-                    priceView.cancelBlock = ^() {
-                        [HHPopupUtility dismissPopup:weakSelf.popup];
-                    };
-                    weakSelf.popup = [HHPopupUtility createPopupWithContentView:priceView];
-                    [HHPopupUtility showPopup:weakSelf.popup];
-                };
-            }
-            [cell setupCellWithCoach:self.coach];
-            return cell;
-        }
-            
-        case CoachCellType: {
-            HHCoachServiceTypeCell *cell = [tableView dequeueReusableCellWithIdentifier:kTypeCellID forIndexPath:indexPath];
             [cell setupCellWithCoach:self.coach];
             return cell;
         }
@@ -301,16 +270,19 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         }
             
         case CoachCellPrice: {
+            NSInteger priceCount = 0;
             if ([self.coach.VIPPrice floatValue] > 0) {
-                return 156.0f + 70.0f;
-            } else {
-                return 156.0f;
+                priceCount++;
             }
             
-        }
-           
-        case CoachCellType: {
-            return 70.0f;
+            if ([self.coach.c2Price floatValue] > 0) {
+                priceCount++;
+            }
+            
+            if ([self.coach.c2VIPPrice floatValue] > 0) {
+                priceCount++;
+            }
+            return 156 + priceCount * 70.0f;
         }
             
         case CoachCellField: {

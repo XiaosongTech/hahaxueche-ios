@@ -16,6 +16,8 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) HHPriceItemView *standartPriceItemView;
 @property (nonatomic, strong) HHPriceItemView *VIPPriceItemView;
+@property (nonatomic, strong) HHPriceItemView *c2PriceItemView;
+@property (nonatomic, strong) HHPriceItemView *c2VIPPriceItemView;
 
 - (void)setupCellWithCoach:(HHCoach *)coach;
 

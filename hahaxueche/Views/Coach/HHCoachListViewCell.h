@@ -33,7 +33,6 @@ typedef void (^HHMapButtonActionBlock)();
 
 @property (nonatomic, strong) HHCoachTagView *jiaxiaoView;
 @property (nonatomic, strong) HHPriceView *priceView;
-@property (nonatomic, strong) HHPriceView *VIPPriceView;
 
 
 @property (nonatomic, strong) HHField *field;

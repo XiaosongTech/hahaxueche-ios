@@ -58,17 +58,51 @@
         make.height.mas_equalTo(70.0f);
     }];
     
+    self.c2PriceItemView = [[HHPriceItemView alloc] init];
+    [self.mainView addSubview:self.c2PriceItemView];
+    [self.c2PriceItemView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.VIPPriceItemView.bottom);
+        make.left.equalTo(self.mainView.left);
+        make.width.equalTo(self.mainView.width);
+        make.height.mas_equalTo(70.0f);
+    }];
+    
+    
+    self.c2VIPPriceItemView = [[HHPriceItemView alloc] init];
+    [self.mainView addSubview:self.c2VIPPriceItemView];
+    [self.c2VIPPriceItemView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.c2PriceItemView.bottom);
+        make.left.equalTo(self.mainView.left);
+        make.width.equalTo(self.mainView.width);
+        make.height.mas_equalTo(70.0f);
+    }];
+    
 }
 
 - (void)setupCellWithCoach:(HHCoach *)coach {
     self.titleLabel.attributedText = [self generateAttrStringWithText:@"拿证价格" image:[UIImage imageNamed:@"ic_coachmsg_charge"]];
-    [self.standartPriceItemView setupWithPrice:coach.price iconImage:[UIImage imageNamed:@"ic_chaozhi"] marketPrice:coach.marketPrice detailText:@"四人一车, 高性价比"];
+    [self.standartPriceItemView setupWithPrice:coach.price licenseImage:[UIImage imageNamed:@"ic_c1"] productImage:[UIImage imageNamed:@"ic_sale"] detailText:@"四人一车, 高性价比"];
     
     if ([coach.VIPPrice floatValue] > 0) {
         self.VIPPriceItemView.hidden = NO;
-        [self.VIPPriceItemView setupWithPrice:coach.VIPPrice iconImage:[UIImage imageNamed:@"ic_VIP_details"] marketPrice:coach.VIPMarketPrice detailText:@"一人一车, 极速拿证"];
+        [self.VIPPriceItemView setupWithPrice:coach.VIPPrice licenseImage:[UIImage imageNamed:@"ic_c1"] productImage:[UIImage imageNamed:@"ic_vip"] detailText:@"一人一车, 极速拿证"];
     } else {
         self.VIPPriceItemView.hidden = YES;
+    }
+    
+    if ([coach.c2Price floatValue] > 0) {
+        self.c2PriceItemView.hidden = NO;
+        [self.c2PriceItemView setupWithPrice:coach.c2Price licenseImage:[UIImage imageNamed:@"ic_c2"] productImage:[UIImage imageNamed:@"ic_sale"] detailText:@"四人一车, 高性价比"];
+    } else {
+        self.c2PriceItemView.hidden = YES;
+    }
+    
+    
+    if ([coach.c2VIPPrice floatValue] > 0) {
+        self.c2VIPPriceItemView.hidden = NO;
+        [self.c2VIPPriceItemView setupWithPrice:coach.c2VIPPrice licenseImage:[UIImage imageNamed:@"ic_c2"] productImage:[UIImage imageNamed:@"ic_vip"] detailText:@"一人一车, 极速拿证"];
+    } else {
+        self.c2VIPPriceItemView.hidden = YES;
     }
     
 }

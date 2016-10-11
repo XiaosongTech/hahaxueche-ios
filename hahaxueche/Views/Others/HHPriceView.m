@@ -23,7 +23,7 @@
         self.titleLabel.layer.cornerRadius = 5.0f;
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.backgroundColor = [UIColor HHOrange];
-        self.titleLabel.font = [UIFont systemFontOfSize:12.0f];
+        self.titleLabel.font = [UIFont systemFontOfSize:11.0f];
         [self addSubview:self.titleLabel];
         
         [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
