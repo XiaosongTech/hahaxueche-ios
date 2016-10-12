@@ -48,6 +48,10 @@
 
 @property (nonatomic) CoachProductType selectedProduct;
 
+@property (nonatomic, strong) HHPaymentMethodView *aliPayView;
+@property (nonatomic, strong) HHPaymentMethodView *bankCardView;
+@property (nonatomic, strong) HHPaymentMethodView *fqlView;
+
 @end
 
 @implementation HHPurchaseConfirmViewController
@@ -101,6 +105,7 @@
         make.width.equalTo(self.view.width);
         make.height.mas_equalTo(100.0f);
     }];
+
     
     [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.coachView.bottom).offset(10.0f);
@@ -108,6 +113,15 @@
         make.width.equalTo(self.view.width);
         make.bottom.equalTo(self.view.bottom);
     }];
+    
+    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.payButton
+                                                                attribute:NSLayoutAttributeBottom
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self.scrollView
+                                                                attribute:NSLayoutAttributeBottom
+                                                               multiplier:1.0
+                                                                 constant:-30.0f]];
+
 
 }
 
@@ -174,6 +188,7 @@
 }
 
 - (void)buildPaymentViews {
+    __weak HHPurchaseConfirmViewController *weakSelf = self;
     self.paymenthodTitleView = [self buildTitleViewWithString:@"支付方式"];
     [self.scrollView addSubview:self.paymenthodTitleView];
     
@@ -188,104 +203,69 @@
         make.height.mas_equalTo(40.0f);
     }];
     
-    HHPaymentMethodView *view = nil;
-    for (int i = 0; i < 2; i++) {
-        switch (i) {
-            case StudentPaymentMethodAlipay: {
-                view = [[HHPaymentMethodView alloc] initWithTitle:@"支付宝" subTitle:@"推荐拥有支付宝账号的用户使用" icon:[UIImage imageNamed:@"ic_alipay_icon"] selected:YES enabled:YES];
-            } break;
-                
-            case StudentPaymentMethodFql: {
-                view = [[HHPaymentMethodView alloc] initWithTitle:@"分期乐" subTitle:@"推荐分期用户使用" icon:[UIImage imageNamed:@"fql"] selected:NO enabled:YES];
-            } break;
-                
-            default:
-                break;
-        }
-        view.tag = i;
-        [self.paymentViews addObject:view];
-        [self.scrollView addSubview:view];
-        [view makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.paymenthodTitleView.bottom).offset(i * 60.0f);
-            make.left.equalTo(self.scrollView.left);
-            make.width.equalTo(self.scrollView.width);
-            make.height.mas_equalTo(60.0f);
-        }];
-        
-        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(methodSelected:)];
-        [view addGestureRecognizer:tapRecognizer];
-        
-        if (i == 1) {
-            
-            self.moreMethodsView = [[UIView alloc] init];
-            self.moreMethodsView.backgroundColor = [UIColor whiteColor];
-            [self.scrollView addSubview:self.moreMethodsView];
-            [self.moreMethodsView makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self.scrollView.left);
-                make.width.equalTo(self.scrollView.width);
-                make.top.equalTo(view.bottom);
-                make.height.mas_equalTo(40.0f);
-            }];
-            
-            UIView *topLine = [[UIView alloc] init];
-            topLine.backgroundColor = [UIColor HHLightLineGray];
-            [self.moreMethodsView addSubview:topLine];
-            [topLine makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.moreMethodsView.top);
-                make.left.equalTo(self.moreMethodsView.left);
-                make.width.equalTo(self.moreMethodsView.width);
-                make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-            }];
-            
-            UILabel *moreMethodsLabel = [[UILabel alloc] init];
-            moreMethodsLabel.text = @"更多支付方式";
-            moreMethodsLabel.textColor = [UIColor HHLightTextGray];
-            moreMethodsLabel.font = [UIFont systemFontOfSize:14.0f];
-            [self.moreMethodsView addSubview:moreMethodsLabel];
-
-            [moreMethodsLabel makeConstraints:^(MASConstraintMaker *make) {
-                make.center.equalTo(self.moreMethodsView);
-            }];
-            
-            UIImageView *arrowView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_pull_down"]];
-            [self.moreMethodsView addSubview:arrowView];
-            
-            [arrowView makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(moreMethodsLabel.right).offset(10.0f);
-                make.centerY.equalTo(moreMethodsLabel.centerY);
-            }];
-            
-            UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(moreMethodsViewTapped)];
-            [self.moreMethodsView addGestureRecognizer:tapRecognizer];
-            
-            [self.payButton makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.moreMethodsView.bottom).offset(40.0f);
-                make.centerX.equalTo(self.scrollView.centerX);
-                make.width.equalTo(self.view.width).offset(-30.0f);
-                make.height.mas_equalTo(50.0f);
-            }];
-            
-            [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
-                make.bottom.equalTo(self.payButton.bottom).offset(60.0f);
-            }];
-        }
-    }
+    self.aliPayView = [[HHPaymentMethodView alloc] initWithTitle:@"支付宝" subTitle:@"推荐拥有支付宝账号的用户使用" icon:[UIImage imageNamed:@"ic_alipay_icon"] selected:YES];
+    self.aliPayView.viewSelectedBlock = ^() {
+        weakSelf.selectedMethod = StudentPaymentMethodAlipay;
+    };
+    [self.scrollView addSubview:self.aliPayView];
+    [self.aliPayView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.paymenthodTitleView.bottom);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(60.0f);
+    }];
+    [self.paymentViews addObject:self.aliPayView];
+    
+    self.bankCardView = [[HHPaymentMethodView alloc] initWithTitle:@"银行卡" subTitle:@"安全极速支付, 无需开通网银" icon:[UIImage imageNamed:@"ic_cardpay_icon"] selected:NO];
+    self.bankCardView.viewSelectedBlock = ^() {
+        weakSelf.selectedMethod = StudentPaymentMethodBankCard;
+    };
+    [self.scrollView addSubview:self.bankCardView];
+    [self.bankCardView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.aliPayView.bottom);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(60.0f);
+    }];
+    [self.paymentViews addObject:self.bankCardView];
+    
+    self.fqlView = [[HHPaymentMethodView alloc] initWithTitle:@"分期乐" subTitle:@"推荐分期用户使用" icon:[UIImage imageNamed:@"fql"] selected:NO];
+    self.fqlView.viewSelectedBlock = ^() {
+        weakSelf.selectedMethod = StudentPaymentMethodFql;
+    };
+    [self.scrollView addSubview:self.fqlView];
+    [self.fqlView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.bankCardView.bottom);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(60.0f);
+    }];
+    [self.paymentViews addObject:self.fqlView];
+    
+    [self.payButton remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.fqlView.bottom).offset(20.0f);
+        make.centerX.equalTo(self.scrollView.centerX);
+        make.width.equalTo(self.view.width).offset(-30.0f);
+        make.height.mas_equalTo(50.0f);
+    }];
+    
 }
 
 - (void)popupVC {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)methodSelected:(UITapGestureRecognizer *)recognizer {
-    HHPaymentMethodView *view = (HHPaymentMethodView *)recognizer.view;
-    if (view.enabled) {
-        for (HHPaymentMethodView *view in self.paymentViews) {
+- (void)setSelectedMethod:(StudentPaymentMethod)selectedMethod {
+    _selectedMethod = selectedMethod;
+    int i = 0;
+    for (HHPaymentMethodView *view in self.paymentViews) {
+        if (i == self.selectedMethod) {
+            view.selected = YES;
+        } else {
             view.selected = NO;
         }
-        view.selected = YES;
-        self.selectedMethod = view.tag;
+        i++;
     }
-    
 }
 
 - (void)payCoach {
@@ -318,10 +298,9 @@
             
             HHReceiptViewController *vc = [[HHReceiptViewController alloc] initWithCoach:weakSelf.coach];
             UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-            NSMutableArray *vcArray = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
-            [vcArray removeLastObject];
-            [self.navigationController setViewControllers:vcArray];
-            [self presentViewController:navVC animated:YES completion:nil];
+            [self presentViewController:navVC animated:YES completion:^{
+                [weakSelf.navigationController popViewControllerAnimated:NO];
+            }];
             
         } else {
             [self fetchStudentAfterPurchase];
@@ -364,42 +343,5 @@
     self.selectedProduct = view.tag;
 }
 
-
-- (void)moreMethodsViewTapped {
-    [self.moreMethodsView removeFromSuperview];
-    
-    HHPaymentMethodView *lastAddedView = [self.paymentViews lastObject];
-    
-    HHPaymentMethodView *weChatWalletView = [[HHPaymentMethodView alloc] initWithTitle:@"微信钱包" subTitle:@"暂未开通" icon:[UIImage imageNamed:@"ic_wechatpay_icon"] selected:NO enabled:NO];
-    [self.scrollView addSubview:weChatWalletView];
-    [self.paymentViews addObject:weChatWalletView];
-    
-    [weChatWalletView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(lastAddedView.bottom);
-        make.left.equalTo(self.scrollView.left);
-        make.width.equalTo(self.scrollView.width);
-        make.height.mas_equalTo(60.0f);
-    }];
-    
-    
-    HHPaymentMethodView *bankView = [[HHPaymentMethodView alloc] initWithTitle:@"银行卡" subTitle:@"暂未开通" icon:[UIImage imageNamed:@"ic_cardpay_icon"] selected:NO enabled:NO];
-    [self.scrollView addSubview:bankView];
-    [self.paymentViews addObject:bankView];
-    
-    [bankView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(weChatWalletView.bottom);
-        make.left.equalTo(self.scrollView.left);
-        make.width.equalTo(self.scrollView.width);
-        make.height.mas_equalTo(60.0f);
-    }];
-    
-    [self.payButton remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(bankView.bottom).offset(40.0f);
-        make.centerX.equalTo(self.scrollView.centerX);
-        make.width.equalTo(self.view.width).offset(-30.0f);
-        make.height.mas_equalTo(50.0f);
-    }];
-    
-}
 
 @end

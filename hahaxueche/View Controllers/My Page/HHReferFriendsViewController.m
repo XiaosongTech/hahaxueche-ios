@@ -107,7 +107,10 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     
     self.myQRCodeView = [[UIImageView alloc] init];
     [self.myQRCodeView sd_setImageWithURL:[NSURL URLWithString:[[HHStudentService sharedInstance] getStudentQRCodeURL]]];
+    self.myQRCodeView.userInteractionEnabled = YES;
     [self.midView addSubview:self.myQRCodeView];
+    UILongPressGestureRecognizer *longRec = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showOptions)];
+    [self.myQRCodeView addGestureRecognizer:longRec];
     
     self.shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.shareButton setTitle:@"点击分享, 赚回学费" forState:UIControlStateNormal];
@@ -304,6 +307,26 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)showOptions {
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:nil
+                                          message:nil
+                                          preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *saveAction = [UIAlertAction
+                                  actionWithTitle:@"保存图片到本地"
+                                  style:UIAlertActionStyleDefault
+                                  handler:^(UIAlertAction *action) {
+                                      [self saveImage];
+                                  }];
+    UIAlertAction *cancelAction = [UIAlertAction
+                                 actionWithTitle:@"取消"
+                                 style:UIAlertActionStyleCancel
+                                 handler:nil];
+    [alertController addAction:saveAction];
+    [alertController addAction:cancelAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+    
+}
 
 
 @end

@@ -22,8 +22,9 @@ target "hahaxueche" do
     pod 'SDCycleScrollView','~> 1.6'
     pod 'HCSStarRatingView', '~> 1.4'
     pod 'ActionSheetPicker-3.0'
-    pod "Pingpp/Alipay", '~> 2.2.5'
-    pod "Pingpp/Fqlpay", '~> 2.2.5'
+    pod "Pingpp/Alipay", '~> 2.2.8'
+    pod "Pingpp/Fqlpay", '~> 2.2.8'
+    pod "Pingpp/CmbWallet", '~> 2.2.8'
     pod "Branch"
     pod 'MMNumberKeyboard'
     pod 'RSKImageCropper'
