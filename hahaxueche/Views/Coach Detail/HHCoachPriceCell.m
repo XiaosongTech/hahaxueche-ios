@@ -33,11 +33,30 @@
         make.height.equalTo(self.contentView.height).offset(-30.0f);
     }];
     
+    self.topView = [[UIView alloc] init];
+    [self.mainView addSubview:self.topView];
+    [self.topView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.mainView.top);
+        make.left.equalTo(self.mainView.left);
+        make.width.equalTo(self.mainView.width);
+        make.height.mas_equalTo(56.0f);
+    }];
+    
+    UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showPriceDetail)];
+    [self.topView addGestureRecognizer:tapRec];
+    
     self.titleLabel = [[UILabel alloc] init];
-    [self.mainView addSubview:self.titleLabel];
+    [self.topView addSubview:self.titleLabel];
     [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.mainView.top).offset(20.0f);
-        make.left.equalTo(self.mainView.left).offset(20.0f);
+        make.centerY.equalTo(self.topView.centerY);
+        make.left.equalTo(self.topView.left).offset(20.0f);
+    }];
+    
+    self.arrowView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_more_arrow"]];
+    [self.topView addSubview:self.arrowView];
+    [self.arrowView makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.titleLabel.centerY);
+        make.right.equalTo(self.topView.right).offset(-20.0f);
     }];
     
     self.standartPriceItemView = [[HHPriceItemView alloc] init];
@@ -83,6 +102,7 @@
     self.titleLabel.attributedText = [self generateAttrStringWithText:@"拿证价格" image:[UIImage imageNamed:@"ic_coachmsg_charge"]];
     [self.standartPriceItemView setupWithPrice:coach.price licenseImage:[UIImage imageNamed:@"ic_c1"] productImage:[UIImage imageNamed:@"ic_sale"] detailText:@"四人一车, 高性价比"];
     
+    
     if ([coach.VIPPrice floatValue] > 0) {
         self.VIPPriceItemView.hidden = NO;
         [self.VIPPriceItemView setupWithPrice:coach.VIPPrice licenseImage:[UIImage imageNamed:@"ic_c1"] productImage:[UIImage imageNamed:@"ic_vip"] detailText:@"一人一车, 极速拿证"];
@@ -121,6 +141,12 @@
     
     [attributedString insertAttributedString:attrStringWithImage atIndex:0];
     return attributedString;
+}
+
+- (void)showPriceDetail {
+    if (self.priceAction) {
+        self.priceAction ();
+    }
 }
 
 @end

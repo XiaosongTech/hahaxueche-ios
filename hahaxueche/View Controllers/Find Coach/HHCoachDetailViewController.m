@@ -218,6 +218,9 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             
         case CoachCellPrice: {
             HHCoachPriceCell *cell = [tableView dequeueReusableCellWithIdentifier:kPriceCellID forIndexPath:indexPath];
+            cell.priceAction = ^() {
+                
+            };
             [cell setupCellWithCoach:self.coach];
             return cell;
         }
