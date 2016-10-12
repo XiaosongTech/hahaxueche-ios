@@ -33,9 +33,9 @@
     [self addSubview:self.tryCoachButton];
     
     self.purchaseCoachButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.purchaseCoachButton setTitle:@"确认并付款" forState:UIControlStateNormal];
+    [self.purchaseCoachButton setTitle:@"立即购买" forState:UIControlStateNormal];
     self.purchaseCoachButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
-    [self.purchaseCoachButton setBackgroundColor:[UIColor colorWithRed:0.99 green:0.45 blue:0.13 alpha:1]];
+    [self.purchaseCoachButton setBackgroundColor:[UIColor HHDarkOrange]];
     [self.purchaseCoachButton addTarget:self action:@selector(purchaseCoachButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.purchaseCoachButton];
     
