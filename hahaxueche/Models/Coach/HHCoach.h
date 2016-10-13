@@ -38,6 +38,9 @@
 @property (nonatomic, copy) NSNumber *liked;
 @property (nonatomic, copy) NSNumber *likeCount;
 @property (nonatomic, copy) NSString *drivingSchool;
+@property (nonatomic, copy) NSString *stageThreePassRate;
+@property (nonatomic, copy) NSString *stageTwoPassRate;
+@property (nonatomic, copy) NSString *averagePassDays;
 
 // 0 = 优秀教练; 1 = 金牌教练
 - (BOOL)isGoldenCoach;

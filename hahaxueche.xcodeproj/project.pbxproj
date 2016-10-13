@@ -680,10 +680,10 @@
 		6DE56FDB1D0014AA00E33BDB /* ic_VIP_details@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE56FD81D0014AA00E33BDB /* ic_VIP_details@3x.png */; };
 		6DE56FDE1D00297100E33BDB /* HHCoachServiceTypeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE56FDD1D00297100E33BDB /* HHCoachServiceTypeCell.m */; };
 		6DE56FE11D00394C00E33BDB /* HHCoachFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE56FE01D00394C00E33BDB /* HHCoachFieldCell.m */; };
-		6DE56FE41D00517C00E33BDB /* HHCoachServiceTypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE56FE31D00517C00E33BDB /* HHCoachServiceTypeView.m */; };
 		6DE56FE81D00791A00E33BDB /* ic_pull_down@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE56FE51D00791A00E33BDB /* ic_pull_down@1x.png */; };
 		6DE56FE91D00791A00E33BDB /* ic_pull_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE56FE61D00791A00E33BDB /* ic_pull_down@2x.png */; };
 		6DE56FEA1D00791A00E33BDB /* ic_pull_down@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE56FE71D00791A00E33BDB /* ic_pull_down@3x.png */; };
+		6DF1BDA81DAF2A6000C89225 /* HHPurchaseTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF1BDA71DAF2A6000C89225 /* HHPurchaseTagView.m */; };
 		6DF202D71CD0B8C2002092B4 /* HHReferral.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF202D61CD0B8C2002092B4 /* HHReferral.m */; };
 		6DF202DA1CD0BF49002092B4 /* HHWithdrawHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF202D91CD0BF49002092B4 /* HHWithdrawHistoryViewController.m */; };
 		6DF202DD1CD0C0C5002092B4 /* HHWithdrawHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF202DC1CD0C0C5002092B4 /* HHWithdrawHistoryCell.m */; };
@@ -1614,11 +1614,11 @@
 		6DE56FDD1D00297100E33BDB /* HHCoachServiceTypeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachServiceTypeCell.m; sourceTree = "<group>"; };
 		6DE56FDF1D00394C00E33BDB /* HHCoachFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachFieldCell.h; sourceTree = "<group>"; };
 		6DE56FE01D00394C00E33BDB /* HHCoachFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachFieldCell.m; sourceTree = "<group>"; };
-		6DE56FE21D00517C00E33BDB /* HHCoachServiceTypeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachServiceTypeView.h; sourceTree = "<group>"; };
-		6DE56FE31D00517C00E33BDB /* HHCoachServiceTypeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachServiceTypeView.m; sourceTree = "<group>"; };
 		6DE56FE51D00791A00E33BDB /* ic_pull_down@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_pull_down@1x.png"; sourceTree = "<group>"; };
 		6DE56FE61D00791A00E33BDB /* ic_pull_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_pull_down@2x.png"; sourceTree = "<group>"; };
 		6DE56FE71D00791A00E33BDB /* ic_pull_down@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_pull_down@3x.png"; sourceTree = "<group>"; };
+		6DF1BDA61DAF2A6000C89225 /* HHPurchaseTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPurchaseTagView.h; sourceTree = "<group>"; };
+		6DF1BDA71DAF2A6000C89225 /* HHPurchaseTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPurchaseTagView.m; sourceTree = "<group>"; };
 		6DF202D51CD0B8C2002092B4 /* HHReferral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHReferral.h; sourceTree = "<group>"; };
 		6DF202D61CD0B8C2002092B4 /* HHReferral.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReferral.m; sourceTree = "<group>"; };
 		6DF202D81CD0BF49002092B4 /* HHWithdrawHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHWithdrawHistoryViewController.h; sourceTree = "<group>"; };
@@ -1938,8 +1938,6 @@
 			children = (
 				6D0FB09C1D92340F0045C421 /* HHClubPostTableViewCell.h */,
 				6D0FB09D1D92340F0045C421 /* HHClubPostTableViewCell.m */,
-				6DE56FE21D00517C00E33BDB /* HHCoachServiceTypeView.h */,
-				6DE56FE31D00517C00E33BDB /* HHCoachServiceTypeView.m */,
 				6D98E9C11D7D204600A324B2 /* HHCoachTagView.h */,
 				6D98E9C21D7D204600A324B2 /* HHCoachTagView.m */,
 				6DD568521D6B3B4B00B9B319 /* HHGifRefreshHeader.h */,
@@ -1972,6 +1970,8 @@
 				6D54D4371D94FFE200EBBD98 /* HHClubPostCommentTableViewCell.m */,
 				6DF53EB01D9DFE210081EF50 /* HHAdvisorView.h */,
 				6DF53EB11D9DFE210081EF50 /* HHAdvisorView.m */,
+				6DF1BDA61DAF2A6000C89225 /* HHPurchaseTagView.h */,
+				6DF1BDA71DAF2A6000C89225 /* HHPurchaseTagView.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -3835,7 +3835,6 @@
 				5C5F87671BF6723F006F9594 /* HHEventTrackingManager.m in Sources */,
 				6DE24BCB1D5B387F0078A21E /* HHTestQuestionViewController.m in Sources */,
 				14700D951C795FBF00660989 /* HHPurchasedService.m in Sources */,
-				6DE56FE41D00517C00E33BDB /* HHCoachServiceTypeView.m in Sources */,
 				14F608DA1C83BDEF00EA70A7 /* HHPayCoachExplanationView.m in Sources */,
 				6DB1481C1D50BFAB009E3F1E /* HHCardInfoInputView.m in Sources */,
 				140EC6471C6ED10600DA634D /* HHTryCoachView.m in Sources */,
@@ -3875,6 +3874,7 @@
 				5C36D3E51C4969B400443545 /* HHSortOptionView.m in Sources */,
 				6D3D73421CB94BEE00E424C3 /* HHBookFailView.m in Sources */,
 				6D8309B01CC923F600BA6977 /* NSString+HHURL.m in Sources */,
+				6DF1BDA81DAF2A6000C89225 /* HHPurchaseTagView.m in Sources */,
 				5C6D8C831C3A277F0055CB31 /* HHResetPWDViewController.m in Sources */,
 				6DF202F41CD34600002092B4 /* HHLongImageViewController.m in Sources */,
 				5C10F92E1B49E85200992B63 /* UIColor+HHColor.m in Sources */,

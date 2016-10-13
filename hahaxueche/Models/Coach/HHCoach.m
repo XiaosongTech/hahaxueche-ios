@@ -40,6 +40,9 @@
              @"liked":@"liked",
              @"likeCount":@"like_count",
              @"drivingSchool":@"driving_school",
+             @"stageThreePassRate":@"stage_three_pass_rate",
+             @"stageTwoPassRate":@"stage_two_pass_rate",
+             @"averagePassDays":@"average_pass_days",
              };
 }
 

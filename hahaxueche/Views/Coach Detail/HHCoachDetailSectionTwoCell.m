@@ -136,9 +136,9 @@
         self.coachLevelCell.iconView.hidden = YES;
     }
     
-    [self.passDaysCell setupViewWithTitle:@"平均拿证天数" image:[UIImage imageNamed:@"ic_coachmsg_manager"] value:@"35天" showArrowImage:NO actionBlock:nil];
+    [self.passDaysCell setupViewWithTitle:@"平均拿证天数" image:[UIImage imageNamed:@"ic_coachmsg_manager"] value:[NSString stringWithFormat:@"%@天", coach.averagePassDays] showArrowImage:NO actionBlock:nil];
     
-    [self.passRateCell setupViewWithTitle:@"学员通过率" image:[UIImage imageNamed:@"ic_coachmsg_manyidu"] value:@"100%" showArrowImage:NO actionBlock:nil];
+    [self.passRateCell setupViewWithTitle:@"学员通过率" image:[UIImage imageNamed:@"ic_coachmsg_manyidu"] value:[NSString stringWithFormat:@"%@%%", coach.stageThreePassRate] showArrowImage:NO actionBlock:nil];
     
     if ([coach.peerCoaches count]) {
          self.coachesListCell.hidden = NO;

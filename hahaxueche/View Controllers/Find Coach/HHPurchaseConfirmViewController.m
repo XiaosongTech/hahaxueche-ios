@@ -20,10 +20,10 @@
 #import "HHToastManager.h"
 #import "HHLoadingViewUtility.h"
 #import "HHStudentService.h"
-#import "HHCoachServiceTypeView.h"
 #import "HHPopupUtility.h"
 #import "HHPriceDetailView.h"
 #import "HHReceiptViewController.h"
+#import "HHPurchaseTagView.h"
 
 
 @interface HHPurchaseConfirmViewController ()
@@ -33,20 +33,16 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NSMutableArray *paymentViews;
 @property (nonatomic, strong) UIButton *payButton;
-
-@property (nonatomic, strong) UIView *serviceTypeTitleView;
-@property (nonatomic, strong) UIView *paymenthodTitleView;
-
-@property (nonatomic, strong) UIView *moreMethodsView;
-
-@property (nonatomic, strong) HHCoachServiceTypeView *standardServiceView;
-@property (nonatomic, strong) HHCoachServiceTypeView *VIPServiceView;
-
-@property (nonatomic, strong) KLCPopup *popup;
+@property (nonatomic, strong) HHPurchaseTagView *licenseTypeView;
+@property (nonatomic, strong) HHPurchaseTagView *classTypeView;
+@property (nonatomic, strong) UIView *totalPriceContainerView;
+@property (nonatomic, strong) UILabel *totalPriceLabel;
 
 @property (nonatomic) StudentPaymentMethod selectedMethod;
-
 @property (nonatomic) CoachProductType selectedProduct;
+
+@property (nonatomic) LicenseType selectedLicense;
+@property (nonatomic) ClassType selectedClass;
 
 @property (nonatomic, strong) HHPaymentMethodView *aliPayView;
 @property (nonatomic, strong) HHPaymentMethodView *bankCardView;
@@ -73,6 +69,8 @@
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(popupVC) target:self];
     self.title = @"购买教练";
     self.selectedProduct = CoachProductTypeStandard;
+    self.selectedClass = ClassTypeStandard;
+    self.selectedLicense = LicenseTypeC1;
     [self initSubviews];
 }
 
@@ -85,12 +83,10 @@
     
     self.payButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.payButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.payButton setTitle:[NSString stringWithFormat:@"确认支付%@", [self.coach.price generateMoneyString]] forState:UIControlStateNormal];
-    self.payButton.backgroundColor = [UIColor HHOrange];
-    self.payButton.layer.masksToBounds = YES;
-    self.payButton.layer.cornerRadius = 5.0f;
+    [self.payButton setTitle:@"确认并付款" forState:UIControlStateNormal];
+    self.payButton.backgroundColor = [UIColor HHDarkOrange];
     [self.payButton addTarget:self action:@selector(payCoach) forControlEvents:UIControlEventTouchUpInside];
-    [self.scrollView addSubview:self.payButton];
+    [self.view addSubview:self.payButton];
     
     [self makeConstraints];
     
@@ -111,105 +107,71 @@
         make.top.equalTo(self.coachView.bottom).offset(10.0f);
         make.left.equalTo(self.view.left);
         make.width.equalTo(self.view.width);
-        make.bottom.equalTo(self.view.bottom);
+        make.bottom.equalTo(self.view.bottom).offset(-50.0f);
     }];
     
-    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.payButton
-                                                                attribute:NSLayoutAttributeBottom
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:self.scrollView
-                                                                attribute:NSLayoutAttributeBottom
-                                                               multiplier:1.0
-                                                                 constant:-30.0f]];
-
+    [self.payButton makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(50.0f);
+        make.left.equalTo(self.view.left);
+        make.width.equalTo(self.view.width);
+        make.bottom.equalTo(self.view.bottom);
+    }];
 
 }
 
 - (void)buildServiceTypeViews {
     __weak HHPurchaseConfirmViewController *weakSelf = self;
-    self.serviceTypeTitleView = [self buildTitleViewWithString:@"选择班级"];
-    [self.scrollView addSubview:self.serviceTypeTitleView];
-
-    [self.serviceTypeTitleView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.scrollView.left);
-        make.top.equalTo(self.scrollView.top);
-        make.width.equalTo(self.scrollView.width);
-        make.height.mas_equalTo(40.0f);
-    }];
-    
-    self.standardServiceView = [[HHCoachServiceTypeView alloc] initWithPrice:self.coach.price iconImage:[UIImage imageNamed:@"ic_chaozhi"] marketPrice:@(0) detailText:@"四人一车, 高性价比" selected:YES];
-    self.standardServiceView.tag = CoachProductTypeStandard;
-    self.standardServiceView.priceBlock = ^() {
-        HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
-        CGFloat height = 190.0f + (city.cityFixedFees.count + 1) * 50.0f;
-        HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"价格明细" totalPrice:weakSelf.coach.price showOKButton:YES];
-        priceView.cancelBlock = ^() {
-            [HHPopupUtility dismissPopup:weakSelf.popup];
-        };
-        weakSelf.popup = [HHPopupUtility createPopupWithContentView:priceView];
-        [HHPopupUtility showPopup:weakSelf.popup];
-    };
-    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
-    [self.standardServiceView addGestureRecognizer:recognizer];
-    [self.scrollView addSubview:self.standardServiceView];
-    [self.standardServiceView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.serviceTypeTitleView.bottom);
-        make.left.equalTo(self.scrollView.left);
-        make.width.equalTo(self.scrollView.width);
-        make.height.mas_equalTo(70.0f);
-    }];
-    
-    if ([self.coach.VIPPrice floatValue] > 0) {
-        self.VIPServiceView = [[HHCoachServiceTypeView alloc] initWithPrice:self.coach.VIPPrice iconImage:[UIImage imageNamed:@"ic_VIP_details"] marketPrice:@(0) detailText:@"一人一车, 极速拿证" selected:NO];
-        self.VIPServiceView.tag = CoachProductTypeVIP;
-        
-        self.VIPServiceView.priceBlock = ^() {
-            HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
-            CGFloat height = 190.0f + (city.cityFixedFees.count + 1) * 50.0f;
-            HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"价格明细" totalPrice:weakSelf.coach.VIPPrice showOKButton:YES];
-            priceView.cancelBlock = ^() {
-                [HHPopupUtility dismissPopup:weakSelf.popup];
-            };
-            weakSelf.popup = [HHPopupUtility createPopupWithContentView:priceView];
-            [HHPopupUtility showPopup:weakSelf.popup];
-        };
-        UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
-        [self.VIPServiceView addGestureRecognizer:recognizer];
-        [self.scrollView addSubview:self.VIPServiceView];
-        [self.VIPServiceView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.standardServiceView.bottom);
-            make.left.equalTo(self.scrollView.left);
-            make.width.equalTo(self.scrollView.width);
-            make.height.mas_equalTo(70.0f);
-        }];
+    NSMutableArray *licenseTypes = [NSMutableArray arrayWithObject:@"C1手动挡"];
+    if ([self.coach.c2Price floatValue] > 0 || [self.coach.c2VIPPrice floatValue] > 0) {
+        [licenseTypes addObject:@"C2手动挡"];
     }
+    self.licenseTypeView = [[HHPurchaseTagView alloc] initWithTags:licenseTypes title:@"驾照类型" defaultTag:licenseTypes[self.selectedLicense]];
+    self.licenseTypeView.tagAction = ^(NSInteger selectedIndex){
+        weakSelf.selectedLicense = selectedIndex;
+        [weakSelf buildClassView];
+    };
+    [self.scrollView addSubview:self.licenseTypeView];
+    [self.licenseTypeView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.scrollView.top);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(80.0f);
+        
+    }];
     
+    [self buildClassView];
     
+    self.totalPriceContainerView = [[UIView alloc] init];
+    self.totalPriceContainerView.backgroundColor = [UIColor whiteColor];
+    [self.scrollView addSubview:self.totalPriceContainerView];
+    [self.totalPriceContainerView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.classTypeView.bottom);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(50.0f);
+    }];
+    
+    self.totalPriceLabel = [[UILabel alloc] init];
+    self.totalPriceLabel.font = [UIFont systemFontOfSize:20.0f];
+    self.totalPriceLabel.textColor = [UIColor HHOrange];
+    self.totalPriceLabel.text = [NSString stringWithFormat:@"总价: %@", [self.coach.price generateMoneyString]];
+    [self.totalPriceContainerView addSubview:self.totalPriceLabel];
+    [self.totalPriceLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.totalPriceContainerView.centerY);
+        make.right.equalTo(self.totalPriceContainerView.right).offset(-20.0f);
+    }];
 }
 
 - (void)buildPaymentViews {
     __weak HHPurchaseConfirmViewController *weakSelf = self;
-    self.paymenthodTitleView = [self buildTitleViewWithString:@"支付方式"];
-    [self.scrollView addSubview:self.paymenthodTitleView];
-    
-    CGFloat offset = 10.0f + 70.0f;
-    if ([self.coach.VIPPrice floatValue] > 0) {
-        offset = offset + 70.0f;
-    }
-    [self.paymenthodTitleView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.scrollView.left);
-        make.top.equalTo(self.serviceTypeTitleView.bottom).offset(offset);
-        make.width.equalTo(self.scrollView.width);
-        make.height.mas_equalTo(40.0f);
-    }];
-    
+
     self.aliPayView = [[HHPaymentMethodView alloc] initWithTitle:@"支付宝" subTitle:@"推荐拥有支付宝账号的用户使用" icon:[UIImage imageNamed:@"ic_alipay_icon"] selected:YES];
     self.aliPayView.viewSelectedBlock = ^() {
         weakSelf.selectedMethod = StudentPaymentMethodAlipay;
     };
     [self.scrollView addSubview:self.aliPayView];
     [self.aliPayView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.paymenthodTitleView.bottom);
+        make.top.equalTo(self.totalPriceContainerView.bottom).offset(10.0f);
         make.left.equalTo(self.scrollView.left);
         make.width.equalTo(self.scrollView.width);
         make.height.mas_equalTo(60.0f);
@@ -242,12 +204,14 @@
     }];
     [self.paymentViews addObject:self.fqlView];
     
-    [self.payButton remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.fqlView.bottom).offset(20.0f);
-        make.centerX.equalTo(self.scrollView.centerX);
-        make.width.equalTo(self.view.width).offset(-30.0f);
-        make.height.mas_equalTo(50.0f);
-    }];
+    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.fqlView
+                                                                attribute:NSLayoutAttributeBottom
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self.scrollView
+                                                                attribute:NSLayoutAttributeBottom
+                                                               multiplier:1.0
+                                                                 constant:-30.0f]];
+
     
 }
 
@@ -325,22 +289,73 @@
     return view;
 }
 
-- (void)viewTapped:(UITapGestureRecognizer *)recognizer {
-    HHCoachServiceTypeView *view = (HHCoachServiceTypeView *)recognizer.view;
-    NSString *buttonTitle;
-    
-    if (view.tag == CoachProductTypeStandard) {
-        self.standardServiceView.selected = YES;
-        self.VIPServiceView.selected = NO;
-        buttonTitle = [NSString stringWithFormat:@"确认支付%@", [self.coach.price generateMoneyString]];
+- (void)buildClassView {
+    if(self.classTypeView) {
+        self.classTypeView = nil;
+        [self.classTypeView removeFromSuperview];
+    }
+    __weak HHPurchaseConfirmViewController *weakSelf = self;
+    NSMutableArray *classTags = [NSMutableArray array];
+    if (self.selectedLicense == LicenseTypeC1) {
+        if ([self.coach.price floatValue] > 0) {
+            [classTags addObject:@"超值"];
+        }
+        
+        if ([self.coach.VIPPrice floatValue] > 0) {
+            [classTags addObject:@"VIP"];
+        }
     } else {
-        self.standardServiceView.selected = NO;
-        self.VIPServiceView.selected = YES;
-        buttonTitle = [NSString stringWithFormat:@"确认支付%@", [self.coach.VIPPrice generateMoneyString]];
+        if ([self.coach.c2Price floatValue] > 0) {
+            [classTags addObject:@"超值"];
+        }
+        
+        if ([self.coach.c2VIPPrice floatValue] > 0) {
+            [classTags addObject:@"VIP"];
+        }
     }
     
-    [self.payButton setTitle:buttonTitle forState:UIControlStateNormal];
-    self.selectedProduct = view.tag;
+    self.classTypeView = [[HHPurchaseTagView alloc] initWithTags:classTags title:@"班别" defaultTag:classTags[self.selectedClass]];
+    self.classTypeView.tagAction = ^(NSInteger selectedIndex){
+        weakSelf.selectedClass = selectedIndex;
+    };
+    [self.scrollView addSubview:self.classTypeView];
+    [self.classTypeView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.licenseTypeView.bottom);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(80.0f);
+    }];
+}
+
+- (void)setSelectedLicense:(LicenseType)selectedLicense {
+    _selectedLicense = selectedLicense;
+    self.selectedClass = 0;
+    [self selectionChanged];
+}
+
+- (void)setSelectedClass:(ClassType)selectedClass {
+    _selectedClass = selectedClass;
+    [self selectionChanged];
+}
+
+- (void)selectionChanged {
+    if (self.selectedLicense == LicenseTypeC1) {
+        if (self.selectedClass == ClassTypeStandard) {
+            self.totalPriceLabel.text = [NSString stringWithFormat:@"总价: %@", [self.coach.price generateMoneyString]];
+            self.selectedProduct = CoachProductTypeStandard;
+        } else {
+            self.totalPriceLabel.text = [NSString stringWithFormat:@"总价: %@", [self.coach.VIPPrice generateMoneyString]];
+            self.selectedProduct = CoachProductTypeVIP;
+        }
+    } else {
+        if (self.selectedClass == ClassTypeStandard) {
+            self.totalPriceLabel.text = [NSString stringWithFormat:@"总价: %@", [self.coach.c2Price generateMoneyString]];
+            self.selectedProduct = CoachProductTypeC2Standard;
+        } else {
+            self.totalPriceLabel.text = [NSString stringWithFormat:@"总价: %@", [self.coach.c2VIPPrice generateMoneyString]];
+            self.selectedProduct = CoachProductTypeC2VIP;
+        }
+    }
 }
 
 
