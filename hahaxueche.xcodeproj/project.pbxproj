@@ -474,7 +474,6 @@
 		6D6F9B601D35EB4D00855D2F /* ticket-normal@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D6F9B5A1D35EB4D00855D2F /* ticket-normal@1x.png */; };
 		6D6F9B611D35EB4D00855D2F /* ticket-normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D6F9B5B1D35EB4D00855D2F /* ticket-normal@2x.png */; };
 		6D6F9B621D35EB4D00855D2F /* ticket-normal@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D6F9B5C1D35EB4D00855D2F /* ticket-normal@3x.png */; };
-		6D6F9B651D3765E100855D2F /* HHCouponFAQView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6F9B641D3765E100855D2F /* HHCouponFAQView.m */; };
 		6D7D0C561D5EC0BD0002FC56 /* HHOptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D7D0C551D5EC0BD0002FC56 /* HHOptionView.m */; };
 		6D7D0C5D1D5ED69D0002FC56 /* ic_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D7D0C571D5ED69D0002FC56 /* ic_right.png */; };
 		6D7D0C5E1D5ED69D0002FC56 /* ic_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D7D0C581D5ED69D0002FC56 /* ic_right@2x.png */; };
@@ -1350,8 +1349,6 @@
 		6D6F9B5A1D35EB4D00855D2F /* ticket-normal@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ticket-normal@1x.png"; sourceTree = "<group>"; };
 		6D6F9B5B1D35EB4D00855D2F /* ticket-normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ticket-normal@2x.png"; sourceTree = "<group>"; };
 		6D6F9B5C1D35EB4D00855D2F /* ticket-normal@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ticket-normal@3x.png"; sourceTree = "<group>"; };
-		6D6F9B631D3765E100855D2F /* HHCouponFAQView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCouponFAQView.h; sourceTree = "<group>"; };
-		6D6F9B641D3765E100855D2F /* HHCouponFAQView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCouponFAQView.m; sourceTree = "<group>"; };
 		6D7D0C541D5EC0BD0002FC56 /* HHOptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHOptionView.h; sourceTree = "<group>"; };
 		6D7D0C551D5EC0BD0002FC56 /* HHOptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHOptionView.m; sourceTree = "<group>"; };
 		6D7D0C571D5ED69D0002FC56 /* ic_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_right.png; sourceTree = "<group>"; };
@@ -1763,8 +1760,6 @@
 				6DB1481B1D50BFAB009E3F1E /* HHCardInfoInputView.m */,
 				6DB79D5F1D55CA17008F31C9 /* HHCityCell.h */,
 				6DB79D601D55CA17008F31C9 /* HHCityCell.m */,
-				6D6F9B631D3765E100855D2F /* HHCouponFAQView.h */,
-				6D6F9B641D3765E100855D2F /* HHCouponFAQView.m */,
 				6D4592391CFD6E5000AF5B45 /* HHEditNameView.h */,
 				6D45923A1CFD6E5000AF5B45 /* HHEditNameView.m */,
 				6D82BD711CCFAA9900D4109A /* HHGenericOneButtonPopupView.h */,
@@ -3851,7 +3846,6 @@
 				141FA0E11C66CB1100113B1A /* HHHomePageTapView.m in Sources */,
 				1405CC7D1C7637B60030B114 /* HHMyPageUserInfoView.m in Sources */,
 				6D0FB0A11D9257F10045C421 /* HHClubPost.m in Sources */,
-				6D6F9B651D3765E100855D2F /* HHCouponFAQView.m in Sources */,
 				1405CC891C765FD60030B114 /* HHMyPageSupportCell.m in Sources */,
 				1405CC971C7693E40030B114 /* HHMyCoachBasicInfoCell.m in Sources */,
 				6DF53B6F1D4707C700CA0F6B /* CountDown.m in Sources */,
