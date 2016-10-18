@@ -54,6 +54,9 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithTitle:@"取消" titleColor:[UIColor whiteColor] action:@selector(popupVC) target:self isLeft:NO];
     
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
+    [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
+    
     self.tableView = [[UITableView alloc] init];
     [self.tableView registerClass:[HHCoachListViewCell class] forCellReuseIdentifier:kCellId];
     [self.tableView registerClass:[HHSearchCoachEmptyCell class] forCellReuseIdentifier:kEmptyCellId];

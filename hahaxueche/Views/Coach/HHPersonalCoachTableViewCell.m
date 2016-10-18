@@ -138,7 +138,7 @@ static CGFloat const kAvatarRadius = 30.0f;
         [self.priceView removeFromSuperview];
         self.priceView = nil;
     }
-    self.priceView = [[HHPriceView alloc] initWithTitle:@"9小时" subTitle:@"速成班" price:@(500)];
+    self.priceView = [[HHPriceView alloc] initWithTitle:@"9h" subTitle:@"短期速成, 高性价比" price:@(50000)];
     [self.contentView addSubview:self.priceView];
     [self.priceView makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.contentView.bottom);

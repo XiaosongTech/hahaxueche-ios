@@ -37,6 +37,9 @@
 #import "UIScrollView+EmptyDataSet.h"
 #import "SwipeView.h"
 #import "HHPersonalCoachTableViewCell.h"
+#import "HHGenericOneButtonPopupView.h"
+#import "HHPersonalCoachFilters.h"
+#import "HHPersonalCoachFiltersView.h"
 
 typedef NS_ENUM(NSInteger, CoachType) {
     CoachTypeDrivingSchoolCoach,
@@ -70,6 +73,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) HHFiltersView *filtersView;
 @property (nonatomic, strong) HHCoachFilters *coachFilters;
+@property (nonatomic, strong) HHPersonalCoachFilters *coachFilters2;
 
 @property (nonatomic, strong) HHSortView *sortView;
 @property (nonatomic) SortOption currentSortOption;
@@ -93,6 +97,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 
 @property (nonatomic, strong) SwipeView *swipeView;
 @property (nonatomic, strong) UISegmentedControl *segControl;
+@property (nonatomic, strong) HHGenericOneButtonPopupView *personalCoachExplanationView;
 
 @end
 
@@ -104,9 +109,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupDefaultSortAndFilter];
     
-    
-    UIBarButtonItem *mapButton = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_maplist_btn"] action:@selector(jumpToFieldsMapView) target:self];
-    self.navigationItem.leftBarButtonItem = mapButton;
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_maplist_btn"] action:@selector(jumpToFieldsMapView) target:self];
     
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"icon_search"] action:@selector(jumpToSearchVC) target:self];
     
@@ -513,6 +516,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 
 - (void)swipeViewDidEndDecelerating:(SwipeView *)swipeView {
     self.segControl.selectedSegmentIndex = swipeView.currentPage;
+    [self segValueChanged];
 }
 
 
@@ -619,11 +623,11 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         [self.topButtonsView2 addSubview:self.horizontalLine2];
         
         self.filterButton2 = [self createTopButtonWithTitle:@"筛选" image:[UIImage imageNamed:@"ic_screen_normal_btn"]];
-        [self.filterButton2 addTarget:self action:@selector(filterTapped) forControlEvents:UIControlEventTouchUpInside];
+        [self.filterButton2 addTarget:self action:@selector(filterTapped2) forControlEvents:UIControlEventTouchUpInside];
         [self.topButtonsView2 addSubview:self.filterButton2];
         
         self.sortButton2 = [self createTopButtonWithTitle:@"排序" image:[UIImage imageNamed:@"ic_sort_normal_btn"]];
-        [self.sortButton2 addTarget:self action:@selector(sortTapped) forControlEvents:UIControlEventTouchUpInside];
+        [self.sortButton2 addTarget:self action:@selector(sortTapped2) forControlEvents:UIControlEventTouchUpInside];
         [self.topButtonsView2 addSubview:self.sortButton2];
         
         self.tableView2 = [[UITableView alloc] init];
@@ -699,8 +703,36 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 
 - (void)segValueChanged {
     [self.swipeView scrollToPage:self.segControl.selectedSegmentIndex duration:0.3f];
+    if (self.segControl.selectedSegmentIndex == CoachTypeDrivingSchoolCoach) {
+        self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_maplist_btn"] action:@selector(jumpToFieldsMapView) target:self];
+    } else {
+        self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_explain"] action:@selector(showPersonalCoachExplanation) target:self];
+    }
 }
 
+- (void)showPersonalCoachExplanation {
+    __weak HHFindCoachViewController *weakSelf = self;
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.alignment = NSTextAlignmentLeft;
+    paragraphStyle.lineSpacing = 3.0f;
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"    面向初学拿到驾照或有驾照数年未驾过车的客户,提供的陪练服务,包括驾驶技术的提升,驾驶经验的传授,安全应变能力的强化:以及在考驾照中所学不到的交通繁忙道路的实际行驶,使学员在短时间内历练出高操的驾车技术,从而达到安全行车的目的。" attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSParagraphStyleAttributeName:paragraphStyle}];
+    self.personalCoachExplanationView = [[HHGenericOneButtonPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-30.0f, 290.0f) title:@"什么是陪练教练?" info:string];
+    self.personalCoachExplanationView.cancelBlock = ^() {
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+    };
+    self.popup = [HHPopupUtility createPopupWithContentView:self.personalCoachExplanationView];
+    [HHPopupUtility showPopup:self.popup];
 
+}
+
+- (void)filterTapped2 {
+    __weak HHFindCoachViewController *weakSelf = self;
+
+}
+
+- (void)sortTapped2 {
+    
+}
 
 @end

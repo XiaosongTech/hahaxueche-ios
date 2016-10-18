@@ -23,7 +23,6 @@
 #import "HHFindCoachViewController.h"
 #import "HHCoachDetailViewController.h"
 #import "HHWebViewController.h"
-#import "HHGenericOneButtonPopupView.h"
 #import "NSNumber+HHNumber.h"
 #import "HHRootViewController.h"
 #import "HHReferFriendsViewController.h"
