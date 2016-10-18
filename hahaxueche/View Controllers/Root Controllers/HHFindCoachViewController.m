@@ -35,13 +35,22 @@
 #import "HHGifRefreshHeader.h"
 #import "UIView+EAFeatureGuideView.h"
 #import "UIScrollView+EmptyDataSet.h"
+#import "SwipeView.h"
+#import "HHPersonalCoachTableViewCell.h"
+
+typedef NS_ENUM(NSInteger, CoachType) {
+    CoachTypeDrivingSchoolCoach,
+    CoachTypePersonalCoach,
+    CoachTypeCount,
+};
 
 static NSString *const kCellId = @"kCoachListCellId";
+static NSString *const kPersonalCoachCellId = @"kPersonalCoachCellId";
 static NSString *const kFindCoachGuideKey = @"kFindCoachGuideKey";
 static CGFloat const kCellHeightNormal = 100.0f;
 static CGFloat const kCellHeightExpanded = 305.0f;
 
-@interface HHFindCoachViewController () <UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@interface HHFindCoachViewController () <UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate,SwipeViewDataSource, SwipeViewDelegate>
 
 @property (nonatomic, strong) UIView *topButtonsView;
 @property (nonatomic, strong) UIView *verticalLine;
@@ -49,6 +58,14 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 
 @property (nonatomic, strong) HHButton *filterButton;
 @property (nonatomic, strong) HHButton *sortButton;
+
+
+@property (nonatomic, strong) UIView *topButtonsView2;
+@property (nonatomic, strong) UIView *verticalLine2;
+@property (nonatomic, strong) UIView *horizontalLine2;
+
+@property (nonatomic, strong) HHButton *filterButton2;
+@property (nonatomic, strong) HHButton *sortButton2;
 
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) HHFiltersView *filtersView;
@@ -58,8 +75,11 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 @property (nonatomic) SortOption currentSortOption;
 
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UITableView *tableView2;
 @property (nonatomic, strong) HHGifRefreshHeader *refreshHeader;
 @property (nonatomic, strong) MJRefreshAutoNormalFooter *loadMoreFooter;
+@property (nonatomic, strong) HHGifRefreshHeader *refreshHeader2;
+@property (nonatomic, strong) MJRefreshAutoNormalFooter *loadMoreFooter2;
 
 @property (nonatomic, strong) NSMutableArray *selectedFields;
 @property (nonatomic, strong) NSMutableArray *expandedCellIndexPath;
@@ -70,6 +90,9 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 @property (nonatomic, strong) CLLocation *userLocation;
 
 @property (nonatomic, strong) HHCoaches *coachesObject;
+
+@property (nonatomic, strong) SwipeView *swipeView;
+@property (nonatomic, strong) UISegmentedControl *segControl;
 
 @end
 
@@ -100,6 +123,17 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 
     self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
+    
+    self.segControl = [[UISegmentedControl alloc] initWithItems:@[@"驾校教练", @"陪练教练"]];
+    self.segControl.tintColor = [UIColor whiteColor];
+    [self.segControl setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f]} forState:UIControlStateNormal];
+    [self.segControl setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f]} forState:UIControlStateSelected];
+    self.segControl.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.segControl.backgroundColor = [UIColor HHOrange];
+    [self.segControl addTarget:self action:@selector(segValueChanged) forControlEvents:UIControlEventValueChanged];
+    self.segControl.selectedSegmentIndex = CoachTypeDrivingSchoolCoach;
+    self.navigationItem.titleView = self.segControl;
+
 }
 
 - (void)refreshCoachList:(BOOL)showLoading completion:(HHRefreshCoachCompletionBlock)completion {
@@ -175,54 +209,18 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 }
 
 - (void)initSubviews {
-    self.topButtonsView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.topButtonsView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:self.topButtonsView];
+    self.swipeView = [[SwipeView alloc] init];
+    self.swipeView.pagingEnabled = YES;
+    self.swipeView.dataSource = self;
+    self.swipeView.delegate = self;
+    [self.view addSubview:self.swipeView];
+    [self.swipeView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.top);
+        make.left.equalTo(self.view.left);
+        make.width.equalTo(self.view.width);
+        make.height.equalTo(self.view.height);
+    }];
     
-    self.verticalLine = [[UIView alloc] initWithFrame:CGRectZero];
-    self.verticalLine.backgroundColor = [UIColor HHLightLineGray];
-    [self.topButtonsView addSubview:self.verticalLine];
-    
-    self.horizontalLine = [[UIView alloc] initWithFrame:CGRectZero];
-    self.horizontalLine.backgroundColor = [UIColor HHLightLineGray];
-    [self.topButtonsView addSubview:self.horizontalLine];
-    
-    self.filterButton = [self createTopButtonWithTitle:@"筛选" image:[UIImage imageNamed:@"ic_screen_normal_btn"]];
-    [self.filterButton addTarget:self action:@selector(filterTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.topButtonsView addSubview:self.filterButton];
-    
-    self.sortButton = [self createTopButtonWithTitle:@"排序" image:[UIImage imageNamed:@"ic_sort_normal_btn"]];
-    [self.sortButton addTarget:self action:@selector(sortTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.topButtonsView addSubview:self.sortButton];
-    
-    self.tableView = [[UITableView alloc] init];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.emptyDataSetSource = self;
-    self.tableView.emptyDataSetDelegate = self;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-    self.refreshHeader = [HHGifRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
-    NSString *imgString = [[NSBundle mainBundle] pathForResource:@"loading_car" ofType:@"gif"];
-    NSData *imgData = [NSData dataWithContentsOfFile:imgString];
-    self.refreshHeader.imgView.animatedImage = [FLAnimatedImage animatedImageWithGIFData:imgData];
-    self.tableView.mj_header = self.refreshHeader;
-    
-    self.loadMoreFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-    [self.loadMoreFooter setTitle:@"加载更多教练" forState:MJRefreshStateIdle];
-    [self.loadMoreFooter setTitle:@"一大波教练接近中~~~" forState:MJRefreshStateRefreshing];
-    [self.loadMoreFooter setTitle:@"已经到底啦~再往上选选吧！" forState:MJRefreshStateNoMoreData];
-    [self.loadMoreFooter setHidden:YES];
-    self.loadMoreFooter.automaticallyRefresh = NO;
-    self.loadMoreFooter.stateLabel.font = [UIFont systemFontOfSize:14.0f];
-    self.loadMoreFooter.stateLabel.textColor = [UIColor HHLightTextGray];
-    self.tableView.mj_footer = self.loadMoreFooter;
-    
-    [self.tableView registerClass:[HHCoachListViewCell class] forCellReuseIdentifier:kCellId];
-    
-    [self.view addSubview:self.tableView];
-    
-    [self makeConstraints];
 }
 
 - (HHButton *)createTopButtonWithTitle:(NSString *)title image:(UIImage *)image {
@@ -237,105 +235,85 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     return button;
 }
 
-- (void)makeConstraints {
-    [self.topButtonsView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view);
-        make.width.equalTo(self.view.width);
-        make.height.mas_equalTo(40.0f);
-        make.left.equalTo(self.view.left);
-    }];
-    
-    [self.verticalLine makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.topButtonsView);
-        make.width.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-        make.height.mas_equalTo(20.0f);
-    }];
-    
-    [self.horizontalLine makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.topButtonsView.bottom);
-        make.left.equalTo(self.topButtonsView.left);
-        make.width.equalTo(self.topButtonsView.width);
-        make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-    }];
-    
-    [self.filterButton makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.topButtonsView.left);
-        make.width.equalTo(self.topButtonsView.width).multipliedBy(0.5f);
-        make.height.equalTo(self.topButtonsView);
-        make.top.equalTo(self.topButtonsView.top);
-    }];
-    
-    [self.sortButton makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.verticalLine.left);
-        make.width.equalTo(self.topButtonsView.width).multipliedBy(0.5f);
-        make.height.equalTo(self.topButtonsView);
-        make.top.equalTo(self.topButtonsView.top);
-    }];
-    
-    [self.tableView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.horizontalLine.bottom);
-        make.left.equalTo(self.view.left);
-        make.bottom.equalTo(self.view.bottom).offset(-CGRectGetHeight(self.tabBarController.tabBar.bounds));
-        make.width.equalTo(self.view.width);
-    }];
-}
 
 #pragma mark - TableView Delegate & Datasource Methods
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    HHCoachListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
     __weak HHFindCoachViewController *weakSelf = self;
-    __weak HHCoachListViewCell *weakCell = cell;
     
-    HHCoach *coach = self.coaches[indexPath.row];
-    [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId] userLocation:self.userLocation mapShowed:[weakSelf.expandedCellIndexPath containsObject:indexPath]];
-
-    if ([self.expandedCellIndexPath containsObject:indexPath]) {
-        cell.mapView.hidden = NO;
-    } else {
-        cell.mapView.hidden = YES;
-    }
-    
-    cell.mapButtonBlock = ^(){
-        if ([weakSelf.expandedCellIndexPath containsObject:indexPath]) {
-            [weakSelf.expandedCellIndexPath removeObject:indexPath];
-            weakCell.mapView.hidden = YES;
-            
+    if ([tableView isEqual:self.tableView]) {
+        HHCoachListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
+        __weak HHCoachListViewCell *weakCell = cell;
+        
+        HHCoach *coach = self.coaches[indexPath.row];
+        [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId] userLocation:self.userLocation mapShowed:[weakSelf.expandedCellIndexPath containsObject:indexPath]];
+        
+        if ([self.expandedCellIndexPath containsObject:indexPath]) {
+            cell.mapView.hidden = NO;
         } else {
-            weakCell.mapView.hidden = NO;
-            [weakSelf.expandedCellIndexPath addObject:indexPath];
+            cell.mapView.hidden = YES;
         }
-        [weakSelf.tableView reloadData];
-    };
-    
-    
-    return cell;
+        
+        cell.mapButtonBlock = ^(){
+            if ([weakSelf.expandedCellIndexPath containsObject:indexPath]) {
+                [weakSelf.expandedCellIndexPath removeObject:indexPath];
+                weakCell.mapView.hidden = YES;
+                
+            } else {
+                weakCell.mapView.hidden = NO;
+                [weakSelf.expandedCellIndexPath addObject:indexPath];
+            }
+            [weakSelf.tableView reloadData];
+        };
+        
+        return cell;
+
+    } else {
+        HHPersonalCoachTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kPersonalCoachCellId forIndexPath:indexPath];
+        [cell setupCellWithCoach:nil];
+        return cell;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.coaches.count;
+    if ([tableView isEqual:self.tableView]) {
+        return self.coaches.count;
+    } else {
+        return 2;
+    }
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat height = 0;
-    if ([self.expandedCellIndexPath containsObject:indexPath]) {
-        height = kCellHeightExpanded + 40.0f;
-        
+    if ([tableView isEqual:self.tableView]) {
+        if ([self.expandedCellIndexPath containsObject:indexPath]) {
+            height = kCellHeightExpanded + 40.0f;
+            
+        } else {
+            height = kCellHeightNormal + 40.0f;
+        }
+        return height;
     } else {
-        height = kCellHeightNormal + 40.0f;
+        return kCellHeightNormal + 25.0;
     }
-    return height;
+   
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    __weak HHFindCoachViewController *weakSelf = self;
-    HHCoachDetailViewController *coachDetailVC = [[HHCoachDetailViewController alloc] initWithCoach:self.coaches[indexPath.row]];
-    coachDetailVC.coachUpdateBlock = ^(HHCoach *coach) {
-        [weakSelf.coaches replaceObjectAtIndex:indexPath.row withObject:coach];
-        [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-    };
-    coachDetailVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:coachDetailVC animated:YES];
+    if ([tableView isEqual:self.tableView]) {
+        __weak HHFindCoachViewController *weakSelf = self;
+        HHCoachDetailViewController *coachDetailVC = [[HHCoachDetailViewController alloc] initWithCoach:self.coaches[indexPath.row]];
+        coachDetailVC.coachUpdateBlock = ^(HHCoach *coach) {
+            [weakSelf.coaches replaceObjectAtIndex:indexPath.row withObject:coach];
+            [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+        };
+        coachDetailVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:coachDetailVC animated:YES];
+    } else {
+        
+    }
+    
 }
 
 
@@ -488,7 +466,12 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 
 #pragma mark - DZNEmptyDataSetSource Methods
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
-    return [[NSMutableAttributedString alloc] initWithString:@"啥？！没有匹配到教练啊/(ㄒoㄒ)/~~点击左上角筛选按钮，并调节距离等因素来寻找更多教练吧" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+    if ([scrollView isEqual:self.tableView]) {
+        return [[NSMutableAttributedString alloc] initWithString:@"啥？！没有匹配到教练啊/(ㄒoㄒ)/~~点击左上角筛选按钮，并调节距离等因素来寻找更多教练吧!" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+    } else {
+        return [[NSMutableAttributedString alloc] initWithString:@"该城市还没开通哟~敬请期待！" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+    }
+    
 }
 
 - (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView {
@@ -508,6 +491,216 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView {
     return NO;
 }
+
+#pragma mark -SwipeView methods
+
+- (NSInteger)numberOfItemsInSwipeView:(SwipeView *)swipeView {
+    return CoachTypeCount;
+}
+
+- (UIView *)swipeView:(SwipeView *)swipeView viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view {
+    if (view) {
+        return view;
+    }
+    UIView *containerView = [[UIView alloc] init];
+    [self initViewForSwiptView:containerView index:index];
+    return containerView;
+}
+
+- (CGSize)swipeViewItemSize:(SwipeView *)swipeView {
+    return self.swipeView.bounds.size;
+}
+
+- (void)swipeViewDidEndDecelerating:(SwipeView *)swipeView {
+    self.segControl.selectedSegmentIndex = swipeView.currentPage;
+}
+
+
+- (void)initViewForSwiptView:(UIView *)view index:(NSInteger)index {
+    if (index == CoachTypeDrivingSchoolCoach) {
+        self.topButtonsView = [[UIView alloc] initWithFrame:CGRectZero];
+        self.topButtonsView.backgroundColor = [UIColor whiteColor];
+        [view addSubview:self.topButtonsView];
+        
+        self.verticalLine = [[UIView alloc] initWithFrame:CGRectZero];
+        self.verticalLine.backgroundColor = [UIColor HHLightLineGray];
+        [self.topButtonsView addSubview:self.verticalLine];
+        
+        self.horizontalLine = [[UIView alloc] initWithFrame:CGRectZero];
+        self.horizontalLine.backgroundColor = [UIColor HHLightLineGray];
+        [self.topButtonsView addSubview:self.horizontalLine];
+        
+        self.filterButton = [self createTopButtonWithTitle:@"筛选" image:[UIImage imageNamed:@"ic_screen_normal_btn"]];
+        [self.filterButton addTarget:self action:@selector(filterTapped) forControlEvents:UIControlEventTouchUpInside];
+        [self.topButtonsView addSubview:self.filterButton];
+        
+        self.sortButton = [self createTopButtonWithTitle:@"排序" image:[UIImage imageNamed:@"ic_sort_normal_btn"]];
+        [self.sortButton addTarget:self action:@selector(sortTapped) forControlEvents:UIControlEventTouchUpInside];
+        [self.topButtonsView addSubview:self.sortButton];
+        
+        self.tableView = [[UITableView alloc] init];
+        self.tableView.delegate = self;
+        self.tableView.dataSource = self;
+        self.tableView.emptyDataSetSource = self;
+        self.tableView.emptyDataSetDelegate = self;
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        
+        self.refreshHeader = [HHGifRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
+        NSString *imgString = [[NSBundle mainBundle] pathForResource:@"loading_car" ofType:@"gif"];
+        NSData *imgData = [NSData dataWithContentsOfFile:imgString];
+        self.refreshHeader.imgView.animatedImage = [FLAnimatedImage animatedImageWithGIFData:imgData];
+        self.tableView.mj_header = self.refreshHeader;
+        
+        self.loadMoreFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+        [self.loadMoreFooter setTitle:@"加载更多教练" forState:MJRefreshStateIdle];
+        [self.loadMoreFooter setTitle:@"一大波教练接近中~~~" forState:MJRefreshStateRefreshing];
+        [self.loadMoreFooter setTitle:@"已经到底啦~再往上选选吧！" forState:MJRefreshStateNoMoreData];
+        [self.loadMoreFooter setHidden:YES];
+        self.loadMoreFooter.automaticallyRefresh = NO;
+        self.loadMoreFooter.stateLabel.font = [UIFont systemFontOfSize:14.0f];
+        self.loadMoreFooter.stateLabel.textColor = [UIColor HHLightTextGray];
+        self.tableView.mj_footer = self.loadMoreFooter;
+        
+        [self.tableView registerClass:[HHCoachListViewCell class] forCellReuseIdentifier:kCellId];
+        
+        [view addSubview:self.tableView];
+        
+        [self.topButtonsView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(view);
+            make.width.equalTo(view.width);
+            make.height.mas_equalTo(40.0f);
+            make.left.equalTo(view.left);
+        }];
+        
+        [self.verticalLine makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(self.topButtonsView);
+            make.width.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+            make.height.mas_equalTo(20.0f);
+        }];
+        
+        [self.horizontalLine makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.topButtonsView.bottom);
+            make.left.equalTo(self.topButtonsView.left);
+            make.width.equalTo(self.topButtonsView.width);
+            make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+        }];
+        
+        [self.filterButton makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.topButtonsView.left);
+            make.width.equalTo(self.topButtonsView.width).multipliedBy(0.5f);
+            make.height.equalTo(self.topButtonsView);
+            make.top.equalTo(self.topButtonsView.top);
+        }];
+        
+        [self.sortButton makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.verticalLine.left);
+            make.width.equalTo(self.topButtonsView.width).multipliedBy(0.5f);
+            make.height.equalTo(self.topButtonsView);
+            make.top.equalTo(self.topButtonsView.top);
+        }];
+        
+        [self.tableView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.horizontalLine.bottom);
+            make.left.equalTo(view.left);
+            make.bottom.equalTo(view.bottom);
+            make.width.equalTo(view.width);
+        }];
+    } else {
+        self.topButtonsView2 = [[UIView alloc] initWithFrame:CGRectZero];
+        self.topButtonsView2.backgroundColor = [UIColor whiteColor];
+        [view addSubview:self.topButtonsView2];
+        
+        self.verticalLine2 = [[UIView alloc] initWithFrame:CGRectZero];
+        self.verticalLine2.backgroundColor = [UIColor HHLightLineGray];
+        [self.topButtonsView2 addSubview:self.verticalLine2];
+        
+        self.horizontalLine2 = [[UIView alloc] initWithFrame:CGRectZero];
+        self.horizontalLine2.backgroundColor = [UIColor HHLightLineGray];
+        [self.topButtonsView2 addSubview:self.horizontalLine2];
+        
+        self.filterButton2 = [self createTopButtonWithTitle:@"筛选" image:[UIImage imageNamed:@"ic_screen_normal_btn"]];
+        [self.filterButton2 addTarget:self action:@selector(filterTapped) forControlEvents:UIControlEventTouchUpInside];
+        [self.topButtonsView2 addSubview:self.filterButton2];
+        
+        self.sortButton2 = [self createTopButtonWithTitle:@"排序" image:[UIImage imageNamed:@"ic_sort_normal_btn"]];
+        [self.sortButton2 addTarget:self action:@selector(sortTapped) forControlEvents:UIControlEventTouchUpInside];
+        [self.topButtonsView2 addSubview:self.sortButton2];
+        
+        self.tableView2 = [[UITableView alloc] init];
+        self.tableView2.delegate = self;
+        self.tableView2.dataSource = self;
+        self.tableView2.emptyDataSetSource = self;
+        self.tableView2.emptyDataSetDelegate = self;
+        self.tableView2.separatorStyle = UITableViewCellSeparatorStyleNone;
+        
+        self.refreshHeader2 = [HHGifRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
+        NSString *imgString = [[NSBundle mainBundle] pathForResource:@"loading_car" ofType:@"gif"];
+        NSData *imgData = [NSData dataWithContentsOfFile:imgString];
+        self.refreshHeader2.imgView.animatedImage = [FLAnimatedImage animatedImageWithGIFData:imgData];
+        self.tableView2.mj_header = self.refreshHeader2;
+        
+        self.loadMoreFooter2 = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+        [self.loadMoreFooter2 setTitle:@"加载更多教练" forState:MJRefreshStateIdle];
+        [self.loadMoreFooter2 setTitle:@"一大波教练接近中~~~" forState:MJRefreshStateRefreshing];
+        [self.loadMoreFooter2 setTitle:@"已经到底啦~再往上选选吧！" forState:MJRefreshStateNoMoreData];
+        [self.loadMoreFooter2 setHidden:YES];
+        self.loadMoreFooter2.automaticallyRefresh = NO;
+        self.loadMoreFooter2.stateLabel.font = [UIFont systemFontOfSize:14.0f];
+        self.loadMoreFooter2.stateLabel.textColor = [UIColor HHLightTextGray];
+        self.tableView2.mj_footer = self.loadMoreFooter2;
+        
+        [self.tableView2 registerClass:[HHPersonalCoachTableViewCell class] forCellReuseIdentifier:kPersonalCoachCellId];
+        
+        [view addSubview:self.tableView2];
+        
+        [self.topButtonsView2 makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(view);
+            make.width.equalTo(view.width);
+            make.height.mas_equalTo(40.0f);
+            make.left.equalTo(view.left);
+        }];
+        
+        [self.verticalLine2 makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(self.topButtonsView2);
+            make.width.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+            make.height.mas_equalTo(20.0f);
+        }];
+        
+        [self.horizontalLine2 makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.topButtonsView2.bottom);
+            make.left.equalTo(self.topButtonsView2.left);
+            make.width.equalTo(self.topButtonsView2.width);
+            make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+        }];
+        
+        [self.filterButton2 makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.topButtonsView2.left);
+            make.width.equalTo(self.topButtonsView2.width).multipliedBy(0.5f);
+            make.height.equalTo(self.topButtonsView2);
+            make.top.equalTo(self.topButtonsView2.top);
+        }];
+        
+        [self.sortButton2 makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.verticalLine2.left);
+            make.width.equalTo(self.topButtonsView2.width).multipliedBy(0.5f);
+            make.height.equalTo(self.topButtonsView2);
+            make.top.equalTo(self.topButtonsView2.top);
+        }];
+        
+        [self.tableView2 makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.horizontalLine2.bottom);
+            make.left.equalTo(view.left);
+            make.bottom.equalTo(view.bottom);
+            make.width.equalTo(view.width);
+        }];
+    }
+    
+}
+
+- (void)segValueChanged {
+    [self.swipeView scrollToPage:self.segControl.selectedSegmentIndex duration:0.3f];
+}
+
 
 
 @end

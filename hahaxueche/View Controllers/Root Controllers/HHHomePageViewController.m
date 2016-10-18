@@ -42,7 +42,7 @@
 
 static NSString *const kCoachLink = @"http://m.hahaxueche.com/share/best-coaches";
 static NSString *const kDrivingSchoolLink = @"http://m.hahaxueche.com/share/best-coaches";
-static NSString *const kAdvisorLink = @"http://m.hahaxueche.com/share/best-coaches";
+static NSString *const kAdvisorLink = @"http://m.hahaxueche.com/share/zhaoguwen?city_id=%@";
 
 static NSString *const kFeatureLink = @"http://activity.hahaxueche.com/share/features";
 static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps";
@@ -175,7 +175,7 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     [strings addObject:@"名"];
     self.adviserView = [[HHHomPageCardView alloc] initWithIcon:[UIImage imageNamed:@"ic_adviser"] title:@"学车顾问 全程无忧" subTitle:[self generateStringWithArray:strings number:@([[HHConstantsStore sharedInstance].constants.paidStudentCount integerValue] * 10.0f) color:[UIColor HHRed]] bigIcon:[UIImage imageNamed:@"pic_xiaoha_adviser"] items:@[@"量身推荐", @"智能预约", @"贴心售后", @"全程保障"] dotColor:[UIColor  HHRed]];
     self.adviserView.tapAction = ^() {
-        [weakSelf openWebPage:[NSURL URLWithString:kAdvisorLink]];
+        [weakSelf openWebPage:[NSURL URLWithString:[NSString stringWithFormat:kAdvisorLink, [[HHStudentStore sharedInstance].currentStudent.cityId stringValue]]]];
     };
     [self.scrollView addSubview:self.adviserView];
     

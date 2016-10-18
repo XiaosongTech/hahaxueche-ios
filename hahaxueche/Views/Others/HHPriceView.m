@@ -24,12 +24,14 @@
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.backgroundColor = [UIColor HHOrange];
         self.titleLabel.font = [UIFont systemFontOfSize:11.0f];
+        [self.titleLabel sizeToFit];
         [self addSubview:self.titleLabel];
         
         [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.left);
             make.centerY.equalTo(self.centerY);
-            make.width.mas_equalTo(30.0f);
+            make.width.mas_equalTo(CGRectGetWidth(self.titleLabel.frame) + 6.0f);
+            make.height.mas_equalTo(CGRectGetHeight(self.titleLabel.frame) + 2.0f);
         }];
         
         self.subTitleLabel = [[UILabel alloc] init];

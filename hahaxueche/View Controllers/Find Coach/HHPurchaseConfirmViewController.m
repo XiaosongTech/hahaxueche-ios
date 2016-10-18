@@ -123,7 +123,7 @@
     __weak HHPurchaseConfirmViewController *weakSelf = self;
     NSMutableArray *licenseTypes = [NSMutableArray arrayWithObject:@"C1手动挡"];
     if ([self.coach.c2Price floatValue] > 0 || [self.coach.c2VIPPrice floatValue] > 0) {
-        [licenseTypes addObject:@"C2手动挡"];
+        [licenseTypes addObject:@"C2自动挡"];
     }
     self.licenseTypeView = [[HHPurchaseTagView alloc] initWithTags:licenseTypes title:@"驾照类型" defaultTag:licenseTypes[self.selectedLicense]];
     self.licenseTypeView.tagAction = ^(NSInteger selectedIndex){

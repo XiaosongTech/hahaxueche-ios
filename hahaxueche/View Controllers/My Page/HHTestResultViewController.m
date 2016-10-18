@@ -33,6 +33,8 @@
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) KLCPopup *popup;
+@property (nonatomic) NSInteger qualifiedCount;
+@property (nonatomic) NSInteger score;
 
 @end
 
@@ -77,14 +79,15 @@
     self.subTitleLabel.font = [UIFont systemFontOfSize:15.0f];
     [self.scrollView addSubview:self.subTitleLabel];
     
-    NSInteger qualifiedCount = 90;
-    NSString *scoreString = [NSString stringWithFormat:@"%ld分", self.correctQuestions.count];
     if (self.courseMode == CourseMode4) {
-        qualifiedCount = 45;
-        scoreString = [NSString stringWithFormat:@"%ld分", self.correctQuestions.count * 2];
+        self.qualifiedCount = 45;
+        self.score = self.correctQuestions.count * 2.0;
+    } else {
+        self.qualifiedCount = 90;
+        self.score = self.correctQuestions.count;
     }
 
-    if (self.correctQuestions.count < qualifiedCount) {
+    if (self.correctQuestions.count < self.qualifiedCount) {
         self.titleLabel.text = @"继续努力!";
         self.subTitleLabel.text = @"本次模拟考试不及格, 联系后请继续尝试!";
     } else {
@@ -98,10 +101,10 @@
         self.avatarView.image = [UIImage imageNamed:@"ic_mypage_ava"];
     }
     
-    self.firstView = [[HHTestSimuInfoView alloc] initWithTitle:@"考试用时" value:[NSString stringWithFormat:@"%ld分钟", self.min] showBotLine:YES];
+    self.firstView = [[HHTestSimuInfoView alloc] initWithTitle:@"考试用时" value:[NSString stringWithFormat:@"%ld分钟", (long)self.min] showBotLine:YES];
     [self.scrollView addSubview:self.firstView];
     
-    self.secView = [[HHTestSimuInfoView alloc] initWithTitle:@"考试分数" value:scoreString showBotLine:NO];
+    self.secView = [[HHTestSimuInfoView alloc] initWithTitle:@"考试分数" value:[NSString stringWithFormat: @"%ld", (long)self.score] showBotLine:NO];
     [self.scrollView addSubview:self.secView];
     
     

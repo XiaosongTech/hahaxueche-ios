@@ -24,8 +24,6 @@ static NSString *const kCellID = @"kCellId";
 
 @property (nonatomic, strong) HHClubItemView *eventView;
 @property (nonatomic, strong) HHClubItemView *testView;
-@property (nonatomic, strong) HHClubItemView *carTrialView;
-@property (nonatomic, strong) HHClubItemView *trainingskillView;
 
 @end
 
@@ -64,17 +62,6 @@ static NSString *const kCellID = @"kCellId";
     };
     [self.topView addSubview:self.testView];
     
-    self.carTrialView = [[HHClubItemView alloc] initWithIcon:[UIImage imageNamed:@"car"] title:@"豪车试驾" subTitle:@"豪车免费试驾" showRightLine:YES showBotLine:NO];
-    self.carTrialView.actionBlock = ^() {
-        
-    };
-    [self.topView addSubview:self.carTrialView];
-    
-    self.trainingskillView = [[HHClubItemView alloc] initWithIcon:[UIImage imageNamed:@"skills"] title:@"学车技巧" subTitle:@"学车秘籍揭秘" showRightLine:NO showBotLine:NO];
-    self.trainingskillView.actionBlock = ^() {
-        
-    };
-    [self.topView addSubview:self.trainingskillView];
     
     self.tableView = [[UITableView alloc] init];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -91,7 +78,7 @@ static NSString *const kCellID = @"kCellId";
         make.top.equalTo(self.view.top).offset(10.0f);
         make.left.equalTo(self.view.left).offset(10.0f);
         make.width.equalTo(self.view.width).offset(-20.0f);
-        make.height.mas_equalTo(160.0f);
+        make.height.mas_equalTo(80.0f);
     }];
     
     [self.eventView makeConstraints:^(MASConstraintMaker *make) {
@@ -108,22 +95,9 @@ static NSString *const kCellID = @"kCellId";
         make.height.mas_equalTo(80.0f);
     }];
     
-    [self.carTrialView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.eventView.bottom);
-        make.left.equalTo(self.topView.left);
-        make.width.equalTo(self.topView.width).multipliedBy(0.5f);
-        make.height.mas_equalTo(80.0f);
-    }];
-    
-    [self.trainingskillView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.testView.bottom);
-        make.left.equalTo(self.carTrialView.right);
-        make.width.equalTo(self.topView.width).multipliedBy(0.5f);
-        make.height.mas_equalTo(80.0f);
-    }];
     
     [self.tableView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.trainingskillView.bottom).offset(10.0f);
+        make.top.equalTo(self.testView.bottom).offset(10.0f);
         make.left.equalTo(self.view.left);
         make.width.equalTo(self.view.width);
         make.bottom.equalTo(self.view.bottom).offset(-1 * CGRectGetHeight(self.tabBarController.tabBar.frame));

@@ -187,7 +187,7 @@ static NSString *const kSupportQQ = @"3319762526";
     switch (shareType) {
         case ShareTypeQQ: {
             msg.multimediaType = OSMultimediaTypeNews;
-            msg.title = @"哈哈学车-开启快乐学车之旅吧~";
+            msg.title = @"哈哈学车-选驾校, 挑教练, 上哈哈学车~";
             msg.desc = [NSString stringWithFormat:@"墙裂推荐:\n哈哈学车优秀教练%@", coach.name];
             [HHSocialMediaShareUtility generateBranchLink:coach completion:^(NSString *url, NSError *error) {
                 [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
@@ -211,7 +211,7 @@ static NSString *const kSupportQQ = @"3319762526";
             
         case ShareTypeWeChat: {
             msg.multimediaType = OSMultimediaTypeNews;
-            msg.title = @"哈哈学车-开启快乐学车之旅吧~";
+            msg.title = @"哈哈学车-选驾校, 挑教练, 上哈哈学车~";
             msg.desc = [NSString stringWithFormat:@"墙裂推荐:\n哈哈学车优秀教练%@", coach.name];
             [HHSocialMediaShareUtility generateBranchLink:coach completion:^(NSString *url, NSError *error) {
                 [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
@@ -238,7 +238,7 @@ static NSString *const kSupportQQ = @"3319762526";
             
         case ShareTypeQZone: {
             msg.multimediaType = OSMultimediaTypeNews;
-            msg.title = @"哈哈学车-开启快乐学车之旅吧~";
+            msg.title = @"哈哈学车-选驾校, 挑教练, 上哈哈学车~";
             msg.desc = [NSString stringWithFormat:@"墙裂推荐:\n哈哈学车优秀教练%@", coach.name];
             [HHSocialMediaShareUtility generateBranchLink:coach completion:^(NSString *url, NSError *error) {
                 [[HHLoadingViewUtility sharedInstance] dismissLoadingView];

@@ -379,6 +379,8 @@
 		6D3D733F1CB92F4000E424C3 /* HHConfirmScheduleBookView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D733E1CB92F4000E424C3 /* HHConfirmScheduleBookView.m */; };
 		6D3D73421CB94BEE00E424C3 /* HHBookFailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D73411CB94BEE00E424C3 /* HHBookFailView.m */; };
 		6D3D73451CB9FFB300E424C3 /* HHScheduleRateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D73441CB9FFB300E424C3 /* HHScheduleRateView.m */; };
+		6D4023601DB4E6E200C16DF4 /* HHPersonalCoachTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D40235F1DB4E6E200C16DF4 /* HHPersonalCoachTableViewCell.m */; };
+		6D4023631DB4EA4C00C16DF4 /* HHPersonalCoach.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4023621DB4EA4C00C16DF4 /* HHPersonalCoach.m */; };
 		6D4151DC1CF321AB004A7EE8 /* HHSearchCoachViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4151DB1CF321AB004A7EE8 /* HHSearchCoachViewController.m */; };
 		6D4151E61CF40DA7004A7EE8 /* icon_search.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4151E31CF40DA7004A7EE8 /* icon_search.png */; };
 		6D4151E71CF40DA7004A7EE8 /* icon_search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4151E41CF40DA7004A7EE8 /* icon_search@2x.png */; };
@@ -1235,6 +1237,10 @@
 		6D3D73411CB94BEE00E424C3 /* HHBookFailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHBookFailView.m; sourceTree = "<group>"; };
 		6D3D73431CB9FFB300E424C3 /* HHScheduleRateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHScheduleRateView.h; sourceTree = "<group>"; };
 		6D3D73441CB9FFB300E424C3 /* HHScheduleRateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHScheduleRateView.m; sourceTree = "<group>"; };
+		6D40235E1DB4E6E200C16DF4 /* HHPersonalCoachTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPersonalCoachTableViewCell.h; sourceTree = "<group>"; };
+		6D40235F1DB4E6E200C16DF4 /* HHPersonalCoachTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPersonalCoachTableViewCell.m; sourceTree = "<group>"; };
+		6D4023611DB4EA4C00C16DF4 /* HHPersonalCoach.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPersonalCoach.h; sourceTree = "<group>"; };
+		6D4023621DB4EA4C00C16DF4 /* HHPersonalCoach.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPersonalCoach.m; sourceTree = "<group>"; };
 		6D4151DA1CF321AB004A7EE8 /* HHSearchCoachViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSearchCoachViewController.h; sourceTree = "<group>"; };
 		6D4151DB1CF321AB004A7EE8 /* HHSearchCoachViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSearchCoachViewController.m; sourceTree = "<group>"; };
 		6D4151E31CF40DA7004A7EE8 /* icon_search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_search.png; sourceTree = "<group>"; };
@@ -1862,6 +1868,8 @@
 				6DDAE6DD1CB8E6CA00CE461A /* HHCoachSchedules.m */,
 				14F9D48E1C71223E0010F3FA /* HHCoaches.h */,
 				14F9D48F1C71223E0010F3FA /* HHCoaches.m */,
+				6D4023611DB4EA4C00C16DF4 /* HHPersonalCoach.h */,
+				6D4023621DB4EA4C00C16DF4 /* HHPersonalCoach.m */,
 			);
 			path = Coach;
 			sourceTree = "<group>";
@@ -2242,6 +2250,8 @@
 				6D4151EA1CF46F3E004A7EE8 /* HHSearchCoachEmptyCell.m */,
 				6D4151EC1CF47C89004A7EE8 /* HHSearchHistoryListView.h */,
 				6D4151ED1CF47C89004A7EE8 /* HHSearchHistoryListView.m */,
+				6D40235E1DB4E6E200C16DF4 /* HHPersonalCoachTableViewCell.h */,
+				6D40235F1DB4E6E200C16DF4 /* HHPersonalCoachTableViewCell.m */,
 			);
 			path = Coach;
 			sourceTree = "<group>";
@@ -3704,6 +3714,7 @@
 				6DE56FE11D00394C00E33BDB /* HHCoachFieldCell.m in Sources */,
 				5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */,
 				6D54D42C1D9391D100EBBD98 /* HHCommentView.m in Sources */,
+				6D4023631DB4EA4C00C16DF4 /* HHPersonalCoach.m in Sources */,
 				147BFEE81C70F00800FE3524 /* HHSocialMediaShareUtility.m in Sources */,
 				5CDE144B1C36EC570004778C /* HHButton.m in Sources */,
 				6D3D733F1CB92F4000E424C3 /* HHConfirmScheduleBookView.m in Sources */,
@@ -3812,6 +3823,7 @@
 				6D5222811D3F972500E92075 /* HHHomePageSupportView.m in Sources */,
 				6D85522E1CD60E700021D4C9 /* HHReferrals.m in Sources */,
 				147A9FF91C7AB56C000DED3B /* HHOkButtonView.m in Sources */,
+				6D4023601DB4E6E200C16DF4 /* HHPersonalCoachTableViewCell.m in Sources */,
 				140EC6441C6E9A6100DA634D /* HHCoachReviewView.m in Sources */,
 				6D97BDC61D275B3F001B4562 /* HHBanner.m in Sources */,
 				6D7D0C711D63012A0002FC56 /* HHTestSimuLandingViewController.m in Sources */,
