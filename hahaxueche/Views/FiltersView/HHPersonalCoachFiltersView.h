@@ -9,10 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "HHPersonalCoachFilters.h"
 
+typedef void (^HHPersonalCoachFiltersViewConfirmCompletion)(HHPersonalCoachFilters *filters);
+typedef void (^HHPersonalCoachFiltersViewCancelCompletion)();
+
 @interface HHPersonalCoachFiltersView : UIView
 
 - (instancetype)initWithFilters:(HHPersonalCoachFilters *)coachFilters frame:(CGRect)frame;
 
 @property (nonatomic, strong) HHPersonalCoachFilters *coachFilters;
+@property (nonatomic, strong) HHPersonalCoachFiltersViewConfirmCompletion confirmAction;
+@property (nonatomic, strong) HHPersonalCoachFiltersViewCancelCompletion cancelAction;
 
 @end

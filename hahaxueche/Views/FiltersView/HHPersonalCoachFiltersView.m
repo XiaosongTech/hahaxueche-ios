@@ -20,7 +20,6 @@
 @property (nonatomic, strong) HHCheckBoxView *c1CheckBoxView;
 @property (nonatomic, strong) HHCheckBoxView *c2CheckBoxView;
 @property (nonatomic, strong) HHConfirmCancelButtonsView *buttonsView;
-@property (nonatomic, strong) UIView *horizontalLine;
 
 
 @end
@@ -35,10 +34,6 @@
         
         self.priceSliderView = [[HHSliderView alloc] initWithTilte:@"价格筛选" values:@[@(50000), @(100000), @(150000), @(200000)] defaultValue:@(200000) sliderValueMode:SliderValueModePrice];
         [self addSubview:self.priceSliderView];
-        
-        self.horizontalLine = [[UIView alloc] init];
-        self.horizontalLine.backgroundColor = [UIColor HHLightLineGray];
-        [self addSubview:self.horizontalLine];
         
         self.c1CheckBoxView = [[HHCheckBoxView alloc] initWithTilte:@"手动档（C1）" isChecked:YES];
         [self addSubview:self.c1CheckBoxView];
@@ -59,22 +54,15 @@
             make.height.mas_equalTo(100.0f);
         }];
         
-        [self.horizontalLine makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.priceSliderView.bottom).offset(10.0f);
-            make.centerX.equalTo(self.centerX);
-            make.width.equalTo(self.width).offset(-40.0f);
-            make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-        }];
-        
         [self.c1CheckBoxView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.horizontalLine.bottom);
+            make.top.equalTo(self.priceSliderView.bottom);
             make.left.equalTo(self.left).offset(20.0f);
             make.width.equalTo(self).multipliedBy(0.5f).offset(-20.0f);
             make.height.mas_equalTo(60.0f);
         }];
         
         [self.c2CheckBoxView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.horizontalLine.bottom);
+            make.top.equalTo(self.priceSliderView.bottom);
             make.right.equalTo(self.right).offset(-20.0f);
             make.width.equalTo(self).multipliedBy(0.5f).offset(-20.0f);
             make.height.mas_equalTo(60.0f);
@@ -92,11 +80,15 @@
 }
 
 - (void)cancelTapped {
-    
+    if(self.cancelAction) {
+        self.cancelAction();
+    }
 }
 
 - (void)confirmTapped {
-    
+    if (self.confirmAction) {
+        self.confirmAction(self.coachFilters);
+    }
 }
 
 @end

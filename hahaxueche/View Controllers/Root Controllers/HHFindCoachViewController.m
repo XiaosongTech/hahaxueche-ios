@@ -72,6 +72,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) HHFiltersView *filtersView;
+@property (nonatomic, strong) HHPersonalCoachFiltersView *filtersView2;
 @property (nonatomic, strong) HHCoachFilters *coachFilters;
 @property (nonatomic, strong) HHPersonalCoachFilters *coachFilters2;
 
@@ -728,6 +729,15 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 
 - (void)filterTapped2 {
     __weak HHFindCoachViewController *weakSelf = self;
+    self.filtersView2 = [[HHPersonalCoachFiltersView alloc] initWithFilters:nil frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 210.0f)];
+    self.filtersView2.cancelAction = ^() {
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+    };
+    self.filtersView2.confirmAction = ^(HHPersonalCoachFilters *filters) {
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+    };
+    self.popup = [HHPopupUtility createPopupWithContentView:self.filtersView2];
+    [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
 
 }
 
