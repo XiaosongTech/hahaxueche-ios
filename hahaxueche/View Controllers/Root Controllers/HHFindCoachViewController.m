@@ -40,6 +40,7 @@
 #import "HHGenericOneButtonPopupView.h"
 #import "HHPersonalCoachFilters.h"
 #import "HHPersonalCoachFiltersView.h"
+#import "HHPersonalCoachSortView.h"
 
 typedef NS_ENUM(NSInteger, CoachType) {
     CoachTypeDrivingSchoolCoach,
@@ -78,6 +79,8 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 
 @property (nonatomic, strong) HHSortView *sortView;
 @property (nonatomic) SortOption currentSortOption;
+@property (nonatomic, strong) HHPersonalCoachSortView *sortView2;
+@property (nonatomic) PersonalCoachSortOption currentSortOption2;
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UITableView *tableView2;
@@ -299,7 +302,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         }
         return height;
     } else {
-        return kCellHeightNormal + 25.0;
+        return kCellHeightNormal;
     }
    
 }
@@ -340,7 +343,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 }
 
 - (void)sortTapped {
-     __weak HHFindCoachViewController *weakSelf = self;
+    __weak HHFindCoachViewController *weakSelf = self;
     self.sortView = [[HHSortView alloc] initWithDefaultSortOption:self.currentSortOption];
     self.sortView.frame = CGRectMake(0, 0, 130.0f, 200.0f);
     self.sortView.selectedOptionBlock = ^(SortOption sortOption){
@@ -742,7 +745,16 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 }
 
 - (void)sortTapped2 {
-    
+    __weak HHFindCoachViewController *weakSelf = self;
+    self.sortView2 = [[HHPersonalCoachSortView alloc] initWithDefaultSortOption:self.currentSortOption2];
+    self.sortView2.frame = CGRectMake(0, 0, 130.0f, 80.0f);
+    self.sortView2.selectedOptionBlock = ^(PersonalCoachSortOption sortOption){
+        weakSelf.currentSortOption2 = sortOption;
+        [weakSelf.popup dismiss:YES];
+    };
+    self.popup = [HHPopupUtility createPopupWithContentView:self.sortView2];
+    CGPoint center = CGPointMake(CGRectGetMidX(self.sortButton2.frame), 90.0f);
+    [HHPopupUtility showPopup:self.popup AtCenter:center inView:self.view];
 }
 
 @end

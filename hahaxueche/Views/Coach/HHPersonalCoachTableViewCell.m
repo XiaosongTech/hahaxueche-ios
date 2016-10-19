@@ -40,13 +40,6 @@ static CGFloat const kAvatarRadius = 30.0f;
     [self.trainingYearLabel sizeToFit];
     [self.contentView addSubview:self.trainingYearLabel];
     
-    self.starRatingView = [[HHStarRatingView alloc] initWithInteraction:NO];
-    self.starRatingView.value = 5.0;
-    [self.contentView addSubview:self.starRatingView];
-    
-    self.ratingLabel = [self createLabelWithFont:[UIFont systemFontOfSize:14.0f] textColor:[UIColor HHOrange]];
-    [self.contentView addSubview:self.ratingLabel];
-    
     self.bottomLine = [[UIView alloc] init];
     self.bottomLine.backgroundColor = [UIColor HHLightLineGray];
     [self.contentView addSubview:self.bottomLine];
@@ -67,7 +60,7 @@ static CGFloat const kAvatarRadius = 30.0f;
 
 - (void)makeConstraints {
     [self.avatarView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView.top).offset(15.0f);
+        make.centerY.equalTo(self.contentView.centerY);
         make.left.equalTo(self.contentView.left).offset(15.0f);
         make.width.mas_equalTo(kAvatarRadius * 2.0f);
         make.height.mas_equalTo(kAvatarRadius * 2.0f);
@@ -78,31 +71,20 @@ static CGFloat const kAvatarRadius = 30.0f;
         make.top.equalTo(self.avatarView.top);
     }];
     
-    [self.starRatingView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.nameLabel.left);
-        make.top.equalTo(self.nameLabel.bottom).offset(10.0f);
-        make.height.mas_equalTo(20.0f);
-        make.width.mas_equalTo(80.0f);
-    }];
-    
-    [self.ratingLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.starRatingView.right).offset(3.0f);
-        make.centerY.equalTo(self.starRatingView.centerY);
-    }];
-    
+
     [self.trainingYearLabel remakeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.contentView.right).offset(-15.0f);
-        make.centerY.equalTo(self.nameLabel.centerY);
+        make.left.equalTo(self.nameLabel.right).offset(10.0f);
+        make.bottom.equalTo(self.nameLabel.bottom);
     }];
     
     
     [self.likeCountLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.ratingLabel.centerY);
+        make.centerY.equalTo(self.nameLabel.centerY);
         make.right.equalTo(self.contentView.right).offset(-20.0f);
     }];
     
     [self.likeButton makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.ratingLabel.centerY);
+        make.centerY.equalTo(self.nameLabel.centerY);
         make.right.equalTo(self.likeCountLabel.left).offset(-3.0f);
     }];
     
@@ -127,11 +109,9 @@ static CGFloat const kAvatarRadius = 30.0f;
 
 - (void)setupCellWithCoach:(HHPersonalCoach *)coach {
    
-    self.ratingLabel.text = @"(32)";
     self.avatarView.image = [UIImage imageNamed:@"ic_coach_ava"];
     self.nameLabel.text = @"唐骏";
     self.trainingYearLabel.text = [NSString stringWithFormat:@"%@年驾龄", @"10"];
-    self.starRatingView.value = 5.0f;
     self.likeCountLabel.text = @"20";
     
     if (self.priceView) {
