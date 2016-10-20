@@ -10,6 +10,16 @@
 
 @interface HHPersonalCoach : MTLModel <MTLJSONSerializing>
 
-@property (nonatomic, strong) NSArray *images;
+@property (nonatomic, copy) NSArray *images;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *coachId;
+@property (nonatomic, copy) NSString *avatarUrl;
+@property (nonatomic, copy) NSNumber *experienceYear;
+@property (nonatomic, copy) NSString *phoneNumber;
+@property (nonatomic, copy) NSNumber *liked;
+@property (nonatomic, copy) NSNumber *likeCount;
+@property (nonatomic, copy) NSNumber *cityId;
+@property (nonatomic, copy) NSString *intro;
+
 
 @end
