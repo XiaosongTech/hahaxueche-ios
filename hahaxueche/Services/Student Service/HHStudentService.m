@@ -352,4 +352,31 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     }];
 }
 
+- (void)getMyAdvisorWithCompletion:(HHAdvisorCompletion)completion {
+    if ([HHStudentStore sharedInstance].currentStudent.myAdvisor) {
+        if (completion) {
+            completion([HHStudentStore sharedInstance].currentStudent.myAdvisor, nil);
+            return;
+        }
+    }
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIAdvisor];
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+        param[@"student_id"] = [HHStudentStore sharedInstance].currentStudent.studentId;
+    }
+    [APIClient getWithParameters:param completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHAdvisor *advisor = [MTLJSONAdapter modelOfClass:[HHAdvisor class] fromJSONDictionary:response error:nil];
+            [HHStudentStore sharedInstance].currentStudent.myAdvisor = advisor;
+            if (completion) {
+                completion(advisor, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
 @end

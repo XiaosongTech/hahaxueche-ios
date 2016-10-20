@@ -387,6 +387,8 @@
 		6D40236C1DB62F7F00C16DF4 /* HHPersonalCoachFiltersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D40236B1DB62F7F00C16DF4 /* HHPersonalCoachFiltersView.m */; };
 		6D40236F1DB6301E00C16DF4 /* HHPersonalCoachFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D40236E1DB6301E00C16DF4 /* HHPersonalCoachFilters.m */; };
 		6D4023721DB7440300C16DF4 /* HHPersonalCoachSortView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4023711DB7440300C16DF4 /* HHPersonalCoachSortView.m */; };
+		6D4023751DB8651E00C16DF4 /* HHPersonalCoachDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4023741DB8651E00C16DF4 /* HHPersonalCoachDetailViewController.m */; };
+		6D4023781DB88A4D00C16DF4 /* HHAdvisor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4023771DB88A4D00C16DF4 /* HHAdvisor.m */; };
 		6D4151DC1CF321AB004A7EE8 /* HHSearchCoachViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4151DB1CF321AB004A7EE8 /* HHSearchCoachViewController.m */; };
 		6D4151E61CF40DA7004A7EE8 /* icon_search.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4151E31CF40DA7004A7EE8 /* icon_search.png */; };
 		6D4151E71CF40DA7004A7EE8 /* icon_search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4151E41CF40DA7004A7EE8 /* icon_search@2x.png */; };
@@ -1256,6 +1258,10 @@
 		6D40236E1DB6301E00C16DF4 /* HHPersonalCoachFilters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPersonalCoachFilters.m; sourceTree = "<group>"; };
 		6D4023701DB7440300C16DF4 /* HHPersonalCoachSortView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPersonalCoachSortView.h; sourceTree = "<group>"; };
 		6D4023711DB7440300C16DF4 /* HHPersonalCoachSortView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPersonalCoachSortView.m; sourceTree = "<group>"; };
+		6D4023731DB8651E00C16DF4 /* HHPersonalCoachDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPersonalCoachDetailViewController.h; sourceTree = "<group>"; };
+		6D4023741DB8651E00C16DF4 /* HHPersonalCoachDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPersonalCoachDetailViewController.m; sourceTree = "<group>"; };
+		6D4023761DB88A4D00C16DF4 /* HHAdvisor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAdvisor.h; sourceTree = "<group>"; };
+		6D4023771DB88A4D00C16DF4 /* HHAdvisor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHAdvisor.m; sourceTree = "<group>"; };
 		6D4151DA1CF321AB004A7EE8 /* HHSearchCoachViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSearchCoachViewController.h; sourceTree = "<group>"; };
 		6D4151DB1CF321AB004A7EE8 /* HHSearchCoachViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSearchCoachViewController.m; sourceTree = "<group>"; };
 		6D4151E31CF40DA7004A7EE8 /* icon_search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_search.png; sourceTree = "<group>"; };
@@ -2179,6 +2185,8 @@
 				6D0FB0A01D9257F10045C421 /* HHClubPost.m */,
 				6D40236D1DB6301E00C16DF4 /* HHPersonalCoachFilters.h */,
 				6D40236E1DB6301E00C16DF4 /* HHPersonalCoachFilters.m */,
+				6D4023761DB88A4D00C16DF4 /* HHAdvisor.h */,
+				6D4023771DB88A4D00C16DF4 /* HHAdvisor.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -2254,6 +2262,8 @@
 				6D4151DB1CF321AB004A7EE8 /* HHSearchCoachViewController.m */,
 				14F9D4971C7170380010F3FA /* HHSingleFieldMapViewController.h */,
 				14F9D4981C7170380010F3FA /* HHSingleFieldMapViewController.m */,
+				6D4023731DB8651E00C16DF4 /* HHPersonalCoachDetailViewController.h */,
+				6D4023741DB8651E00C16DF4 /* HHPersonalCoachDetailViewController.m */,
 			);
 			path = "Find Coach";
 			sourceTree = "<group>";
@@ -3797,6 +3807,7 @@
 				6D4CCAF11D3E160500AD896F /* HHAddPromoCodeView.m in Sources */,
 				6DF934CC1D91278F00018BE9 /* HHClubItemView.m in Sources */,
 				140EC5FC1C6D64C400DA634D /* HHCoachDetailSectionTwoCell.m in Sources */,
+				6D4023751DB8651E00C16DF4 /* HHPersonalCoachDetailViewController.m in Sources */,
 				6DDAE6DB1CB8E6B300CE461A /* HHCoachSchedule.m in Sources */,
 				5CDE14761C3778BD0004778C /* HHToastManager.m in Sources */,
 				6D54D42F1D93AFF100EBBD98 /* HHClubPostCommentsViewController.m in Sources */,
@@ -3882,6 +3893,7 @@
 				6DF202EF1CD33212002092B4 /* HHInputPaymentMethodView.m in Sources */,
 				6DF53B761D47279A00CA0F6B /* HHCountDownView.m in Sources */,
 				140EC6171C6D73CE00DA634D /* HHCollaborateCoachesView.m in Sources */,
+				6D4023781DB88A4D00C16DF4 /* HHAdvisor.m in Sources */,
 				1405CC6D1C7523CE0030B114 /* HHEmptyScheduleCell.m in Sources */,
 				5C36D3B01C46B68700443545 /* HHSession.m in Sources */,
 				140EC6381C6E694500DA634D /* HHCoachDetailCommentsCell.m in Sources */,

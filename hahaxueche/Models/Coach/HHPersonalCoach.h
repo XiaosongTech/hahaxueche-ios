@@ -10,4 +10,6 @@
 
 @interface HHPersonalCoach : MTLModel <MTLJSONSerializing>
 
+@property (nonatomic, strong) NSArray *images;
+
 @end

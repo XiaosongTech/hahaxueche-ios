@@ -16,6 +16,7 @@
 #import "HHReferrals.h"
 #import "HHWithdraws.h"
 #import "HHBankCard.h"
+#import "HHAdvisor.h"
 
 typedef void (^HHStudentCompletion)(HHStudent *student, NSError *error);
 typedef void (^HHStudentGenericCompletion)(NSError *error);
@@ -30,6 +31,7 @@ typedef void (^HHWithdrawCompletion)(BOOL succeed);
 typedef void (^HHLikeCompletion)(HHCoach *coach, NSError *error);
 typedef void (^HHEventsCompletion)(NSArray *events, NSError *error);
 typedef void (^HHCardCompletion)(HHBankCard *card, NSError *error);
+typedef void (^HHAdvisorCompletion)(HHAdvisor *advisor, NSError *error);
 
 @interface HHStudentService : NSObject
 
@@ -170,8 +172,13 @@ typedef void (^HHCardCompletion)(HHBankCard *card, NSError *error);
 
 
 /**
- Add bank card to Student
+ Get advisor info
  */
+- (void)getMyAdvisorWithCompletion:(HHAdvisorCompletion)completion;
+
+/**
+ - Add bank card to Student
+*/
 - (void)addBankCardToStudent:(HHBankCard *)card completion:(HHCardCompletion)completion;
 
 

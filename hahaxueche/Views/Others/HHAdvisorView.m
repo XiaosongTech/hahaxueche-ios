@@ -9,16 +9,18 @@
 #import "HHAdvisorView.h"
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
+#import <UIImageView+WebCache.h>
 
 @implementation HHAdvisorView
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame advisor:(HHAdvisor *)advisor {
     self = [super initWithFrame:frame];
     if (self) {
         self.layer.masksToBounds = YES;
         self.layer.cornerRadius = 5.0f;
-        
+        self.advisor = advisor;
         [self initSubviews];
+
     }
     return self;
 }
@@ -32,18 +34,24 @@
     self.titleLabel = [[UILabel alloc] init];
     self.titleLabel.textColor = [UIColor whiteColor];
     self.titleLabel.font = [UIFont boldSystemFontOfSize:18.0f];
-    self.titleLabel.text = @"嗨, 我是余寒, 您的专属学车顾问!";
+    self.titleLabel.text = [NSString stringWithFormat:@"嗨, 我是%@, 您的专属学车顾问!", self.advisor.name];
     [self.topView addSubview:self.titleLabel];
     
     
     self.subTitleLabel = [[UILabel alloc] init];
     self.subTitleLabel.numberOfLines = 0;
+    self.subTitleLabel.adjustsFontSizeToFitWidth=YES;
+    self.subTitleLabel.minimumScaleFactor=0.5;
     self.subTitleLabel.textColor = [UIColor whiteColor];
-    self.subTitleLabel.text = @"\"自打我入宫以来, 就独得学员恩宠~\"";
+    self.subTitleLabel.text = [NSString stringWithFormat:@"\"%@\"", self.advisor.longIntro];
     self.subTitleLabel.font = [UIFont systemFontOfSize:16.0f];
     [self.topView addSubview:self.subTitleLabel];
     
-    self.imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_pop_xiaoha"]];
+    self.imgView = [[UIImageView alloc] init];
+    [self.imgView sd_setImageWithURL:[NSURL URLWithString:self.advisor.avaURL] placeholderImage:[UIImage imageNamed:@"ic_pop_xiaoha"]];
+    self.imgView.layer.cornerRadius = 50.0f;
+    self.imgView.layer.masksToBounds = YES;
+    self.imgView.contentMode = UIViewContentModeScaleAspectFit;
     [self.topView addSubview:self.imgView];
     
     self.botView = [[UIView alloc] init];
@@ -56,7 +64,7 @@
     self.infoLabel.numberOfLines = 1;
     self.infoLabel.minimumScaleFactor = 0.5f;
     self.infoLabel.adjustsFontSizeToFitWidth = YES;
-    self.infoLabel.text = @"有问题? 我一直在等你的电话!";
+    self.infoLabel.text = @"有问题? 我一直在等您的电话!";
     [self.botView addSubview:self.infoLabel];
     
     self.callButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -93,15 +101,17 @@
     }];
     
     [self.imgView makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.topView.bottom);
-        make.left.equalTo(self.topView.left).offset(10.0f);
+        make.top.equalTo(self.titleLabel.bottom).offset(20.0f);
+        make.left.equalTo(self.topView.left).offset(20.0f);
+        make.width.mas_equalTo(100.0f);
+        make.height.mas_equalTo(100.0f);
     }];
     
     [self.subTitleLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.imgView.centerY);
-        make.left.equalTo(self.topView.left).offset(130.0f);
+        make.top.equalTo(self.imgView.top);
+        make.left.equalTo(self.imgView.right).offset(10.0f);
         make.right.equalTo(self.topView.right).offset(-10.0f);
-        make.bottom.lessThanOrEqualTo(self.topView.bottom);
+        make.bottom.lessThanOrEqualTo(self.topView.bottom).offset(-10.0f);
     }];
     
     [self.callButton makeConstraints:^(MASConstraintMaker *make) {

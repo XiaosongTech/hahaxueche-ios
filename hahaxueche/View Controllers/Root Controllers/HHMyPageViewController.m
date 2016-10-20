@@ -75,6 +75,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) HHEditNameView *editView;
 @property (nonatomic, strong) UIImage *selectedImage;
+@property (nonatomic, strong) HHAdvisor *advisor;
 
 @end
 
@@ -105,6 +106,12 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
 
+    [[HHStudentService sharedInstance] getMyAdvisorWithCompletion:^(HHAdvisor *advisor, NSError *error) {
+        if (!error) {
+            self.advisor = advisor;
+            [self.tableView reloadData];
+        }
+    }];
     
 }
 
@@ -254,7 +261,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
             };
             cell.myAdvisorView.actionBlock = ^() {
-                HHAdvisorView *view = [[HHAdvisorView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 240.0f)];
+                HHAdvisorView *view = [[HHAdvisorView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 240.0f) advisor:self.advisor];
                 view.callBlock = ^() {
                     [weakSelf callAdvisor];
                 };
@@ -507,7 +514,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 }
 
 - (void)callAdvisor {
-    NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",@"4000016006"]];
+    NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",self.advisor.phoneNumber]];
     if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
         [[UIApplication sharedApplication] openURL:phoneUrl];
     }

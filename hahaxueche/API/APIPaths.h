@@ -44,6 +44,7 @@
 #define kAPIEvents @"events"
 #define kAPIBankCards @"bank_cards"
 #define kAPIStudentWithdraw @"students/%@/withdraw"
+#define kAPIAdvisor @"employees/advisers"
 
 
 
