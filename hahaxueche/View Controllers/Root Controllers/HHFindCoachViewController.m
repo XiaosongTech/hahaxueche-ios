@@ -41,6 +41,7 @@
 #import "HHPersonalCoachFilters.h"
 #import "HHPersonalCoachFiltersView.h"
 #import "HHPersonalCoachSortView.h"
+#import "HHPersonalCoachDetailViewController.h"
 
 typedef NS_ENUM(NSInteger, CoachType) {
     CoachTypeDrivingSchoolCoach,
@@ -318,7 +319,9 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         coachDetailVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:coachDetailVC animated:YES];
     } else {
-        
+        HHPersonalCoachDetailViewController *vc = [[HHPersonalCoachDetailViewController alloc] initWithCoach:nil];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
     }
     
 }
@@ -709,8 +712,10 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     [self.swipeView scrollToPage:self.segControl.selectedSegmentIndex duration:0.3f];
     if (self.segControl.selectedSegmentIndex == CoachTypeDrivingSchoolCoach) {
         self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_maplist_btn"] action:@selector(jumpToFieldsMapView) target:self];
+        self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"icon_search"] action:@selector(jumpToSearchVC) target:self];
     } else {
         self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_explain"] action:@selector(showPersonalCoachExplanation) target:self];
+        self.navigationItem.rightBarButtonItem = nil;
     }
 }
 
