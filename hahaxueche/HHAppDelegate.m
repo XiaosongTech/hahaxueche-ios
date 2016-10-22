@@ -218,7 +218,7 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
         [[Harpy sharedInstance] setPresentingViewController:self.window.rootViewController];
         [[Harpy sharedInstance] setDelegate:self];
         [[Harpy sharedInstance] setAppName:@"哈哈学车"];
-        [[Harpy sharedInstance]  setForceLanguageLocalization:HarpyLanguageChineseSimplified];
+        [[Harpy sharedInstance] setForceLanguageLocalization:HarpyLanguageChineseSimplified];
         [[Harpy sharedInstance] setDebugEnabled:YES];
         [[Harpy sharedInstance] setAlertType:HarpyAlertTypeOption];
         [[Harpy sharedInstance] setCountryCode:@"CN"];
