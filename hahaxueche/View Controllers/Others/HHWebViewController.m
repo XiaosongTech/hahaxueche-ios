@@ -11,6 +11,7 @@
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHShareView.h"
 #import "HHSocialMediaShareUtility.h"
+#import "UIColor+HHColor.h"
 
 @implementation HHWebViewController
 
@@ -37,7 +38,7 @@
     self.navigationItem.leftBarButtonItems = @[[UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(backPage) target:self], [UIBarButtonItem buttonItemWithTitle:@"关闭" titleColor:[UIColor whiteColor] action:@selector(dismissVC) target:self isLeft:NO]];
     
     self.webView = [[UIWebView alloc] init];
-    self.webView.backgroundColor = [UIColor whiteColor];
+    self.webView.backgroundColor = [UIColor HHOrange];
     self.webView.delegate = self;
     [self.webView loadRequest:[NSURLRequest requestWithURL:self.url]];
     [self.view addSubview:self.webView];

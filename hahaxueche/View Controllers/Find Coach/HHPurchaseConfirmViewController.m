@@ -21,7 +21,6 @@
 #import "HHLoadingViewUtility.h"
 #import "HHStudentService.h"
 #import "HHPopupUtility.h"
-#import "HHPriceDetailView.h"
 #import "HHReceiptViewController.h"
 #import "HHPurchaseTagView.h"
 

@@ -21,7 +21,6 @@
 #import "HHLoadingViewUtility.h"
 #import "HHSingleFieldMapViewController.h"
 #import "HHConstantsStore.h"
-#import "HHPriceDetailView.h"
 #import "HHPopupUtility.h"
 #import "HHImageGalleryViewController.h"
 #import "HHShareView.h"
@@ -139,15 +138,7 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
             HHMyCoachCourseInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kCourseInfoCellID forIndexPath:indexPath];
             [cell setupCellWithCoach:weakSelf.coach];
             cell.feeDetailView.actionBlock = ^() {
-                HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
-                CGFloat height = 190.0f + (city.cityFixedFees.count + 1) * 50.0f;
-                HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"价格明细" totalPrice:weakSelf.coach.price showOKButton:YES];
-                priceView.cancelBlock = ^() {
-                    [HHPopupUtility dismissPopup:weakSelf.popup];
-                };
-                weakSelf.popup = [HHPopupUtility createPopupWithContentView:priceView];
-                [HHPopupUtility showPopup:weakSelf.popup];
-
+                            
             };
             return cell;
         }

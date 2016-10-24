@@ -20,7 +20,6 @@
 #import "HHTryCoachView.h"
 #import "HHPopupUtility.h"
 #import "HHShareView.h"
-#import "HHPriceDetailView.h"
 #import "HHSocialMediaShareUtility.h"
 #import "HHSingleFieldMapViewController.h"
 #import "HHConstantsStore.h"
@@ -44,6 +43,7 @@
 #import "HHGenericTwoButtonsPopupView.h"
 #import "HHWebViewController.h"
 #import "HHFreeTrialUtility.h"
+#import "HHCoachPriceDetailViewController.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -215,7 +215,8 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         case CoachCellPrice: {
             HHCoachPriceCell *cell = [tableView dequeueReusableCellWithIdentifier:kPriceCellID forIndexPath:indexPath];
             cell.priceAction = ^() {
-                
+                HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:weakSelf.coach];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
             };
             [cell setupCellWithCoach:self.coach];
             return cell;

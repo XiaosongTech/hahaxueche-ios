@@ -713,9 +713,11 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     if (self.segControl.selectedSegmentIndex == CoachTypeDrivingSchoolCoach) {
         self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_maplist_btn"] action:@selector(jumpToFieldsMapView) target:self];
         self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"icon_search"] action:@selector(jumpToSearchVC) target:self];
+        [self.tableView reloadData];
     } else {
         self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_explain"] action:@selector(showPersonalCoachExplanation) target:self];
         self.navigationItem.rightBarButtonItem = nil;
+        [self.tableView2 reloadData];
     }
 }
 
