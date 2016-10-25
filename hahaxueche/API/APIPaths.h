@@ -52,6 +52,7 @@
 
 #define kAPICoaches @"coaches"
 #define kAPICoach @"coaches/%@"
+#define kAPIPersonalCoaches @"training_partners"
 
 
 #pragma mark Constants

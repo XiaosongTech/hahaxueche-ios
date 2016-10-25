@@ -262,5 +262,32 @@
     }];
 }
 
+- (void)fetchPersoanlCoachWithFilters:(HHPersonalCoachFilters *)filters sortOption:(PersonalCoachSortOption)sortOption completion:(HHPersonalCoachListCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIPersonalCoaches];
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    param[@"license_type"] = filters.licenseType;
+    param[@"price_limit"] = filters.priceLimit;
+    param[@"city_id"] = [HHStudentStore sharedInstance].currentStudent.cityId;
+    param[@"order_by"] = @(sortOption);
+    
+    if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+        param[@"student_id"] = [HHStudentStore sharedInstance].currentStudent.studentId;
+    }
+
+    [APIClient getWithParameters:param completion:^(NSDictionary *response, NSError *error) {
+        if(!error) {
+            HHPersonalCoaches *coaches = [MTLJSONAdapter modelOfClass:[HHPersonalCoaches class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion (coaches, nil);
+            }
+        } else {
+            if (completion) {
+                completion (nil, error);
+            }
+        }
+    }];
+
+}
 
 @end

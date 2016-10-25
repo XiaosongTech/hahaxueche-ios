@@ -8,6 +8,7 @@
 
 #import "HHPriceItemCollectionViewCell.h"
 #import "Masonry.h"
+#import "UIColor+HHColor.h"
 
 @implementation HHPriceItemCollectionViewCell
 
@@ -16,19 +17,22 @@
     if (self) {
         self.contentView.backgroundColor = [UIColor whiteColor];
         self.label = [[UILabel alloc] init];
-        self.label.font = [UIFont systemFontOfSize:15.0f];
+        self.label.textAlignment = NSTextAlignmentCenter;
+        self.label.numberOfLines = 1;
+        self.label.font = [UIFont systemFontOfSize:13.0f];
+        self.label.adjustsFontSizeToFitWidth = YES;
+        self.label.minimumScaleFactor = 0.5;
+        self.label.textColor = [UIColor whiteColor];
         [self.contentView addSubview:self.label];
         [self.label makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(self.contentView);
-        }];
-        
-        self.imageView = [[UIImageView alloc] init];
-        [self.contentView addSubview:self.imageView];
-        [self.imageView makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self.contentView);
-            make.width.equalTo(self.contentView.width);
+            make.width.equalTo(self.contentView.width).offset(-10.0f);
             make.height.equalTo(self.contentView.height);
         }];
+        
+        self.layer.masksToBounds = YES;
+        self.layer.borderWidth = 0.5f;
+        self.layer.borderColor =[UIColor HHLightLineGray].CGColor;
     }
     return self;
 }

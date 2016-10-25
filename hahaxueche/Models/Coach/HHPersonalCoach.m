@@ -7,7 +7,31 @@
 //
 
 #import "HHPersonalCoach.h"
+#import "HHPersonalCoachPrice.h"
 
 @implementation HHPersonalCoach
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{
+             @"name": @"name",
+             @"coachId": @"id",
+             @"avatarUrl": @"avatar",
+             @"cityId": @"city_id",
+             @"experienceYear":@"experiences",
+             @"intro":@"description",
+             @"phoneNumber":@"phone",
+             @"images":@"images",
+             @"liked":@"liked",
+             @"likeCount":@"like_count",
+             @"prices":@"prices",
+             };
+}
+
++ (NSValueTransformer *)pricesJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[HHPersonalCoachPrice class]];
+}
+
+
+
 
 @end

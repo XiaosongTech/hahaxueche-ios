@@ -20,6 +20,7 @@
 @property (nonatomic, copy) NSNumber *likeCount;
 @property (nonatomic, copy) NSNumber *cityId;
 @property (nonatomic, copy) NSString *intro;
+@property (nonatomic, copy) NSArray *prices;
 
 
 @end

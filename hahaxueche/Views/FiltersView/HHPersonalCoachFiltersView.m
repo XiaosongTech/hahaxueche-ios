@@ -13,6 +13,7 @@
 #import "HHButton.h"
 #import "UIColor+HHColor.h"
 #import "HHConfirmScheduleBookView.h"
+#import "HHToastManager.h"
 
 @interface HHPersonalCoachFiltersView ()
 
@@ -20,6 +21,7 @@
 @property (nonatomic, strong) HHCheckBoxView *c1CheckBoxView;
 @property (nonatomic, strong) HHCheckBoxView *c2CheckBoxView;
 @property (nonatomic, strong) HHConfirmCancelButtonsView *buttonsView;
+@property (nonatomic, strong) NSArray *priceValues;
 
 
 @end
@@ -32,15 +34,31 @@
         self.backgroundColor = [UIColor whiteColor];
         self.coachFilters = coachFilters;
         
-        self.priceSliderView = [[HHSliderView alloc] initWithTilte:@"价格筛选" values:@[@(50000), @(100000), @(150000), @(200000)] defaultValue:@(200000) sliderValueMode:SliderValueModePrice];
+        self.priceValues = @[@(50000), @(100000), @(150000), @(200000)];
+        self.priceSliderView = [[HHSliderView alloc] initWithTilte:@"价格筛选" values:self.priceValues defaultValue:coachFilters.priceLimit sliderValueMode:SliderValueModePrice];
         [self addSubview:self.priceSliderView];
         
-        self.c1CheckBoxView = [[HHCheckBoxView alloc] initWithTilte:@"手动档（C1）" isChecked:YES];
-        [self addSubview:self.c1CheckBoxView];
-        
-        self.c2CheckBoxView = [[HHCheckBoxView alloc] initWithTilte:@"自动档（C2）" isChecked:YES];
-        [self addSubview:self.c2CheckBoxView];
+        if (!coachFilters.licenseType) {
+            self.c1CheckBoxView = [[HHCheckBoxView alloc] initWithTilte:@"手动档（C1）" isChecked:YES];
+            [self addSubview:self.c1CheckBoxView];
+            
+            self.c2CheckBoxView = [[HHCheckBoxView alloc] initWithTilte:@"自动档（C2）" isChecked:YES];
+            [self addSubview:self.c2CheckBoxView];
 
+        } else if ([coachFilters.licenseType integerValue] == 1) {
+            self.c1CheckBoxView = [[HHCheckBoxView alloc] initWithTilte:@"手动档（C1）" isChecked:YES];
+            [self addSubview:self.c1CheckBoxView];
+            
+            self.c2CheckBoxView = [[HHCheckBoxView alloc] initWithTilte:@"自动档（C2）" isChecked:NO];
+            [self addSubview:self.c2CheckBoxView];
+        } else {
+            self.c1CheckBoxView = [[HHCheckBoxView alloc] initWithTilte:@"手动档（C1）" isChecked:NO];
+            [self addSubview:self.c1CheckBoxView];
+            
+            self.c2CheckBoxView = [[HHCheckBoxView alloc] initWithTilte:@"自动档（C2）" isChecked:YES];
+            [self addSubview:self.c2CheckBoxView];
+        }
+        
         
         self.buttonsView = [[HHConfirmCancelButtonsView alloc] initWithLeftTitle:@"取消" rightTitle:@"确认"];
         [self.buttonsView.leftButton addTarget:self action:@selector(cancelTapped) forControlEvents:UIControlEventTouchUpInside];
@@ -86,6 +104,22 @@
 }
 
 - (void)confirmTapped {
+    if (self.c1CheckBoxView.checkBox.on && self.c2CheckBoxView.checkBox.on) {
+        self.coachFilters.licenseType = nil;
+        
+    } else if (self.c1CheckBoxView.checkBox.on && !self.c2CheckBoxView.checkBox.on) {
+        self.coachFilters.licenseType = @(1);
+        
+    } else if (!self.c1CheckBoxView.checkBox.on && self.c2CheckBoxView.checkBox.on) {
+        self.coachFilters.licenseType = @(2);
+    } else {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"请在C1手动档和C2自动挡中至少选择一个"];
+        return;
+    }
+    
+    self.coachFilters.priceLimit = self.priceValues[self.priceSliderView.slider.index];
+
+    
     if (self.confirmAction) {
         self.confirmAction(self.coachFilters);
     }

@@ -11,6 +11,5 @@
 @interface HHPriceItemCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) UILabel *label;
-@property (nonatomic, strong) UIImageView *imageView;
 
 @end

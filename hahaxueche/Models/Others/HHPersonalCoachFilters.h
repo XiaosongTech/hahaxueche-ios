@@ -10,7 +10,7 @@
 
 @interface HHPersonalCoachFilters : MTLModel <MTLJSONSerializing>
 
-@property (nonatomic, copy) NSNumber *price;
+@property (nonatomic, copy) NSNumber *priceLimit;
 
 // 1: C1, 2: C2, 3: C1 and C2
 @property (nonatomic, copy) NSNumber *licenseType;

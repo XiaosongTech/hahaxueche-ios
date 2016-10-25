@@ -12,14 +12,14 @@
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-             @"price": @"price",
+             @"priceLimit": @"price",
              @"licenseType": @"license_type",
             };
 }
 
 - (id)copyWithZone:(NSZone *)zone {
     HHPersonalCoachFilters *newObject = [[HHPersonalCoachFilters alloc] init];
-    newObject.price = self.price;
+    newObject.priceLimit = self.priceLimit;
     newObject.licenseType = self.licenseType;
     return newObject;
 }

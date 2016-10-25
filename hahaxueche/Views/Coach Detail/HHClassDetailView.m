@@ -30,13 +30,13 @@
             make.left.equalTo(self.left);
             make.top.equalTo(self.top);
             make.width.mas_equalTo(5.0f);
-            make.height.mas_equalTo(25.0f);
+            make.height.mas_equalTo(20.0f);
         }];
         
         self.titleLabel = [[UILabel alloc] init];
         self.titleLabel.text = title;
         self.titleLabel.textColor = [UIColor HHLightTextGray];
-        self.titleLabel.font = [UIFont systemFontOfSize:20.0f];
+        self.titleLabel.font = [UIFont systemFontOfSize:16.0f];
         [self addSubview:self.titleLabel];
         [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.stickView.right).offset(8.0f);
@@ -45,13 +45,16 @@
         
         for (int i = 0; i < items.count; i++) {
             UILabel *label = [[UILabel alloc] init];
-            label.backgroundColor = [UIColor HHOrange];
+            label.backgroundColor = [UIColor HHLightBackgroudGray];
             label.layer.masksToBounds = YES;
             label.layer.cornerRadius = 5.0f;
             label.text = items[i];
+            label.layer.masksToBounds = YES;
+            label.layer.borderColor = [UIColor HHLightLineGray].CGColor;
+            label.layer.borderWidth = 1.0f/[UIScreen mainScreen].scale;
             label.textAlignment = NSTextAlignmentCenter;
             label.font = [UIFont systemFontOfSize:13.0f];
-            label.textColor = [UIColor whiteColor];
+            label.textColor = [UIColor HHOrange];
             [self addSubview:label];
             [label makeConstraints:^(MASConstraintMaker *make) {
                 make.width.equalTo(self.width).multipliedBy(1/3.0f).offset(-40.0f/3.0f);

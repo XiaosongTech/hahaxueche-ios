@@ -11,6 +11,7 @@ static CGFloat const kAvatarRadius = 30.0f;
 #import "HHPersonalCoachTableViewCell.h"
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
+#import <UIImageView+WebCache.h>
 
 
 @implementation HHPersonalCoachTableViewCell
@@ -109,10 +110,10 @@ static CGFloat const kAvatarRadius = 30.0f;
 
 - (void)setupCellWithCoach:(HHPersonalCoach *)coach {
    
-    self.avatarView.image = [UIImage imageNamed:@"ic_coach_ava"];
-    self.nameLabel.text = @"唐骏";
-    self.trainingYearLabel.text = [NSString stringWithFormat:@"%@年驾龄", @"10"];
-    self.likeCountLabel.text = @"20";
+    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl] placeholderImage:[UIImage imageNamed:@"ic_coach_ava"]];
+    self.nameLabel.text = coach.name;
+    self.trainingYearLabel.text = [NSString stringWithFormat:@"%@年驾龄", [coach.experienceYear stringValue]];
+    self.likeCountLabel.text = [coach.likeCount stringValue];
     
     if (self.priceView) {
         [self.priceView removeFromSuperview];

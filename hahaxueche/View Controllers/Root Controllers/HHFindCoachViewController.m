@@ -42,6 +42,7 @@
 #import "HHPersonalCoachFiltersView.h"
 #import "HHPersonalCoachSortView.h"
 #import "HHPersonalCoachDetailViewController.h"
+#import "HHPersonalCoaches.h"
 
 typedef NS_ENUM(NSInteger, CoachType) {
     CoachTypeDrivingSchoolCoach,
@@ -94,11 +95,13 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 @property (nonatomic, strong) NSMutableArray *expandedCellIndexPath;
 
 @property (nonatomic, strong) NSMutableArray *coaches;
+@property (nonatomic, strong) NSMutableArray *personalCoaches;
 
 @property (nonatomic, strong) HHCity *userCity;
 @property (nonatomic, strong) CLLocation *userLocation;
 
 @property (nonatomic, strong) HHCoaches *coachesObject;
+@property (nonatomic, strong) HHPersonalCoaches *personalCoachesObject;
 
 @property (nonatomic, strong) SwipeView *swipeView;
 @property (nonatomic, strong) UISegmentedControl *segControl;
@@ -141,6 +144,8 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     [self.segControl addTarget:self action:@selector(segValueChanged) forControlEvents:UIControlEventValueChanged];
     self.segControl.selectedSegmentIndex = CoachTypeDrivingSchoolCoach;
     self.navigationItem.titleView = self.segControl;
+    
+    [self refreshPersonalCoachList:NO completion:nil];
 
 }
 
@@ -184,6 +189,51 @@ static CGFloat const kCellHeightExpanded = 305.0f;
    }];
 }
 
+
+- (void)refreshPersonalCoachList:(BOOL)showLoading completion:(HHRefreshCoachCompletionBlock)completion {
+    __weak HHFindCoachViewController *weakSelf = self;
+    if (showLoading) {
+        [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];
+    }
+   
+    [[HHCoachService sharedInstance] fetchPersoanlCoachWithFilters:self.coachFilters2 sortOption:self.currentSortOption2 completion:^(HHPersonalCoaches *coaches, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (completion) {
+            completion();
+        }
+        if (!error) {
+            weakSelf.personalCoaches = [NSMutableArray arrayWithArray:coaches.coaches];
+            weakSelf.personalCoachesObject = coaches;
+            [weakSelf.tableView2 reloadData];
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
+        }
+
+    }];
+}
+
+- (void)loadMorePersonalCoachesWithCompletion:(HHRefreshCoachCompletionBlock)completion {
+    
+}
+
+- (void)setPersonalCoachesObject:(HHPersonalCoaches *)personalCoachesObject {
+    _personalCoachesObject = personalCoachesObject;
+    if (!personalCoachesObject.nextPage) {
+        if ([self.personalCoaches count]) {
+            [self.loadMoreFooter2 setHidden:NO];
+            
+        } else {
+            [self.loadMoreFooter2 setHidden:YES];
+        }
+        [self.loadMoreFooter2 setState:MJRefreshStateNoMoreData];
+    } else {
+        [self.loadMoreFooter2 setHidden:NO];
+        [self.loadMoreFooter2 setState:MJRefreshStateIdle];
+    }
+
+    
+}
+
 - (void)setCoachesObject:(HHCoaches *)coachesObject {
     _coachesObject = coachesObject;
     if (!coachesObject.nextPage) {
@@ -214,6 +264,17 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     self.coachFilters = defaultFilters;
     
     self.currentSortOption = SortOptionSmartSort;
+    
+    
+    HHPersonalCoachFilters *defaultFilters2 = [[HHPersonalCoachFilters alloc] init];
+    defaultFilters2.priceLimit = @(200000);
+    defaultFilters2.licenseType = nil;
+    
+    self.coachFilters2 = defaultFilters2;
+    
+    self.currentSortOption2 = PersonalCoachSortOptionPrice;
+    
+    
 }
 
 - (void)initSubviews {
@@ -278,7 +339,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 
     } else {
         HHPersonalCoachTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kPersonalCoachCellId forIndexPath:indexPath];
-        [cell setupCellWithCoach:nil];
+        [cell setupCellWithCoach:self.personalCoaches[indexPath.row]];
         return cell;
     }
 }
@@ -287,7 +348,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     if ([tableView isEqual:self.tableView]) {
         return self.coaches.count;
     } else {
-        return 2;
+        return self.personalCoaches.count;
     }
     
 }
@@ -319,7 +380,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         coachDetailVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:coachDetailVC animated:YES];
     } else {
-        HHPersonalCoachDetailViewController *vc = [[HHPersonalCoachDetailViewController alloc] initWithCoach:nil];
+        HHPersonalCoachDetailViewController *vc = [[HHPersonalCoachDetailViewController alloc] initWithCoach:self.personalCoaches[indexPath.row]];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -422,16 +483,30 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 
 - (void)refreshData {
     __weak HHFindCoachViewController *weakSelf = self;
-    [self refreshCoachList:NO completion:^{
-        [weakSelf.refreshHeader endRefreshing];
-    }];
+    if (self.segControl.selectedSegmentIndex == CoachTypeDrivingSchoolCoach) {
+        [self refreshCoachList:NO completion:^{
+            [weakSelf.refreshHeader endRefreshing];
+        }];
+    } else {
+        [self refreshPersonalCoachList:NO completion:^{
+            [weakSelf.refreshHeader2 endRefreshing];
+        }];
+    }
+    
 }
 
 - (void)loadMoreData {
     __weak HHFindCoachViewController *weakSelf = self;
-    [self loadMoreCoachesWithCompletion:^{
-        [weakSelf.loadMoreFooter endRefreshing];
-    }];
+    if (self.segControl.selectedSegmentIndex == CoachTypeDrivingSchoolCoach) {
+        [self loadMoreCoachesWithCompletion:^{
+            [weakSelf.loadMoreFooter endRefreshing];
+        }];
+    } else {
+        [self loadMorePersonalCoachesWithCompletion:^{
+            [weakSelf.loadMoreFooter2 endRefreshing];
+        }];
+    }
+    
 }
 
 - (void)jumpToSearchVC {
@@ -739,11 +814,13 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 
 - (void)filterTapped2 {
     __weak HHFindCoachViewController *weakSelf = self;
-    self.filtersView2 = [[HHPersonalCoachFiltersView alloc] initWithFilters:nil frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 210.0f)];
+    self.filtersView2 = [[HHPersonalCoachFiltersView alloc] initWithFilters:self.coachFilters2 frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 210.0f)];
     self.filtersView2.cancelAction = ^() {
         [HHPopupUtility dismissPopup:weakSelf.popup];
     };
     self.filtersView2.confirmAction = ^(HHPersonalCoachFilters *filters) {
+        weakSelf.coachFilters2 = filters;
+        [weakSelf refreshPersonalCoachList:YES completion:nil];
         [HHPopupUtility dismissPopup:weakSelf.popup];
     };
     self.popup = [HHPopupUtility createPopupWithContentView:self.filtersView2];
@@ -757,6 +834,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     self.sortView2.frame = CGRectMake(0, 0, 130.0f, 80.0f);
     self.sortView2.selectedOptionBlock = ^(PersonalCoachSortOption sortOption){
         weakSelf.currentSortOption2 = sortOption;
+        [weakSelf refreshPersonalCoachList:YES completion:nil];
         [weakSelf.popup dismiss:YES];
     };
     self.popup = [HHPopupUtility createPopupWithContentView:self.sortView2];
