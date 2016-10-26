@@ -146,6 +146,24 @@ static CGFloat const avatarRadius = 30.0f;
     
 }
 
+- (void)setupCellWithCoach:(HHPersonalCoach *)coach {
+    self.nameLabel.text = coach.name;
+    [self.nameLabel sizeToFit];
+    
+    self.descriptionLabel.text = [coach.intro stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
+    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl]];
+    
+    if ([coach.liked boolValue]) {
+        [self.likeButton setImage:[UIImage imageNamed:@"ic_list_best_click"] forState:UIControlStateNormal];
+    } else {
+        [self.likeButton setImage:[UIImage imageNamed:@"ic_list_best_unclick"] forState:UIControlStateNormal];
+    }
+    self.likeCountLabel.text = [coach.likeCount stringValue];
+    self.followButton.hidden = YES;
+    self.jiaxiaoView.hidden = YES;
+
+}
+
 - (void)likeButtonTapped {
     if (self.likeBlock) {
         self.likeBlock(self.likeButton, self.likeCountLabel);

@@ -19,7 +19,7 @@
 @interface HHClubPostDetailViewController ()
 
 @property (nonatomic, strong) HHClubPost *clubPost;
-@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) UIView *botToolBar;
 @property (nonatomic, strong) UIButton *commentButton;
 @property (nonatomic, strong) HHClubPostStatView *statView;
@@ -52,9 +52,8 @@
 }
 
 - (void)initSubviews {
-    self.scrollView = [[UIScrollView alloc] init];
-    self.scrollView.showsVerticalScrollIndicator = NO;
-    [self.view addSubview:self.scrollView];
+    self.webView = [[UIWebView alloc] init];
+    [self.view addSubview:self.webView];
     
     [self buildBotToolBarView];
     
@@ -62,7 +61,7 @@
 }
 
 - (void)makeConstraints {
-    [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
+    [self.webView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.top);
         make.width.equalTo(self.view.width);
         make.height.equalTo(self.view.height).offset(-50.0f);

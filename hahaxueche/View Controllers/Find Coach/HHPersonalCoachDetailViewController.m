@@ -13,6 +13,17 @@
 #import "HHCoachDetailDescriptionCell.h"
 #import "HHCoachPriceCell.h"
 #import "HHImageGalleryViewController.h"
+#import "HHStudentStore.h"
+#import "HHGenericTwoButtonsPopupView.h"
+#import "HHIntroViewController.h"
+#import "UIColor+HHColor.h"
+#import "HHPopupUtility.h"
+#import "HHStudentService.h"
+#import "HHSupportUtility.h"
+#import "Masonry.h"
+#import <pop/POP.h>
+#import "HHShareView.h"
+#import "HHSocialMediaShareUtility.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -26,8 +37,11 @@ static NSString *const kPriceCellID = @"kPriceCellID";
 @interface HHPersonalCoachDetailViewController () <UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UIButton *callButton;
 @property (nonatomic, strong) SDCycleScrollView *coachImagesView;
 @property (nonatomic, strong) HHPersonalCoach *coach;
+@property (nonatomic, strong) KLCPopup *popup;
+@property (nonatomic) BOOL liking;
 
 
 @end
@@ -74,14 +88,22 @@ static NSString *const kPriceCellID = @"kPriceCellID";
     [self.tableView registerClass:[HHCoachDetailDescriptionCell class] forCellReuseIdentifier:kDescriptionCellID];
     [self.tableView registerClass:[HHCoachPriceCell class] forCellReuseIdentifier:kPriceCellID];
     
+    self.callButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.callButton setTitle:@"联系教练" forState:UIControlStateNormal];
+    self.callButton.backgroundColor = [UIColor HHDarkOrange];
+    [self.callButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.callButton addTarget:self action:@selector(callSupport) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.callButton];
+    [self.callButton makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.left);
+        make.bottom.equalTo(self.view.bottom);
+        make.width.equalTo(self.view.width);
+        make.height.mas_equalTo(50.0f);
+    }];
 }
 
 - (void)popupVC {
     [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)shareCoach {
-    
 }
 
 #pragma mark - TableView Delegate & Datasource Methods
@@ -91,31 +113,25 @@ static NSString *const kPriceCellID = @"kPriceCellID";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    __weak HHPersonalCoachDetailViewController *weakSelf = self;
     switch (indexPath.row) {
         case CoachCellDescription: {
             HHCoachDetailDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:kDescriptionCellID forIndexPath:indexPath];
-//            cell.likeBlock = ^(UIButton *likeButton, UILabel *likeCountLabel) {
-//                if ([HHStudentStore sharedInstance].currentStudent.studentId) {
-//                    [weakSelf likeOrUnlikeCoachWithButton:likeButton label:likeCountLabel];
-//                } else {
-//                    [weakSelf showIntroPopup];
-//                }
-//                
-//            };
-//            cell.followBlock = ^() {
-//                [weakSelf followUnfollowCoach];
-//            };
-//            [cell setupCellWithCoach:self.coach followed:weakSelf.followed];
+            cell.likeBlock = ^(UIButton *likeButton, UILabel *likeCountLabel) {
+                if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+                    [weakSelf likeOrUnlikeCoachWithButton:likeButton label:likeCountLabel];
+                } else {
+                    [weakSelf showIntroPopup];
+                }
+                
+            };
+            [cell setupCellWithCoach:self.coach];
             return cell;
         }
             
         case CoachCellPrice: {
             HHCoachPriceCell *cell = [tableView dequeueReusableCellWithIdentifier:kPriceCellID forIndexPath:indexPath];
-//            cell.priceAction = ^() {
-//                
-//            };
-//            [cell setupCellWithCoach:self.coach];
+           [cell setupCellWithPersonalCoach:self.coach];
             return cell;
         }
         
@@ -129,11 +145,11 @@ static NSString *const kPriceCellID = @"kPriceCellID";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case CoachCellDescription: {
-            return CGRectGetHeight([self getDescriptionTextSizeWithText:self.coach.intro]) + 55.0f;
+            return CGRectGetHeight([self getDescriptionTextSizeWithText:[self.coach.intro stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"]]) + 55.0f;
         }
             
         case CoachCellPrice: {
-            return 200.0f;
+            return 85 + self.coach.prices.count * 70.0f;
         }
         default: {
             return 0;
@@ -166,6 +182,103 @@ static NSString *const kPriceCellID = @"kPriceCellID";
                                   attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f]}
                                      context:nil];
     return rect;
+}
+
+- (void)showIntroPopup {
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    paragraphStyle.lineSpacing = 8.0f;
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"您只有注册登录后\n才可以点赞教练哦~" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 260.0f) title:@"请登录" subTitle:nil info:attributedString leftButtonTitle:@"知道了" rightButtonTitle:@"去登录"];
+    self.popup = [HHPopupUtility createPopupWithContentView:view];
+    view.confirmBlock = ^() {
+        HHIntroViewController *vc = [[HHIntroViewController alloc] init];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        [self presentViewController:nav animated:YES completion:nil];
+    };
+    view.cancelBlock = ^() {
+        [HHPopupUtility dismissPopup:self.popup];
+    };
+    [HHPopupUtility showPopup:self.popup];
+}
+
+
+- (void)likeOrUnlikeCoachWithButton:(UIButton *)button label:(UILabel *)label {
+    if (self.liking) {
+        return;
+    }
+    self.liking = YES;
+    NSNumber *like;
+    if ([self.coach.liked boolValue]) {
+        like = @(0);
+    } else {
+        like = @(1);
+    }
+    
+    [[HHStudentService sharedInstance] likeOrUnlikePersonalCoachWithId:self.coach.coachId like:like completion:^(HHPersonalCoach *coach, NSError *error) {
+        self.liking = NO;
+        if (!error) {
+            self.coach = coach;
+            if (self.coachUpdateBlock) {
+                self.coachUpdateBlock(self.coach);
+            }
+            if ([coach.liked boolValue]) {
+                POPSpringAnimation *sprintAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+                sprintAnimation.animationDidStartBlock = ^(POPAnimation *anim) {
+                    [button setImage:[UIImage imageNamed:@"ic_list_best_click"] forState:UIControlStateNormal];
+                };
+                sprintAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
+                sprintAnimation.springBounciness = 20.f;
+                [button pop_addAnimation:sprintAnimation forKey:@"springAnimation"];
+            } else {
+                [button setImage:[UIImage imageNamed:@"ic_list_best_unclick"] forState:UIControlStateNormal];
+            }
+            label.text = [coach.likeCount stringValue];
+            
+        }
+    }];
+    
+}
+
+- (void)callSupport {
+    [[HHSupportUtility sharedManager] callSupport];
+}
+
+- (void)shareCoach {
+    HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 0)];
+    
+    shareView.dismissBlock = ^() {
+        [HHPopupUtility dismissPopup:self.popup];
+    };
+    shareView.actionBlock = ^(SocialMedia selecteItem) {
+        switch (selecteItem) {
+            case SocialMediaQQFriend: {
+                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeQQ];
+            } break;
+                
+            case SocialMediaWeibo: {
+                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeWeibo];
+            } break;
+                
+            case SocialMediaWeChatFriend: {
+                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeWeChat];
+            } break;
+                
+            case SocialMediaWeChaPYQ: {
+                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeWeChatTimeLine];
+            } break;
+                
+            case SocialMediaQZone: {
+                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeQZone];
+            } break;
+                
+            default:
+                break;
+                
+        }
+    };
+    self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
+    [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
 }
 
 

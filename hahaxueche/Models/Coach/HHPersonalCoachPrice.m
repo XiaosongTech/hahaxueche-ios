@@ -15,6 +15,7 @@
              @"licenseType": @"license_type",
              @"duration": @"duration",
              @"price": @"price",
+             @"des": @"description",
              };
 }
 

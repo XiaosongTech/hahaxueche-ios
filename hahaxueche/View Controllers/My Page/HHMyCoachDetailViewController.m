@@ -28,10 +28,15 @@
 #import "HHSocialMediaShareUtility.h"
 #import <pop/POP.h>
 #import "HHStudentService.h"
+#import "HHCoachPriceDetailViewController.h"
+#import "HHStudentStore.h"
+#import "HHMyCoachPeerCoachesTableViewCell.h"
+#import "HHCoachDetailViewController.h"
 
 static NSString *const kDescriptionCellID = @"kDescriptionCellID";
 static NSString *const kBasicInfoCellID = @"kBasicInfoCellID";
 static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
+static NSString *const kPartnerCoachoCellID = @"kPartnerCoachoCellID";
 
 @interface HHMyCoachDetailViewController () <UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIScrollViewDelegate>
 
@@ -75,6 +80,7 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
     [self.tableView registerClass:[HHCoachDetailDescriptionCell class] forCellReuseIdentifier:kDescriptionCellID];
     [self.tableView registerClass:[HHMyCoachBasicInfoCell class] forCellReuseIdentifier:kBasicInfoCellID];
     [self.tableView registerClass:[HHMyCoachCourseInfoCell class] forCellReuseIdentifier:kCourseInfoCellID];
+    [self.tableView registerClass:[HHMyCoachPeerCoachesTableViewCell class] forCellReuseIdentifier:kPartnerCoachoCellID];
     
     self.coachImagesView = [[SDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) * 4.0f/5.0f)];
     self.coachImagesView.delegate = self;
@@ -97,7 +103,12 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
 #pragma mark - TableView Delegate & Datasource Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return CoachCellCount;
+    if ([self.coach.peerCoaches count] > 0) {
+        return CoachCellCount;
+    }
+    
+    return CoachCellCount - 1;
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -136,10 +147,24 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
             
         case CoachCellCourseInfo: {
             HHMyCoachCourseInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kCourseInfoCellID forIndexPath:indexPath];
-            [cell setupCellWithCoach:weakSelf.coach];
+            [cell setupCellWithStudent:[HHStudentStore sharedInstance].currentStudent];
             cell.feeDetailView.actionBlock = ^() {
-                            
+                HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:weakSelf.coach];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
             };
+            return cell;
+        }
+        case CoachCellPartnerCoaches: {
+            HHMyCoachPeerCoachesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kPartnerCoachoCellID forIndexPath:indexPath];
+            if (weakSelf.coach.peerCoaches.count > 0) {
+                [cell setupWithCoach:weakSelf.coach];
+                cell.coachAction = ^(NSInteger index){
+                    HHCoach *coach = self.coach.peerCoaches[index];
+                    HHCoachDetailViewController *detailVC = [[HHCoachDetailViewController alloc] initWithCoachId:coach.coachId];
+                    detailVC.hidesBottomBarWhenPushed = YES;
+                    [weakSelf.navigationController pushViewController:detailVC animated:YES];
+                };
+            }
             return cell;
         }
             
@@ -161,7 +186,17 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
         }
             
         case CoachCellCourseInfo: {
-            return kTopPadding * 2.0f+ kTitleViewHeight + 4.0f * kItemViewHeight;
+            if (self.coach.peerCoaches.count == 0) {
+                return kTopPadding * 2.0 + kTitleViewHeight + 2.0f * kItemViewHeight;
+            }
+            return kTopPadding + kTitleViewHeight + 2.0f * kItemViewHeight;
+        }
+            
+        case CoachCellPartnerCoaches: {
+            if (self.coach.peerCoaches.count == 0) {
+                return 0;
+            }
+            return kTopPadding * 2.0f+ kTitleViewHeight + self.coach.peerCoaches.count * 70.0f;
         }
 
         default: {

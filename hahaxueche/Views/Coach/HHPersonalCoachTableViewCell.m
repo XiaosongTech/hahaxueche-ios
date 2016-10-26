@@ -12,6 +12,7 @@ static CGFloat const kAvatarRadius = 30.0f;
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
 #import <UIImageView+WebCache.h>
+#import "HHPersonalCoachPrice.h"
 
 
 @implementation HHPersonalCoachTableViewCell
@@ -119,7 +120,9 @@ static CGFloat const kAvatarRadius = 30.0f;
         [self.priceView removeFromSuperview];
         self.priceView = nil;
     }
-    self.priceView = [[HHPriceView alloc] initWithTitle:@"9h" subTitle:@"短期速成, 高性价比" price:@(50000)];
+    HHPersonalCoachPrice *price = [coach.prices firstObject];
+    
+    self.priceView = [[HHPriceView alloc] initWithTitle:[NSString stringWithFormat:@"%@h", [price.duration stringValue]] subTitle:price.des price:price.price];
     [self.contentView addSubview:self.priceView];
     [self.priceView makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.contentView.bottom);

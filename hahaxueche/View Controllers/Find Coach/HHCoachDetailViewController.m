@@ -382,7 +382,8 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     self.popup = [HHPopupUtility createPopupWithContentView:view];
     view.confirmBlock = ^() {
         HHIntroViewController *vc = [[HHIntroViewController alloc] init];
-        [self presentViewController:vc animated:YES completion:nil];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        [self presentViewController:nav animated:YES completion:nil];
     };
     view.cancelBlock = ^() {
         [HHPopupUtility dismissPopup:self.popup];

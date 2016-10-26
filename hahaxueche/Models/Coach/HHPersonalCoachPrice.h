@@ -13,5 +13,6 @@
 @property (nonatomic) NSNumber *licenseType;
 @property (nonatomic) NSNumber *duration;
 @property (nonatomic) NSNumber *price;
+@property (nonatomic) NSString *des;
 
 @end

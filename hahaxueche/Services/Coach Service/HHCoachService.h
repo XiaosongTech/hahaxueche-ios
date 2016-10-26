@@ -138,4 +138,11 @@ typedef void (^HHPersonalCoachListCompletion)(HHPersonalCoaches *coaches, NSErro
  */
 - (void)fetchPersoanlCoachWithFilters:(HHPersonalCoachFilters *)filters sortOption:(PersonalCoachSortOption)sortOption completion:(HHPersonalCoachListCompletion)completion;
 
+/**
+ Get more personal coach
+ @param url The url
+ @param completion The completion block to execute on completion
+ */
+- (void)getMorePersonalCoachWithURL:(NSString *)url completion:(HHPersonalCoachListCompletion) completion;
+
 @end

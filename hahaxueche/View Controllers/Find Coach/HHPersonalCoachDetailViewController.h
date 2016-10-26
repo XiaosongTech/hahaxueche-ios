@@ -9,8 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "HHPersonalCoach.h"
 
+typedef void (^HHPersonalCoachUpdateBlock)(HHPersonalCoach *coach);
+
 @interface HHPersonalCoachDetailViewController : UIViewController
 
 - (instancetype)initWithCoach:(HHPersonalCoach *)coach;
+
+@property (nonatomic, strong) HHPersonalCoachUpdateBlock coachUpdateBlock;
 
 @end

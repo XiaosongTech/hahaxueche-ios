@@ -24,17 +24,11 @@
 }
 
 - (void)initSubviews {
-    self.titleView = [[HHMyPageItemTitleView alloc] initWithTitle:@"课程信息"];
+    self.titleView = [[HHMyPageItemTitleView alloc] initWithTitle:@"班别信息"];
     [self.contentView addSubview:self.titleView];
     
-    self.licenseTypeView = [[HHMyPageItemView alloc] initWitTitle:@"课程类型" showLine:YES];
-    [self.contentView addSubview:self.licenseTypeView];
-    
-    self.courseTypesView = [[HHMyPageItemView alloc] initWitTitle:@"教授科目" showLine:YES];
-    [self.contentView addSubview:self.courseTypesView];
-    
-    self.feeTypeView = [[HHMyPageItemView alloc] initWitTitle:@"培训费类型" showLine:YES];
-    [self.contentView addSubview:self.feeTypeView];
+    self.classTypeView = [[HHMyPageItemView alloc] initWitTitle:@"购买班别" showLine:YES];
+    [self.contentView addSubview:self.classTypeView];
     
     self.feeDetailView = [[HHMyPageItemView alloc] initWitTitle:@"费用及明细" showLine:NO];
     self.feeDetailView.arrowImageView.hidden = NO;
@@ -51,22 +45,8 @@
         make.height.mas_equalTo(kTitleViewHeight);
     }];
     
-    [self.licenseTypeView makeConstraints:^(MASConstraintMaker *make) {
+    [self.classTypeView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleView.bottom);
-        make.left.equalTo(self.left);
-        make.width.equalTo(self.width);
-        make.height.mas_equalTo(kItemViewHeight);
-        
-    }];
-    [self.courseTypesView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.licenseTypeView.bottom);
-        make.left.equalTo(self.left);
-        make.width.equalTo(self.width);
-        make.height.mas_equalTo(kItemViewHeight);
-        
-    }];
-    [self.feeTypeView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.courseTypesView.bottom);
         make.left.equalTo(self.left);
         make.width.equalTo(self.width);
         make.height.mas_equalTo(kItemViewHeight);
@@ -74,7 +54,7 @@
     }];
     
     [self.feeDetailView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.feeTypeView.bottom);
+        make.top.equalTo(self.classTypeView.bottom);
         make.left.equalTo(self.left);
         make.width.equalTo(self.width);
         make.height.mas_equalTo(kItemViewHeight);
@@ -82,10 +62,8 @@
     }];
 }
 
-- (void)setupCellWithCoach:(HHCoach *)coach {
-    self.licenseTypeView.valueLabel.text = [coach licenseTypesName];
-    self.courseTypesView.valueLabel.text = [coach serviceTypesName];
-    self.feeTypeView.valueLabel.text = @"包干";
+- (void)setupCellWithStudent:(HHStudent *)student {
+    self.classTypeView.valueLabel.text = [student getPurchasedProductName];
 }
 
 @end

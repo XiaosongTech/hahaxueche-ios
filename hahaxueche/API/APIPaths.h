@@ -41,6 +41,7 @@
 #define kAPIStudentWithdrawTransacion @"bank_cards/withdraw_records"
 #define kAPIGroupPurchase @"activity_users"
 #define kAPILikeCoach @"students/%@/like/%@"
+#define kAPILikePersonalCoach @"students/%@/liked_training_partners/%@"
 #define kAPIEvents @"events"
 #define kAPIBankCards @"bank_cards"
 #define kAPIStudentWithdraw @"students/%@/withdraw"

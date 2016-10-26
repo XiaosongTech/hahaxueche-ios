@@ -159,10 +159,6 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     NSNumber *lon = @(weakSelf.userLocation.coordinate.longitude);
     NSArray *locationArray = @[lat, lon];
     [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].currentStudent.cityId filters:weakSelf.coachFilters sortOption:weakSelf.currentSortOption fields:weakSelf.selectedFields userLocation:locationArray completion:^(HHCoaches *coaches, NSError *error) {
-        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-        if (completion) {
-            completion();
-        }
         if (!error) {
             weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
             weakSelf.coachesObject = coaches;
@@ -170,6 +166,10 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         } else {
             [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
         }
+        if (completion) {
+            completion();
+        }
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         
     }];
 }
@@ -197,10 +197,6 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     }
    
     [[HHCoachService sharedInstance] fetchPersoanlCoachWithFilters:self.coachFilters2 sortOption:self.currentSortOption2 completion:^(HHPersonalCoaches *coaches, NSError *error) {
-        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-        if (completion) {
-            completion();
-        }
         if (!error) {
             weakSelf.personalCoaches = [NSMutableArray arrayWithArray:coaches.coaches];
             weakSelf.personalCoachesObject = coaches;
@@ -208,12 +204,26 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         } else {
             [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
         }
-
+        if (completion) {
+            completion();
+        }
+         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
     }];
 }
 
 - (void)loadMorePersonalCoachesWithCompletion:(HHRefreshCoachCompletionBlock)completion {
-    
+    [[HHCoachService sharedInstance] getMorePersonalCoachWithURL:self.personalCoachesObject.nextPage completion:^(HHPersonalCoaches *coaches, NSError *error) {
+        if (completion) {
+            completion();
+        }
+        if (!error) {
+            [self.personalCoaches addObjectsFromArray:coaches.coaches];
+            self.personalCoachesObject = coaches;
+            [self.tableView2 reloadData];
+        }
+
+    }];
+
 }
 
 - (void)setPersonalCoachesObject:(HHPersonalCoaches *)personalCoachesObject {
@@ -252,7 +262,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 
 - (void)setupDefaultSortAndFilter {
     self.userCity = [[HHConstantsStore sharedInstance] getAuthedUserCity];
-    NSNumber *defaultDistance = self.userCity.distanceRanges[self.userCity.distanceRanges.count - 2];
+    NSNumber *defaultDistance = self.userCity.distanceRanges[self.userCity.distanceRanges.count - 1];
     NSNumber *defaultPrice = [self.userCity.priceRanges lastObject];
     HHCoachFilters *defaultFilters = [[HHCoachFilters alloc] init];
     defaultFilters.price = defaultPrice;
@@ -370,8 +380,8 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    __weak HHFindCoachViewController *weakSelf = self;
     if ([tableView isEqual:self.tableView]) {
-        __weak HHFindCoachViewController *weakSelf = self;
         HHCoachDetailViewController *coachDetailVC = [[HHCoachDetailViewController alloc] initWithCoach:self.coaches[indexPath.row]];
         coachDetailVC.coachUpdateBlock = ^(HHCoach *coach) {
             [weakSelf.coaches replaceObjectAtIndex:indexPath.row withObject:coach];
@@ -381,6 +391,10 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         [self.navigationController pushViewController:coachDetailVC animated:YES];
     } else {
         HHPersonalCoachDetailViewController *vc = [[HHPersonalCoachDetailViewController alloc] initWithCoach:self.personalCoaches[indexPath.row]];
+        vc.coachUpdateBlock = ^(HHPersonalCoach *coach) {
+            [weakSelf.personalCoaches replaceObjectAtIndex:indexPath.row withObject:coach];
+            [weakSelf.tableView2 reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+        };
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -476,7 +490,6 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         if (completion) {
             completion();
         }
-
     }];
 }
 
@@ -688,7 +701,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         [self.tableView makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.horizontalLine.bottom);
             make.left.equalTo(view.left);
-            make.bottom.equalTo(view.bottom);
+            make.bottom.equalTo(view.bottom).offset(-1 * CGRectGetHeight(self.tabBarController.tabBar.frame));
             make.width.equalTo(view.width);
         }];
     } else {
@@ -776,7 +789,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         [self.tableView2 makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.horizontalLine2.bottom);
             make.left.equalTo(view.left);
-            make.bottom.equalTo(view.bottom);
+            make.bottom.equalTo(view.bottom).offset(-1 * CGRectGetHeight(self.tabBarController.tabBar.frame));
             make.width.equalTo(view.width);
         }];
     }

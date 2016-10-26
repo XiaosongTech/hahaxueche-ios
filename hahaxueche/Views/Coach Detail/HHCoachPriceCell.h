@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HHPriceItemView.h"
 #import "HHCoach.h"
+#import "HHPersonalCoach.h"
 
 typedef void (^HHCoachPriceBlock)();
 
@@ -23,9 +24,12 @@ typedef void (^HHCoachPriceBlock)();
 @property (nonatomic, strong) HHPriceItemView *c2PriceItemView;
 @property (nonatomic, strong) HHPriceItemView *c2VIPPriceItemView;
 
+@property (nonatomic, strong) NSMutableArray *personalCoachPriceViews;
+
 @property (nonatomic, strong) HHCoachPriceBlock priceAction;
 
 - (void)setupCellWithCoach:(HHCoach *)coach;
+- (void)setupCellWithPersonalCoach:(HHPersonalCoach *)coach;
 
 
 @end

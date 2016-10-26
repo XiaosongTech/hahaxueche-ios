@@ -289,5 +289,22 @@
     }];
 
 }
+- (void)getMorePersonalCoachWithURL:(NSString *)url completion:(HHPersonalCoachListCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClient];
+    [APIClient getWithURL:url completion:^(NSDictionary *response, NSError *error) {
+        if(!error) {
+            HHPersonalCoaches *coaches = [MTLJSONAdapter modelOfClass:[HHPersonalCoaches class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion (coaches, nil);
+            }
+        } else {
+            if (completion) {
+                completion (nil, error);
+            }
+        }
+
+    }];
+
+}
 
 @end

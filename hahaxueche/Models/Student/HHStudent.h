@@ -32,5 +32,6 @@
 
 
 - (NSString *)getCourseName;
+- (NSString *)getPurchasedProductName;
 
 @end
