@@ -31,6 +31,7 @@
 			<string>com.xiaosong.hahaxueche</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>dsc4e677e0fa60ceb4</string>
 				<string>hhxc</string>
 				<string>wxdf5f23aa517b1a96</string>
 				<string>tencent1104872131</string>

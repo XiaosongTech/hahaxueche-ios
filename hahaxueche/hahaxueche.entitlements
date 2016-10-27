@@ -5,6 +5,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:bnc.lt</string>
+		<string>applinks:fds.so</string>
 	</array>
 </dict>
 </plist>

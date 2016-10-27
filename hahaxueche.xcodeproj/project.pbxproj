@@ -537,6 +537,8 @@
 		6D85522E1CD60E700021D4C9 /* HHReferrals.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D85522D1CD60E700021D4C9 /* HHReferrals.m */; };
 		6D8552311CD8408B0021D4C9 /* HHWithdraws.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8552301CD8408B0021D4C9 /* HHWithdraws.m */; };
 		6D95A4491DC0C926003CB78D /* HHMyCoachPeerCoachesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D95A4481DC0C926003CB78D /* HHMyCoachPeerCoachesTableViewCell.m */; };
+		6D95A44E1DC1AB04003CB78D /* libDeepShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D95A44D1DC1AB04003CB78D /* libDeepShare.a */; };
+		6D95A4501DC1ACAD003CB78D /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D95A44F1DC1ACAD003CB78D /* SafariServices.framework */; };
 		6D96AE331D20F980003C1E84 /* ic_sort_nice_hold_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D96AE271D20F980003C1E84 /* ic_sort_nice_hold_btn.png */; };
 		6D96AE341D20F980003C1E84 /* ic_sort_nice_hold_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D96AE281D20F980003C1E84 /* ic_sort_nice_hold_btn@2x.png */; };
 		6D96AE351D20F980003C1E84 /* ic_sort_nice_hold_btn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D96AE291D20F980003C1E84 /* ic_sort_nice_hold_btn@3x.png */; };
@@ -1455,6 +1457,10 @@
 		6D8552301CD8408B0021D4C9 /* HHWithdraws.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHWithdraws.m; sourceTree = "<group>"; };
 		6D95A4471DC0C926003CB78D /* HHMyCoachPeerCoachesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyCoachPeerCoachesTableViewCell.h; sourceTree = "<group>"; };
 		6D95A4481DC0C926003CB78D /* HHMyCoachPeerCoachesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyCoachPeerCoachesTableViewCell.m; sourceTree = "<group>"; };
+		6D95A44B1DC1AB04003CB78D /* DeepShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeepShare.h; sourceTree = "<group>"; };
+		6D95A44C1DC1AB04003CB78D /* DSError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSError.h; sourceTree = "<group>"; };
+		6D95A44D1DC1AB04003CB78D /* libDeepShare.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libDeepShare.a; sourceTree = "<group>"; };
+		6D95A44F1DC1ACAD003CB78D /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		6D96AE271D20F980003C1E84 /* ic_sort_nice_hold_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_sort_nice_hold_btn.png; sourceTree = "<group>"; };
 		6D96AE281D20F980003C1E84 /* ic_sort_nice_hold_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_sort_nice_hold_btn@2x.png"; sourceTree = "<group>"; };
 		6D96AE291D20F980003C1E84 /* ic_sort_nice_hold_btn@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_sort_nice_hold_btn@3x.png"; sourceTree = "<group>"; };
@@ -1737,6 +1743,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D95A4501DC1ACAD003CB78D /* SafariServices.framework in Frameworks */,
 				14700D921C79550700660989 /* Security.framework in Frameworks */,
 				5C5F873A1BF16BEF006F9594 /* UIKit.framework in Frameworks */,
 				5CD4E9F81B5AA10C003CF15E /* SystemConfiguration.framework in Frameworks */,
@@ -1750,6 +1757,7 @@
 				5C5F872E1BF16B98006F9594 /* CoreMotion.framework in Frameworks */,
 				5C5F872C1BF16B8F006F9594 /* CoreGraphics.framework in Frameworks */,
 				5C5F872A1BF16B80006F9594 /* AudioToolbox.framework in Frameworks */,
+				6D95A44E1DC1AB04003CB78D /* libDeepShare.a in Frameworks */,
 				5C7A4EF41BBCD7EF003DB168 /* MobileCoreServices.framework in Frameworks */,
 				5C7A4EF01BBCD345003DB168 /* libz.tbd in Frameworks */,
 				5C7A4EEE1BBCD2DE003DB168 /* libicucore.tbd in Frameworks */,
@@ -1938,6 +1946,7 @@
 		141FA0F71C6BAD0C00113B1A /* Third Party Libs */ = {
 			isa = PBXGroup;
 			children = (
+				6D95A44A1DC1AAF8003CB78D /* DeepShare */,
 				6DF53B6C1D4707BA00CA0F6B /* CountDown */,
 				6DD5683C1D6948C200B9B319 /* Openshare */,
 				143F57B81C6D39C400835AA4 /* ParallaxHeaderView */,
@@ -3034,6 +3043,16 @@
 			path = Referral;
 			sourceTree = "<group>";
 		};
+		6D95A44A1DC1AAF8003CB78D /* DeepShare */ = {
+			isa = PBXGroup;
+			children = (
+				6D95A44B1DC1AB04003CB78D /* DeepShare.h */,
+				6D95A44C1DC1AB04003CB78D /* DSError.h */,
+				6D95A44D1DC1AB04003CB78D /* libDeepShare.a */,
+			);
+			name = DeepShare;
+			sourceTree = "<group>";
+		};
 		6DD5683C1D6948C200B9B319 /* Openshare */ = {
 			isa = PBXGroup;
 			children = (
@@ -3083,6 +3102,7 @@
 		D888D3204AF4D3C403817A89 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6D95A44F1DC1ACAD003CB78D /* SafariServices.framework */,
 				14700D911C79550600660989 /* Security.framework */,
 				5C5F87391BF16BEF006F9594 /* UIKit.framework */,
 				5C5F87371BF16BD6006F9594 /* QuartzCore.framework */,
@@ -4146,6 +4166,7 @@
 					"$(PROJECT_DIR)/hahaxueche",
 					"$(PROJECT_DIR)/hahaxueche/Alipay",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/hahaxueche/Third\\ Party\\ Libs/**",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -4211,6 +4232,7 @@
 					"$(PROJECT_DIR)/hahaxueche",
 					"$(PROJECT_DIR)/hahaxueche/Alipay",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/hahaxueche/Third\\ Party\\ Libs/**",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
