@@ -34,7 +34,7 @@ target "hahaxueche" do
     pod 'Instabug'
     pod 'TTTAttributedLabel'
     pod 'QIYU_iOS_SDK', '~> 2.7.0'
-    pod 'HMSegmentedControl'
+    pod 'HMSegmentedControl', '~> 1.5'
     pod 'SwipeView', '~> 1.3'
     pod 'FLAnimatedImage', '~> 1.0'
     pod 'EAFeatureGuideView'

@@ -97,7 +97,7 @@ DEPENDENCIES:
   - FLAnimatedImage (~> 1.0)
   - Harpy
   - HCSStarRatingView (~> 1.4)
-  - HMSegmentedControl
+  - HMSegmentedControl (~> 1.5)
   - Instabug
   - INTULocationManager (~> 4.2)
   - KLCPopup
@@ -162,6 +162,6 @@ SPEC CHECKSUMS:
   UITextView+Placeholder: 77680995fcdd07c3f52ec92fe1150874a2ac89ff
   UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
 
-PODFILE CHECKSUM: a7c9a21fa8826858eb6ffcabc86dcf8f36bb5b96
+PODFILE CHECKSUM: a1d999a1865d6f8306a673302e1445427d2ffd14
 
 COCOAPODS: 1.0.0
