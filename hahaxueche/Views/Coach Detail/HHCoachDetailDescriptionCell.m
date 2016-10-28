@@ -150,7 +150,7 @@ static CGFloat const avatarRadius = 30.0f;
     self.nameLabel.text = coach.name;
     [self.nameLabel sizeToFit];
     
-    self.descriptionLabel.text = [coach.intro stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
+    self.descriptionLabel.text = [coach getCoachDes];
     [self.avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl]];
     
     if ([coach.liked boolValue]) {

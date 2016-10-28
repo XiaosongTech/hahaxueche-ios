@@ -14,6 +14,7 @@ typedef void (^HHPersonalCoachUpdateBlock)(HHPersonalCoach *coach);
 @interface HHPersonalCoachDetailViewController : UIViewController
 
 - (instancetype)initWithCoach:(HHPersonalCoach *)coach;
+- (instancetype)initWithCoachId:(NSString *)coachId;
 
 @property (nonatomic, strong) HHPersonalCoachUpdateBlock coachUpdateBlock;
 

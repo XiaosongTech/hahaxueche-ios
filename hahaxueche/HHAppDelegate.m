@@ -32,6 +32,8 @@
 #import "QYSDK.h"
 #import "HHNetworkUtility.h"
 #import "DeepShare.h"
+#import "HHCoachDetailViewController.h"
+#import "HHPersonalCoachDetailViewController.h"
 
 static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
@@ -208,11 +210,27 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 }
 
 //Deepshare
-- (void)onInappDataReturned: (NSDictionary *) params withError: (NSError *) error {
+- (void)onInappDataReturned: (NSDictionary *)params withError: (NSError *) error {
     if (!error) {
-        
-    } else {
-        
+        NSString *type = params[@"type"];
+        if ([type isEqualToString:@"coach_detail"]) {
+            //驾校教练详情页面
+            NSString *coachId = params[@"coach_id"];
+            if (coachId) {
+                HHCoachDetailViewController *coachVC = [[HHCoachDetailViewController alloc] initWithCoachId:coachId];
+                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:coachVC];
+                [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
+            }
+        } else if ([type isEqualToString:@"training_partner_detail"]) {
+            //陪练教练详情页面
+            NSString *coachId = params[@"training_partner_id"];
+            HHPersonalCoachDetailViewController *coachVC = [[HHPersonalCoachDetailViewController alloc] initWithCoachId:coachId];
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:coachVC];
+            [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
+
+        } else {
+            // do nothing
+        }
     }
 }
 
