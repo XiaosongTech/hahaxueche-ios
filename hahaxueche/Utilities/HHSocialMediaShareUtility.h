@@ -10,6 +10,7 @@
 #import "OpenShareHeader.h"
 #import "HHCoach.h"
 #import "HHEvent.h"
+#import "HHPersonalCoach.h"
 
 typedef NS_ENUM(NSInteger, ShareType) {
     ShareTypeQQ,
@@ -27,16 +28,10 @@ typedef void (^LinkCompletion) (NSString *link);
 + (instancetype)sharedInstance;
 
 
+- (void)sharePersonalCoach:(HHPersonalCoach *)coach shareType:(ShareType)shareType;
 - (void)shareCoach:(HHCoach *)coach shareType:(ShareType)shareType;
 - (void)shareMyQRCode:(UIImage *)qrCode shareType:(ShareType)shareType;
 - (void)shareEvent:(HHEvent *)event shareType:(ShareType)shareType;
-
-- (void)shareUserLinkWithType:(ShareType)shareType;
-
-
-- (void)getUserReferLinkWithCompletion:(LinkCompletion)completion;
-
-@property (nonatomic, strong) NSString *userReferBranchLink;
 
 
 @end

@@ -25,13 +25,15 @@
 #import "HHStudentService.h"
 #import "HHToastManager.h"
 #import <Appirater.h>
-#import "Branch.h"
 #import "HHCoachDetailViewController.h"
 #import "HHLoadingViewUtility.h"
 #import <Harpy/Harpy.h>
 #import <Instabug/Instabug.h>
 #import "QYSDK.h"
 #import "HHNetworkUtility.h"
+#import "DeepShare.h"
+#import "HHCoachDetailViewController.h"
+#import "HHPersonalCoachDetailViewController.h"
 
 static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
@@ -71,27 +73,27 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                                     HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
                                     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
                                     self.finalRootVC = navVC;
-                                    [self handleBranchWithLaunchOptions:launchOptions];
+                            
                                 } else {
                                     // Get the saved student object, we lead user to rootVC
                                     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
                                     self.finalRootVC = rootVC;
-                                    [self handleBranchWithLaunchOptions:launchOptions];
+                                    self.window.rootViewController = self.finalRootVC;
                                 }
                             } else {
-                                [self handleBranchWithLaunchOptions:launchOptions];
+                                self.window.rootViewController = self.finalRootVC;
                             }
                         }];
                     } else {
-                        [self handleBranchWithLaunchOptions:launchOptions];
+                        self.window.rootViewController = self.finalRootVC;
                     }
                 }];
                 
             } else {
-                [self handleBranchWithLaunchOptions:launchOptions];
+                self.window.rootViewController = self.finalRootVC;
             }
         } else {
-            [self handleBranchWithLaunchOptions:launchOptions];
+            self.window.rootViewController = self.finalRootVC;
         }
        
     }];
@@ -99,6 +101,9 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [self setWindow:self.window];
     [self setupAllThirdPartyServices];
     [self setAppearance];
+    
+    //Deepshare
+    [DeepShare initWithAppID:@"c4e677e0fa60ceb4" withLaunchOptions:launchOptions withDelegate:self];
     return YES;
 }
 
@@ -108,11 +113,7 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
         return YES;
     }
     
-    BOOL canHandleBranchURL = [[Branch getInstance] handleDeepLink:url];
-    if (canHandleBranchURL) {
-        if (![[HHAppDelegate topMostController] isKindOfClass:[HHLaunchImageViewController class]]) {
-            [[HHLoadingViewUtility sharedInstance] showLoadingView];
-        }
+    if([DeepShare handleURL:url]){
         return YES;
     }
     
@@ -121,7 +122,7 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
         return YES;
     }
 
-    return YES;
+    return NO;
 }
 
 
@@ -185,20 +186,52 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     
     //七牛
     [[QYSDK sharedSDK] registerAppId:@"2f328da38ac77ce6d796c2977248f7e2" appName:@"hahaxueche-ios"];
+    
+    //Harpy
+    [[Harpy sharedInstance] setAppID:@"1011236187"];
+    [[Harpy sharedInstance] setPresentingViewController:self.window.rootViewController];
+    [[Harpy sharedInstance] setDelegate:self];
+    [[Harpy sharedInstance] setAppName:@"哈哈学车"];
+    [[Harpy sharedInstance] setForceLanguageLocalization:HarpyLanguageChineseSimplified];
+    [[Harpy sharedInstance] setDebugEnabled:YES];
+    [[Harpy sharedInstance] setAlertType:HarpyAlertTypeOption];
+    [[Harpy sharedInstance] setCountryCode:@"CN"];
+    [[Harpy sharedInstance] checkVersion];
+
+    
 
 }
 
 
 // Respond to Universal Links
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
-    BOOL handledByBranch = [[Branch getInstance] continueUserActivity:userActivity];
-    if (handledByBranch) {
-        if (![[HHAppDelegate topMostController] isKindOfClass:[HHLaunchImageViewController class]]) {
-            [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    BOOL handledByDeepShare = [DeepShare continueUserActivity:userActivity];
+    return handledByDeepShare;
+}
+
+//Deepshare
+- (void)onInappDataReturned: (NSDictionary *)params withError: (NSError *) error {
+    if (!error) {
+        NSString *type = params[@"type"];
+        if ([type isEqualToString:@"coach_detail"]) {
+            //驾校教练详情页面
+            NSString *coachId = params[@"coach_id"];
+            if (coachId) {
+                HHCoachDetailViewController *coachVC = [[HHCoachDetailViewController alloc] initWithCoachId:coachId];
+                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:coachVC];
+                [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
+            }
+        } else if ([type isEqualToString:@"training_partner_detail"]) {
+            //陪练教练详情页面
+            NSString *coachId = params[@"training_partner_id"];
+            HHPersonalCoachDetailViewController *coachVC = [[HHPersonalCoachDetailViewController alloc] initWithCoachId:coachId];
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:coachVC];
+            [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
+
+        } else {
+            // do nothing
         }
     }
-    
-    return handledByBranch;
 }
 
 + (UIViewController *) topMostController {
@@ -210,39 +243,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     return topController;
 }
 
-- (void)handleBranchWithLaunchOptions:(NSDictionary *)launchOptions {
-    Branch *branch = [Branch getInstance];
-    [branch initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
-        self.window.rootViewController = self.finalRootVC;
-        [[Harpy sharedInstance] setAppID:@"1011236187"];
-        [[Harpy sharedInstance] setPresentingViewController:self.window.rootViewController];
-        [[Harpy sharedInstance] setDelegate:self];
-        [[Harpy sharedInstance] setAppName:@"哈哈学车"];
-        [[Harpy sharedInstance] setForceLanguageLocalization:HarpyLanguageChineseSimplified];
-        [[Harpy sharedInstance] setDebugEnabled:YES];
-        [[Harpy sharedInstance] setAlertType:HarpyAlertTypeOption];
-        [[Harpy sharedInstance] setCountryCode:@"CN"];
-        [[Harpy sharedInstance] checkVersion];
-        
-        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-        if (!error) {
-            //not Branch link
-            if (![params[@"+clicked_branch_link"] boolValue]) {
-                return ;
-            }
-            //handle Branch link
-            NSString *coachId = params[@"coachId"];
-            if (coachId) {
-                HHCoachDetailViewController *coachVC = [[HHCoachDetailViewController alloc] initWithCoachId:coachId];
-                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:coachVC];
-                [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
-            }
-            
-        }
-    }];
-
-    
-}
 
 
 @end

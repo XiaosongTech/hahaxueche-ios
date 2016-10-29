@@ -32,6 +32,12 @@
 }
 
 
-
+- (NSString *)getCoachDes {
+    NSString *string = nil;
+    for (NSString *stringPart in self.intro) {
+        [string stringByAppendingString:[NSString stringWithFormat:@"\n%@", stringPart]];
+    }
+    return string;
+}
 
 @end

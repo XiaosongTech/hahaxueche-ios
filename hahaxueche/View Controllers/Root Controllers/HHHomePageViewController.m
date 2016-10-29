@@ -79,6 +79,16 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.banners = [[HHConstantsStore sharedInstance] getHomePageBanners];
+    [self initSubviews];
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
+    [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
+
+
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES];   //it hides
     
     __weak HHHomePageViewController *weakSelf = self;
     NSArray *cities = [[HHConstantsStore sharedInstance] getSupporteCities];
@@ -90,27 +100,19 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
             weakSelf.citySelectView.completion = ^(HHCity *selectedCity) {
                 if (selectedCity) {
                     [HHStudentStore sharedInstance].currentStudent.cityId = selectedCity.cityId;
+                } else {
+                    [HHStudentStore sharedInstance].currentStudent.cityId = @(0);
                 }
                 [HHPopupUtility dismissPopup:weakSelf.popup];
                 [weakSelf showUserGuideView];
                 
             };
-            [HHStudentStore sharedInstance].currentStudent.cityId = @(0);
+            
             weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.citySelectView];
             [weakSelf.popup show];
         }
     }
-    
-    [self initSubviews];
-    self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
-    [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
 
-
-}
-
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES];   //it hides
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

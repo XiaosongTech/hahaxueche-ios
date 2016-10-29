@@ -19,8 +19,9 @@
 @property (nonatomic, copy) NSNumber *liked;
 @property (nonatomic, copy) NSNumber *likeCount;
 @property (nonatomic, copy) NSNumber *cityId;
-@property (nonatomic, copy) NSString *intro;
+@property (nonatomic, copy) NSArray *intro;
 @property (nonatomic, copy) NSArray *prices;
 
+- (NSString *)getCoachDes;
 
 @end

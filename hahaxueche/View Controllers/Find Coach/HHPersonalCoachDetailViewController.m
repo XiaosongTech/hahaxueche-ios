@@ -24,6 +24,7 @@
 #import <pop/POP.h>
 #import "HHShareView.h"
 #import "HHSocialMediaShareUtility.h"
+#import "HHCoachService.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -40,6 +41,7 @@ static NSString *const kPriceCellID = @"kPriceCellID";
 @property (nonatomic, strong) UIButton *callButton;
 @property (nonatomic, strong) SDCycleScrollView *coachImagesView;
 @property (nonatomic, strong) HHPersonalCoach *coach;
+@property (nonatomic, strong) NSString *coachId;
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic) BOOL liking;
 
@@ -55,6 +57,28 @@ static NSString *const kPriceCellID = @"kPriceCellID";
     }
     return self;
 }
+
+- (instancetype)initWithCoachId:(NSString *)coachId {
+    self = [super init];
+    if (self) {
+        self.coachId = coachId;
+        [[HHCoachService sharedInstance] fetchPersoanlCoachWithId:self.coachId completion:^(HHPersonalCoach *coach, NSError *error) {
+            if (!error) {
+                self.coach = coach;
+                self.coachImagesView.imageURLStringsGroup = coach.images;
+            }
+        }];
+    }
+
+    return self;
+}
+
+- (void)setCoach:(HHPersonalCoach *)coach {
+    _coach = coach;
+    [self.tableView reloadData];
+}
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -103,8 +127,11 @@ static NSString *const kPriceCellID = @"kPriceCellID";
 }
 
 - (void)popupVC {
-    [self.navigationController popViewControllerAnimated:YES];
-}
+    if ([self.navigationController.viewControllers count] == 1) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }}
 
 #pragma mark - TableView Delegate & Datasource Methods
 
@@ -145,7 +172,7 @@ static NSString *const kPriceCellID = @"kPriceCellID";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case CoachCellDescription: {
-            return CGRectGetHeight([self getDescriptionTextSizeWithText:[self.coach.intro stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"]]) + 55.0f;
+            return CGRectGetHeight([self getDescriptionTextSizeWithText:[self.coach getCoachDes]]) + 55.0f;
         }
             
         case CoachCellPrice: {
@@ -253,23 +280,23 @@ static NSString *const kPriceCellID = @"kPriceCellID";
     shareView.actionBlock = ^(SocialMedia selecteItem) {
         switch (selecteItem) {
             case SocialMediaQQFriend: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeQQ];
+                [[HHSocialMediaShareUtility sharedInstance] sharePersonalCoach:self.coach shareType:ShareTypeQQ];
             } break;
                 
             case SocialMediaWeibo: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeWeibo];
+                [[HHSocialMediaShareUtility sharedInstance] sharePersonalCoach:self.coach shareType:ShareTypeWeibo];
             } break;
                 
             case SocialMediaWeChatFriend: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeWeChat];
+                [[HHSocialMediaShareUtility sharedInstance] sharePersonalCoach:self.coach shareType:ShareTypeWeChat];
             } break;
                 
             case SocialMediaWeChaPYQ: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeWeChatTimeLine];
+                [[HHSocialMediaShareUtility sharedInstance] sharePersonalCoach:self.coach shareType:ShareTypeWeChatTimeLine];
             } break;
                 
             case SocialMediaQZone: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeQZone];
+                [[HHSocialMediaShareUtility sharedInstance] sharePersonalCoach:self.coach shareType:ShareTypeQZone];
             } break;
                 
             default:
@@ -280,6 +307,7 @@ static NSString *const kPriceCellID = @"kPriceCellID";
     self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
     [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
 }
+
 
 
 @end
