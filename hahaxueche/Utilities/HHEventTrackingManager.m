@@ -45,6 +45,10 @@
     return self;
 }
 
+- (void)eventTriggeredWithId:(NSString *)eventId attributes:(NSDictionary *)attributes {
+    [MobClick event:eventId attributes:attributes];
+}
+
 
 
 @end

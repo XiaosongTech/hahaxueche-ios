@@ -38,6 +38,7 @@
 #import "HHReferralShareView.h"
 #import "UIView+EAFeatureGuideView.h"
 #import "HHHomPageCardView.h"
+#import "HHEventTrackingManager.h"
 
 static NSString *const kCoachLink = @"http://m.hahaxueche.com/share/best-coaches";
 static NSString *const kDrivingSchoolLink = @"http://m.hahaxueche.com/share/zhaojiaxiao";

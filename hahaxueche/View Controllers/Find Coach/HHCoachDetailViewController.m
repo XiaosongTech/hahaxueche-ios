@@ -44,6 +44,7 @@
 #import "HHWebViewController.h"
 #import "HHFreeTrialUtility.h"
 #import "HHCoachPriceDetailViewController.h"
+#import "HHGenericOneButtonPopupView.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -218,6 +219,27 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
                 HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:weakSelf.coach];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             };
+            cell.licenseTypeAction = ^ (NSInteger licenseType) {
+                NSString *text = @"C1为手动挡小型车驾照，取得了C1类驾驶证的人可以驾驶C2类车。";
+                CGFloat height = 200.0f;
+                NSString *title = @"什么是C1手动挡?";
+                if (licenseType == 2) {
+                    height = 250.0f;
+                    title = @"什么是C2自动挡?";
+                    text = @"C2为自动挡小型车驾照，取得了C2类驾驶证的人不可以驾驶C1类车。C2驾照培训费要稍贵于C1照。费用的差别主要是由于C2自动挡教练车数量比较少，使用过程中维修费用比较高所致。";
+                };
+                
+                NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+                style.lineSpacing = 3.0f;
+                NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:style}];
+                HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, height) title:title info:attString];
+                view.cancelBlock = ^() {
+                    [HHPopupUtility dismissPopup:weakSelf.popup];
+                };
+                weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                [HHPopupUtility showPopup:weakSelf.popup];
+                
+            };
             [cell setupCellWithCoach:self.coach];
             return cell;
         }
@@ -270,19 +292,18 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         }
             
         case CoachCellPrice: {
-            NSInteger priceCount = 0;
+
+            CGFloat height = 86.0f + 50.0f + 35.0f;
             if ([self.coach.VIPPrice floatValue] > 0) {
-                priceCount++;
+                height = height + 50.0f;
             }
             
-            if ([self.coach.c2Price floatValue] > 0) {
-                priceCount++;
+            if ([self.coach.c2VIPPrice floatValue] > 0 && [self.coach.c2Price floatValue] > 0) {
+                height = height + 35.0f + 2 * 50.0f;
+            } else if ([self.coach.c2VIPPrice floatValue] > 0 || [self.coach.c2Price floatValue] > 0) {
+                height = height + 35.0f + 50.0f;
             }
-            
-            if ([self.coach.c2VIPPrice floatValue] > 0) {
-                priceCount++;
-            }
-            return 156 + priceCount * 70.0f;
+            return height;
         }
             
         case CoachCellField: {

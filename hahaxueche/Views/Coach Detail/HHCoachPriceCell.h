@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HHPriceItemView.h"
 #import "HHCoach.h"
 #import "HHPersonalCoach.h"
+#import "HHPriceSectionView.h"
 
 typedef void (^HHCoachPriceBlock)();
+typedef void (^HHLicenseTypeBlock)(NSInteger licenseType);
 
 @interface HHCoachPriceCell : UITableViewCell
 
@@ -19,14 +20,12 @@ typedef void (^HHCoachPriceBlock)();
 @property (nonatomic, strong) UIView *topView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIImageView *arrowView;
-@property (nonatomic, strong) HHPriceItemView *standartPriceItemView;
-@property (nonatomic, strong) HHPriceItemView *VIPPriceItemView;
-@property (nonatomic, strong) HHPriceItemView *c2PriceItemView;
-@property (nonatomic, strong) HHPriceItemView *c2VIPPriceItemView;
-
-@property (nonatomic, strong) NSMutableArray *personalCoachPriceViews;
+@property (nonatomic, strong) UIView *topLine;
+@property (nonatomic, strong) HHPriceSectionView *c1View;
+@property (nonatomic, strong) HHPriceSectionView *c2View;
 
 @property (nonatomic, strong) HHCoachPriceBlock priceAction;
+@property (nonatomic, strong) HHLicenseTypeBlock licenseTypeAction;
 
 - (void)setupCellWithCoach:(HHCoach *)coach;
 - (void)setupCellWithPersonalCoach:(HHPersonalCoach *)coach;

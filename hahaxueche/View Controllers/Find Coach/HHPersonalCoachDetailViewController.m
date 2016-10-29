@@ -25,6 +25,7 @@
 #import "HHShareView.h"
 #import "HHSocialMediaShareUtility.h"
 #import "HHCoachService.h"
+#import "HHGenericOneButtonPopupView.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -158,7 +159,28 @@ static NSString *const kPriceCellID = @"kPriceCellID";
             
         case CoachCellPrice: {
             HHCoachPriceCell *cell = [tableView dequeueReusableCellWithIdentifier:kPriceCellID forIndexPath:indexPath];
-           [cell setupCellWithPersonalCoach:self.coach];
+            cell.licenseTypeAction = ^(NSInteger licenseType) {
+                NSString *text = @"C1为手动挡小型车驾照，取得了C1类驾驶证的人可以驾驶C2类车。";
+                CGFloat height = 200.0f;
+                NSString *title = @"什么是C1手动挡?";
+                if (licenseType == 2) {
+                    height = 250.0f;
+                    title = @"什么是C2自动挡?";
+                    text = @"C2为自动挡小型车驾照，取得了C2类驾驶证的人不可以驾驶C1类车。C2驾照培训费要稍贵于C1照。费用的差别主要是由于C2自动挡教练车数量比较少，使用过程中维修费用比较高所致。";
+                };
+                
+                NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+                style.lineSpacing = 3.0f;
+                NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:style}];
+                HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, height) title:title info:attString];
+                view.cancelBlock = ^() {
+                    [HHPopupUtility dismissPopup:weakSelf.popup];
+                };
+                weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                [HHPopupUtility showPopup:weakSelf.popup];
+
+            };
+            [cell setupCellWithPersonalCoach:self.coach];
             return cell;
         }
         
@@ -176,7 +198,18 @@ static NSString *const kPriceCellID = @"kPriceCellID";
         }
             
         case CoachCellPrice: {
-            return 85 + self.coach.prices.count * 70.0f;
+            NSArray *c2Prices = [self.coach.prices filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"licenseType == %ld", 2]];
+            NSArray *c1Prices = [self.coach.prices filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"licenseType == %ld", 1]];
+            
+            CGFloat height = 0;
+            if ([c1Prices count] > 0) {
+                height = height + 35.0f + c1Prices.count * 50;
+            }
+            
+            if ([c2Prices count] > 0) {
+                height = height + 35.0f + c2Prices.count * 50;
+            }
+            return 85 + height;
         }
         default: {
             return 0;

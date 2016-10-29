@@ -17,28 +17,26 @@
     self = [super init];
     if (self) {
         
-        self.licenseTypeLabel = [self buildLabel];
-        [self addSubview:self.licenseTypeLabel];
-        
         self.productTypeLabel = [self buildLabel];
-        self.productTypeLabel.backgroundColor = [UIColor HHOrange];
+        self.productTypeLabel.layer.masksToBounds = YES;
+        self.productTypeLabel.layer.borderWidth = 2.0f/[UIScreen mainScreen].scale;
+        self.priceLabel.layer.cornerRadius = 5.0f;
         [self addSubview:self.productTypeLabel];
         
         
         self.priceLabel = [[UILabel alloc] init];
-        self.priceLabel.textColor = [UIColor HHOrange];
         self.priceLabel.font = [UIFont systemFontOfSize:18.0f];
         [self addSubview:self.priceLabel];
         
         self.detailLabel = [[UILabel alloc] init];
         self.detailLabel.textColor = [UIColor HHLightTextGray];
-        self.detailLabel.font = [UIFont systemFontOfSize:15.0f];
+        self.detailLabel.font = [UIFont systemFontOfSize:16.0f];
         [self addSubview:self.detailLabel];
         
         
-        self.topLine = [[UIView alloc] init];
-        self.topLine.backgroundColor = [UIColor HHLightLineGray];
-        [self addSubview:self.topLine];
+        self.botLine = [[UIView alloc] init];
+        self.botLine.backgroundColor = [UIColor HHLightLineGray];
+        [self addSubview:self.botLine];
         
 
     }
@@ -55,51 +53,45 @@
     return label;
 }
 
-- (void)setupWithPrice:(NSNumber *)price licenseType:(NSInteger)licenseType productText:(NSString *)productText detailText:(NSString *)detailText {
+- (void)setupWithPrice:(NSNumber *)price productText:(NSString *)productText detailText:(NSString *)detailText priceColor:(UIColor *)priceColor showBotLine:(BOOL)showBotLine {
     self.priceLabel.text = [price generateMoneyString];
     
-    NSString *typeString = @"C1手动挡";
-    self.licenseTypeLabel.backgroundColor = [UIColor HHDarkOrange];
-    if(licenseType == 2) {
-        typeString = @"C2自动挡";
-        self.licenseTypeLabel.backgroundColor = [UIColor colorWithRed:1.00 green:0.80 blue:0.21 alpha:1.00];
-    }
-    self.licenseTypeLabel.text = typeString;
     self.productTypeLabel.text = productText;
     self.detailLabel.text = detailText;
     
-    [self.licenseTypeLabel sizeToFit];
+    self.productTypeLabel.textColor = priceColor;
+    self.productTypeLabel.layer.borderColor = priceColor.CGColor;
+    self.priceLabel.textColor = priceColor;
+    
     [self.productTypeLabel sizeToFit];
     
-    [self.licenseTypeLabel remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.left).offset(20.0f);
-        make.bottom.equalTo(self.centerY).offset(-2.0f);
-        make.width.mas_equalTo(CGRectGetWidth(self.licenseTypeLabel.frame) + 6.0f);
-        make.height.mas_equalTo(CGRectGetHeight(self.licenseTypeLabel.frame) + 2.0f);
-    }];
-    
     [self.productTypeLabel remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.licenseTypeLabel.right).offset(7.0f);
-        make.bottom.equalTo(self.centerY).offset(-2.0f);
-        make.width.mas_equalTo(CGRectGetWidth(self.productTypeLabel.frame) + 6.0f);
-        make.height.mas_equalTo(CGRectGetHeight(self.productTypeLabel.frame) + 2.0f);
+        make.left.equalTo(self.left).offset(20.0f);
+        make.centerY.equalTo(self.centerY);
+        make.width.mas_equalTo(42.0f);
+        make.height.mas_equalTo(20.0f);
 
     }];
     
     [self.priceLabel remakeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.right).offset(-20.0f);
-        make.centerY.equalTo(self.licenseTypeLabel.centerY);
+        make.centerY.equalTo(self.productTypeLabel.centerY);
     }];
     
     [self.detailLabel remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.licenseTypeLabel.left);
-        make.top.equalTo(self.centerY).offset(3.0f);
+        make.left.equalTo(self.productTypeLabel.right).offset(8.0f);
+        make.centerY.equalTo(self.centerY);
     }];
     
-    [self.topLine remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.top);
-        make.left.equalTo(self.left);
-        make.width.equalTo(self.width);
+    if (showBotLine) {
+        self.botLine.hidden = NO;
+    } else {
+        self.botLine.hidden = YES;
+    }
+    [self.botLine remakeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.bottom);
+        make.left.equalTo(self.productTypeLabel.left);
+        make.right.equalTo(self.right);
         make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
     }];
 

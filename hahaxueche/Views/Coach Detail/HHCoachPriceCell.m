@@ -17,7 +17,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.personalCoachPriceViews = [NSMutableArray array];
         self.contentView.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1];
         [self initSubviews];
     }
@@ -61,115 +60,125 @@
         make.right.equalTo(self.topView.right).offset(-20.0f);
     }];
     
+    self.topLine = [[UIView alloc] init];
+    self.topLine.backgroundColor = [UIColor HHLightLineGray];
+    [self.topView addSubview:self.topLine];
+    [self.topLine makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.topView.bottom);
+        make.left.equalTo(self.contentView.left);
+        make.width.equalTo(self.contentView.width);
+        make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+    }];
     
 }
 
 - (void)setupCellWithCoach:(HHCoach *)coach {
+    __weak HHCoachPriceCell *weakSelf = self;
     self.titleLabel.attributedText = [self generateAttrStringWithText:@"拿证价格" image:[UIImage imageNamed:@"ic_coachmsg_charge"]];
     
-    if (self.standartPriceItemView) {
-        [self.standartPriceItemView removeFromSuperview];
+    if (self.c1View) {
+        [self.c1View removeFromSuperview];
     }
-    self.standartPriceItemView = [[HHPriceItemView alloc] init];
-    [self.mainView addSubview:self.standartPriceItemView];
-    
-    if (self.VIPPriceItemView) {
-        [self.VIPPriceItemView removeFromSuperview];
-    }
-    self.VIPPriceItemView = [[HHPriceItemView alloc] init];
-    [self.mainView addSubview:self.VIPPriceItemView];
-    
-    if (self.c2PriceItemView) {
-        [self.c2PriceItemView removeFromSuperview];
-    }
-    self.c2PriceItemView = [[HHPriceItemView alloc] init];
-    [self.mainView addSubview:self.c2PriceItemView];
-    
-    if (self.c2VIPPriceItemView) {
-        [self.c2VIPPriceItemView removeFromSuperview];
-    }
-    self.c2VIPPriceItemView = [[HHPriceItemView alloc] init];
-    [self.mainView addSubview:self.c2VIPPriceItemView];
-    
-    [self.standartPriceItemView remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.mainView.top).offset(56.0f);
-        make.left.equalTo(self.mainView.left);
-        make.width.equalTo(self.mainView.width);
-        make.height.mas_equalTo(70.0f);
+    self.c1View = [[HHPriceSectionView alloc] initWithTitle:@"C1手动挡" price:coach.price VIPPrice:coach.VIPPrice];
+    self.c1View.questionAction = ^() {
+        if (weakSelf.licenseTypeAction) {
+            weakSelf.licenseTypeAction(1);
+        }
+    };
+    [self.contentView addSubview:self.c1View];
+    [self.c1View makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.contentView.left);
+        make.width.equalTo(self.contentView.width);
+        make.top.equalTo(self.topView.bottom);
+        CGFloat height = 35.0f + 50.0f;
+        if ([coach.VIPPrice floatValue] > 0) {
+            height = height + 50.0f;
+        }
+        make.height.mas_equalTo(height);
     }];
     
-    [self.VIPPriceItemView remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.standartPriceItemView.bottom);
-        make.left.equalTo(self.mainView.left);
-        make.width.equalTo(self.mainView.width);
-        make.height.mas_equalTo(70.0f);
-    }];
-    
-    [self.c2PriceItemView remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.VIPPriceItemView.bottom);
-        make.left.equalTo(self.mainView.left);
-        make.width.equalTo(self.mainView.width);
-        make.height.mas_equalTo(70.0f);
-    }];
-    
-    [self.c2VIPPriceItemView remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.c2PriceItemView.bottom);
-        make.left.equalTo(self.mainView.left);
-        make.width.equalTo(self.mainView.width);
-        make.height.mas_equalTo(70.0f);
-    }];
+    if (self.c2View) {
+        [self.c2View removeFromSuperview];
+    }
+    if ([coach.c2Price floatValue] > 0 || [coach.c2VIPPrice floatValue] > 0) {
+        self.c2View = [[HHPriceSectionView alloc] initWithTitle:@"C2自动挡" price:coach.c2Price VIPPrice:coach.c2VIPPrice];
+        self.c2View.questionAction = ^() {
+            if (weakSelf.licenseTypeAction) {
+                weakSelf.licenseTypeAction(2);
+            }
+        };
+        [self.contentView addSubview:self.c2View];
+        [self.c2View makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView.left);
+            make.width.equalTo(self.contentView.width);
+            make.top.equalTo(self.c1View.bottom);
+            CGFloat height = 35.0f;
+            if ([coach.c2VIPPrice floatValue] > 0 && [coach.c2Price floatValue] > 0) {
+                height = height + 50.0f * 2;
+            } else if ([coach.c2VIPPrice floatValue] > 0 || [coach.c2Price floatValue] > 0) {
+                height = height + 50.0f;
+            }
+            make.height.mas_equalTo(height);
+        }];
 
-
-    [self.standartPriceItemView setupWithPrice:coach.price licenseType:1 productText:@"超值" detailText:@"四人一车, 高性价比"];
-    
-    
-    if ([coach.VIPPrice floatValue] > 0) {
-        self.VIPPriceItemView.hidden = NO;
-        [self.VIPPriceItemView setupWithPrice:coach.VIPPrice licenseType:1 productText:@"VIP"  detailText:@"一人一车, 极速拿证"];
-    } else {
-        self.VIPPriceItemView.hidden = YES;
-    }
-    
-    if ([coach.c2Price floatValue] > 0) {
-        self.c2PriceItemView.hidden = NO;
-        [self.c2PriceItemView setupWithPrice:coach.c2Price licenseType:2 productText:@"超值"  detailText:@"四人一车, 高性价比"];
-    } else {
-        self.c2PriceItemView.hidden = YES;
-    }
-    
-    
-    if ([coach.c2VIPPrice floatValue] > 0) {
-        self.c2VIPPriceItemView.hidden = NO;
-        [self.c2VIPPriceItemView setupWithPrice:coach.c2VIPPrice licenseType:2 productText:@"VIP"  detailText:@"一人一车, 极速拿证"];
-    } else {
-        self.c2VIPPriceItemView.hidden = YES;
     }
     
 }
 
 - (void)setupCellWithPersonalCoach:(HHPersonalCoach *)coach {
+    __weak HHCoachPriceCell *weakSelf = self;
     self.titleLabel.attributedText = [self generateAttrStringWithText:@"陪练价格" image:[UIImage imageNamed:@"ic_coachmsg_charge"]];
     self.arrowView.hidden = YES;
     
-    for (HHPriceItemView *view in self.personalCoachPriceViews) {
-        [view removeFromSuperview];
+    if (self.c1View) {
+        [self.c1View removeFromSuperview];
+        self.c1View = nil;
     }
     
-    int i = 0;
-    [self.personalCoachPriceViews removeAllObjects];
-    for (HHPersonalCoachPrice *price in coach.prices) {
-        HHPriceItemView *item = [[HHPriceItemView alloc] init];
-        [self.personalCoachPriceViews addObject:item];
-        [self.mainView addSubview:item];
-        [item remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.mainView.top).offset(56.0f + i * 70.0f);
-            make.left.equalTo(self.mainView.left);
-            make.width.equalTo(self.mainView.width);
-            make.height.mas_equalTo(70.0f);
+    UIView *lastView = self.topView;
+    
+    NSArray *c1Prices = [coach.prices filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"licenseType == %ld", 1]];
+    
+    if ([c1Prices count] > 0) {
+        self.c1View = [[HHPriceSectionView alloc] initWithTitle:@"C1手动挡" prices:c1Prices];
+        self.c1View.questionAction = ^() {
+            if (weakSelf.licenseTypeAction) {
+                weakSelf.licenseTypeAction(1);
+            }
+        };
+        [self.contentView addSubview:self.c1View];
+        [self.c1View makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView.left);
+            make.width.equalTo(self.contentView.width);
+            make.top.equalTo(lastView.bottom);
+            make.height.mas_equalTo(35.0f + c1Prices.count * 50.0f);
         }];
-        [item setupWithPrice:price.price licenseType:[price.licenseType integerValue] productText:[NSString stringWithFormat:@"%@h", [price.duration stringValue]] detailText:price.des];
-        i++;
+        lastView = self.c1View;
     }
+    
+    
+    NSArray *c2Prices = [coach.prices filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"licenseType == %ld", 2]];
+    if ([c2Prices count] > 0) {
+        if (self.c2View) {
+            [self.c2View removeFromSuperview];
+            self.c2View = nil;
+        }
+        self.c2View = [[HHPriceSectionView alloc] initWithTitle:@"C2自动挡" prices:c2Prices];
+        self.c2View.questionAction = ^() {
+            if (weakSelf.licenseTypeAction) {
+                weakSelf.licenseTypeAction(2);
+            }
+        };
+        [self.contentView addSubview:self.c2View];
+        [self.c2View makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView.left);
+            make.width.equalTo(self.contentView.width);
+            make.top.equalTo(lastView.bottom);
+            make.height.mas_equalTo(35.0f + c1Prices.count * 50.0f);
+        }];
+
+    }
+    
 
 }
 

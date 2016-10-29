@@ -58,7 +58,7 @@
     
     [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.topView.centerY);
-        make.left.equalTo(self.topView.left).offset(30.0f);
+        make.left.equalTo(self.topView.left).offset(20.0f);
     }];
     
     [self.infoLabel makeConstraints:^(MASConstraintMaker *make) {

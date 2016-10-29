@@ -12,12 +12,10 @@
 
 @property (nonatomic, strong) UILabel *priceLabel;
 @property (nonatomic, strong) UILabel *detailLabel;
-@property (nonatomic, strong) UILabel *licenseTypeLabel;
 @property (nonatomic, strong) UILabel *productTypeLabel;
-@property (nonatomic, strong) UIButton *priceDetailButton;
-@property (nonatomic, strong) UIView *topLine;
+@property (nonatomic, strong) UIView *botLine;
 
 
-- (void)setupWithPrice:(NSNumber *)price licenseType:(NSInteger)licenseType productText:(NSString *)productText detailText:(NSString *)detailText;
+- (void)setupWithPrice:(NSNumber *)price productText:(NSString *)productText detailText:(NSString *)detailText priceColor:(UIColor *)priceColor showBotLine:(BOOL)showBotLine;
 
 @end
