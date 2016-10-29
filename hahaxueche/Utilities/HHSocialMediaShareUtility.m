@@ -8,8 +8,6 @@
 
 #import "HHSocialMediaShareUtility.h"
 #import "HHToastManager.h"
-#import "BranchUniversalObject.h"
-#import "BranchLinkProperties.h"
 #import "HHStudentStore.h"
 #import "HHLoadingViewUtility.h"
 #import "NSString+HHURL.h"
