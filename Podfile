@@ -25,7 +25,6 @@ target "hahaxueche" do
     pod "Pingpp/Alipay", '~> 2.2.8'
     pod "Pingpp/Fqlpay", '~> 2.2.8'
     pod "Pingpp/CmbWallet", '~> 2.2.8'
-    pod "Branch"
     pod 'MMNumberKeyboard'
     pod 'RSKImageCropper'
     pod 'Harpy'

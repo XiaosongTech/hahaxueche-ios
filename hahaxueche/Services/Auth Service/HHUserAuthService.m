@@ -9,7 +9,6 @@
 #import "HHUserAuthService.h"
 #import "HHKeychainStore.h"
 #import "HHStudentStore.h"
-#import <Branch.h>
 
 static NSString *const kUserObjectKey = @"kUserObjectKey";
 
@@ -103,7 +102,6 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
         if (!error) {
             [HHKeychainStore deleteSavedUser];
             [self deleteSavedUser];
-            [[Branch getInstance] logout];
             if (completion) {
                 completion(nil);
             }

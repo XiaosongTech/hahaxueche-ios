@@ -21,7 +21,7 @@
 
 static NSString *const kCellID = @"kCellId";
 
-@interface HHClubViewController () <UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate,SwipeViewDataSource, SwipeViewDelegate>
+@interface HHClubViewController () <UITableViewDelegate, UITableViewDataSource, SwipeViewDataSource, SwipeViewDelegate>
 
 @property (nonatomic, strong) UIView *topView;
 
