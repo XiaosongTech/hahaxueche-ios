@@ -174,7 +174,7 @@
             make.left.equalTo(self.contentView.left);
             make.width.equalTo(self.contentView.width);
             make.top.equalTo(lastView.bottom);
-            make.height.mas_equalTo(35.0f + c1Prices.count * 50.0f);
+            make.height.mas_equalTo(35.0f + c2Prices.count * 50.0f);
         }];
 
     }

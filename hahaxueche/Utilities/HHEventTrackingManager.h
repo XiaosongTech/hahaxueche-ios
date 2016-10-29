@@ -12,6 +12,6 @@
 
 + (HHEventTrackingManager *)sharedManager;
 
-- (void)eventTriggeredWithId:(NSString *)eventId;
+- (void)eventTriggeredWithId:(NSString *)eventId attributes:(NSDictionary *)attributes;
 
 @end
