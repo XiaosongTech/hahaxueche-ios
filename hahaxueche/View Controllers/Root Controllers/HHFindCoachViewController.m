@@ -149,6 +149,11 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_viewed attributes:nil];
+}
+
 - (void)refreshCoachList:(BOOL)showLoading completion:(HHRefreshCoachCompletionBlock)completion {
     [self.expandedCellIndexPath removeAllObjects];
     __weak HHFindCoachViewController *weakSelf = self;
@@ -382,6 +387,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     __weak HHFindCoachViewController *weakSelf = self;
     if ([tableView isEqual:self.tableView]) {
+        HHCoach *selectedCoach = self.coaches[indexPath.row];
         HHCoachDetailViewController *coachDetailVC = [[HHCoachDetailViewController alloc] initWithCoach:self.coaches[indexPath.row]];
         coachDetailVC.coachUpdateBlock = ^(HHCoach *coach) {
             [weakSelf.coaches replaceObjectAtIndex:indexPath.row withObject:coach];
@@ -389,7 +395,9 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         };
         coachDetailVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:coachDetailVC animated:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_coach_tapped attributes:@{@"coach_id":selectedCoach.coachId}];
     } else {
+        HHCoach *selectedCoach = self.personalCoaches[indexPath.row];
         HHPersonalCoachDetailViewController *vc = [[HHPersonalCoachDetailViewController alloc] initWithCoach:self.personalCoaches[indexPath.row]];
         vc.coachUpdateBlock = ^(HHPersonalCoach *coach) {
             [weakSelf.personalCoaches replaceObjectAtIndex:indexPath.row withObject:coach];
@@ -397,6 +405,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         };
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
+         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_personal_coach_tapped attributes:@{@"coach_id":selectedCoach.coachId}];
     }
     
 }
@@ -418,6 +427,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     };
     self.popup = [HHPopupUtility createPopupWithContentView:self.filtersView];
     [HHPopupUtility showPopup:self.popup];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_filter_tapped_tapped attributes:nil];
 }
 
 - (void)sortTapped {
@@ -428,10 +438,12 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         weakSelf.currentSortOption = sortOption;
         [weakSelf refreshCoachList:YES completion:nil];
         [weakSelf.popup dismiss:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_sort_tapped attributes:@{@"sort_type":[weakSelf.sortView getSortNameWithSortOption:sortOption]}];
     };
     self.popup = [HHPopupUtility createPopupWithContentView:self.sortView];
     CGPoint center = CGPointMake(CGRectGetMidX(self.sortButton.frame), 150.0f);
     [HHPopupUtility showPopup:self.popup AtCenter:center inView:self.view];
+    
 
 }
 
@@ -463,6 +475,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
             }
         }];
     }
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_field_icon_tapped attributes:nil];
 }
 
 
@@ -527,6 +540,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     vc.hidesBottomBarWhenPushed = YES;
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:navVC animated:NO completion:nil];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_search_tapped attributes:nil];
 }
 
 
@@ -822,6 +836,8 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     };
     self.popup = [HHPopupUtility createPopupWithContentView:self.personalCoachExplanationView];
     [HHPopupUtility showPopup:self.popup];
+    
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_what_is_personal_coach_tapped attributes:nil];
 
 }
 
@@ -838,7 +854,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     };
     self.popup = [HHPopupUtility createPopupWithContentView:self.filtersView2];
     [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
-
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_filter_personal_coach_tapped attributes:nil];
 }
 
 - (void)sortTapped2 {
@@ -849,6 +865,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         weakSelf.currentSortOption2 = sortOption;
         [weakSelf refreshPersonalCoachList:YES completion:nil];
         [weakSelf.popup dismiss:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_sort_personal_coach_tapped attributes:@{@"sort_type":[weakSelf.sortView2 getSortNameWithSortOption:sortOption]}];
     };
     self.popup = [HHPopupUtility createPopupWithContentView:self.sortView2];
     CGPoint center = CGPointMake(CGRectGetMidX(self.sortButton2.frame), 90.0f);

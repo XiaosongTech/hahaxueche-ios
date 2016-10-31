@@ -23,5 +23,6 @@ typedef void (^HHSelectedPersonalCoachSortOptionCompletion)(PersonalCoachSortOpt
 @property (nonatomic, strong) HHSelectedPersonalCoachSortOptionCompletion selectedOptionBlock;
 
 - (instancetype)initWithDefaultSortOption:(PersonalCoachSortOption)sortOption;
+- (NSString *)getSortNameWithSortOption:(PersonalCoachSortOption)option;
 
 @end

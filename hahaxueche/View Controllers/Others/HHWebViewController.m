@@ -84,40 +84,40 @@
 }
 
 - (void)shareEvent {
-    __weak HHWebViewController *weakSelf = self;
-    HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 0)];
-    
-    shareView.dismissBlock = ^() {
-        [HHPopupUtility dismissPopup:weakSelf.popup];
-    };
-    shareView.actionBlock = ^(SocialMedia selecteItem) {
-        switch (selecteItem) {
-            case SocialMediaQQFriend: {
-                [[HHSocialMediaShareUtility sharedInstance] shareEvent:weakSelf.event shareType:ShareTypeQQ];
-            } break;
-                
-            case SocialMediaWeibo: {
-                [[HHSocialMediaShareUtility sharedInstance] shareEvent:weakSelf.event shareType:ShareTypeWeibo];
-            } break;
-                
-            case SocialMediaWeChatFriend: {
-                [[HHSocialMediaShareUtility sharedInstance] shareEvent:weakSelf.event shareType:ShareTypeWeChat];
-            } break;
-                
-            case SocialMediaWeChaPYQ: {
-                [[HHSocialMediaShareUtility sharedInstance] shareEvent:weakSelf.event shareType:ShareTypeWeChatTimeLine];
-            } break;
-                
-            case SocialMediaQZone: {
-                [[HHSocialMediaShareUtility sharedInstance] shareEvent:weakSelf.event shareType:ShareTypeQZone];
-            } break;
-            default:
-                break;
-                
-        }
-    };
-    weakSelf.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
-    [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
+//    __weak HHWebViewController *weakSelf = self;
+//    HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 0)];
+//    
+//    shareView.dismissBlock = ^() {
+//        [HHPopupUtility dismissPopup:weakSelf.popup];
+//    };
+//    shareView.actionBlock = ^(SocialMedia selecteItem) {
+//        switch (selecteItem) {
+//            case SocialMediaQQFriend: {
+//                [[HHSocialMediaShareUtility sharedInstance] shareEvent:weakSelf.event shareType:ShareTypeQQ];
+//            } break;
+//                
+//            case SocialMediaWeibo: {
+//                [[HHSocialMediaShareUtility sharedInstance] shareEvent:weakSelf.event shareType:ShareTypeWeibo];
+//            } break;
+//                
+//            case SocialMediaWeChatFriend: {
+//                [[HHSocialMediaShareUtility sharedInstance] shareEvent:weakSelf.event shareType:ShareTypeWeChat];
+//            } break;
+//                
+//            case SocialMediaWeChaPYQ: {
+//                [[HHSocialMediaShareUtility sharedInstance] shareEvent:weakSelf.event shareType:ShareTypeWeChatTimeLine];
+//            } break;
+//                
+//            case SocialMediaQZone: {
+//                [[HHSocialMediaShareUtility sharedInstance] shareEvent:weakSelf.event shareType:ShareTypeQZone];
+//            } break;
+//            default:
+//                break;
+//                
+//        }
+//    };
+//    weakSelf.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
+//    [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
 }
 
 - (void)backPage {

@@ -111,4 +111,27 @@
     }
 }
 
+- (NSString *)getSortNameWithSortOption:(SortOption)option {
+    switch (option) {
+        case SortOptionSmartSort:
+            return @"智能排序";
+            
+        case SortOptionDistance:
+            return @"距离最近";
+            
+        case SortOptionReview:
+            return @"评价最好";
+            
+        case SortOptionPrice:
+            return @"价格最低";
+            
+        case SortOptionPopularity:
+            return @"点赞最多";
+            
+        default:
+            return @"智能排序";
+
+    }
+}
+
 @end

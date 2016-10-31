@@ -11,27 +11,24 @@
 #import "HHCoach.h"
 #import "HHEvent.h"
 #import "HHPersonalCoach.h"
+#import "HHShareView.h"
 
-typedef NS_ENUM(NSInteger, ShareType) {
-    ShareTypeQQ,
-    ShareTypeWeibo,
-    ShareTypeWeChat,
-    ShareTypeWeChatTimeLine,
-    ShareTypeQZone,
-};
 
 typedef void (^MessageCompletion) (OSMessage *message);
 typedef void (^LinkCompletion) (NSString *link);
+typedef void (^ShareResultCompletion) (BOOL succceed);
 
 @interface HHSocialMediaShareUtility : NSObject
 
 + (instancetype)sharedInstance;
 
 
-- (void)sharePersonalCoach:(HHPersonalCoach *)coach shareType:(ShareType)shareType;
-- (void)shareCoach:(HHCoach *)coach shareType:(ShareType)shareType;
-- (void)shareMyQRCode:(UIImage *)qrCode shareType:(ShareType)shareType;
-- (void)shareEvent:(HHEvent *)event shareType:(ShareType)shareType;
+- (void)sharePersonalCoach:(HHPersonalCoach *)coach shareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion;
+- (void)shareCoach:(HHCoach *)coach shareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion;
+- (void)shareMyQRCode:(UIImage *)qrCode shareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion;
+- (void)shareEvent:(HHEvent *)event shareType:(SocialMedia)shareType;
 
+
+- (NSString *)getChannelNameWithType:(SocialMedia)type;
 
 @end

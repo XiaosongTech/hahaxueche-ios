@@ -82,5 +82,19 @@
     }
 }
 
+- (NSString *)getSortNameWithSortOption:(PersonalCoachSortOption)option {
+    switch (option) {
+        case PersonalCoachSortOptionPrice:
+            return @"价格最低";
+            
+        case PersonalCoachSortOptionPopularity:
+            return @"点赞最多";
+            
+        default:
+            return @"价格最低";
+            
+    }
+}
+
 
 @end

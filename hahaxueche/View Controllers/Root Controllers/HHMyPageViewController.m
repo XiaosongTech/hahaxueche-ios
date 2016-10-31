@@ -115,6 +115,11 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_viewed attributes:nil];
+}
+
 - (void)initSubviews {
     // Guest
     if (![HHStudentStore sharedInstance].currentStudent.studentId) {
@@ -194,6 +199,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                     };
                     vc.hidesBottomBarWhenPushed = YES;
                     [weakSelf.navigationController pushViewController:vc animated:YES];
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_pay_coach_status_tapped attributes:nil];
                 }
                 
             };
@@ -234,11 +240,13 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 } else {
                     [[HHToastManager sharedManager] showErrorToastWithText:@"您还没有购买的教练"];
                 }
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_my_coach_tapped attributes:nil];
             };
             cell.followedCoachView.actionBlock = ^(){
                 HHFollowedCoachListViewController *vc = [[HHFollowedCoachListViewController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_my_followed_coach_tapped attributes:nil];
             };
             return cell;
         } break;
@@ -249,6 +257,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 HHBookTrainingViewController *vc = [[HHBookTrainingViewController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_my_course_tapped attributes:nil];
             };
             
             return cell;
@@ -259,11 +268,13 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             HHMyPageSupportCell *cell = [tableView dequeueReusableCellWithIdentifier:kSupportCell];
             cell.supportOnlineView.actionBlock = ^() {
                 [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_online_support_tapped attributes:nil];
             };
             cell.myAdvisorView.actionBlock = ^() {
                 HHAdvisorView *view = [[HHAdvisorView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 240.0f) advisor:self.advisor];
                 view.callBlock = ^() {
                     [weakSelf callAdvisor];
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_my_advisor_tapped attributes:nil];
                 };
                 weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
                 [HHPopupUtility showPopup:weakSelf.popup];
@@ -278,15 +289,18 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 HHLongImageViewController *faq = [[HHLongImageViewController alloc] initWithImage:[UIImage imageNamed:@"faq.png"]];
                 faq.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:faq animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_FAQ_tapped attributes:nil];
             };
             
             cell.appInfoView.actionBlock = ^() {
                 HHAppInfoViewController *vc = [[HHAppInfoViewController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_version_check_tapped attributes:nil];
             };
             cell.rateUsView.actionBlock = ^() {
                 [Appirater rateApp];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_rate_us_tapped attributes:nil];
             };
             return cell;
         } break;
@@ -338,6 +352,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_refer_tapped attributes:nil];
     }
 }
 

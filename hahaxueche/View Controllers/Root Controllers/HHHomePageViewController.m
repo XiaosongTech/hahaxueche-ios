@@ -125,6 +125,7 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     if ([HHStudentStore sharedInstance].currentStudent.studentId) {
         [self showUserGuideView];
     }
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_viewed attributes:nil];
 }
 
 - (void)initSubviews {
@@ -159,6 +160,7 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     self.drivingSchoolView = [[HHHomPageCardView alloc] initWithIcon:[UIImage imageNamed:@"ic_cup"] title:@"入驻驾校 权威认证" subTitle:[self generateStringWithArray:strings number:@([[HHConstantsStore sharedInstance].constants.drivingSchoolCount integerValue]) color:[UIColor HHOrange]] bigIcon:[UIImage imageNamed:@"pic_xiaoha_school"] items:@[@"通过率高", @"训练场地规范", @"品牌口碑佳", @"权威驾校认证"] dotColor:[UIColor  HHOrange]];
     self.drivingSchoolView.tapAction = ^() {
         [weakSelf openWebPage:[NSURL URLWithString:kDrivingSchoolLink]];
+         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_driving_school_tapped attributes:nil];
     };
     [self.scrollView addSubview:self.drivingSchoolView];
     
@@ -168,6 +170,7 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     self.coachView = [[HHHomPageCardView alloc] initWithIcon:[UIImage imageNamed:@"ic_medal_h"] title:@"签约教练 择优合作" subTitle:[self generateStringWithArray:strings number:@([[HHConstantsStore sharedInstance].constants.coachCount integerValue]) color:[UIColor HHLightBlue]] bigIcon:[UIImage imageNamed:@"pic_xiaoha_coach"] items:@[@"免费试学", @"价格透明", @"分阶段打款", @"灵活退学"] dotColor:[UIColor  HHLightBlue]];
     self.coachView.tapAction = ^() {
         [weakSelf openWebPage:[NSURL URLWithString:kCoachLink]];
+         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_coach_tapped attributes:nil];
     };
     [self.scrollView addSubview:self.coachView];
     
@@ -177,18 +180,21 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     self.adviserView = [[HHHomPageCardView alloc] initWithIcon:[UIImage imageNamed:@"ic_adviser"] title:@"学车顾问 全程无忧" subTitle:[self generateStringWithArray:strings number:@([[HHConstantsStore sharedInstance].constants.paidStudentCount integerValue]) color:[UIColor HHRed]] bigIcon:[UIImage imageNamed:@"pic_xiaoha_adviser"] items:@[@"量身推荐", @"智能预约", @"贴心售后", @"全程保障"] dotColor:[UIColor  HHRed]];
     self.adviserView.tapAction = ^() {
         [weakSelf openWebPage:[NSURL URLWithString:[NSString stringWithFormat:kAdvisorLink, [[HHStudentStore sharedInstance].currentStudent.cityId stringValue]]]];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_advisor_tapped attributes:nil];
     };
     [self.scrollView addSubview:self.adviserView];
     
     self.thirdView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_strengths"] title:@"我的优势" showRightLine:YES showBotLine:NO];
     self.thirdView.actionBlock = ^() {
         [weakSelf openWebPage:[NSURL URLWithString:kFeatureLink]];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_strength_tapped attributes:nil];
     };
     [self.scrollView addSubview:self.thirdView];
     
     self.forthView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_procedure"] title:@"学车流程" showRightLine:NO showBotLine:NO];
     self.forthView.actionBlock = ^() {
         [weakSelf openWebPage:[NSURL URLWithString:kStepsLink]];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_process_tapped attributes:nil];
     };
     [self.scrollView addSubview:self.forthView];
     
@@ -205,12 +211,14 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     self.callSupportView = [[HHHomePageSupportView alloc] initWithImage:[UIImage imageNamed:@"ic_ask_call"] title:@"电话咨询" showRightLine:NO];
     self.callSupportView.actionBlock = ^() {
         [[HHSupportUtility sharedManager] callSupport];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_phone_support_tapped attributes:nil];
     };
     [self.scrollView addSubview:self.callSupportView];
     
     self.onlineSupportView = [[HHHomePageSupportView alloc] initWithImage:[UIImage imageNamed:@"ic_ask_message"] title:@"在线客服" showRightLine:YES];
     self.onlineSupportView.actionBlock = ^() {
         [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_online_support_tapped attributes:nil];
     };
     [self.scrollView addSubview:self.onlineSupportView];
     
@@ -347,13 +355,14 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
 - (void)tryCoachForFree {
     NSString *urlString = [[HHFreeTrialUtility sharedManager] buildFreeTrialURLStringWithCoachId:nil];
     [self openWebPage:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_free_trial_tapped attributes:nil];
 }
 
 
 - (void)showEvents {
-    HHEventsViewController *vc = [[HHEventsViewController alloc] init];
-    vc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:vc animated:YES];
+    [self openWebPage:nil];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_group_purchase_tapped attributes:nil];
+    
 }
 
 //- (void)showMailPage {

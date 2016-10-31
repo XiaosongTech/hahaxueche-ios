@@ -66,6 +66,11 @@ static NSString *const kCellId = @"CellId";
     [self initSubviews];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:pay_coach_status_page_viewed attributes:nil];
+}
+
 - (void)initSubviews {
     self.topView = [[HHPaymentStatusTopView alloc] initWithPurchasedService:self.purchasedService coach:self.coach];
     [self.view addSubview:self.topView];
@@ -184,16 +189,19 @@ static NSString *const kCellId = @"CellId";
             if (![stage.reviewed boolValue]) {
                 if ([stage.readyForReview boolValue]) {
                     [weakSelf makeReviewWithPaymentStage:stage showReferPopup:YES];
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:pay_coach_status_page_comment_tapped attributes:nil];
                 } else {
                     weakSelf.infoView = [self buildInfoViewWithStage:self.purchasedService.paymentStages[indexPath.row]];
                     weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.infoView];
                     [HHPopupUtility showPopup:weakSelf.popup];
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:pay_coach_status_page_i_tapped attributes:nil];
                 }
-            } 
+            }
         } else {
             weakSelf.infoView = [self buildInfoViewWithStage:self.purchasedService.paymentStages[indexPath.row]];
             weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.infoView];
             [HHPopupUtility showPopup:weakSelf.popup];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:pay_coach_status_page_i_tapped attributes:nil];
         }
     };
     
@@ -275,6 +283,7 @@ static NSString *const kCellId = @"CellId";
                 if (showReferPopup) {
                     [weakSelf showReferPopup];
                 }
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:pay_coach_status_page_comment_succeed attributes:nil];
             } else {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"评价教练失败,请重试!"];
             }
@@ -299,6 +308,7 @@ static NSString *const kCellId = @"CellId";
     [view.buttonsView.rightButton addTarget:self action:@selector(payCoach) forControlEvents:UIControlEventTouchUpInside];
     self.popup = [HHPopupUtility createPopupWithContentView:view];
     [HHPopupUtility showPopup:self.popup];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:pay_coach_status_page_pay_coach_tapped attributes:nil];
     
 }
 
@@ -329,6 +339,7 @@ static NSString *const kCellId = @"CellId";
                 self.confirmPayButton.hidden = YES;
                 self.congratulationLabel.hidden = NO;
             }
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:pay_coach_status_page_pay_coach_succeed attributes:nil];
         } else {
            [[HHToastManager sharedManager] showErrorToastWithText:@"打款失败，请重试！"];
         }

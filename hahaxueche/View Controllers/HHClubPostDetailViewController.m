@@ -51,6 +51,11 @@
     
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:article_detail_page_viewed attributes:nil];
+}
+
 - (void)initSubviews {
     self.webView = [[UIWebView alloc] init];
     [self.view addSubview:self.webView];

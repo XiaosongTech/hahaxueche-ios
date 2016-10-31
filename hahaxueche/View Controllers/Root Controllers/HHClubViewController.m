@@ -50,6 +50,11 @@ static NSString *const kCellID = @"kCellId";
     [self initSubviews];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:club_page_viewed attributes:nil];
+}
+
 - (void)initSubviews {
     __weak HHClubViewController *weakSelf = self;
     
@@ -64,6 +69,7 @@ static NSString *const kCellID = @"kCellId";
         HHEventsViewController *vc = [[HHEventsViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [weakSelf.navigationController pushViewController:vc animated:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:club_page_group_purchase_tapped attributes:nil];
     };
     [self.topView addSubview:self.eventView];
     
@@ -72,6 +78,7 @@ static NSString *const kCellID = @"kCellId";
         HHTestStartViewController *vc = [[HHTestStartViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [weakSelf.navigationController pushViewController:vc animated:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:club_page_online_test_tapped attributes:nil];
     };
     [self.topView addSubview:self.testView];
     

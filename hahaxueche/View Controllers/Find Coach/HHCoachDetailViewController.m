@@ -32,7 +32,6 @@
 #import "HHReviews.h"
 #import "HHReview.h"
 #import "HHReviewListViewController.h"
-#import "HHEventTrackingManager.h"
 #import "HHImageGalleryViewController.h"
 #import "HHLoadingViewUtility.h"
 #import "HHPurchaseConfirmViewController.h"
@@ -127,6 +126,15 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    NSString *coachId = self.coach.coachId;
+    if (!coachId) {
+        coachId = self.coachId;
+    }
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_viewed attributes:@{@"coach_id":coachId}];
+}
+
 - (void)initSubviews {
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)-50.0f - CGRectGetHeight([UIApplication sharedApplication].statusBarFrame) - CGRectGetHeight(self.navigationController.navigationBar.bounds))];
     self.tableView.delegate = self;
@@ -172,6 +180,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         }
         HHPurchaseConfirmViewController *vc = [[HHPurchaseConfirmViewController alloc] initWithCoach:weakSelf.coach];
         [weakSelf.navigationController pushViewController:vc animated:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_purchase_tapped attributes:@{@"coach_id":weakSelf.coach.coachId}];
 
     };
     
@@ -218,6 +227,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             cell.priceAction = ^() {
                 HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:weakSelf.coach];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_price_detail_tapped attributes:@{@"coach_id":weakSelf.coach.coachId}];
             };
             cell.licenseTypeAction = ^ (NSInteger licenseType) {
                 NSString *text = @"C1为手动挡小型车驾照，取得了C1类驾驶证的人可以驾驶C2类车。";
@@ -249,6 +259,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             cell.fieldBlock = ^() {
                 HHSingleFieldMapViewController *vc = [[HHSingleFieldMapViewController alloc] initWithField:[weakSelf.coach getCoachField]];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_field_tapped attributes:@{@"coach_id":weakSelf.coach.coachId}];
 
             };
             [cell setupCellWithField:[self.coach getCoachField]];
@@ -274,6 +285,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
                 HHReviewListViewController *vc = [[HHReviewListViewController alloc] initWithReviews:weakSelf.reviewsObject coach:weakSelf.coach];
                 vc.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_comment_tapped attributes:@{@"coach_id":weakSelf.coach.coachId}];
             };
             return cell;
         }
@@ -448,6 +460,8 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         }
     }];
     
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_like_unlike_tapped attributes:@{@"coach_id":self.coach.coachId, @"like":like}];
+    
 }
 
 - (void)openWebPage:(NSURL *)url {
@@ -461,6 +475,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 - (void)tryCoachForFree {
     NSString *urlString = [[HHFreeTrialUtility sharedManager] buildFreeTrialURLStringWithCoachId:self.coach.coachId];
     [self openWebPage:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_free_trial_tapped attributes:@{@"coach_id":self.coach.coachId}];
 }
 
 - (void)shareCoach {
@@ -470,34 +485,16 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         [HHPopupUtility dismissPopup:self.popup];
     };
     shareView.actionBlock = ^(SocialMedia selecteItem) {
-        switch (selecteItem) {
-            case SocialMediaQQFriend: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeQQ];
-            } break;
-                
-            case SocialMediaWeibo: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeWeibo];
-            } break;
-                
-            case SocialMediaWeChatFriend: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeWeChat];
-            } break;
-                
-            case SocialMediaWeChaPYQ: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeWeChatTimeLine];
-            } break;
-                
-            case SocialMediaQZone: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:ShareTypeQZone];
-            } break;
-                
-            default:
-                break;
-                
-        }
+        [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:selecteItem resultCompletion:^(BOOL succceed) {
+            if (succceed) {
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_share_coach_succeed attributes:@{@"coach_id":self.coach.coachId, @"channel": [[HHSocialMediaShareUtility sharedInstance] getChannelNameWithType:selecteItem]}];
+            }
+        }];
+        
     };
     self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
     [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_share_coach_tapped attributes:@{@"coach_id":self.coach.coachId}];
 }
 
 - (void)followUnfollowCoach {
@@ -527,6 +524,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         }];
 
     }
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_follow_unfollow_tapped attributes:@{@"coach_id":self.coach.coachId, @"follow":@(!self.followed)}];
 }
 
 @end

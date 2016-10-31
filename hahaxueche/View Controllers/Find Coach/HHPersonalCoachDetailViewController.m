@@ -91,6 +91,16 @@ static NSString *const kPriceCellID = @"kPriceCellID";
     [self initSubviews];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    NSString *coachId = self.coachId;
+    if (!coachId) {
+        coachId = self.coach.coachId;
+    }
+        
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:personal_coach_detail_page_viewed attributes:@{@"coach_id":coachId}];
+}
+
 - (void)initSubviews {
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)-50.0f - CGRectGetHeight([UIApplication sharedApplication].statusBarFrame) - CGRectGetHeight(self.navigationController.navigationBar.bounds))];
     self.tableView.delegate = self;
@@ -117,7 +127,7 @@ static NSString *const kPriceCellID = @"kPriceCellID";
     [self.callButton setTitle:@"联系教练" forState:UIControlStateNormal];
     self.callButton.backgroundColor = [UIColor HHDarkOrange];
     [self.callButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.callButton addTarget:self action:@selector(callSupport) forControlEvents:UIControlEventTouchUpInside];
+    [self.callButton addTarget:self action:@selector(callCoach) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.callButton];
     [self.callButton makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.left);
@@ -297,11 +307,15 @@ static NSString *const kPriceCellID = @"kPriceCellID";
             
         }
     }];
-    
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:personal_coach_detail_page_like_unlike_tapped attributes:@{@"coach_id": self.coach.coachId, @"like":like}];
 }
 
-- (void)callSupport {
-    [[HHSupportUtility sharedManager] callSupport];
+- (void)callCoach {
+    NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",self.coach.phoneNumber]];
+    if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
+        [[UIApplication sharedApplication] openURL:phoneUrl];
+    }
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:personal_coach_detail_page_call_coach_tapped attributes:@{@"coach_id":self.coach.coachId}];
 }
 
 - (void)shareCoach {
@@ -311,34 +325,16 @@ static NSString *const kPriceCellID = @"kPriceCellID";
         [HHPopupUtility dismissPopup:self.popup];
     };
     shareView.actionBlock = ^(SocialMedia selecteItem) {
-        switch (selecteItem) {
-            case SocialMediaQQFriend: {
-                [[HHSocialMediaShareUtility sharedInstance] sharePersonalCoach:self.coach shareType:ShareTypeQQ];
-            } break;
-                
-            case SocialMediaWeibo: {
-                [[HHSocialMediaShareUtility sharedInstance] sharePersonalCoach:self.coach shareType:ShareTypeWeibo];
-            } break;
-                
-            case SocialMediaWeChatFriend: {
-                [[HHSocialMediaShareUtility sharedInstance] sharePersonalCoach:self.coach shareType:ShareTypeWeChat];
-            } break;
-                
-            case SocialMediaWeChaPYQ: {
-                [[HHSocialMediaShareUtility sharedInstance] sharePersonalCoach:self.coach shareType:ShareTypeWeChatTimeLine];
-            } break;
-                
-            case SocialMediaQZone: {
-                [[HHSocialMediaShareUtility sharedInstance] sharePersonalCoach:self.coach shareType:ShareTypeQZone];
-            } break;
-                
-            default:
-                break;
-                
-        }
+        [[HHSocialMediaShareUtility sharedInstance] sharePersonalCoach:self.coach shareType:selecteItem resultCompletion:^(BOOL succceed) {
+            if (succceed) {
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:personal_coach_detail_page_share_coach_succeed attributes:@{@"coach_id":self.coach.coachId, @"channel":[[HHSocialMediaShareUtility sharedInstance] getChannelNameWithType:selecteItem]}];
+            }
+        }];
+        
     };
     self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
     [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:personal_coach_detail_page_share_coach_tapped attributes:@{@"coach_id":self.coach.coachId}];
 }
 
 

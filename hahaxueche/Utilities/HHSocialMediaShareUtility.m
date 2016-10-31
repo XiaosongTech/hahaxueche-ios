@@ -46,49 +46,89 @@ static NSString *const kSupportQQ = @"3319762526";
     return self;
 }
 
-- (void)shareCoach:(HHCoach *)coach shareType:(ShareType)shareType {
+- (void)shareCoach:(HHCoach *)coach shareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion {
     switch (shareType) {
-        case ShareTypeQQ: {
+        case SocialMediaQQFriend: {
             if (![OpenShare isQQInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
                 return;
             }
-            [OpenShare shareToQQFriends:[self generateShareMessageWithCoach:coach shareType:shareType] Success:nil Fail:nil];
+            [OpenShare shareToQQFriends:[self generateShareMessageWithCoach:coach shareType:shareType] Success:^(OSMessage *message) {
+                if (resultCompletion) {
+                    resultCompletion(YES);
+                }
+            } Fail:^(OSMessage *message, NSError *error) {
+                if (resultCompletion) {
+                    resultCompletion(NO);
+                }
+            }];
         } break;
             
-        case ShareTypeWeibo: {
+        case SocialMediaWeibo: {
             if (![OpenShare isWeiboInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微博应用, 然后重试"];
                 return;
             }
             
-            [OpenShare shareToWeibo:[self generateShareMessageWithCoach:coach shareType:shareType] Success:nil Fail:nil];
+            [OpenShare shareToWeibo:[self generateShareMessageWithCoach:coach shareType:shareType] Success:^(OSMessage *message) {
+                if (resultCompletion) {
+                    resultCompletion(YES);
+                }
+            } Fail:^(OSMessage *message, NSError *error) {
+                if (resultCompletion) {
+                    resultCompletion(NO);
+                }
+            } ];
         } break;
             
-        case ShareTypeWeChat: {
+        case SocialMediaWeChatFriend: {
             if (![OpenShare isWeixinInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微信应用, 然后重试"];
                 return;
             }
-           [OpenShare shareToWeixinSession:[self generateShareMessageWithCoach:coach shareType:shareType] Success:nil Fail:nil];
+           [OpenShare shareToWeixinSession:[self generateShareMessageWithCoach:coach shareType:shareType] Success:^(OSMessage *message) {
+               if (resultCompletion) {
+                   resultCompletion(YES);
+               }
+           } Fail:^(OSMessage *message, NSError *error) {
+               if (resultCompletion) {
+                   resultCompletion(NO);
+               }
+           } ];
 
         } break;
             
-        case ShareTypeWeChatTimeLine: {
+        case SocialMediaWeChaPYQ: {
             if (![OpenShare isWeixinInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微信应用, 然后重试"];
                 return;
             }
-           [OpenShare shareToWeixinTimeline:[self generateShareMessageWithCoach:coach shareType:shareType] Success:nil Fail:nil];
+           [OpenShare shareToWeixinTimeline:[self generateShareMessageWithCoach:coach shareType:shareType] Success:^(OSMessage *message) {
+               if (resultCompletion) {
+                   resultCompletion(YES);
+               }
+           } Fail:^(OSMessage *message, NSError *error) {
+               if (resultCompletion) {
+                   resultCompletion(NO);
+               }
+           } ];
 
         } break;
             
-        case ShareTypeQZone: {
+        case SocialMediaQZone: {
             if (![OpenShare isQQInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
                 return;
             }
-            [OpenShare shareToQQZone:[self generateShareMessageWithCoach:coach shareType:shareType] Success:nil Fail:nil];
+            [OpenShare shareToQQZone:[self generateShareMessageWithCoach:coach shareType:shareType] Success:^(OSMessage *message) {
+                if (resultCompletion) {
+                    resultCompletion(YES);
+                }
+            } Fail:^(OSMessage *message, NSError *error) {
+                if (resultCompletion) {
+                    resultCompletion(NO);
+                }
+            } ];
         } break;
             
         default:
@@ -97,7 +137,7 @@ static NSString *const kSupportQQ = @"3319762526";
 }
 
 
-- (void)shareEvent:(HHEvent *)event shareType:(ShareType)shareType {
+- (void)shareEvent:(HHEvent *)event shareType:(SocialMedia)shareType {
     OSMessage *msg = [[OSMessage alloc] init];
     msg.image = [UIImage imageNamed:@"ic_share"];
     msg.thumbnail = [UIImage imageNamed:@"ic_share"];
@@ -107,7 +147,7 @@ static NSString *const kSupportQQ = @"3319762526";
     msg.desc = @"限时活动, 疯抢中!";
     
     switch (shareType) {
-        case ShareTypeQQ: {
+        case SocialMediaQQFriend: {
             if (![OpenShare isQQInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
                 return;
@@ -115,7 +155,7 @@ static NSString *const kSupportQQ = @"3319762526";
             [OpenShare shareToQQFriends:msg Success:nil Fail:nil];
         } break;
             
-        case ShareTypeWeibo: {
+        case SocialMediaWeibo: {
             if (![OpenShare isWeiboInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微博应用, 然后重试"];
                 return;
@@ -124,7 +164,7 @@ static NSString *const kSupportQQ = @"3319762526";
             [OpenShare shareToWeibo:msg Success:nil Fail:nil];
         } break;
             
-        case ShareTypeWeChat: {
+        case SocialMediaWeChatFriend: {
             if (![OpenShare isWeixinInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微信应用, 然后重试"];
                 return;
@@ -134,7 +174,7 @@ static NSString *const kSupportQQ = @"3319762526";
             
         } break;
             
-        case ShareTypeWeChatTimeLine: {
+        case SocialMediaWeChaPYQ: {
             if (![OpenShare isWeixinInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微信应用, 然后重试"];
                 return;
@@ -144,7 +184,7 @@ static NSString *const kSupportQQ = @"3319762526";
             
         } break;
             
-        case ShareTypeQZone: {
+        case SocialMediaQZone: {
             if (![OpenShare isQQInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
                 return;
@@ -159,7 +199,7 @@ static NSString *const kSupportQQ = @"3319762526";
     }
 }
 
-- (OSMessage *)generateShareMessageWithCoach:(HHCoach *)coach shareType:(ShareType)shareType {
+- (OSMessage *)generateShareMessageWithCoach:(HHCoach *)coach shareType:(SocialMedia)shareType {
     NSString *baseURL = nil;
     OSMessage *msg = [[OSMessage alloc] init];
     msg.image = [UIImage imageNamed:@"ic_share"];
@@ -174,33 +214,33 @@ static NSString *const kSupportQQ = @"3319762526";
     NSString *link = [NSString stringWithFormat:baseURL, coach.coachId];
     
     switch (shareType) {
-        case ShareTypeQQ: {
+        case SocialMediaQQFriend: {
             msg.multimediaType = OSMultimediaTypeNews;
             msg.title = @"哈哈学车-选驾校, 挑教练, 上哈哈学车~";
             msg.desc = [NSString stringWithFormat:@"墙裂推荐:\n哈哈学车优秀教练%@", coach.name];
             msg.link = link;
         } break;
             
-        case ShareTypeWeibo: {
+        case SocialMediaWeibo: {
             msg.title = [NSString stringWithFormat:@"墙裂推荐:哈哈学车优秀教练%@ %@", coach.name, link];
            
         } break;
             
-        case ShareTypeWeChat: {
+        case SocialMediaWeChatFriend: {
             msg.multimediaType = OSMultimediaTypeNews;
             msg.title = @"哈哈学车-选驾校, 挑教练, 上哈哈学车~";
             msg.desc = [NSString stringWithFormat:@"墙裂推荐:\n哈哈学车优秀教练%@", coach.name];
             msg.link = link;
         } break;
             
-        case ShareTypeWeChatTimeLine: {
+        case SocialMediaWeChaPYQ: {
             msg.multimediaType = OSMultimediaTypeNews;
             msg.title = [NSString stringWithFormat:@"墙裂推荐:\n哈哈学车优秀教练%@", coach.name];
             msg.link = link;
             
         } break;
             
-        case ShareTypeQZone: {
+        case SocialMediaQZone: {
             msg.multimediaType = OSMultimediaTypeNews;
             msg.title = @"哈哈学车-选驾校, 挑教练, 上哈哈学车~";
             msg.desc = [NSString stringWithFormat:@"墙裂推荐:\n哈哈学车优秀教练%@", coach.name];
@@ -216,109 +256,189 @@ static NSString *const kSupportQQ = @"3319762526";
 
 
 
-- (void)shareMyQRCode:(UIImage *)qrCode shareType:(ShareType)shareType {
+- (void)shareMyQRCode:(UIImage *)qrCode shareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion {
     OSMessage *msg = [[OSMessage alloc] init];
     msg.image = qrCode;
     msg.title = @"";
     msg.desc = @"";
     
     switch (shareType) {
-        case ShareTypeQQ: {
+        case SocialMediaQQFriend: {
             if (![OpenShare isQQInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
                 return;
             }
             msg.thumbnail = qrCode;
-            [OpenShare shareToQQFriends:msg Success:nil Fail:nil];
+            [OpenShare shareToQQFriends:msg Success:^(OSMessage *message) {
+                if (resultCompletion) {
+                    resultCompletion(YES);
+                }
+            } Fail:^(OSMessage *message, NSError *error) {
+                if (resultCompletion) {
+                    resultCompletion(NO);
+                }
+            } ];
         } break;
             
-        case ShareTypeWeibo: {
+        case SocialMediaWeibo: {
             if (![OpenShare isWeiboInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微博应用, 然后重试"];
                 return;
             }
             msg.thumbnail = qrCode;
-            [OpenShare shareToWeibo:msg Success:nil Fail:nil];
+            [OpenShare shareToWeibo:msg Success:^(OSMessage *message) {
+                if (resultCompletion) {
+                    resultCompletion(YES);
+                }
+            } Fail:^(OSMessage *message, NSError *error) {
+                if (resultCompletion) {
+                    resultCompletion(NO);
+                }
+            } ];
             
             
         } break;
             
-        case ShareTypeWeChat: {
+        case SocialMediaWeChatFriend: {
             if (![OpenShare isWeixinInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微信应用, 然后重试"];
                 return;
             }
-            [OpenShare shareToWeixinSession:msg Success:nil Fail:nil];
+            [OpenShare shareToWeixinSession:msg Success:^(OSMessage *message) {
+                if (resultCompletion) {
+                    resultCompletion(YES);
+                }
+            } Fail:^(OSMessage *message, NSError *error) {
+                if (resultCompletion) {
+                    resultCompletion(NO);
+                }
+            } ];
 
             
         } break;
             
-        case ShareTypeWeChatTimeLine: {
+        case SocialMediaWeChaPYQ: {
             if (![OpenShare isWeixinInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微信应用, 然后重试"];
                 return;
             }
             
-            [OpenShare shareToWeixinTimeline:msg Success:nil Fail:nil];
+            [OpenShare shareToWeixinTimeline:msg Success:^(OSMessage *message) {
+                if (resultCompletion) {
+                    resultCompletion(YES);
+                }
+            } Fail:^(OSMessage *message, NSError *error) {
+                if (resultCompletion) {
+                    resultCompletion(NO);
+                }
+            } ];
             
         } break;
             
-        case ShareTypeQZone: {
+        case SocialMediaQZone: {
             if (![OpenShare isQQInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
                 return;
             }
             
-            [OpenShare shareToQQZone:msg Success:nil Fail:nil];
+            [OpenShare shareToQQZone:msg Success:^(OSMessage *message) {
+                if (resultCompletion) {
+                    resultCompletion(YES);
+                }
+            } Fail:^(OSMessage *message, NSError *error) {
+                if (resultCompletion) {
+                    resultCompletion(NO);
+                }
+            } ];
         } break;
         default:
             break;
     }
 }
 
-- (void)sharePersonalCoach:(HHPersonalCoach *)coach shareType:(ShareType)shareType {
+- (void)sharePersonalCoach:(HHPersonalCoach *)coach shareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion {
     switch (shareType) {
-        case ShareTypeQQ: {
+        case SocialMediaQQFriend: {
             if (![OpenShare isQQInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
                 return;
             }
-            [OpenShare shareToQQFriends:[self generateMessageWithPersonalCoach:coach shareType:shareType] Success:nil Fail:nil];
+            [OpenShare shareToQQFriends:[self generateMessageWithPersonalCoach:coach shareType:shareType] Success:^(OSMessage *message) {
+                if (resultCompletion) {
+                    resultCompletion(YES);
+                }
+            } Fail:^(OSMessage *message, NSError *error) {
+                if (resultCompletion) {
+                    resultCompletion(NO);
+                }
+            } ];
         } break;
             
-        case ShareTypeWeibo: {
+        case SocialMediaWeibo: {
             if (![OpenShare isWeiboInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微博应用, 然后重试"];
                 return;
             }
             
-            [OpenShare shareToWeibo:[self generateMessageWithPersonalCoach:coach shareType:shareType] Success:nil Fail:nil];
+            [OpenShare shareToWeibo:[self generateMessageWithPersonalCoach:coach shareType:shareType] Success:^(OSMessage *message) {
+                if (resultCompletion) {
+                    resultCompletion(YES);
+                }
+            } Fail:^(OSMessage *message, NSError *error) {
+                if (resultCompletion) {
+                    resultCompletion(NO);
+                }
+            } ];
         } break;
             
-        case ShareTypeWeChat: {
+        case SocialMediaWeChatFriend: {
             if (![OpenShare isWeixinInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微信应用, 然后重试"];
                 return;
             }
-           [OpenShare shareToWeixinSession:[self generateMessageWithPersonalCoach:coach shareType:shareType] Success:nil Fail:nil];
+           [OpenShare shareToWeixinSession:[self generateMessageWithPersonalCoach:coach shareType:shareType] Success:^(OSMessage *message) {
+               if (resultCompletion) {
+                   resultCompletion(YES);
+               }
+           } Fail:^(OSMessage *message, NSError *error) {
+               if (resultCompletion) {
+                   resultCompletion(NO);
+               }
+           } ];
             
         } break;
             
-        case ShareTypeWeChatTimeLine: {
+        case SocialMediaWeChaPYQ: {
             if (![OpenShare isWeixinInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微信应用, 然后重试"];
                 return;
             }
-            [OpenShare shareToWeixinTimeline:[self generateMessageWithPersonalCoach:coach shareType:shareType] Success:nil Fail:nil];
+            [OpenShare shareToWeixinTimeline:[self generateMessageWithPersonalCoach:coach shareType:shareType] Success:^(OSMessage *message) {
+                if (resultCompletion) {
+                    resultCompletion(YES);
+                }
+            } Fail:^(OSMessage *message, NSError *error) {
+                if (resultCompletion) {
+                    resultCompletion(NO);
+                }
+            } ];
             
         } break;
             
-        case ShareTypeQZone: {
+        case SocialMediaQZone: {
             if (![OpenShare isQQInstalled]) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
                 return;
             }
-            [OpenShare shareToQQZone:[self generateMessageWithPersonalCoach:coach shareType:shareType] Success:nil Fail:nil];
+            [OpenShare shareToQQZone:[self generateMessageWithPersonalCoach:coach shareType:shareType] Success:^(OSMessage *message) {
+                if (resultCompletion) {
+                    resultCompletion(YES);
+                }
+            } Fail:^(OSMessage *message, NSError *error) {
+                if (resultCompletion) {
+                    resultCompletion(NO);
+                }
+            } ];
         } break;
             
         default:
@@ -327,7 +447,7 @@ static NSString *const kSupportQQ = @"3319762526";
 
 }
 
-- (OSMessage *)generateMessageWithPersonalCoach:(HHPersonalCoach *)coach shareType:(ShareType)shareType{
+- (OSMessage *)generateMessageWithPersonalCoach:(HHPersonalCoach *)coach shareType:(SocialMedia)shareType{
     NSString *baseURL = nil;
     OSMessage *msg = [[OSMessage alloc] init];
     msg.image = [UIImage imageNamed:@"ic_share"];
@@ -340,33 +460,33 @@ static NSString *const kSupportQQ = @"3319762526";
     
     NSString *link = [NSString stringWithFormat:baseURL, coach.coachId];
     switch (shareType) {
-        case ShareTypeQQ: {
+        case SocialMediaQQFriend: {
             msg.multimediaType = OSMultimediaTypeNews;
             msg.title = @"哈哈学车-选驾校, 挑教练, 上哈哈学车~";
             msg.desc = [NSString stringWithFormat:@"墙裂推荐:\n哈哈学车优秀陪练教练%@", coach.name];
             msg.link = link;
         } break;
             
-        case ShareTypeWeibo: {
+        case SocialMediaWeibo: {
              msg.title = [NSString stringWithFormat:@"墙裂推荐:哈哈学车优秀陪练教练%@ %@", coach.name, link];
             
         } break;
             
-        case ShareTypeWeChat: {
+        case SocialMediaWeChatFriend: {
             msg.multimediaType = OSMultimediaTypeNews;
             msg.title = @"哈哈学车-选驾校, 挑教练, 上哈哈学车~";
             msg.desc = [NSString stringWithFormat:@"墙裂推荐:\n哈哈学车优秀陪练教练%@", coach.name];
             msg.link = link;
         } break;
             
-        case ShareTypeWeChatTimeLine: {
+        case SocialMediaWeChaPYQ: {
             msg.multimediaType = OSMultimediaTypeNews;
             msg.title = [NSString stringWithFormat:@"墙裂推荐:\n哈哈学车优秀陪练教练%@", coach.name];
             msg.link = link;
             
         } break;
             
-        case ShareTypeQZone: {
+        case SocialMediaQZone: {
             msg.multimediaType = OSMultimediaTypeNews;
             msg.title = @"哈哈学车-选驾校, 挑教练, 上哈哈学车~";
             msg.desc = [NSString stringWithFormat:@"墙裂推荐:\n哈哈学车优秀陪练教练%@", coach.name];
@@ -378,6 +498,27 @@ static NSString *const kSupportQQ = @"3319762526";
     }
 
     return msg;
+}
+
+- (NSString *)getChannelNameWithType:(SocialMedia)type {
+    switch (type) {
+        case SocialMediaQQFriend:
+            return @"QQ_friend";
+        case SocialMediaWeibo:
+            return @"weibo";
+            
+        case SocialMediaWeChatFriend:
+            return @"wechat_friend";
+            
+        case SocialMediaWeChaPYQ:
+            return @"wechat_friend_zone";
+            
+        case SocialMediaQZone:
+            return @"qzone";
+        default:
+            return nil;
+
+    }
 }
 
 

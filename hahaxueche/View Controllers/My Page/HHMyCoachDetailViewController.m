@@ -70,6 +70,11 @@ static NSString *const kPartnerCoachoCellID = @"kPartnerCoachoCellID";
     [self initSubviews];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_coach_page_viewed attributes:nil];
+}
+
 - (void)initSubviews {
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds) - CGRectGetHeight([UIApplication sharedApplication].statusBarFrame) - CGRectGetHeight(self.navigationController.navigationBar.bounds))];
     self.tableView.delegate = self;
@@ -236,34 +241,15 @@ static NSString *const kPartnerCoachoCellID = @"kPartnerCoachoCellID";
         [HHPopupUtility dismissPopup:weakSelf.popup];
     };
     shareView.actionBlock = ^(SocialMedia selecteItem) {
-        switch (selecteItem) {
-            case SocialMediaQQFriend: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeQQ];
-            } break;
-                
-            case SocialMediaWeibo: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeibo];
-            } break;
-                
-            case SocialMediaWeChatFriend: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeChat];
-            } break;
-                
-            case SocialMediaWeChaPYQ: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeChatTimeLine];
-            } break;
-                
-            case SocialMediaQZone: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeQZone];
-            } break;
-                
-            default:
-                break;
-        }
+        [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:selecteItem resultCompletion:^(BOOL succceed) {
+            if (succceed) {
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_coach_page_share_coach_succeed attributes:@{@"coach_id":self.coach.coachId, @"channel":[[HHSocialMediaShareUtility sharedInstance] getChannelNameWithType:selecteItem]}];
+            }
+        }];
     };
     weakSelf.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
     [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
-    
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_coach_page_share_coach_tapped attributes:@{@"coach_id":self.coach.coachId}];
 }
 
 #pragma mark - Others

@@ -73,6 +73,11 @@
     [self initSubviews];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:purchase_confirm_page_viewed attributes:@{@"coach_id":self.coach.coachId}];
+}
+
 - (void)initSubviews {
     self.coachView = [[HHCoachListView alloc] initWithCoach:self.coach field:[[HHConstantsStore sharedInstance] getFieldWithId:self.coach.fieldId]];
     [self.view addSubview:self.coachView];
@@ -245,6 +250,7 @@
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
             [[HHToastManager sharedManager] showErrorToastWithText:@"抱歉，支付失败或者您取消了支付。请重试！"];
         }
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:purchase_confirm_page_purchase_button_tapped attributes:@{@"coach_id":self.coach.coachId}];
     }];
 }
 

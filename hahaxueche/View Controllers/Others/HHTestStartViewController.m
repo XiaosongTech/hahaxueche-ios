@@ -61,31 +61,44 @@
     self.segControl.selectedTitleTextAttributes = @{NSForegroundColorAttributeName : [UIColor HHOrange], NSFontAttributeName: [UIFont boldSystemFontOfSize:16.0f]};
     [self.scrollView addSubview:self.segControl];
     
+    NSNumber *course = @(1);
+    if (self.segControl.selectedSegmentIndex == 1) {
+        course = @(4);
+    }
     self.orderTestView = [[HHTestView alloc] initWithTitle:@"顺序练题" image:[UIImage imageNamed:@"ic_question_turn"] showVerticalLine:YES showBottomLine:YES];
     self.orderTestView.tapBlock = ^() {
         [weakSelf showTestVCWithMode:TestModeOrder];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:online_test_page_order_tapped attributes:@{@"course":course}];
     };
     [self.scrollView addSubview:self.orderTestView];
     
     self.randTestView = [[HHTestView alloc] initWithTitle:@"随机练题" image:[UIImage imageNamed:@"ic_question_random"] showVerticalLine:NO showBottomLine:YES];
     self.randTestView.tapBlock = ^() {
         [weakSelf showTestVCWithMode:TestModeRandom];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:online_test_page_random_tapped attributes:@{@"course":course}];
     };
     [self.scrollView addSubview:self.randTestView];
     
     self.simuTestView = [[HHTestView alloc] initWithTitle:@"模拟考试" image:[UIImage imageNamed:@"ic_question_exam"] showVerticalLine:YES showBottomLine:NO];
     self.simuTestView.tapBlock = ^() {
         [weakSelf showTestVCWithMode:TestModeSimu];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:online_test_page_simu_tapped attributes:@{@"course":course}];
     };
     [self.scrollView addSubview:self.simuTestView];
     
     self.myQuestionView = [[HHTestView alloc] initWithTitle:@"我的题库" image:[UIImage imageNamed:@"ic_question_lib"] showVerticalLine:NO showBottomLine:NO];
     self.myQuestionView.tapBlock = ^() {
         [weakSelf showTestVCWithMode:TestModeFavQuestions];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:online_test_page_my_lib_tapped attributes:@{@"course":course}];
     };
     [self.scrollView addSubview:self.myQuestionView];
 
     [self makeConstraints];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:online_test_page_viewed attributes:nil];
 }
 
 - (void)makeConstraints {

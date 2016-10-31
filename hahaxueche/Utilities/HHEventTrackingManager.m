@@ -8,6 +8,7 @@
 
 #import "HHEventTrackingManager.h"
 #import "UMMobClick/MobClick.h"
+#import "HHStudentStore.h"
 
 @implementation HHEventTrackingManager
 
@@ -46,7 +47,12 @@
 }
 
 - (void)eventTriggeredWithId:(NSString *)eventId attributes:(NSDictionary *)attributes {
-    [MobClick event:eventId attributes:attributes];
+    NSMutableDictionary *finalAttributes = [NSMutableDictionary dictionaryWithDictionary:attributes];
+    NSString *studentId = [HHStudentStore sharedInstance].currentStudent.studentId;
+    if (studentId) {
+        finalAttributes[@"student_id"] = studentId;
+    }
+    [MobClick event:eventId attributes:finalAttributes];
 }
 
 
