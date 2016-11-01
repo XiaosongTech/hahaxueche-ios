@@ -205,12 +205,14 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
 // Respond to Universal Links
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
     BOOL handledByDeepShare = [DeepShare continueUserActivity:userActivity];
     return handledByDeepShare;
 }
 
 //Deepshare
 - (void)onInappDataReturned: (NSDictionary *)params withError: (NSError *) error {
+    [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
     if (!error) {
         NSString *type = params[@"type"];
         if ([type isEqualToString:@"coach_detail"]) {
