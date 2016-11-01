@@ -31,6 +31,7 @@ PODS:
   - DZNEmptyDataSet (1.8.1)
   - EAFeatureGuideView (1.0.8)
   - FLAnimatedImage (1.0.12)
+  - GTSDK (1.5.0-noidfa)
   - Harpy (3.4.8)
   - HCSStarRatingView (1.4.5)
   - HMSegmentedControl (1.5.2)
@@ -89,6 +90,7 @@ DEPENDENCIES:
   - DZNEmptyDataSet
   - EAFeatureGuideView
   - FLAnimatedImage (~> 1.0)
+  - GTSDK (= 1.5.0-noidfa)
   - Harpy
   - HCSStarRatingView (~> 1.4)
   - HMSegmentedControl (~> 1.5)
@@ -129,6 +131,7 @@ SPEC CHECKSUMS:
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   EAFeatureGuideView: f5ca8144e2cfe59e5cf04c744355890902b01a1b
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
+  GTSDK: dc57fff2c826e52f1438d284b3fcb774b9fb6425
   Harpy: 7253bc78a0c3e239e8e4bd21b63403c7cf0be9c9
   HCSStarRatingView: bff3f89314d3b5013ce826ea11897d3129ff6b8c
   HMSegmentedControl: 83b9686022d2176fb6457d2bdb61e5d6393fed7d
@@ -155,6 +158,6 @@ SPEC CHECKSUMS:
   UITextView+Placeholder: 77680995fcdd07c3f52ec92fe1150874a2ac89ff
   UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
 
-PODFILE CHECKSUM: 51a0fd83e67f9c45449ef15b5ecf91b916e3bc63
+PODFILE CHECKSUM: 316c43a5bc9c87e5cd79886bfcd39064f0bf83ee
 
 COCOAPODS: 1.0.0
