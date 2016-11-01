@@ -89,7 +89,16 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];   //it hides
-    
+
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO];    // it shows
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     __weak HHHomePageViewController *weakSelf = self;
     NSArray *cities = [[HHConstantsStore sharedInstance] getSupporteCities];
     if ([cities count]) {
@@ -104,28 +113,22 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
                     [HHStudentStore sharedInstance].currentStudent.cityId = @(0);
                 }
                 [HHPopupUtility dismissPopup:weakSelf.popup];
-                [weakSelf showUserGuideView];
+                if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+                    [weakSelf showUserGuideView];
+                }
+
                 
             };
             
             weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.citySelectView];
             [weakSelf.popup show];
+        } else {
+            if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+                [self showUserGuideView];
+            }
         }
     }
-
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO];    // it shows
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    if ([HHStudentStore sharedInstance].currentStudent.studentId) {
-        [self showUserGuideView];
-    }
-    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_viewed attributes:nil];
+       [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_viewed attributes:nil];
 }
 
 - (void)initSubviews {
