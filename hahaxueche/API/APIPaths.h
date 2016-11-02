@@ -48,7 +48,6 @@
 #define kAPIAdvisor @"employees/advisers"
 
 
-
 #pragma mark Coach
 
 #define kAPICoaches @"coaches"
@@ -56,6 +55,11 @@
 #define kAPIPersonalCoaches @"training_partners"
 #define kAPIPersonalCoach @"training_partners/%@"
 
+#pragma mark ClubPost
+
+#define kAPIClubPosts @"articles"
+#define kAPIClubPostLike @"students/%@/liked_articles/%@"
+#define kAPIClubPostComment @"articles/%@/comments"
 
 #pragma mark Constants
 

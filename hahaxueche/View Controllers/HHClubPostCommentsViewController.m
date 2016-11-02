@@ -13,8 +13,12 @@
 #import "HHCommentView.h"
 #import "HHPopupUtility.h"
 #import "HHClubPostCommentTableViewCell.h"
+#import "HHClubPostService.h"
+#import "HHLoadingViewUtility.h"
+#import "HHToastManager.h"
 
 static NSString *const kCellId = @"kCellId";
+
 
 @interface HHClubPostCommentsViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -23,10 +27,19 @@ static NSString *const kCellId = @"kCellId";
 @property (nonatomic, strong) UIButton *commentButton;
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) HHCommentView *commentView;
+@property (nonatomic, strong) HHClubPost *post;
 
 @end
 
 @implementation HHClubPostCommentsViewController
+
+- (instancetype)initWithPost:(HHClubPost *)post {
+    self = [super init];
+    if (self) {
+        self.post = post;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -87,7 +100,7 @@ static NSString *const kCellId = @"kCellId";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return self.post.comments.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -107,7 +120,21 @@ static NSString *const kCellId = @"kCellId";
         [HHPopupUtility dismissPopup:weakSelf.popup];
     };
     
-    self.commentView.confirmBlock = ^() {
+    self.commentView.confirmBlock = ^(NSString *content) {
+        [[HHLoadingViewUtility sharedInstance] showLoadingView];
+        [[HHClubPostService sharedInstance] commentPostWithId:weakSelf.post.postId content:content completion:^(HHClubPost *post, NSError *error) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            if (!error) {
+                weakSelf.post = post;
+                [weakSelf.tableView reloadData];
+                if (weakSelf.updateBlock) {
+                    weakSelf.updateBlock(post);
+                }
+            } else {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"评论失败, 请重试"];
+            }
+            
+        }];
         [weakSelf.commentView.textView resignFirstResponder];
         [HHPopupUtility dismissPopup:weakSelf.popup];
     };

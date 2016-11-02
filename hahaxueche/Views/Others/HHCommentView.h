@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 typedef void (^HHCommentViewBlock)();
+typedef void (^HHCommentViewConfirmBlock)(NSString *content);
 
 @interface HHCommentView : UIView
 
@@ -17,6 +18,6 @@ typedef void (^HHCommentViewBlock)();
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UITextView *textView;
 @property (nonatomic, strong) HHCommentViewBlock cancelBlock;
-@property (nonatomic, strong) HHCommentViewBlock confirmBlock;
+@property (nonatomic, strong) HHCommentViewConfirmBlock confirmBlock;
 
 @end

@@ -82,7 +82,7 @@
 
 - (void)confirmTapped {
     if (self.confirmBlock) {
-        self.confirmBlock();
+        self.confirmBlock(self.textView.text);
     }
 }
 

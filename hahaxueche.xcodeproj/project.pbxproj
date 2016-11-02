@@ -589,6 +589,10 @@
 		6D98E9C31D7D204600A324B2 /* HHCoachTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D98E9C21D7D204600A324B2 /* HHCoachTagView.m */; };
 		6D98E9C61D7D2BF800A324B2 /* HHPriceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D98E9C51D7D2BF800A324B2 /* HHPriceView.m */; };
 		6D9B80971CBF32AE004B90C6 /* HHNotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9B80961CBF32AE004B90C6 /* HHNotificationCell.m */; };
+		6DA2F7601DC979C800F2CB21 /* HHClubPostService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DA2F75F1DC979C800F2CB21 /* HHClubPostService.m */; };
+		6DA2F7641DC97AF500F2CB21 /* HHClubPosts.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DA2F7631DC97AF500F2CB21 /* HHClubPosts.m */; };
+		6DA2F7671DC980C900F2CB21 /* HHPostComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DA2F7661DC980C900F2CB21 /* HHPostComment.m */; };
+		6DA2F76D1DC9B56900F2CB21 /* HHPostCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DA2F76C1DC9B56900F2CB21 /* HHPostCategory.m */; };
 		6DACD0111D34CA0700BDE2EE /* HHMyPageMyCourseScheduleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DACD0101D34CA0700BDE2EE /* HHMyPageMyCourseScheduleCell.m */; };
 		6DB1480E1D4B4EF0009E3F1E /* pic_xiaoha.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB1480B1D4B4EEF009E3F1E /* pic_xiaoha.png */; };
 		6DB1480F1D4B4EF0009E3F1E /* pic_xiaoha@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB1480C1D4B4EEF009E3F1E /* pic_xiaoha@2x.png */; };
@@ -1185,8 +1189,8 @@
 		6D088D581D88F18500A4C2F9 /* pic_xiaoha_school@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_xiaoha_school@3x.png"; sourceTree = "<group>"; };
 		6D0FB09C1D92340F0045C421 /* HHClubPostTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHClubPostTableViewCell.h; path = ../Coach/HHClubPostTableViewCell.h; sourceTree = "<group>"; };
 		6D0FB09D1D92340F0045C421 /* HHClubPostTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHClubPostTableViewCell.m; path = ../Coach/HHClubPostTableViewCell.m; sourceTree = "<group>"; };
-		6D0FB09F1D9257F10045C421 /* HHClubPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHClubPost.h; sourceTree = "<group>"; };
-		6D0FB0A01D9257F10045C421 /* HHClubPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHClubPost.m; sourceTree = "<group>"; };
+		6D0FB09F1D9257F10045C421 /* HHClubPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HHClubPost.h; path = Others/HHClubPost.h; sourceTree = "<group>"; };
+		6D0FB0A01D9257F10045C421 /* HHClubPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HHClubPost.m; path = Others/HHClubPost.m; sourceTree = "<group>"; };
 		6D0FB0A21D925C590045C421 /* HHClubPostStatView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHClubPostStatView.h; sourceTree = "<group>"; };
 		6D0FB0A31D925C590045C421 /* HHClubPostStatView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHClubPostStatView.m; sourceTree = "<group>"; };
 		6D0FB0A51D925FA80045C421 /* icon_comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_comment.png; sourceTree = "<group>"; };
@@ -1523,6 +1527,14 @@
 		6D98E9C51D7D2BF800A324B2 /* HHPriceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPriceView.m; sourceTree = "<group>"; };
 		6D9B80951CBF32AE004B90C6 /* HHNotificationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNotificationCell.h; sourceTree = "<group>"; };
 		6D9B80961CBF32AE004B90C6 /* HHNotificationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNotificationCell.m; sourceTree = "<group>"; };
+		6DA2F75E1DC979C800F2CB21 /* HHClubPostService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHClubPostService.h; sourceTree = "<group>"; };
+		6DA2F75F1DC979C800F2CB21 /* HHClubPostService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHClubPostService.m; sourceTree = "<group>"; };
+		6DA2F7621DC97AF500F2CB21 /* HHClubPosts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHClubPosts.h; sourceTree = "<group>"; };
+		6DA2F7631DC97AF500F2CB21 /* HHClubPosts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHClubPosts.m; sourceTree = "<group>"; };
+		6DA2F7651DC980C900F2CB21 /* HHPostComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPostComment.h; sourceTree = "<group>"; };
+		6DA2F7661DC980C900F2CB21 /* HHPostComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPostComment.m; sourceTree = "<group>"; };
+		6DA2F76B1DC9B56900F2CB21 /* HHPostCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPostCategory.h; sourceTree = "<group>"; };
+		6DA2F76C1DC9B56900F2CB21 /* HHPostCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPostCategory.m; sourceTree = "<group>"; };
 		6DACD00F1D34CA0700BDE2EE /* HHMyPageMyCourseScheduleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyPageMyCourseScheduleCell.h; sourceTree = "<group>"; };
 		6DACD0101D34CA0700BDE2EE /* HHMyPageMyCourseScheduleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyPageMyCourseScheduleCell.m; sourceTree = "<group>"; };
 		6DB1480B1D4B4EEF009E3F1E /* pic_xiaoha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic_xiaoha.png; sourceTree = "<group>"; };
@@ -2238,8 +2250,6 @@
 				6DDF25F01CBF789F00C92C5C /* HHNotification.m */,
 				6DE24BC31D5B127B0078A21E /* HHQuestion.h */,
 				6DE24BC41D5B127B0078A21E /* HHQuestion.m */,
-				6D0FB09F1D9257F10045C421 /* HHClubPost.h */,
-				6D0FB0A01D9257F10045C421 /* HHClubPost.m */,
 				6D40236D1DB6301E00C16DF4 /* HHPersonalCoachFilters.h */,
 				6D40236E1DB6301E00C16DF4 /* HHPersonalCoachFilters.m */,
 				6D4023761DB88A4D00C16DF4 /* HHAdvisor.h */,
@@ -2433,6 +2443,7 @@
 		5CDE14381C32F8670004778C /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				6DA2F75D1DC979A900F2CB21 /* Club Post Service */,
 				5C2D1A461C51EA750056E0D0 /* Auth Service */,
 				141F7C101C6260C6003278C6 /* Coach Service */,
 				14B5EB731C7C0D4D00A37669 /* Payment Service */,
@@ -2444,6 +2455,7 @@
 		5CDE14391C32F8700004778C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6DA2F7611DC97AC600F2CB21 /* Club Post */,
 				141F7C0C1C61B060003278C6 /* Coach */,
 				5C36D38A1C43014E00443545 /* Others */,
 				14B5EB771C7C0EFD00A37669 /* Payment */,
@@ -3065,6 +3077,30 @@
 				6D95A44D1DC1AB04003CB78D /* libDeepShare.a */,
 			);
 			name = DeepShare;
+			sourceTree = "<group>";
+		};
+		6DA2F75D1DC979A900F2CB21 /* Club Post Service */ = {
+			isa = PBXGroup;
+			children = (
+				6DA2F75E1DC979C800F2CB21 /* HHClubPostService.h */,
+				6DA2F75F1DC979C800F2CB21 /* HHClubPostService.m */,
+			);
+			name = "Club Post Service";
+			sourceTree = "<group>";
+		};
+		6DA2F7611DC97AC600F2CB21 /* Club Post */ = {
+			isa = PBXGroup;
+			children = (
+				6D0FB09F1D9257F10045C421 /* HHClubPost.h */,
+				6D0FB0A01D9257F10045C421 /* HHClubPost.m */,
+				6DA2F7621DC97AF500F2CB21 /* HHClubPosts.h */,
+				6DA2F7631DC97AF500F2CB21 /* HHClubPosts.m */,
+				6DA2F7651DC980C900F2CB21 /* HHPostComment.h */,
+				6DA2F7661DC980C900F2CB21 /* HHPostComment.m */,
+				6DA2F76B1DC9B56900F2CB21 /* HHPostCategory.h */,
+				6DA2F76C1DC9B56900F2CB21 /* HHPostCategory.m */,
+			);
+			name = "Club Post";
 			sourceTree = "<group>";
 		};
 		6DD5683C1D6948C200B9B319 /* Openshare */ = {
@@ -3842,6 +3878,7 @@
 				6DE56FE11D00394C00E33BDB /* HHCoachFieldCell.m in Sources */,
 				5CC3B6041B48268A00D10DFB /* HHAppDelegate.m in Sources */,
 				6D54D42C1D9391D100EBBD98 /* HHCommentView.m in Sources */,
+				6DA2F7641DC97AF500F2CB21 /* HHClubPosts.m in Sources */,
 				6D4023631DB4EA4C00C16DF4 /* HHPersonalCoach.m in Sources */,
 				147BFEE81C70F00800FE3524 /* HHSocialMediaShareUtility.m in Sources */,
 				5CDE144B1C36EC570004778C /* HHButton.m in Sources */,
@@ -3918,6 +3955,7 @@
 				6DD5684E1D6948E000B9B319 /* OpenShare+Weibo.m in Sources */,
 				6D3D73451CB9FFB300E424C3 /* HHScheduleRateView.m in Sources */,
 				6D4CCAEB1D3DD2C100AD896F /* HHCoupon.m in Sources */,
+				6DA2F7671DC980C900F2CB21 /* HHPostComment.m in Sources */,
 				6D7D0C831D65933F0002FC56 /* HHBankCard.m in Sources */,
 				140EC6231C6D878D00DA634D /* HHCoachDetailBottomBarView.m in Sources */,
 				141FA1131C6BF88400113B1A /* HHCoachDetailSingleInfoView.m in Sources */,
@@ -3962,6 +4000,7 @@
 				6DB7B58A1DBF100700D91166 /* HHPersonalCoaches.m in Sources */,
 				140EC6441C6E9A6100DA634D /* HHCoachReviewView.m in Sources */,
 				6D97BDC61D275B3F001B4562 /* HHBanner.m in Sources */,
+				6DA2F76D1DC9B56900F2CB21 /* HHPostCategory.m in Sources */,
 				6D7D0C711D63012A0002FC56 /* HHTestSimuLandingViewController.m in Sources */,
 				6D98E9AE1D7A880F00A324B2 /* HHReferralShareView.m in Sources */,
 				14F9D4901C71223E0010F3FA /* HHCoaches.m in Sources */,
@@ -4036,6 +4075,7 @@
 				6DB7B5811DBDE2AE00D91166 /* HHClassDetailView.m in Sources */,
 				6DF202D71CD0B8C2002092B4 /* HHReferral.m in Sources */,
 				6DF202DA1CD0BF49002092B4 /* HHWithdrawHistoryViewController.m in Sources */,
+				6DA2F7601DC979C800F2CB21 /* HHClubPostService.m in Sources */,
 				5CC738451C402BD600FFFBED /* HHUser.m in Sources */,
 				5C36D3E21C49668900443545 /* HHSortView.m in Sources */,
 				5C36D3501C42D7D600443545 /* HHFindCoachViewController.m in Sources */,

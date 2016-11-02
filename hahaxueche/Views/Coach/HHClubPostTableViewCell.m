@@ -9,6 +9,8 @@
 #import "HHClubPostTableViewCell.h"
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
+#import "HHFormatUtility.h"
+#import <UIImageView+WebCache.h>
 
 @implementation HHClubPostTableViewCell
 
@@ -33,8 +35,6 @@
         }];
         
         self.imgView = [[UIImageView alloc] init];
-        self.imgView.contentMode = UIViewContentModeScaleAspectFill;
-        self.imgView.backgroundColor = [UIColor redColor];
         [self.contentView addSubview:self.imgView];
         [self.imgView makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.contentView.top).offset(34.0f);
@@ -104,12 +104,19 @@
     return label;
 }
 
-- (void)setupCellWithClubPost:(HHClubPost *)clubPost {
+- (void)setupCellWithClubPost:(HHClubPost *)clubPost showType:(BOOL)showType {
     [self.statView setupViewWithClubPost:clubPost];
-    self.dateLabel.text = @"20116/9/31";
-    self.typeLabel.text = @"热门咨询";
-    self.titleLabel.text = @"我的学车初体验";
-    self.contentLabel.text = @"xaskdhajshdkjhsakjdhfjshdkfljhaslkjfhdakjshdfkjahsdfkjhalskjhdflkjashflkjhaskjdfhaksjhflkjashdkfjhaskjdfhkajshdfljahsdkfjhasljdfhaskjdhf";
+    self.dateLabel.text = [[HHFormatUtility fullDateFormatter] stringFromDate:clubPost.createdAt];
+    if (showType) {
+        self.typeLabel.text = [clubPost getCategoryName];
+        self.typeLabel.hidden = NO;
+    } else {
+        self.typeLabel.hidden = YES;
+    }
+    
+    self.titleLabel.text = clubPost.title;
+    self.contentLabel.text = clubPost.abstract;
+    [self.imgView sd_setImageWithURL:[NSURL URLWithString:clubPost.coverImg] placeholderImage:nil];
 }
 
 @end

@@ -79,7 +79,6 @@
 #define my_coach_page_share_coach_tapped @"my_coach_page_share_coach_tapped"
 #define my_coach_page_viewed @"my_coach_page_viewed"
 #define my_coach_page_share_coach_succeed @"my_coach_page_share_coach_succeed"
-
 #define online_test_page_viewed @"online_test_page_viewed"
 #define online_test_page_order_tapped @"online_test_page_order_tapped"
 #define online_test_page_random_tapped @"online_test_page_random_tapped"

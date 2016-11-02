@@ -9,6 +9,7 @@
 #import "HHClubPostStatView.h"
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
+#import <pop/POP.h>
 
 @implementation HHClubPostStatView
 
@@ -101,9 +102,20 @@
 }
 
 - (void)setupViewWithClubPost:(HHClubPost *)clubPost {
-    self.commentCountLabel.text = @"12";
-    self.eyeCountLabel.text = @"122";
-    self.thumbUpCountLabel.text = @"2";
+    self.commentCountLabel.text = [NSString stringWithFormat:@"%ld", clubPost.comments.count];
+    self.eyeCountLabel.text = [clubPost.viewCount stringValue];
+    self.thumbUpCountLabel.text = [clubPost.likeCount stringValue];
+    if ([clubPost.liked boolValue]) {
+        POPSpringAnimation *sprintAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+        sprintAnimation.animationDidStartBlock = ^(POPAnimation *anim) {
+            self.thumbUpView.image = [UIImage imageNamed:@"icon_like_click"];;
+        };
+        sprintAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
+        sprintAnimation.springBounciness = 20.f;
+        [self.thumbUpView pop_addAnimation:sprintAnimation forKey:@"springAnimation"];
+    } else {
+        self.thumbUpView.image = [UIImage imageNamed:@"icon_like"];
+    }
 }
 
 @end

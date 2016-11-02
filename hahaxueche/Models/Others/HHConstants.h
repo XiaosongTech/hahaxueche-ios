@@ -19,5 +19,6 @@
 @property (nonatomic, copy) NSNumber *drivingSchoolCount;
 @property (nonatomic, copy) NSNumber *paidStudentCount;
 @property (nonatomic, copy) NSNumber *coachCount;
+@property (nonatomic, copy) NSArray *postCategory;
 
 @end

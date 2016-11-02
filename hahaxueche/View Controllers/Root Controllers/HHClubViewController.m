@@ -18,6 +18,9 @@
 #import "SwipeView.h"
 #import "UIScrollView+EmptyDataSet.h"
 #import <MJRefresh/MJRefresh.h>
+#import "HHClubPostService.h"
+#import "HHConstantsStore.h"
+#import "HHPostCategory.h"
 
 static NSString *const kCellID = @"kCellId";
 
@@ -31,11 +34,17 @@ static NSString *const kCellID = @"kCellId";
 @property (nonatomic, strong) HHClubItemView *eventView;
 @property (nonatomic, strong) HHClubItemView *testView;
 
-@property (nonatomic, strong) HMSegmentedControl *articlePageControl;
+@property (nonatomic, strong) HMSegmentedControl *postsPageControl;
 @property (nonatomic, strong) UIView *pageControlContainerView;
 
 @property (nonatomic, strong) SwipeView *swipeView;
 @property (nonatomic, strong) NSMutableArray *tableViewArray;
+@property (nonatomic, strong) NSMutableArray *postsArray;
+@property (nonatomic, strong) NSMutableArray *postsObjects;
+@property (nonatomic, strong) NSMutableArray *refreshHeaderArray;
+@property (nonatomic, strong) NSMutableArray *loadMoreFooterArray;
+
+@property (nonatomic, strong) NSArray *categories;
 
 @end
 
@@ -46,8 +55,86 @@ static NSString *const kCellID = @"kCellId";
     self.title = @"小哈俱乐部";
     self.view.backgroundColor = [UIColor HHBackgroundGary];
     self.tableViewArray = [NSMutableArray array];
+    self.categories = [HHConstantsStore sharedInstance].constants.postCategory;
+    self.postsArray = [NSMutableArray array];
+    self.postsObjects = [NSMutableArray array];
+    self.refreshHeaderArray = [NSMutableArray array];
+    self.loadMoreFooterArray = [NSMutableArray array];
+    for (int i = 0; i < self.categories.count + 1; i++) {
+        [self.postsArray addObject:[NSMutableArray array]];
+        [self.refreshHeaderArray addObject:[self buildHeader]];
+        [self.loadMoreFooterArray addObject:[self buildFooter]];
+    }
+    
+    for (int i = 0; i < self.categories.count + 1; i ++) {
+        [self fetchPostsWithIndex:i];
+    }
+    
 
     [self initSubviews];
+}
+
+- (void)fetchPostsWithIndex:(NSInteger)index {
+    NSNumber *popular = @(0);
+    if (index == 0) {
+        popular = @(1);
+    }
+    [[HHClubPostService sharedInstance] fetchPostsWithCategor:@(index + 1) popular:popular completion:^(HHClubPosts *posts, NSError *error) {
+        MJRefreshNormalHeader *header = self.refreshHeaderArray[index];
+        [header endRefreshing];
+        if (!error) {
+            self.postsArray[index] = [NSMutableArray arrayWithArray:posts.posts];
+            
+            if (self.postsObjects.count > index) {
+                HHClubPosts *currentPostObject = self.postsObjects[index];
+                currentPostObject = posts;
+            } else {
+                [self.postsObjects addObject:posts];
+            }
+            
+            
+            MJRefreshAutoNormalFooter *footer = self.loadMoreFooterArray[index];
+            if (posts.nextPage) {
+                [footer setState:MJRefreshStateIdle];
+            } else {
+                [footer setState:MJRefreshStateNoMoreData];
+            }
+            
+            if (self.tableViewArray.count-1 >= index) {
+                UITableView *tableView = self.tableViewArray[index];
+                [tableView reloadData];
+            }
+            
+        }
+    }];
+}
+
+- (void)fetchMorePostsWithIndex:(NSInteger)index {
+    HHClubPosts *postsObject = self.postsObjects[index];
+    [[HHClubPostService sharedInstance] fetchMorePostsWithURL:postsObject.nextPage completion:^(HHClubPosts *posts, NSError *error) {
+        MJRefreshAutoNormalFooter *footer = self.loadMoreFooterArray[index];
+        [footer endRefreshing];
+        if (!error) {
+            NSMutableArray *currentPosts = self.postsArray[index];
+            [currentPosts addObjectsFromArray:posts.posts];
+            
+            HHClubPosts *currentPostObject = self.postsObjects[index];
+            currentPostObject = posts;
+            
+            MJRefreshAutoNormalFooter *footer = self.loadMoreFooterArray[index];
+            if (currentPostObject.nextPage) {
+                [footer setState:MJRefreshStateIdle];
+            } else {
+                [footer setState:MJRefreshStateNoMoreData];
+            }
+            
+            if (self.tableViewArray.count-1 >= index) {
+                UITableView *tableView = self.tableViewArray[index];
+                [tableView reloadData];
+            }
+            
+        }
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -91,16 +178,20 @@ static NSString *const kCellID = @"kCellId";
     self.pageControlContainerView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.pageControlContainerView];
     
-    self.articlePageControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"热门新闻",@"学车资讯", @"驾考指南", @"开车技巧"]];
-    self.articlePageControl.selectionStyle = HMSegmentedControlSelectionStyleTextWidthStripe;
-    self.articlePageControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
-    self.articlePageControl.selectionIndicatorColor = [UIColor HHOrange];
-    self.articlePageControl.selectionIndicatorHeight = 4.0f/[UIScreen mainScreen].scale;
-    self.articlePageControl.shouldAnimateUserSelection = YES;
-    self.articlePageControl.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor HHLightestTextGray], NSFontAttributeName:[UIFont systemFontOfSize:14.0f]};
-    self.articlePageControl.selectedTitleTextAttributes = @{NSForegroundColorAttributeName : [UIColor HHTextDarkGray], NSFontAttributeName:[UIFont systemFontOfSize:15.0f]};
-    [self.articlePageControl addTarget:self action:@selector(pageControlChangedValue) forControlEvents:UIControlEventValueChanged];
-    [self.pageControlContainerView addSubview:self.articlePageControl];
+    NSMutableArray *titles = [NSMutableArray arrayWithObject:@"热门新闻"];
+    for (HHPostCategory *category in self.categories) {
+        [titles addObject:category.name];
+    }
+    self.postsPageControl = [[HMSegmentedControl alloc] initWithSectionTitles:titles];
+    self.postsPageControl.selectionStyle = HMSegmentedControlSelectionStyleTextWidthStripe;
+    self.postsPageControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
+    self.postsPageControl.selectionIndicatorColor = [UIColor HHOrange];
+    self.postsPageControl.selectionIndicatorHeight = 4.0f/[UIScreen mainScreen].scale;
+    self.postsPageControl.shouldAnimateUserSelection = YES;
+    self.postsPageControl.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor HHLightestTextGray], NSFontAttributeName:[UIFont systemFontOfSize:14.0f]};
+    self.postsPageControl.selectedTitleTextAttributes = @{NSForegroundColorAttributeName : [UIColor HHTextDarkGray], NSFontAttributeName:[UIFont systemFontOfSize:15.0f]};
+    [self.postsPageControl addTarget:self action:@selector(pageControlChangedValue) forControlEvents:UIControlEventValueChanged];
+    [self.pageControlContainerView addSubview:self.postsPageControl];
 
     
     self.swipeView = [[SwipeView alloc] init];
@@ -148,7 +239,7 @@ static NSString *const kCellID = @"kCellId";
         make.top.equalTo(self.headLineView.bottom).offset(10.0f);
     }];
     
-    [self.articlePageControl makeConstraints:^(MASConstraintMaker *make) {
+    [self.postsPageControl makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.pageControlContainerView.centerX);
         make.width.equalTo(self.pageControlContainerView.width).offset(-40.0f);
         make.height.mas_equalTo(40.0f);
@@ -167,13 +258,12 @@ static NSString *const kCellID = @"kCellId";
 #pragma mark -SwipeView methods
 
 - (NSInteger)numberOfItemsInSwipeView:(SwipeView *)swipeView {
-    return 4;
+    return self.categories.count + 1;
 }
 
 - (UIView *)swipeView:(SwipeView *)swipeView viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view {
-    UIView *containerView = [[UIView alloc] init];
-    [self initViewForSwiptViewWithIndex:index containerView:containerView];
-    return containerView;
+    
+    return [self buildViewForSwipeViewWithIndex:index];
 }
 
 - (CGSize)swipeViewItemSize:(SwipeView *)swipeView {
@@ -181,29 +271,24 @@ static NSString *const kCellID = @"kCellId";
 }
 
 - (void)swipeViewDidEndDecelerating:(SwipeView *)swipeView {
-    self.articlePageControl.selectedSegmentIndex = swipeView.currentPage;
+    self.postsPageControl.selectedSegmentIndex = swipeView.currentPage;
 }
 
-- (void)initViewForSwiptViewWithIndex:(NSInteger)index containerView:(UIView *)containerView{
+- (UIView *)buildViewForSwipeViewWithIndex:(NSInteger)index {
+    if (self.tableViewArray.count > index) {
+        return self.tableViewArray[index];
+    }
     UITableView *tableView = [[UITableView alloc] init];
     tableView = [[UITableView alloc] init];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.delegate = self;
     tableView.dataSource = self;
     [tableView registerClass:[HHClubPostTableViewCell class] forCellReuseIdentifier:kCellID];
-    [containerView addSubview:tableView];
-    [tableView makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(containerView);
-        make.width.equalTo(containerView.width);
-        make.height.equalTo(containerView.height);
-    }];
+    tableView.mj_header = self.refreshHeaderArray[index];
+    tableView.mj_footer = self.loadMoreFooterArray[index];
     
-    MJRefreshNormalHeader *refreshHeader = [self buildHeader];
-    MJRefreshAutoNormalFooter *loadMoreFooter = [self buildFooter];
-    
-    tableView.mj_header = refreshHeader;
-    tableView.mj_footer = loadMoreFooter;
-
+    [self.tableViewArray addObject:tableView];
+    return tableView;
 }
 
 - (MJRefreshNormalHeader *)buildHeader {
@@ -231,8 +316,15 @@ static NSString *const kCellID = @"kCellId";
 #pragma mark - UITableView Delegate & Datasource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSMutableArray *postArray = self.postsArray[self.postsPageControl.selectedSegmentIndex];
+    HHClubPost *post = postArray[indexPath.row];
     HHClubPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellID forIndexPath:indexPath];
-    [cell setupCellWithClubPost:nil];
+    if (self.postsPageControl.selectedSegmentIndex == 0) {
+        [cell setupCellWithClubPost:post showType:YES];
+    } else {
+        [cell setupCellWithClubPost:post showType:NO];
+    }
+    
     return cell;
 }
 
@@ -241,7 +333,9 @@ static NSString *const kCellID = @"kCellId";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    NSInteger index = [self.tableViewArray indexOfObject:tableView];
+    NSMutableArray *posts = self.postsArray[index];
+    return posts.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -250,7 +344,10 @@ static NSString *const kCellID = @"kCellId";
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    HHClubPostDetailViewController *vc = [[HHClubPostDetailViewController alloc] initWithClubPost:nil];
+    NSInteger index = [self.tableViewArray indexOfObject:tableView];
+    NSMutableArray *posts = self.postsArray[index];
+    HHClubPost *post = posts[indexPath.row];
+    HHClubPostDetailViewController *vc = [[HHClubPostDetailViewController alloc] initWithClubPost:post];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -292,15 +389,15 @@ static NSString *const kCellID = @"kCellId";
 }
 
 - (void)pageControlChangedValue {
-    [self.swipeView scrollToPage:self.articlePageControl.selectedSegmentIndex duration:0.3f];
+    [self.swipeView scrollToPage:self.postsPageControl.selectedSegmentIndex duration:0.3f];
 }
 
 - (void)refreshData {
-    
+    [self fetchPostsWithIndex:self.postsPageControl.selectedSegmentIndex];
 }
 
 - (void)loadMoreData {
-    
+    [self fetchMorePostsWithIndex:self.postsPageControl.selectedSegmentIndex];
 }
 
 

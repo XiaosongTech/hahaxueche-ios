@@ -12,6 +12,7 @@
 #import "HHNotification.h"
 #import "HHBanner.h"
 #import "HHBank.h"
+#import "HHPostCategory.h"
 
 @implementation HHConstants
 
@@ -26,6 +27,7 @@
              @"drivingSchoolCount": @"statistics.driving_school_count",
              @"paidStudentCount": @"statistics.paid_student_count",
              @"coachCount": @"statistics.coach_count",
+             @"postCategory": @"article_categories",
              };
 }
 
@@ -51,6 +53,10 @@
 
 + (NSValueTransformer *)banksJSONTransformer {
     return [MTLJSONAdapter arrayTransformerWithModelClass:[HHBank class]];
+}
+
++ (NSValueTransformer *)postCategoryJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[HHPostCategory class]];
 }
 
 @end

@@ -7,7 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HHClubPost.h"
+
+typedef void (^HHUpdatePostBlock)(HHClubPost *post);
 
 @interface HHClubPostCommentsViewController : UIViewController
+
+- (instancetype)initWithPost:(HHClubPost *)post;
+
+@property (nonatomic, strong) HHUpdatePostBlock updateBlock;
 
 @end

@@ -7,7 +7,47 @@
 //
 
 #import "HHClubPost.h"
+#import "HHPostComment.h"
+#import "HHFormatUtility.h"
+#import "HHConstantsStore.h"
+#import "HHPostCategory.h"
 
 @implementation HHClubPost
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{
+             @"postId":@"id",
+             @"title":@"title",
+             @"abstract":@"abstract",
+             @"coverImg":@"cover_image",
+             @"category":@"category",
+             @"createdAt":@"created_at",
+             @"viewCount":@"view_count",
+             @"likeCount":@"like_count",
+             @"comments":@"comments",
+             };
+}
+
++ (NSValueTransformer *)commentsJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[HHPostComment class]];
+}
+
++ (NSValueTransformer *)createdAtJSONTransformer {
+    return [MTLValueTransformer transformerUsingForwardBlock:^id(NSString *dateString, BOOL *success, NSError *__autoreleasing *error) {
+        return [[HHFormatUtility backendDateFormatter] dateFromString:dateString];
+    } reverseBlock:^id(NSDate *date, BOOL *success, NSError *__autoreleasing *error) {
+        return [[HHFormatUtility backendDateFormatter] stringFromDate:date];
+    }];
+}
+
+- (NSString *)getCategoryName {
+    NSArray *categories = [HHConstantsStore sharedInstance].constants.postCategory;
+    for (HHPostCategory *category in categories) {
+        if ([self.category isEqual:category.type]) {
+            return category.name;
+        }
+    }
+    return nil;
+}
 
 @end

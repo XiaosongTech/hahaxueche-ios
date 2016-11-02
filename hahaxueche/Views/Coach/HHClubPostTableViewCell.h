@@ -21,6 +21,6 @@
 @property (nonatomic, strong) HHClubPostStatView *statView;
 @property (nonatomic, strong) UIView *sepratorView;
 
-- (void)setupCellWithClubPost:(HHClubPost *)clubPost;
+- (void)setupCellWithClubPost:(HHClubPost *)clubPost showType:(BOOL)showType;
 
 @end
