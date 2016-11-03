@@ -82,7 +82,7 @@
         }];
         
         
-        self.contentLabel = [self buildLabelWithFont:[UIFont boldSystemFontOfSize:12.0f] color:[UIColor HHLightTextGray]];
+        self.contentLabel = [self buildLabelWithFont:[UIFont systemFontOfSize:12.0f] color:[UIColor HHLightTextGray]];
         self.contentLabel.numberOfLines = 2;
         [self.contentView addSubview:self.contentLabel];
         [self.contentLabel makeConstraints:^(MASConstraintMaker *make) {
@@ -106,7 +106,7 @@
 
 - (void)setupCellWithClubPost:(HHClubPost *)clubPost showType:(BOOL)showType {
     [self.statView setupViewWithClubPost:clubPost];
-    self.dateLabel.text = [[HHFormatUtility fullDateFormatter] stringFromDate:clubPost.createdAt];
+    self.dateLabel.text = [[HHFormatUtility fullDateSlashFormatter] stringFromDate:clubPost.createdAt];
     if (showType) {
         self.typeLabel.text = [clubPost getCategoryName];
         self.typeLabel.hidden = NO;

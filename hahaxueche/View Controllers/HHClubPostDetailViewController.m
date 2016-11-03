@@ -14,7 +14,6 @@
 #import "HHPopupUtility.h"
 #import "HHShareView.h"
 #import "HHCommentView.h"
-#import "HHClubPostCommentsViewController.h"
 #import "HHWebViewController.h"
 #import "HHStudentStore.h"
 #import "HHClubPostService.h"
@@ -23,6 +22,8 @@
 #import "HHClubPostService.h"
 #import "HHLoadingViewUtility.h"
 #import "HHToastManager.h"
+#import "HHPostCommentView.h"
+#import "HHSocialMediaShareUtility.h"
 
 @interface HHClubPostDetailViewController () <UIWebViewDelegate>
 
@@ -34,6 +35,9 @@
 @property (nonatomic, strong) UITextView *textView;
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) HHCommentView *commentView;
+@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) UIView *userCommentsView;
+@property (nonatomic, strong) NSMutableArray *userCommentViewArray;
 
 @end
 
@@ -65,31 +69,53 @@
 }
 
 - (void)initSubviews {
+    self.scrollView = [[UIScrollView alloc] init];
+    self.scrollView.backgroundColor = [UIColor HHBackgroundGary];
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    [self.view addSubview:self.scrollView];
+    
     self.webView = [[UIWebView alloc] init];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[self.clubPost getPostUrl]]]];
+    self.webView.scrollView.scrollEnabled = NO;
     self.webView.delegate = self;
-    [self.view addSubview:self.webView];
+    [self.scrollView addSubview:self.webView];
     
     [self buildBotToolBarView];
     
+    if (self.clubPost.comments.count > 0) {
+        self.userCommentsView = [self buildCommentsView];
+        [self.scrollView addSubview:self.userCommentsView];
+    }
+    
     [self makeConstraints];
+    
 }
 
 - (void)makeConstraints {
-    [self.webView makeConstraints:^(MASConstraintMaker *make) {
+    [self.scrollView remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.top);
         make.width.equalTo(self.view.width);
         make.height.equalTo(self.view.height).offset(-50.0f);
         make.left.equalTo(self.view.left);
     }];
     
-    [self.botToolBar makeConstraints:^(MASConstraintMaker *make) {
+    [self.webView remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.scrollView.top);
+        make.width.equalTo(self.scrollView.width);
+        NSString *result = [self.webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"];
+        CGFloat height = [result floatValue];
+        make.height.mas_equalTo(height);
+        make.left.equalTo(self.scrollView.left);
+    }];
+    
+    [self.botToolBar remakeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view.bottom);
         make.width.equalTo(self.view.width);
         make.height.mas_equalTo(50.0f);
         make.left.equalTo(self.view.left);
     }];
     
-    [self.commentButton makeConstraints:^(MASConstraintMaker *make) {
+    [self.commentButton remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.botToolBar.centerY);
         make.width.equalTo(self.botToolBar.width).multipliedBy(1.0f/2.0f);
         make.height.mas_equalTo(30.0f);
@@ -97,13 +123,32 @@
 
     }];
     
-    [self.statView makeConstraints:^(MASConstraintMaker *make) {
+    [self.statView remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.botToolBar.centerY);
         make.right.equalTo(self.botToolBar.right);
         make.height.equalTo(self.botToolBar.height);
         make.left.equalTo(self.commentButton.right);
         
     }];
+    
+    [self.userCommentsView remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.webView.bottom);
+        make.width.equalTo(self.scrollView.width);
+        make.left.equalTo(self.scrollView.left);
+        CGFloat height = 85.0f;
+        for (HHPostCommentView *view in self.userCommentViewArray) {
+            height = height + [view getViewHeightWithComment:view.comment];
+        }
+        make.height.mas_equalTo(height);
+    }];
+    
+    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.userCommentsView
+                                                                attribute:NSLayoutAttributeBottom
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self.scrollView
+                                                                attribute:NSLayoutAttributeBottom
+                                                               multiplier:1.0
+                                                                 constant:-10.0f]];
 }
 
 
@@ -137,6 +182,9 @@
                 if (!error) {
                     weakSelf.clubPost = post;
                     [weakSelf.statView setupViewWithClubPost:weakSelf.clubPost];
+                    if (weakSelf.updateBlock) {
+                        weakSelf.updateBlock(post);
+                    }
                 } 
             }];
         } else {
@@ -145,11 +193,7 @@
     };
     
     self.statView.commentAction = ^() {
-        HHClubPostCommentsViewController *vc = [[HHClubPostCommentsViewController alloc] initWithPost:weakSelf.clubPost];
-        vc.updateBlock = ^(HHClubPost *post) {
-            [weakSelf.statView setupViewWithClubPost:post];
-        };
-        [weakSelf.navigationController pushViewController:vc animated:YES];
+        [weakSelf jumpToCommentsVC];
     };
     [self.statView setupViewWithClubPost:self.clubPost];
     [self.botToolBar addSubview:self.statView];
@@ -167,30 +211,7 @@
         [HHPopupUtility dismissPopup:weakSelf.popup];
     };
     shareView.actionBlock = ^(SocialMedia selecteItem) {
-        switch (selecteItem) {
-            case SocialMediaQQFriend: {
-                
-            } break;
-                
-            case SocialMediaWeibo: {
-                ;
-            } break;
-                
-            case SocialMediaWeChatFriend: {
-                
-            } break;
-                
-            case SocialMediaWeChaPYQ: {
-                
-            } break;
-                
-            case SocialMediaQZone: {
-                
-            } break;
-                
-            default:
-                break;
-        }
+        [[HHSocialMediaShareUtility sharedInstance] sharePost:weakSelf.clubPost shareType:selecteItem];
     };
     
     self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
@@ -198,6 +219,11 @@
 }
 
 - (void)showCommentTextView {
+    if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+        [self showLoginPopupForComment];
+        return;
+    }
+    
     __weak HHClubPostDetailViewController *weakSelf = self;
     self.commentView = [[HHCommentView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 158.0f)];
     self.commentView.cancelBlock = ^(){
@@ -211,15 +237,17 @@
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
             if (!error) {
                 weakSelf.clubPost = post;
-                [weakSelf.statView setupViewWithClubPost:post];
+                [weakSelf updateView];
             } else {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"评论失败, 请重试"];
             }
             
         }];
-
+        
         [weakSelf.commentView.textView resignFirstResponder];
         [HHPopupUtility dismissPopup:weakSelf.popup];
+
+        
     };
 
     self.popup = [HHPopupUtility createPopupWithContentView:self.commentView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
@@ -230,18 +258,44 @@
 }
 
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
-    HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:request.URL];
-    [self.navigationController pushViewController:vc animated:YES];
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    if (![request.URL.absoluteString isEqualToString:[self.clubPost getPostUrl]]) {
+        HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:request.URL];
+        [self.navigationController pushViewController:vc animated:YES];
+        return NO;
+    }
     return YES;
     
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [self makeConstraints];
+    [self.view updateConstraintsIfNeeded];
 }
 
 - (void)showLoginPopupForLike {
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentCenter;
     paragraphStyle.lineSpacing = 8.0f;
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"您只有注册登录后\n才可以点赞教练哦~" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"注册登录后才可以点赞文章哦~\n快去注册支持教练把!" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 260.0f) title:@"请登录" subTitle:nil info:attributedString leftButtonTitle:@"知道了" rightButtonTitle:@"去登录"];
+    self.popup = [HHPopupUtility createPopupWithContentView:view];
+    view.confirmBlock = ^() {
+        HHIntroViewController *vc = [[HHIntroViewController alloc] init];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        [self presentViewController:nav animated:YES completion:nil];
+    };
+    view.cancelBlock = ^() {
+        [HHPopupUtility dismissPopup:self.popup];
+    };
+    [HHPopupUtility showPopup:self.popup];
+}
+
+- (void)showLoginPopupForComment {
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    paragraphStyle.lineSpacing = 8.0f;
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"注册登录后, 才可以评价文章哦~\n注册获得更多学车咨询!~" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
     HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 260.0f) title:@"请登录" subTitle:nil info:attributedString leftButtonTitle:@"知道了" rightButtonTitle:@"去登录"];
     self.popup = [HHPopupUtility createPopupWithContentView:view];
     view.confirmBlock = ^() {
@@ -256,5 +310,108 @@
 }
 
 
+- (UIView *)buildCommentsView {
+    if (self.userCommentsView) {
+        [self.userCommentsView removeFromSuperview];
+        self.userCommentsView = nil;
+        [self.userCommentViewArray removeAllObjects];
+    }
+    UIView *view = [[UIView alloc] init];
+    view.backgroundColor = [UIColor whiteColor];
+    
+    UIView *topLine = [[UIView alloc] init];
+    topLine.backgroundColor = [UIColor HHLightLineGray];
+    [view addSubview:topLine];
+    [topLine makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.left).offset(15.0f);
+        make.top.equalTo(view.top);
+        make.width.equalTo(view.width).offset(-30.0f);
+        make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+    }];
+    
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.textColor = [UIColor darkTextColor];
+    titleLabel.font = [UIFont systemFontOfSize:22.0f];
+    titleLabel.text = @"评论";
+    [view addSubview:titleLabel];
+    [titleLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.centerX);
+        make.top.equalTo(view.top).offset(10.0f);
+    }];
+    
+    int i = 0;
+    self.userCommentViewArray = [NSMutableArray array];
+    for (HHPostComment *comment in self.clubPost.comments) {
+        if (i == 3) {
+            break;
+        }
+        HHPostCommentView *commentView = [[HHPostCommentView alloc] init];
+        [commentView setupViewWithComment:comment];
+        [view addSubview:commentView];
+        [self.userCommentViewArray addObject:commentView];
+        [commentView makeConstraints:^(MASConstraintMaker *make) {
+            if (i == 0) {
+                make.top.equalTo(view.top).offset(35.0f);
+            } else {
+                HHPostCommentView *preView = self.userCommentViewArray[i-1];
+                make.top.equalTo(preView.bottom);
+            }
+            make.left.equalTo(view.left);
+            make.width.equalTo(view.width);
+            make.height.mas_equalTo([commentView getViewHeightWithComment:comment]);
+        }];
+        
+        i++;
+    }
+    
+    HHPostCommentView *lastView = [self.userCommentViewArray lastObject];
+    lastView.botLine.hidden = YES;
+    
+    UIView *botLine = [[UIView alloc] init];
+    botLine.backgroundColor = [UIColor HHLightLineGray];
+    [view addSubview:botLine];
+    [botLine makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(view.bottom).offset(-50.0f);
+        make.left.equalTo(view.left).offset(15.0f);
+        make.width.equalTo(view.width).offset(-30.0f);
+        make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+    }];
+    
+    UILabel *checkMoreLabel = [[UILabel alloc] init];
+    checkMoreLabel.text = @"点击查看更多";
+    checkMoreLabel.textColor = [UIColor HHOrange];
+    checkMoreLabel.font = [UIFont systemFontOfSize:15.0f];
+    [view addSubview:checkMoreLabel];
+    [checkMoreLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.centerX);
+        make.centerY.equalTo(view.bottom).offset(-25.0f);
+    }];
+    
+    UITapGestureRecognizer *rec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToCommentsVC)];
+    [view addGestureRecognizer:rec];
+    return view;
+}
+
+
+- (void)jumpToCommentsVC {
+    __weak HHClubPostDetailViewController *weakSelf = self;
+    HHClubPostCommentsViewController *vc = [[HHClubPostCommentsViewController alloc] initWithPost:weakSelf.clubPost];
+    vc.updateBlock = ^(HHClubPost *post) {
+        weakSelf.clubPost = post;
+        [weakSelf updateView];
+        if (weakSelf.updateBlock) {
+            weakSelf.updateBlock(post);
+        }
+    };
+    [weakSelf.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)updateView {
+    [self.statView setupViewWithClubPost:self.clubPost];
+    self.userCommentsView = [self buildCommentsView];
+    [self.scrollView addSubview:self.userCommentsView];
+    [self makeConstraints];
+
+}
 
 @end

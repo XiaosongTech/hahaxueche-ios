@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HHPostCommentView.h"
+#import "HHPostComment.h"
 
 @interface HHClubPostCommentTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) UIImageView *avatarView;
-@property (nonatomic, strong) UILabel *nameLabel;
-@property (nonatomic, strong) UILabel *contentLabel;
-@property (nonatomic, strong) UILabel *dateLabel;
-@property (nonatomic, strong) UIView *botLine;
+@property (nonatomic, strong) HHPostCommentView *commentView;
+
+- (void)setupViewWithComment:(HHPostComment *)comment;
 
 @end

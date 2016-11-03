@@ -18,13 +18,14 @@
     return @{
              @"postId":@"id",
              @"title":@"title",
-             @"abstract":@"abstract",
+             @"abstract":@"intro",
              @"coverImg":@"cover_image",
              @"category":@"category",
              @"createdAt":@"created_at",
              @"viewCount":@"view_count",
              @"likeCount":@"like_count",
              @"comments":@"comments",
+             @"liked":@"liked",
              };
 }
 
@@ -48,6 +49,14 @@
         }
     }
     return nil;
+}
+
+- (NSString *)getPostUrl {
+    return [NSString stringWithFormat:@"http://staging-m.hahaxueche.com/articles/%@", self.postId];
+}
+
+- (NSString *)getShareUrl {
+    return [NSString stringWithFormat:@"http://staging-m.hahaxueche.com/articles/%@", self.postId];
 }
 
 @end

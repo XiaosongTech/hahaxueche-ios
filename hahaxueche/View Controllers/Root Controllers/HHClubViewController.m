@@ -10,7 +10,6 @@
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
 #import "HHClubItemView.h"
-#import "HHEventsViewController.h"
 #import "HHTestStartViewController.h"
 #import "HHClubPostTableViewCell.h"
 #import "HHClubPostDetailViewController.h"
@@ -153,9 +152,6 @@ static NSString *const kCellID = @"kCellId";
     
     self.eventView = [[HHClubItemView alloc] initWithIcon:[UIImage imageNamed:@"clock"] title:@"限时团购" subTitle:@"学车团购底价" showRightLine:YES showBotLine:YES];
     self.eventView.actionBlock = ^() {
-        HHEventsViewController *vc = [[HHEventsViewController alloc] init];
-        vc.hidesBottomBarWhenPushed = YES;
-        [weakSelf.navigationController pushViewController:vc animated:YES];
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:club_page_group_purchase_tapped attributes:nil];
     };
     [self.topView addSubview:self.eventView];
@@ -348,6 +344,10 @@ static NSString *const kCellID = @"kCellId";
     NSMutableArray *posts = self.postsArray[index];
     HHClubPost *post = posts[indexPath.row];
     HHClubPostDetailViewController *vc = [[HHClubPostDetailViewController alloc] initWithClubPost:post];
+    vc.updateBlock = ^(HHClubPost *post) {
+        posts[indexPath.row] = post;
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    };
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }

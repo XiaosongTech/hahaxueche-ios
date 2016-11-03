@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "HHClubPost.h"
+#import "HHClubPostCommentsViewController.h"
 
 @interface HHClubPostDetailViewController : UIViewController
 
 - (instancetype)initWithClubPost:(HHClubPost *)clubPost;
+
+@property (nonatomic, strong) HHUpdatePostBlock updateBlock;
 
 @end

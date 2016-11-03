@@ -113,8 +113,10 @@
         sprintAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
         sprintAnimation.springBounciness = 20.f;
         [self.thumbUpView pop_addAnimation:sprintAnimation forKey:@"springAnimation"];
+        self.thumbUpCountLabel.textColor = [UIColor HHOrange];
     } else {
         self.thumbUpView.image = [UIImage imageNamed:@"icon_like"];
+        self.thumbUpCountLabel.textColor = [UIColor HHLightestTextGray];;
     }
 }
 

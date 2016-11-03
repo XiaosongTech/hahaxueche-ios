@@ -23,6 +23,8 @@
 @property (nonatomic, copy) NSArray *comments;
 
 - (NSString *)getCategoryName;
+- (NSString *)getPostUrl;
+- (NSString *)getShareUrl;
 
 
 @end

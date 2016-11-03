@@ -33,7 +33,6 @@
 #import "HHHomePageSupportView.h"
 #import "HHSupportUtility.h"
 #import "HHFreeTrialUtility.h"
-#import "HHEventsViewController.h"
 #import "HHTestView.h"
 #import "HHReferralShareView.h"
 #import "UIView+EAFeatureGuideView.h"
@@ -367,10 +366,6 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_group_purchase_tapped attributes:nil];
     
 }
-
-//- (void)showMailPage {
-//    [self openWebPage:[NSURL URLWithString:@"http://m.hahaxueche.com/letter-for-customer"]];
-//}
 
 - (void)showUserGuideView {
     if ([UIView hasShowFeatureGuideWithKey:kHomePageGuideKey version:nil]) {

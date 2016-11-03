@@ -137,13 +137,13 @@ static NSString *const kSupportQQ = @"3319762526";
 }
 
 
-- (void)shareEvent:(HHEvent *)event shareType:(SocialMedia)shareType {
+- (void)sharePost:(HHClubPost *)post shareType:(SocialMedia)shareType {
     OSMessage *msg = [[OSMessage alloc] init];
     msg.image = [UIImage imageNamed:@"ic_share"];
     msg.thumbnail = [UIImage imageNamed:@"ic_share"];
-    msg.title = event.title;
+    msg.title = post.title;
     msg.multimediaType = OSMultimediaTypeNews;
-    msg.link = event.webURL;
+    msg.link = [post getShareUrl];;
     msg.desc = @"限时活动, 疯抢中!";
     
     switch (shareType) {

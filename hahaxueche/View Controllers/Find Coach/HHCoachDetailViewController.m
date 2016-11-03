@@ -500,11 +500,12 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 - (void)followUnfollowCoach {
     if (self.followed) {
         if (![HHStudentStore sharedInstance].currentStudent.studentId) {
-            [self showLoginSignupAlertView];
+            [self showLoginPopupForFollow];
             return ;
         }
         [[HHCoachService sharedInstance] unfollowCoach:self.coach.userId completion:^(NSError *error) {
             if (!error) {
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_follow_unfollow_tapped attributes:@{@"coach_id":self.coach.coachId, @"follow":@(!self.followed)}];
                 self.followed = NO;
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"kUnfollowCoach" object:@{@"coachId":self.coach.coachId}];
             }
@@ -512,19 +513,37 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         
     } else {
         if (![HHStudentStore sharedInstance].currentStudent.studentId) {
-            [self showLoginSignupAlertView];
+            [self showLoginPopupForFollow];
             return ;
         }
     
         [[HHCoachService sharedInstance] followCoach:self.coach.userId completion:^(NSError *error) {
             if (!error) {
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_follow_unfollow_tapped attributes:@{@"coach_id":self.coach.coachId, @"follow":@(!self.followed)}];
                 self.followed = YES;
             }
             
         }];
 
     }
-    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_follow_unfollow_tapped attributes:@{@"coach_id":self.coach.coachId, @"follow":@(!self.followed)}];
+}
+
+- (void)showLoginPopupForFollow {
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    paragraphStyle.lineSpacing = 8.0f;
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"注册登录后, 才可以关注教练哦~\n注册获得更多教练咨询!~" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 260.0f) title:@"请登录" subTitle:nil info:attributedString leftButtonTitle:@"知道了" rightButtonTitle:@"去登录"];
+    self.popup = [HHPopupUtility createPopupWithContentView:view];
+    view.confirmBlock = ^() {
+        HHIntroViewController *vc = [[HHIntroViewController alloc] init];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        [self presentViewController:nav animated:YES completion:nil];
+    };
+    view.cancelBlock = ^() {
+        [HHPopupUtility dismissPopup:self.popup];
+    };
+    [HHPopupUtility showPopup:self.popup];
 }
 
 @end
