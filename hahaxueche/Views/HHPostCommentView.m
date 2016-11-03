@@ -10,6 +10,7 @@
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
 #import "HHFormatUtility.h"
+#import <UIImageView+WebCache.h>
 
 @implementation HHPostCommentView
 
@@ -76,6 +77,7 @@
     self.nameLabel.text = comment.studentName;
     self.dateLabel.text = [[HHFormatUtility fullDateSlashFormatter] stringFromDate:comment.createdAt];
     self.contentLabel.attributedText = [self buildContenStringWithComment:comment];
+    [self.avaView sd_setImageWithURL:[NSURL URLWithString:comment.avatar] placeholderImage:[UIImage imageNamed:@"ic_mypage_ava"]];
 }
 
 - (CGFloat)getViewHeightWithComment:(HHPostComment *)comment {
