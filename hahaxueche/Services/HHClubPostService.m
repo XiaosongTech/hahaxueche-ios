@@ -89,5 +89,25 @@
     }];
 }
 
+- (void)fetchHeadlineWithCompletion:(HHPostCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIClubPostHeadLine];
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+        param[@"student_id"] = [HHStudentStore sharedInstance].currentStudent.studentId;
+    }
+    [APIClient getWithParameters:param completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHClubPost *post = [MTLJSONAdapter modelOfClass:[HHClubPost class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(post, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
 
 @end

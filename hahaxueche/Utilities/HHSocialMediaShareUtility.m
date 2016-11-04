@@ -144,7 +144,7 @@ static NSString *const kSupportQQ = @"3319762526";
     msg.title = post.title;
     msg.multimediaType = OSMultimediaTypeNews;
     msg.link = [post getShareUrl];;
-    msg.desc = @"限时活动, 疯抢中!";
+    msg.desc = post.abstract;
     
     switch (shareType) {
         case SocialMediaQQFriend: {

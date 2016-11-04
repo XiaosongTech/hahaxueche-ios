@@ -60,6 +60,7 @@
 #define kAPIClubPosts @"articles"
 #define kAPIClubPostLike @"students/%@/liked_articles/%@"
 #define kAPIClubPostComment @"articles/%@/comments"
+#define kAPIClubPostHeadLine @"articles/headline"
 
 #pragma mark Constants
 

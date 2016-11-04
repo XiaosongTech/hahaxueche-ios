@@ -25,10 +25,10 @@
 #import "HHPostCommentView.h"
 #import "HHSocialMediaShareUtility.h"
 
-@interface HHClubPostDetailViewController () <UIWebViewDelegate>
+@interface HHClubPostDetailViewController () <WKNavigationDelegate>
 
 @property (nonatomic, strong) HHClubPost *clubPost;
-@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) UIView *botToolBar;
 @property (nonatomic, strong) UIButton *commentButton;
 @property (nonatomic, strong) HHClubPostStatView *statView;
@@ -38,6 +38,7 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *userCommentsView;
 @property (nonatomic, strong) NSMutableArray *userCommentViewArray;
+@property (nonatomic) CGFloat webViewHeight;
 
 @end
 
@@ -53,6 +54,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
@@ -60,6 +62,8 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self initSubviews];
+    
+    [self.webView addObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress)) options:NSKeyValueObservingOptionNew context:NULL];
     
 }
 
@@ -74,10 +78,10 @@
     self.scrollView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.scrollView];
     
-    self.webView = [[UIWebView alloc] init];
+    self.webView = [[WKWebView alloc] init];
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[self.clubPost getPostUrl]]]];
     self.webView.scrollView.scrollEnabled = NO;
-    self.webView.delegate = self;
+    self.webView.navigationDelegate = self;
     [self.scrollView addSubview:self.webView];
     
     [self buildBotToolBarView];
@@ -92,6 +96,8 @@
 }
 
 - (void)makeConstraints {
+    UIView *lastView = self.webView;
+    
     [self.scrollView remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.top);
         make.width.equalTo(self.view.width);
@@ -102,9 +108,7 @@
     [self.webView remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.scrollView.top);
         make.width.equalTo(self.scrollView.width);
-        NSString *result = [self.webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"];
-        CGFloat height = [result floatValue];
-        make.height.mas_equalTo(height);
+        make.height.mas_equalTo(self.webViewHeight);
         make.left.equalTo(self.scrollView.left);
     }];
     
@@ -131,18 +135,21 @@
         
     }];
     
-    [self.userCommentsView remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.webView.bottom);
-        make.width.equalTo(self.scrollView.width);
-        make.left.equalTo(self.scrollView.left);
-        CGFloat height = 85.0f;
-        for (HHPostCommentView *view in self.userCommentViewArray) {
-            height = height + [view getViewHeightWithComment:view.comment];
-        }
-        make.height.mas_equalTo(height);
-    }];
+    if (self.userCommentsView) {
+        [self.userCommentsView remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.webView.bottom);
+            make.width.equalTo(self.scrollView.width);
+            make.left.equalTo(self.scrollView.left);
+            CGFloat height = 85.0f;
+            for (HHPostCommentView *view in self.userCommentViewArray) {
+                height = height + [view getViewHeightWithComment:view.comment];
+            }
+            make.height.mas_equalTo(height);
+        }];
+        lastView = self.userCommentsView;
+    }
     
-    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.userCommentsView
+    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:lastView
                                                                 attribute:NSLayoutAttributeBottom
                                                                 relatedBy:NSLayoutRelationEqual
                                                                    toItem:self.scrollView
@@ -413,5 +420,35 @@
     [self makeConstraints];
 
 }
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    __weak HHClubPostDetailViewController *weakSelf = self;
+    if ([keyPath isEqualToString:NSStringFromSelector(@selector(estimatedProgress))] && object == self.webView) {
+        
+        if(self.webView.estimatedProgress >= 1.0f) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            [self.webView evaluateJavaScript:@"document.body.offsetHeight" completionHandler:^(id _Nullable height, NSError * _Nullable error) {
+                weakSelf.webViewHeight = [height floatValue];
+                [weakSelf makeConstraints];
+            }];
+        }
+    }
+    else {
+        // Make sure to call the superclass's implementation in the else block in case it is also implementing KVO
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
+- (void)dealloc {
+    
+    if ([self isViewLoaded]) {
+        [self.webView removeObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress))];
+    }
+    
+    // if you have set either WKWebView delegate also set these to nil here
+    [self.webView setNavigationDelegate:nil];
+    [self.webView setUIDelegate:nil];
+}
+
 
 @end

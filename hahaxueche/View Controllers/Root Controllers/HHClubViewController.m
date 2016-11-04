@@ -44,6 +44,7 @@ static NSString *const kCellID = @"kCellId";
 @property (nonatomic, strong) NSMutableArray *loadMoreFooterArray;
 
 @property (nonatomic, strong) NSArray *categories;
+@property (nonatomic, strong) HHClubPost *headLine;
 
 @end
 
@@ -66,19 +67,31 @@ static NSString *const kCellID = @"kCellId";
     }
     
     for (int i = 0; i < self.categories.count + 1; i ++) {
-        [self fetchPostsWithIndex:i];
+        [self buildViewForSwipeViewWithIndex:i];
+        if (i == 0) {
+            [self fetchPostsWithIndex:i isPopular:YES];
+        } else {
+            [self fetchPostsWithIndex:i isPopular:NO];
+        }
     }
     
-
     [self initSubviews];
+    
+    [[HHClubPostService sharedInstance] fetchHeadlineWithCompletion:^(HHClubPost *post, NSError *error) {
+        if (!error) {
+            self.headLine = post;
+            self.headLineLabel.text = post.title;
+        }
+    }];
 }
 
-- (void)fetchPostsWithIndex:(NSInteger)index {
-    NSNumber *popular = @(0);
-    if (index == 0) {
-        popular = @(1);
+- (void)fetchPostsWithIndex:(NSInteger)index isPopular:(BOOL)isPopular {
+    NSNumber *categoryType = @(0);
+    if (!isPopular) {
+        HHPostCategory *category = self.categories[index-1];
+        categoryType = category.type;
     }
-    [[HHClubPostService sharedInstance] fetchPostsWithCategor:@(index + 1) popular:popular completion:^(HHClubPosts *posts, NSError *error) {
+    [[HHClubPostService sharedInstance] fetchPostsWithCategor:categoryType popular:@(isPopular) completion:^(HHClubPosts *posts, NSError *error) {
         MJRefreshNormalHeader *header = self.refreshHeaderArray[index];
         [header endRefreshing];
         if (!error) {
@@ -99,16 +112,17 @@ static NSString *const kCellID = @"kCellId";
                 [footer setState:MJRefreshStateNoMoreData];
             }
             
-            if (self.tableViewArray.count-1 >= index) {
-                UITableView *tableView = self.tableViewArray[index];
-                [tableView reloadData];
-            }
-            
+            UITableView *tableView = self.tableViewArray[index];
+            [tableView reloadData];
+
         }
     }];
 }
 
 - (void)fetchMorePostsWithIndex:(NSInteger)index {
+    if (self.postsObjects.count <= index) {
+        return;
+    }
     HHClubPosts *postsObject = self.postsObjects[index];
     [[HHClubPostService sharedInstance] fetchMorePostsWithURL:postsObject.nextPage completion:^(HHClubPosts *posts, NSError *error) {
         MJRefreshAutoNormalFooter *footer = self.loadMoreFooterArray[index];
@@ -127,10 +141,8 @@ static NSString *const kCellID = @"kCellId";
                 [footer setState:MJRefreshStateNoMoreData];
             }
             
-            if (self.tableViewArray.count-1 >= index) {
-                UITableView *tableView = self.tableViewArray[index];
-                [tableView reloadData];
-            }
+            UITableView *tableView = self.tableViewArray[index];
+            [tableView reloadData];
             
         }
     }];
@@ -167,7 +179,6 @@ static NSString *const kCellID = @"kCellId";
     
     
     self.headLineView = [self buildHeadLineView];
-    self.headLineLabel.text = @"哈哈学车优化驾培行业 成湖北省首批\"青创版\"挂牌企业";
     [self.view addSubview:self.headLineView];
     
     self.pageControlContainerView = [[UIView alloc] init];
@@ -191,6 +202,7 @@ static NSString *const kCellID = @"kCellId";
 
     
     self.swipeView = [[SwipeView alloc] init];
+    self.swipeView.backgroundColor = [UIColor whiteColor];
     self.swipeView.pagingEnabled = YES;
     self.swipeView.dataSource = self;
     self.swipeView.delegate = self;
@@ -238,7 +250,7 @@ static NSString *const kCellID = @"kCellId";
     [self.postsPageControl makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.pageControlContainerView.centerX);
         make.width.equalTo(self.pageControlContainerView.width).offset(-40.0f);
-        make.height.mas_equalTo(40.0f);
+        make.height.mas_equalTo(35.0f);
         make.centerY.equalTo(self.pageControlContainerView.centerY);
     }];
     
@@ -258,22 +270,23 @@ static NSString *const kCellID = @"kCellId";
 }
 
 - (UIView *)swipeView:(SwipeView *)swipeView viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view {
-    
-    return [self buildViewForSwipeViewWithIndex:index];
+    UITableView *tableView = self.tableViewArray[index];
+    return tableView;
 }
 
 - (CGSize)swipeViewItemSize:(SwipeView *)swipeView {
     return self.swipeView.bounds.size;
 }
 
-- (void)swipeViewDidEndDecelerating:(SwipeView *)swipeView {
-    self.postsPageControl.selectedSegmentIndex = swipeView.currentPage;
+
+- (void)swipeViewCurrentItemIndexDidChange:(SwipeView *)swipeView {
+    self.postsPageControl.selectedSegmentIndex = self.swipeView.currentPage;
+    UITableView *tableView = self.tableViewArray[self.postsPageControl.selectedSegmentIndex];
+    [tableView reloadData];
 }
 
+
 - (UIView *)buildViewForSwipeViewWithIndex:(NSInteger)index {
-    if (self.tableViewArray.count > index) {
-        return self.tableViewArray[index];
-    }
     UITableView *tableView = [[UITableView alloc] init];
     tableView = [[UITableView alloc] init];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -312,7 +325,7 @@ static NSString *const kCellID = @"kCellId";
 #pragma mark - UITableView Delegate & Datasource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSMutableArray *postArray = self.postsArray[self.postsPageControl.selectedSegmentIndex];
+    NSMutableArray *postArray = self.postsArray[[self.tableViewArray indexOfObject:tableView]];
     HHClubPost *post = postArray[indexPath.row];
     HHClubPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellID forIndexPath:indexPath];
     if (self.postsPageControl.selectedSegmentIndex == 0) {
@@ -329,8 +342,7 @@ static NSString *const kCellID = @"kCellId";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSInteger index = [self.tableViewArray indexOfObject:tableView];
-    NSMutableArray *posts = self.postsArray[index];
+    NSMutableArray *posts = self.postsArray[[self.tableViewArray indexOfObject:tableView]];
     return posts.count;
 }
 
@@ -385,15 +397,28 @@ static NSString *const kCellID = @"kCellId";
 }
 
 - (void)headLineTapped {
-    
+    __weak HHClubViewController *weakSelf = self;
+    HHClubPostDetailViewController *vc = [[HHClubPostDetailViewController alloc] initWithClubPost:self.headLine];
+    vc.updateBlock = ^(HHClubPost *post) {
+        weakSelf.headLine = post;
+    };
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)pageControlChangedValue {
     [self.swipeView scrollToPage:self.postsPageControl.selectedSegmentIndex duration:0.3f];
+    UITableView *tableView = self.tableViewArray[self.postsPageControl.selectedSegmentIndex];
+    [tableView reloadData];
 }
 
 - (void)refreshData {
-    [self fetchPostsWithIndex:self.postsPageControl.selectedSegmentIndex];
+    if (self.postsPageControl.selectedSegmentIndex == 0) {
+        [self fetchPostsWithIndex:self.postsPageControl.selectedSegmentIndex isPopular:YES];
+    } else {
+        [self fetchPostsWithIndex:self.postsPageControl.selectedSegmentIndex isPopular:NO];
+    }
+    
 }
 
 - (void)loadMoreData {

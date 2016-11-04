@@ -40,8 +40,8 @@
     
     self.subTitleLabel = [[UILabel alloc] init];
     self.subTitleLabel.numberOfLines = 0;
-    self.subTitleLabel.adjustsFontSizeToFitWidth=YES;
-    self.subTitleLabel.minimumScaleFactor=0.5;
+    self.subTitleLabel.adjustsFontSizeToFitWidth = YES;
+    self.subTitleLabel.minimumScaleFactor = 0.5;
     self.subTitleLabel.textColor = [UIColor whiteColor];
     self.subTitleLabel.text = [NSString stringWithFormat:@"\"%@\"", self.advisor.longIntro];
     self.subTitleLabel.font = [UIFont systemFontOfSize:16.0f];

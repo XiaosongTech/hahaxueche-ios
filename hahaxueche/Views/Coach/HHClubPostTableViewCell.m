@@ -45,10 +45,14 @@
         
         
         self.titleLabel = [self buildLabelWithFont:[UIFont boldSystemFontOfSize:18.0f] color:[UIColor HHTextDarkGray]];
+        self.titleLabel.adjustsFontSizeToFitWidth = YES;
+        self.titleLabel.minimumScaleFactor = 0.5;
+        self.titleLabel.numberOfLines = 1;
         [self.contentView addSubview:self.titleLabel];
         [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.imgView.bottom).offset(5.0f);
             make.left.equalTo(self.contentView.left).offset(12.0f);
+            make.right.equalTo(self.contentView.right).offset(-12.0f);
         }];
         
         self.sepratorView = [[UIView alloc] init];
