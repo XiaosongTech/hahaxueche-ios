@@ -35,7 +35,6 @@ PODS:
   - Harpy (3.4.8)
   - HCSStarRatingView (1.4.5)
   - HMSegmentedControl (1.5.2)
-  - Instabug (5.2.5)
   - INTULocationManager (4.2.0)
   - KLCPopup (1.0)
   - libPhoneNumber-iOS (0.8.13)
@@ -45,11 +44,6 @@ PODS:
   - Masonry (1.0.1)
   - MJRefresh (3.1.0)
   - MMNumberKeyboard (0.1.5)
-  - NJKWebViewProgress (0.2.3):
-    - NJKWebViewProgress/Core (= 0.2.3)
-    - NJKWebViewProgress/ProgressView (= 0.2.3)
-  - NJKWebViewProgress/Core (0.2.3)
-  - NJKWebViewProgress/ProgressView (0.2.3)
   - Pingpp/Alipay (2.2.8):
     - Pingpp/Core
   - Pingpp/CmbWallet (2.2.8):
@@ -94,7 +88,6 @@ DEPENDENCIES:
   - Harpy
   - HCSStarRatingView (~> 1.4)
   - HMSegmentedControl (~> 1.5)
-  - Instabug
   - INTULocationManager (~> 4.2)
   - KLCPopup
   - libPhoneNumber-iOS (~> 0.8)
@@ -102,7 +95,6 @@ DEPENDENCIES:
   - Masonry
   - MJRefresh
   - MMNumberKeyboard
-  - NJKWebViewProgress
   - Pingpp/Alipay (~> 2.2.8)
   - Pingpp/CmbWallet (~> 2.2.8)
   - Pingpp/Fqlpay (~> 2.2.8)
@@ -135,7 +127,6 @@ SPEC CHECKSUMS:
   Harpy: 7253bc78a0c3e239e8e4bd21b63403c7cf0be9c9
   HCSStarRatingView: bff3f89314d3b5013ce826ea11897d3129ff6b8c
   HMSegmentedControl: 83b9686022d2176fb6457d2bdb61e5d6393fed7d
-  Instabug: 93caed1398c934ee2fbb227fb83d5a0d43c48d71
   INTULocationManager: 73f8254b3d05c897c56bb13c190e5b7c648c0998
   KLCPopup: 76c5a19227977f1e53d85236f9ef42257c168d98
   libPhoneNumber-iOS: 3a37004baf779b4262ab29a31a87d2ae668159d4
@@ -143,7 +134,6 @@ SPEC CHECKSUMS:
   Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   MMNumberKeyboard: 12da79571d08aca21566534a74726c5469aed29a
-  NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   Pingpp: b5ad287bd6969d69cff1f2438ea63147976711c9
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   QIYU_iOS_SDK: 0aa24ac9070dab7a49030d544e43635c60816ac4
@@ -158,6 +148,6 @@ SPEC CHECKSUMS:
   UITextView+Placeholder: 77680995fcdd07c3f52ec92fe1150874a2ac89ff
   UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
 
-PODFILE CHECKSUM: 316c43a5bc9c87e5cd79886bfcd39064f0bf83ee
+PODFILE CHECKSUM: 9bc8e0264db3463603d4d604c1990c0483579d28
 
 COCOAPODS: 1.0.0

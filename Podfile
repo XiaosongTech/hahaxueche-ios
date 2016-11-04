@@ -29,8 +29,6 @@ target "hahaxueche" do
     pod 'RSKImageCropper'
     pod 'Harpy'
     pod 'UMengAnalytics-NO-IDFA'
-    pod 'NJKWebViewProgress'
-    pod 'Instabug'
     pod 'TTTAttributedLabel'
     pod 'QIYU_iOS_SDK', '~> 2.7.0'
     pod 'HMSegmentedControl', '~> 1.5'
