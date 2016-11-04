@@ -401,6 +401,23 @@ static NSString *const kCellID = @"kCellId";
     HHClubPostDetailViewController *vc = [[HHClubPostDetailViewController alloc] initWithClubPost:self.headLine];
     vc.updateBlock = ^(HHClubPost *post) {
         weakSelf.headLine = post;
+        NSMutableArray *popularPostArray = [weakSelf.postsArray firstObject];
+        for (__strong HHClubPost *popularPost in popularPostArray) {
+            if ([post.postId isEqualToString:popularPost.postId]) {
+                [popularPostArray replaceObjectAtIndex:[popularPostArray indexOfObject:popularPost] withObject:post];
+                [[weakSelf.tableViewArray firstObject] reloadData];
+                break;
+            }
+        }
+        
+        NSMutableArray *categoryPostArray = weakSelf.postsArray[[post.category integerValue] + 1];
+        for (__strong HHClubPost *categoryPost in categoryPostArray) {
+            if ([post.postId isEqualToString:categoryPost.postId]) {
+                [categoryPostArray replaceObjectAtIndex:[categoryPostArray indexOfObject:categoryPost] withObject:post];
+                [weakSelf.tableViewArray[[post.category integerValue] + 1] reloadData];
+                break;
+            }
+        }
     };
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
