@@ -54,7 +54,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[HHLoadingViewUtility sharedInstance] showLoadingView];
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
@@ -424,10 +423,11 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     __weak HHClubPostDetailViewController *weakSelf = self;
     if ([keyPath isEqualToString:NSStringFromSelector(@selector(estimatedProgress))] && object == self.webView) {
-        
+        [[HHLoadingViewUtility sharedInstance] showProgressView:self.webView.estimatedProgress];
+
         if(self.webView.estimatedProgress >= 1.0f) {
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-            [self.webView evaluateJavaScript:@"document.body.offsetHeight" completionHandler:^(id _Nullable height, NSError * _Nullable error) {
+                [self.webView evaluateJavaScript:@"document.body.offsetHeight" completionHandler:^(id _Nullable height, NSError * _Nullable error) {
                 weakSelf.webViewHeight = [height floatValue];
                 [weakSelf makeConstraints];
             }];

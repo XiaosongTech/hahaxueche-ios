@@ -45,4 +45,8 @@
     return [SVProgressHUD isVisible];
 }
 
+- (void)showProgressView:(float)progress {
+    [SVProgressHUD showProgress:progress status:@"加载中..."];
+}
+
 @end

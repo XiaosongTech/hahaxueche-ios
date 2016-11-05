@@ -15,6 +15,7 @@
 
 - (void)showLoadingView;
 - (void)showLoadingViewWithText:(NSString *)text;
+- (void)showProgressView:(float)progress;
 
 - (void)dismissLoadingView;
 - (BOOL)isVisible;

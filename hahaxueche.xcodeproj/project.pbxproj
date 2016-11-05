@@ -394,7 +394,6 @@
 		6D4151E61CF40DA7004A7EE8 /* icon_search.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4151E31CF40DA7004A7EE8 /* icon_search.png */; };
 		6D4151E71CF40DA7004A7EE8 /* icon_search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4151E41CF40DA7004A7EE8 /* icon_search@2x.png */; };
 		6D4151E81CF40DA7004A7EE8 /* icon_search@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4151E51CF40DA7004A7EE8 /* icon_search@3x.png */; };
-		6D4151EB1CF46F3E004A7EE8 /* HHSearchCoachEmptyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4151EA1CF46F3E004A7EE8 /* HHSearchCoachEmptyCell.m */; };
 		6D4151EE1CF47C89004A7EE8 /* HHSearchHistoryListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4151ED1CF47C89004A7EE8 /* HHSearchHistoryListView.m */; };
 		6D4151F11CF72081004A7EE8 /* HHPurchaseConfirmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4151F01CF72081004A7EE8 /* HHPurchaseConfirmViewController.m */; };
 		6D4151F41CF724EF004A7EE8 /* HHCoachListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4151F31CF724EF004A7EE8 /* HHCoachListView.m */; };
@@ -1289,8 +1288,6 @@
 		6D4151E31CF40DA7004A7EE8 /* icon_search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_search.png; sourceTree = "<group>"; };
 		6D4151E41CF40DA7004A7EE8 /* icon_search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_search@2x.png"; sourceTree = "<group>"; };
 		6D4151E51CF40DA7004A7EE8 /* icon_search@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_search@3x.png"; sourceTree = "<group>"; };
-		6D4151E91CF46F3E004A7EE8 /* HHSearchCoachEmptyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSearchCoachEmptyCell.h; sourceTree = "<group>"; };
-		6D4151EA1CF46F3E004A7EE8 /* HHSearchCoachEmptyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSearchCoachEmptyCell.m; sourceTree = "<group>"; };
 		6D4151EC1CF47C89004A7EE8 /* HHSearchHistoryListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSearchHistoryListView.h; sourceTree = "<group>"; };
 		6D4151ED1CF47C89004A7EE8 /* HHSearchHistoryListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSearchHistoryListView.m; sourceTree = "<group>"; };
 		6D4151EF1CF72081004A7EE8 /* HHPurchaseConfirmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPurchaseConfirmViewController.h; sourceTree = "<group>"; };
@@ -2336,8 +2333,6 @@
 				5C36D4431C4DA54000443545 /* HHCoachListViewCell.m */,
 				6D4151FB1CF735C9004A7EE8 /* HHPaymentMethodView.h */,
 				6D4151FC1CF735C9004A7EE8 /* HHPaymentMethodView.m */,
-				6D4151E91CF46F3E004A7EE8 /* HHSearchCoachEmptyCell.h */,
-				6D4151EA1CF46F3E004A7EE8 /* HHSearchCoachEmptyCell.m */,
 				6D4151EC1CF47C89004A7EE8 /* HHSearchHistoryListView.h */,
 				6D4151ED1CF47C89004A7EE8 /* HHSearchHistoryListView.m */,
 				6D40235E1DB4E6E200C16DF4 /* HHPersonalCoachTableViewCell.h */,
@@ -3966,7 +3961,6 @@
 				6D7D0C831D65933F0002FC56 /* HHBankCard.m in Sources */,
 				140EC6231C6D878D00DA634D /* HHCoachDetailBottomBarView.m in Sources */,
 				141FA1131C6BF88400113B1A /* HHCoachDetailSingleInfoView.m in Sources */,
-				6D4151EB1CF46F3E004A7EE8 /* HHSearchCoachEmptyCell.m in Sources */,
 				6D4151FD1CF735C9004A7EE8 /* HHPaymentMethodView.m in Sources */,
 				5C36D3531C42D7F400443545 /* HHBookTrainingViewController.m in Sources */,
 				6DE24BF91D5C6ACB0078A21E /* HHTestQuestionBottomBar.m in Sources */,

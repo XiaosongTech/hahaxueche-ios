@@ -83,6 +83,9 @@ static NSString *const kCellID = @"kCellId";
             self.headLineLabel.text = post.title;
         }
     }];
+    
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
+    [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
 }
 
 - (void)fetchPostsWithIndex:(NSInteger)index isPopular:(BOOL)isPopular {
