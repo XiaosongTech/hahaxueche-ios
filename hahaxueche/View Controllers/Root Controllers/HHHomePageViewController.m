@@ -41,6 +41,7 @@
 static NSString *const kCoachLink = @"http://m.hahaxueche.com/share/best-coaches";
 static NSString *const kDrivingSchoolLink = @"http://m.hahaxueche.com/share/zhaojiaxiao";
 static NSString *const kAdvisorLink = @"http://m.hahaxueche.com/share/zhaoguwen?city_id=%@";
+static NSString *const kGroupPurchaseLink = @"http://m.hahaxueche.com/share/tuan";
 
 static NSString *const kFeatureLink = @"http://activity.hahaxueche.com/share/features";
 static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps";
@@ -351,7 +352,6 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     webVC.title = @"哈哈学车";
     webVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:webVC animated:YES];
-   
 }
 
 - (void)tryCoachForFree {
@@ -362,7 +362,7 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
 
 
 - (void)showEvents {
-    [self openWebPage:nil];
+    [self openWebPage:[NSURL URLWithString:kGroupPurchaseLink]];
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_group_purchase_tapped attributes:nil];
     
 }

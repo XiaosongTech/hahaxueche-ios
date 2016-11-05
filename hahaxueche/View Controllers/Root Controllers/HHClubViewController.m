@@ -20,7 +20,9 @@
 #import "HHClubPostService.h"
 #import "HHConstantsStore.h"
 #import "HHPostCategory.h"
+#import "HHWebViewController.h"
 
+static NSString *const kGroupPurchaseLink = @"http://m.hahaxueche.com/share/tuan";
 static NSString *const kCellID = @"kCellId";
 
 @interface HHClubViewController () <UITableViewDelegate, UITableViewDataSource, SwipeViewDataSource, SwipeViewDelegate>
@@ -167,6 +169,7 @@ static NSString *const kCellID = @"kCellId";
     
     self.eventView = [[HHClubItemView alloc] initWithIcon:[UIImage imageNamed:@"clock"] title:@"限时团购" subTitle:@"学车团购底价" showRightLine:YES showBotLine:YES];
     self.eventView.actionBlock = ^() {
+        [weakSelf openWebPage:[NSURL URLWithString:kGroupPurchaseLink]];
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:club_page_group_purchase_tapped attributes:nil];
     };
     [self.topView addSubview:self.eventView];
@@ -443,6 +446,12 @@ static NSString *const kCellID = @"kCellId";
 
 - (void)loadMoreData {
     [self fetchMorePostsWithIndex:self.postsPageControl.selectedSegmentIndex];
+}
+
+- (void)openWebPage:(NSURL *)url {
+    HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:url];
+    webVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:webVC animated:YES];
 }
 
 
