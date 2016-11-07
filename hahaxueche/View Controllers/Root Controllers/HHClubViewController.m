@@ -385,8 +385,8 @@ static NSString *const kCellID = @"kCellId";
     }];
     
     self.headLineLabel = [[UILabel alloc] init];
-    self.headLineLabel.textColor = [UIColor HHLightTextGray];
-    self.headLineLabel.font = [UIFont systemFontOfSize:15.0f];
+    self.headLineLabel.textColor = [UIColor HHTextDarkGray];
+    self.headLineLabel.font = [UIFont boldSystemFontOfSize:15.0f];
     self.headLineLabel.adjustsFontSizeToFitWidth = YES;
     self.headLineLabel.minimumScaleFactor = 0.5;
     [view addSubview:self.headLineLabel];
