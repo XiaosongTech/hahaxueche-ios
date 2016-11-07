@@ -106,32 +106,37 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [self setWindow:self.window];
     [self setupAllThirdPartyServices];
     [self setAppearance];
+    [self handleBranchLinkWithLaunchOptions:launchOptions];
     
     return YES;
 }
 
 - (void)handleBranchLinkWithLaunchOptions:(NSDictionary *)launchOptions {
-    Branch *branch = [Branch getInstance];
+    Branch *branch = [Branch getInstance:@"key_live_admOW7BdL0Xjj3PlglQ6pikouvgINyy6"];
     [branch initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
         if (!error && params) {
-            
+            if ([params[@"type"] isEqualToString: @"coach_detail"]) {
+                NSString *coachId = params[@"coach_id"];
+                if (coachId) {
+                    HHCoachDetailViewController *coachVC = [[HHCoachDetailViewController alloc] initWithCoachId:coachId];
+                    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:coachVC];
+                    [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
+                }
+            } else if ([params[@"type"] isEqualToString: @"training_partner_detail"]) {
+                NSString *coachId = params[@"training_partner_id"];
+                HHPersonalCoachDetailViewController *coachVC = [[HHPersonalCoachDetailViewController alloc] initWithCoachId:coachId];
+                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:coachVC];
+                [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
+
+                
+            }
         }
     }];
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary *)options {
-    BOOL canHandlePingppURL = [Pingpp handleOpenURL:url withCompletion:nil];
-    if (canHandlePingppURL) {
-        return YES;
-    }
     
-
-    BOOL canHandleOpenShareURL = [OpenShare handleOpenURL:url];
-    if (canHandleOpenShareURL) {
-        return YES;
-    }
-
-    return NO;
+    return ([Pingpp handleOpenURL:url withCompletion:nil] || [OpenShare handleOpenURL:url] || [[Branch getInstance] handleDeepLink:url]);
 }
 
 
@@ -209,45 +214,14 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
 // Respond to URI scheme links
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    // pass the url to the handle deep link call
-    [[Branch getInstance] handleDeepLink:url];
-    
-    // do other deep link routing for the Facebook SDK, Pinterest SDK, etc
-    return YES;
+   return ([Pingpp handleOpenURL:url withCompletion:nil] || [OpenShare handleOpenURL:url] || [[Branch getInstance] handleDeepLink:url]);
 }
 
 // Respond to Universal Links
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
-    BOOL handledByBranch = [[Branch getInstance] continueUserActivity:userActivity];
-    
-    return handledByBranch;
+    return [[Branch getInstance] continueUserActivity:userActivity];
 }
 
-////Deepshare
-//- (void)onInappDataReturned: (NSDictionary *)params withError: (NSError *) error {
-//    [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-//    if (!error) {
-//        NSString *type = params[@"type"];
-//        if ([type isEqualToString:@"coach_detail"]) {
-//            //驾校教练详情页面
-//            NSString *coachId = params[@"coach_id"];
-//            if (coachId) {
-//                HHCoachDetailViewController *coachVC = [[HHCoachDetailViewController alloc] initWithCoachId:coachId];
-//                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:coachVC];
-//                [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
-//            }
-//        } else if ([type isEqualToString:@"training_partner_detail"]) {
-//            //陪练教练详情页面
-//            NSString *coachId = params[@"training_partner_id"];
-//            HHPersonalCoachDetailViewController *coachVC = [[HHPersonalCoachDetailViewController alloc] initWithCoachId:coachId];
-//            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:coachVC];
-//            [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
-//
-//        } else {
-//            // do nothing
-//        }
-//    }
-//}
 
 + (UIViewController *) topMostController {
     UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;

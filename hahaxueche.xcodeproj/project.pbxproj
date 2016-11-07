@@ -467,7 +467,7 @@
 		6D5C86651CDC2AC100D7B5CB /* ic_homepage_groupbuy_close.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5C86621CDC2AC100D7B5CB /* ic_homepage_groupbuy_close.png */; };
 		6D5C86661CDC2AC100D7B5CB /* ic_homepage_groupbuy_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5C86631CDC2AC100D7B5CB /* ic_homepage_groupbuy_close@2x.png */; };
 		6D5C86671CDC2AC100D7B5CB /* ic_homepage_groupbuy_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5C86641CDC2AC100D7B5CB /* ic_homepage_groupbuy_close@3x.png */; };
-		6D6043161CC5EDF200C6C582 /* hahaxueche.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6D6043151CC5EDB300C6C582 /* hahaxueche.entitlements */; };
+		6D61FE3F1DD099420016788E /* hahaxueche.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6D6043151CC5EDB300C6C582 /* hahaxueche.entitlements */; };
 		6D68C81D1D8804BF00184AAC /* button_free.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D68C81A1D8804BF00184AAC /* button_free.png */; };
 		6D68C81E1D8804BF00184AAC /* button_free@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D68C81B1D8804BF00184AAC /* button_free@2x.png */; };
 		6D68C81F1D8804BF00184AAC /* button_free@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D68C81C1D8804BF00184AAC /* button_free@3x.png */; };
@@ -3276,7 +3276,6 @@
 				6DE56FE81D00791A00E33BDB /* ic_pull_down@1x.png in Resources */,
 				5C36D3B91C474FF600443545 /* ic_screen_hold_btn@3x.png in Resources */,
 				6D82BD441CCF4A1200D4109A /* ic_line.png in Resources */,
-				6D6043161CC5EDF200C6C582 /* hahaxueche.entitlements in Resources */,
 				140EC63F1C6E764100DA634D /* ic_coachmsg_pingjia.png in Resources */,
 				6DD5682E1D66DF5000B9B319 /* ic_arrow_more_white@2x.png in Resources */,
 				6D96AE341D20F980003C1E84 /* ic_sort_nice_hold_btn@2x.png in Resources */,
@@ -3320,6 +3319,7 @@
 				6D46DCD81D892E18001F962B /* ic_homepage_strengths@2x.png in Resources */,
 				140EC5F01C6D542700DA634D /* ic_coachmsg_charge@3x.png in Resources */,
 				6DBAC5B41D12E4080040BDA7 /* ic_list_best_small@2x.png in Resources */,
+				6D61FE3F1DD099420016788E /* hahaxueche.entitlements in Resources */,
 				6D96AE331D20F980003C1E84 /* ic_sort_nice_hold_btn.png in Resources */,
 				140EC6131C6D732D00DA634D /* ic_coachmsg_more_arrow@2x.png in Resources */,
 				6D828F8C1DC34B8000D15C1C /* launch@2x.png in Resources */,
