@@ -26,6 +26,11 @@ PODS:
   - AMapFoundation (1.0.0)
   - Appirater (2.0.5)
   - BEMCheckBox (1.2.1)
+  - Branch (0.12.11):
+    - Branch/Core (= 0.12.11)
+    - Branch/without-IDFA (= 0.12.11)
+  - Branch/Core (0.12.11)
+  - Branch/without-IDFA (0.12.11)
   - CRToast (0.0.9)
   - DateTools (1.7.0)
   - DZNEmptyDataSet (1.8.1)
@@ -79,6 +84,7 @@ DEPENDENCIES:
   - AMap2DMap
   - Appirater
   - BEMCheckBox
+  - Branch
   - CRToast
   - DateTools
   - DZNEmptyDataSet
@@ -118,6 +124,7 @@ SPEC CHECKSUMS:
   AMapFoundation: af861f5d299a4f17a1a8b50fd91242933bb352f3
   Appirater: e7c0a47fb67ee5041ce8479e6ba960927fb40264
   BEMCheckBox: 264b8b72aa92adbfefa265cc58a0cdb86b207b9f
+  Branch: a620b19dc96fffabb7873a86c80c77c75395a664
   CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
@@ -148,6 +155,6 @@ SPEC CHECKSUMS:
   UITextView+Placeholder: 77680995fcdd07c3f52ec92fe1150874a2ac89ff
   UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
 
-PODFILE CHECKSUM: 9bc8e0264db3463603d4d604c1990c0483579d28
+PODFILE CHECKSUM: b01c4f690d49eea522f1a323ae2625ff476fa0b8
 
 COCOAPODS: 1.0.0

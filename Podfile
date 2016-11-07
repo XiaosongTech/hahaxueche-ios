@@ -38,6 +38,7 @@ target "hahaxueche" do
     pod 'UITextView+Placeholder', '~> 1.2'
     pod 'DZNEmptyDataSet'
     pod 'GTSDK', '1.5.0-noidfa'
+    pod "Branch"
 
 end
 

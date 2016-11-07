@@ -542,7 +542,6 @@
 		6D85522E1CD60E700021D4C9 /* HHReferrals.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D85522D1CD60E700021D4C9 /* HHReferrals.m */; };
 		6D8552311CD8408B0021D4C9 /* HHWithdraws.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8552301CD8408B0021D4C9 /* HHWithdraws.m */; };
 		6D95A4491DC0C926003CB78D /* HHMyCoachPeerCoachesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D95A4481DC0C926003CB78D /* HHMyCoachPeerCoachesTableViewCell.m */; };
-		6D95A44E1DC1AB04003CB78D /* libDeepShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D95A44D1DC1AB04003CB78D /* libDeepShare.a */; };
 		6D95A4501DC1ACAD003CB78D /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D95A44F1DC1ACAD003CB78D /* SafariServices.framework */; };
 		6D95A4541DC1DBC6003CB78D /* ic_headline.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D95A4511DC1DBC6003CB78D /* ic_headline.png */; };
 		6D95A4551DC1DBC6003CB78D /* ic_headline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D95A4521DC1DBC6003CB78D /* ic_headline@2x.png */; };
@@ -1471,9 +1470,6 @@
 		6D8552301CD8408B0021D4C9 /* HHWithdraws.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHWithdraws.m; sourceTree = "<group>"; };
 		6D95A4471DC0C926003CB78D /* HHMyCoachPeerCoachesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyCoachPeerCoachesTableViewCell.h; sourceTree = "<group>"; };
 		6D95A4481DC0C926003CB78D /* HHMyCoachPeerCoachesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyCoachPeerCoachesTableViewCell.m; sourceTree = "<group>"; };
-		6D95A44B1DC1AB04003CB78D /* DeepShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeepShare.h; sourceTree = "<group>"; };
-		6D95A44C1DC1AB04003CB78D /* DSError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSError.h; sourceTree = "<group>"; };
-		6D95A44D1DC1AB04003CB78D /* libDeepShare.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libDeepShare.a; sourceTree = "<group>"; };
 		6D95A44F1DC1ACAD003CB78D /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		6D95A4511DC1DBC6003CB78D /* ic_headline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_headline.png; sourceTree = "<group>"; };
 		6D95A4521DC1DBC6003CB78D /* ic_headline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_headline@2x.png"; sourceTree = "<group>"; };
@@ -1775,7 +1771,6 @@
 				5C5F872E1BF16B98006F9594 /* CoreMotion.framework in Frameworks */,
 				5C5F872C1BF16B8F006F9594 /* CoreGraphics.framework in Frameworks */,
 				5C5F872A1BF16B80006F9594 /* AudioToolbox.framework in Frameworks */,
-				6D95A44E1DC1AB04003CB78D /* libDeepShare.a in Frameworks */,
 				5C7A4EF41BBCD7EF003DB168 /* MobileCoreServices.framework in Frameworks */,
 				5C7A4EF01BBCD345003DB168 /* libz.tbd in Frameworks */,
 				5C7A4EEE1BBCD2DE003DB168 /* libicucore.tbd in Frameworks */,
@@ -1962,7 +1957,6 @@
 		141FA0F71C6BAD0C00113B1A /* Third Party Libs */ = {
 			isa = PBXGroup;
 			children = (
-				6D95A44A1DC1AAF8003CB78D /* DeepShare */,
 				6DF53B6C1D4707BA00CA0F6B /* CountDown */,
 				6DD5683C1D6948C200B9B319 /* Openshare */,
 				143F57B81C6D39C400835AA4 /* ParallaxHeaderView */,
@@ -3070,16 +3064,6 @@
 				6D8552301CD8408B0021D4C9 /* HHWithdraws.m */,
 			);
 			path = Referral;
-			sourceTree = "<group>";
-		};
-		6D95A44A1DC1AAF8003CB78D /* DeepShare */ = {
-			isa = PBXGroup;
-			children = (
-				6D95A44B1DC1AB04003CB78D /* DeepShare.h */,
-				6D95A44C1DC1AB04003CB78D /* DSError.h */,
-				6D95A44D1DC1AB04003CB78D /* libDeepShare.a */,
-			);
-			name = DeepShare;
 			sourceTree = "<group>";
 		};
 		6DA2F75D1DC979A900F2CB21 /* Club Post Service */ = {
