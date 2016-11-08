@@ -78,27 +78,33 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                                     HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
                                     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
                                     self.finalRootVC = navVC;
+                                    [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                             
                                 } else {
                                     // Get the saved student object, we lead user to rootVC
                                     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
                                     self.finalRootVC = rootVC;
                                     self.window.rootViewController = self.finalRootVC;
+                                    [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                                 }
                             } else {
                                 self.window.rootViewController = self.finalRootVC;
+                                [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                             }
                         }];
                     } else {
                         self.window.rootViewController = self.finalRootVC;
+                        [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                     }
                 }];
                 
             } else {
                 self.window.rootViewController = self.finalRootVC;
+                [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
             }
         } else {
             self.window.rootViewController = self.finalRootVC;
+            [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
         }
        
     }];
@@ -106,7 +112,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [self setWindow:self.window];
     [self setupAllThirdPartyServices];
     [self setAppearance];
-    [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
     
     return YES;
 }
