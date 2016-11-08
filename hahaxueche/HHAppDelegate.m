@@ -129,10 +129,12 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                     [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
                 }
             } else if ([HHParam[@"type"] isEqualToString: @"training_partner_detail"]) {
-                NSString *coachId = HHParam[@"training_partner_id"];
-                HHPersonalCoachDetailViewController *coachVC = [[HHPersonalCoachDetailViewController alloc] initWithCoachId:coachId];
-                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:coachVC];
-                [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
+                NSString *coachId = HHParam[@"coach_id"];
+                if (coachId) {
+                    HHPersonalCoachDetailViewController *coachVC = [[HHPersonalCoachDetailViewController alloc] initWithCoachId:coachId];
+                    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:coachVC];
+                    [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
+                }
                 
             }
         }
