@@ -16,84 +16,88 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
+        
+        self.productTypeLabel = [self buildLabel];
+        self.productTypeLabel.layer.masksToBounds = YES;
+        self.productTypeLabel.layer.borderWidth = 2.0f/[UIScreen mainScreen].scale;
+        self.priceLabel.layer.cornerRadius = 5.0f;
+        [self addSubview:self.productTypeLabel];
+        
+        
         self.priceLabel = [[UILabel alloc] init];
-        self.priceLabel.textColor = [UIColor HHOrange];
         self.priceLabel.font = [UIFont systemFontOfSize:18.0f];
         [self addSubview:self.priceLabel];
-        [self.priceLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.left).offset(18.0f);
-            make.centerY.equalTo(self.centerY).offset(-12.0f);
-        }];
-        
-        self.iconView = [[UIImageView alloc] init];
-        [self addSubview:self.iconView];
-        [self.iconView makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.priceLabel.right).offset(5.0f);
-            make.centerY.equalTo(self.priceLabel.centerY);
-        }];
-        
-        self.marketPriceLabel = [[UILabel alloc] init];
-        [self addSubview:self.marketPriceLabel];
-        [self.marketPriceLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.iconView.right).offset(5.0f);
-            make.centerY.equalTo(self.priceLabel.centerY);
-        }];
         
         self.detailLabel = [[UILabel alloc] init];
         self.detailLabel.textColor = [UIColor HHLightTextGray];
-        self.detailLabel.font = [UIFont systemFontOfSize:15.0f];
+        self.detailLabel.font = [UIFont systemFontOfSize:16.0f];
         [self addSubview:self.detailLabel];
-        [self.detailLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.priceLabel.left).offset(3.0f);
-            make.top.equalTo(self.priceLabel.bottom).offset(5.0f);
-        }];
         
-        self.priceDetailButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.priceDetailButton setTitle:@"价格明细" forState:UIControlStateNormal];
-        [self.priceDetailButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
-        self.priceDetailButton.layer.masksToBounds = YES;
-        self.priceDetailButton.layer.borderColor = [UIColor HHOrange].CGColor;
-        self.priceDetailButton.layer.borderWidth = 1.0f/[UIScreen mainScreen].scale;
-        self.priceDetailButton.layer.cornerRadius = 2.0f;
-        self.priceDetailButton.titleLabel.font = [UIFont systemFontOfSize:12.0f];
-        [self.priceDetailButton addTarget:self action:@selector(priceDetailButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:self.priceDetailButton];
         
-        [self.priceDetailButton makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self.right).offset(-18.0f);
-            make.centerY.equalTo(self.centerY);
-            make.width.mas_equalTo(60.0f);
-            make.height.mas_equalTo(25.0f);
-        }];
+        self.botLine = [[UIView alloc] init];
+        self.botLine.backgroundColor = [UIColor HHLightLineGray];
+        [self addSubview:self.botLine];
         
-        self.topLine = [[UIView alloc] init];
-        self.topLine.backgroundColor = [UIColor HHLightLineGray];
-        [self addSubview:self.topLine];
-        [self.topLine makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.top);
-            make.left.equalTo(self.left);
-            make.width.equalTo(self.width);
-            make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-        }];
 
     }
     return self;
 }
 
-- (void)setupWithPrice:(NSNumber *)price iconImage:(UIImage *)iconImage marketPrice:(NSNumber *)marketPrice detailText:(NSString *)detailText {
-    self.priceLabel.text = [price generateMoneyString];
-    self.iconView.image = iconImage;
-    self.marketPriceLabel.attributedText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"门市价:%@", [marketPrice generateMoneyString]] attributes:@{NSStrikethroughStyleAttributeName:@(1), NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightestTextGray]}];
-    
-    [self.marketPriceLabel sizeToFit];
-    
-    self.detailLabel.text = detailText;
+- (UILabel *)buildLabel {
+    UILabel *label = [[UILabel alloc] init];
+    label.font = [UIFont systemFontOfSize:12.0f];
+    label.textColor = [UIColor whiteColor];
+    label.layer.masksToBounds = YES;
+    label.layer.cornerRadius = 5.0f;
+    label.textAlignment = NSTextAlignmentCenter;
+    return label;
 }
 
-- (void)priceDetailButtonTapped {
-    if (self.priceDetailBlock) {
-        self.priceDetailBlock();
+- (void)setupWithPrice:(NSNumber *)price productText:(NSString *)productText detailText:(NSString *)detailText priceColor:(UIColor *)priceColor showBotLine:(BOOL)showBotLine {
+    self.priceLabel.text = [price generateMoneyString];
+    
+    self.productTypeLabel.text = productText;
+    self.detailLabel.text = detailText;
+    
+    self.productTypeLabel.textColor = priceColor;
+    self.productTypeLabel.layer.borderColor = priceColor.CGColor;
+    self.priceLabel.textColor = priceColor;
+    
+    [self.productTypeLabel sizeToFit];
+    
+    [self.productTypeLabel remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.left).offset(20.0f);
+        make.centerY.equalTo(self.centerY);
+        make.width.mas_equalTo(42.0f);
+        make.height.mas_equalTo(20.0f);
+
+    }];
+    
+    [self.priceLabel remakeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.right).offset(-20.0f);
+        make.centerY.equalTo(self.productTypeLabel.centerY);
+    }];
+    
+    [self.detailLabel remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.productTypeLabel.right).offset(8.0f);
+        make.centerY.equalTo(self.centerY);
+    }];
+    
+    if (showBotLine) {
+        self.botLine.hidden = NO;
+    } else {
+        self.botLine.hidden = YES;
     }
+    [self.botLine remakeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.bottom);
+        make.left.equalTo(self.productTypeLabel.left);
+        make.right.equalTo(self.right);
+        make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+    }];
+
+    
+    
 }
+
 
 @end

@@ -9,9 +9,9 @@
 #import "HHRootViewController.h"
 #import "HHHomePageViewController.h"
 #import "HHFindCoachViewController.h"
-#import "HHBookTrainingViewController.h"
 #import "HHMyPageViewController.h"
 #import "UIColor+HHColor.h"
+#import "HHClubViewController.h"
 
 @interface HHRootViewController ()
 
@@ -42,13 +42,13 @@
         findCoachNavVC.tabBarItem = findCoachItem;
         
         
-        HHBookTrainingViewController *bookTrainingVC = [[HHBookTrainingViewController alloc] init];
-        UINavigationController *bookTrainingNavVC = [[UINavigationController alloc] initWithRootViewController:bookTrainingVC];
-        UITabBarItem *bookTrainingItem = [[UITabBarItem alloc] init];
-        bookTrainingItem.image = [[UIImage imageNamed:@"ic_bottombar_date_normal_btn"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        bookTrainingItem.selectedImage = [[UIImage imageNamed:@"ic_bottombar_date_hold_btn"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        bookTrainingItem.title = @"预约学车";
-        bookTrainingNavVC.tabBarItem = bookTrainingItem;
+        HHClubViewController *clubVC = [[HHClubViewController alloc] init];
+        UINavigationController *clubNavVC = [[UINavigationController alloc] initWithRootViewController:clubVC];
+        UITabBarItem *clubItem = [[UITabBarItem alloc] init];
+        clubItem.image = [[UIImage imageNamed:@"xiaohaclub"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        clubItem.selectedImage = [[UIImage imageNamed:@"xiaohaclub_click"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        clubItem.title = @"小哈俱乐部";
+        clubNavVC.tabBarItem = clubItem;
         
         
         HHMyPageViewController *myPageVC = [[HHMyPageViewController alloc] init];
@@ -60,7 +60,7 @@
         myPageNavVC.tabBarItem = myPageItem;
         
         
-        NSArray *viewControllers = @[homePageNavVC, findCoachNavVC, bookTrainingNavVC, myPageNavVC];
+        NSArray *viewControllers = @[homePageNavVC, findCoachNavVC, clubNavVC, myPageNavVC];
         self.viewControllers = viewControllers;
         
         self.selectedIndex = TabBarItemHomePage;

@@ -18,7 +18,6 @@ typedef void (^HHReferShareViewBlock)();
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *subTitleLabel;
 @property (nonatomic, strong) UIImageView *imgView;
-@property (nonatomic, strong) UIView *horizontalLine;
 @property (nonatomic, strong) UIView *verticalLine;
 
 @property (nonatomic, strong) UIButton *cancelButton;

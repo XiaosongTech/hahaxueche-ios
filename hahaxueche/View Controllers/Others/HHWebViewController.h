@@ -7,21 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NJKWebViewProgress.h"
-#import "NJKWebViewProgressView.h"
-#import "HHEvent.h"
 #import "HHPopupUtility.h"
+#import <WebKit/WebKit.h>
 
-@interface HHWebViewController : UIViewController <UIWebViewDelegate, NJKWebViewProgressDelegate>
+@interface HHWebViewController : UIViewController <WKNavigationDelegate>
 
 @property (nonatomic, strong) NSURL *url;
-@property (nonatomic, strong) HHEvent *event;
-@property (nonatomic, strong) UIWebView *webView;
-@property (nonatomic, strong) NJKWebViewProgress *progress;
-@property (nonatomic, strong) NJKWebViewProgressView *progressView;
+@property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) KLCPopup *popup;
+@property (nonatomic, strong) UIProgressView *progressView;
 
 - (instancetype)initWithURL:(NSURL *)url;
-- (instancetype)initWithEvent:(HHEvent *)event;
 
 @end

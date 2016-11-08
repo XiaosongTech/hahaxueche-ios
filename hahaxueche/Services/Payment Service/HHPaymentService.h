@@ -18,6 +18,8 @@ typedef NS_ENUM(NSInteger, StudentPaymentMethod) {
 typedef NS_ENUM(NSInteger, CoachProductType) {
     CoachProductTypeStandard, // 普通服务
     CoachProductTypeVIP, //VIP
+    CoachProductTypeC2Standard, //c2普通服务
+    CoachProductTypeC2VIP, //C2 VIP
    
 };
 

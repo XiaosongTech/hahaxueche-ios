@@ -32,4 +32,6 @@
 
 + (NSDateFormatter *)fullDateWithoutSecFormatter;
 
++ (NSDateFormatter *)fullDateSlashFormatter;
+
 @end

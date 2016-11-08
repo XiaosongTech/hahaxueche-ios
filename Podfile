@@ -8,7 +8,7 @@ target "hahaxueche" do
     pod 'DateTools'
     pod "Appirater"
     pod 'AFNetworking', '~> 2.6.1'
-    pod 'SSKeychain'
+    pod 'SAMKeychain'
     pod 'MJRefresh'
     pod 'Masonry'
     pod 'Mantle'
@@ -25,19 +25,22 @@ target "hahaxueche" do
     pod "Pingpp/Alipay", '~> 2.2.8'
     pod "Pingpp/Fqlpay", '~> 2.2.8'
     pod "Pingpp/CmbWallet", '~> 2.2.8'
-    pod "Branch"
     pod 'MMNumberKeyboard'
     pod 'RSKImageCropper'
     pod 'Harpy'
     pod 'UMengAnalytics-NO-IDFA'
-    pod 'NJKWebViewProgress'
-    pod 'Instabug'
     pod 'TTTAttributedLabel'
     pod 'QIYU_iOS_SDK', '~> 2.7.0'
-    pod 'HMSegmentedControl'
+    pod 'HMSegmentedControl', '~> 1.5'
     pod 'SwipeView', '~> 1.3'
     pod 'FLAnimatedImage', '~> 1.0'
     pod 'EAFeatureGuideView'
+    pod 'UITextView+Placeholder', '~> 1.2'
+    pod 'DZNEmptyDataSet'
+    pod 'GTSDK', '1.5.0-noidfa'
+    pod 'LinkedME-iOS-Deep-Linking-Demo_Pod',
+    :git=>"https://github.com/WFC-LinkedME/LinkedME-iOS-Deep-Linking-Demo.git"
+    
 
 end
 

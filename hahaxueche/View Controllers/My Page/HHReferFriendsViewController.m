@@ -139,6 +139,11 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:refer_page_viewed attributes:nil];
+}
+
 - (NSMutableAttributedString *)buildRulesString {
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:kRulesString, [[[HHConstantsStore sharedInstance] getCityReferrerBonus] generateMoneyString]] attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}];
     
@@ -246,6 +251,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 - (void)showWithdrawVC {
     HHWithdrawViewController *vc = [[HHWithdrawViewController alloc] initWithAvailableAmount:[HHStudentStore sharedInstance].currentStudent.bonusBalance];
     [self.navigationController pushViewController:vc animated:YES];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:refer_page_cash_tapped attributes:nil];
 }
 
 - (void)saveImage {
@@ -272,39 +278,22 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
             [HHPopupUtility dismissPopup:weakSelf.popup];
         };
         shareView.actionBlock = ^(SocialMedia selecteItem) {
-            switch (selecteItem) {
-                case SocialMediaQQFriend: {
-                    [[HHSocialMediaShareUtility sharedInstance] shareMyQRCode:weakSelf.myQRCodeView.image shareType:ShareTypeQQ];
-                } break;
-                    
-                case SocialMediaWeibo: {
-                    [[HHSocialMediaShareUtility sharedInstance] shareMyQRCode:weakSelf.myQRCodeView.image shareType:ShareTypeWeibo];
-                } break;
-                    
-                case SocialMediaWeChatFriend: {
-                    [[HHSocialMediaShareUtility sharedInstance] shareMyQRCode:weakSelf.myQRCodeView.image shareType:ShareTypeWeChat];
-                } break;
-                    
-                case SocialMediaWeChaPYQ: {
-                    [[HHSocialMediaShareUtility sharedInstance] shareMyQRCode:weakSelf.myQRCodeView.image shareType:ShareTypeWeChatTimeLine];
-                } break;
-                
-                case SocialMediaQZone: {
-                    [[HHSocialMediaShareUtility sharedInstance] shareMyQRCode:weakSelf.myQRCodeView.image shareType:ShareTypeQZone];
-                } break;
-                default:
-                    break;
-                    
-            }
+            [[HHSocialMediaShareUtility sharedInstance] shareMyQRCode:weakSelf.myQRCodeView.image shareType:selecteItem resultCompletion:^(BOOL succceed) {
+                if (succceed) {
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:refer_page_share_pic_succeed attributes:@{@"channel": [[HHSocialMediaShareUtility sharedInstance] getChannelNameWithType:selecteItem]}];
+                }
+            }];
         };
         weakSelf.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
         [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:refer_page_share_pic_tapped attributes:nil];
     }
 }
 
 - (void)showReferralDetailVC {
     HHReferralDetailViewController *vc = [[HHReferralDetailViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:refer_page_check_balance_tapped attributes:nil];
 }
 
 - (void)showOptions {

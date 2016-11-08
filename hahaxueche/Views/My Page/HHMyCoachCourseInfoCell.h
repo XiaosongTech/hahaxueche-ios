@@ -9,16 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "HHMyPageItemTitleView.h"
 #import "HHMyPageItemView.h"
-#import "HHCoach.h"
+#import "HHStudent.h"
 
 @interface HHMyCoachCourseInfoCell : UITableViewCell
 
 @property (nonatomic, strong) HHMyPageItemTitleView *titleView;
-@property (nonatomic, strong) HHMyPageItemView *licenseTypeView;
-@property (nonatomic, strong) HHMyPageItemView *courseTypesView;
-@property (nonatomic, strong) HHMyPageItemView *feeTypeView;
+@property (nonatomic, strong) HHMyPageItemView *classTypeView;
 @property (nonatomic, strong) HHMyPageItemView *feeDetailView;
 
-- (void)setupCellWithCoach:(HHCoach *)coach;
+- (void)setupCellWithStudent:(HHStudent *)student;
 
 @end

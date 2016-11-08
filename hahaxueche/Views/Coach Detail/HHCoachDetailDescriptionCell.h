@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "HHCoach.h"
+#import "HHPersonalCoach.h"
 #import "HHCoachTagView.h"
 
 typedef void (^HHLikeCoachBlock)(UIButton *likeButton, UILabel *likeCountLabel);
+typedef void (^HHFollowCoachBlock)();
 
 @interface HHCoachDetailDescriptionCell : UITableViewCell
 
@@ -22,10 +24,13 @@ typedef void (^HHLikeCoachBlock)(UIButton *likeButton, UILabel *likeCountLabel);
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *descriptionLabel;
 @property (nonatomic, strong) HHCoachTagView *jiaxiaoView;
+@property (nonatomic, strong) UIButton *followButton;
 
 @property (nonatomic, strong) HHLikeCoachBlock likeBlock;
+@property (nonatomic, strong) HHFollowCoachBlock followBlock;
 
-- (void)setupCellWithCoach:(HHCoach *)coach;
+- (void)setupCellWithCoach:(HHCoach *)coach followed:(BOOL)followed;
+- (void)setupCellWithCoach:(HHPersonalCoach *)coach;
 
 
 @end

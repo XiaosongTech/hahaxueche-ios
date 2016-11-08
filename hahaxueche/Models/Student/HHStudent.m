@@ -7,6 +7,7 @@
 //
 
 #import "HHStudent.h"
+#import "HHPaymentService.h"
 
 @implementation HHStudent
 
@@ -58,6 +59,28 @@
             return @"已拿证";
         }
             
+    }
+}
+
+
+- (NSString *)getPurchasedProductName {
+    HHPurchasedService *ps = [self.purchasedServiceArray firstObject];
+    switch ([ps.productType integerValue]) {
+        case CoachProductTypeStandard: {
+            return @"C1手动挡-超值班";
+        }
+        case CoachProductTypeVIP: {
+            return @"C1手动挡-VIP班";
+        }
+            
+        case CoachProductTypeC2Standard: {
+            return @"C2自动挡-超值班";
+        }
+            
+        case CoachProductTypeC2VIP: {
+            return @"C2自动挡-VIP班";
+        }
+        default: return @"C1手动挡-超值班";
     }
 }
 

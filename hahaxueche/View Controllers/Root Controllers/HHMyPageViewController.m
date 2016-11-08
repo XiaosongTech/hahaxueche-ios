@@ -13,7 +13,7 @@
 #import "HHMyPageSupportCell.h"
 #import "HHMyPageHelpCell.h"
 #import "HHMyPageLogoutCell.h"
-#import "HHMyPageCouponCell.h"
+#import "HHMyPageMyCourseScheduleCell.h"
 #import "HHMyCoachDetailViewController.h"
 #import "HHStudentStore.h"
 #import "Masonry.h"
@@ -39,8 +39,9 @@
 #import "HHStudentService.h"
 #import "HHStudentStore.h"
 #import <RSKImageCropper/RSKImageCropper.h>
-#import "HHCouponViewController.h"
 #import "HHSupportUtility.h"
+#import "HHAdvisorView.h"
+#import "HHBookTrainingViewController.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -48,14 +49,14 @@ static NSString *const kSupportCell = @"supportCell";
 static NSString *const kHelpCell = @"helpCell";
 static NSString *const kLogoutCell = @"logoutCell";
 static NSString *const kReferCell = @"referCell";
-static NSString *const kCouponCell = @"kCouponCell";
+static NSString *const kMyCourseScheduleCell = @"kMyCourseScheduleCell";
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 
 typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellUserInfo,
     MyPageCellRefer,
     MyPageCellCoach,
-    MyPageCellCoupon,
+    MyPageCellMyCourseSchedule,
     MyPageCellSupport,
     MyPageCellHelp,
     MyPageCellLogout,
@@ -74,6 +75,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) HHEditNameView *editView;
 @property (nonatomic, strong) UIImage *selectedImage;
+@property (nonatomic, strong) HHAdvisor *advisor;
 
 @end
 
@@ -104,7 +106,18 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
 
+    [[HHStudentService sharedInstance] getMyAdvisorWithCompletion:^(HHAdvisor *advisor, NSError *error) {
+        if (!error) {
+            self.advisor = advisor;
+            [self.tableView reloadData];
+        }
+    }];
     
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_viewed attributes:nil];
 }
 
 - (void)initSubviews {
@@ -155,7 +168,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         [self.tableView registerClass:[HHMyPageHelpCell class] forCellReuseIdentifier:kHelpCell];
         [self.tableView registerClass:[HHMyPageLogoutCell class] forCellReuseIdentifier:kLogoutCell];
         [self.tableView registerClass:[HHMyPageReferCell class] forCellReuseIdentifier:kReferCell];
-        [self.tableView registerClass:[HHMyPageCouponCell class] forCellReuseIdentifier:kCouponCell];
+        [self.tableView registerClass:[HHMyPageMyCourseScheduleCell class] forCellReuseIdentifier:kMyCourseScheduleCell];
     }
     
 }
@@ -186,6 +199,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                     };
                     vc.hidesBottomBarWhenPushed = YES;
                     [weakSelf.navigationController pushViewController:vc animated:YES];
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_pay_coach_status_tapped attributes:nil];
                 }
                 
             };
@@ -226,21 +240,24 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 } else {
                     [[HHToastManager sharedManager] showErrorToastWithText:@"您还没有购买的教练"];
                 }
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_my_coach_tapped attributes:nil];
             };
             cell.followedCoachView.actionBlock = ^(){
                 HHFollowedCoachListViewController *vc = [[HHFollowedCoachListViewController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_my_followed_coach_tapped attributes:nil];
             };
             return cell;
         } break;
             
-        case MyPageCellCoupon: {
-            HHMyPageCouponCell *cell = [tableView dequeueReusableCellWithIdentifier:kCouponCell];
-            cell.myCouponView.actionBlock = ^() {
-                HHCouponViewController *vc = [[HHCouponViewController alloc] initWithStudent:weakSelf.currentStudent];
+        case MyPageCellMyCourseSchedule: {
+            HHMyPageMyCourseScheduleCell *cell = [tableView dequeueReusableCellWithIdentifier:kMyCourseScheduleCell];
+            cell.myCourseView.actionBlock = ^() {
+                HHBookTrainingViewController *vc = [[HHBookTrainingViewController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_my_course_tapped attributes:nil];
             };
             
             return cell;
@@ -251,35 +268,39 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             HHMyPageSupportCell *cell = [tableView dequeueReusableCellWithIdentifier:kSupportCell];
             cell.supportOnlineView.actionBlock = ^() {
                 [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_online_support_tapped attributes:nil];
             };
-            cell.supportNumberView.actionBlock = ^() {
-                [[HHSupportUtility sharedManager] callSupport];
+            cell.myAdvisorView.actionBlock = ^() {
+                HHAdvisorView *view = [[HHAdvisorView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 240.0f) advisor:self.advisor];
+                view.callBlock = ^() {
+                    [weakSelf callAdvisor];
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_my_advisor_tapped attributes:nil];
+                };
+                weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                [HHPopupUtility showPopup:weakSelf.popup];
             };
             return cell;
         } break;
             
         case MyPageCellHelp: {
             HHMyPageHelpCell *cell = [tableView dequeueReusableCellWithIdentifier:kHelpCell];
-            cell.aboutView.actionBlock = ^() {
-                HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:kAboutStudentLink]];
-                webVC.hidesBottomBarWhenPushed = YES;
-                webVC.title = @"哈哈学车";
-                [weakSelf.navigationController pushViewController:webVC animated:YES];
-            };
             
             cell.faqView.actionBlock = ^() {
                 HHLongImageViewController *faq = [[HHLongImageViewController alloc] initWithImage:[UIImage imageNamed:@"faq.png"]];
                 faq.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:faq animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_FAQ_tapped attributes:nil];
             };
             
             cell.appInfoView.actionBlock = ^() {
                 HHAppInfoViewController *vc = [[HHAppInfoViewController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_version_check_tapped attributes:nil];
             };
             cell.rateUsView.actionBlock = ^() {
                 [Appirater rateApp];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_rate_us_tapped attributes:nil];
             };
             return cell;
         } break;
@@ -308,14 +329,14 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellCoach:
             return kTitleViewHeight + kItemViewHeight * 2.0f;
         
-        case MyPageCellCoupon:
+        case MyPageCellMyCourseSchedule:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 1.0f;
             
         case MyPageCellSupport:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
             
         case MyPageCellHelp:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight * 4.0f;
+            return kTopPadding + kTitleViewHeight + kItemViewHeight * 3.0f;
             
         case MyPageCellLogout:
             return 50 + kTopPadding * 2.0f;
@@ -331,6 +352,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_refer_tapped attributes:nil];
     }
 }
 
@@ -506,6 +528,12 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     }];
 }
 
+- (void)callAdvisor {
+    NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",self.advisor.phoneNumber]];
+    if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
+        [[UIApplication sharedApplication] openURL:phoneUrl];
+    }
+}
 
 
 @end

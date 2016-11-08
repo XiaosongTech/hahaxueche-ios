@@ -41,17 +41,26 @@
 #define kAPIStudentWithdrawTransacion @"bank_cards/withdraw_records"
 #define kAPIGroupPurchase @"activity_users"
 #define kAPILikeCoach @"students/%@/like/%@"
+#define kAPILikePersonalCoach @"students/%@/liked_training_partners/%@"
 #define kAPIEvents @"events"
 #define kAPIBankCards @"bank_cards"
 #define kAPIStudentWithdraw @"students/%@/withdraw"
-
+#define kAPIAdvisor @"employees/advisers"
 
 
 #pragma mark Coach
 
 #define kAPICoaches @"coaches"
 #define kAPICoach @"coaches/%@"
+#define kAPIPersonalCoaches @"training_partners"
+#define kAPIPersonalCoach @"training_partners/%@"
 
+#pragma mark ClubPost
+
+#define kAPIClubPosts @"articles"
+#define kAPIClubPostLike @"students/%@/liked_articles/%@"
+#define kAPIClubPostComment @"articles/%@/comments"
+#define kAPIClubPostHeadLine @"articles/headline"
 
 #pragma mark Constants
 

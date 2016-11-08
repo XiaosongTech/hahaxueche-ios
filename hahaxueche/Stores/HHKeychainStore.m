@@ -14,17 +14,17 @@ static NSString *const serviceName = @"ren.xiaosong.hahaxueche";
 @implementation HHKeychainStore
 
 + (BOOL)saveAccessToken:(NSString *)accessToken forUserId:(NSString *)userId {
-    return [SSKeychain setPassword:accessToken forService:serviceName account:userId];
+    return [SAMKeychain setPassword:accessToken forService:serviceName account:userId];
 }
 
 + (BOOL)deleteSavedUser {
     HHUser *user = [[HHUserAuthService sharedInstance] getSavedUser];
-    return [SSKeychain deletePasswordForService:serviceName account:user.userId];
+    return [SAMKeychain deletePasswordForService:serviceName account:user.userId];
 }
 
 + (NSString *)getSavedAccessToken {
     HHUser *user = [[HHUserAuthService sharedInstance] getSavedUser];
-    return [SSKeychain passwordForService:serviceName account:user.userId];
+    return [SAMKeychain passwordForService:serviceName account:user.userId];
 }
 
 @end

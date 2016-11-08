@@ -29,6 +29,7 @@
 #import "HHNotificationCell.h"
 #import "HHConstantsStore.h"
 #import "HHNotificationExplanationView.h"
+#import "UIBarButtonItem+HHCustomButton.h"
 
 typedef void (^HHRefreshScheduleCompletionBlock)();
 
@@ -71,6 +72,8 @@ static NSString *kNotifCellId = @"notifCellId";
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"预约学车";
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
+    
     self.currentStudent = [HHStudentStore sharedInstance].currentStudent;
     self.myScheduleArray = [NSMutableArray array];
     self.coachScheduleArray = [NSMutableArray array];
@@ -655,4 +658,9 @@ static NSString *kNotifCellId = @"notifCellId";
     }];
     return [NSMutableArray arrayWithArray:sortedArray];
 }
+
+- (void)dismissVC {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 @end

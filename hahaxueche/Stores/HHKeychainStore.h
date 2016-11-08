@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <SSKeychain/SSKeychain.h>
+#import <SAMKeychain/SAMKeychain.h>
 
 @interface HHKeychainStore : NSObject
 
