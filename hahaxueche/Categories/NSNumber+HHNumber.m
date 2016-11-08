@@ -21,4 +21,12 @@
     return [[HHFormatUtility moneyFormatter] stringFromNumber:number];;
 }
 
+- (NSString *)generateLargeNumberString {
+    if ([self floatValue] >= 10000) {
+        return [NSString stringWithFormat:@"%@万", [[HHFormatUtility floatFormatter] stringFromNumber:@([self floatValue]/10000)]];
+    } else {
+        return [self stringValue];
+    }
+}
+
 @end

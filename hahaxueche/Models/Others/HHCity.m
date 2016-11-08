@@ -8,6 +8,7 @@
 
 #import "HHCity.h"
 #import "HHCityFixedFee.h"
+#import "HHCityOtherFee.h"
 #import "HHBonus.h"
 
 @implementation HHCity
@@ -20,6 +21,7 @@
              @"distanceRanges":@"filters.radius",
              @"zipCode":@"zip_code",
              @"cityFixedFees":@"fixed_cost_itemizer",
+             @"cityOtherFees":@"other_fee",
              @"referrerBonus":@"referer_bonus",
              @"refereeBonus":@"referee_bonus",
              @"referalBanner":@"referral_banner",
@@ -30,6 +32,11 @@
 + (NSValueTransformer *)cityFixedFeesJSONTransformer {
     return [MTLJSONAdapter arrayTransformerWithModelClass:[HHCityFixedFee class]];
 }
+
++ (NSValueTransformer *)cityOtherFeesJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[HHCityOtherFee class]];
+}
+
 
 
 @end

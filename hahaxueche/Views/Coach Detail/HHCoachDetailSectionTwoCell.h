@@ -17,10 +17,12 @@ typedef void (^HHCoachDetailPeerCoachActionBlock)(NSInteger index);
 
 @property (nonatomic, strong) HHCoachDetailSingleInfoView *satisfactionCell;
 @property (nonatomic, strong) HHCoachDetailSingleInfoView *coachLevelCell;
-@property (nonatomic, strong) HHCoachDetailSingleInfoView *coachTimeCell;
+@property (nonatomic, strong) HHCoachDetailSingleInfoView *passDaysCell;
+@property (nonatomic, strong) HHCoachDetailSingleInfoView *passRateCell;
 @property (nonatomic, strong) HHCollaborateCoachesView *coachesListCell;
 
 @property (nonatomic, strong) UIView *verticalLine;
+@property (nonatomic, strong) UIView *secVerticalLine;
 @property (nonatomic, strong) UIView *horizontalLine;
 @property (nonatomic, strong) UIView *secHorizontalLine;
 

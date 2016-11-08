@@ -73,4 +73,16 @@
     return [UIColor colorWithRed:1.00 green:0.98 blue:0.95 alpha:1.00];
 }
 
++ (UIColor *)HHLightBlue {
+    return [UIColor colorWithRed:0.44 green:0.88 blue:1.00 alpha:1.0];
+}
+
++ (UIColor *)HHRed {
+    return [UIColor colorWithRed:1.00 green:0.60 blue:0.44 alpha:1.0];
+}
+
++ (UIColor *)HHDarkOrange {
+    return [UIColor colorWithRed:0.99 green:0.45 blue:0.13 alpha:1];
+}
+
 @end

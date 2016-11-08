@@ -88,7 +88,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "EAFeatureGuideView/EAFeatureGuideView/Resources/icon_ea_indicator@2x.png"
   install_resource "EAFeatureGuideView/EAFeatureGuideView/Resources/icon_ea_indicator@3x.png"
   install_resource "Harpy/Harpy/Harpy.bundle"
-  install_resource "Instabug/Instabug.bundle"
   install_resource "MJRefresh/MJRefresh/MJRefresh.bundle"
   install_resource "MMNumberKeyboard/Images/MMNumberKeyboardDeleteKey.png"
   install_resource "MMNumberKeyboard/Images/MMNumberKeyboardDeleteKey@2x.png"
@@ -102,7 +101,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "QIYU_iOS_SDK/SDK/QYResource.bundle"
   install_resource "$PODS_CONFIGURATION_BUILD_DIR/QIYU_iOS_SDK/QYResource.bundle"
   install_resource "RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle"
-  install_resource "SSKeychain/Support/en.lproj"
+  install_resource "SAMKeychain/Support/SAMKeychain.bundle"
   install_resource "SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -114,7 +113,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "EAFeatureGuideView/EAFeatureGuideView/Resources/icon_ea_indicator@2x.png"
   install_resource "EAFeatureGuideView/EAFeatureGuideView/Resources/icon_ea_indicator@3x.png"
   install_resource "Harpy/Harpy/Harpy.bundle"
-  install_resource "Instabug/Instabug.bundle"
   install_resource "MJRefresh/MJRefresh/MJRefresh.bundle"
   install_resource "MMNumberKeyboard/Images/MMNumberKeyboardDeleteKey.png"
   install_resource "MMNumberKeyboard/Images/MMNumberKeyboardDeleteKey@2x.png"
@@ -128,7 +126,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "QIYU_iOS_SDK/SDK/QYResource.bundle"
   install_resource "$PODS_CONFIGURATION_BUILD_DIR/QIYU_iOS_SDK/QYResource.bundle"
   install_resource "RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle"
-  install_resource "SSKeychain/Support/en.lproj"
+  install_resource "SAMKeychain/Support/SAMKeychain.bundle"
   install_resource "SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
 fi
 

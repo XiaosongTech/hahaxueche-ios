@@ -10,33 +10,26 @@
 #import "OpenShareHeader.h"
 #import "HHCoach.h"
 #import "HHEvent.h"
+#import "HHPersonalCoach.h"
+#import "HHShareView.h"
+#import "HHClubPost.h"
 
-typedef NS_ENUM(NSInteger, ShareType) {
-    ShareTypeQQ,
-    ShareTypeWeibo,
-    ShareTypeWeChat,
-    ShareTypeWeChatTimeLine,
-    ShareTypeQZone,
-};
 
 typedef void (^MessageCompletion) (OSMessage *message);
 typedef void (^LinkCompletion) (NSString *link);
+typedef void (^ShareResultCompletion) (BOOL succceed);
 
 @interface HHSocialMediaShareUtility : NSObject
 
 + (instancetype)sharedInstance;
 
 
-- (void)shareCoach:(HHCoach *)coach shareType:(ShareType)shareType;
-- (void)shareMyQRCode:(UIImage *)qrCode shareType:(ShareType)shareType;
-- (void)shareEvent:(HHEvent *)event shareType:(ShareType)shareType;
+- (void)sharePersonalCoach:(HHPersonalCoach *)coach shareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion;
+- (void)shareCoach:(HHCoach *)coach shareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion;
+- (void)shareMyQRCode:(UIImage *)qrCode shareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion;
+- (void)sharePost:(HHClubPost *)post shareType:(SocialMedia)shareType;
 
-- (void)shareUserLinkWithType:(ShareType)shareType;
 
-
-- (void)getUserReferLinkWithCompletion:(LinkCompletion)completion;
-
-@property (nonatomic, strong) NSString *userReferBranchLink;
-
+- (NSString *)getChannelNameWithType:(SocialMedia)type;
 
 @end

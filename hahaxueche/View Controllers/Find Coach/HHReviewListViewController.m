@@ -16,11 +16,12 @@
 #import "HHCoachService.h"
 #import "HHLoadingViewUtility.h"
 #import "HHFindCoachViewController.h"
+#import "UIScrollView+EmptyDataSet.h"
 
 
 static NSString *kCellID = @"kCellId";
 
-@interface HHReviewListViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface HHReviewListViewController () <UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIView *topContainerView;
@@ -44,8 +45,8 @@ static NSString *kCellID = @"kCellId";
     self = [super init];
     if (self) {
         self.coach = coach;
-        self.reviewsObject = reviews;
         self.reviews = [NSMutableArray arrayWithArray:reviews.reviews];
+        self.reviewsObject = reviews;
     }
     return self;
 }
@@ -82,6 +83,8 @@ static NSString *kCellID = @"kCellId";
     self.tableView = [[UITableView alloc] init];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.emptyDataSetDelegate = self;
+    self.tableView.emptyDataSetSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
     
@@ -90,6 +93,8 @@ static NSString *kCellID = @"kCellId";
     
     self.refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
     self.refreshHeader.stateLabel.font = [UIFont systemFontOfSize:14.0f];
+    [self.refreshHeader setTitle:@"下拉更新" forState:MJRefreshStateIdle];
+    [self.refreshHeader setTitle:@"下拉更新" forState:MJRefreshStatePulling];
     [self.refreshHeader setTitle:@"正在刷新评价列表" forState:MJRefreshStateRefreshing];
     self.refreshHeader.stateLabel.textColor = [UIColor HHLightTextGray];
     self.refreshHeader.automaticallyChangeAlpha = YES;
@@ -103,12 +108,8 @@ static NSString *kCellID = @"kCellId";
     self.loadMoreFooter.automaticallyRefresh = NO;
     self.loadMoreFooter.stateLabel.font = [UIFont systemFontOfSize:14.0f];
     self.loadMoreFooter.stateLabel.textColor = [UIColor HHLightTextGray];
-    if (self.reviewsObject.nextPage) {
-        [self.loadMoreFooter setState:MJRefreshStateIdle];
-    } else {
-        [self.loadMoreFooter setState:MJRefreshStateNoMoreData];
-    }
     self.tableView.mj_footer = self.loadMoreFooter;
+    self.reviewsObject = self.reviewsObject;
     
     self.botLine = [[UIView alloc] init];
     self.botLine.backgroundColor = [UIColor HHLightLineGray];
@@ -177,6 +178,28 @@ static NSString *kCellID = @"kCellId";
     return CGRectGetHeight(rect) + 70.0f;
 }
 
+#pragma mark - DZNEmptyDataSetSource Methods
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    return [[NSMutableAttributedString alloc] initWithString:@"教练目前还没有评价." attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+}
+
+- (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView {
+    return [UIColor whiteColor];
+}
+
+#pragma mark - DZNEmptyDataSetDelegate Methods
+
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView {
+    return YES;
+}
+
+- (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView {
+    return NO;
+}
+
+- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView {
+    return NO;
+}
 
 #pragma mark Button Actions
 
@@ -218,8 +241,8 @@ static NSString *kCellID = @"kCellId";
             completion();
         }
         if (!error) {
-            weakSelf.reviewsObject = reviews;
             weakSelf.reviews = [NSMutableArray arrayWithArray:reviews.reviews];
+            weakSelf.reviewsObject = reviews;
             [weakSelf.tableView reloadData];
         }
     }];
@@ -233,8 +256,8 @@ static NSString *kCellID = @"kCellId";
             completion();
         }
         if (!error) {
-            weakSelf.reviewsObject = reviews;
             [weakSelf.reviews addObjectsFromArray:reviews.reviews];
+            weakSelf.reviewsObject = reviews;
             [weakSelf.tableView reloadData];
         }
 
@@ -244,10 +267,18 @@ static NSString *kCellID = @"kCellId";
 - (void)setReviewsObject:(HHReviews *)reviewsObject {
     _reviewsObject = reviewsObject;
     if (!reviewsObject.nextPage) {
+        if ([self.reviews count]) {
+            [self.loadMoreFooter setHidden:NO];
+        } else {
+            [self.loadMoreFooter setHidden:YES];
+        }
         [self.loadMoreFooter setState:MJRefreshStateNoMoreData];
     } else {
+        [self.loadMoreFooter setHidden:NO];
         [self.loadMoreFooter setState:MJRefreshStateIdle];
     }
 }
+
+
 
 @end

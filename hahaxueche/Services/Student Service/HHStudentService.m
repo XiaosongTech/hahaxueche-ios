@@ -352,4 +352,49 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     }];
 }
 
+- (void)getMyAdvisorWithCompletion:(HHAdvisorCompletion)completion {
+    if ([HHStudentStore sharedInstance].currentStudent.myAdvisor) {
+        if (completion) {
+            completion([HHStudentStore sharedInstance].currentStudent.myAdvisor, nil);
+            return;
+        }
+    }
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIAdvisor];
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+        param[@"student_id"] = [HHStudentStore sharedInstance].currentStudent.studentId;
+    }
+    [APIClient getWithParameters:param completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHAdvisor *advisor = [MTLJSONAdapter modelOfClass:[HHAdvisor class] fromJSONDictionary:response error:nil];
+            [HHStudentStore sharedInstance].currentStudent.myAdvisor = advisor;
+            if (completion) {
+                completion(advisor, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
+- (void)likeOrUnlikePersonalCoachWithId:(NSString *)coachId like:(NSNumber *)like completion:(HHLikePersonalCoachCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPILikePersonalCoach, [HHStudentStore sharedInstance].currentStudent.studentId, coachId]];
+    [APIClient postWithParameters:@{@"like":like} completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHPersonalCoach *coach = [MTLJSONAdapter modelOfClass:[HHPersonalCoach class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(coach, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+        
+    }];
+
+}
+
 @end

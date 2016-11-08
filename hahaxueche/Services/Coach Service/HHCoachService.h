@@ -13,6 +13,11 @@
 #import "HHCoaches.h"
 #import "HHReviews.h"
 #import "HHReview.h"
+#import "HHPersonalCoaches.h"
+#import "HHPersonalCoachFilters.h"
+#import "HHPersonalCoachSortView.h"
+#import "HHPersonalCoach.h"
+
 
 typedef void (^HHCoachListCompletion)(HHCoaches *coaches, NSError *error);
 typedef void (^HHCoachCompletion)(HHCoach *coach, NSError *error);
@@ -21,6 +26,8 @@ typedef void (^HHCoachCheckFollowedCompletion)(BOOL followed);
 typedef void (^HHCoachGenericCompletion)(NSError *error);
 typedef void (^HHCoachReviewCompletion)(HHReview *review, NSError *error);
 typedef void (^HHCoachSearchCompletion)(NSArray *coaches, NSError *error);
+typedef void (^HHPersonalCoachListCompletion)(HHPersonalCoaches *coaches, NSError *error);
+typedef void (^HHPersonalCoachCompletion)(HHPersonalCoach *coach, NSError *error);
 
 @interface HHCoachService : NSObject
 
@@ -125,5 +132,27 @@ typedef void (^HHCoachSearchCompletion)(NSArray *coaches, NSError *error);
  @param completion The completion block to execute on completion
  */
 - (void)searchCoachWithKeyword:(NSString *)keyword completion:(HHCoachSearchCompletion)completion;
+
+/**
+ Get personal coach list
+ @param filters The filters
+ @param sortOption The sort option
+ @param completion The completion block to execute on completion
+ */
+- (void)fetchPersoanlCoachWithFilters:(HHPersonalCoachFilters *)filters sortOption:(PersonalCoachSortOption)sortOption completion:(HHPersonalCoachListCompletion)completion;
+
+/**
+ Get more personal coach
+ @param url The url
+ @param completion The completion block to execute on completion
+ */
+- (void)getMorePersonalCoachWithURL:(NSString *)url completion:(HHPersonalCoachListCompletion) completion;
+
+/**
+Get personal coach with coach_id
+@param coachId The id of the coach
+@param completion The completion block to execute on completion
+*/
+- (void)fetchPersoanlCoachWithId:(NSString *)coachId completion:(HHPersonalCoachCompletion)completion;
 
 @end

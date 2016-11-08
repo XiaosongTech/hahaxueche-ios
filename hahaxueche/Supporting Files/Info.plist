@@ -19,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.6.3</string>
+	<string>3.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -31,6 +31,7 @@
 			<string>com.xiaosong.hahaxueche</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>dsc4e677e0fa60ceb4</string>
 				<string>hhxc</string>
 				<string>wxdf5f23aa517b1a96</string>
 				<string>tencent1104872131</string>
@@ -41,7 +42,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>3.0</string>
+	<string>1.0</string>
 	<key>CMBPublicKey</key>
 	<string>HwhR4Kwd9L4DCBzaWf9fYSh+ozaEHk7uLbnyO+mnvWTgpZQDmhhZQYcs4ntRARzA4D6S+4swUOqEIOZGdljNa0vBaUuX/9Dlv/WCw+3bYrt1WviUuXrNjq6zHr2YvVMRxGtzXyXC7edschM4bYbvz6V9UDLtj1KZ4CkvrOPOWm5ddqt5NvHN1X33vuNY1q+4u9NO+fenlBmp2b8mzrCH9rDRjF9mhCd8InCS+69kwsvVDlL51iuiu8N7DxcodTbP9FWlp7J9ItXhkZCE2IiCSBtanFEXTipdl3OnHRTn6uUBAZUwbpz0lzSlr4Jh2rfWT9qrmmQXcJ/DS3DUG/4+UQ==</string>
 	<key>Fabric</key>
@@ -88,6 +89,11 @@
 	<string>需要您的照片库的权限</string>
 	<key>UIAppFonts</key>
 	<array/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -100,7 +106,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>branch_key</key>
-	<string>key_live_admOW7BdL0Xjj3PlglQ6pikouvgINyy6</string>
+	<key>linkedme_key</key>
+	<dict>
+		<key>live</key>
+		<string>linkedme_live_6e02127dcdac518550bb02a4450c5f3c</string>
+	</dict>
 </dict>
 </plist>

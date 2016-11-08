@@ -14,4 +14,6 @@
 
 - (NSString *)generateMoneyStringWithoutOriginalNumber;
 
+- (NSString *)generateLargeNumberString;
+
 @end

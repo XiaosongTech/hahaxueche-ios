@@ -22,12 +22,13 @@
 #import "HHStudentStore.h"
 #import "HHCoachService.h"
 #import "HHStudentStore.h"
+#import "UIScrollView+EmptyDataSet.h"
 
 static NSString *const kCellId = @"kCoachListCellId";
 static CGFloat const kCellHeightNormal = 100.0f;
 static CGFloat const kCellHeightExpanded = 305.0f;
 
-@interface HHFollowedCoachListViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface HHFollowedCoachListViewController () <UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
@@ -37,9 +38,6 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 @property (nonatomic, strong) NSMutableArray *coaches;
 @property (nonatomic, strong) HHCity *userCity;
 @property (nonatomic, strong) HHCoaches *coachesObject;
-
-@property (nonatomic) BOOL hasMoreCoaches;
-
 
 @end
 
@@ -63,10 +61,14 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     self.tableView = [[UITableView alloc] init];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.emptyDataSetDelegate = self;
+    self.tableView.emptyDataSetSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     self.refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
     self.refreshHeader.stateLabel.font = [UIFont systemFontOfSize:14.0f];
+    [self.refreshHeader setTitle:@"下拉更新" forState:MJRefreshStateIdle];
+    [self.refreshHeader setTitle:@"下拉更新" forState:MJRefreshStatePulling];
     [self.refreshHeader setTitle:@"正在刷新教练列表" forState:MJRefreshStateRefreshing];
     self.refreshHeader.stateLabel.textColor = [UIColor HHLightTextGray];
     self.refreshHeader.automaticallyChangeAlpha = YES;
@@ -77,6 +79,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     [self.loadMoreFooter setTitle:@"一大波教练接近中~~~" forState:MJRefreshStateIdle];
     [self.loadMoreFooter setTitle:@"正在加载更多教练" forState:MJRefreshStateRefreshing];
     [self.loadMoreFooter setTitle:@"已经到底啦~再往上选选吧！" forState:MJRefreshStateNoMoreData];
+    [self.loadMoreFooter setHidden:YES];
     self.loadMoreFooter.automaticallyRefresh = NO;
     self.loadMoreFooter.stateLabel.font = [UIFont systemFontOfSize:14.0f];
     self.loadMoreFooter.stateLabel.textColor = [UIColor HHLightTextGray];
@@ -188,14 +191,8 @@ static CGFloat const kCellHeightExpanded = 305.0f;
             completion();
         }
         if (!error) {
-            weakSelf.coachesObject = coaches;
             weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
-            if (coaches.nextPage) {
-                weakSelf.hasMoreCoaches = YES;
-            } else {
-                weakSelf.hasMoreCoaches = NO;
-            }
-            
+            weakSelf.coachesObject = coaches;
             [weakSelf.tableView reloadData];
         }
 
@@ -208,14 +205,8 @@ static CGFloat const kCellHeightExpanded = 305.0f;
             completion();
         }
         if (!error) {
-            self.coachesObject = coaches;
             [self.coaches addObjectsFromArray:coaches.coaches];
-            if (coaches.nextPage) {
-                self.hasMoreCoaches = YES;
-            } else {
-                self.hasMoreCoaches = NO;
-            }
-            
+            self.coachesObject = coaches;
             [self.tableView reloadData];
         }
         
@@ -223,11 +214,18 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     }];
 }
 
-- (void)setHasMoreCoaches:(BOOL)hasMoreCoaches {
-    _hasMoreCoaches = hasMoreCoaches;
-    if (!hasMoreCoaches) {
+- (void)setCoachesObject:(HHCoaches *)coachesObject {
+    _coachesObject = coachesObject;
+    if (!coachesObject.nextPage) {
+        if ([self.coaches count]) {
+            [self.loadMoreFooter setHidden:NO];
+            
+        } else {
+            [self.loadMoreFooter setHidden:YES];
+        }
         [self.loadMoreFooter setState:MJRefreshStateNoMoreData];
     } else {
+        [self.loadMoreFooter setHidden:NO];
         [self.loadMoreFooter setState:MJRefreshStateIdle];
     }
 }
@@ -243,10 +241,37 @@ static CGFloat const kCellHeightExpanded = 305.0f;
             if ([coach.coachId isEqualToString:coachId]) {
                 [self.coaches removeObject:coach];
                 [self.tableView reloadData];
+                if (![self.coaches count]) {
+                    [self.loadMoreFooter setHidden:YES];
+                } else {
+                    [self.loadMoreFooter setHidden:NO];
+                }
                 break;
             }
         }
     }
+}
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    return [[NSMutableAttributedString alloc] initWithString:@"您还木有关注的教练, 快去关注吧!" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+}
+
+- (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView {
+    return [UIColor whiteColor];
+}
+
+#pragma mark - DZNEmptyDataSetDelegate Methods
+
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView {
+    return YES;
+}
+
+- (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView {
+    return NO;
+}
+
+- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView {
+    return YES;
 }
 
 

@@ -17,9 +17,9 @@
 @property (nonatomic, copy) NSString *avatarUrl;
 @property (nonatomic, copy) NSNumber *averageRating;
 @property (nonatomic, copy) NSNumber *price;
-@property (nonatomic, copy) NSNumber *marketPrice;
 @property (nonatomic, copy) NSNumber *VIPPrice;
-@property (nonatomic, copy) NSNumber *VIPMarketPrice;
+@property (nonatomic, copy) NSNumber *c2Price;
+@property (nonatomic, copy) NSNumber *c2VIPPrice;
 @property (nonatomic, copy) NSNumber *experienceYear;
 @property (nonatomic, copy) NSNumber *reviewCount;
 @property (nonatomic, copy) NSNumber *skillLevel;
@@ -38,6 +38,9 @@
 @property (nonatomic, copy) NSNumber *liked;
 @property (nonatomic, copy) NSNumber *likeCount;
 @property (nonatomic, copy) NSString *drivingSchool;
+@property (nonatomic, copy) NSString *stageThreePassRate;
+@property (nonatomic, copy) NSString *stageTwoPassRate;
+@property (nonatomic, copy) NSString *averagePassDays;
 
 // 0 = 优秀教练; 1 = 金牌教练
 - (BOOL)isGoldenCoach;

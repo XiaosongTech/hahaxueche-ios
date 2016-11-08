@@ -20,7 +20,6 @@
 #import "HHTryCoachView.h"
 #import "HHPopupUtility.h"
 #import "HHShareView.h"
-#import "HHPriceDetailView.h"
 #import "HHSocialMediaShareUtility.h"
 #import "HHSingleFieldMapViewController.h"
 #import "HHConstantsStore.h"
@@ -33,7 +32,6 @@
 #import "HHReviews.h"
 #import "HHReview.h"
 #import "HHReviewListViewController.h"
-#import "HHEventTrackingManager.h"
 #import "HHImageGalleryViewController.h"
 #import "HHLoadingViewUtility.h"
 #import "HHPurchaseConfirmViewController.h"
@@ -44,11 +42,12 @@
 #import "HHGenericTwoButtonsPopupView.h"
 #import "HHWebViewController.h"
 #import "HHFreeTrialUtility.h"
+#import "HHCoachPriceDetailViewController.h"
+#import "HHGenericOneButtonPopupView.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
     CoachCellPrice,
-    CoachCellType,
     CoachCellField,
     CoachCellInfoTwo,
     CoachCellComments,
@@ -73,6 +72,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 @property (nonatomic, strong) HHReviews *reviewsObject;
 @property (nonatomic, strong) NSArray *reviews;
 @property (nonatomic) BOOL liking;
+@property (nonatomic) BOOL followed;
 
 @end
 
@@ -121,8 +121,18 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     self.title = @"教练详情";
     
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(popupVC) target:self];
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"icon_share"] action:@selector(shareCoach) target:self];
     [self initSubviews];
     
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    NSString *coachId = self.coach.coachId;
+    if (!coachId) {
+        coachId = self.coachId;
+    }
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_viewed attributes:@{@"coach_id":coachId}];
 }
 
 - (void)initSubviews {
@@ -154,76 +164,11 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
-    self.bottomBar = [[HHCoachDetailBottomBarView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.tableView.bounds), CGRectGetWidth(self.view.bounds), 50.0f) followed:NO];
+    self.bottomBar = [[HHCoachDetailBottomBarView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.tableView.bounds), CGRectGetWidth(self.view.bounds), 50.0f)];
     [self.view addSubview:self.bottomBar];
     
     
-    __weak HHCoachDetailViewController *weakSelf = self;
-    self.bottomBar.shareAction = ^(){
-        HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds), 0)];
-        
-        shareView.dismissBlock = ^() {
-            [HHPopupUtility dismissPopup:weakSelf.popup];
-        };
-        shareView.actionBlock = ^(SocialMedia selecteItem) {
-            switch (selecteItem) {
-                case SocialMediaQQFriend: {
-                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeQQ];
-                } break;
-                    
-                case SocialMediaWeibo: {
-                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeibo];
-                } break;
-                    
-                case SocialMediaWeChatFriend: {
-                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeChat];
-                } break;
-                    
-                case SocialMediaWeChaPYQ: {
-                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeChatTimeLine];
-                } break;
-                    
-                case SocialMediaQZone: {
-                    [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeQZone];
-                } break;
-                    
-                default:
-                    break;
-
-            }
-        };
-        weakSelf.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
-        [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
-    };
-    
-    self.bottomBar.followAction = ^(){
-        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
-            [weakSelf showLoginSignupAlertView];
-            return ;
-        }
-        
-        [[HHCoachService sharedInstance] followCoach:weakSelf.coach.userId completion:^(NSError *error) {
-            if (!error) {
-                weakSelf.bottomBar.followed = YES;
-            }
-            
-        }];
-    };
-    
-    self.bottomBar.unFollowAction = ^(){
-        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
-            [weakSelf showLoginSignupAlertView];
-            return ;
-        }
-        
-        [[HHCoachService sharedInstance] unfollowCoach:weakSelf.coach.userId completion:^(NSError *error) {
-            if (!error) {
-                weakSelf.bottomBar.followed = NO;
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"kUnfollowCoach" object:@{@"coachId":weakSelf.coach.coachId}];
-            }
-        }];
-    };
-    
+    __weak HHCoachDetailViewController *weakSelf = self;    
     self.bottomBar.tryCoachAction = ^(){
         [weakSelf tryCoachForFree];
     };
@@ -235,13 +180,19 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         }
         HHPurchaseConfirmViewController *vc = [[HHPurchaseConfirmViewController alloc] initWithCoach:weakSelf.coach];
         [weakSelf.navigationController pushViewController:vc animated:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_purchase_tapped attributes:@{@"coach_id":weakSelf.coach.coachId}];
 
     };
     
     [[HHCoachService sharedInstance] checkFollowedCoach:self.coach.userId completion:^(BOOL followed) {
-        weakSelf.bottomBar.followed = followed;
+        weakSelf.followed = followed;
     }];
     
+}
+
+- (void)setFollowed:(BOOL)followed {
+    _followed = followed;
+    [self.tableView reloadData];
 }
 
 #pragma mark - TableView Delegate & Datasource Methods
@@ -264,42 +215,41 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
                 }
 
             };
-            [cell setupCellWithCoach:self.coach];
+            cell.followBlock = ^() {
+                [weakSelf followUnfollowCoach];
+            };
+            [cell setupCellWithCoach:self.coach followed:weakSelf.followed];
             return cell;
         }
             
         case CoachCellPrice: {
             HHCoachPriceCell *cell = [tableView dequeueReusableCellWithIdentifier:kPriceCellID forIndexPath:indexPath];
-            cell.standartPriceItemView.priceDetailBlock = ^() {
-                HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
-                CGFloat height = 190.0f + (city.cityFixedFees.count + 1) * 50.0f;
-                HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"价格明细" totalPrice:weakSelf.coach.price showOKButton:YES];
-                priceView.cancelBlock = ^() {
+            cell.priceAction = ^() {
+                HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:weakSelf.coach];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_price_detail_tapped attributes:@{@"coach_id":weakSelf.coach.coachId}];
+            };
+            cell.licenseTypeAction = ^ (NSInteger licenseType) {
+                NSString *text = @"C1为手动挡小型车驾照，取得了C1类驾驶证的人可以驾驶C2类车。";
+                CGFloat height = 200.0f;
+                NSString *title = @"什么是C1手动挡?";
+                if (licenseType == 2) {
+                    height = 250.0f;
+                    title = @"什么是C2自动挡?";
+                    text = @"C2为自动挡小型车驾照，取得了C2类驾驶证的人不可以驾驶C1类车。C2驾照培训费要稍贵于C1照。费用的差别主要是由于C2自动挡教练车数量比较少，使用过程中维修费用比较高所致。";
+                };
+                
+                NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+                style.lineSpacing = 3.0f;
+                NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:style}];
+                HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, height) title:title info:attString];
+                view.cancelBlock = ^() {
                     [HHPopupUtility dismissPopup:weakSelf.popup];
                 };
-                weakSelf.popup = [HHPopupUtility createPopupWithContentView:priceView];
+                weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
                 [HHPopupUtility showPopup:weakSelf.popup];
-
-
+                
             };
-            if ([self.coach.VIPPrice floatValue] > 0) {
-                cell.VIPPriceItemView.priceDetailBlock = ^() {
-                    HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
-                    CGFloat height = 190.0f + (city.cityFixedFees.count + 1) * 50.0f;
-                    HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"价格明细" totalPrice:weakSelf.coach.VIPPrice showOKButton:YES];
-                    priceView.cancelBlock = ^() {
-                        [HHPopupUtility dismissPopup:weakSelf.popup];
-                    };
-                    weakSelf.popup = [HHPopupUtility createPopupWithContentView:priceView];
-                    [HHPopupUtility showPopup:weakSelf.popup];
-                };
-            }
-            [cell setupCellWithCoach:self.coach];
-            return cell;
-        }
-            
-        case CoachCellType: {
-            HHCoachServiceTypeCell *cell = [tableView dequeueReusableCellWithIdentifier:kTypeCellID forIndexPath:indexPath];
             [cell setupCellWithCoach:self.coach];
             return cell;
         }
@@ -309,6 +259,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             cell.fieldBlock = ^() {
                 HHSingleFieldMapViewController *vc = [[HHSingleFieldMapViewController alloc] initWithField:[weakSelf.coach getCoachField]];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_field_tapped attributes:@{@"coach_id":weakSelf.coach.coachId}];
 
             };
             [cell setupCellWithField:[self.coach getCoachField]];
@@ -334,6 +285,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
                 HHReviewListViewController *vc = [[HHReviewListViewController alloc] initWithReviews:weakSelf.reviewsObject coach:weakSelf.coach];
                 vc.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_comment_tapped attributes:@{@"coach_id":weakSelf.coach.coachId}];
             };
             return cell;
         }
@@ -352,16 +304,18 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         }
             
         case CoachCellPrice: {
+
+            CGFloat height = 86.0f + 50.0f + 35.0f;
             if ([self.coach.VIPPrice floatValue] > 0) {
-                return 156.0f + 70.0f;
-            } else {
-                return 156.0f;
+                height = height + 50.0f;
             }
             
-        }
-           
-        case CoachCellType: {
-            return 70.0f;
+            if ([self.coach.c2VIPPrice floatValue] > 0 && [self.coach.c2Price floatValue] > 0) {
+                height = height + 35.0f + 2 * 50.0f;
+            } else if ([self.coach.c2VIPPrice floatValue] > 0 || [self.coach.c2Price floatValue] > 0) {
+                height = height + 35.0f + 50.0f;
+            }
+            return height;
         }
             
         case CoachCellField: {
@@ -461,7 +415,8 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     self.popup = [HHPopupUtility createPopupWithContentView:view];
     view.confirmBlock = ^() {
         HHIntroViewController *vc = [[HHIntroViewController alloc] init];
-        [self presentViewController:vc animated:YES completion:nil];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        [self presentViewController:nav animated:YES completion:nil];
     };
     view.cancelBlock = ^() {
         [HHPopupUtility dismissPopup:self.popup];
@@ -505,6 +460,8 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         }
     }];
     
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_like_unlike_tapped attributes:@{@"coach_id":self.coach.coachId, @"like":like}];
+    
 }
 
 - (void)openWebPage:(NSURL *)url {
@@ -518,6 +475,75 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 - (void)tryCoachForFree {
     NSString *urlString = [[HHFreeTrialUtility sharedManager] buildFreeTrialURLStringWithCoachId:self.coach.coachId];
     [self openWebPage:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_free_trial_tapped attributes:@{@"coach_id":self.coach.coachId}];
+}
+
+- (void)shareCoach {
+    HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 0)];
+    
+    shareView.dismissBlock = ^() {
+        [HHPopupUtility dismissPopup:self.popup];
+    };
+    shareView.actionBlock = ^(SocialMedia selecteItem) {
+        [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:selecteItem resultCompletion:^(BOOL succceed) {
+            if (succceed) {
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_share_coach_succeed attributes:@{@"coach_id":self.coach.coachId, @"channel": [[HHSocialMediaShareUtility sharedInstance] getChannelNameWithType:selecteItem]}];
+            }
+        }];
+        
+    };
+    self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
+    [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_share_coach_tapped attributes:@{@"coach_id":self.coach.coachId}];
+}
+
+- (void)followUnfollowCoach {
+    if (self.followed) {
+        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+            [self showLoginPopupForFollow];
+            return ;
+        }
+        [[HHCoachService sharedInstance] unfollowCoach:self.coach.userId completion:^(NSError *error) {
+            if (!error) {
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_follow_unfollow_tapped attributes:@{@"coach_id":self.coach.coachId, @"follow":@(!self.followed)}];
+                self.followed = NO;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"kUnfollowCoach" object:@{@"coachId":self.coach.coachId}];
+            }
+        }];
+        
+    } else {
+        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+            [self showLoginPopupForFollow];
+            return ;
+        }
+    
+        [[HHCoachService sharedInstance] followCoach:self.coach.userId completion:^(NSError *error) {
+            if (!error) {
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_follow_unfollow_tapped attributes:@{@"coach_id":self.coach.coachId, @"follow":@(!self.followed)}];
+                self.followed = YES;
+            }
+            
+        }];
+
+    }
+}
+
+- (void)showLoginPopupForFollow {
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    paragraphStyle.lineSpacing = 8.0f;
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"注册登录后, 才可以关注教练哦~\n注册获得更多教练咨询!~" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 260.0f) title:@"请登录" subTitle:nil info:attributedString leftButtonTitle:@"知道了" rightButtonTitle:@"去登录"];
+    self.popup = [HHPopupUtility createPopupWithContentView:view];
+    view.confirmBlock = ^() {
+        HHIntroViewController *vc = [[HHIntroViewController alloc] init];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        [self presentViewController:nav animated:YES completion:nil];
+    };
+    view.cancelBlock = ^() {
+        [HHPopupUtility dismissPopup:self.popup];
+    };
+    [HHPopupUtility showPopup:self.popup];
 }
 
 @end

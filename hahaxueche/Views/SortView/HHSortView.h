@@ -27,5 +27,6 @@ typedef void (^HHSelectedSortOptionCompletion)(SortOption sortOption);
 @property (nonatomic, strong) HHSelectedSortOptionCompletion selectedOptionBlock;
 
 - (instancetype)initWithDefaultSortOption:(SortOption)sortOption;
+- (NSString *)getSortNameWithSortOption:(SortOption)option;
 
 @end

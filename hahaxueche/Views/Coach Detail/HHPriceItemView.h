@@ -8,19 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void (^HHPriceDetailBlock)();
-
 @interface HHPriceItemView : UIView
 
 @property (nonatomic, strong) UILabel *priceLabel;
-@property (nonatomic, strong) UILabel *marketPriceLabel;
 @property (nonatomic, strong) UILabel *detailLabel;
-@property (nonatomic, strong) UIImageView *iconView;
-@property (nonatomic, strong) UIButton *priceDetailButton;
-@property (nonatomic, strong) UIView *topLine;
+@property (nonatomic, strong) UILabel *productTypeLabel;
+@property (nonatomic, strong) UIView *botLine;
 
-@property (nonatomic, strong) HHPriceDetailBlock priceDetailBlock;
 
-- (void)setupWithPrice:(NSNumber *)price iconImage:(UIImage *)iconImage marketPrice:(NSNumber *)marketPrice detailText:(NSString *)detailText;
+- (void)setupWithPrice:(NSNumber *)price productText:(NSString *)productText detailText:(NSString *)detailText priceColor:(UIColor *)priceColor showBotLine:(BOOL)showBotLine;
 
 @end

@@ -18,16 +18,15 @@
 #import "HHToastManager.h"
 #import "HHLoadingViewUtility.h"
 #import "HHStudentStore.h"
-#import "HHSearchCoachEmptyCell.h"
 #import "HHSearchHistoryListView.h"
+#import "UIScrollView+EmptyDataSet.h"
 
 static NSString *const kCellId = @"kCoachListCellId";
-static NSString *const kEmptyCellId = @"kEmptyCellId";
 
 static CGFloat const kCellHeightNormal = 100.0f;
 static CGFloat const kCellHeightExpanded = 305.0f;
 
-@interface HHSearchCoachViewController () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface HHSearchCoachViewController () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UISearchBar *searchBar;
@@ -54,12 +53,16 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithTitle:@"取消" titleColor:[UIColor whiteColor] action:@selector(popupVC) target:self isLeft:NO];
     
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
+    [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
+    
     self.tableView = [[UITableView alloc] init];
     [self.tableView registerClass:[HHCoachListViewCell class] forCellReuseIdentifier:kCellId];
-    [self.tableView registerClass:[HHSearchCoachEmptyCell class] forCellReuseIdentifier:kEmptyCellId];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.emptyDataSetDelegate = self;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:self.tableView];
     
@@ -82,12 +85,6 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (![self.coaches count]) {
-        HHSearchCoachEmptyCell *cell = [tableView dequeueReusableCellWithIdentifier:kEmptyCellId forIndexPath:indexPath];
-        return cell;
-    }
-    
     
     HHCoachListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
     __weak HHSearchCoachViewController *weakSelf = self;
@@ -119,34 +116,24 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([self.coaches count]) {
-        return self.coaches.count;
-    } else {
-        return 1;
-    }
+   return self.coaches.count;
     
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self.coaches count]) {
+    CGFloat height = 0;
+    if ([tableView isEqual:self.tableView]) {
         if ([self.expandedCellIndexPath containsObject:indexPath]) {
-            CGFloat height = kCellHeightExpanded + 40.0f;
-            HHCoach *coach = self.coaches[indexPath.row];
-            if ([coach.VIPPrice floatValue] > 0) {
-                height = height + 40.0f;
-            }
-            return height;
+            height = kCellHeightExpanded + 40.0f;
+            
         } else {
-            CGFloat height = kCellHeightNormal + 40.0f;
-            HHCoach *coach = self.coaches[indexPath.row];
-            if ([coach.VIPPrice floatValue] > 0) {
-                height = height + 40.0f;
-            }
-            return height;
+            height = kCellHeightNormal + 40.0f;
         }
+        return height;
     } else {
-        return CGRectGetHeight(self.view.bounds);
+        return kCellHeightNormal;
     }
+
     
 }
 
@@ -217,6 +204,30 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         make.height.mas_equalTo(([keywords count] + 1) * 40.0f + 45.0f);
     }];
 
+}
+
+#pragma mark - DZNEmptyDataSetSource Methods
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    return [[NSMutableAttributedString alloc] initWithString:@"木有找到匹配的教练, 换个关键词重新试试吧~" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+    
+}
+
+- (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView {
+    return [UIColor whiteColor];
+}
+
+#pragma mark - DZNEmptyDataSetDelegate Methods
+
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView {
+    return YES;
+}
+
+- (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView {
+    return NO;
+}
+
+- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView {
+    return NO;
 }
 
 

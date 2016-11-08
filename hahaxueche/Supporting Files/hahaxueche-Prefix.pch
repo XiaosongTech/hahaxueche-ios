@@ -15,6 +15,7 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+    #import "HHEventTrackingManager.h"
     #define MAS_SHORTHAND
 #endif
 

@@ -21,7 +21,6 @@
 #import "HHLoadingViewUtility.h"
 #import "HHSingleFieldMapViewController.h"
 #import "HHConstantsStore.h"
-#import "HHPriceDetailView.h"
 #import "HHPopupUtility.h"
 #import "HHImageGalleryViewController.h"
 #import "HHShareView.h"
@@ -29,10 +28,15 @@
 #import "HHSocialMediaShareUtility.h"
 #import <pop/POP.h>
 #import "HHStudentService.h"
+#import "HHCoachPriceDetailViewController.h"
+#import "HHStudentStore.h"
+#import "HHMyCoachPeerCoachesTableViewCell.h"
+#import "HHCoachDetailViewController.h"
 
 static NSString *const kDescriptionCellID = @"kDescriptionCellID";
 static NSString *const kBasicInfoCellID = @"kBasicInfoCellID";
 static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
+static NSString *const kPartnerCoachoCellID = @"kPartnerCoachoCellID";
 
 @interface HHMyCoachDetailViewController () <UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIScrollViewDelegate>
 
@@ -43,6 +47,7 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
 @property (nonatomic, strong) UIButton *reviewCoachButton;
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic) BOOL liking;
+@property (nonatomic) BOOL followed;
 
 @end
 
@@ -61,8 +66,13 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
     self.title = @"教练信息";
     self.view.backgroundColor = [UIColor HHBackgroundGary];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_mycoach_sharecoach"] action:@selector(shareCoach) target:self];
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"icon_share"] action:@selector(shareCoach) target:self];
     [self initSubviews];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_coach_page_viewed attributes:nil];
 }
 
 - (void)initSubviews {
@@ -75,6 +85,7 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
     [self.tableView registerClass:[HHCoachDetailDescriptionCell class] forCellReuseIdentifier:kDescriptionCellID];
     [self.tableView registerClass:[HHMyCoachBasicInfoCell class] forCellReuseIdentifier:kBasicInfoCellID];
     [self.tableView registerClass:[HHMyCoachCourseInfoCell class] forCellReuseIdentifier:kCourseInfoCellID];
+    [self.tableView registerClass:[HHMyCoachPeerCoachesTableViewCell class] forCellReuseIdentifier:kPartnerCoachoCellID];
     
     self.coachImagesView = [[SDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) * 4.0f/5.0f)];
     self.coachImagesView.delegate = self;
@@ -97,7 +108,12 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
 #pragma mark - TableView Delegate & Datasource Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return CoachCellCount;
+    if ([self.coach.peerCoaches count] > 0) {
+        return CoachCellCount;
+    }
+    
+    return CoachCellCount - 1;
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -108,8 +124,12 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
             cell.likeBlock = ^(UIButton *likeButton, UILabel *likeCountLabel) {
                 [weakSelf likeOrUnlikeCoachWithButton:likeButton label:likeCountLabel];
             };
+            
+            cell.followBlock = ^() {
+                [weakSelf followUnfollowCoach];
+            };
 
-            [cell setupCellWithCoach:weakSelf.coach];
+            [cell setupCellWithCoach:weakSelf.coach followed:weakSelf.followed];
             return cell;
         }
             
@@ -132,18 +152,24 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
             
         case CoachCellCourseInfo: {
             HHMyCoachCourseInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kCourseInfoCellID forIndexPath:indexPath];
-            [cell setupCellWithCoach:weakSelf.coach];
+            [cell setupCellWithStudent:[HHStudentStore sharedInstance].currentStudent];
             cell.feeDetailView.actionBlock = ^() {
-                HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
-                CGFloat height = 190.0f + (city.cityFixedFees.count + 1) * 50.0f;
-                HHPriceDetailView *priceView = [[HHPriceDetailView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-20.0f, height) title:@"价格明细" totalPrice:weakSelf.coach.price showOKButton:YES];
-                priceView.cancelBlock = ^() {
-                    [HHPopupUtility dismissPopup:weakSelf.popup];
-                };
-                weakSelf.popup = [HHPopupUtility createPopupWithContentView:priceView];
-                [HHPopupUtility showPopup:weakSelf.popup];
-
+                HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:weakSelf.coach];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
             };
+            return cell;
+        }
+        case CoachCellPartnerCoaches: {
+            HHMyCoachPeerCoachesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kPartnerCoachoCellID forIndexPath:indexPath];
+            if (weakSelf.coach.peerCoaches.count > 0) {
+                [cell setupWithCoach:weakSelf.coach];
+                cell.coachAction = ^(NSInteger index){
+                    HHCoach *coach = self.coach.peerCoaches[index];
+                    HHCoachDetailViewController *detailVC = [[HHCoachDetailViewController alloc] initWithCoachId:coach.coachId];
+                    detailVC.hidesBottomBarWhenPushed = YES;
+                    [weakSelf.navigationController pushViewController:detailVC animated:YES];
+                };
+            }
             return cell;
         }
             
@@ -165,7 +191,17 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
         }
             
         case CoachCellCourseInfo: {
-            return kTopPadding * 2.0f+ kTitleViewHeight + 4.0f * kItemViewHeight;
+            if (self.coach.peerCoaches.count == 0) {
+                return kTopPadding * 2.0 + kTitleViewHeight + 2.0f * kItemViewHeight;
+            }
+            return kTopPadding + kTitleViewHeight + 2.0f * kItemViewHeight;
+        }
+            
+        case CoachCellPartnerCoaches: {
+            if (self.coach.peerCoaches.count == 0) {
+                return 0;
+            }
+            return kTopPadding * 2.0f+ kTitleViewHeight + self.coach.peerCoaches.count * 70.0f;
         }
 
         default: {
@@ -205,34 +241,15 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
         [HHPopupUtility dismissPopup:weakSelf.popup];
     };
     shareView.actionBlock = ^(SocialMedia selecteItem) {
-        switch (selecteItem) {
-            case SocialMediaQQFriend: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeQQ];
-            } break;
-                
-            case SocialMediaWeibo: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeibo];
-            } break;
-                
-            case SocialMediaWeChatFriend: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeChat];
-            } break;
-                
-            case SocialMediaWeChaPYQ: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeWeChatTimeLine];
-            } break;
-                
-            case SocialMediaQZone: {
-                [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:ShareTypeQZone];
-            } break;
-                
-            default:
-                break;
-        }
+        [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:selecteItem resultCompletion:^(BOOL succceed) {
+            if (succceed) {
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_coach_page_share_coach_succeed attributes:@{@"coach_id":self.coach.coachId, @"channel":[[HHSocialMediaShareUtility sharedInstance] getChannelNameWithType:selecteItem]}];
+            }
+        }];
     };
     weakSelf.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
     [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
-    
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_coach_page_share_coach_tapped attributes:@{@"coach_id":self.coach.coachId}];
 }
 
 #pragma mark - Others
@@ -280,6 +297,29 @@ static NSString *const kCourseInfoCellID = @"kCourseInfoCellID";
         }
     }];
     
+}
+
+- (void)setFollowed:(BOOL)followed {
+    _followed = followed;
+    [self.tableView reloadData];
+}
+
+- (void)followUnfollowCoach {
+    if (self.followed) {
+        [[HHCoachService sharedInstance] unfollowCoach:self.coach.userId completion:^(NSError *error) {
+            if (!error) {
+                self.followed = NO;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"kUnfollowCoach" object:@{@"coachId":self.coach.coachId}];
+            }
+        }];
+    } else {
+        [[HHCoachService sharedInstance] followCoach:self.coach.userId completion:^(NSError *error) {
+            if (!error) {
+                self.followed = YES;
+            }
+            
+        }];
+    }
 }
 
 @end

@@ -16,5 +16,9 @@
 @property (nonatomic, copy) NSArray *homePageBanners;
 @property (nonatomic, copy) NSArray *notifications;
 @property (nonatomic, copy) NSArray *banks;
+@property (nonatomic, copy) NSNumber *drivingSchoolCount;
+@property (nonatomic, copy) NSNumber *paidStudentCount;
+@property (nonatomic, copy) NSNumber *coachCount;
+@property (nonatomic, copy) NSArray *postCategory;
 
 @end

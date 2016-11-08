@@ -13,6 +13,7 @@ typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
     CoachCellBasicInfo,
     CoachCellCourseInfo,
+    CoachCellPartnerCoaches,
     CoachCellCount,
 };
 

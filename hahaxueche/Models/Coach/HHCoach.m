@@ -20,9 +20,9 @@
              @"cityId": @"city_id",
              @"averageRating": @"average_rating",
              @"price":@"coach_group.training_cost",
-             @"marketPrice":@"coach_group.market_price",
              @"VIPPrice":@"coach_group.vip_price",
-             @"VIPMarketPrice":@"coach_group.vip_market_price",
+             @"c2Price":@"coach_group.c2_price",
+             @"c2VIPPrice":@"coach_group.c2_vip_price",
              @"experienceYear":@"experiences",
              @"reviewCount":@"review_count",
              @"skillLevel":@"skill_level",
@@ -40,6 +40,9 @@
              @"liked":@"liked",
              @"likeCount":@"like_count",
              @"drivingSchool":@"driving_school",
+             @"stageThreePassRate":@"stage_three_pass_rate",
+             @"stageTwoPassRate":@"stage_two_pass_rate",
+             @"averagePassDays":@"average_pass_days",
              };
 }
 

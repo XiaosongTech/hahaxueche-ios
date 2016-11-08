@@ -9,7 +9,7 @@
 #import "HHAppDelegate.h"
 #import "HHEventTrackingManager.h"
 #import "SDWebImage/SDWebImageManager.h"
-#import <SSKeychain/SSKeychain.h>
+#import <SAMKeychain/SAMKeychain.h>
 #import "HHIntroViewController.h"
 #import "UIColor+HHColor.h"
 #import "HHConstantsStore.h"
@@ -25,17 +25,24 @@
 #import "HHStudentService.h"
 #import "HHToastManager.h"
 #import <Appirater.h>
-#import "Branch.h"
 #import "HHCoachDetailViewController.h"
 #import "HHLoadingViewUtility.h"
 #import <Harpy/Harpy.h>
-#import <Instabug/Instabug.h>
 #import "QYSDK.h"
 #import "HHNetworkUtility.h"
+#import "HHCoachDetailViewController.h"
+#import "HHPersonalCoachDetailViewController.h"
+#import "GeTuiSdk.h"
+#import <LinkedME_iOS/LinkedME.h>
+
+#define kGtAppId           @"iMahVVxurw6BNr7XSn9EF2"
+#define kGtAppKey          @"yIPfqwq6OMAPp6dkqgLpG5"
+#define kGtAppSecret       @"G0aBqAD6t79JfzTB6Z5lo5"
+
 
 static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
-@interface HHAppDelegate () <HarpyDelegate>
+@interface HHAppDelegate () <HarpyDelegate, GeTuiSdkDelegate>
 
 @property (nonatomic, strong) __block UIViewController *finalRootVC;
 
@@ -71,27 +78,33 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                                     HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
                                     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
                                     self.finalRootVC = navVC;
-                                    [self handleBranchWithLaunchOptions:launchOptions];
+                                    [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
+                            
                                 } else {
                                     // Get the saved student object, we lead user to rootVC
                                     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
                                     self.finalRootVC = rootVC;
-                                    [self handleBranchWithLaunchOptions:launchOptions];
+                                    self.window.rootViewController = self.finalRootVC;
+                                    [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                                 }
                             } else {
-                                [self handleBranchWithLaunchOptions:launchOptions];
+                                self.window.rootViewController = self.finalRootVC;
+                                [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                             }
                         }];
                     } else {
-                        [self handleBranchWithLaunchOptions:launchOptions];
+                        self.window.rootViewController = self.finalRootVC;
+                        [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                     }
                 }];
                 
             } else {
-                [self handleBranchWithLaunchOptions:launchOptions];
+                self.window.rootViewController = self.finalRootVC;
+                [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
             }
         } else {
-            [self handleBranchWithLaunchOptions:launchOptions];
+            self.window.rootViewController = self.finalRootVC;
+            [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
         }
        
     }];
@@ -99,30 +112,50 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [self setWindow:self.window];
     [self setupAllThirdPartyServices];
     [self setAppearance];
+    
     return YES;
+}
+
+- (void)handleLinkedMeLinkWithLaunchOptions:(NSDictionary *)launchOptions {
+    LinkedME* linkedme = [LinkedME getInstance];
+    [linkedme initSessionWithLaunchOptions:launchOptions automaticallyDisplayDeepLinkController:NO deepLinkHandler:^(NSDictionary* params, NSError* error) {
+        if (!error && params) {
+            NSDictionary *HHParam = params[@"$control"];
+            if ([HHParam[@"type"] isEqualToString: @"coach_detail"]) {
+                NSString *coachId = HHParam[@"coach_id"];
+                if (coachId) {
+                    HHCoachDetailViewController *coachVC = [[HHCoachDetailViewController alloc] initWithCoachId:coachId];
+                    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:coachVC];
+                    [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
+                }
+            } else if ([HHParam[@"type"] isEqualToString: @"training_partner_detail"]) {
+                NSString *coachId = HHParam[@"coach_id"];
+                if (coachId) {
+                    HHPersonalCoachDetailViewController *coachVC = [[HHPersonalCoachDetailViewController alloc] initWithCoachId:coachId];
+                    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:coachVC];
+                    [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
+                }
+                
+            }
+        }
+    }];
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary *)options {
-    BOOL canHandlePingppURL = [Pingpp handleOpenURL:url withCompletion:nil];
-    if (canHandlePingppURL) {
-        return YES;
-    }
     
-    BOOL canHandleBranchURL = [[Branch getInstance] handleDeepLink:url];
-    if (canHandleBranchURL) {
-        if (![[HHAppDelegate topMostController] isKindOfClass:[HHLaunchImageViewController class]]) {
-            [[HHLoadingViewUtility sharedInstance] showLoadingView];
-        }
-        return YES;
-    }
-    
-    BOOL canHandleOpenShareURL = [OpenShare handleOpenURL:url];
-    if (canHandleOpenShareURL) {
-        return YES;
-    }
-
-    return YES;
+    return ([Pingpp handleOpenURL:url withCompletion:nil] || [OpenShare handleOpenURL:url] || [[LinkedME getInstance] handleDeepLink:url]);
 }
+
+// Respond to URI scheme links
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return ([Pingpp handleOpenURL:url withCompletion:nil] || [OpenShare handleOpenURL:url] || [[LinkedME getInstance] handleDeepLink:url]);
+}
+
+// Respond to Universal Links
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
+    return [[LinkedME getInstance] continueUserActivity:userActivity];;
+}
+
 
 
 - (void)setAppearance {
@@ -156,14 +189,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 #ifdef DEBUG
     [Pingpp setDebugMode:YES];
     [Appirater setDebug:YES];
-#else
-    NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
-    NSString *receiptURLString = [receiptURL path];
-    BOOL isRunningTestFlightBeta =  ([receiptURLString rangeOfString:@"sandboxReceipt"].location != NSNotFound);
-    if (isRunningTestFlightBeta) {
-        [Instabug startWithToken:@"24cdf2d98a1fb3a58a19375d6211f7a0" invocationEvent:IBGInvocationEventShake];
-    }
-    
 #endif
     
     //Umeng
@@ -181,24 +206,28 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [HHSocialMediaShareUtility sharedInstance];
     
     //SSKeychain
-    [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
+    [SAMKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
     
     //七牛
     [[QYSDK sharedSDK] registerAppId:@"2f328da38ac77ce6d796c2977248f7e2" appName:@"hahaxueche-ios"];
-
-}
-
-
-// Respond to Universal Links
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
-    BOOL handledByBranch = [[Branch getInstance] continueUserActivity:userActivity];
-    if (handledByBranch) {
-        if (![[HHAppDelegate topMostController] isKindOfClass:[HHLaunchImageViewController class]]) {
-            [[HHLoadingViewUtility sharedInstance] showLoadingView];
-        }
-    }
     
-    return handledByBranch;
+    //Harpy
+    [[Harpy sharedInstance] setAppID:@"1011236187"];
+    [[Harpy sharedInstance] setPresentingViewController:self.window.rootViewController];
+    [[Harpy sharedInstance] setDelegate:self];
+    [[Harpy sharedInstance] setAppName:@"哈哈学车"];
+    [[Harpy sharedInstance] setForceLanguageLocalization:HarpyLanguageChineseSimplified];
+    [[Harpy sharedInstance] setDebugEnabled:YES];
+    [[Harpy sharedInstance] setAlertType:HarpyAlertTypeOption];
+    [[Harpy sharedInstance] setCountryCode:@"CN"];
+    [[Harpy sharedInstance] checkVersion];
+    
+    //个推
+    [GeTuiSdk startSdkWithAppId:kGtAppId appKey:kGtAppKey appSecret:kGtAppSecret delegate:self];
+    // 注册APNS
+    [self registerRemoteNotification];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+
 }
 
 + (UIViewController *) topMostController {
@@ -210,39 +239,72 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     return topController;
 }
 
-- (void)handleBranchWithLaunchOptions:(NSDictionary *)launchOptions {
-    Branch *branch = [Branch getInstance];
-    [branch initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
-        self.window.rootViewController = self.finalRootVC;
-        [[Harpy sharedInstance] setAppID:@"1011236187"];
-        [[Harpy sharedInstance] setPresentingViewController:self.window.rootViewController];
-        [[Harpy sharedInstance] setDelegate:self];
-        [[Harpy sharedInstance] setAppName:@"哈哈学车"];
-        [[Harpy sharedInstance]  setForceLanguageLocalization:HarpyLanguageChineseSimplified];
-        [[Harpy sharedInstance] setDebugEnabled:YES];
-        [[Harpy sharedInstance] setAlertType:HarpyAlertTypeOption];
-        [[Harpy sharedInstance] setCountryCode:@"CN"];
-        [[Harpy sharedInstance] checkVersion];
+/** 注册APNS */
+- (void)registerRemoteNotification {
+#ifdef __IPHONE_8_0
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
         
-        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-        if (!error) {
-            //not Branch link
-            if (![params[@"+clicked_branch_link"] boolValue]) {
-                return ;
-            }
-            //handle Branch link
-            NSString *coachId = params[@"coachId"];
-            if (coachId) {
-                HHCoachDetailViewController *coachVC = [[HHCoachDetailViewController alloc] initWithCoachId:coachId];
-                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:coachVC];
-                [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
-            }
-            
-        }
-    }];
-
-    
+        UIUserNotificationType types = (UIUserNotificationTypeAlert |
+                                        UIUserNotificationTypeSound |
+                                        UIUserNotificationTypeBadge);
+        
+        UIUserNotificationSettings *settings;
+        settings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+        
+    } else {
+        UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert |
+                                                                       UIRemoteNotificationTypeSound |
+                                                                       UIRemoteNotificationTypeBadge);
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
+    }
+#else
+    UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert |
+                                                                   UIRemoteNotificationTypeSound |
+                                                                   UIRemoteNotificationTypeBadge);
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
+#endif
 }
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSLog(@"\n>>>[DeviceToken Success]:%@\n\n", token);
+    
+    //向个推服务器注册deviceToken
+    [GeTuiSdk registerDeviceToken:token];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    application.applicationIconBadgeNumber = 0;
+}
+
+- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    /// Background Fetch 恢复SDK 运行
+    [GeTuiSdk resume];
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    // 将收到的APNs信息传给个推统计
+    [GeTuiSdk handleRemoteNotification:userInfo];
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+/** SDK启动成功返回cid */
+- (void)GeTuiSdkDidRegisterClient:(NSString *)clientId {
+    //个推SDK已注册，返回clientId
+    NSLog(@"\n>>>[GeTuiSdk RegisterClient]:%@\n\n", clientId);
+}
+
+/** SDK遇到错误回调 */
+- (void)GeTuiSdkDidOccurError:(NSError *)error {
+    //个推错误报告，集成步骤发生的任何错误都在这里通知，如果集成后，无法正常收到消息，查看这里的通知。
+    NSLog(@"\n>>>[GexinSdk error]:%@\n\n", [error localizedDescription]);
+}
+
+
 
 
 @end

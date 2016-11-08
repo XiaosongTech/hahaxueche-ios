@@ -40,4 +40,10 @@
 
 + (UIColor *)HHLightBackgroundYellow;
 
++ (UIColor *)HHLightBlue;
+
++ (UIColor *)HHRed;
+
++ (UIColor *)HHDarkOrange;
+
 @end

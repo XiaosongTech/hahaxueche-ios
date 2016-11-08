@@ -259,21 +259,6 @@ static CGFloat const kAvatarRadius = 30.0f;
         make.height.mas_equalTo(40.0f);
     }];
     
-    if (self.VIPPriceView) {
-        [self.VIPPriceView removeFromSuperview];
-        self.VIPPriceView = nil;
-    }
-    if ([coach.VIPPrice floatValue] > 0) {
-        self.VIPPriceView = [[HHPriceView alloc] initWithTitle:@"VIP" subTitle:@"一人一车, 极速拿证" price:coach.VIPPrice];
-        [self.contentView addSubview:self.VIPPriceView];
-        [self.VIPPriceView remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.priceView.bottom);
-            make.left.equalTo(self.priceView.left);
-            make.right.equalTo(self.contentView.right);
-            make.height.mas_equalTo(40.0f);
-        }];
-    }
-    
 }
 
 #pragma mark - MapView Delegate Methods
