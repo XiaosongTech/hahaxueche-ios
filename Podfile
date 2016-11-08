@@ -38,7 +38,9 @@ target "hahaxueche" do
     pod 'UITextView+Placeholder', '~> 1.2'
     pod 'DZNEmptyDataSet'
     pod 'GTSDK', '1.5.0-noidfa'
-    pod "Branch"
+    pod 'LinkedME-iOS-Deep-Linking-Demo_Pod',
+    :git=>"https://github.com/WFC-LinkedME/LinkedME-iOS-Deep-Linking-Demo.git"
+    
 
 end
 

@@ -33,7 +33,7 @@
 #import "HHCoachDetailViewController.h"
 #import "HHPersonalCoachDetailViewController.h"
 #import "GeTuiSdk.h"
-#import "Branch.h"
+#import <LinkedME_iOS/LinkedME.h>
 
 #define kGtAppId           @"iMahVVxurw6BNr7XSn9EF2"
 #define kGtAppKey          @"yIPfqwq6OMAPp6dkqgLpG5"
@@ -106,28 +106,28 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [self setWindow:self.window];
     [self setupAllThirdPartyServices];
     [self setAppearance];
-    [self handleBranchLinkWithLaunchOptions:launchOptions];
+    [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
     
     return YES;
 }
 
-- (void)handleBranchLinkWithLaunchOptions:(NSDictionary *)launchOptions {
-    Branch *branch = [Branch getInstance:@"key_live_admOW7BdL0Xjj3PlglQ6pikouvgINyy6"];
-    [branch initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
+- (void)handleLinkedMeLinkWithLaunchOptions:(NSDictionary *)launchOptions {
+    LinkedME* linkedme = [LinkedME getInstance];
+    [linkedme initSessionWithLaunchOptions:launchOptions automaticallyDisplayDeepLinkController:NO deepLinkHandler:^(NSDictionary* params, NSError* error) {
         if (!error && params) {
-            if ([params[@"type"] isEqualToString: @"coach_detail"]) {
-                NSString *coachId = params[@"coach_id"];
+            NSDictionary *HHParam = params[@"$control"];
+            if ([HHParam[@"type"] isEqualToString: @"coach_detail"]) {
+                NSString *coachId = HHParam[@"coach_id"];
                 if (coachId) {
                     HHCoachDetailViewController *coachVC = [[HHCoachDetailViewController alloc] initWithCoachId:coachId];
                     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:coachVC];
                     [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
                 }
-            } else if ([params[@"type"] isEqualToString: @"training_partner_detail"]) {
-                NSString *coachId = params[@"training_partner_id"];
+            } else if ([HHParam[@"type"] isEqualToString: @"training_partner_detail"]) {
+                NSString *coachId = HHParam[@"training_partner_id"];
                 HHPersonalCoachDetailViewController *coachVC = [[HHPersonalCoachDetailViewController alloc] initWithCoachId:coachId];
                 UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:coachVC];
                 [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
-
                 
             }
         }
@@ -136,8 +136,19 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary *)options {
     
-    return ([Pingpp handleOpenURL:url withCompletion:nil] || [OpenShare handleOpenURL:url] || [[Branch getInstance] handleDeepLink:url]);
+    return ([Pingpp handleOpenURL:url withCompletion:nil] || [OpenShare handleOpenURL:url] || [[LinkedME getInstance] handleDeepLink:url]);
 }
+
+// Respond to URI scheme links
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return ([Pingpp handleOpenURL:url withCompletion:nil] || [OpenShare handleOpenURL:url] || [[LinkedME getInstance] handleDeepLink:url]);
+}
+
+// Respond to Universal Links
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
+    return [[LinkedME getInstance] continueUserActivity:userActivity];;
+}
+
 
 
 - (void)setAppearance {
@@ -211,17 +222,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 
 }
-
-// Respond to URI scheme links
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-   return ([Pingpp handleOpenURL:url withCompletion:nil] || [OpenShare handleOpenURL:url] || [[Branch getInstance] handleDeepLink:url]);
-}
-
-// Respond to Universal Links
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
-    return [[Branch getInstance] continueUserActivity:userActivity];
-}
-
 
 + (UIViewController *) topMostController {
     UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;

@@ -7,6 +7,8 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:bnc.lt</string>
+		<string>applinks:lkme.cc</string>
+		<string>applinks:www.lkme.cc</string>
 	</array>
 </dict>
 </plist>
