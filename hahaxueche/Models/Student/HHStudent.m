@@ -8,6 +8,7 @@
 
 #import "HHStudent.h"
 #import "HHPaymentService.h"
+#import "HHVoucher.h"
 
 @implementation HHStudent
 
@@ -26,6 +27,7 @@
              @"byReferal":@"by_referal",
              @"coupons":@"coupons",
              @"bankCard":@"bank_card",
+             @"vouchers":@"vouchers",
              };
 }
 
@@ -82,6 +84,10 @@
         }
         default: return @"C1手动挡-超值班";
     }
+}
+
++ (NSValueTransformer *)vouchersJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[HHVoucher class]];
 }
 
 @end

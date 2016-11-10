@@ -42,6 +42,7 @@
 #import "HHSupportUtility.h"
 #import "HHAdvisorView.h"
 #import "HHBookTrainingViewController.h"
+#import "HHMyPageVoucherCell.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -50,12 +51,15 @@ static NSString *const kHelpCell = @"helpCell";
 static NSString *const kLogoutCell = @"logoutCell";
 static NSString *const kReferCell = @"referCell";
 static NSString *const kMyCourseScheduleCell = @"kMyCourseScheduleCell";
+static NSString *const kVouchereCell = @"kVouchereCell";
+
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 
 typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellUserInfo,
     MyPageCellRefer,
     MyPageCellCoach,
+    MyPageCellVoucher,
     MyPageCellMyCourseSchedule,
     MyPageCellSupport,
     MyPageCellHelp,
@@ -169,6 +173,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         [self.tableView registerClass:[HHMyPageLogoutCell class] forCellReuseIdentifier:kLogoutCell];
         [self.tableView registerClass:[HHMyPageReferCell class] forCellReuseIdentifier:kReferCell];
         [self.tableView registerClass:[HHMyPageMyCourseScheduleCell class] forCellReuseIdentifier:kMyCourseScheduleCell];
+        [self.tableView registerClass:[HHMyPageVoucherCell class] forCellReuseIdentifier:kVouchereCell];
     }
     
 }
@@ -251,6 +256,13 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             return cell;
         } break;
             
+            
+        case MyPageCellVoucher: {
+            HHMyPageVoucherCell *cell = [tableView dequeueReusableCellWithIdentifier:kVouchereCell];
+            return cell;
+            
+        } break;
+            
         case MyPageCellMyCourseSchedule: {
             HHMyPageMyCourseScheduleCell *cell = [tableView dequeueReusableCellWithIdentifier:kMyCourseScheduleCell];
             cell.myCourseView.actionBlock = ^() {
@@ -328,6 +340,9 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             
         case MyPageCellCoach:
             return kTitleViewHeight + kItemViewHeight * 2.0f;
+            
+        case MyPageCellVoucher:
+            return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
         
         case MyPageCellMyCourseSchedule:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 1.0f;
