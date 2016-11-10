@@ -43,6 +43,7 @@
 #import "HHAdvisorView.h"
 #import "HHBookTrainingViewController.h"
 #import "HHMyPageVoucherCell.h"
+#import "HHVouchersViewController.h"
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -259,6 +260,15 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             
         case MyPageCellVoucher: {
             HHMyPageVoucherCell *cell = [tableView dequeueReusableCellWithIdentifier:kVouchereCell];
+            cell.myVoucherView.actionBlock = ^() {
+                HHVouchersViewController *vc = [[HHVouchersViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
+            
+            cell.activateVoucherView.actionBlock = ^() {
+                
+            };
             return cell;
             
         } break;

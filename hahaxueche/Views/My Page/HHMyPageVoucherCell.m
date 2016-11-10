@@ -27,13 +27,13 @@
     self.titleView = [[HHMyPageItemTitleView alloc] initWithTitle:@"代金券"];
     [self.contentView addSubview:self.titleView];
     
-    self.supportOnlineView = [[HHMyPageItemView alloc] initWitTitle:@"激活代金券" showLine:NO];
-    self.supportOnlineView.arrowImageView.hidden = NO;
-    [self.contentView addSubview:self.supportOnlineView];
+    self.activateVoucherView = [[HHMyPageItemView alloc] initWitTitle:@"激活代金券" showLine:YES];
+    self.activateVoucherView.arrowImageView.hidden = NO;
+    [self.contentView addSubview:self.activateVoucherView];
     
-    self.myAdvisorView = [[HHMyPageItemView alloc] initWitTitle:@"我的代金券" showLine:YES];
-    self.myAdvisorView.arrowImageView.hidden = NO;
-    [self.contentView addSubview:self.myAdvisorView];
+    self.myVoucherView = [[HHMyPageItemView alloc] initWitTitle:@"我的代金券" showLine:NO];
+    self.myVoucherView.arrowImageView.hidden = NO;
+    [self.contentView addSubview:self.myVoucherView];
     
     [self makeConstraints];
 }
@@ -46,14 +46,14 @@
         make.height.mas_equalTo(kTitleViewHeight);
     }];
     
-    [self.supportOnlineView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.myAdvisorView.bottom);
+    [self.myVoucherView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.activateVoucherView.bottom);
         make.left.equalTo(self.left);
         make.width.equalTo(self.width);
         make.height.mas_equalTo(kItemViewHeight);
         
     }];
-    [self.myAdvisorView makeConstraints:^(MASConstraintMaker *make) {
+    [self.activateVoucherView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleView.bottom);
         make.left.equalTo(self.left);
         make.width.equalTo(self.width);
