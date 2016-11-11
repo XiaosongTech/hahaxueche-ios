@@ -15,13 +15,15 @@
 #import "NSNumber+HHNumber.h"
 #import "HHFormatUtility.h"
 #import "HHReferFriendsViewController.h"
+#import <TTTAttributedLabel.h>
+#import "HHSupportUtility.h"
 
-@interface HHReceiptViewController ()
+@interface HHReceiptViewController () <TTTAttributedLabelDelegate>
 
 @property (nonatomic, strong) UIImageView *imgView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *shareButton;
-@property (nonatomic, strong) UILabel *supportLable;
+@property (nonatomic, strong) TTTAttributedLabel *supportLable;
 @property (nonatomic, strong) UIScrollView *scrollView;
 
 @property (nonatomic, strong) HHReceiptItemView *coachView;
@@ -77,12 +79,11 @@
     [self.shareButton addTarget:self action:@selector(shareReferral) forControlEvents:UIControlEventTouchUpInside];
     [self.scrollView addSubview:self.shareButton];
     
-    self.supportLable = [[UILabel alloc] init];
-    self.supportLable.text = @"对订单有任何疑问可致电客服热线400-001-6006或在App首页点击在线客服";
+    self.supportLable = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+    self.supportLable.delegate = self;
     self.supportLable.textAlignment = NSTextAlignmentCenter;
-    self.supportLable.textColor = [UIColor HHLightTextGray];
-    self.supportLable.font = [UIFont systemFontOfSize:13.0f];
     self.supportLable.numberOfLines = 0;
+    self.supportLable.attributedText = [self buildAttributeString];
     [self.scrollView addSubview:self.supportLable];
     
     self.coachView = [[HHReceiptItemView alloc] initWithTitle:@"购买教练" value:self.coach.name];
@@ -173,6 +174,30 @@
 - (void)shareReferral {
     HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
     [self.navigationController setViewControllers:@[vc]];
+}
+
+- (NSMutableAttributedString *)buildAttributeString {
+    NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
+    paraStyle.alignment = NSTextAlignmentCenter;
+    NSString *baseString = @"对订单有任何疑问可致电客服热线400-001-6006 或 点击联系:在线客服";
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:baseString attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:13.0f], NSParagraphStyleAttributeName:paraStyle}];
+    
+    [attrString addAttributes:@{NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle)} range:[baseString rangeOfString:@"400-001-6006"]];
+    [attrString addAttributes:@{NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle)} range:[baseString rangeOfString:@"在线客服"]];
+    
+    [self.supportLable addLinkToURL:[NSURL URLWithString:@"callSupport"] withRange:[baseString rangeOfString:@"400-001-6006"]];
+    [self.supportLable addLinkToURL:[NSURL URLWithString:@"onlineSupport"] withRange:[baseString rangeOfString:@"在线客服"]];
+
+    
+    return attrString;
+}
+
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+    if ([url.absoluteString isEqualToString:@"callSupport"]) {
+        [[HHSupportUtility sharedManager] callSupport];
+    } else {
+        [self.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:self.navigationController] animated:YES];
+    }
 }
 
 @end

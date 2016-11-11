@@ -17,7 +17,6 @@
 #import "HHCoachDetailBottomBarView.h"
 #import "HHCoachDetailCommentsCell.h"
 #import <KLCPopup.h>
-#import "HHTryCoachView.h"
 #import "HHPopupUtility.h"
 #import "HHShareView.h"
 #import "HHSocialMediaShareUtility.h"
