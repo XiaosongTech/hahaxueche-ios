@@ -10,12 +10,14 @@
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
 #import "HHFormatUtility.h"
+#import "NSNumber+HHNumber.h"
 
 @implementation HHVoucherView
 
 - (instancetype)initWithVoucher:(HHVoucher *)voucher {
     self = [super init];
     if (self) {
+        self.backgroundColor = [UIColor whiteColor];
         self.lefImgView = [[UIImageView alloc] init];
         if ([voucher.status integerValue] != 0) {
             self.lefImgView.image = [UIImage imageNamed:@"gray_voucher"];
@@ -31,6 +33,9 @@
         }];
         
         self.amountLabel = [[UILabel alloc] init];
+        self.amountLabel.textColor = [UIColor whiteColor];
+        self.amountLabel.font = [UIFont systemFontOfSize:22.0f];
+        self.amountLabel.text = [voucher.amount generateMoneyString];
         [self addSubview:self.amountLabel];
         [self.amountLabel makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(self.lefImgView);
@@ -51,7 +56,11 @@
         self.expLabel = [[UILabel alloc] init];
         self.expLabel.textColor = [UIColor HHLightTextGray];
         self.expLabel.font = [UIFont systemFontOfSize:12.0f];
-        self.expLabel.text = [NSString stringWithFormat:@"有效期至 %@", [[HHFormatUtility fullDateFormatter] stringFromDate:voucher.expiredAt]];
+        NSString *expString = @"长期有效";
+        if (voucher.expiredAt) {
+            expString = [NSString stringWithFormat:@"有效期至 %@", [[HHFormatUtility fullDateFormatter] stringFromDate:voucher.expiredAt]];
+        }
+        self.expLabel.text = expString;
         [self addSubview:self.expLabel];
         [self.expLabel makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.centerY);

@@ -25,9 +25,9 @@
 
 + (NSValueTransformer *)expiredAtJSONTransformer {
     return [MTLValueTransformer transformerUsingForwardBlock:^id(NSString *dateString, BOOL *success, NSError *__autoreleasing *error) {
-        return [[HHFormatUtility backendDateFormatter] dateFromString:dateString];
+        return [[HHFormatUtility fullDateFormatter] dateFromString:dateString];
     } reverseBlock:^id(NSDate *date, BOOL *success, NSError *__autoreleasing *error) {
-        return [[HHFormatUtility backendDateFormatter] stringFromDate:date];
+        return [[HHFormatUtility fullDateFormatter] stringFromDate:date];
     }];
 }
 

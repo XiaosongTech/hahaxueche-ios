@@ -18,7 +18,7 @@
 #import <TTTAttributedLabel.h>
 #import "HHSupportUtility.h"
 
-static NSString *const kRuleString = @"1）什么是哈哈学车代金券\n哈哈学车代金券是哈哈学车平台对外发行和认可的福利活动，可凭此代金券券享受学车立减的优惠金额。\n2）如何激活哈哈学车代金券\n在“我的页面”点击“激活代金券”，在页面输入注册手机号及活动对应优惠码，点击激活即可。\n3）哈哈学车代金券使用说明\na.代金券仅限在哈哈学车APP支付学费时使用，每个订单只能使用一张代金券，且一次性使用，不能拆分，不能提现，不能转赠，不能与其他代金券叠加使用。\nb.代金券只能在有效期内使用。\nc.代金券的最终解释权归哈哈学车所有。\n";
+static NSString *const kRuleString = @"1）什么是哈哈学车代金券\n哈哈学车代金券是哈哈学车平台对外发行和认可的福利活动，可凭此代金券券享受学车立减的优惠金额。\n2）如何激活哈哈学车代金券\n在“我的页面”点击“激活代金券”，在页面输入活动对应优惠码，点击激活即可。\n3）哈哈学车代金券使用说明\na.代金券仅限在哈哈学车APP支付学费时使用，每个订单只能使用一张代金券，且一次性使用，不能拆分，不能提现，不能转赠，不能与其他代金券叠加使用。\nb.代金券只能在有效期内使用。\nc.代金券的最终解释权归哈哈学车所有。\n";
 
 static NSString *const kSupportString = @"\n*如有其他疑问请联系客服或您的专属学车顾问\n哈哈学车客服热线：400-001-6006\n哈哈学车在线客服";
 
@@ -118,7 +118,7 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
     self.rulesLabel.textAlignment = NSTextAlignmentLeft;
     [self.scrollView addSubview:self.rulesLabel];
     [self.rulesLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.scrollView.top).offset(110.0f * self.student.vouchers.count);
+        make.top.equalTo(self.scrollView.top).offset(110.0f * self.student.vouchers.count + 40.0f);
         make.centerX.equalTo(self.view.centerX);
         make.width.equalTo(self.view.width).offset(-40.0f);
     }];

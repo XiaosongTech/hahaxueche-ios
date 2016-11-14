@@ -650,6 +650,8 @@
 		6DBAC5C01D13942B0040BDA7 /* ic_list_best_unclick@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DBAC5BD1D13942B0040BDA7 /* ic_list_best_unclick@2x.png */; };
 		6DBAC5C11D13942B0040BDA7 /* ic_list_best_unclick@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DBAC5BE1D13942B0040BDA7 /* ic_list_best_unclick@3x.png */; };
 		6DBAC5C31D13B4C60040BDA7 /* faq.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DBAC5C21D13B4C60040BDA7 /* faq.png */; };
+		6DD1970C1DD99ADA0015ABF6 /* HHSelectVoucherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD1970B1DD99ADA0015ABF6 /* HHSelectVoucherViewController.m */; };
+		6DD1970F1DD99EBC0015ABF6 /* HHVoucherSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD1970E1DD99EBC0015ABF6 /* HHVoucherSelectTableViewCell.m */; };
 		6DD1AABE1D487C91001D50FC /* HHEventCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD1AABD1D487C91001D50FC /* HHEventCardCell.m */; };
 		6DD1AAC51D4882D9001D50FC /* ic_group_ic.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD1AABF1D4882D9001D50FC /* ic_group_ic.png */; };
 		6DD1AAC61D4882D9001D50FC /* ic_group_ic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD1AAC01D4882D9001D50FC /* ic_group_ic@2x.png */; };
@@ -1622,6 +1624,10 @@
 		6DBAC5BD1D13942B0040BDA7 /* ic_list_best_unclick@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_list_best_unclick@2x.png"; sourceTree = "<group>"; };
 		6DBAC5BE1D13942B0040BDA7 /* ic_list_best_unclick@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_list_best_unclick@3x.png"; sourceTree = "<group>"; };
 		6DBAC5C21D13B4C60040BDA7 /* faq.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = faq.png; sourceTree = "<group>"; };
+		6DD1970A1DD99ADA0015ABF6 /* HHSelectVoucherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSelectVoucherViewController.h; sourceTree = "<group>"; };
+		6DD1970B1DD99ADA0015ABF6 /* HHSelectVoucherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSelectVoucherViewController.m; sourceTree = "<group>"; };
+		6DD1970D1DD99EBC0015ABF6 /* HHVoucherSelectTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHVoucherSelectTableViewCell.h; sourceTree = "<group>"; };
+		6DD1970E1DD99EBC0015ABF6 /* HHVoucherSelectTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHVoucherSelectTableViewCell.m; sourceTree = "<group>"; };
 		6DD1AABC1D487C91001D50FC /* HHEventCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHEventCardCell.h; sourceTree = "<group>"; };
 		6DD1AABD1D487C91001D50FC /* HHEventCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHEventCardCell.m; sourceTree = "<group>"; };
 		6DD1AABF1D4882D9001D50FC /* ic_group_ic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_group_ic.png; sourceTree = "<group>"; };
@@ -2083,6 +2089,8 @@
 				6DE24BE91D5C45EC0078A21E /* HHTestQuestionView.m */,
 				6DE24BC01D59D4720078A21E /* HHTestView.h */,
 				6DE24BC11D59D4720078A21E /* HHTestView.m */,
+				6DD1970D1DD99EBC0015ABF6 /* HHVoucherSelectTableViewCell.h */,
+				6DD1970E1DD99EBC0015ABF6 /* HHVoucherSelectTableViewCell.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -2106,6 +2114,8 @@
 				6DF934F21D91418B00018BE9 /* HHTestStartViewController.m */,
 				14EAFDD11C8B79E0005BEF10 /* HHWebViewController.h */,
 				14EAFDD21C8B79E1005BEF10 /* HHWebViewController.m */,
+				6DD1970A1DD99ADA0015ABF6 /* HHSelectVoucherViewController.h */,
+				6DD1970B1DD99ADA0015ABF6 /* HHSelectVoucherViewController.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -4077,6 +4087,7 @@
 				5CDE14511C3715F90004778C /* HHRegisterViewController.m in Sources */,
 				6DDAE6DE1CB8E6CA00CE461A /* HHCoachSchedules.m in Sources */,
 				6DE56FCF1CFFF2A200E33BDB /* HHPriceItemView.m in Sources */,
+				6DD1970F1DD99EBC0015ABF6 /* HHVoucherSelectTableViewCell.m in Sources */,
 				6D0FB0C01D9289450045C421 /* HHClubPostDetailViewController.m in Sources */,
 				6D3D6F9A1CBFA68300E3BD8E /* HHNotificationExplanationView.m in Sources */,
 				5C5F87671BF6723F006F9594 /* HHEventTrackingManager.m in Sources */,
@@ -4085,6 +4096,7 @@
 				14F608DA1C83BDEF00EA70A7 /* HHPayCoachExplanationView.m in Sources */,
 				6DB1481C1D50BFAB009E3F1E /* HHCardInfoInputView.m in Sources */,
 				6D98E9841D796D7100A324B2 /* HHReceiptViewController.m in Sources */,
+				6DD1970C1DD99ADA0015ABF6 /* HHSelectVoucherViewController.m in Sources */,
 				5C2D1A4A1C51EAA80056E0D0 /* HHStudentService.m in Sources */,
 				6DD5684B1D6948E000B9B319 /* OpenShare+Alipay.m in Sources */,
 				6D52227E1D3F5E9800E92075 /* HHSupportUtility.m in Sources */,
