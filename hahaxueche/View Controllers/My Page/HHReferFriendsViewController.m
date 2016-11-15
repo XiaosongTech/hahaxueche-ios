@@ -26,19 +26,21 @@
 #import "HHShareView.h"
 #import "HHPopupUtility.h"
 #import "HHReferralDetailViewController.h"
+#import <TTTAttributedLabel.h>
+#import "HHSupportUtility.h"
 
 
-static NSString *const kRulesString = @"1）好友通过您的专属链接注册并成功报名，您的好友报名成功后，您将获得%@元，累计无上限，可随时提现\n\n2）好友需通过您的专属二维码免费试学才能建立推荐关系\n\n3）如发现作弊行为将取消用户活动资格，并扣除所获奖励\n\n4）如对本活动规则有任何疑问，请联系哈哈学车客服：400-001-6006\n\n";
+static NSString *const kRulesString = @"1）好友通过您的专属链接注册并成功报名，您的好友报名成功后，您将获得%@元，累计无上限，可随时提现\n\n2）好友需通过您的专属二维码免费试学才能建立推荐关系\n\n3）如发现作弊行为将取消用户活动资格,并扣除所获奖励\n\n";
 
 static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学车有权对活动规则进行解释";
 
-@interface HHReferFriendsViewController ()
+@interface HHReferFriendsViewController () <TTTAttributedLabelDelegate>
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIImageView *eventTitleImageView;
 @property (nonatomic, strong) UIImageView *myQRCodeView;
-@property (nonatomic, strong) UILabel *eventRulesLabel;
+@property (nonatomic, strong) TTTAttributedLabel *eventRulesLabel;
 @property (nonatomic, strong) UIView *topView;
 @property (nonatomic, strong) UIView *midView;
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -130,9 +132,10 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     self.eventTitleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_line"]];
     [self.scrollView addSubview:self.eventTitleImageView];
     
-    self.eventRulesLabel = [[UILabel alloc] init];
-    self.eventRulesLabel.numberOfLines = 0;
+    self.eventRulesLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
     self.eventRulesLabel.attributedText = [self buildRulesString];
+    self.eventRulesLabel.numberOfLines = 0;
+    self.eventRulesLabel.delegate = self;
     [self.scrollView addSubview:self.eventRulesLabel];
     
     [self makeConstraints];
@@ -147,8 +150,19 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 - (NSMutableAttributedString *)buildRulesString {
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:kRulesString, [[[HHConstantsStore sharedInstance] getCityReferrerBonus] generateMoneyString]] attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}];
     
-    NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:kLawString attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}];
+    
+    NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:@"4）如对本活动规则有任何疑问,请拨打哈哈学车客服热线:400-001-6006 或 点击联系:在线客服\n\n" attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}];
+    
+    [attrString2 addAttributes:@{NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle)} range:[@"4）如对本活动规则有任何疑问,请拨打哈哈学车客服热线:400-001-6006 或 点击联系:在线客服\n\n" rangeOfString:@"400-001-6006"]];
+    [attrString2 addAttributes:@{NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle)} range:[@"4）如对本活动规则有任何疑问,请拨打哈哈学车客服热线:400-001-6006 或 点击联系:在线客服\n\n" rangeOfString:@"在线客服"]];
     [attrString appendAttributedString:attrString2];
+    
+    NSMutableAttributedString *attrString3 = [[NSMutableAttributedString alloc] initWithString:kLawString attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}];
+    [attrString appendAttributedString:attrString3];
+    
+    [self.eventRulesLabel addLinkToURL:[NSURL URLWithString:@"callSupport"] withRange:[attrString.string rangeOfString:@"400-001-6006"]];
+    [self.eventRulesLabel addLinkToURL:[NSURL URLWithString:@"onlineSupport"] withRange:[attrString.string rangeOfString:@"在线客服"]];
+    
     return attrString;
 }
 
@@ -315,6 +329,14 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     [alertController addAction:cancelAction];
     [self presentViewController:alertController animated:YES completion:nil];
     
+}
+
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+    if ([url.absoluteString isEqualToString:@"callSupport"]) {
+        [[HHSupportUtility sharedManager] callSupport];
+    } else {
+        [self.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:self.navigationController] animated:YES];
+    }
 }
 
 

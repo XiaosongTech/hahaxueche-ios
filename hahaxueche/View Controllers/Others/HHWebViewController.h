@@ -10,7 +10,7 @@
 #import "HHPopupUtility.h"
 #import <WebKit/WebKit.h>
 
-@interface HHWebViewController : UIViewController <WKNavigationDelegate>
+@interface HHWebViewController : UIViewController <WKNavigationDelegate, WKUIDelegate>
 
 @property (nonatomic, strong) NSURL *url;
 @property (nonatomic, strong) WKWebView *webView;

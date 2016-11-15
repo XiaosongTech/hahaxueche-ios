@@ -18,11 +18,13 @@
 #import "HHCityFixedFee.h"
 #import "HHCityOtherFee.h"
 #import "NSNumber+HHNumber.h"
+#import <TTTAttributedLabel.h>
+#import "HHSupportUtility.h"
 
 static NSString *const kCellId = @"kCellId";
 static CGFloat const kCellHeight = 50.0f;
 
-@interface HHCoachPriceDetailViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
+@interface HHCoachPriceDetailViewController () <UICollectionViewDelegate, UICollectionViewDataSource, TTTAttributedLabelDelegate>
 
 @property (nonatomic, strong) HHCoach *coach;
 
@@ -30,7 +32,7 @@ static CGFloat const kCellHeight = 50.0f;
 @property (nonatomic, strong) UILabel *classTypeLabel;
 @property (nonatomic, strong) UILabel *standardFeeLabel;
 @property (nonatomic, strong) UILabel *otherFeeLabel;
-@property (nonatomic, strong) UILabel *supportLabel;
+@property (nonatomic, strong) TTTAttributedLabel *supportLabel;
 
 @property (nonatomic, strong) HHClassDetailView *standardClassView;
 @property (nonatomic, strong) HHClassDetailView *vipClassView;
@@ -177,15 +179,16 @@ static CGFloat const kCellHeight = 50.0f;
         i++;
     }
     
-    self.supportLabel = [[UILabel alloc] init];
-    self.supportLabel.textColor = [UIColor HHOrange];
-    self.supportLabel.text = @"如教练收取额外费用, 请联系客服 400-001-6006";
-    self.supportLabel.font = [UIFont systemFontOfSize:13.0f];
+    self.supportLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+    self.supportLabel.attributedText = [self buildAttributeString];
+    self.supportLabel.delegate = self;
+    self.supportLabel.numberOfLines = 0;
     [self.scrollView addSubview:self.supportLabel];
     [self.supportLabel makeConstraints:^(MASConstraintMaker *make) {
         HHOtherFeeItemView *lastItem = [self.otherFeeItems lastObject];
         make.top.equalTo(lastItem.bottom).offset(30.0f);
         make.left.equalTo(self.scrollView.left).offset(15.0f);
+        make.width.equalTo(self.scrollView.width).offset(-30.0f);
     }];
     
     [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.supportLabel
@@ -329,6 +332,27 @@ static CGFloat const kCellHeight = 50.0f;
                                      options:NSStringDrawingUsesLineFragmentOrigin| NSStringDrawingUsesFontLeading
                                      context:nil];
     return rect;
+}
+
+- (NSMutableAttributedString *)buildAttributeString {
+    NSString *baseString = @"对订单有任何疑问可致电客服热线400-001-6006 或 点击联系:在线客服";
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:baseString attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:13.0f]}];
+    
+    [attrString addAttributes:@{NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle)} range:[baseString rangeOfString:@"400-001-6006"]];
+    [attrString addAttributes:@{NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle)} range:[baseString rangeOfString:@"在线客服"]];
+    
+    [self.supportLabel addLinkToURL:[NSURL URLWithString:@"callSupport"] withRange:[baseString rangeOfString:@"400-001-6006"]];
+    [self.supportLabel addLinkToURL:[NSURL URLWithString:@"onlineSupport"] withRange:[baseString rangeOfString:@"在线客服"]];
+    
+    return attrString;
+}
+
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+    if ([url.absoluteString isEqualToString:@"callSupport"]) {
+        [[HHSupportUtility sharedManager] callSupport];
+    } else {
+        [self.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:self.navigationController] animated:YES];
+    }
 }
 
 @end

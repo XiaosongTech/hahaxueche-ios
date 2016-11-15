@@ -29,6 +29,7 @@
 @property (nonatomic, strong) HHBankCard *bankCard;
 
 @property (nonatomic, strong) HHAdvisor *myAdvisor;
+@property (nonatomic, copy) NSArray *vouchers;
 
 
 - (NSString *)getCourseName;

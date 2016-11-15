@@ -15,7 +15,6 @@
 #import "HHGenericTwoButtonsPopupView.h"
 #import "HHPopupUtility.h"
 #import <MMNumberKeyboard/MMNumberKeyboard.h>
-#import "HHInputPaymentMethodView.h"
 #import "HHToastManager.h"
 #import "HHStudentService.h"
 #import "HHAddBankCardViewController.h"

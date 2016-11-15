@@ -34,6 +34,7 @@ typedef void (^HHLikePersonalCoachCompletion)(HHPersonalCoach *coach, NSError *e
 typedef void (^HHEventsCompletion)(NSArray *events, NSError *error);
 typedef void (^HHCardCompletion)(HHBankCard *card, NSError *error);
 typedef void (^HHAdvisorCompletion)(HHAdvisor *advisor, NSError *error);
+typedef void (^HHVouchersCompletion)(NSArray *vouchers);
 
 @interface HHStudentService : NSObject
 
@@ -191,6 +192,13 @@ typedef void (^HHAdvisorCompletion)(HHAdvisor *advisor, NSError *error);
  @param completion The completion block to execute on completion
  */
 - (void)likeOrUnlikePersonalCoachWithId:(NSString *)coachId like:(NSNumber *)like completion:(HHLikePersonalCoachCompletion)completion;
+
+/**
+ Get valid vouchers
+ @param coachId The id of the liked/unliked coach
+ @param completion The completion block to execute on completion
+ */
+- (void)getValidVouchersWithCoachId:(NSString *)coachId completion:(HHVouchersCompletion)completion;
 
 
 @end

@@ -26,9 +26,7 @@
 #import "NSNumber+HHNumber.h"
 #import "HHRootViewController.h"
 #import "HHReferFriendsViewController.h"
-#import "HHGroupPurchaseView.h"
 #import "HHStudentService.h"
-#import "HHTryCoachView.h"
 #import "HHBanner.h"
 #import "HHHomePageSupportView.h"
 #import "HHSupportUtility.h"
@@ -158,7 +156,7 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     [self.scrollView addSubview:self.bannerView];
     
     NSMutableArray *strings = [NSMutableArray array];
-    [strings addObject:@"已入住"];
+    [strings addObject:@"已入驻"];
     [strings addObject:@"所"];
     self.drivingSchoolView = [[HHHomPageCardView alloc] initWithIcon:[UIImage imageNamed:@"ic_cup"] title:@"入驻驾校 权威认证" subTitle:[self generateStringWithArray:strings number:@([[HHConstantsStore sharedInstance].constants.drivingSchoolCount integerValue]) color:[UIColor HHOrange]] bigIcon:[UIImage imageNamed:@"pic_xiaoha_school"] items:@[@"通过率高", @"训练场地规范", @"品牌口碑佳", @"权威驾校认证"] dotColor:[UIColor  HHOrange]];
     self.drivingSchoolView.tapAction = ^() {

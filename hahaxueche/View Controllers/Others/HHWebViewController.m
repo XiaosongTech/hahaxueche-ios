@@ -30,8 +30,10 @@
     self.navigationItem.leftBarButtonItems = @[[UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(backPage) target:self], [UIBarButtonItem buttonItemWithTitle:@"关闭" titleColor:[UIColor whiteColor] action:@selector(dismissVC) target:self isLeft:NO]];
     
     self.webView = [[WKWebView alloc] init];
+    self.webView.scrollView.bounces = NO;
     self.webView.backgroundColor = [UIColor HHOrange];
     self.webView.navigationDelegate = self;
+    self.webView.UIDelegate = self;
     [self.webView loadRequest:[NSURLRequest requestWithURL:self.url]];
     [self.view addSubview:self.webView];
     
@@ -93,6 +95,18 @@
         // Make sure to call the superclass's implementation in the else block in case it is also implementing KVO
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
+}
+
+- (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:message
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"我知道了"
+                                                        style:UIAlertActionStyleCancel
+                                                      handler:^(UIAlertAction *action) {
+                                                          completionHandler();
+                                                      }]];
+    [self presentViewController:alertController animated:YES completion:^{}];
 }
 
 - (void)dealloc {

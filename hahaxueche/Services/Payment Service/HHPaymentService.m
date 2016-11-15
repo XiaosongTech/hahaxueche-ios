@@ -26,8 +26,9 @@
     return sharedInstance;
 }
 
-- (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod productType:(CoachProductType)productType inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion {
+- (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod productType:(CoachProductType)productType voucherId:(NSString *)voucherId inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion {
     
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     // 0-Alipay; 4-银行卡; 1-分期乐
     NSNumber *paymentMethodNumber = @(0);
     if (paymentMethod == StudentPaymentMethodBankCard) {
@@ -41,8 +42,16 @@
     if ([paymentMethodNumber isEqual:@(4)]) {
         [Pingpp ignoreResultUrl:YES];
     }
+    
+    dic[@"coach_id"] = coachId;
+    dic[@"method"] = paymentMethodNumber;
+    dic[@"product_type"] = @(productType);
+    
+    if (voucherId) {
+        dic[@"voucher_id"] = voucherId;
+    }
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICharges];
-    [APIClient postWithParameters:@{@"coach_id":coachId, @"method":paymentMethodNumber, @"product_type":@(productType)} completion:^(NSDictionary *response, NSError *error) {
+    [APIClient postWithParameters:dic completion:^(NSDictionary *response, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
             [Pingpp createPayment:response

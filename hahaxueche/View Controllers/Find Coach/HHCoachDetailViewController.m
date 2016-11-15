@@ -17,7 +17,6 @@
 #import "HHCoachDetailBottomBarView.h"
 #import "HHCoachDetailCommentsCell.h"
 #import <KLCPopup.h>
-#import "HHTryCoachView.h"
 #import "HHPopupUtility.h"
 #import "HHShareView.h"
 #import "HHSocialMediaShareUtility.h"
@@ -178,9 +177,16 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             [weakSelf showLoginSignupAlertView];
             return ;
         }
-        HHPurchaseConfirmViewController *vc = [[HHPurchaseConfirmViewController alloc] initWithCoach:weakSelf.coach];
-        [weakSelf.navigationController pushViewController:vc animated:YES];
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_purchase_tapped attributes:@{@"coach_id":weakSelf.coach.coachId}];
+        
+        [[HHLoadingViewUtility sharedInstance] showLoadingView];
+        [[HHStudentService sharedInstance] getValidVouchersWithCoachId:weakSelf.coach.coachId completion:^(NSArray *vouchers) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            HHPurchaseConfirmViewController *vc = [[HHPurchaseConfirmViewController alloc] initWithCoach:weakSelf.coach validVouchers:vouchers];
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_purchase_tapped attributes:@{@"coach_id":weakSelf.coach.coachId}];
+        }];
+        
+        
 
     };
     
