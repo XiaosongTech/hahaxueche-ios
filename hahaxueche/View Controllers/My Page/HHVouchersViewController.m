@@ -44,6 +44,7 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
     [[HHStudentService sharedInstance] fetchStudentWithId:self.student.studentId completion:^(HHStudent *student, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
+            self.student = student;
             if ([student.vouchers count] > 0) {
                 [self buildNormalViews];
             } else {

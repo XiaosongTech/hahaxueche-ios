@@ -39,6 +39,8 @@
 @property (nonatomic, strong) HHPurchaseTagView *classTypeView;
 @property (nonatomic, strong) UIView *totalPriceContainerView;
 @property (nonatomic, strong) UILabel *totalPriceLabel;
+@property (nonatomic, strong) UILabel *totalPriceTitleLabel;
+@property (nonatomic, strong) UILabel *priceDetailLabel;
 @property (nonatomic, strong) UIView *voucherView;
 @property (nonatomic, strong) UILabel *voucherTitleLabel;
 @property (nonatomic, strong) UILabel *voucherAmountLabel;
@@ -189,17 +191,46 @@
             make.height.mas_equalTo(50.0f);
         }];
     }
-    
+
     
     self.totalPriceLabel = [[UILabel alloc] init];
     self.totalPriceLabel.font = [UIFont systemFontOfSize:20.0f];
     self.totalPriceLabel.textColor = [UIColor HHOrange];
-    self.totalPriceLabel.text = [NSString stringWithFormat:@"总价: %@", [[self getFinalPriceWithPrice:self.coach.price] generateMoneyString]];
+    self.totalPriceLabel.text = [[self getFinalPriceWithPrice:self.coach.price] generateMoneyString];
     [self.totalPriceContainerView addSubview:self.totalPriceLabel];
     [self.totalPriceLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.totalPriceContainerView.centerY);
         make.right.equalTo(self.totalPriceContainerView.right).offset(-20.0f);
     }];
+    
+    self.totalPriceTitleLabel = [[UILabel alloc] init];
+    self.totalPriceTitleLabel.font = [UIFont systemFontOfSize:13.0f];
+    self.totalPriceTitleLabel.textColor = [UIColor HHLightTextGray];
+    
+    if (self.validVouchers.count > 0) {
+        self.totalPriceTitleLabel.text = @"实付";
+    } else {
+        self.totalPriceTitleLabel.text = @"总价";
+    }
+    
+    [self.totalPriceContainerView addSubview:self.totalPriceTitleLabel];
+    [self.totalPriceTitleLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.totalPriceContainerView.centerY);
+        make.right.equalTo(self.totalPriceLabel.left).offset(-5.0f);
+    }];
+    
+    if (self.validVouchers.count > 0) {
+        self.priceDetailLabel = [[UILabel alloc] init];
+        self.priceDetailLabel.font = [UIFont systemFontOfSize:13.0f];
+        self.priceDetailLabel.textColor = [UIColor HHLightTextGray];
+        self.priceDetailLabel.text = [self getPriceDetailString];
+        [self.totalPriceContainerView addSubview:self.priceDetailLabel];
+        [self.priceDetailLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.totalPriceContainerView.centerY);
+            make.left.equalTo(self.totalPriceContainerView.left).offset(20.0f);
+        }];
+    }
+    
 }
 
 - (void)buildPaymentViews {
@@ -491,6 +522,16 @@
     _selectedVoucher = selectedVoucher;
     self.voucherTitleLabel.text = self.selectedVoucher.title;
     self.voucherAmountLabel.text = [NSString stringWithFormat:@"-%@", [self.selectedVoucher.amount generateMoneyString]];
+    self.totalPriceLabel.text = [[self getFinalPriceWithPrice:[self getSelectedOriginalPrice]] generateMoneyString];
+    self.priceDetailLabel.text = [self getPriceDetailString];
+}
+
+- (NSString *)getPriceDetailString {
+    return [NSString stringWithFormat:@"总价%@  立减%@", [[self getSelectedOriginalPrice] generateMoneyString], [self.selectedVoucher.amount generateMoneyString]];
+}
+
+
+- (NSNumber *)getSelectedOriginalPrice {
     NSNumber *price = self.coach.price;
     switch (self.selectedProduct) {
         case CoachProductTypeStandard: {
@@ -513,7 +554,7 @@
             price = self.coach.price;
         } break;
     }
-    self.totalPriceLabel.text = [NSString stringWithFormat:@"总价: %@", [[self getFinalPriceWithPrice:price] generateMoneyString]];
+    return price;
 }
 
 

@@ -89,7 +89,7 @@
     self.coachView = [[HHReceiptItemView alloc] initWithTitle:@"购买教练" value:self.coach.name];
     [self.scrollView addSubview:self.coachView];
     
-    self.amountView = [[HHReceiptItemView alloc] initWithTitle:@"付款金额" value:[self.ps.totalAmount generateMoneyString]];
+    self.amountView = [[HHReceiptItemView alloc] initWithTitle:@"付款金额" value:[self.ps.actualAmount generateMoneyString]];
     [self.scrollView addSubview:self.amountView];
     
     self.dateView = [[HHReceiptItemView alloc] initWithTitle:@"付款时间" value:[[HHFormatUtility chineseFullDateFormatter] stringFromDate:self.ps.paidAt]];

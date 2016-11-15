@@ -24,6 +24,7 @@
              @"paidAt":@"paid_at",
              @"orderNo":@"order_no",
              @"productType":@"product_type",
+             @"actualAmount":@"actual_amount",
              };
 }
 

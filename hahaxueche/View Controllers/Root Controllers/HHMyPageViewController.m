@@ -55,6 +55,8 @@ static NSString *const kMyCourseScheduleCell = @"kMyCourseScheduleCell";
 static NSString *const kVouchereCell = @"kVouchereCell";
 
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
+static NSString *const kActivateVoucherProdLink = @"http://m.hahaxueche.com/share/jihuo?";
+static NSString *const kActivateVoucherStagingLink = @"http://staging-m.hahaxueche.com/share/jihuo?";
 
 typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellUserInfo,
@@ -267,7 +269,15 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             };
             
             cell.activateVoucherView.actionBlock = ^() {
-                
+                NSURL *linkURL;
+#ifdef DEBUG
+                linkURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@phone=%@", kActivateVoucherStagingLink, self.currentStudent.cellPhone]];
+#else
+                linkURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@phone=%@", kActivateVoucherProdLink, self.currentStudent.cellPhone]];
+#endif
+                HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:linkURL];
+                webVC.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:webVC animated:YES];
             };
             return cell;
             
