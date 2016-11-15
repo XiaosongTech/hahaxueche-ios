@@ -46,6 +46,7 @@
 #define kAPIBankCards @"bank_cards"
 #define kAPIStudentWithdraw @"students/%@/withdraw"
 #define kAPIAdvisor @"employees/advisers"
+#define kAPIValidVouchers @"students/%@/vouchers"
 
 
 #pragma mark Coach

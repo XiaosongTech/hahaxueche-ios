@@ -23,6 +23,7 @@
 @property (nonatomic, copy) NSNumber *productType;
 @property (nonatomic, strong) NSArray *paymentStages;
 @property (nonatomic, strong) NSDate *paidAt;
+@property (nonatomic, strong) NSNumber *actualAmount;
 
 - (HHPaymentStage *)getCurrentPaymentStage;
 - (BOOL)isFinished;

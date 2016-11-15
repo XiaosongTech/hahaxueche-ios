@@ -829,7 +829,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentLeft;
     paragraphStyle.lineSpacing = 3.0f;
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"    面向初学拿到驾照或有驾照数年未驾过车的客户,提供的陪练服务,包括驾驶技术的提升,驾驶经验的传授,安全应变能力的强化:以及在考驾照中所学不到的交通繁忙道路的实际行驶,使学员在短时间内历练出高操的驾车技术,从而达到安全行车的目的。" attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSParagraphStyleAttributeName:paragraphStyle}];
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"    面向初学拿到驾照或有驾照数年未驾过车的客户,提供的陪练服务,包括驾驶技术的提升,驾驶经验的传授,安全应变能力的强化:以及在考驾照中所学不到的交通繁忙道路的实际行驶,使学员在短时间内历练出高超的驾车技术,从而达到安全行车的目的。" attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSParagraphStyleAttributeName:paragraphStyle}];
     self.personalCoachExplanationView = [[HHGenericOneButtonPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-30.0f, 290.0f) title:@"什么是陪练教练?" info:string];
     self.personalCoachExplanationView.cancelBlock = ^() {
         [HHPopupUtility dismissPopup:weakSelf.popup];
