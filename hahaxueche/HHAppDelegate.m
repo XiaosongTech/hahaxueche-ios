@@ -138,7 +138,19 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                 
             }
         }
+        //Harpy
+        [[Harpy sharedInstance] setAppID:@"1011236187"];
+        [[Harpy sharedInstance] setPresentingViewController:self.window.rootViewController];
+        [[Harpy sharedInstance] setDelegate:self];
+        [[Harpy sharedInstance] setAppName:@"哈哈学车"];
+        [[Harpy sharedInstance] setForceLanguageLocalization:HarpyLanguageChineseSimplified];
+        [[Harpy sharedInstance] setDebugEnabled:YES];
+        [[Harpy sharedInstance] setAlertType:HarpyAlertTypeOption];
+        [[Harpy sharedInstance] setCountryCode:@"CN"];
+        [[Harpy sharedInstance] checkVersion];
+
     }];
+    
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary *)options {
@@ -210,17 +222,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     
     //七牛
     [[QYSDK sharedSDK] registerAppId:@"2f328da38ac77ce6d796c2977248f7e2" appName:@"hahaxueche-ios"];
-    
-    //Harpy
-    [[Harpy sharedInstance] setAppID:@"1011236187"];
-    [[Harpy sharedInstance] setPresentingViewController:self.window.rootViewController];
-    [[Harpy sharedInstance] setDelegate:self];
-    [[Harpy sharedInstance] setAppName:@"哈哈学车"];
-    [[Harpy sharedInstance] setForceLanguageLocalization:HarpyLanguageChineseSimplified];
-    [[Harpy sharedInstance] setDebugEnabled:YES];
-    [[Harpy sharedInstance] setAlertType:HarpyAlertTypeOption];
-    [[Harpy sharedInstance] setCountryCode:@"CN"];
-    [[Harpy sharedInstance] checkVersion];
     
     //个推
     [GeTuiSdk startSdkWithAppId:kGtAppId appKey:kGtAppKey appSecret:kGtAppSecret delegate:self];
