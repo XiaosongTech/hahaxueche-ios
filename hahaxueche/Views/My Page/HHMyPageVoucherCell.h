@@ -13,7 +13,6 @@
 @interface HHMyPageVoucherCell : UITableViewCell
 
 @property (nonatomic, strong) HHMyPageItemTitleView *titleView;
-@property (nonatomic, strong) HHMyPageItemView *activateVoucherView;
 @property (nonatomic, strong) HHMyPageItemView *myVoucherView;
 
 @end

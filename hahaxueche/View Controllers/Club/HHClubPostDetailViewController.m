@@ -25,7 +25,7 @@
 #import "HHPostCommentView.h"
 #import "HHSocialMediaShareUtility.h"
 
-@interface HHClubPostDetailViewController () <WKNavigationDelegate>
+@interface HHClubPostDetailViewController () <WKNavigationDelegate, WKUIDelegate>
 
 @property (nonatomic, strong) HHClubPost *clubPost;
 @property (nonatomic, strong) WKWebView *webView;
@@ -81,6 +81,7 @@
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[self.clubPost getPostUrl]]]];
     self.webView.scrollView.scrollEnabled = NO;
     self.webView.navigationDelegate = self;
+    self.webView.UIDelegate = self;
     [self.scrollView addSubview:self.webView];
     
     [self buildBotToolBarView];
@@ -263,22 +264,6 @@
     [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
 }
 
-
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    if (![request.URL.absoluteString isEqualToString:[self.clubPost getPostUrl]]) {
-        HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:request.URL];
-        [self.navigationController pushViewController:vc animated:YES];
-        return NO;
-    }
-    return YES;
-    
-}
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-    [self makeConstraints];
-    [self.view updateConstraintsIfNeeded];
-}
-
 - (void)showLoginPopupForLike {
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentCenter;
@@ -448,6 +433,18 @@
     // if you have set either WKWebView delegate also set these to nil here
     [self.webView setNavigationDelegate:nil];
     [self.webView setUIDelegate:nil];
+}
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    
+    if (![navigationAction.request.URL.absoluteString isEqualToString:[self.clubPost getPostUrl]]) {
+        HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:navigationAction.request.URL];
+        [self.navigationController pushViewController:vc animated:YES];
+        decisionHandler(WKNavigationActionPolicyCancel);
+    } else {
+        decisionHandler(WKNavigationActionPolicyAllow);
+    }
+
 }
 
 
