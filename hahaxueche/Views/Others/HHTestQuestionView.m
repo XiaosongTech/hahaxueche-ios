@@ -376,7 +376,6 @@
     } else {
         [self.userAnswers removeAllObjects];
         [self.userAnswers addObject:@(view.tag + 1)];
-        self.question.answered = @(1);
         self.question.userAnswers = self.userAnswers;
         [self updateOptionViewsForSingleAnswerQuestion:self.userAnswers];
         [self buildExplanationView];
@@ -409,7 +408,6 @@
 }
 
 - (void)confirmSelection {
-    self.question.answered = @(1);
     self.question.userAnswers = self.userAnswers;
     [self updateOptionViewsForMultiAnswerQuestion];
     [self buildExplanationView];
@@ -424,7 +422,6 @@
         }
         view.titleButton.layer.borderWidth = 0;
     }
-    self.question.answered = @(1);
     self.question.userAnswers = self.userAnswers;
     self.confirmButton.hidden = YES;
     
