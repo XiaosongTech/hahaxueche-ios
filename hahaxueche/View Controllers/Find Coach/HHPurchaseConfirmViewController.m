@@ -439,6 +439,7 @@
             self.selectedProduct = CoachProductTypeC2VIP;
         }
     }
+    self.priceDetailLabel.text = [self getPriceDetailString];
 }
 
 - (NSNumber *)getFinalPriceWithPrice:(NSNumber *)price {

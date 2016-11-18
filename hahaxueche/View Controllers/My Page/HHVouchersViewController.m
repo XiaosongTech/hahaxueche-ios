@@ -32,6 +32,7 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
 @property (nonatomic, strong) TTTAttributedLabel *supportLabel;
 @property (nonatomic, strong) TTTAttributedLabel *rulesLabel;
 @property (nonatomic, strong) UIView *getVoucherContainerView;
+@property (nonatomic, strong) UIImageView *emptyImgView;
 @property (nonatomic, strong) UITextField *voucherCodeField;
 @property (nonatomic, strong) UIButton *activateButton;
 @property (nonatomic, strong) NSMutableArray *vouchers;
@@ -74,9 +75,9 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
         make.height.mas_equalTo(70.0f);
     }];
     
-    UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pic_redbag"]];
-    [self.view addSubview:imgView];
-    [imgView makeConstraints:^(MASConstraintMaker *make) {
+    self.emptyImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pic_redbag"]];
+    [self.view addSubview:self.emptyImgView];
+    [self.emptyImgView makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.centerX);
         make.bottom.equalTo(self.view.centerY).offset(-20.0f);
     }];
@@ -88,7 +89,7 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
     self.supportLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.supportLabel];
     [self.supportLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(imgView.bottom).offset(40.0f);
+        make.top.equalTo(self.emptyImgView.bottom).offset(40.0f);
         make.centerX.equalTo(self.view.centerX);
         make.width.equalTo(self.view.width).offset(-40.0f);
     }];
@@ -264,7 +265,14 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
             [self didAddNewVoucher:voucher];
             
         } else {
-            [[HHToastManager sharedManager] showSuccessToastWithText:@"优惠码无效或者已过期"];
+            if ([error.localizedFailureReason intValue] == 40023) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"您已经激活该代金券, 无需重复激活"];
+            } else if ([error.localizedFailureReason intValue] == 40004) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"无效的优惠码"];
+            } else {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"激活出错, 请重试"];
+            }
+            
         }
     }];
 }
@@ -280,6 +288,14 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
 - (void)didAddNewVoucher:(HHVoucher *)voucher {
     [self.voucherCodeField resignFirstResponder];
     [self.vouchers addObject:voucher];
+    
+    
+    self.emptyImgView.hidden = YES;
+    self.supportLabel.hidden = YES;
+    if(!self.scrollView) {
+        [self buildNormalViews];
+    }
+    
     HHVoucherView *view = [[HHVoucherView alloc] initWithVoucher:voucher];
     [self.scrollView addSubview:view];
     [view makeConstraints:^(MASConstraintMaker *make) {
