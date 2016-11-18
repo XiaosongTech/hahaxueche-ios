@@ -182,6 +182,10 @@
     };
     
     questionView.answeredBlock = ^(HHQuestion *question) {
+        if ([question.answered boolValue]) {
+            return ;
+        }
+        question.answered = @(1);
         if (![question isAnswerCorrect:question.userAnswers]) {
             [weakSelf.wrongQuestions addObject:question];
             if (![[HHTestQuestionManager sharedManager] isFavoratedQuestion:question courseMode:self.currentCourseMode]) {
@@ -196,6 +200,7 @@
         if (weakSelf.currentIndex == weakSelf.questions.count-1 && weakSelf.currentTestMode == TestModeSimu) {
             [weakSelf showResultVC];
         }
+        
         
     };
     [questionView fillUpViewWithQuestion:self.questions[index] favorated:favorated testMode:self.currentTestMode];

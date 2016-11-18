@@ -27,10 +27,6 @@
     self.titleView = [[HHMyPageItemTitleView alloc] initWithTitle:@"代金券"];
     [self.contentView addSubview:self.titleView];
     
-    self.activateVoucherView = [[HHMyPageItemView alloc] initWitTitle:@"激活代金券" showLine:YES];
-    self.activateVoucherView.arrowImageView.hidden = NO;
-    [self.contentView addSubview:self.activateVoucherView];
-    
     self.myVoucherView = [[HHMyPageItemView alloc] initWitTitle:@"我的代金券" showLine:NO];
     self.myVoucherView.arrowImageView.hidden = NO;
     [self.contentView addSubview:self.myVoucherView];
@@ -47,13 +43,6 @@
     }];
     
     [self.myVoucherView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.activateVoucherView.bottom);
-        make.left.equalTo(self.left);
-        make.width.equalTo(self.width);
-        make.height.mas_equalTo(kItemViewHeight);
-        
-    }];
-    [self.activateVoucherView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleView.bottom);
         make.left.equalTo(self.left);
         make.width.equalTo(self.width);

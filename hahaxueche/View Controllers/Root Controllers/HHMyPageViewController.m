@@ -267,18 +267,6 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 vc.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             };
-            
-            cell.activateVoucherView.actionBlock = ^() {
-                NSURL *linkURL;
-#ifdef DEBUG
-                linkURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@phone=%@", kActivateVoucherStagingLink, self.currentStudent.cellPhone]];
-#else
-                linkURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@phone=%@", kActivateVoucherProdLink, self.currentStudent.cellPhone]];
-#endif
-                HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:linkURL];
-                webVC.hidesBottomBarWhenPushed = YES;
-                [weakSelf.navigationController pushViewController:webVC animated:YES];
-            };
             return cell;
             
         } break;
@@ -362,7 +350,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             return kTitleViewHeight + kItemViewHeight * 2.0f;
             
         case MyPageCellVoucher:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
+            return kTopPadding + kTitleViewHeight + kItemViewHeight;
         
         case MyPageCellMyCourseSchedule:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 1.0f;

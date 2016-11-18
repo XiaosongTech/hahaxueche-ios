@@ -18,6 +18,7 @@
 #import "HHBankCard.h"
 #import "HHAdvisor.h"
 #import "HHPersonalCoach.h"
+#import "HHVoucher.h"
 
 typedef void (^HHStudentCompletion)(HHStudent *student, NSError *error);
 typedef void (^HHStudentGenericCompletion)(NSError *error);
@@ -35,6 +36,7 @@ typedef void (^HHEventsCompletion)(NSArray *events, NSError *error);
 typedef void (^HHCardCompletion)(HHBankCard *card, NSError *error);
 typedef void (^HHAdvisorCompletion)(HHAdvisor *advisor, NSError *error);
 typedef void (^HHVouchersCompletion)(NSArray *vouchers);
+typedef void (^HHVoucherCompletion)(HHVoucher *voucher, NSError *error);
 
 @interface HHStudentService : NSObject
 
@@ -199,6 +201,14 @@ typedef void (^HHVouchersCompletion)(NSArray *vouchers);
  @param completion The completion block to execute on completion
  */
 - (void)getValidVouchersWithCoachId:(NSString *)coachId completion:(HHVouchersCompletion)completion;
+
+
+/**
+ Activate a voucher
+ @param code The code of voucher
+ @param completion The completion block to execute on completion
+ */
+- (void)activateVoucherWithCode:(NSString *)code completion:(HHVoucherCompletion)completion;
 
 
 @end
