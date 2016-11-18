@@ -424,21 +424,22 @@
 - (void)selectionChanged {
     if (self.selectedLicense == LicenseTypeC1) {
         if (self.selectedClass == ClassTypeStandard) {
-            self.totalPriceLabel.text = [NSString stringWithFormat:@"总价: %@", [[self getFinalPriceWithPrice:self.coach.price] generateMoneyString]];
+            self.totalPriceLabel.text = [[self getFinalPriceWithPrice:self.coach.price] generateMoneyString];
             self.selectedProduct = CoachProductTypeStandard;
         } else {
-            self.totalPriceLabel.text = [NSString stringWithFormat:@"总价: %@", [[self getFinalPriceWithPrice:self.coach.VIPPrice] generateMoneyString]];
+            self.totalPriceLabel.text = [[self getFinalPriceWithPrice:self.coach.VIPPrice] generateMoneyString];
             self.selectedProduct = CoachProductTypeVIP;
         }
     } else {
         if (self.selectedClass == ClassTypeStandard) {
-            self.totalPriceLabel.text = [NSString stringWithFormat:@"总价: %@", [[self getFinalPriceWithPrice:self.coach.c2Price] generateMoneyString]];
+            self.totalPriceLabel.text = [[self getFinalPriceWithPrice:self.coach.c2Price] generateMoneyString];
             self.selectedProduct = CoachProductTypeC2Standard;
         } else {
-            self.totalPriceLabel.text = [NSString stringWithFormat:@"总价: %@", [[self getFinalPriceWithPrice:self.coach.c2VIPPrice] generateMoneyString]];
+            self.totalPriceLabel.text = [[self getFinalPriceWithPrice:self.coach.c2VIPPrice] generateMoneyString];
             self.selectedProduct = CoachProductTypeC2VIP;
         }
     }
+    self.priceDetailLabel.text = [self getPriceDetailString];
 }
 
 - (NSNumber *)getFinalPriceWithPrice:(NSNumber *)price {

@@ -12,7 +12,6 @@
 #import "HHAPIClient.h"
 #import "UIImage+HHImage.h"
 #import "HHEvent.h"
-#import "HHVoucher.h"
 
 static NSString *const kUserObjectKey = @"kUserObjectKey";
 
@@ -409,6 +408,22 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
             }
             if (completion) {
                 completion(vouchers);
+            }
+        }
+    }];
+}
+
+- (void)activateVoucherWithCode:(NSString *)code completion:(HHVoucherCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIVouchers];
+    [APIClient postWithParameters:@{@"phone":[HHStudentStore sharedInstance].currentStudent.cellPhone, @"code":code} completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHVoucher *voucher = [MTLJSONAdapter modelOfClass:[HHVoucher class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(voucher, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
             }
         }
     }];

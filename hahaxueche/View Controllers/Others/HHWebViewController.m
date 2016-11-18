@@ -109,6 +109,19 @@
     [self presentViewController:alertController animated:YES completion:^{}];
 }
 
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    
+    NSString *url = [navigationAction.request.URL.absoluteString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    if ([url isEqualToString:@"hhxc://findcoach"]) {
+        decisionHandler(WKNavigationActionPolicyCancel);
+        self.tabBarController.selectedIndex = 1;
+        [self.navigationController popToRootViewControllerAnimated:NO];
+        
+    } else {
+        decisionHandler(WKNavigationActionPolicyAllow);
+    }
+}
+
 - (void)dealloc {
     
     if ([self isViewLoaded]) {
