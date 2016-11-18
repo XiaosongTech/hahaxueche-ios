@@ -10,6 +10,8 @@
 #import "Masonry.h"
 #import "UIColor+HHColor.h"
 
+static CGFloat const kDotWidth = 8.0f;
+
 @implementation HHMyPageItemView
 
 - (instancetype)initWitTitle:(NSString *)title showLine:(BOOL)showLine {
@@ -39,6 +41,13 @@
         self.botLine.hidden = !showLine;
         [self addSubview:self.botLine];
         
+        self.redDot = [[UIView alloc] init];
+        self.redDot.backgroundColor = [UIColor redColor];
+        self.redDot.layer.masksToBounds = YES;
+        self.redDot.layer.cornerRadius = kDotWidth/2.0f;
+        self.redDot.hidden = YES;
+        [self addSubview:self.redDot];
+        
         [self makeConstraints];
         
         UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped)];
@@ -57,6 +66,14 @@
         make.centerY.equalTo(self.centerY);
         make.right.equalTo(self.right).offset(-15.0f);
         make.width.mas_equalTo(CGRectGetWidth(self.arrowImageView.bounds));
+    }];
+    
+    [self.redDot makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.centerY);
+        make.right.equalTo(self.right).offset(-15.0f);
+        make.width.mas_equalTo(kDotWidth);
+        make.height.mas_equalTo(kDotWidth);
+
     }];
     
     [self.valueLabel makeConstraints:^(MASConstraintMaker *make) {

@@ -16,6 +16,7 @@ typedef void (^HHMyPageItemActionBlock)();
 @property (nonatomic, strong) UILabel *valueLabel;
 @property (nonatomic, strong) UIImageView *arrowImageView;
 @property (nonatomic, strong) UIView *botLine;
+@property (nonatomic, strong) UIView *redDot;
 
 @property (nonatomic, strong) HHMyPageItemActionBlock actionBlock;
 

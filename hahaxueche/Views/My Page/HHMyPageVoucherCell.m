@@ -10,6 +10,7 @@
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
 #import "HHMyPageCoachCell.h"
+#import "HHStudentStore.h"
 
 @implementation HHMyPageVoucherCell
 
@@ -28,7 +29,14 @@
     [self.contentView addSubview:self.titleView];
     
     self.myVoucherView = [[HHMyPageItemView alloc] initWitTitle:@"我的代金券" showLine:NO];
-    self.myVoucherView.arrowImageView.hidden = NO;
+    if ([HHStudentStore sharedInstance].currentStudent.vouchers.count > 0 && [HHStudentStore sharedInstance].currentStudent.purchasedServiceArray.count < 1) {
+        self.myVoucherView.arrowImageView.hidden = YES;
+        self.myVoucherView.redDot.hidden = NO;
+    } else {
+        self.myVoucherView.arrowImageView.hidden = NO;
+        self.myVoucherView.redDot.hidden = YES;
+    }
+    
     [self.contentView addSubview:self.myVoucherView];
     
     [self makeConstraints];
