@@ -23,7 +23,14 @@
 }
 
 - (NSString *)buildFreeTrialURLStringWithCoachId:(NSString *)coachId {
-    NSString *urlBase = @"http://m.hahaxueche.com/free_trial?promo_code=553353";
+    NSString *urlBase;
+    
+#ifdef DEBUG
+    urlBase = @"http://staging-m.hahaxueche.com/free_trial?promo_code=553353";
+#else
+    urlBase = @"http://m.hahaxueche.com/free_trial?promo_code=553353";
+#endif
+    
     HHStudent *student = [HHStudentStore sharedInstance].currentStudent;
     NSString *paramString;
     if(student.studentId && coachId) {
