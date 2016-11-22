@@ -35,6 +35,7 @@
 #import "HHReferralShareView.h"
 #import "UIView+EAFeatureGuideView.h"
 #import "HHHomPageCardView.h"
+#import <Harpy/Harpy.h>
 
 static NSString *const kCoachLink = @"http://m.hahaxueche.com/share/best-coaches";
 static NSString *const kDrivingSchoolLink = @"http://m.hahaxueche.com/share/zhaojiaxiao";
@@ -46,7 +47,7 @@ static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps
 
 static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
 
-@interface HHHomePageViewController () <SDCycleScrollViewDelegate>
+@interface HHHomePageViewController () <SDCycleScrollViewDelegate, HarpyDelegate>
 
 @property (nonatomic, strong) SDCycleScrollView *bannerView;
 @property (nonatomic, strong) HHHomePageTapView *thirdView;
@@ -126,6 +127,16 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
             }
         }
     }
+    //Harpy
+    [[Harpy sharedInstance] setAppID:@"1011236187"];
+    [[Harpy sharedInstance] setPresentingViewController:self];
+    [[Harpy sharedInstance] setDelegate:self];
+    [[Harpy sharedInstance] setAppName:@"哈哈学车"];
+    [[Harpy sharedInstance] setForceLanguageLocalization:HarpyLanguageChineseSimplified];
+    [[Harpy sharedInstance] setDebugEnabled:YES];
+    [[Harpy sharedInstance] setAlertType:HarpyAlertTypeOption];
+    [[Harpy sharedInstance] setCountryCode:@"CN"];
+    [[Harpy sharedInstance] checkVersion];
        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_viewed attributes:nil];
 }
 

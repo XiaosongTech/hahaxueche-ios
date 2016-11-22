@@ -27,7 +27,6 @@
 #import <Appirater.h>
 #import "HHCoachDetailViewController.h"
 #import "HHLoadingViewUtility.h"
-#import <Harpy/Harpy.h>
 #import "QYSDK.h"
 #import "HHNetworkUtility.h"
 #import "HHCoachDetailViewController.h"
@@ -42,7 +41,7 @@
 
 static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
-@interface HHAppDelegate () <HarpyDelegate, GeTuiSdkDelegate>
+@interface HHAppDelegate () <GeTuiSdkDelegate>
 
 @property (nonatomic, strong) __block UIViewController *finalRootVC;
 
@@ -138,16 +137,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                 
             }
         }
-        //Harpy
-        [[Harpy sharedInstance] setAppID:@"1011236187"];
-        [[Harpy sharedInstance] setPresentingViewController:self.window.rootViewController];
-        [[Harpy sharedInstance] setDelegate:self];
-        [[Harpy sharedInstance] setAppName:@"哈哈学车"];
-        [[Harpy sharedInstance] setForceLanguageLocalization:HarpyLanguageChineseSimplified];
-        [[Harpy sharedInstance] setDebugEnabled:YES];
-        [[Harpy sharedInstance] setAlertType:HarpyAlertTypeOption];
-        [[Harpy sharedInstance] setCountryCode:@"CN"];
-        [[Harpy sharedInstance] checkVersion];
 
     }];
     

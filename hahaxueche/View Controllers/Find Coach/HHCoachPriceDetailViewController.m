@@ -39,7 +39,7 @@ static CGFloat const kCellHeight = 50.0f;
 @property (nonatomic, strong) UICollectionView *collectionView;
 
 @property (nonatomic) NSInteger rowCount;
-@property (nonatomic) NSInteger columnCount;
+@property (nonatomic) NSNumber *columnCount;
 @property (nonatomic) NSInteger fixedFeesCount;
 @property (nonatomic) NSInteger totalFixedFeesAmount;
 
@@ -68,7 +68,7 @@ static CGFloat const kCellHeight = 50.0f;
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
     self.fixedFeesCount = [[HHConstantsStore sharedInstance] getCityWithId:self.coach.cityId].cityFixedFees.count;
     self.rowCount = self.fixedFeesCount + 3;
-    self.columnCount = 5;
+    self.columnCount = @(5);
     self.classTypes = @[@"C1超值班", @"C1VIP班", @"C2超值班", @"C2VIP班"];
     self.fixedFees = [[HHConstantsStore sharedInstance] getCityWithId:self.coach.cityId].cityFixedFees;
     self.otherFees = [[HHConstantsStore sharedInstance] getCityWithId:self.coach.cityId].cityOtherFees;
@@ -217,7 +217,7 @@ static CGFloat const kCellHeight = 50.0f;
 #pragma mark - UICollectionView Delegate & Datasource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.columnCount * 3 + self.fixedFeesCount * 2 ;
+    return [self.columnCount integerValue] * 3 + self.fixedFeesCount * 2 ;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -233,7 +233,7 @@ static CGFloat const kCellHeight = 50.0f;
     } else if (indexPath.row <= 4 + self.fixedFeesCount * 2) {
         cell.label.textColor = [UIColor HHOrange];
         cell.contentView.backgroundColor = [UIColor whiteColor];
-        HHCityFixedFee *fee = self.fixedFees[(indexPath.row - self.columnCount)/2];
+        HHCityFixedFee *fee = self.fixedFees[(indexPath.row - [self.columnCount integerValue])/2];
         if (indexPath.row % 2 == 1) {
             cell.label.text = fee.feeName;
         } else {
@@ -242,35 +242,35 @@ static CGFloat const kCellHeight = 50.0f;
     } else {
         cell.label.textColor = [UIColor HHOrange];
         cell.contentView.backgroundColor = [UIColor whiteColor];
-        if (indexPath.row < self.columnCount * 3 + self.fixedFeesCount * 2 && indexPath.row >= self.columnCount * 3 + self.fixedFeesCount * 2 - 10) {
-            if (indexPath.row ==  self.columnCount * 3 + self.fixedFeesCount * 2 - 1) {
+        if (indexPath.row < [self.columnCount integerValue] * 3 + self.fixedFeesCount * 2 && indexPath.row >= [self.columnCount integerValue] * 3 + self.fixedFeesCount * 2 - 10) {
+            if (indexPath.row ==  [self.columnCount integerValue] * 3 + self.fixedFeesCount * 2 - 1) {
                 NSString *moneyString = @"无";
                 if ([self.coach.c2VIPPrice floatValue] > 0) {
                     moneyString = [self.coach.c2VIPPrice generateMoneyString];
                 }
                 cell.label.text = moneyString;
-            } else if (indexPath.row ==  self.columnCount * 3 + self.fixedFeesCount * 2 - 2) {
+            } else if (indexPath.row ==  [self.columnCount integerValue] * 3 + self.fixedFeesCount * 2 - 2) {
                 NSString *moneyString = @"无";
                 if ([self.coach.c2Price floatValue] > 0) {
                     moneyString = [self.coach.c2Price generateMoneyString];
                 }
                 cell.label.text = moneyString;
-            } else if (indexPath.row ==  self.columnCount * 3 + self.fixedFeesCount * 2 - 3) {
+            } else if (indexPath.row ==  [self.columnCount integerValue] * 3 + self.fixedFeesCount * 2 - 3) {
                 NSString *moneyString = @"无";
                 if ([self.coach.VIPPrice floatValue] > 0) {
                     moneyString = [self.coach.VIPPrice generateMoneyString];
                 }
                 cell.label.text = moneyString;
-            } else if (indexPath.row ==  self.columnCount * 3 + self.fixedFeesCount * 2 - 4) {
+            } else if (indexPath.row ==  [self.columnCount integerValue] * 3 + self.fixedFeesCount * 2 - 4) {
                 NSString *moneyString = @"无";
                 if ([self.coach.price floatValue] > 0) {
                     moneyString = [self.coach.price generateMoneyString];
                 }
                 cell.label.text = moneyString;
-            } else if (indexPath.row ==  self.columnCount * 3 + self.fixedFeesCount * 2 - 5) {
+            } else if (indexPath.row ==  [self.columnCount integerValue] * 3 + self.fixedFeesCount * 2 - 5) {
                 cell.label.text = @"总费用";
                 
-            } else if (indexPath.row ==  self.columnCount * 3 + self.fixedFeesCount * 2 - 6) {
+            } else if (indexPath.row ==  [self.columnCount integerValue] * 3 + self.fixedFeesCount * 2 - 6) {
                 NSString *moneyString = @"无";
                 if ([self.coach.c2VIPPrice floatValue] > 0) {
                     moneyString = [@([self.coach.c2VIPPrice integerValue] - self.totalFixedFeesAmount) generateMoneyString];
@@ -278,7 +278,7 @@ static CGFloat const kCellHeight = 50.0f;
                 cell.label.text = moneyString;
                 
                 
-            } else if (indexPath.row ==  self.columnCount * 3 + self.fixedFeesCount * 2 - 7) {
+            } else if (indexPath.row ==  [self.columnCount integerValue] * 3 + self.fixedFeesCount * 2 - 7) {
                 NSString *moneyString = @"无";
                 if ([self.coach.c2Price floatValue] > 0) {
                     moneyString = [@([self.coach.c2Price integerValue] - self.totalFixedFeesAmount) generateMoneyString];
@@ -286,7 +286,7 @@ static CGFloat const kCellHeight = 50.0f;
                 cell.label.text = moneyString;
                 
                 
-            } else if (indexPath.row ==  self.columnCount * 3 + self.fixedFeesCount * 2 - 8) {
+            } else if (indexPath.row ==  [self.columnCount integerValue] * 3 + self.fixedFeesCount * 2 - 8) {
                 NSString *moneyString = @"无";
                 if ([self.coach.VIPPrice floatValue] > 0) {
                     moneyString = [@([self.coach.VIPPrice integerValue] - self.totalFixedFeesAmount) generateMoneyString];
@@ -294,7 +294,7 @@ static CGFloat const kCellHeight = 50.0f;
                 cell.label.text = moneyString;
                 
 
-            } else if (indexPath.row ==  self.columnCount * 3 + self.fixedFeesCount * 2 - 9) {
+            } else if (indexPath.row ==  [self.columnCount integerValue] * 3 + self.fixedFeesCount * 2 - 9) {
                 NSString *moneyString = @"无";
                 if ([self.coach.price floatValue] > 0) {
                     moneyString = [@([self.coach.price integerValue] - self.totalFixedFeesAmount) generateMoneyString];
@@ -314,17 +314,18 @@ static CGFloat const kCellHeight = 50.0f;
     return cell;
 }
 
+
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.row > 4 && indexPath.row <= 4 + self.fixedFeesCount * 2) {
         if (indexPath.row % 2 == 1) {
-            return CGSizeMake((CGRectGetWidth(self.view.bounds)-30.0f)/self.columnCount, kCellHeight);
+            return CGSizeMake((CGRectGetWidth(self.view.bounds)-30.1f)/[self.columnCount floatValue], kCellHeight);
         } else {
-            return CGSizeMake((CGRectGetWidth(self.view.bounds)-30.0f) * 4/self.columnCount, kCellHeight);
+            return CGSizeMake((CGRectGetWidth(self.view.bounds)-30.1f) * 4/[self.columnCount floatValue], kCellHeight);
         }
         
     } else {
-        return CGSizeMake((CGRectGetWidth(self.view.bounds)-30.0f)/self.columnCount, kCellHeight);
+        return CGSizeMake((CGRectGetWidth(self.view.bounds)-30.1f)/[self.columnCount floatValue], kCellHeight);
     }
 }
 - (CGRect)getDescriptionTextSizeWithText:(NSAttributedString *)text {
