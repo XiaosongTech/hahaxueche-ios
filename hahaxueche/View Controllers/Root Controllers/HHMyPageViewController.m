@@ -44,6 +44,9 @@
 #import "HHBookTrainingViewController.h"
 #import "HHMyPageVoucherCell.h"
 #import "HHVouchersViewController.h"
+#import "HHMyContractTableViewCell.h"
+#import "HHUploadIDViewController.h"
+
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -53,6 +56,7 @@ static NSString *const kLogoutCell = @"logoutCell";
 static NSString *const kReferCell = @"referCell";
 static NSString *const kMyCourseScheduleCell = @"kMyCourseScheduleCell";
 static NSString *const kVouchereCell = @"kVouchereCell";
+static NSString *const kContractCell = @"kContractCell";
 
 static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 static NSString *const kActivateVoucherProdLink = @"http://m.hahaxueche.com/share/jihuo?";
@@ -63,6 +67,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellRefer,
     MyPageCellCoach,
     MyPageCellVoucher,
+    MyPageCellContract,
     MyPageCellMyCourseSchedule,
     MyPageCellSupport,
     MyPageCellHelp,
@@ -177,6 +182,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         [self.tableView registerClass:[HHMyPageReferCell class] forCellReuseIdentifier:kReferCell];
         [self.tableView registerClass:[HHMyPageMyCourseScheduleCell class] forCellReuseIdentifier:kMyCourseScheduleCell];
         [self.tableView registerClass:[HHMyPageVoucherCell class] forCellReuseIdentifier:kVouchereCell];
+        [self.tableView registerClass:[HHMyContractTableViewCell class] forCellReuseIdentifier:kContractCell];
     }
     
 }
@@ -271,6 +277,15 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             
         } break;
             
+        case MyPageCellContract: {
+            HHMyContractTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kContractCell];
+            cell.myContractView.actionBlock = ^() {
+                HHUploadIDViewController *vc = [[HHUploadIDViewController alloc] init];
+                [self.navigationController setViewControllers:@[vc] animated:YES];
+            };
+            return cell;
+        } break;
+            
         case MyPageCellMyCourseSchedule: {
             HHMyPageMyCourseScheduleCell *cell = [tableView dequeueReusableCellWithIdentifier:kMyCourseScheduleCell];
             cell.myCourseView.actionBlock = ^() {
@@ -352,8 +367,11 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellVoucher:
             return kTopPadding + kTitleViewHeight + kItemViewHeight;
         
+        case MyPageCellContract:
+            return kTopPadding + kTitleViewHeight + kItemViewHeight;
+            
         case MyPageCellMyCourseSchedule:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight * 1.0f;
+            return kTopPadding + kTitleViewHeight + kItemViewHeight;
             
         case MyPageCellSupport:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;

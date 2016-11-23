@@ -688,6 +688,15 @@
 		6DDAE6DB1CB8E6B300CE461A /* HHCoachSchedule.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6DA1CB8E6B300CE461A /* HHCoachSchedule.m */; };
 		6DDAE6DE1CB8E6CA00CE461A /* HHCoachSchedules.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6DD1CB8E6CA00CE461A /* HHCoachSchedules.m */; };
 		6DDF25F11CBF789F00C92C5C /* HHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDF25F01CBF789F00C92C5C /* HHNotification.m */; };
+		6DE046321DE5610900B80343 /* HHMyContractTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE046311DE5610900B80343 /* HHMyContractTableViewCell.m */; };
+		6DE046351DE58B7700B80343 /* HHUploadIDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE046341DE58B7700B80343 /* HHUploadIDViewController.m */; };
+		6DE046381DE5929B00B80343 /* HHUploadIdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE046371DE5929B00B80343 /* HHUploadIdView.m */; };
+		6DE0463F1DE5A0B800B80343 /* idcard_a.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE046391DE5A0B800B80343 /* idcard_a.png */; };
+		6DE046401DE5A0B800B80343 /* idcard_a@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE0463A1DE5A0B800B80343 /* idcard_a@2x.png */; };
+		6DE046411DE5A0B800B80343 /* idcard_a@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE0463B1DE5A0B800B80343 /* idcard_a@3x.png */; };
+		6DE046421DE5A0B800B80343 /* idcard_b.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE0463C1DE5A0B800B80343 /* idcard_b.png */; };
+		6DE046431DE5A0B800B80343 /* idcard_b@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE0463D1DE5A0B800B80343 /* idcard_b@2x.png */; };
+		6DE046441DE5A0B800B80343 /* idcard_b@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE0463E1DE5A0B800B80343 /* idcard_b@3x.png */; };
 		6DE24BC21D59D4720078A21E /* HHTestView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE24BC11D59D4720078A21E /* HHTestView.m */; };
 		6DE24BC51D5B127B0078A21E /* HHQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE24BC41D5B127B0078A21E /* HHQuestion.m */; };
 		6DE24BC81D5B14460078A21E /* HHTestQuestionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE24BC71D5B14460078A21E /* HHTestQuestionManager.m */; };
@@ -1682,6 +1691,18 @@
 		6DDAE6DD1CB8E6CA00CE461A /* HHCoachSchedules.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachSchedules.m; sourceTree = "<group>"; };
 		6DDF25EF1CBF789F00C92C5C /* HHNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNotification.h; sourceTree = "<group>"; };
 		6DDF25F01CBF789F00C92C5C /* HHNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNotification.m; sourceTree = "<group>"; };
+		6DE046301DE5610900B80343 /* HHMyContractTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyContractTableViewCell.h; sourceTree = "<group>"; };
+		6DE046311DE5610900B80343 /* HHMyContractTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyContractTableViewCell.m; sourceTree = "<group>"; };
+		6DE046331DE58B7700B80343 /* HHUploadIDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHUploadIDViewController.h; sourceTree = "<group>"; };
+		6DE046341DE58B7700B80343 /* HHUploadIDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHUploadIDViewController.m; sourceTree = "<group>"; };
+		6DE046361DE5929B00B80343 /* HHUploadIdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHUploadIdView.h; sourceTree = "<group>"; };
+		6DE046371DE5929B00B80343 /* HHUploadIdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHUploadIdView.m; sourceTree = "<group>"; };
+		6DE046391DE5A0B800B80343 /* idcard_a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = idcard_a.png; sourceTree = "<group>"; };
+		6DE0463A1DE5A0B800B80343 /* idcard_a@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "idcard_a@2x.png"; sourceTree = "<group>"; };
+		6DE0463B1DE5A0B800B80343 /* idcard_a@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "idcard_a@3x.png"; sourceTree = "<group>"; };
+		6DE0463C1DE5A0B800B80343 /* idcard_b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = idcard_b.png; sourceTree = "<group>"; };
+		6DE0463D1DE5A0B800B80343 /* idcard_b@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "idcard_b@2x.png"; sourceTree = "<group>"; };
+		6DE0463E1DE5A0B800B80343 /* idcard_b@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "idcard_b@3x.png"; sourceTree = "<group>"; };
 		6DE24BC01D59D4720078A21E /* HHTestView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTestView.h; sourceTree = "<group>"; };
 		6DE24BC11D59D4720078A21E /* HHTestView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHTestView.m; sourceTree = "<group>"; };
 		6DE24BC31D5B127B0078A21E /* HHQuestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHQuestion.h; sourceTree = "<group>"; };
@@ -1938,6 +1959,10 @@
 				6D63F8441DD44E1C00DB1ADC /* HHMyPageVoucherCell.m */,
 				6D63F84C1DD579C800DB1ADC /* HHVoucherView.h */,
 				6D63F84D1DD579C800DB1ADC /* HHVoucherView.m */,
+				6DE046301DE5610900B80343 /* HHMyContractTableViewCell.h */,
+				6DE046311DE5610900B80343 /* HHMyContractTableViewCell.m */,
+				6DE046361DE5929B00B80343 /* HHUploadIdView.h */,
+				6DE046371DE5929B00B80343 /* HHUploadIdView.m */,
 			);
 			path = "My Page";
 			sourceTree = "<group>";
@@ -1969,6 +1994,8 @@
 				6DF202D91CD0BF49002092B4 /* HHWithdrawHistoryViewController.m */,
 				6D63F8491DD481CD00DB1ADC /* HHVouchersViewController.h */,
 				6D63F84A1DD481CD00DB1ADC /* HHVouchersViewController.m */,
+				6DE046331DE58B7700B80343 /* HHUploadIDViewController.h */,
+				6DE046341DE58B7700B80343 /* HHUploadIDViewController.m */,
 			);
 			path = "My Page";
 			sourceTree = "<group>";
@@ -2569,6 +2596,12 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6DE046391DE5A0B800B80343 /* idcard_a.png */,
+				6DE0463A1DE5A0B800B80343 /* idcard_a@2x.png */,
+				6DE0463B1DE5A0B800B80343 /* idcard_a@3x.png */,
+				6DE0463C1DE5A0B800B80343 /* idcard_b.png */,
+				6DE0463D1DE5A0B800B80343 /* idcard_b@2x.png */,
+				6DE0463E1DE5A0B800B80343 /* idcard_b@3x.png */,
 				6DE3483A1DE0497F006228FE /* button_free.png */,
 				6DE3483B1DE0497F006228FE /* button_free@2x.png */,
 				6DE3483C1DE0497F006228FE /* button_free@3x.png */,
@@ -3336,6 +3369,7 @@
 				6DE24BE71D5C2B500078A21E /* course4.txt in Resources */,
 				5C36D4261C4C2B8700443545 /* ic_maplist_btn@2x.png in Resources */,
 				140EC62F1C6E3CFC00DA634D /* ic_coachmsg_attention_hold@3x.png in Resources */,
+				6DE046411DE5A0B800B80343 /* idcard_a@3x.png in Resources */,
 				5C36D4341C4C39A000443545 /* pic_local@3x.png in Resources */,
 				5C36D37C1C42D9F800443545 /* ic_bottombar_list_hold_btn@2x.png in Resources */,
 				140EC5EF1C6D542700DA634D /* ic_coachmsg_charge@2x.png in Resources */,
@@ -3366,6 +3400,7 @@
 				6D63F8661DD57BB800DB1ADC /* ic_unused@3x.png in Resources */,
 				6D82BD671CCF91E100D4109A /* ic_wechatpay_icon@3x.png in Resources */,
 				6D3C839A1DAB9708004BD28B /* ic_discount@3x.png in Resources */,
+				6DE0463F1DE5A0B800B80343 /* idcard_a.png in Resources */,
 				141F7C041C617EC7003278C6 /* ic_Star_half@3x.png in Resources */,
 				6D63F8611DD57BB800DB1ADC /* ic_overdue.png in Resources */,
 				5C36D37E1C42D9F800443545 /* ic_bottombar_list_normal_btn@1x.png in Resources */,
@@ -3502,6 +3537,7 @@
 				6D0FB0AE1D925FA80045C421 /* icon_comment.png in Resources */,
 				6DF934EC1D91367C00018BE9 /* exercise@2x.png in Resources */,
 				6D7D0C791D6323D70002FC56 /* ic_question_upexam@2x.png in Resources */,
+				6DE046401DE5A0B800B80343 /* idcard_a@2x.png in Resources */,
 				6DD1AAD41D48C08A001D50FC /* pic_startscreen_bk.png in Resources */,
 				6D46DCC01D88F564001F962B /* pic_xiaoha_adviser@2x.png in Resources */,
 				6DB1480F1D4B4EF0009E3F1E /* pic_xiaoha@2x.png in Resources */,
@@ -3522,6 +3558,7 @@
 				6D5222881D3F9BF000E92075 /* ic_ask_call.png in Resources */,
 				6D46DCB31D88F45C001F962B /* pic_xiaoha_coach.png in Resources */,
 				6D54D4281D938ECC00EBBD98 /* icon_share@2x.png in Resources */,
+				6DE046441DE5A0B800B80343 /* idcard_b@3x.png in Resources */,
 				6D330D3E1D7FC230003F6FC6 /* xiaoha.png in Resources */,
 				5C36D3851C42D9F800443545 /* ic_bottombar_mypage_normal_btn@2x.png in Resources */,
 				6D7D0C6C1D61FFDB0002FC56 /* ic_question_delete.png in Resources */,
@@ -3827,9 +3864,11 @@
 				1482A9B61C8236D2007F9019 /* ic_paynotice@2x.png in Resources */,
 				6D7D0C671D61C0C40002FC56 /* ic_question_msg@2x.png in Resources */,
 				5C36D3C41C47500700443545 /* ic_sort_hold_btn@2x.png in Resources */,
+				6DE046421DE5A0B800B80343 /* idcard_b.png in Resources */,
 				6DF934E51D91367C00018BE9 /* car.png in Resources */,
 				5C36D37F1C42D9F800443545 /* ic_bottombar_list_normal_btn@2x.png in Resources */,
 				6D3C838F1DAB716C004BD28B /* ic_star_collect_click.png in Resources */,
+				6DE046431DE5A0B800B80343 /* idcard_b@2x.png in Resources */,
 				6D95A4561DC1DBC6003CB78D /* ic_headline@3x.png in Resources */,
 				141FA0F21C6925C900113B1A /* ic_homepage_knowmore_arrow@2x.png in Resources */,
 				1482A9B31C8236D2007F9019 /* ic_assess_paysuccess@2x.png in Resources */,
@@ -3962,6 +4001,7 @@
 				5CDE148C1C3A00AB0004778C /* HHLoginViewController.m in Sources */,
 				6D63F8451DD44E1C00DB1ADC /* HHMyPageVoucherCell.m in Sources */,
 				6DB148191D50BBA7009E3F1E /* HHAddBankCardViewController.m in Sources */,
+				6DE046381DE5929B00B80343 /* HHUploadIdView.m in Sources */,
 				142151151C98DB7000569DFB /* HHImageView.m in Sources */,
 				6D63F86F1DD597C400DB1ADC /* HHWithdrawViewController.m in Sources */,
 				5CDE145A1C3737670004778C /* HHPhoneNumberUtility.m in Sources */,
@@ -4021,6 +4061,7 @@
 				6D54D42F1D93AFF100EBBD98 /* HHClubPostCommentsViewController.m in Sources */,
 				1405CC5C1C74E4330030B114 /* HHCityFixedFee.m in Sources */,
 				1405CC741C762CE80030B114 /* HHMyPageUserInfoCell.m in Sources */,
+				6DE046351DE58B7700B80343 /* HHUploadIDViewController.m in Sources */,
 				6D82BD701CCF9DEC00D4109A /* HHGenericTwoButtonsPopupView.m in Sources */,
 				5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */,
 				6D98E9C61D7D2BF800A324B2 /* HHPriceView.m in Sources */,
@@ -4048,6 +4089,7 @@
 				5C36D3CB1C47615000443545 /* HHFiltersView.m in Sources */,
 				6DF934F31D91418B00018BE9 /* HHTestStartViewController.m in Sources */,
 				14604F441C6EF064009DBE10 /* HHConfirmCancelButtonsView.m in Sources */,
+				6DE046321DE5610900B80343 /* HHMyContractTableViewCell.m in Sources */,
 				147A9FFC1C7AB74C000DED3B /* HHPaymentStageInfoView.m in Sources */,
 				6D22C6611DCB32B8003249E0 /* HHPostComment.m in Sources */,
 				141FA0F61C6BACCE00113B1A /* HHCoachDetailViewController.m in Sources */,
