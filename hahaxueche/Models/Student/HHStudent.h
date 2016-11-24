@@ -30,6 +30,8 @@
 
 @property (nonatomic, strong) HHAdvisor *myAdvisor;
 @property (nonatomic, copy) NSArray *vouchers;
+@property (nonatomic, copy) NSNumber *signedContract;
+@property (nonatomic, copy) NSNumber *uploadedID;
 
 
 - (NSString *)getCourseName;

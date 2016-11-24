@@ -75,10 +75,20 @@
         make.top.equalTo(self.topView.bottom).offset(30.0f);
     }];
     
-    [self.infoLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.centerX);
-        make.top.equalTo(self.subTitleLabel.bottom).offset(20.0f);
-    }];
+    if (!self.subTitle) {
+        [self.infoLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.centerX);
+            make.width.equalTo(self.width).offset(-30.0f);
+            make.top.equalTo(self.topView.bottom).offset(30.0f);
+        }];
+    } else {
+        [self.infoLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.centerX);
+            make.width.equalTo(self.width).offset(-30.0f);
+            make.top.equalTo(self.subTitleLabel.bottom).offset(20.0f);
+        }];
+    }
+    
     
     [self.buttonsView makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.bottom);

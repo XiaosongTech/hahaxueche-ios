@@ -697,6 +697,7 @@
 		6DE046421DE5A0B800B80343 /* idcard_b.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE0463C1DE5A0B800B80343 /* idcard_b.png */; };
 		6DE046431DE5A0B800B80343 /* idcard_b@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE0463D1DE5A0B800B80343 /* idcard_b@2x.png */; };
 		6DE046441DE5A0B800B80343 /* idcard_b@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE0463E1DE5A0B800B80343 /* idcard_b@3x.png */; };
+		6DE046471DE6C5DD00B80343 /* HHContractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE046461DE6C5DD00B80343 /* HHContractViewController.m */; };
 		6DE24BC21D59D4720078A21E /* HHTestView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE24BC11D59D4720078A21E /* HHTestView.m */; };
 		6DE24BC51D5B127B0078A21E /* HHQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE24BC41D5B127B0078A21E /* HHQuestion.m */; };
 		6DE24BC81D5B14460078A21E /* HHTestQuestionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE24BC71D5B14460078A21E /* HHTestQuestionManager.m */; };
@@ -1703,6 +1704,8 @@
 		6DE0463C1DE5A0B800B80343 /* idcard_b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = idcard_b.png; sourceTree = "<group>"; };
 		6DE0463D1DE5A0B800B80343 /* idcard_b@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "idcard_b@2x.png"; sourceTree = "<group>"; };
 		6DE0463E1DE5A0B800B80343 /* idcard_b@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "idcard_b@3x.png"; sourceTree = "<group>"; };
+		6DE046451DE6C5DD00B80343 /* HHContractViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHContractViewController.h; sourceTree = "<group>"; };
+		6DE046461DE6C5DD00B80343 /* HHContractViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHContractViewController.m; sourceTree = "<group>"; };
 		6DE24BC01D59D4720078A21E /* HHTestView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTestView.h; sourceTree = "<group>"; };
 		6DE24BC11D59D4720078A21E /* HHTestView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHTestView.m; sourceTree = "<group>"; };
 		6DE24BC31D5B127B0078A21E /* HHQuestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHQuestion.h; sourceTree = "<group>"; };
@@ -1996,6 +1999,8 @@
 				6D63F84A1DD481CD00DB1ADC /* HHVouchersViewController.m */,
 				6DE046331DE58B7700B80343 /* HHUploadIDViewController.h */,
 				6DE046341DE58B7700B80343 /* HHUploadIDViewController.m */,
+				6DE046451DE6C5DD00B80343 /* HHContractViewController.h */,
+				6DE046461DE6C5DD00B80343 /* HHContractViewController.m */,
 			);
 			path = "My Page";
 			sourceTree = "<group>";
@@ -4192,6 +4197,7 @@
 				6DF202DD1CD0C0C5002092B4 /* HHWithdrawHistoryCell.m in Sources */,
 				6DB7B5811DBDE2AE00D91166 /* HHClassDetailView.m in Sources */,
 				6DF202D71CD0B8C2002092B4 /* HHReferral.m in Sources */,
+				6DE046471DE6C5DD00B80343 /* HHContractViewController.m in Sources */,
 				6DF202DA1CD0BF49002092B4 /* HHWithdrawHistoryViewController.m in Sources */,
 				6DA2F7601DC979C800F2CB21 /* HHClubPostService.m in Sources */,
 				5CC738451C402BD600FFFBED /* HHUser.m in Sources */,

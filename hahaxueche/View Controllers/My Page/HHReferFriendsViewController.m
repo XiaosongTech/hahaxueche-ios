@@ -30,7 +30,7 @@
 #import "HHSupportUtility.h"
 
 
-static NSString *const kRulesString = @"1）好友通过您的专属链接注册将获得%@元学车代金券，报名时可直接立减%@元！\n\n2）您的好友通过您的专属链接注册并成功报名后，您将获得¥100元，累计无上限，可随时提现。\n\n3）如发现作弊行为将取消用户活动资格,并扣除所获奖励\n\n";
+static NSString *const kRulesString = @"1）好友通过您的专属链接注册将获得%@元学车代金券，报名时可直接立减%@元！\n\n2）您的好友通过您的专属链接注册并成功报名后，您将获得%@元，累计无上限，可随时提现。\n\n3）如发现作弊行为将取消用户活动资格,并扣除所获奖励\n\n";
 
 static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学车有权对活动规则进行解释";
 
@@ -148,7 +148,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 }
 
 - (NSMutableAttributedString *)buildRulesString {
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:kRulesString, [[[HHConstantsStore sharedInstance] getCityRefereeBonus] generateMoneyString], [[[HHConstantsStore sharedInstance] getCityRefereeBonus] generateMoneyString]] attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:kRulesString, [[[HHConstantsStore sharedInstance] getCityRefereeBonus] generateMoneyString], [[[HHConstantsStore sharedInstance] getCityRefereeBonus] generateMoneyString], [[[HHConstantsStore sharedInstance] getCityReferrerBonus] generateMoneyString]] attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}];
     
     
     NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:@"4）如对本活动规则有任何疑问,请拨打哈哈学车客服热线:400-001-6006 或 点击联系:在线客服\n\n" attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}];

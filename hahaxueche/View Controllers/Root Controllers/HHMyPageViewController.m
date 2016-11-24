@@ -45,6 +45,9 @@
 #import "HHMyPageVoucherCell.h"
 #import "HHVouchersViewController.h"
 #import "HHMyContractTableViewCell.h"
+#import "HHContractViewController.h"
+#import "HHPopupUtility.h"
+#import "HHGenericTwoButtonsPopupView.h"
 #import "HHUploadIDViewController.h"
 
 
@@ -280,8 +283,54 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellContract: {
             HHMyContractTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kContractCell];
             cell.myContractView.actionBlock = ^() {
-                HHUploadIDViewController *vc = [[HHUploadIDViewController alloc] init];
-                [self.navigationController setViewControllers:@[vc] animated:YES];
+                if ([self.currentStudent.purchasedServiceArray count]) {
+                    if (![self.currentStudent.uploadedID boolValue]) {
+                        //pop up upload id
+                        HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-30.0f, 200.0f) title:@"友情提醒" subTitle:nil info:[weakSelf buildPopupInfoTextWithString:@"快去上传资料签署专属学员协议吧!"] leftButtonTitle:@"取消" rightButtonTitle:@"去上传"];
+                        view.confirmBlock = ^() {
+                            [HHPopupUtility dismissPopup:weakSelf.popup];
+                            HHUploadIDViewController *vc = [[HHUploadIDViewController alloc] init];
+                            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+                            [weakSelf presentViewController:navVC animated:YES completion:nil];
+                        };
+                        view.cancelBlock = ^() {
+                            [HHPopupUtility dismissPopup:weakSelf.popup];
+                        };
+                        weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                        [HHPopupUtility showPopup:weakSelf.popup];
+                        
+                    } else if (![self.currentStudent.signedContract boolValue]) {
+                        //pop up sign contract
+                        HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-30.0f, 200.0f) title:@"友情提醒" subTitle:nil info:[weakSelf buildPopupInfoTextWithString:@"快去签署专属学员协议吧!"] leftButtonTitle:@"取消" rightButtonTitle:@"去签署"];
+                        view.confirmBlock = ^() {
+                            [HHPopupUtility dismissPopup:weakSelf.popup];
+                        };
+                        view.cancelBlock = ^() {
+                            [HHPopupUtility dismissPopup:weakSelf.popup];
+                        };
+                        weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                        [HHPopupUtility showPopup:weakSelf.popup];
+                        
+                    } else {
+                        HHContractViewController *vc = [[HHContractViewController alloc] init];
+                        vc.hidesBottomBarWhenPushed = YES;
+                        [self.navigationController setViewControllers:@[vc] animated:YES];
+                    }
+                    
+
+                } else {
+                    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-30.0f, 220.0f) title:@"友情提醒" subTitle:nil info:[weakSelf buildPopupInfoTextWithString:@"您还没有报名哟~\n快去选选心仪的教练报名学车吧~"] leftButtonTitle:@"取消" rightButtonTitle:@"去逛逛"];
+                    view.confirmBlock = ^() {
+                        [HHPopupUtility dismissPopup:weakSelf.popup];
+                        weakSelf.tabBarController.selectedIndex = 1;
+                    };
+                    view.cancelBlock = ^() {
+                        [HHPopupUtility dismissPopup:weakSelf.popup];
+                    };
+                    weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                    [HHPopupUtility showPopup:weakSelf.popup];
+                    
+                }
             };
             return cell;
         } break;
@@ -574,6 +623,13 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
         [[UIApplication sharedApplication] openURL:phoneUrl];
     }
+}
+
+- (NSMutableAttributedString *)buildPopupInfoTextWithString:(NSString *)string {
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.alignment = NSTextAlignmentCenter;
+    style.lineSpacing = 5.0f;
+    return [[NSMutableAttributedString alloc] initWithString:string attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:style}];
 }
 
 

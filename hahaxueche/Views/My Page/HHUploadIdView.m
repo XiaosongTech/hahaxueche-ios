@@ -49,9 +49,18 @@
             make.width.equalTo(self.width).offset(-90.0f);
         }];
         
+        UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chooseImg)];
+        [self addGestureRecognizer:tapRec];
+        
         
     }
     return self;
+}
+
+- (void)chooseImg {
+    if (self.actionBlock) {
+        self.actionBlock();
+    }
 }
 
 @end
