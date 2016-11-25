@@ -21,7 +21,6 @@ typedef void (^HHPopupBlock)();
 @property (nonatomic, strong) HHConfirmCancelButtonsView *buttonsView;
 
 @property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSString *subTitle;
 @property (nonatomic, strong) NSMutableAttributedString *info;
 @property (nonatomic, strong) NSString *leftButtonTitle;
 @property (nonatomic, strong) NSString *rightButtonTitle;
@@ -31,6 +30,6 @@ typedef void (^HHPopupBlock)();
 
 
 
-- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title subTitle:(NSString *)subTitle info:(NSMutableAttributedString *)info leftButtonTitle:(NSString *)leftButtonTitle rightButtonTitle:(NSString *)rightButtonTitle;
+- (instancetype)initWithTitle:(NSString *)title info:(NSMutableAttributedString *)info leftButtonTitle:(NSString *)leftButtonTitle rightButtonTitle:(NSString *)rightButtonTitle;
 
 @end

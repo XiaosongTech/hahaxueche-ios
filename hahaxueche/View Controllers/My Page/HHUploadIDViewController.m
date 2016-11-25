@@ -14,6 +14,10 @@
 #import "HHSupportUtility.h"
 #import "HHPopupUtility.h"
 #import "HHGenericTwoButtonsPopupView.h"
+#import "HHGenericOneButtonPopupView.h"
+#import "HHToastManager.h"
+#import "HHReferFriendsViewController.h"
+#import "HHSignContractViewController.h"
 
 static NSString *const kLabelText = @"请上传您的身份证信息，我们将会生成您的哈哈学车专属学员电子协议，该协议将在您的学车途中保障您的利益，同时也有助于教练尽快开展教学活动！若不上传您的真实信息，我们将无法保障您的合法权益！";
 static NSString *const kSecurityText = @"*请确保您的二代身份证处于有效期内\n**所有信息已经经过加密处理, 保证您的信息安全";
@@ -266,7 +270,7 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
 
 - (void)cancelButtonTapped {
     __weak HHUploadIDViewController *weakSelf = self;
-    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-30.0f, 220.0f) title:@"友情提醒" subTitle:nil info:[self buildPopupInfoTextWithString:@"如果不上传合您的信息, \n我们将无法保证您的合法权益!"] leftButtonTitle:@"稍后上传" rightButtonTitle:@"继续上传"];
+    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"友情提醒" info:[self buildPopupInfoTextWithString:@"如果不上传合您的信息, \n我们将无法保证您的合法权益!"] leftButtonTitle:@"稍后上传" rightButtonTitle:@"继续上传"];
     view.confirmBlock = ^() {
         [HHPopupUtility dismissPopup:weakSelf.popup];
     };
@@ -280,16 +284,33 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
 }
 
 - (void)confirmButtonTapped {
+//    if (!self.faceImg || !self.backImg) {
+//        [[HHToastManager sharedManager] showErrorToastWithText:@"请先上传身份证正反面"];
+//        return;
+//    }
+    HHSignContractViewController *vc = [[HHSignContractViewController alloc] init];
+    [self.navigationController setViewControllers:@[vc] animated:YES];
     
 }
 
 - (void)showSharePopup {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    __weak HHUploadIDViewController *weakSelf = self;
+    HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithTitle:@"推荐好友" info:[self buildPopupInfoTextWithString:@"恭喜您！报名成功，现在分享给好友即有机会获得¥100元返现！好友报名学车立减¥200元！快去分享吧~"]];
+    [view.buttonView.okButton setTitle:@"分享得现金" forState:UIControlStateNormal];
+    view.cancelBlock = ^() {
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+        HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+        [weakSelf.navigationController setViewControllers:@[vc] animated:YES];
+    };
+    weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+    weakSelf.popup.shouldDismissOnContentTouch = NO;
+    weakSelf.popup.shouldDismissOnBackgroundTouch = NO;
+    [HHPopupUtility showPopup:weakSelf.popup];
 }
 
 - (NSMutableAttributedString *)buildPopupInfoTextWithString:(NSString *)string {
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    style.alignment = NSTextAlignmentCenter;
+    style.alignment = NSTextAlignmentLeft;
     style.lineSpacing = 5.0f;
     return [[NSMutableAttributedString alloc] initWithString:string attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:style}];
 }

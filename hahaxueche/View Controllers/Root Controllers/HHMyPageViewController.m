@@ -286,7 +286,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 if ([self.currentStudent.purchasedServiceArray count]) {
                     if (![self.currentStudent.uploadedID boolValue]) {
                         //pop up upload id
-                        HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-30.0f, 200.0f) title:@"友情提醒" subTitle:nil info:[weakSelf buildPopupInfoTextWithString:@"快去上传资料签署专属学员协议吧!"] leftButtonTitle:@"取消" rightButtonTitle:@"去上传"];
+                        HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"友情提醒" info:[weakSelf buildPopupInfoTextWithString:@"快去上传资料签署专属学员协议吧!"] leftButtonTitle:@"取消" rightButtonTitle:@"去上传"];
                         view.confirmBlock = ^() {
                             [HHPopupUtility dismissPopup:weakSelf.popup];
                             HHUploadIDViewController *vc = [[HHUploadIDViewController alloc] init];
@@ -301,7 +301,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                         
                     } else if (![self.currentStudent.signedContract boolValue]) {
                         //pop up sign contract
-                        HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-30.0f, 200.0f) title:@"友情提醒" subTitle:nil info:[weakSelf buildPopupInfoTextWithString:@"快去签署专属学员协议吧!"] leftButtonTitle:@"取消" rightButtonTitle:@"去签署"];
+                        HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"友情提醒" info:[weakSelf buildPopupInfoTextWithString:@"快去签署专属学员协议吧!"] leftButtonTitle:@"取消" rightButtonTitle:@"去签署"];
                         view.confirmBlock = ^() {
                             [HHPopupUtility dismissPopup:weakSelf.popup];
                         };
@@ -319,7 +319,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                     
 
                 } else {
-                    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-30.0f, 220.0f) title:@"友情提醒" subTitle:nil info:[weakSelf buildPopupInfoTextWithString:@"您还没有报名哟~\n快去选选心仪的教练报名学车吧~"] leftButtonTitle:@"取消" rightButtonTitle:@"去逛逛"];
+                    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"友情提醒" info:[weakSelf buildPopupInfoTextWithString:@"您还没有报名哟~\n快去选选心仪的教练报名学车吧~"] leftButtonTitle:@"取消" rightButtonTitle:@"去逛逛"];
                     view.confirmBlock = ^() {
                         [HHPopupUtility dismissPopup:weakSelf.popup];
                         weakSelf.tabBarController.selectedIndex = 1;

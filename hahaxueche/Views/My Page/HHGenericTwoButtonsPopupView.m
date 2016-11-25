@@ -12,15 +12,17 @@
 
 @implementation HHGenericTwoButtonsPopupView
 
-- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title subTitle:(NSString *)subTitle info:(NSMutableAttributedString *)info leftButtonTitle:(NSString *)leftButtonTitle rightButtonTitle:(NSString *)rightButtonTitle {
-    self = [super initWithFrame:frame];
+- (instancetype)initWithTitle:(NSString *)title info:(NSMutableAttributedString *)info leftButtonTitle:(NSString *)leftButtonTitle rightButtonTitle:(NSString *)rightButtonTitle {
+    self = [super init];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
         self.title = title;
-        self.subTitle = subTitle;
         self.info = info;
         self.leftButtonTitle = leftButtonTitle;
         self.rightButtonTitle = rightButtonTitle;
+        
+        CGRect rect = [info boundingRectWithSize:CGSizeMake((CGRectGetWidth([UIScreen mainScreen].bounds)-60.0f), CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+        self.frame = CGRectMake(0, 0, CGRectGetWidth([UIScreen mainScreen].bounds)-20.0f, 160.0f + CGRectGetHeight(rect));
         [self initSubviews];
     }
     return self;
@@ -36,12 +38,6 @@
     self.titleLabel.textColor = [UIColor whiteColor];
     self.titleLabel.font = [UIFont systemFontOfSize:20.0f];
     [self.topView addSubview:self.titleLabel];
-    
-    self.subTitleLabel = [[UILabel alloc] init];
-    self.subTitleLabel.text = self.subTitle;
-    self.subTitleLabel.textColor = [UIColor HHOrange];
-    self.subTitleLabel.font = [UIFont systemFontOfSize:18.0f];
-    [self addSubview:self.subTitleLabel];
     
     self.infoLabel = [[UILabel alloc] init];
     self.infoLabel.numberOfLines = 0;
@@ -69,26 +65,12 @@
         make.centerY.equalTo(self.topView.centerY);
         make.left.equalTo(self.topView.left).offset(20.0f);
     }];
-    
-    [self.subTitleLabel makeConstraints:^(MASConstraintMaker *make) {
+
+    [self.infoLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.centerX);
-        make.top.equalTo(self.topView.bottom).offset(30.0f);
+        make.width.equalTo(self.width).offset(-40.0f);
+        make.top.equalTo(self.topView.bottom).offset(20.0f);
     }];
-    
-    if (!self.subTitle) {
-        [self.infoLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self.centerX);
-            make.width.equalTo(self.width).offset(-30.0f);
-            make.top.equalTo(self.topView.bottom).offset(30.0f);
-        }];
-    } else {
-        [self.infoLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self.centerX);
-            make.width.equalTo(self.width).offset(-30.0f);
-            make.top.equalTo(self.subTitleLabel.bottom).offset(20.0f);
-        }];
-    }
-    
     
     [self.buttonsView makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.bottom);

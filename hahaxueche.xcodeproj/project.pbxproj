@@ -785,6 +785,7 @@
 		6DF934EF1D91367C00018BE9 /* skills@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DF934E31D91367C00018BE9 /* skills@2x.png */; };
 		6DF934F01D91367C00018BE9 /* skills@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DF934E41D91367C00018BE9 /* skills@3x.png */; };
 		6DF934F31D91418B00018BE9 /* HHTestStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DF934F21D91418B00018BE9 /* HHTestStartViewController.m */; };
+		6DFB30981DE7FF7500AF973E /* HHSignContractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFB30971DE7FF7500AF973E /* HHSignContractViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1818,6 +1819,8 @@
 		6DF934E41D91367C00018BE9 /* skills@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skills@3x.png"; sourceTree = "<group>"; };
 		6DF934F11D91418B00018BE9 /* HHTestStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTestStartViewController.h; sourceTree = "<group>"; };
 		6DF934F21D91418B00018BE9 /* HHTestStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHTestStartViewController.m; sourceTree = "<group>"; };
+		6DFB30961DE7FF7500AF973E /* HHSignContractViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSignContractViewController.h; sourceTree = "<group>"; };
+		6DFB30971DE7FF7500AF973E /* HHSignContractViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSignContractViewController.m; sourceTree = "<group>"; };
 		FACF31699E276834A3CA127C /* Pods-hahaxueche.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hahaxueche.release.xcconfig"; path = "Pods/Target Support Files/Pods-hahaxueche/Pods-hahaxueche.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -2148,6 +2151,8 @@
 				14EAFDD21C8B79E1005BEF10 /* HHWebViewController.m */,
 				6DD1970A1DD99ADA0015ABF6 /* HHSelectVoucherViewController.h */,
 				6DD1970B1DD99ADA0015ABF6 /* HHSelectVoucherViewController.m */,
+				6DFB30961DE7FF7500AF973E /* HHSignContractViewController.h */,
+				6DFB30971DE7FF7500AF973E /* HHSignContractViewController.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -3987,6 +3992,7 @@
 				6DD568541D6B3B4C00B9B319 /* HHGifRefreshHeader.m in Sources */,
 				5CD4EA421B5DE6BC003CF15E /* HHFormatUtility.m in Sources */,
 				6D82BD2C1CCE24EF00D4109A /* HHMyPageReferCell.m in Sources */,
+				6DFB30981DE7FF7500AF973E /* HHSignContractViewController.m in Sources */,
 				6DD1AADC1D49C65F001D50FC /* HHNetworkUtility.m in Sources */,
 				5C36D3891C42F95800443545 /* HHKeychainStore.m in Sources */,
 				6DE24BC21D59D4720078A21E /* HHTestView.m in Sources */,

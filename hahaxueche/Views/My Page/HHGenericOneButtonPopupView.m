@@ -13,9 +13,11 @@
 @implementation HHGenericOneButtonPopupView
 
 
-- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title info:(NSMutableAttributedString *)info  {
-    self = [super initWithFrame:frame];
+- (instancetype)initWithTitle:(NSString *)title info:(NSMutableAttributedString *)info  {
+    self = [super init];
     if (self) {
+        CGRect rect = [info boundingRectWithSize:CGSizeMake((CGRectGetWidth([UIScreen mainScreen].bounds)-60.0f), CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+        self.frame = CGRectMake(0, 0, CGRectGetWidth([UIScreen mainScreen].bounds)-20.0f, 160.0f + CGRectGetHeight(rect));
         self.backgroundColor = [UIColor whiteColor];
         self.title = title;;
         self.info = info;
@@ -68,7 +70,7 @@
     }];
     
     [self.buttonView makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.bottom);
+        make.top.equalTo(self.infoLabel.bottom).offset(20.0f);
         make.left.equalTo(self.left);
         make.width.equalTo(self.width);
         make.height.mas_equalTo(60.0f);
