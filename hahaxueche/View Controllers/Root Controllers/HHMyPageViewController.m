@@ -61,7 +61,6 @@ static NSString *const kMyCourseScheduleCell = @"kMyCourseScheduleCell";
 static NSString *const kVouchereCell = @"kVouchereCell";
 static NSString *const kContractCell = @"kContractCell";
 
-static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 static NSString *const kActivateVoucherProdLink = @"http://m.hahaxueche.com/share/jihuo?";
 static NSString *const kActivateVoucherStagingLink = @"http://staging-m.hahaxueche.com/share/jihuo?";
 
