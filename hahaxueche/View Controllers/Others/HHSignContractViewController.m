@@ -14,6 +14,8 @@
 #import "HHGenericOneButtonPopupView.h"
 #import "HHPopupUtility.h"
 #import "HHReferFriendsViewController.h"
+#import "HHConstantsStore.h"
+#import "NSNumber+HHNumber.h"
 
 @interface HHSignContractViewController () <WKUIDelegate, WKNavigationDelegate, BEMCheckBoxDelegate>
 
@@ -93,7 +95,8 @@
 - (void)didTapCheckBox:(BEMCheckBox*)checkBox {
     if (checkBox.on) {
         __weak HHSignContractViewController *weakSelf = self;
-        HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithTitle:@"推荐好友" info:[self buildPopupInfoTextWithString:@"恭喜您！协议签署成功! 可在\"我的页面\"-\"我的协议\"里面查看. \n现在分享给好友即有机会获得¥100元返现！好友报名学车立减¥200元！快去分享吧~"]];
+        
+        HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithTitle:@"推荐好友" info:[self buildPopupInfoTextWithString:[NSString stringWithFormat:@"恭喜您！协议签署成功! 可在\"我的页面\"-\"我的协议\"里面查看. \n现在分享给好友即有机会获得%@元返现！好友报名学车立减%@元！快去分享吧~", [[[HHConstantsStore sharedInstance] getCityReferrerBonus] generateMoneyString], [[[HHConstantsStore sharedInstance] getCityRefereeBonus] generateMoneyString]]]];
         [view.buttonView.okButton setTitle:@"分享得现金" forState:UIControlStateNormal];
         view.cancelBlock = ^() {
             [HHPopupUtility dismissPopup:weakSelf.popup];
