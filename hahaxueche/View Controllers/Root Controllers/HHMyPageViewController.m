@@ -282,6 +282,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellContract: {
             HHMyContractTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kContractCell];
             cell.myContractView.actionBlock = ^() {
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_contract_tapped attributes:nil];
                 if ([self.currentStudent.purchasedServiceArray count]) {
                     if (![self.currentStudent.uploadedID boolValue]) {
                         //pop up upload id

@@ -41,6 +41,11 @@
     }];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_contract_page_viewed attributes:nil];
+}
+
 - (void)dismissVC {
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -48,6 +53,7 @@
 - (void)showOptions {
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"学员协议" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发送到邮箱", nil];
     [sheet showInView:self.view];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_contract_page_top_right_button_tapped attributes:nil];
 }
 
 #pragma mark - UIActionSheet Delegate
@@ -55,6 +61,7 @@
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
         //send pdf to users email
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_contract_page_send_by_email_tapped attributes:nil];
     }
 }
 

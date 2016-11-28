@@ -55,6 +55,11 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
     [self initSubviews];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:upload_id_page_viewed attributes:nil];
+}
+
 - (void)initSubviews {
     self.scrollView  = [[UIScrollView alloc] init];
     self.scrollView.showsVerticalScrollIndicator = NO;
@@ -273,13 +278,17 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
     HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"友情提醒" info:[self buildPopupInfoTextWithString:@"如果不上传合您的信息, \n我们将无法保证您的合法权益!"] leftButtonTitle:@"稍后上传" rightButtonTitle:@"继续上传"];
     view.confirmBlock = ^() {
         [HHPopupUtility dismissPopup:weakSelf.popup];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:upload_id_page_popup_confirm_tapped attributes:nil];
     };
     view.cancelBlock = ^() {
         [HHPopupUtility dismissPopup:weakSelf.popup];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:upload_id_page_popup_cancel_tapped attributes:nil];
         [weakSelf showSharePopup];
     };
     weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
     [HHPopupUtility showPopup:weakSelf.popup];
+    
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:upload_id_page_cancel_tapped attributes:nil];
     
 }
 
@@ -290,6 +299,8 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
 //    }
     HHSignContractViewController *vc = [[HHSignContractViewController alloc] init];
     [self.navigationController setViewControllers:@[vc] animated:YES];
+    
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:upload_id_page_confirm_tapped attributes:nil];
     
 }
 

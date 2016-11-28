@@ -6,7 +6,7 @@
 //  Copyright © 2016 Zixiao Wang. All rights reserved.
 //
 
-const static NSInteger kSimuCourse1QuestionCount = 100;
+const static NSInteger kSimuCourse1QuestionCount = 5;
 const static NSInteger kSimuCourse4QuestionCount = 50;
 
 #import <Foundation/Foundation.h>

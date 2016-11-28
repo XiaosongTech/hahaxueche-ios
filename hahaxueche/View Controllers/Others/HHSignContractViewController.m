@@ -37,6 +37,11 @@
     [self initSubviews];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:sign_contract_page_viewed attributes:nil];
+}
+
 - (void)initSubviews {
     self.webView = [[WKWebView alloc] init];
     self.webView.scrollView.bounces = NO;
@@ -107,7 +112,8 @@
         weakSelf.popup.shouldDismissOnContentTouch = NO;
         weakSelf.popup.shouldDismissOnBackgroundTouch = NO;
         [HHPopupUtility showPopup:weakSelf.popup];
-
+        
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:sign_contract_check_box_checked attributes:nil];
     }
 }
 

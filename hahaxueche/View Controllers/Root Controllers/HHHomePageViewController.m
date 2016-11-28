@@ -332,6 +332,7 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
         case ItemTypeOnlineTest: {
             
             [self showTestVC];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_online_test_tapped attributes:nil];
             
         } break;
             
@@ -339,9 +340,12 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
         case ItemTypeCourseOne: {
             
             [self showTestVC];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_course_one_tapped attributes:nil];
         } break;
             
         case ItemTypePlatformGuard: {
+            
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_platform_guard_tapped attributes:nil];
             
         } break;
             
@@ -373,6 +377,7 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
                 self.popup.shouldDismissOnContentTouch = NO;
                 [HHPopupUtility showPopup:self.popup];
             }
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_refer_friends_tapped attributes:nil];
             
         } break;
             
