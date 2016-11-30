@@ -48,6 +48,8 @@
 #define kAPIAdvisor @"employees/advisers"
 #define kAPIValidVouchers @"students/%@/vouchers"
 #define kAPIVouchers @"vouchers"
+#define kAPIStudentIDCard @"students/%@/id_card"
+#define kAPIStudentAgreement @"students/%@/agreement"
 
 
 #pragma mark Coach

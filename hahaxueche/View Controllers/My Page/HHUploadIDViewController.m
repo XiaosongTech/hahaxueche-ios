@@ -18,6 +18,8 @@
 #import "HHToastManager.h"
 #import "HHReferFriendsViewController.h"
 #import "HHSignContractViewController.h"
+#import "HHStudentService.h"
+#import "HHLoadingViewUtility.h"
 
 static NSString *const kLabelText = @"请上传您的身份证信息，我们将会生成您的哈哈学车专属学员电子协议，该协议将在您的学车途中保障您的利益，同时也有助于教练尽快开展教学活动！若不上传您的真实信息，我们将无法保障您的合法权益！";
 static NSString *const kSecurityText = @"*请确保您的二代身份证处于有效期内\n**所有信息已经经过加密处理, 保证您的信息安全";
@@ -42,6 +44,9 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
 @property (nonatomic, strong) KLCPopup *popup;
 
 @property (nonatomic) BOOL isFaceViewTapped;
+
+@property (nonatomic) BOOL faceImgUploadSucceed;
+@property (nonatomic) BOOL backImgUploadSucceed;
 
 @end
 
@@ -259,11 +264,35 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
     }
     
     if (self.isFaceViewTapped) {
-        self.faceView.imgView.contentMode = UIViewContentModeScaleToFill;
-        self.faceView.imgView.image = self.faceImg;
+        [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"上传中!"];
+        [[HHStudentService sharedInstance] uploadIDCardWithImage:self.faceImg side:@(0) completion:^(NSString *imgURL) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            if (imgURL) {
+                [[HHToastManager sharedManager] showSuccessToastWithText:@"上传成功!"];
+                self.faceView.imgView.contentMode = UIViewContentModeScaleToFill;
+                self.faceView.imgView.image = self.faceImg;
+                self.faceImgUploadSucceed = YES;
+            } else {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败! 请检查图片是否包含身份证的所有信息, 然后重新上传!"];
+                self.faceImg = nil;
+            }
+        }];
     } else if (self.backImg) {
-        self.backView.imgView.contentMode = UIViewContentModeScaleToFill;
-        self.backView.imgView.image = self.backImg;
+        
+        [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"上传中!"];
+        [[HHStudentService sharedInstance] uploadIDCardWithImage:self.backImg side:@(1) completion:^(NSString *imgURL) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            if (imgURL) {
+                [[HHToastManager sharedManager] showSuccessToastWithText:@"上传成功!"];
+                self.backView.imgView.contentMode = UIViewContentModeScaleToFill;
+                self.backView.imgView.image = self.backImg;
+                self.backImgUploadSucceed = YES;
+            } else {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败! 请检查图片是否包含身份证的所有信息, 然后重新上传!"];
+                self.backImg = nil;
+            }
+        }];
+
     }
     
 }
@@ -293,12 +322,22 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
 }
 
 - (void)confirmButtonTapped {
-//    if (!self.faceImg || !self.backImg) {
-//        [[HHToastManager sharedManager] showErrorToastWithText:@"请先上传身份证正反面"];
-//        return;
-//    }
-    HHSignContractViewController *vc = [[HHSignContractViewController alloc] init];
-    [self.navigationController setViewControllers:@[vc] animated:YES];
+    if (!self.faceImg || !self.backImg) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"请先上传身份证正反面"];
+        return;
+    }
+    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"图片处理中..."];
+    [[HHStudentService sharedInstance] getAgreementURLWithCompletion:^(NSURL *url) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (url) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"studentUpdated" object:nil];
+            HHSignContractViewController *vc = [[HHSignContractViewController alloc] initWithURL:url];
+            [self.navigationController setViewControllers:@[vc] animated:YES];
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"图片处理失败, 请检查图片是否包含身份证的所有信息, 然后重新上传!"];
+        }
+    }];
+    
     
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:upload_id_page_confirm_tapped attributes:nil];
     

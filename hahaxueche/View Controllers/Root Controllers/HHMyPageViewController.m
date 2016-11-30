@@ -49,6 +49,7 @@
 #import "HHPopupUtility.h"
 #import "HHGenericTwoButtonsPopupView.h"
 #import "HHUploadIDViewController.h"
+#import "HHSignContractViewController.h"
 
 
 static NSString *const kUserInfoCell = @"userInfoCell";
@@ -116,6 +117,11 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(coachPurchased)
                                                  name:@"coachPurchased"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(studentUpdated)
+                                                 name:@"studentUpdated"
                                                object:nil];
     self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
@@ -284,7 +290,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             cell.myContractView.actionBlock = ^() {
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_contract_tapped attributes:nil];
                 if ([self.currentStudent.purchasedServiceArray count]) {
-                    if (![self.currentStudent.uploadedID boolValue]) {
+                    if (!self.currentStudent.idCard) {
                         //pop up upload id
                         HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"友情提醒" info:[weakSelf buildPopupInfoTextWithString:@"快去上传资料签署专属学员协议吧!"] leftButtonTitle:@"取消" rightButtonTitle:@"去上传"];
                         view.confirmBlock = ^() {
@@ -299,11 +305,14 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                         weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
                         [HHPopupUtility showPopup:weakSelf.popup];
                         
-                    } else if (![self.currentStudent.signedContract boolValue]) {
+                    } else if (!self.currentStudent.agreementURL || [self.currentStudent.agreementURL isEqualToString:@""]) {
                         //pop up sign contract
                         HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"友情提醒" info:[weakSelf buildPopupInfoTextWithString:@"快去签署专属学员协议吧!"] leftButtonTitle:@"取消" rightButtonTitle:@"去签署"];
                         view.confirmBlock = ^() {
                             [HHPopupUtility dismissPopup:weakSelf.popup];
+                            HHSignContractViewController *vc = [[HHSignContractViewController alloc] initWithURL:nil];
+                            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+                            [weakSelf presentViewController:navVC animated:YES completion:nil];
                         };
                         view.cancelBlock = ^() {
                             [HHPopupUtility dismissPopup:weakSelf.popup];
@@ -314,7 +323,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                     } else {
                         HHContractViewController *vc = [[HHContractViewController alloc] init];
                         vc.hidesBottomBarWhenPushed = YES;
-                        [self.navigationController setViewControllers:@[vc] animated:YES];
+                        [self.navigationController pushViewController:vc animated:YES];
                     }
                     
 
@@ -632,5 +641,15 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     return [[NSMutableAttributedString alloc] initWithString:string attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:style}];
 }
 
+
+- (void)studentUpdated {
+    [[HHStudentService sharedInstance] fetchStudentWithId:self.currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
+        if (!error) {
+            self.currentStudent = student;
+            [self.tableView reloadData];
+        }
+    }];
+    
+}
 
 @end

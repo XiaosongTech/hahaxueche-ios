@@ -18,6 +18,7 @@
 #import "HHStudentStore.h"
 #import "HHReferFriendsViewController.h"
 #import "UIBarButtonItem+HHCustomButton.h"
+#import "HHCourseInsuranceView.h"
 
 @interface HHTestStartViewController ()
 
@@ -30,6 +31,7 @@
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) KLCPopup *popup;
+@property (nonatomic, strong) HHCourseInsuranceView *insuranceCardView;;
 
 @end
 
@@ -93,6 +95,32 @@
     };
     [self.scrollView addSubview:self.myQuestionView];
 
+    UIImage *cardImage;
+    NSString *text;
+    NSString *buttonTitle;
+    BOOL showSlotView;
+    
+    if ([[HHStudentStore sharedInstance].currentStudent.studentId length]  <= 0) {
+        cardImage = [UIImage imageNamed:@"protectioncard_noget"];
+        text = @"快去登录注册获取保过卡呦~";
+        buttonTitle = @"注册/登录";
+        showSlotView = NO;
+        
+        
+    } else {
+        cardImage = [UIImage imageNamed:@"protectioncard_get"];
+        if ([[HHStudentStore sharedInstance].currentStudent. purchasedServiceArray count] > 0) {
+            text = @"您还未在考试中获得90分以上的成绩.";
+            buttonTitle = @"晒成绩";
+            showSlotView = YES;
+        } else {
+            text = @"快去报名~不通过立即现金赔付!";
+            buttonTitle = @"去报名";
+            showSlotView = NO;
+        }
+    }
+    self.insuranceCardView = [[HHCourseInsuranceView alloc] initWithImage:cardImage count:@(0) text:text buttonTitle:buttonTitle showSlotView:showSlotView peopleCount:@(999)];
+    [self.scrollView addSubview:self.insuranceCardView];
     [self makeConstraints];
 }
 
@@ -145,13 +173,25 @@
         make.height.mas_equalTo(90.0f);
     }];
     
-    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.myQuestionView
+    [self.insuranceCardView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.myQuestionView.bottom).offset(10.0f);
+        make.width.equalTo(self.scrollView.width);
+        make.left.equalTo(self.scrollView.right);
+        if ([[HHStudentStore sharedInstance].currentStudent.purchasedServiceArray count] > 0) {
+            make.height.mas_equalTo(330.0f);
+        } else {
+            make.height.mas_equalTo(280.0f);
+        }
+        
+    }];
+    
+    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.insuranceCardView
                                                                 attribute:NSLayoutAttributeBottom
                                                                 relatedBy:NSLayoutRelationEqual
                                                                    toItem:self.scrollView
                                                                 attribute:NSLayoutAttributeBottom
                                                                multiplier:1.0
-                                                                 constant:-10.0f]];
+                                                                 constant:-20.0f]];
 
 }
 

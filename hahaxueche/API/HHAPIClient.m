@@ -127,10 +127,12 @@
     
 }
 
-- (void)uploadImage:(UIImage *)image completion:(HHAPIClientCompletionBlock)completion progress:(void (^)(NSUInteger, long long, long long))progress {
-    NSData *imageData = UIImageJPEGRepresentation(image, 0.6f);
+- (void)uploadImage:(UIImage *)image otherParam:(NSDictionary *)otherParam completion:(HHAPIClientCompletionBlock)completion progress:(void (^)(NSUInteger, long long, long long))progress {
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.8f);
     
-    [self.requestManager POST:self.APIPath parameters:@{@"file":imageData} constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    NSMutableDictionary *param = [NSMutableDictionary dictionaryWithDictionary:otherParam];
+    param[@"file"] = imageData;
+    [self.requestManager POST:self.APIPath parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:imageData name:@"file" fileName:@"profile.jpeg" mimeType:@"image/jpeg"];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         completion(responseObject, nil);

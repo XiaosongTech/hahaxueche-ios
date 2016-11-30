@@ -29,14 +29,20 @@
     [self.contentView addSubview:self.titleView];
     
     self.myContractView = [[HHMyPageItemView alloc] initWitTitle:@"我的协议" showLine:NO];
-    if ([[HHStudentStore sharedInstance].currentStudent.signedContract boolValue]) {
+    if ([[HHStudentStore sharedInstance].currentStudent.purchasedServiceArray count] > 0) {
+        if ([HHStudentStore sharedInstance].currentStudent.agreementURL && ![[HHStudentStore sharedInstance].currentStudent.agreementURL isEqualToString:@""] ) {
+            self.myContractView.arrowImageView.hidden = NO;
+            self.myContractView.redDot.hidden = YES;
+        } else {
+            self.myContractView.arrowImageView.hidden = YES;
+            self.myContractView.redDot.hidden = NO;
+        }
+        
+    } else {
         self.myContractView.arrowImageView.hidden = NO;
         self.myContractView.redDot.hidden = YES;
-    } else {
-        self.myContractView.arrowImageView.hidden = YES;
-        self.myContractView.redDot.hidden = NO;
     }
-    
+
     [self.contentView addSubview:self.myContractView];
     
     [self makeConstraints];

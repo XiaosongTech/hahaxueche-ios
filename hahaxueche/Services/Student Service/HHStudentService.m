@@ -31,7 +31,7 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
 - (void)uploadStudentAvatarWithImage:(UIImage *)image completion:(HHStudentCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentAvatar, [HHStudentStore sharedInstance].currentStudent.studentId]];
     UIImage *scaleDownedImage = [UIImage imageWithImage:image scaledToWidth:300.0f];
-    [APIClient uploadImage:scaleDownedImage completion:^(NSDictionary *response, NSError *error) {
+    [APIClient uploadImage:scaleDownedImage otherParam:nil completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             HHStudent *student = [MTLJSONAdapter modelOfClass:[HHStudent class] fromJSONDictionary:response error:nil];
             [HHStudentStore sharedInstance].currentStudent = student;
@@ -427,6 +427,56 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
             }
         }
     }];
+}
+
+- (void)uploadIDCardWithImage:(UIImage *)img side:(NSNumber *)side completion:(HHIDImageCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentIDCard, [HHStudentStore sharedInstance].currentStudent.studentId]];
+    UIImage *scaleDownedImage = [UIImage imageWithImage:img scaledToWidth:800.0f];
+    [APIClient uploadImage:scaleDownedImage otherParam:@{@"side":side} completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            if (completion) {
+                completion(response[@"url"]);
+            }
+        } else {
+            if (completion) {
+                completion(nil);
+            }
+        }
+        
+    } progress:nil];
+}
+
+- (void)getAgreementURLWithCompletion:(HHAgreementCompletion)completion {
+     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentAgreement, [HHStudentStore sharedInstance].currentStudent.studentId]];
+    [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            NSString *url = response[@"agreement_url"];
+            if (completion) {
+                completion([NSURL URLWithString:url]);
+            }
+        } else {
+            if (completion) {
+                completion(nil);
+            }
+        }
+    }];
+}
+
+- (void)signAgreementWithCompletion:(HHSignAgreementCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentAgreement, [HHStudentStore sharedInstance].currentStudent.studentId]];
+    [APIClient postWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHStudent *student = [MTLJSONAdapter modelOfClass:[HHStudent class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(student, error);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+
 }
 
 @end

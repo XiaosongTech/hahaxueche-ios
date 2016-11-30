@@ -37,6 +37,9 @@ typedef void (^HHCardCompletion)(HHBankCard *card, NSError *error);
 typedef void (^HHAdvisorCompletion)(HHAdvisor *advisor, NSError *error);
 typedef void (^HHVouchersCompletion)(NSArray *vouchers);
 typedef void (^HHVoucherCompletion)(HHVoucher *voucher, NSError *error);
+typedef void (^HHIDImageCompletion)(NSString *imgURL);
+typedef void (^HHAgreementCompletion)(NSURL *url);
+typedef void (^HHSignAgreementCompletion)(HHStudent *student, NSError *error);
 
 @interface HHStudentService : NSObject
 
@@ -209,6 +212,28 @@ typedef void (^HHVoucherCompletion)(HHVoucher *voucher, NSError *error);
  @param completion The completion block to execute on completion
  */
 - (void)activateVoucherWithCode:(NSString *)code completion:(HHVoucherCompletion)completion;
+
+
+/**
+ Upload id img
+ @param imamge The id image
+ @param side The side of id card
+ @param completion The completion block to execute on completion
+ */
+- (void)uploadIDCardWithImage:(UIImage *)img side:(NSNumber *)side completion:(HHIDImageCompletion)completion;
+
+/**
+ Get agreement pdf
+ @param completion The completion block to execute on completion
+ */
+- (void)getAgreementURLWithCompletion:(HHAgreementCompletion)completion;
+
+
+/**
+ Sign agreement
+ @param completion The completion block to execute on completion
+ */
+- (void)signAgreementWithCompletion:(HHSignAgreementCompletion)completion;
 
 
 @end

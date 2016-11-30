@@ -10,4 +10,6 @@
 
 @interface HHSignContractViewController : UIViewController
 
+- (instancetype)initWithURL:(NSURL *)agreementURL;
+
 @end

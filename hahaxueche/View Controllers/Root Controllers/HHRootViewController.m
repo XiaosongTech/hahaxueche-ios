@@ -61,7 +61,7 @@
         myPageNavVC.tabBarItem = myPageItem;
         
         HHStudent *student = [HHStudentStore sharedInstance].currentStudent;
-        if (student.purchasedServiceArray.count > 0 && ![student.signedContract boolValue]) {
+        if (student.purchasedServiceArray.count > 0 && !student.agreementURL) {
             myPageItem.badgeValue = @"1";
         } else {
              myPageItem.badgeValue = nil;

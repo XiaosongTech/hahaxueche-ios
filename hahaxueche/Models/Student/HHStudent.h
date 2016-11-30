@@ -11,6 +11,7 @@
 #import "HHCoupon.h"
 #import "HHBankCard.h"
 #import "HHAdvisor.h"
+#import "HHIdentityCard.h"
 
 @interface HHStudent : MTLModel <MTLJSONSerializing>
 
@@ -30,8 +31,8 @@
 
 @property (nonatomic, strong) HHAdvisor *myAdvisor;
 @property (nonatomic, copy) NSArray *vouchers;
-@property (nonatomic, copy) NSNumber *signedContract;
-@property (nonatomic, copy) NSNumber *uploadedID;
+@property (nonatomic, copy) NSString *agreementURL;
+@property (nonatomic, strong) HHIdentityCard *idCard;
 
 
 - (NSString *)getCourseName;
