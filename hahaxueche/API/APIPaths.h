@@ -50,6 +50,7 @@
 #define kAPIVouchers @"vouchers"
 #define kAPIStudentIDCard @"students/%@/id_card"
 #define kAPIStudentAgreement @"students/%@/agreement"
+#define kAPIStudentSendAgreement @"students/%@/agreement_mail"
 
 
 #pragma mark Coach

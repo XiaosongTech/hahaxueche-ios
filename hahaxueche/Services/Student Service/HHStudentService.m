@@ -479,4 +479,14 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
 
 }
 
+- (void)sendAgreementWithEmail:(NSString *)email completion:(HHStudentGenericCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentSendAgreement, [HHStudentStore sharedInstance].currentStudent.studentId]];
+    [APIClient postWithParameters:@{@"email":email} completion:^(NSDictionary *response, NSError *error) {
+        if (completion) {
+            completion(error);
+        }
+    }];
+
+}
+
 @end

@@ -14,6 +14,7 @@
 #import "HHLoadingViewUtility.h"
 #import "HHStudentStore.h"
 #import "HHToastManager.h"
+#import "HHStudentService.h"
 
 
 @interface HHContractViewController () <WKUIDelegate, WKNavigationDelegate, UIActionSheetDelegate, UINavigationControllerDelegate>
@@ -117,7 +118,15 @@
 }
 
 - (void)sendContractToEmail:(NSString *)email {
-    
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    [[HHStudentService sharedInstance] sendAgreementWithEmail:email completion:^(NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (!error) {
+            [[HHToastManager sharedManager] showSuccessToastWithText:@"发送成功, 请查收!"];
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"发送失败, 请重试"];
+        }
+    }];
 }
 
 - (BOOL)validateEmailWithString:(NSString*)checkString{

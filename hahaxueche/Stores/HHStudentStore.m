@@ -26,4 +26,8 @@
     self.currentStudent = guestStudent;
 }
 
+- (BOOL)isLoggedIn {
+    return (self.currentStudent.studentId && ![self.currentStudent.studentId isEqualToString:@""]);
+}
+
 @end

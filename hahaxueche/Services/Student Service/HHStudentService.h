@@ -236,4 +236,11 @@ typedef void (^HHSignAgreementCompletion)(HHStudent *student, NSError *error);
 - (void)signAgreementWithCompletion:(HHSignAgreementCompletion)completion;
 
 
+/**
+ Sign agreement
+ @param email The email address
+ @param completion The completion block to execute on completion
+ */
+- (void)sendAgreementWithEmail:(NSString *)email completion:(HHStudentGenericCompletion)completion;
+
 @end
