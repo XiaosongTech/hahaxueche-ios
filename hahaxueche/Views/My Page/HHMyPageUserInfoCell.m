@@ -139,6 +139,15 @@ static CGFloat const avatarRadius = 35.0f;
 }
 
 - (void)setupCellWithStudent:(HHStudent *)student {
+    if (!student) {
+        self.avatarView.image = [UIImage imageNamed:@"ic_mypage_ava"];
+        self.nameLabel.text = @"未注册/登录";
+        [self.balanceView setupViewWithTitle:@"账户余额" value:[@(0) generateMoneyString] showArrow:NO];
+        
+        [self.paymentView setupViewWithTitle:@"打款状态" value:@"未购买教练" showArrow:NO];
+        self.courseLabel.text = @"目前阶段: 未购买教练";
+        return;
+    }
     [[SDImageCache sharedImageCache] removeImageForKey:student.avatarURL];
     [self.avatarView sd_setImageWithURL:[NSURL URLWithString:student.avatarURL] placeholderImage:[UIImage imageNamed:@"ic_mypage_ava"] options:SDWebImageHighPriority];
     self.nameLabel.text = student.name;
