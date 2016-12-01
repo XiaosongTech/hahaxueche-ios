@@ -90,16 +90,6 @@
             
         }
         
-        self.topLine = [[UIView alloc] init];
-        self.topLine.backgroundColor = [UIColor HHLightLineGray];
-        [self addSubview:self.topLine];
-        [self.topLine makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.top);
-            make.left.equalTo(self.left);
-            make.width.equalTo(self.width);
-            make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-        }];
-        
     }
     return self;
     

@@ -192,8 +192,9 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     self.freeTrialContainerView.backgroundColor = [UIColor whiteColor];
     [self.scrollView addSubview:self.freeTrialContainerView];
     
-    self.freeTryImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"button_free"]];
+    self.freeTryImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_freetry"]];
     self.freeTryImageView.userInteractionEnabled = YES;
+    self.freeTryImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.freeTrialContainerView addSubview:self.freeTryImageView];
     UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tryCoachForFree)];
     [self.freeTryImageView addGestureRecognizer:tapRec];
@@ -221,16 +222,17 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
         make.top.equalTo(self.bannerView.bottom);
         make.centerX.equalTo(self.scrollView.centerX);
         make.width.equalTo(self.scrollView.width);
-        make.height.mas_equalTo(90.0f);
+        make.height.mas_equalTo(130.0f);
     }];
 
     [self.freeTryImageView makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.freeTrialContainerView.centerY);
         make.centerX.equalTo(self.freeTrialContainerView.centerX);
+        make.width.lessThanOrEqualTo(self.freeTrialContainerView.width).offset(-20.0f);
     }];
     
     [self.itemsView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.freeTrialContainerView.bottom);
+        make.top.equalTo(self.freeTrialContainerView.bottom).offset(10.0f);
         make.centerX.equalTo(self.scrollView.centerX);
         make.width.equalTo(self.scrollView.width);
         make.height.mas_equalTo(160.0f);

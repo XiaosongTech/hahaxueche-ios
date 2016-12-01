@@ -24,7 +24,6 @@ typedef void (^HHHomePageItemsViewBlock)(ItemType index);
 
 @interface HHHomePageItemsView : UIView
 
-@property (nonatomic, strong) UIView *topLine;
 @property (nonatomic, strong) HHHomePageItemsViewBlock itemBlock;
 
 @end
