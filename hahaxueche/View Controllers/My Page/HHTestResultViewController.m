@@ -95,11 +95,8 @@
         self.subTitleLabel.text = @"本次模拟考试通过, 下面的驾驶学习继续努力!";
     }
     
-    if ([HHStudentStore sharedInstance].currentStudent.studentId) {
-        [self.avatarView sd_setImageWithURL:[NSURL URLWithString:[HHStudentStore sharedInstance].currentStudent.avatarURL]];
-    } else {
-        self.avatarView.image = [UIImage imageNamed:@"ic_mypage_ava"];
-    }
+    
+    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:[HHStudentStore sharedInstance].currentStudent.avatarURL] placeholderImage:[UIImage imageNamed:@"ic_mypage_ava"]];
     
     self.firstView = [[HHTestSimuInfoView alloc] initWithTitle:@"考试用时" value:[NSString stringWithFormat:@"%ld分钟", (long)self.min] showBotLine:YES];
     [self.scrollView addSubview:self.firstView];
@@ -227,7 +224,7 @@
 }
 
 - (void)showReferPopup {
-    if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+    if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
         return;
     }
     __weak HHTestResultViewController *weakSelf = self;

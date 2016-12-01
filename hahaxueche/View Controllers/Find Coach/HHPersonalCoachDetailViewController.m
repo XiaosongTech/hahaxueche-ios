@@ -156,7 +156,7 @@ static NSString *const kPriceCellID = @"kPriceCellID";
         case CoachCellDescription: {
             HHCoachDetailDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:kDescriptionCellID forIndexPath:indexPath];
             cell.likeBlock = ^(UIButton *likeButton, UILabel *likeCountLabel) {
-                if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+                if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
                     [weakSelf likeOrUnlikeCoachWithButton:likeButton label:likeCountLabel];
                 } else {
                     [weakSelf showIntroPopup];

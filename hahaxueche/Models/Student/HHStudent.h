@@ -37,5 +37,7 @@
 
 - (NSString *)getCourseName;
 - (NSString *)getPurchasedProductName;
+- (BOOL)isLoggedIn;
+- (BOOL)isPurchased;
 
 @end

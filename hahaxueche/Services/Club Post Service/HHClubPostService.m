@@ -92,7 +92,7 @@
 - (void)fetchHeadlineWithCompletion:(HHPostCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIClubPostHeadLine];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
-    if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+    if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
         param[@"student_id"] = [HHStudentStore sharedInstance].currentStudent.studentId;
     }
     [APIClient getWithParameters:param completion:^(NSDictionary *response, NSError *error) {

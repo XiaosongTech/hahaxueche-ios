@@ -24,6 +24,9 @@
             make.centerX.equalTo(self.centerX);
             make.width.equalTo(self.width).offset(-20.0f);
         }];
+        self.cardView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *rec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cardTapped)];
+        [self.cardView addGestureRecognizer:rec];
         
         if (showSlotView) {
             self.slotView = [[HHScoreSlotView alloc] initWithCount:count];
@@ -83,7 +86,15 @@
 }
 
 - (void)buttonTapped {
-    
+    if (self.buttonActionBlock) {
+        self.buttonActionBlock();
+    }
+}
+
+- (void)cardTapped {
+    if (self.cardActionBlock) {
+        self.cardActionBlock();
+    }
 }
 
 @end

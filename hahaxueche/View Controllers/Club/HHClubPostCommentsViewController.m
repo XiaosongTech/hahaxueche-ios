@@ -118,7 +118,7 @@ static NSString *const kCellId = @"kCellId";
 }
 
 - (void)showCommentTextView {
-    if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+    if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
         [self showLoginPopupForComment];
     }
     __weak HHClubPostCommentsViewController *weakSelf = self;

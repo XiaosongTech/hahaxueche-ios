@@ -29,7 +29,7 @@
     [self.contentView addSubview:self.titleView];
     
     self.myVoucherView = [[HHMyPageItemView alloc] initWitTitle:@"我的代金券" showLine:NO];
-    if ([HHStudentStore sharedInstance].currentStudent.vouchers.count > 0 && [HHStudentStore sharedInstance].currentStudent.purchasedServiceArray.count < 1) {
+    if ([HHStudentStore sharedInstance].currentStudent.vouchers.count > 0 && ![[HHStudentStore sharedInstance].currentStudent isPurchased]) {
         self.myVoucherView.arrowImageView.hidden = YES;
         self.myVoucherView.redDot.hidden = NO;
     } else {

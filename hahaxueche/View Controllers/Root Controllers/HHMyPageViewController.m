@@ -106,7 +106,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     self.title = @"我的页面";
     self.view.backgroundColor = [UIColor HHBackgroundGary];
     self.currentStudent = [HHStudentStore sharedInstance].currentStudent;
-    self.isLoggedIn = [[HHStudentStore sharedInstance] isLoggedIn];
+    self.isLoggedIn = [self.currentStudent isLoggedIn];
     [self initSubviews];
     if (self.currentStudent.currentCoachId) {
         [[HHCoachService sharedInstance] fetchCoachWithId:self.currentStudent.currentCoachId completion:^(HHCoach *coach, NSError *error) {

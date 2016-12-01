@@ -19,6 +19,8 @@
 #import "HHReferFriendsViewController.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHCourseInsuranceView.h"
+#import "HHCourseInsuranceCardViewController.h"
+#import "HHIntroViewController.h"
 
 @interface HHTestStartViewController ()
 
@@ -100,7 +102,7 @@
     NSString *buttonTitle;
     BOOL showSlotView;
     
-    if ([[HHStudentStore sharedInstance].currentStudent.studentId length]  <= 0) {
+    if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
         cardImage = [UIImage imageNamed:@"protectioncard_noget"];
         text = @"快去登录注册获取保过卡呦~";
         buttonTitle = @"注册/登录";
@@ -109,7 +111,7 @@
         
     } else {
         cardImage = [UIImage imageNamed:@"protectioncard_get"];
-        if ([[HHStudentStore sharedInstance].currentStudent. purchasedServiceArray count] > 0) {
+        if ([[HHStudentStore sharedInstance].currentStudent isPurchased]) {
             text = @"您还未在考试中获得90分以上的成绩.";
             buttonTitle = @"晒成绩";
             showSlotView = YES;
@@ -120,6 +122,23 @@
         }
     }
     self.insuranceCardView = [[HHCourseInsuranceView alloc] initWithImage:cardImage count:@(0) text:text buttonTitle:buttonTitle showSlotView:showSlotView peopleCount:@(999)];
+    self.insuranceCardView.cardActionBlock = ^() {
+        HHCourseInsuranceCardViewController *vc = [[HHCourseInsuranceCardViewController alloc] init];
+        [weakSelf.navigationController pushViewController:vc animated:YES];
+    };
+    
+    self.insuranceCardView.buttonActionBlock = ^() {
+        if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
+            HHIntroViewController *vc = [[HHIntroViewController alloc] init];
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+            [weakSelf presentViewController:navVC animated:YES completion:nil];
+        } else {
+            [weakSelf dismissVC];
+            if (weakSelf.dismissBlock) {
+                weakSelf.dismissBlock();
+            }
+        }
+    };
     [self.scrollView addSubview:self.insuranceCardView];
     [self makeConstraints];
 }
@@ -219,7 +238,7 @@
 }
 
 - (void)showReferPopup {
-    if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+    if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
         return;
     }
     __weak HHTestStartViewController *weakSelf = self;
@@ -241,11 +260,7 @@
 }
 
 - (void)dismissVC {
-    if ([[self.navigationController.viewControllers firstObject] isEqual:self]) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    } else {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+   [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

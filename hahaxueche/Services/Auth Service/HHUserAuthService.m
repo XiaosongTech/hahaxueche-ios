@@ -37,7 +37,7 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
 
 - (void)createUserWithNumber:(NSString *)number veriCode:(NSString *)veriCode password:(NSString *)password refererId:(NSString *)refererId completion:(HHUserCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIUserPath];
-    NSMutableDictionary *param = [NSMutableDictionary dictionaryWithDictionary:@{@"cell_phone":number, @"auth_token":veriCode, @"password":password, @"user_type":@"student"}];
+    NSMutableDictionary *param = [NSMutableDictionary dictionaryWithDictionary:@{@"cell_phone":number, @"auth_token":veriCode, @"password":password, @"user_type":@"student", @"source":@(0)}];
     if (refererId) {
         param[@"referer_id"] = refererId;
     }

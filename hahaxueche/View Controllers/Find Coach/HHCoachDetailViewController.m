@@ -173,7 +173,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.purchaseCoachAction = ^(){
-        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+        if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
             [weakSelf showLoginSignupAlertView];
             return ;
         }
@@ -214,7 +214,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         case CoachCellDescription: {
             HHCoachDetailDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:kDescriptionCellID forIndexPath:indexPath];
             cell.likeBlock = ^(UIButton *likeButton, UILabel *likeCountLabel) {
-                if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+                if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
                     [weakSelf likeOrUnlikeCoachWithButton:likeButton label:likeCountLabel];
                 } else {
                     [weakSelf showIntroPopup];
@@ -505,7 +505,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 
 - (void)followUnfollowCoach {
     if (self.followed) {
-        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+        if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
             [self showLoginPopupForFollow];
             return ;
         }
@@ -518,7 +518,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         }];
         
     } else {
-        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+        if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
             [self showLoginPopupForFollow];
             return ;
         }

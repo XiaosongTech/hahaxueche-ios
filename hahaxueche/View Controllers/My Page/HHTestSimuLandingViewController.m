@@ -65,8 +65,8 @@
     self.nameLabel.font = [UIFont systemFontOfSize:20.0f];
     [self.scrollView addSubview:self.nameLabel];
     
-    if ([HHStudentStore sharedInstance].currentStudent.studentId) {
-        [self.avatarView sd_setImageWithURL:[NSURL URLWithString:[HHStudentStore sharedInstance].currentStudent.avatarURL]];
+    if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
+        [self.avatarView sd_setImageWithURL:[NSURL URLWithString:[HHStudentStore sharedInstance].currentStudent.avatarURL] placeholderImage:[UIImage imageNamed:@"ic_mypage_ava"]];
         self.nameLabel.text = [HHStudentStore sharedInstance].currentStudent.name;
     } else {
         self.avatarView.image = [UIImage imageNamed:@"ic_mypage_ava"];

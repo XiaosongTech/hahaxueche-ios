@@ -60,7 +60,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"我为哈哈代言";
-    self.isLoggedIn = [[HHStudentStore sharedInstance] isLoggedIn];
+    self.isLoggedIn = [[HHStudentStore sharedInstance].currentStudent isLoggedIn];
     
     self.view.backgroundColor = [UIColor HHBackgroundGary];
      self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(popupVC) target:self];

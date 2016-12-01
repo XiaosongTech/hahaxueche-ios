@@ -20,7 +20,7 @@
 
 - (void)createGuestStudent;
 
-- (BOOL)isLoggedIn;
+
 
 
 @end

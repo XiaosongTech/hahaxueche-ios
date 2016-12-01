@@ -304,7 +304,7 @@
 }
 
 - (void)payCoach {
-    if ([[HHStudentStore sharedInstance].currentStudent.purchasedServiceArray count]) {
+    if ([[HHStudentStore sharedInstance].currentStudent isPurchased]) {
         [[HHToastManager sharedManager] showErrorToastWithText:@"您已经有购买的教练，无需再次购买教练！"];
         return;
     }

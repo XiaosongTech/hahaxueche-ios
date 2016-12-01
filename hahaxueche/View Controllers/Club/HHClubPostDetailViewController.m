@@ -184,7 +184,7 @@
         if ([weakSelf.clubPost.liked boolValue]) {
             like = @(0);
         }
-        if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+        if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
             [[HHClubPostService sharedInstance] likeOrUnlikePostWithId:weakSelf.clubPost.postId like:like completion:^(HHClubPost *post, NSError *error) {
                 if (!error) {
                     weakSelf.clubPost = post;
@@ -226,7 +226,7 @@
 }
 
 - (void)showCommentTextView {
-    if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+    if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
         [self showLoginPopupForComment];
         return;
     }

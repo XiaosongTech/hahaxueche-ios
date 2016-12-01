@@ -96,4 +96,12 @@
     return [MTLJSONAdapter arrayTransformerWithModelClass:[HHVoucher class]];
 }
 
+- (BOOL)isLoggedIn {
+    return (self.studentId && ![self.studentId isEqualToString:@""]);
+}
+
+- (BOOL)isPurchased {
+    return [self.purchasedServiceArray count];
+}
+
 @end

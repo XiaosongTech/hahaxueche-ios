@@ -403,7 +403,11 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
 }
 
 - (void)showTestVC {
+    __weak HHHomePageViewController *weakSelf = self;
     HHTestStartViewController *vc =  [[HHTestStartViewController alloc] init];
+    vc.dismissBlock = ^() {
+        weakSelf.tabBarController.selectedIndex = 1;
+    };
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:navVC animated:YES completion:nil];
     

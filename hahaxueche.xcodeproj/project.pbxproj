@@ -741,6 +741,7 @@
 		6DD94DCB1DEED6A100BB3357 /* ic_test.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD94DB31DEED6A100BB3357 /* ic_test.png */; };
 		6DD94DCC1DEED6A100BB3357 /* ic_test@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD94DB41DEED6A100BB3357 /* ic_test@2x.png */; };
 		6DD94DCD1DEED6A100BB3357 /* ic_test@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD94DB51DEED6A100BB3357 /* ic_test@3x.png */; };
+		6DD94DD01DF00CDF00BB3357 /* HHCourseInsuranceCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD94DCF1DF00CDF00BB3357 /* HHCourseInsuranceCardViewController.m */; };
 		6DDAE6C31CB7566900CE461A /* HHNoCoachView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */; };
 		6DDAE6C91CB7899F00CE461A /* HHAppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C81CB7899F00CE461A /* HHAppInfoViewController.m */; };
 		6DDAE6CD1CB78B1B00CE461A /* ic_aboutmsg_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDAE6CA1CB78B1B00CE461A /* ic_aboutmsg_logo.png */; };
@@ -1809,6 +1810,8 @@
 		6DD94DB31DEED6A100BB3357 /* ic_test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_test.png; sourceTree = "<group>"; };
 		6DD94DB41DEED6A100BB3357 /* ic_test@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_test@2x.png"; sourceTree = "<group>"; };
 		6DD94DB51DEED6A100BB3357 /* ic_test@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_test@3x.png"; sourceTree = "<group>"; };
+		6DD94DCE1DF00CDF00BB3357 /* HHCourseInsuranceCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCourseInsuranceCardViewController.h; sourceTree = "<group>"; };
+		6DD94DCF1DF00CDF00BB3357 /* HHCourseInsuranceCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCourseInsuranceCardViewController.m; sourceTree = "<group>"; };
 		6DDAE6C11CB7566900CE461A /* HHNoCoachView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNoCoachView.h; sourceTree = "<group>"; };
 		6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNoCoachView.m; sourceTree = "<group>"; };
 		6DDAE6C71CB7899F00CE461A /* HHAppInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAppInfoViewController.h; sourceTree = "<group>"; };
@@ -2292,6 +2295,8 @@
 				6DD1970B1DD99ADA0015ABF6 /* HHSelectVoucherViewController.m */,
 				6DFB30961DE7FF7500AF973E /* HHSignContractViewController.h */,
 				6DFB30971DE7FF7500AF973E /* HHSignContractViewController.m */,
+				6DD94DCE1DF00CDF00BB3357 /* HHCourseInsuranceCardViewController.h */,
+				6DD94DCF1DF00CDF00BB3357 /* HHCourseInsuranceCardViewController.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -4427,6 +4432,7 @@
 				6D4023781DB88A4D00C16DF4 /* HHAdvisor.m in Sources */,
 				1405CC6D1C7523CE0030B114 /* HHEmptyScheduleCell.m in Sources */,
 				5C36D3B01C46B68700443545 /* HHSession.m in Sources */,
+				6DD94DD01DF00CDF00BB3357 /* HHCourseInsuranceCardViewController.m in Sources */,
 				140EC6381C6E694500DA634D /* HHCoachDetailCommentsCell.m in Sources */,
 				141FA0E11C66CB1100113B1A /* HHHomePageTapView.m in Sources */,
 				1405CC7D1C7637B60030B114 /* HHMyPageUserInfoView.m in Sources */,
