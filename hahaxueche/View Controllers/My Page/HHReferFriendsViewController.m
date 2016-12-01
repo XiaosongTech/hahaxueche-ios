@@ -28,6 +28,7 @@
 #import "HHReferralDetailViewController.h"
 #import <TTTAttributedLabel.h>
 #import "HHSupportUtility.h"
+#import "HHIntroViewController.h"
 
 
 static NSString *const kRulesString = @"1）好友通过您的专属链接注册将获得%@元学车代金券，报名时可直接立减%@元！\n\n2）您的好友通过您的专属链接注册并成功报名后，您将获得%@元，累计无上限，可随时提现。\n\n3）如发现作弊行为将取消用户活动资格,并扣除所获奖励\n\n";
@@ -50,6 +51,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 @property (nonatomic, strong) HHShareView *shareView;
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) UIButton *arrowButton;
+@property (nonatomic) BOOL isLoggedIn;
 
 @end
 
@@ -58,6 +60,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"我为哈哈代言";
+    self.isLoggedIn = [[HHStudentStore sharedInstance] isLoggedIn];
     
     self.view.backgroundColor = [UIColor HHBackgroundGary];
      self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(popupVC) target:self];
@@ -83,7 +86,12 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     
     self.valueLabel = [[UILabel alloc] init];
     self.valueLabel.textColor = [UIColor whiteColor];
-    self.valueLabel.text = [[HHStudentStore sharedInstance].currentStudent.bonusBalance generateMoneyString];
+    if (self.isLoggedIn) {
+        self.valueLabel.text = [[HHStudentStore sharedInstance].currentStudent.bonusBalance generateMoneyString];
+    } else {
+        self.valueLabel.text = [@(0) generateMoneyString];
+    }
+    
     self.valueLabel.font = [UIFont systemFontOfSize:28.0f];
     [self.topView addSubview:self.valueLabel];
     
@@ -133,6 +141,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     [self.scrollView addSubview:self.eventTitleImageView];
     
     self.eventRulesLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+    self.eventRulesLabel.activeLinkAttributes = @{(NSString *)kCTForegroundColorAttributeName:[UIColor HHOrange]};
     self.eventRulesLabel.attributedText = [self buildRulesString];
     self.eventRulesLabel.numberOfLines = 0;
     self.eventRulesLabel.delegate = self;
@@ -263,9 +272,14 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 }
 
 - (void)showWithdrawVC {
-    HHWithdrawViewController *vc = [[HHWithdrawViewController alloc] initWithAvailableAmount:[HHStudentStore sharedInstance].currentStudent.bonusBalance];
-    [self.navigationController pushViewController:vc animated:YES];
-    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:refer_page_cash_tapped attributes:nil];
+    if (self.isLoggedIn) {
+        HHWithdrawViewController *vc = [[HHWithdrawViewController alloc] initWithAvailableAmount:[HHStudentStore sharedInstance].currentStudent.bonusBalance];
+        [self.navigationController pushViewController:vc animated:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:refer_page_cash_tapped attributes:nil];
+    } else {
+        [self showLoginAlert];
+    }
+    
 }
 
 - (void)saveImage {
@@ -284,6 +298,10 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 }
 
 - (void)shareImg {
+    if (!self.isLoggedIn) {
+        [self showLoginAlert];
+        return;
+    }
     __weak HHReferFriendsViewController *weakSelf = self;
     if (self.myQRCodeView.image) {
         HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 0)];
@@ -305,12 +323,21 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 }
 
 - (void)showReferralDetailVC {
-    HHReferralDetailViewController *vc = [[HHReferralDetailViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
-    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:refer_page_check_balance_tapped attributes:nil];
+    if (self.isLoggedIn) {
+        HHReferralDetailViewController *vc = [[HHReferralDetailViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:refer_page_check_balance_tapped attributes:nil];
+    } else {
+        [self showLoginAlert];
+    }
+    
 }
 
 - (void)showOptions {
+    if (!self.isLoggedIn) {
+        [self showLoginAlert];
+        return;
+    }
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:nil
                                           message:nil
@@ -338,6 +365,24 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
         [self.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:self.navigationController] animated:YES];
     }
 }
+
+- (void)showLoginAlert {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"注册/登录后查看更多板块" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"去注册/登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+        [self presentViewController:navVC animated:YES completion:nil];
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"再看看" style:UIAlertActionStyleDefault handler:nil];
+    
+    [alertController addAction:cancelAction];
+    [alertController addAction:confirmAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 
 
 @end

@@ -178,6 +178,7 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
     }];
     
     self.supportLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+    self.supportLabel.activeLinkAttributes = @{(NSString *)kCTForegroundColorAttributeName:[UIColor HHOrange]};
     self.supportLabel.numberOfLines = 0;
     self.supportLabel.delegate = self;
     self.supportLabel.textAlignment = NSTextAlignmentCenter;

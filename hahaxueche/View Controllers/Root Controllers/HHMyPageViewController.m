@@ -276,10 +276,6 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellVoucher: {
             HHMyPageVoucherCell *cell = [tableView dequeueReusableCellWithIdentifier:kVouchereCell];
             cell.myVoucherView.actionBlock = ^() {
-                if (!weakSelf.isLoggedIn) {
-                    [weakSelf showLoginAlert];
-                    return;
-                }
                 HHVouchersViewController *vc = [[HHVouchersViewController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
@@ -417,13 +413,17 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         } break;
           
         case MyPageCellLogout: {
+            HHMyPageLogoutCell *cell = [tableView dequeueReusableCellWithIdentifier:kLogoutCell];
             if (!self.isLoggedIn) {
-                return [[UITableViewCell alloc] init];
+                [cell.button addTarget:self action:@selector(jumpToIntroVC) forControlEvents:UIControlEventTouchUpInside];
+                [cell.button setTitle:@"注册/登录" forState:UIControlStateNormal];
+                [cell.button setTitleColor:[UIColor HHConfirmGreen] forState:UIControlStateNormal];
             } else {
-                HHMyPageLogoutCell *cell = [tableView dequeueReusableCellWithIdentifier:kLogoutCell];
                 [cell.button addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
-                return cell;
+                [cell.button setTitle:@"退出账号" forState:UIControlStateNormal];
+                [cell.button setTitleColor:[UIColor HHCancelRed] forState:UIControlStateNormal];
             }
+            return cell;
            
         } break;
             
@@ -461,12 +461,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 3.0f;
             
         case MyPageCellLogout:
-            if (self.isLoggedIn) {
-                return 50 + kTopPadding * 2.0f;
-            } else {
-                return 0;
-            }
-            
+            return 50 + kTopPadding * 2.0f;
             
         default:
             return 50;
@@ -504,9 +499,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确认退出" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         [[HHUserAuthService sharedInstance] logOutWithCompletion:^(NSError *error) {
             if (!error) {
-                HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
-                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
-                [self presentViewController:navVC animated:YES completion:nil];
+                [self jumpToIntroVC];
             }
         }];
     }];
@@ -589,8 +582,8 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 
 - (void)jumpToIntroVC {
     HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
-    introVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:introVC animated:YES];
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+    [self presentViewController:navVC animated:YES completion:nil];
 }
 
 - (void)dismissPopup {
@@ -684,13 +677,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"注册/登录后查看更多板块" message:nil preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"去注册/登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [[HHUserAuthService sharedInstance] logOutWithCompletion:^(NSError *error) {
-            if (!error) {
-                HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
-                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
-                [self presentViewController:navVC animated:YES completion:nil];
-            }
-        }];
+        [self jumpToIntroVC];
     }];
     
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"再看看" style:UIAlertActionStyleDefault handler:nil];

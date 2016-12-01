@@ -22,6 +22,9 @@
 }
 
 - (void)createGuestStudent {
+    if (self.currentStudent) {
+        return;
+    }
     HHStudent *guestStudent = [[HHStudent alloc] init];
     self.currentStudent = guestStudent;
 }

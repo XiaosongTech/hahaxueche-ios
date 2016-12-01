@@ -149,6 +149,7 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
 
 - (void)buildRulesView {
     self.rulesLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+    self.rulesLabel.activeLinkAttributes = @{(NSString *)kCTForegroundColorAttributeName:[UIColor HHOrange]};
     self.rulesLabel.attributedText = [self buildAttributeStringForRules];
     self.rulesLabel.delegate = self;
     self.rulesLabel.numberOfLines = 0;

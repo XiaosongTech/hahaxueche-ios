@@ -80,6 +80,7 @@
     [self.scrollView addSubview:self.signContractButton];
     
     self.supportLable = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+    self.supportLable.activeLinkAttributes = @{(NSString *)kCTForegroundColorAttributeName:[UIColor HHOrange]};
     self.supportLable.delegate = self;
     self.supportLable.textAlignment = NSTextAlignmentCenter;
     self.supportLable.numberOfLines = 0;

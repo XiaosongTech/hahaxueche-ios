@@ -100,6 +100,7 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
      HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPILogoutPath, [self getSavedUser].session.sessionId]];
     [APIClient deleteWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
+            [HHStudentStore sharedInstance].currentStudent = nil;
             [HHKeychainStore deleteSavedUser];
             [self deleteSavedUser];
             if (completion) {
