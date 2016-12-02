@@ -40,7 +40,6 @@ target "hahaxueche" do
     pod 'GTSDK', '1.5.0-noidfa'
     pod 'LinkedME-iOS-Deep-Linking-Demo_Pod',
     :git=>"https://github.com/WFC-LinkedME/LinkedME-iOS-Deep-Linking-Demo.git"
-    
 
 end
 

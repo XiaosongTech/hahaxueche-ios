@@ -47,6 +47,7 @@
         self.wrongQuestions = [NSMutableArray array];
         self.answeredQuestions = [NSMutableArray array];
         self.correctQuestions = [NSMutableArray array];
+        
     }
     return self;
 }
@@ -218,6 +219,7 @@
         [self saveOrderTestIndex];
     }
 }
+
 
 - (NSMutableAttributedString *)buildAttrString {
     if(self.questions.count == 0) {
