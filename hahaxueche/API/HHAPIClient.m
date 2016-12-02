@@ -13,7 +13,7 @@
 
 @implementation HHAPIClient
 
-- (id)initWithManager:(AFHTTPRequestOperationManager *)manager path:(NSString *)path {
+- (id)initWithManager:(AFHTTPSessionManager *)manager path:(NSString *)path {
     self = [super init];
     if (self) {
         [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
@@ -37,22 +37,22 @@
 }
 
 + (HHAPIClient *)apiClient {
-    HHAPIClient *client = [[self alloc] initWithManager:[AFHTTPRequestOperationManager manager] path:nil];
+    HHAPIClient *client = [[self alloc] initWithManager:[AFHTTPSessionManager manager] path:nil];
     client.requestManager.responseSerializer = [AFJSONResponseSerializer serializer];
     return client;
 }
 
 
-+ (AFHTTPRequestOperationManager *)sharedRequestManager {
++ (AFHTTPSessionManager *)sharedRequestManager {
     static dispatch_once_t predicate = 0;
-    static AFHTTPRequestOperationManager *requestManager = nil;
+    static AFHTTPSessionManager *requestManager = nil;
     
     dispatch_once(&predicate, ^() {
 
     #ifdef DEBUG
-         requestManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kStagingAPIBaseURL]];
+         requestManager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:kStagingAPIBaseURL]];
     #else
-         requestManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kProductionAPIBaseURL]];
+         requestManager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:kProductionAPIBaseURL]];
     #endif
 
         
@@ -61,68 +61,65 @@
     return requestManager;
 }
 
-- (void)parseResponse:(id)response fromOperation:(AFHTTPRequestOperation *)operation completion:(HHAPIClientCompletionBlock)completion {
+- (void)parseResponse:(id)response completion:(HHAPIClientCompletionBlock)completion {
     if (completion) {
         completion(response, nil);
     }
     
 }
 
-- (void)handleError:(NSError *)error requestOperation:(AFHTTPRequestOperation *)requestOperation completion:(HHAPIClientCompletionBlock)completion {
-    [self handleError:&error requestOperation:requestOperation];
+- (void)handleError:(NSError *)error completion:(HHAPIClientCompletionBlock)completion {
+    [self handleError:&error];
     if (completion) {
         completion(nil, error);
     }
     
 }
 
-- (void)handleError:(NSError **)error requestOperation:(AFHTTPRequestOperation *)requestOperation {
+- (void)handleError:(NSError **)error {
     NSMutableDictionary *userInfo = [[*error userInfo] mutableCopy];
-    userInfo[NSLocalizedDescriptionKey] = requestOperation.responseObject[@"description"];
-    userInfo[kErrorMessageKey] = requestOperation.responseObject[@"message"];
-    userInfo[NSLocalizedFailureReasonErrorKey] = requestOperation.responseObject[@"code"];
+    
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey]
+                                                         options:kNilOptions
+                                                           error:nil];
+    userInfo[NSLocalizedDescriptionKey] = dic[@"description"];
+    userInfo[kErrorMessageKey] = dic[@"message"];
+    userInfo[NSLocalizedFailureReasonErrorKey] = dic[@"code"];
     *error = [NSError errorWithDomain:[*error domain] code:[*error code] userInfo:userInfo];
 }
 
 #pragma mark - Methods
 
-- (AFHTTPRequestOperation *)getWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion {
-    
-    AFHTTPRequestOperation *requestOperation = [self.requestManager GET:self.APIPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [self parseResponse:responseObject fromOperation:operation completion:completion];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self handleError:error requestOperation:operation completion:completion];
+- (void)getWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion {
+    [self.requestManager GET:self.APIPath parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [self parseResponse:responseObject completion:completion];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self handleError:error completion:completion];
     }];
-    
-    return requestOperation;
 }
 
-- (AFHTTPRequestOperation *)postWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion {
-    
-    AFHTTPRequestOperation *requestOperation = [self.requestManager POST:self.APIPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [self parseResponse:responseObject fromOperation:operation completion:completion];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self handleError:error requestOperation:operation completion:completion];
+- (void)postWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion {
+    [self.requestManager POST:self.APIPath parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [self parseResponse:responseObject completion:completion];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self handleError:error completion:completion];
     }];
     
-    return requestOperation;
 }
 
-- (AFHTTPRequestOperation *)putWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion {
-    AFHTTPRequestOperation *requestOperation = [self.requestManager PUT:self.APIPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [self parseResponse:responseObject fromOperation:operation completion:completion];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self handleError:error requestOperation:operation completion:completion];
+- (void)putWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion {
+    [self.requestManager PUT:self.APIPath parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [self parseResponse:responseObject completion:completion];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self handleError:error completion:completion];
     }];
-    return requestOperation;
 }
 
 - (void)deleteWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion {
-    
-    AFHTTPRequestOperation *requestOperation = [self.requestManager DELETE:self.APIPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [self parseResponse:responseObject fromOperation:operation completion:completion];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self handleError:error requestOperation:operation completion:completion];
+    [self.requestManager DELETE:self.APIPath parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [self parseResponse:responseObject completion:completion];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self handleError:error completion:completion];
     }];
     
 }
@@ -132,24 +129,23 @@
     
     NSMutableDictionary *param = [NSMutableDictionary dictionaryWithDictionary:otherParam];
     param[@"file"] = imageData;
-    [self.requestManager POST:self.APIPath parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    
+    [self.requestManager POST:self.APIPath parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         [formData appendPartWithFileData:imageData name:@"file" fileName:@"profile.jpeg" mimeType:@"image/jpeg"];
-    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        completion(responseObject, nil);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        completion(nil,error);
+    } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [self parseResponse:responseObject completion:completion];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self handleError:error completion:completion];
     }];
 
 }
 
-- (AFHTTPRequestOperation *)getWithURL:(NSString *)URL completion:(HHAPIClientCompletionBlock)completion {
-    AFHTTPRequestOperation *requestOperation = [self.requestManager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [self parseResponse:responseObject fromOperation:operation completion:completion];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self handleError:error requestOperation:operation completion:completion];
+- (void)getWithURL:(NSString *)URL completion:(HHAPIClientCompletionBlock)completion {
+    [self.requestManager GET:URL parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [self parseResponse:responseObject completion:completion];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self handleError:error completion:completion];
     }];
-    
-    return requestOperation;
 
 }
 
