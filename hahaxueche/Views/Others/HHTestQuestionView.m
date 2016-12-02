@@ -114,7 +114,7 @@
         make.centerX.equalTo(self.starView.centerX);
     }];
     
-    if ([self.question hasImage]) {
+    if ([self.question.mediaType isEqualToString:@"1"]) {
         [self.imgView makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.questionTitleContainerView.centerX);
             make.top.equalTo(self.questionTitleLabel.bottom).offset(20.0f);
@@ -127,6 +127,8 @@
             make.bottom.equalTo(self.imgView.bottom).offset(20.0f);
             make.width.equalTo(self.width);
         }];
+        
+    } else if ([self.question.mediaType isEqualToString:@"2"]) {
         
     } else {
         [self.questionTitleContainerView makeConstraints:^(MASConstraintMaker *make) {
@@ -154,13 +156,15 @@
     
     [self setupFavViews:favorated testMode:testMode];
     
-    if ([self.question hasImage]) {
-        [self.imgView sd_setImageWithURL:[NSURL URLWithString:self.question.imgURL]];
+    if ([self.question.mediaType isEqualToString:@"1"]) {
+        [self.imgView sd_setImageWithURL:[NSURL URLWithString:self.question.mediaURL]];
+    } else if ([self.question.mediaType isEqualToString:@"2"]) {
+        
     } else {
         self.imgView.image = nil;
     }
     
-    if ([self.question hasImage]) {
+    if ([self.question.mediaType isEqualToString:@"1"]) {
         [self.imgView remakeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.questionTitleContainerView.centerX);
             make.top.equalTo(self.questionTitleLabel.bottom).offset(20.0f);
@@ -172,6 +176,8 @@
             make.bottom.equalTo(self.imgView.bottom).offset(20.0f);
             make.width.equalTo(self.width);
         }];
+        
+    } else if ([self.question.mediaType isEqualToString:@"2"]) {
         
     } else {
         [self.questionTitleContainerView remakeConstraints:^(MASConstraintMaker *make) {
@@ -260,25 +266,27 @@
     }
     [self.optionViews removeAllObjects];
     
-    if ([self.question.item1 isEqualToString:@""]) {
-        self.question.item1 = @"正确";
-    }
-    if ([self.question.item2 isEqualToString:@""]) {
-        self.question.item2 = @"错误";
-    }
-    [self initOptionViewWithTitle:@"A" text:self.question.item1];
-    [self initOptionViewWithTitle:@"B" text:self.question.item2];
-    
-    if (![self.question.item3 isEqualToString:@""] && self.question.item3) {
-        [self initOptionViewWithTitle:@"C" text:self.question.item3];
-    }
-    
-    if (![self.question.item4 isEqualToString:@""] && self.question.item4) {
-        [self initOptionViewWithTitle:@"D" text:self.question.item4];
-    }
-    
     int i = 0;
-    for (HHOptionView *view in self.optionViews) {
+    NSString *titleText;
+    for (NSString *option in self.question.options) {
+        switch (i) {
+            case 0: {
+                titleText = @"A";
+            } break;
+            case 1: {
+                titleText = @"B";
+            } break;
+            case 2: {
+                titleText = @"C";
+            } break;
+            case 3: {
+                titleText = @"D";
+            } break;
+                
+            default:
+                break;
+        }
+        HHOptionView *view = [self buildOptionViewWithTitle:titleText text:option];
         if (i == 0) {
             [view makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(self.scrollView.top).offset(20.0f);
@@ -297,6 +305,7 @@
         }
         i++;
     }
+    
     HHOptionView *lastView = [self.optionViews lastObject];
     if ([self.questionTypeLabel.text isEqualToString:@"多选题"]) {
         [self.confirmButton makeConstraints:^(MASConstraintMaker *make) {
@@ -338,7 +347,7 @@
     }
 }
 
-- (void)initOptionViewWithTitle:(NSString *)title text:(NSString *)text {
+- (HHOptionView *)buildOptionViewWithTitle:(NSString *)title text:(NSString *)text {
     HHOptionView *view = [[HHOptionView alloc] initWithOptionTilte:title text:text];
     UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(optionSelected:)];
     tapGes.cancelsTouchesInView = NO;
@@ -346,7 +355,7 @@
     [self.scrollView addSubview:view];
     [self.optionViews addObject:view];
     view.tag = [self.optionViews indexOfObject:view];
-
+    return view;
 }
 
 - (void)starTapped {
@@ -392,7 +401,8 @@
     } else {
         [view.titleButton setImage:[UIImage imageNamed:@"ic_wrong"] forState:UIControlStateNormal];
         view.titleButton.layer.borderWidth = 0;
-        HHOptionView *correctOption = self.optionViews[[self.question.answer integerValue] - 1];
+        NSString *indexString = [self.question.correctAnswers firstObject];
+        HHOptionView *correctOption = self.optionViews[[indexString integerValue]-1];
         correctOption.titleButton.layer.borderWidth = 0;
         [correctOption.titleButton setImage:[UIImage imageNamed:@"ic_right"] forState:UIControlStateNormal];
     }
@@ -415,7 +425,7 @@
 
 - (void)updateOptionViewsForMultiAnswerQuestion {
     for (HHOptionView *view in self.optionViews) {
-        if ([[self.question standardAnswers] containsObject:@(view.tag + 1)]) {
+        if ([self.question.correctAnswers containsObject:[@(view.tag + 1) stringValue]]) {
             [view.titleButton setImage:[UIImage imageNamed:@"ic_right"] forState:UIControlStateNormal];
         } else {
             [view.titleButton setImage:[UIImage imageNamed:@"ic_wrong"] forState:UIControlStateNormal];

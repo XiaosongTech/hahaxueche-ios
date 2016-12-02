@@ -10,21 +10,20 @@
 
 @interface HHQuestion : MTLModel <MTLJSONSerializing>
 
-@property (nonatomic, copy) NSNumber *questionId;
+@property (nonatomic, copy) NSString *questionId;
 @property (nonatomic, copy) NSString *questionDes;
-@property (nonatomic, copy) NSString *answer;
-@property (nonatomic, copy) NSString *item1;
-@property (nonatomic, copy) NSString *item2;
-@property (nonatomic, copy) NSString *item3;
-@property (nonatomic, copy) NSString *item4;
+@property (nonatomic, copy) NSArray *options;
+@property (nonatomic, copy) NSArray *correctAnswers;
 @property (nonatomic, copy) NSString *explains;
-@property (nonatomic, copy) NSString *imgURL;
+//0=无; 1=img; 2=video
+@property (nonatomic, copy) NSString *mediaType;
+@property (nonatomic, copy) NSString *mediaURL;
 @property (nonatomic, copy) NSNumber *answered;
+@property (nonatomic, copy) NSString *optionType;
 @property (nonatomic, copy) NSMutableArray *userAnswers;
 
 - (BOOL)isAnswerCorrect:(NSMutableArray *)answers;
 - (NSString *)getQuestionTypeString;
-- (BOOL)hasImage;
-- (NSArray *)standardAnswers;;
+
 
 @end
