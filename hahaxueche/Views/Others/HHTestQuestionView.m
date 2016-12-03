@@ -220,6 +220,7 @@
         }];
         
         self.imgView.hidden = NO;
+        self.videoContainerView.hidden = YES;
     } else if ([self.question.mediaType isEqualToString:@"2"]) {
         [self.videoContainerView remakeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.questionTitleContainerView.centerX);
@@ -234,6 +235,7 @@
             make.width.equalTo(self.width);
         }];
         self.imgView.hidden = YES;
+        self.videoContainerView.hidden = NO;
     } else {
         [self.questionTitleContainerView remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.top);
@@ -242,6 +244,7 @@
             make.width.equalTo(self.width);
         }];
         self.imgView.hidden = YES;
+        self.videoContainerView.hidden = YES;
     }
     
     [self layoutIfNeeded];
