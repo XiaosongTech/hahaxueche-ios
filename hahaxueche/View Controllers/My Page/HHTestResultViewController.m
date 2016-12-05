@@ -17,6 +17,7 @@
 #import "HHReferFriendsViewController.h"
 #import "HHReferralShareView.h"
 #import "HHPopupUtility.h"
+#import "HHStudentService.h"
 
 @interface HHTestResultViewController ()
 
@@ -203,6 +204,14 @@
                                                                  constant:-30.0f]];
     
     [self showReferPopup];
+    
+    [[HHStudentService sharedInstance] saveTestScore:@(89) course:@(self.courseMode) completion:^(HHTestScore *score) {
+        if (score.score.integerValue >= 90) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"scoreAdded" object:nil userInfo:@{@"score":score}];
+        }
+        
+    }];
+    
     
 }
 

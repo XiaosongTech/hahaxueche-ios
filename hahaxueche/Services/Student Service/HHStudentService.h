@@ -19,6 +19,7 @@
 #import "HHAdvisor.h"
 #import "HHPersonalCoach.h"
 #import "HHVoucher.h"
+#import "HHTestScore.h"
 
 typedef void (^HHStudentCompletion)(HHStudent *student, NSError *error);
 typedef void (^HHStudentGenericCompletion)(NSError *error);
@@ -40,6 +41,8 @@ typedef void (^HHVoucherCompletion)(HHVoucher *voucher, NSError *error);
 typedef void (^HHIDImageCompletion)(NSString *imgURL);
 typedef void (^HHAgreementCompletion)(NSURL *url);
 typedef void (^HHSignAgreementCompletion)(HHStudent *student, NSError *error);
+typedef void (^HHTestResultCompletion)(NSArray *results);
+typedef void (^HHSaveTestResultCompletion)(HHTestScore *score);
 
 @interface HHStudentService : NSObject
 
@@ -167,13 +170,6 @@ typedef void (^HHSignAgreementCompletion)(HHStudent *student, NSError *error);
 - (void)likeOrUnlikeCoachWithId:(NSString *)coachId like:(NSNumber *)like completion:(HHLikeCompletion)completion;
 
 /**
- Get city events
- @param cityId The id of city
- @param completion The completion block to execute on completion
- */
-- (void)getCityEventsWithId:(NSNumber *)cityId completion:(HHEventsCompletion)completion;
-
-/**
  Get student QR Code URL
  */
 - (NSString *)getStudentQRCodeURL;
@@ -242,5 +238,21 @@ typedef void (^HHSignAgreementCompletion)(HHStudent *student, NSError *error);
  @param completion The completion block to execute on completion
  */
 - (void)sendAgreementWithEmail:(NSString *)email completion:(HHStudentGenericCompletion)completion;
+
+
+/**
+ Save simu test result
+ @param score The score of the test
+ @param course Course of the test 0=courseOne; 1=courseFour
+ @param completion The completion block to execute on completion
+ */
+- (void)saveTestScore:(NSNumber *)score course:(NSNumber *)course completion:(HHSaveTestResultCompletion)completion;
+
+
+/**
+ Get simu test result
+ @param completion The completion block to execute on completion
+ */
+- (void)getSimuTestResultWithCompletion:(HHTestResultCompletion)completion;
 
 @end

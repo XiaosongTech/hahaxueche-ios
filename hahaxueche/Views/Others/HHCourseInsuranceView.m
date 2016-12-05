@@ -29,7 +29,11 @@
         [self.cardView addGestureRecognizer:rec];
         
         if (showSlotView) {
-            self.slotView = [[HHScoreSlotView alloc] initWithCount:count];
+            NSNumber *finalCount = count;
+            if ([count integerValue] >= 5) {
+                finalCount = @(5);
+            }
+            self.slotView = [[HHScoreSlotView alloc] initWithCount:finalCount];
             [self addSubview:self.slotView];
             [self.slotView makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(self.cardView.bottom).offset(10.0f);
@@ -66,7 +70,7 @@
             make.top.equalTo(self.label.bottom).offset(10.0f);
             make.centerX.equalTo(self.centerX);
             make.width.mas_equalTo(CGRectGetWidth(self.button.bounds) + 30.0f);
-            make.height.mas_equalTo(CGRectGetHeight(self.button.bounds) + 10.0f);
+            make.height.mas_equalTo(CGRectGetHeight(self.button.bounds) + 8.0f);
         }];
         
         NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@人", [peopleCount stringValue]] attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:13.0f]}];

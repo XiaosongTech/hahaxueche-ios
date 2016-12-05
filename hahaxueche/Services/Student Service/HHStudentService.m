@@ -209,14 +209,10 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIStudentWithdrawTransacion];
     [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
-            NSMutableArray *data = [NSMutableArray array];
-            for (NSDictionary *dic in response) {
-                HHWithdraw *withdraw = [MTLJSONAdapter modelOfClass:[HHWithdraw class] fromJSONDictionary:dic error:nil];
-                [data addObject:withdraw];
-            }
+            NSArray *data = (NSArray *)response;
             
             if (completion) {
-                completion(data, nil);
+                completion([MTLJSONAdapter modelsOfClass:[HHWithdraw class] fromJSONArray:data error:nil], nil);
             }
         } else {
             if (completion) {
@@ -308,29 +304,21 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     
 }
 
-- (void)getCityEventsWithId:(NSNumber *)cityId completion:(HHEventsCompletion)completion {
-    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIEvents];
-    [APIClient getWithParameters:@{@"city_id":cityId} completion:^(NSDictionary *response, NSError *error) {
-        if (!error) {
-            NSArray *data = response;
-            NSMutableArray *events = [NSMutableArray array];
-            for (NSDictionary *dic in data) {
-                [events addObject:[MTLJSONAdapter modelOfClass:[HHEvent class] fromJSONDictionary:dic error:nil]];
-            }
-            completion(events, nil);
-        } else {
-            if (completion) {
-                completion(nil, error);
-            }
-        }
-    }];
-}
-
 - (NSString *)getStudentQRCodeURL {
     #ifdef DEBUG
+    if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
         return [NSString stringWithFormat:@"http://staging-api.hahaxueche.net/share/students/%@/image", [HHStudentStore sharedInstance].currentStudent.studentId];
+    } else {
+        return @"http://q1.hahaxueche.com/refer_template5.png?watermark/3/image/aHR0cDovL3MtaW1nLmhhaGF4dWVjaGUubmV0L2RlZmF1bHRfZnJlZV90cmlhbF9xcmNvZGUucG5n/dissolve/100/gravity/SouthWest/dx/120/dy/80";
+    }
+    
     #else
+    if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
         return [NSString stringWithFormat:@"http://api.hahaxueche.net/share/students/%@/image", [HHStudentStore sharedInstance].currentStudent.studentId];
+
+    } else {
+        return @"http://q1.hahaxueche.com/refer_template5.png?watermark/3/image/aHR0cDovL3AtaW1nLmhhaGF4dWVjaGUuY29tL2RlZmF1bHRfZnJlZV90cmlhbF9xcmNvZGUucG5n/dissolve/100/gravity/SouthWest/dx/120/dy/80";
+    }
     #endif
 }
 
@@ -402,12 +390,8 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     [APIClient getWithParameters:@{@"coach_id":coachId} completion:^(NSDictionary *response, NSError *error) {
         if(!error) {
             NSArray *data = (NSArray *)response;
-            NSMutableArray *vouchers = [NSMutableArray array];
-            for (NSDictionary *dic in data) {
-                [vouchers addObject:[MTLJSONAdapter modelOfClass:[HHVoucher class] fromJSONDictionary:dic error:nil]];
-            }
             if (completion) {
-                completion(vouchers);
+                completion([MTLJSONAdapter modelsOfClass:[HHVoucher class] fromJSONArray:data error:nil]);
             }
         }
     }];
@@ -487,6 +471,39 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
         }
     }];
 
+}
+
+- (void)saveTestScore:(NSNumber *)score course:(NSNumber *)course completion:(HHSaveTestResultCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentTestResult, [HHStudentStore sharedInstance].currentStudent.studentId]];
+    [APIClient postWithParameters:@{@"course":course, @"score":score} completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHTestScore *score = [MTLJSONAdapter modelOfClass:[HHTestScore class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(score);
+            }
+        } else {
+            if (completion) {
+                completion(nil);
+            }
+        }
+        
+    }];
+}
+
+- (void)getSimuTestResultWithCompletion:(HHTestResultCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentTestResult, [HHStudentStore sharedInstance].currentStudent.studentId]];
+    [APIClient getWithParameters:@{@"from":@(90), @"course":@(0)} completion:^(NSDictionary *response, NSError *error) {
+        if(!error) {
+            NSArray *data = (NSArray *)response;
+            if (completion) {
+                completion ([MTLJSONAdapter modelsOfClass:[HHTestScore class] fromJSONArray:data error:nil]);
+            }
+        } else {
+            if (completion) {
+                completion (nil);
+            }
+        }
+    }];
 }
 
 @end

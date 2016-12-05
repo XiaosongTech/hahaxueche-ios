@@ -10,4 +10,6 @@
 
 @interface HHCourseInsuranceCardViewController : UIViewController
 
+- (instancetype)initWithValidCount:(NSNumber *)count;
+
 @end

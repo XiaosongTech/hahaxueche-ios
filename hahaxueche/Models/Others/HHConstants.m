@@ -27,6 +27,7 @@
              @"drivingSchoolCount": @"statistics.driving_school_count",
              @"paidStudentCount": @"statistics.paid_student_count",
              @"coachCount": @"statistics.coach_count",
+             @"registeredCount": @"statistics.student_count",
              @"postCategory": @"article_categories",
              };
 }
