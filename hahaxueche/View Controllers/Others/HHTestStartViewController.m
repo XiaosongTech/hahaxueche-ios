@@ -19,7 +19,6 @@
 #import "HHReferFriendsViewController.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHCourseInsuranceView.h"
-#import "HHCourseInsuranceCardViewController.h"
 #import "HHIntroViewController.h"
 #import "HHStudentService.h"
 #import "HHTestScore.h"

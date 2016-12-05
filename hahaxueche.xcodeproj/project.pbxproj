@@ -418,7 +418,6 @@
 		6D4592361CFD68EB00AF5B45 /* ic_edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4592331CFD68EB00AF5B45 /* ic_edit.png */; };
 		6D4592371CFD68EB00AF5B45 /* ic_edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4592341CFD68EB00AF5B45 /* ic_edit@2x.png */; };
 		6D4592381CFD68EB00AF5B45 /* ic_edit@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4592351CFD68EB00AF5B45 /* ic_edit@3x.png */; };
-		6D45923B1CFD6E5000AF5B45 /* HHEditNameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D45923A1CFD6E5000AF5B45 /* HHEditNameView.m */; };
 		6D46DCAD1D88F41A001F962B /* ic_medal_h.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D46DCAA1D88F41A001F962B /* ic_medal_h.png */; };
 		6D46DCAE1D88F41A001F962B /* ic_medal_h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D46DCAB1D88F41A001F962B /* ic_medal_h@2x.png */; };
 		6D46DCAF1D88F41A001F962B /* ic_medal_h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D46DCAC1D88F41A001F962B /* ic_medal_h@3x.png */; };
@@ -745,7 +744,6 @@
 		6DD94DCB1DEED6A100BB3357 /* ic_test.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD94DB31DEED6A100BB3357 /* ic_test.png */; };
 		6DD94DCC1DEED6A100BB3357 /* ic_test@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD94DB41DEED6A100BB3357 /* ic_test@2x.png */; };
 		6DD94DCD1DEED6A100BB3357 /* ic_test@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD94DB51DEED6A100BB3357 /* ic_test@3x.png */; };
-		6DD94DD01DF00CDF00BB3357 /* HHCourseInsuranceCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD94DCF1DF00CDF00BB3357 /* HHCourseInsuranceCardViewController.m */; };
 		6DD94DD41DF0498800BB3357 /* ic_freetry.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD94DD11DF0498800BB3357 /* ic_freetry.png */; };
 		6DD94DD51DF0498800BB3357 /* ic_freetry@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD94DD21DF0498800BB3357 /* ic_freetry@2x.png */; };
 		6DD94DD61DF0498800BB3357 /* ic_freetry@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD94DD31DF0498800BB3357 /* ic_freetry@3x.png */; };
@@ -1418,8 +1416,6 @@
 		6D4592331CFD68EB00AF5B45 /* ic_edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_edit.png; sourceTree = "<group>"; };
 		6D4592341CFD68EB00AF5B45 /* ic_edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_edit@2x.png"; sourceTree = "<group>"; };
 		6D4592351CFD68EB00AF5B45 /* ic_edit@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_edit@3x.png"; sourceTree = "<group>"; };
-		6D4592391CFD6E5000AF5B45 /* HHEditNameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHEditNameView.h; sourceTree = "<group>"; };
-		6D45923A1CFD6E5000AF5B45 /* HHEditNameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHEditNameView.m; sourceTree = "<group>"; };
 		6D46DCAA1D88F41A001F962B /* ic_medal_h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_medal_h.png; sourceTree = "<group>"; };
 		6D46DCAB1D88F41A001F962B /* ic_medal_h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_medal_h@2x.png"; sourceTree = "<group>"; };
 		6D46DCAC1D88F41A001F962B /* ic_medal_h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_medal_h@3x.png"; sourceTree = "<group>"; };
@@ -1817,8 +1813,6 @@
 		6DD94DB31DEED6A100BB3357 /* ic_test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_test.png; sourceTree = "<group>"; };
 		6DD94DB41DEED6A100BB3357 /* ic_test@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_test@2x.png"; sourceTree = "<group>"; };
 		6DD94DB51DEED6A100BB3357 /* ic_test@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_test@3x.png"; sourceTree = "<group>"; };
-		6DD94DCE1DF00CDF00BB3357 /* HHCourseInsuranceCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCourseInsuranceCardViewController.h; sourceTree = "<group>"; };
-		6DD94DCF1DF00CDF00BB3357 /* HHCourseInsuranceCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCourseInsuranceCardViewController.m; sourceTree = "<group>"; };
 		6DD94DD11DF0498800BB3357 /* ic_freetry.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_freetry.png; sourceTree = "<group>"; };
 		6DD94DD21DF0498800BB3357 /* ic_freetry@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_freetry@2x.png"; sourceTree = "<group>"; };
 		6DD94DD31DF0498800BB3357 /* ic_freetry@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_freetry@3x.png"; sourceTree = "<group>"; };
@@ -2050,8 +2044,6 @@
 				6DB1481B1D50BFAB009E3F1E /* HHCardInfoInputView.m */,
 				6DB79D5F1D55CA17008F31C9 /* HHCityCell.h */,
 				6DB79D601D55CA17008F31C9 /* HHCityCell.m */,
-				6D4592391CFD6E5000AF5B45 /* HHEditNameView.h */,
-				6D45923A1CFD6E5000AF5B45 /* HHEditNameView.m */,
 				6D82BD711CCFAA9900D4109A /* HHGenericOneButtonPopupView.h */,
 				6D82BD721CCFAA9900D4109A /* HHGenericOneButtonPopupView.m */,
 				6D82BD6E1CCF9DEC00D4109A /* HHGenericTwoButtonsPopupView.h */,
@@ -2300,8 +2292,6 @@
 				6DD1970B1DD99ADA0015ABF6 /* HHSelectVoucherViewController.m */,
 				6DFB30961DE7FF7500AF973E /* HHSignContractViewController.h */,
 				6DFB30971DE7FF7500AF973E /* HHSignContractViewController.m */,
-				6DD94DCE1DF00CDF00BB3357 /* HHCourseInsuranceCardViewController.h */,
-				6DD94DCF1DF00CDF00BB3357 /* HHCourseInsuranceCardViewController.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -4261,7 +4251,6 @@
 			files = (
 				6DD568321D66E2EC00B9B319 /* HHReferralDetailViewController.m in Sources */,
 				6D85522A1CD600310021D4C9 /* HHBonusSummary.m in Sources */,
-				6D45923B1CFD6E5000AF5B45 /* HHEditNameView.m in Sources */,
 				147A9FED1C7A73F3000DED3B /* HHPaymentStatusCell.m in Sources */,
 				141FA0FA1C6BAD1A00113B1A /* ParallaxHeaderView.m in Sources */,
 				6DB79D611D55CA17008F31C9 /* HHCityCell.m in Sources */,
@@ -4442,7 +4431,6 @@
 				6D4023781DB88A4D00C16DF4 /* HHAdvisor.m in Sources */,
 				1405CC6D1C7523CE0030B114 /* HHEmptyScheduleCell.m in Sources */,
 				5C36D3B01C46B68700443545 /* HHSession.m in Sources */,
-				6DD94DD01DF00CDF00BB3357 /* HHCourseInsuranceCardViewController.m in Sources */,
 				140EC6381C6E694500DA634D /* HHCoachDetailCommentsCell.m in Sources */,
 				141FA0E11C66CB1100113B1A /* HHHomePageTapView.m in Sources */,
 				1405CC7D1C7637B60030B114 /* HHMyPageUserInfoView.m in Sources */,

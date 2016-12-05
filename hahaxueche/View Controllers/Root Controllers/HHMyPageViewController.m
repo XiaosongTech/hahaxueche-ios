@@ -33,9 +33,7 @@
 #import "HHReferFriendsViewController.h"
 #import "HHLongImageViewController.h"
 #import "SDImageCache.h"
-#import "HHEditNameView.h"
 #import "HHPopupUtility.h"
-#import "HHEditNameView.h"
 #import "HHStudentService.h"
 #import "HHStudentStore.h"
 #import <RSKImageCropper/RSKImageCropper.h>
@@ -88,7 +86,6 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 
 @property (nonatomic, strong) HHCoach *myCoach;
 @property (nonatomic, strong) KLCPopup *popup;
-@property (nonatomic, strong) HHEditNameView *editView;
 @property (nonatomic, strong) UIImage *selectedImage;
 @property (nonatomic, strong) HHAdvisor *advisor;
 @property (nonatomic) BOOL isLoggedIn;
@@ -214,14 +211,33 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 if (!weakSelf.isLoggedIn) {
                     [weakSelf showLoginAlert];
                 } else {
-                    HHEditNameView *view = [[HHEditNameView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-30.0f, 190.0f) name:weakSelf.currentStudent.name];
-                    [view.buttonsView.leftButton addTarget:weakSelf action:@selector(dismissPopup) forControlEvents:UIControlEventTouchUpInside];
-                    [view.buttonsView.rightButton addTarget:weakSelf action:@selector(saveName) forControlEvents:UIControlEventTouchUpInside];
-                    weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
-                    [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
-                    [view.field becomeFirstResponder];
+                    UIAlertController *alertController = [UIAlertController
+                                                          alertControllerWithTitle:@"修改姓名"
+                                                          message:nil
+                                                          preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *cancelAction = [UIAlertAction
+                                                   actionWithTitle:@"取消"
+                                                   style:UIAlertActionStyleCancel
+                                                   handler:nil];
                     
-                    weakSelf.editView = view;
+                    UIAlertAction *okAction = [UIAlertAction
+                                               actionWithTitle:@"确认"
+                                               style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction *action) {
+                                                   NSString *name = alertController.textFields.firstObject.text;
+                                                   [self saveName:name];
+                                               }];
+                    
+                    [alertController addAction:cancelAction];
+                    [alertController addAction:okAction];
+                    
+                    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                        textField.placeholder = @"输入新用户名";
+                        textField.returnKeyType = UIReturnKeyDone;
+                    }];
+                    
+                    
+                    [self presentViewController:alertController animated:YES completion:nil];
                 }
                
             };
@@ -587,13 +603,12 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 }
 
 - (void)dismissPopup {
-    [self.editView.field resignFirstResponder];
     [HHPopupUtility dismissPopup:self.popup];
 }
 
-- (void)saveName {
+- (void)saveName:(NSString *)newName {
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
-    [[HHStudentService sharedInstance] setupStudentInfoWithStudentId:[HHStudentStore sharedInstance].currentStudent.studentId userName:self.editView.field.text cityId:[HHStudentStore sharedInstance].currentStudent.cityId promotionCode:nil completion:^(HHStudent *student, NSError *error) {
+    [[HHStudentService sharedInstance] setupStudentInfoWithStudentId:[HHStudentStore sharedInstance].currentStudent.studentId userName:newName cityId:[HHStudentStore sharedInstance].currentStudent.cityId promotionCode:nil completion:^(HHStudent *student, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
             self.currentStudent = student;
