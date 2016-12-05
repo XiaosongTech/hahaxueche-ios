@@ -14,11 +14,11 @@
 #import "HHStudentStore.h"
 
 
-static NSString *const kStagingShareCoachBaseURL = @"http://staging-api.hahaxueche.net/share/coaches/%@";
-static NSString *const kProdShareCoachBaseURL = @"http://api.hahaxueche.net/share/coaches/%@";
+static NSString *const kStagingShareCoachBaseURL = @"https://staging-api.hahaxueche.net/share/coaches/%@";
+static NSString *const kProdShareCoachBaseURL = @"https://api.hahaxueche.net/share/coaches/%@";
 
-static NSString *const kStagingSharePersonalCoachBaseURL = @"http://staging-api.hahaxueche.net/share/training_partners/%@";
-static NSString *const kProdSharePersonalCoachBaseURL = @"http://api.hahaxueche.net/share/training_partners/%@";
+static NSString *const kStagingSharePersonalCoachBaseURL = @"https://staging-api.hahaxueche.net/share/training_partners/%@";
+static NSString *const kProdSharePersonalCoachBaseURL = @"https://api.hahaxueche.net/share/training_partners/%@";
 
 
 static NSString *const kSupportQQ = @"3319762526";
