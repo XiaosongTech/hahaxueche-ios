@@ -50,9 +50,9 @@
         [self addSubview:self.label];
         [self.label makeConstraints:^(MASConstraintMaker *make) {
             if (showSlotView) {
-                make.top.equalTo(self.slotView.bottom).offset(10.0f);
+                make.top.equalTo(self.slotView.bottom).offset(20.0f);
             } else {
-                make.top.equalTo(self.cardView.bottom).offset(10.0f);
+                make.top.equalTo(self.cardView.bottom).offset(20.0f);
             }
             make.centerX.equalTo(self.centerX);
         }];
@@ -81,7 +81,7 @@
         self.countLabel.attributedText = string;
         [self addSubview:self.countLabel];
         [self.countLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.button.bottom).offset(10.0f);
+            make.bottom.equalTo(self.bottom).offset(-10.0f);
             make.centerX.equalTo(self.centerX);
         }];
         

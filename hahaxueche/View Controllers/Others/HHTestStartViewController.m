@@ -243,9 +243,9 @@
         make.width.equalTo(self.scrollView.width);
         make.left.equalTo(self.scrollView.right);
         if ([[HHStudentStore sharedInstance].currentStudent.purchasedServiceArray count] > 0) {
-            make.height.mas_equalTo(330.0f);
+            make.height.mas_equalTo(340.0f);
         } else {
-            make.height.mas_equalTo(280.0f);
+            make.height.mas_equalTo(290.0f);
         }
         
     }];
