@@ -184,7 +184,7 @@
         if ([weakSelf.clubPost.liked boolValue]) {
             like = @(0);
         }
-        if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+        if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
             [[HHClubPostService sharedInstance] likeOrUnlikePostWithId:weakSelf.clubPost.postId like:like completion:^(HHClubPost *post, NSError *error) {
                 if (!error) {
                     weakSelf.clubPost = post;
@@ -226,7 +226,7 @@
 }
 
 - (void)showCommentTextView {
-    if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+    if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
         [self showLoginPopupForComment];
         return;
     }
@@ -268,8 +268,8 @@
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentCenter;
     paragraphStyle.lineSpacing = 8.0f;
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"注册登录后才可以点赞文章哦~\n快去注册支持教练把!" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
-    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 260.0f) title:@"请登录" subTitle:nil info:attributedString leftButtonTitle:@"知道了" rightButtonTitle:@"去登录"];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"注册登录后才可以点赞文章哦~\n快去注册支持教练把!" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"请登录" info:attributedString leftButtonTitle:@"知道了" rightButtonTitle:@"去登录"];
     self.popup = [HHPopupUtility createPopupWithContentView:view];
     view.confirmBlock = ^() {
         HHIntroViewController *vc = [[HHIntroViewController alloc] init];
@@ -286,8 +286,8 @@
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentCenter;
     paragraphStyle.lineSpacing = 8.0f;
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"注册登录后, 才可以评价文章哦~\n注册获得更多学车咨询!~" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
-    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 260.0f) title:@"请登录" subTitle:nil info:attributedString leftButtonTitle:@"知道了" rightButtonTitle:@"去登录"];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"注册登录后, 才可以评价文章哦~\n注册获得更多学车咨询!~" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"请登录" info:attributedString leftButtonTitle:@"知道了" rightButtonTitle:@"去登录"];
     self.popup = [HHPopupUtility createPopupWithContentView:view];
     view.confirmBlock = ^() {
         HHIntroViewController *vc = [[HHIntroViewController alloc] init];

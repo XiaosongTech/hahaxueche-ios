@@ -27,7 +27,6 @@
 #import <Appirater.h>
 #import "HHCoachDetailViewController.h"
 #import "HHLoadingViewUtility.h"
-#import <Harpy/Harpy.h>
 #import "QYSDK.h"
 #import "HHNetworkUtility.h"
 #import "HHCoachDetailViewController.h"
@@ -42,7 +41,7 @@
 
 static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
-@interface HHAppDelegate () <HarpyDelegate, GeTuiSdkDelegate>
+@interface HHAppDelegate () <GeTuiSdkDelegate>
 
 @property (nonatomic, strong) __block UIViewController *finalRootVC;
 
@@ -112,7 +111,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [self setWindow:self.window];
     [self setupAllThirdPartyServices];
     [self setAppearance];
-    
     return YES;
 }
 
@@ -138,16 +136,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                 
             }
         }
-        //Harpy
-        [[Harpy sharedInstance] setAppID:@"1011236187"];
-        [[Harpy sharedInstance] setPresentingViewController:self.window.rootViewController];
-        [[Harpy sharedInstance] setDelegate:self];
-        [[Harpy sharedInstance] setAppName:@"哈哈学车"];
-        [[Harpy sharedInstance] setForceLanguageLocalization:HarpyLanguageChineseSimplified];
-        [[Harpy sharedInstance] setDebugEnabled:YES];
-        [[Harpy sharedInstance] setAlertType:HarpyAlertTypeOption];
-        [[Harpy sharedInstance] setCountryCode:@"CN"];
-        [[Harpy sharedInstance] checkVersion];
 
     }];
     
@@ -304,8 +292,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     //个推错误报告，集成步骤发生的任何错误都在这里通知，如果集成后，无法正常收到消息，查看这里的通知。
     NSLog(@"\n>>>[GexinSdk error]:%@\n\n", [error localizedDescription]);
 }
-
-
 
 
 @end

@@ -59,7 +59,6 @@ static NSString *const kSupportNumber = @"4000016006";
     //cusom UI
     [[QYSDK sharedSDK] customUIConfig].rightBarButtonItemColorBlackOrWhite = NO;
     
-    
     return sessionViewController;
 }
 

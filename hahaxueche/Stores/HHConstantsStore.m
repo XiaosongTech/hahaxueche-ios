@@ -137,6 +137,11 @@ static NSString *const kSavedConstants = @"kSavedConstant";
     return city.referrerBonus;
 }
 
+- (NSNumber *)getCityRefereeBonus {
+    HHCity *city = [self getAuthedUserCity];
+    return city.refereeBonus;
+}
+
 - (NSArray *)getAllBanks {
     return [HHConstantsStore sharedInstance].constants.banks;
 }

@@ -122,7 +122,7 @@
 - (void)fetchCoachWithId:(NSString *)coachId completion:(HHCoachCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPICoach, coachId]];
     NSMutableDictionary *param;
-    if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+    if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
         param = [NSMutableDictionary dictionary];
         param[@"student_id"] = [HHStudentStore sharedInstance].currentStudent.studentId;
     }
@@ -246,7 +246,7 @@
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICoaches];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     param[@"keyword"] = keyword;
-    if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+    if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
         param[@"student_id"] = [HHStudentStore sharedInstance].currentStudent.studentId;
     }
     [APIClient getWithParameters:param completion:^(NSDictionary *response, NSError *error) {
@@ -276,7 +276,7 @@
     param[@"city_id"] = [HHStudentStore sharedInstance].currentStudent.cityId;
     param[@"order_by"] = @(sortOption);
     
-    if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+    if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
         param[@"student_id"] = [HHStudentStore sharedInstance].currentStudent.studentId;
     }
 

@@ -33,9 +33,7 @@
 #import "HHReferFriendsViewController.h"
 #import "HHLongImageViewController.h"
 #import "SDImageCache.h"
-#import "HHEditNameView.h"
 #import "HHPopupUtility.h"
-#import "HHEditNameView.h"
 #import "HHStudentService.h"
 #import "HHStudentStore.h"
 #import <RSKImageCropper/RSKImageCropper.h>
@@ -44,6 +42,13 @@
 #import "HHBookTrainingViewController.h"
 #import "HHMyPageVoucherCell.h"
 #import "HHVouchersViewController.h"
+#import "HHMyContractTableViewCell.h"
+#import "HHContractViewController.h"
+#import "HHPopupUtility.h"
+#import "HHGenericTwoButtonsPopupView.h"
+#import "HHUploadIDViewController.h"
+#import "HHSignContractViewController.h"
+
 
 static NSString *const kUserInfoCell = @"userInfoCell";
 static NSString *const kCoachCell = @"coachCell";
@@ -53,8 +58,8 @@ static NSString *const kLogoutCell = @"logoutCell";
 static NSString *const kReferCell = @"referCell";
 static NSString *const kMyCourseScheduleCell = @"kMyCourseScheduleCell";
 static NSString *const kVouchereCell = @"kVouchereCell";
+static NSString *const kContractCell = @"kContractCell";
 
-static NSString *const kAboutStudentLink = @"http://staging.hahaxueche.net/#/student";
 static NSString *const kActivateVoucherProdLink = @"http://m.hahaxueche.com/share/jihuo?";
 static NSString *const kActivateVoucherStagingLink = @"http://staging-m.hahaxueche.com/share/jihuo?";
 
@@ -63,6 +68,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellRefer,
     MyPageCellCoach,
     MyPageCellVoucher,
+    MyPageCellContract,
     MyPageCellMyCourseSchedule,
     MyPageCellSupport,
     MyPageCellHelp,
@@ -80,9 +86,9 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 
 @property (nonatomic, strong) HHCoach *myCoach;
 @property (nonatomic, strong) KLCPopup *popup;
-@property (nonatomic, strong) HHEditNameView *editView;
 @property (nonatomic, strong) UIImage *selectedImage;
 @property (nonatomic, strong) HHAdvisor *advisor;
+@property (nonatomic) BOOL isLoggedIn;
 
 @end
 
@@ -97,6 +103,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     self.title = @"我的页面";
     self.view.backgroundColor = [UIColor HHBackgroundGary];
     self.currentStudent = [HHStudentStore sharedInstance].currentStudent;
+    self.isLoggedIn = [self.currentStudent isLoggedIn];
     [self initSubviews];
     if (self.currentStudent.currentCoachId) {
         [[HHCoachService sharedInstance] fetchCoachWithId:self.currentStudent.currentCoachId completion:^(HHCoach *coach, NSError *error) {
@@ -109,6 +116,11 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(coachPurchased)
                                                  name:@"coachPurchased"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(studentUpdated)
+                                                 name:@"studentUpdated"
                                                object:nil];
     self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
@@ -128,57 +140,28 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 }
 
 - (void)initSubviews {
-    // Guest
-    if (![HHStudentStore sharedInstance].currentStudent.studentId) {
-        self.titleLabel = [[UILabel alloc] init];
-        self.titleLabel.text = @"你怎么还没登录呀〒▽〒";
-        self.titleLabel.textColor = [UIColor HHLightTextGray];
-        self.titleLabel.font = [UIFont systemFontOfSize:14.0f];
-        [self.view addSubview:self.titleLabel];
-        
-        self.loginSignupButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.loginSignupButton setTitle:@"登录或注册" forState:UIControlStateNormal];
-        [self.loginSignupButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
-        self.loginSignupButton.titleLabel.font = [UIFont systemFontOfSize:25.0f];
-        [self.loginSignupButton addTarget:self action:@selector(jumpToIntroVC) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:self.loginSignupButton];
-        
-        [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self.view.centerX);
-            make.centerY.equalTo(self.view.centerY).offset(-30.0f);
-        }];
-        
-        
-        [self.loginSignupButton makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.view.centerY);
-            make.centerX.equalTo(self.view.centerX);
-        }];
-        
-        
-    } else {
-        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)- CGRectGetHeight([UIApplication sharedApplication].statusBarFrame) - CGRectGetHeight(self.navigationController.navigationBar.bounds))];
-        self.tableView.delegate = self;
-        self.tableView.dataSource = self;
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        self.tableView.backgroundColor = [UIColor HHBackgroundGary];
-        self.tableView.showsVerticalScrollIndicator = NO;
-        [self.view addSubview:self.tableView];
-        
-        UIView *topview = [[UIView alloc] initWithFrame:CGRectMake(0,-480,CGRectGetWidth(self.view.bounds),480)];
-        topview.backgroundColor = [UIColor HHOrange];
-        
-        [self.tableView addSubview:topview];
-        
-        [self.tableView registerClass:[HHMyPageUserInfoCell class] forCellReuseIdentifier:kUserInfoCell];
-        [self.tableView registerClass:[HHMyPageCoachCell class] forCellReuseIdentifier:kCoachCell];
-        [self.tableView registerClass:[HHMyPageSupportCell class] forCellReuseIdentifier:kSupportCell];
-        [self.tableView registerClass:[HHMyPageHelpCell class] forCellReuseIdentifier:kHelpCell];
-        [self.tableView registerClass:[HHMyPageLogoutCell class] forCellReuseIdentifier:kLogoutCell];
-        [self.tableView registerClass:[HHMyPageReferCell class] forCellReuseIdentifier:kReferCell];
-        [self.tableView registerClass:[HHMyPageMyCourseScheduleCell class] forCellReuseIdentifier:kMyCourseScheduleCell];
-        [self.tableView registerClass:[HHMyPageVoucherCell class] forCellReuseIdentifier:kVouchereCell];
-    }
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)- CGRectGetHeight([UIApplication sharedApplication].statusBarFrame) - CGRectGetHeight(self.navigationController.navigationBar.bounds))];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor = [UIColor HHBackgroundGary];
+    self.tableView.showsVerticalScrollIndicator = NO;
+    [self.view addSubview:self.tableView];
     
+    UIView *topview = [[UIView alloc] initWithFrame:CGRectMake(0,-480,CGRectGetWidth(self.view.bounds),480)];
+    topview.backgroundColor = [UIColor HHOrange];
+    
+    [self.tableView addSubview:topview];
+    
+    [self.tableView registerClass:[HHMyPageUserInfoCell class] forCellReuseIdentifier:kUserInfoCell];
+    [self.tableView registerClass:[HHMyPageCoachCell class] forCellReuseIdentifier:kCoachCell];
+    [self.tableView registerClass:[HHMyPageSupportCell class] forCellReuseIdentifier:kSupportCell];
+    [self.tableView registerClass:[HHMyPageHelpCell class] forCellReuseIdentifier:kHelpCell];
+    [self.tableView registerClass:[HHMyPageLogoutCell class] forCellReuseIdentifier:kLogoutCell];
+    [self.tableView registerClass:[HHMyPageReferCell class] forCellReuseIdentifier:kReferCell];
+    [self.tableView registerClass:[HHMyPageMyCourseScheduleCell class] forCellReuseIdentifier:kMyCourseScheduleCell];
+    [self.tableView registerClass:[HHMyPageVoucherCell class] forCellReuseIdentifier:kVouchereCell];
+    [self.tableView registerClass:[HHMyContractTableViewCell class] forCellReuseIdentifier:kContractCell];
 }
 
 #pragma mark - TableView Delegate & Datasource Methods
@@ -194,6 +177,10 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellUserInfo: {
             HHMyPageUserInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kUserInfoCell];
             cell.paymentViewActionBlock = ^(){
+                if (!weakSelf.isLoggedIn) {
+                    [weakSelf showLoginAlert];
+                    return;
+                }
                 if ([weakSelf.currentStudent.purchasedServiceArray firstObject]) {
                     HHPaymentStatusViewController *vc = [[HHPaymentStatusViewController alloc] initWithPurchasedService:[weakSelf.currentStudent.purchasedServiceArray firstObject] coach:weakSelf.myCoach];
                     vc.updatePSBlock = ^(HHPurchasedService *updatePS){
@@ -212,20 +199,54 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 
             };
             cell.avatarViewActionBlock = ^() {
-                [weakSelf showImageOptions];
+                if (!weakSelf.isLoggedIn) {
+                    [weakSelf showLoginAlert];
+                } else {
+                    [weakSelf showImageOptions];
+                }
+                
             };
             
             cell.editNameBlock = ^() {
-                HHEditNameView *view = [[HHEditNameView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(weakSelf.view.bounds)-30.0f, 190.0f) name:weakSelf.currentStudent.name];
-                [view.buttonsView.leftButton addTarget:weakSelf action:@selector(dismissPopup) forControlEvents:UIControlEventTouchUpInside];
-                [view.buttonsView.rightButton addTarget:weakSelf action:@selector(saveName) forControlEvents:UIControlEventTouchUpInside];
-                weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
-                [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
-                [view.field becomeFirstResponder];
-                
-                weakSelf.editView = view;
+                if (!weakSelf.isLoggedIn) {
+                    [weakSelf showLoginAlert];
+                } else {
+                    UIAlertController *alertController = [UIAlertController
+                                                          alertControllerWithTitle:@"修改姓名"
+                                                          message:nil
+                                                          preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *cancelAction = [UIAlertAction
+                                                   actionWithTitle:@"取消"
+                                                   style:UIAlertActionStyleCancel
+                                                   handler:nil];
+                    
+                    UIAlertAction *okAction = [UIAlertAction
+                                               actionWithTitle:@"确认"
+                                               style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction *action) {
+                                                   NSString *name = alertController.textFields.firstObject.text;
+                                                   [self saveName:name];
+                                               }];
+                    
+                    [alertController addAction:cancelAction];
+                    [alertController addAction:okAction];
+                    
+                    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                        textField.placeholder = @"输入新用户名";
+                        textField.returnKeyType = UIReturnKeyDone;
+                    }];
+                    
+                    
+                    [self presentViewController:alertController animated:YES completion:nil];
+                }
+               
             };
-            [cell setupCellWithStudent:self.currentStudent];
+            if (self.isLoggedIn) {
+                [cell setupCellWithStudent:self.currentStudent];
+            } else {
+                [cell setupCellWithStudent:nil];
+            }
+            
             return cell;
             
         } break;
@@ -238,6 +259,10 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellCoach: {
             HHMyPageCoachCell *cell = [tableView dequeueReusableCellWithIdentifier:kCoachCell];
             cell.myCoachView.actionBlock = ^(){
+                if (!weakSelf.isLoggedIn) {
+                    [weakSelf showLoginAlert];
+                    return;
+                }
                 if ([weakSelf.currentStudent.purchasedServiceArray count]) {
                     HHMyCoachDetailViewController *myCoachVC = [[HHMyCoachDetailViewController alloc] initWithCoach:weakSelf.myCoach];
                     myCoachVC.hidesBottomBarWhenPushed = YES;
@@ -251,6 +276,10 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_my_coach_tapped attributes:nil];
             };
             cell.followedCoachView.actionBlock = ^(){
+                if (!weakSelf.isLoggedIn) {
+                    [weakSelf showLoginAlert];
+                    return;
+                }
                 HHFollowedCoachListViewController *vc = [[HHFollowedCoachListViewController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
@@ -271,9 +300,76 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             
         } break;
             
+        case MyPageCellContract: {
+            HHMyContractTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kContractCell];
+            cell.myContractView.actionBlock = ^() {
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_contract_tapped attributes:nil];
+                if (!weakSelf.isLoggedIn) {
+                    [weakSelf showLoginAlert];
+                    return;
+                }
+                if ([self.currentStudent.purchasedServiceArray count]) {
+                    if (!self.currentStudent.idCard) {
+                        //pop up upload id
+                        HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"友情提醒" info:[weakSelf buildPopupInfoTextWithString:@"快去上传资料签署专属学员协议吧!"] leftButtonTitle:@"取消" rightButtonTitle:@"去上传"];
+                        view.confirmBlock = ^() {
+                            [HHPopupUtility dismissPopup:weakSelf.popup];
+                            HHUploadIDViewController *vc = [[HHUploadIDViewController alloc] init];
+                            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+                            [weakSelf presentViewController:navVC animated:YES completion:nil];
+                        };
+                        view.cancelBlock = ^() {
+                            [HHPopupUtility dismissPopup:weakSelf.popup];
+                        };
+                        weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                        [HHPopupUtility showPopup:weakSelf.popup];
+                        
+                    } else if (!self.currentStudent.agreementURL || [self.currentStudent.agreementURL isEqualToString:@""]) {
+                        //pop up sign contract
+                        HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"友情提醒" info:[weakSelf buildPopupInfoTextWithString:@"快去签署专属学员协议吧!"] leftButtonTitle:@"取消" rightButtonTitle:@"去签署"];
+                        view.confirmBlock = ^() {
+                            [HHPopupUtility dismissPopup:weakSelf.popup];
+                            HHSignContractViewController *vc = [[HHSignContractViewController alloc] initWithURL:nil];
+                            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+                            [weakSelf presentViewController:navVC animated:YES completion:nil];
+                        };
+                        view.cancelBlock = ^() {
+                            [HHPopupUtility dismissPopup:weakSelf.popup];
+                        };
+                        weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                        [HHPopupUtility showPopup:weakSelf.popup];
+                        
+                    } else {
+                        HHContractViewController *vc = [[HHContractViewController alloc] init];
+                        vc.hidesBottomBarWhenPushed = YES;
+                        [self.navigationController pushViewController:vc animated:YES];
+                    }
+                    
+
+                } else {
+                    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"友情提醒" info:[weakSelf buildPopupInfoTextWithString:@"您还没有报名哟~\n快去选选心仪的教练报名学车吧~"] leftButtonTitle:@"取消" rightButtonTitle:@"去逛逛"];
+                    view.confirmBlock = ^() {
+                        [HHPopupUtility dismissPopup:weakSelf.popup];
+                        weakSelf.tabBarController.selectedIndex = 1;
+                    };
+                    view.cancelBlock = ^() {
+                        [HHPopupUtility dismissPopup:weakSelf.popup];
+                    };
+                    weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                    [HHPopupUtility showPopup:weakSelf.popup];
+                    
+                }
+            };
+            return cell;
+        } break;
+            
         case MyPageCellMyCourseSchedule: {
             HHMyPageMyCourseScheduleCell *cell = [tableView dequeueReusableCellWithIdentifier:kMyCourseScheduleCell];
             cell.myCourseView.actionBlock = ^() {
+                if (!weakSelf.isLoggedIn) {
+                    [weakSelf showLoginAlert];
+                    return;
+                }
                 HHBookTrainingViewController *vc = [[HHBookTrainingViewController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
@@ -291,13 +387,20 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_online_support_tapped attributes:nil];
             };
             cell.myAdvisorView.actionBlock = ^() {
-                HHAdvisorView *view = [[HHAdvisorView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 240.0f) advisor:self.advisor];
-                view.callBlock = ^() {
-                    [weakSelf callAdvisor];
-                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_my_advisor_tapped attributes:nil];
-                };
-                weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
-                [HHPopupUtility showPopup:weakSelf.popup];
+                if (!weakSelf.isLoggedIn) {
+                    HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"http://m.hahaxueche.com/share/zhaoguwen"]];
+                    vc.hidesBottomBarWhenPushed = YES;
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
+                } else {
+                    HHAdvisorView *view = [[HHAdvisorView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 240.0f) advisor:self.advisor];
+                    view.callBlock = ^() {
+                        [weakSelf callAdvisor];
+                        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_my_advisor_tapped attributes:nil];
+                    };
+                    weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                    [HHPopupUtility showPopup:weakSelf.popup];
+
+                }
             };
             return cell;
         } break;
@@ -327,8 +430,17 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
           
         case MyPageCellLogout: {
             HHMyPageLogoutCell *cell = [tableView dequeueReusableCellWithIdentifier:kLogoutCell];
-            [cell.button addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
+            if (!self.isLoggedIn) {
+                [cell.button addTarget:self action:@selector(jumpToIntroVC) forControlEvents:UIControlEventTouchUpInside];
+                [cell.button setTitle:@"注册/登录" forState:UIControlStateNormal];
+                [cell.button setTitleColor:[UIColor HHConfirmGreen] forState:UIControlStateNormal];
+            } else {
+                [cell.button addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
+                [cell.button setTitle:@"退出账号" forState:UIControlStateNormal];
+                [cell.button setTitleColor:[UIColor HHCancelRed] forState:UIControlStateNormal];
+            }
             return cell;
+           
         } break;
             
         default: {
@@ -352,8 +464,11 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellVoucher:
             return kTopPadding + kTitleViewHeight + kItemViewHeight;
         
+        case MyPageCellContract:
+            return kTopPadding + kTitleViewHeight + kItemViewHeight;
+            
         case MyPageCellMyCourseSchedule:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight * 1.0f;
+            return kTopPadding + kTitleViewHeight + kItemViewHeight;
             
         case MyPageCellSupport:
             return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
@@ -400,9 +515,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确认退出" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         [[HHUserAuthService sharedInstance] logOutWithCompletion:^(NSError *error) {
             if (!error) {
-                HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
-                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
-                [self presentViewController:navVC animated:YES completion:nil];
+                [self jumpToIntroVC];
             }
         }];
     }];
@@ -485,18 +598,17 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 
 - (void)jumpToIntroVC {
     HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
-    introVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:introVC animated:YES];
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+    [self presentViewController:navVC animated:YES completion:nil];
 }
 
 - (void)dismissPopup {
-    [self.editView.field resignFirstResponder];
     [HHPopupUtility dismissPopup:self.popup];
 }
 
-- (void)saveName {
+- (void)saveName:(NSString *)newName {
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
-    [[HHStudentService sharedInstance] setupStudentInfoWithStudentId:[HHStudentStore sharedInstance].currentStudent.studentId userName:self.editView.field.text cityId:[HHStudentStore sharedInstance].currentStudent.cityId promotionCode:nil completion:^(HHStudent *student, NSError *error) {
+    [[HHStudentService sharedInstance] setupStudentInfoWithStudentId:[HHStudentStore sharedInstance].currentStudent.studentId userName:newName cityId:[HHStudentStore sharedInstance].currentStudent.cityId promotionCode:nil completion:^(HHStudent *student, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
             self.currentStudent = student;
@@ -558,5 +670,37 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     }
 }
 
+- (NSMutableAttributedString *)buildPopupInfoTextWithString:(NSString *)string {
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.alignment = NSTextAlignmentCenter;
+    style.lineSpacing = 5.0f;
+    return [[NSMutableAttributedString alloc] initWithString:string attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:style}];
+}
+
+
+- (void)studentUpdated {
+    [[HHStudentService sharedInstance] fetchStudentWithId:self.currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
+        if (!error) {
+            self.currentStudent = student;
+            [self.tableView reloadData];
+        }
+    }];
+    
+}
+
+- (void)showLoginAlert {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"注册/登录后查看更多板块" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"去注册/登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self jumpToIntroVC];
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"再看看" style:UIAlertActionStyleDefault handler:nil];
+    
+    [alertController addAction:cancelAction];
+    [alertController addAction:confirmAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
 
 @end

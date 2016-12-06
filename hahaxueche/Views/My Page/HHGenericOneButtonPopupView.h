@@ -23,6 +23,6 @@
 
 @property (nonatomic, strong) HHPopupBlock cancelBlock;
 
-- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title info:(NSMutableAttributedString *)info;
+- (instancetype)initWithTitle:(NSString *)title info:(NSMutableAttributedString *)info;
 
 @end

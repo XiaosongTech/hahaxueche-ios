@@ -20,8 +20,11 @@
 #import "HHStudentService.h"
 #import "HHLoadingViewUtility.h"
 #import "HHToastManager.h"
+#import "HHWebViewController.h"
+#import "HHFreeTrialUtility.h"
 
 static NSString *const kRuleString = @"1）什么是哈哈学车代金券\n哈哈学车代金券是哈哈学车平台对外发行和认可的福利活动，可凭此代金券券享受学车立减的优惠金额。\n2）如何激活哈哈学车代金券\n在页面上方输入框中输入活动对应优惠码, 点击激活即可。\n3）哈哈学车代金券使用说明\na.代金券仅限在哈哈学车APP支付学费时使用，每个订单只能使用一张代金券，且一次性使用，不能拆分，不能提现，不能转赠，不能与其他代金券叠加使用。\nb.代金券只能在有效期内使用。\nc.代金券的最终解释权归哈哈学车所有。\n";
+static NSString *const kRuleString2 = @"1）什么是哈哈学车代金券\n哈哈学车代金券是哈哈学车平台对外发行和认可的福利活动，可凭此代金券券享受学车立减的优惠金额。\n2）如何激活哈哈学车代金券\n无门槛￥100代金券只要在哈哈学车免费试学即可激活。\n3）哈哈学车代金券使用说明\na.代金券仅限在哈哈学车APP支付学费时使用，每个订单只能使用一张代金券，且一次性使用，不能拆分，不能提现，不能转赠，不能与其他代金券叠加使用。\nb.代金券只能在有效期内使用。\nc.代金券的最终解释权归哈哈学车所有。\n";
 
 static NSString *const kSupportString = @"\n*如有其他疑问请联系客服或您的专属学车顾问\n哈哈学车客服热线：400-001-6006\n哈哈学车在线客服";
 
@@ -48,20 +51,101 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
     self.student = [HHStudentStore sharedInstance].currentStudent;
     
-    [[HHLoadingViewUtility sharedInstance] showLoadingView];
-    [[HHStudentService sharedInstance] fetchStudentWithId:self.student.studentId completion:^(HHStudent *student, NSError *error) {
-        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-        if (!error) {
-            self.student = student;
-            self.vouchers = [NSMutableArray arrayWithArray:self.student.vouchers];
-            if ([self.vouchers count] > 0) {
-                [self buildNormalViews];
-            } else {
-                [self buildEmptyView];
+    if([self.student isLoggedIn]) {
+        [[HHLoadingViewUtility sharedInstance] showLoadingView];
+        [[HHStudentService sharedInstance] fetchStudentWithId:self.student.studentId completion:^(HHStudent *student, NSError *error) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            if (!error) {
+                self.student = student;
+                self.vouchers = [NSMutableArray arrayWithArray:self.student.vouchers];
+                if ([self.vouchers count] > 0) {
+                    [self buildNormalViews];
+                } else {
+                    [self buildEmptyView];
+                }
             }
-        }
+        }];
+    } else {
+        [self buildGuestView];
+    }
+    
+    
+}
+
+- (void)buildGuestView {
+    self.scrollView = [[UIScrollView alloc] init];
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    [self.view addSubview:self.scrollView];
+    [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.top);
+        make.left.equalTo(self.view.left);
+        make.width.equalTo(self.view.width);
+        make.bottom.equalTo(self.view.bottom);
     }];
     
+    HHVoucher *fakeVoucher = [[HHVoucher alloc] init];
+    fakeVoucher.title = @"试学就送代金券";
+    fakeVoucher.amount = @(10000);
+    fakeVoucher.status = @(0);
+    HHVoucherView *voucherView = [[HHVoucherView alloc] initWithVoucher:fakeVoucher];
+    [self.scrollView addSubview:voucherView];
+    [voucherView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.scrollView.left).offset(20.0f);
+        make.width.equalTo(self.scrollView.width).offset(-40.0f);
+        make.height.mas_equalTo(90.0f);
+        make.top.equalTo(self.scrollView.top).offset(20.0f);
+    }];
+
+    UILabel *textLabel = [[UILabel alloc] init];
+    textLabel.numberOfLines = 0;
+    textLabel.textAlignment = NSTextAlignmentCenter;
+    textLabel.text = @"免费试学即可领取¥100元代金券-学车报名立减哦~\n赶快点击按钮申请免费试学吧!";
+    textLabel.font = [UIFont systemFontOfSize:12.0f];
+    textLabel.textColor = [UIColor HHOrange];
+    [self.scrollView addSubview:textLabel];
+    [textLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.scrollView.centerX);
+        make.width.equalTo(self.scrollView.width).offset(-40.0f);
+        make.top.equalTo(voucherView.bottom).offset(20.0f);
+    }];
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitle:@"免费试学" forState:UIControlStateNormal];
+    [button sizeToFit];
+    [button addTarget:self action:@selector(freeTrial) forControlEvents:UIControlEventTouchUpInside];
+    button.backgroundColor = [UIColor HHOrange];
+    button.layer.masksToBounds = YES;
+    button.layer.cornerRadius = 5.0f;
+    [self.scrollView addSubview:button];
+    [button makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.scrollView.centerX);
+        make.top.equalTo(textLabel.bottom).offset(10.0f);
+        make.width.mas_equalTo(CGRectGetWidth(button.bounds) + 30.0f);
+        make.height.mas_equalTo(CGRectGetHeight(button.bounds) + 8.0f);
+    }];
+    
+    self.rulesLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+    self.rulesLabel.activeLinkAttributes = @{(NSString *)kCTForegroundColorAttributeName:[UIColor HHOrange]};
+    self.rulesLabel.attributedText = [self buildAttributeStringForRules];
+    self.rulesLabel.delegate = self;
+    self.rulesLabel.numberOfLines = 0;
+    self.rulesLabel.textAlignment = NSTextAlignmentLeft;
+    [self.scrollView addSubview:self.rulesLabel];
+    [self.rulesLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(button.bottom).offset(20.0f);
+        make.centerX.equalTo(self.view.centerX);
+        make.width.equalTo(self.view.width).offset(-40.0f);
+    }];
+    
+    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.rulesLabel
+                                                                attribute:NSLayoutAttributeBottom
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self.scrollView
+                                                                attribute:NSLayoutAttributeBottom
+                                                               multiplier:1.0
+                                                                 constant:-20.0f]];
+
+
 }
 
 - (void)buildEmptyView {
@@ -149,6 +233,7 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
 
 - (void)buildRulesView {
     self.rulesLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+    self.rulesLabel.activeLinkAttributes = @{(NSString *)kCTForegroundColorAttributeName:[UIColor HHOrange]};
     self.rulesLabel.attributedText = [self buildAttributeStringForRules];
     self.rulesLabel.delegate = self;
     self.rulesLabel.numberOfLines = 0;
@@ -199,7 +284,12 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
     NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
     paraStyle.alignment = NSTextAlignmentLeft;
     paraStyle.lineSpacing = 8.0f;
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:kRuleString attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:13.0f], NSParagraphStyleAttributeName:paraStyle}];
+    NSString *baseRuleString = kRuleString;
+    if (![self.student isLoggedIn]) {
+        baseRuleString = kRuleString2;
+    }
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:baseRuleString attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:13.0f], NSParagraphStyleAttributeName:paraStyle}];
 
     
     NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:kSupportString attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:13.0f], NSParagraphStyleAttributeName:paraStyle}];
@@ -311,6 +401,12 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
     
 }
 
+
+- (void)freeTrial {
+    NSString *urlString = [[HHFreeTrialUtility sharedManager] buildFreeTrialURLStringWithCoachId:nil];
+    HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:urlString]];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 
 

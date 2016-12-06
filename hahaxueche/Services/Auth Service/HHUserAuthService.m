@@ -37,7 +37,7 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
 
 - (void)createUserWithNumber:(NSString *)number veriCode:(NSString *)veriCode password:(NSString *)password refererId:(NSString *)refererId completion:(HHUserCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIUserPath];
-    NSMutableDictionary *param = [NSMutableDictionary dictionaryWithDictionary:@{@"cell_phone":number, @"auth_token":veriCode, @"password":password, @"user_type":@"student"}];
+    NSMutableDictionary *param = [NSMutableDictionary dictionaryWithDictionary:@{@"cell_phone":number, @"auth_token":veriCode, @"password":password, @"user_type":@"student", @"source":@(0)}];
     if (refererId) {
         param[@"referer_id"] = refererId;
     }
@@ -100,6 +100,7 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
      HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPILogoutPath, [self getSavedUser].session.sessionId]];
     [APIClient deleteWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
+            [HHStudentStore sharedInstance].currentStudent = nil;
             [HHKeychainStore deleteSavedUser];
             [self deleteSavedUser];
             if (completion) {

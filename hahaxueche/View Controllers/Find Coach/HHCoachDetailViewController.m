@@ -173,7 +173,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     };
     
     self.bottomBar.purchaseCoachAction = ^(){
-        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+        if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
             [weakSelf showLoginSignupAlertView];
             return ;
         }
@@ -214,7 +214,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         case CoachCellDescription: {
             HHCoachDetailDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:kDescriptionCellID forIndexPath:indexPath];
             cell.likeBlock = ^(UIButton *likeButton, UILabel *likeCountLabel) {
-                if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+                if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
                     [weakSelf likeOrUnlikeCoachWithButton:likeButton label:likeCountLabel];
                 } else {
                     [weakSelf showIntroPopup];
@@ -248,7 +248,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
                 NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
                 style.lineSpacing = 3.0f;
                 NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:style}];
-                HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, height) title:title info:attString];
+                HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithTitle:title info:attString];
                 view.cancelBlock = ^() {
                     [HHPopupUtility dismissPopup:weakSelf.popup];
                 };
@@ -416,8 +416,8 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentCenter;
     paragraphStyle.lineSpacing = 8.0f;
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"您只有注册登录后\n才可以点赞教练哦~" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
-    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 260.0f) title:@"请登录" subTitle:nil info:attributedString leftButtonTitle:@"知道了" rightButtonTitle:@"去登录"];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"您只有注册登录后\n才可以点赞教练哦~" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"请登录" info:attributedString leftButtonTitle:@"知道了" rightButtonTitle:@"去登录"];
     self.popup = [HHPopupUtility createPopupWithContentView:view];
     view.confirmBlock = ^() {
         HHIntroViewController *vc = [[HHIntroViewController alloc] init];
@@ -505,7 +505,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 
 - (void)followUnfollowCoach {
     if (self.followed) {
-        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+        if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
             [self showLoginPopupForFollow];
             return ;
         }
@@ -518,7 +518,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
         }];
         
     } else {
-        if (![HHStudentStore sharedInstance].currentStudent.studentId) {
+        if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
             [self showLoginPopupForFollow];
             return ;
         }
@@ -538,8 +538,8 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentCenter;
     paragraphStyle.lineSpacing = 8.0f;
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"注册登录后, 才可以关注教练哦~\n注册获得更多教练咨询!~" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
-    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 260.0f) title:@"请登录" subTitle:nil info:attributedString leftButtonTitle:@"知道了" rightButtonTitle:@"去登录"];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"注册登录后, 才可以关注教练哦~\n注册获得更多教练咨询!~" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"请登录" info:attributedString leftButtonTitle:@"知道了" rightButtonTitle:@"去登录"];
     self.popup = [HHPopupUtility createPopupWithContentView:view];
     view.confirmBlock = ^() {
         HHIntroViewController *vc = [[HHIntroViewController alloc] init];

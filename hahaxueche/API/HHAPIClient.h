@@ -16,24 +16,24 @@ typedef void (^HHAPIClientCompletionBlock)(NSDictionary *response, NSError *erro
 
 @interface HHAPIClient : NSObject
 
-@property (nonatomic, strong)   AFHTTPRequestOperationManager *requestManager;
+@property (nonatomic, strong)   AFHTTPSessionManager *requestManager;
 @property (nonatomic, copy)     NSString *APIPath;
 
 
 + (HHAPIClient *)apiClientWithPath:(NSString *)path;
 + (HHAPIClient *)apiClient;
 
-- (AFHTTPRequestOperation *)postWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion;
+- (void)postWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion;
 
-- (AFHTTPRequestOperation *)getWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion;
+- (void)getWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion;
 
-- (AFHTTPRequestOperation *)putWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion;
+- (void)putWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion;
 
-- (AFHTTPRequestOperation *)getWithURL:(NSString *)URL completion:(HHAPIClientCompletionBlock)completion;
+- (void)getWithURL:(NSString *)URL completion:(HHAPIClientCompletionBlock)completion;
 
 
 - (void)deleteWithParameters:(NSDictionary *)params completion:(HHAPIClientCompletionBlock)completion;
 
-- (void)uploadImage:(UIImage *)image completion:(HHAPIClientCompletionBlock)completion progress:(void (^)(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite))progress;
+- (void)uploadImage:(UIImage *)image otherParam:(NSDictionary *)otherParam completion:(HHAPIClientCompletionBlock)completion progress:(void (^)(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite))progress;
 
 @end

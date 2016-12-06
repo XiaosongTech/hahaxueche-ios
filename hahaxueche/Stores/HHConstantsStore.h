@@ -30,6 +30,7 @@ typedef void (^HHConstantsCompletion)(HHConstants *constants);
 - (NSArray *)getHomePageBanners;
 - (NSArray *)getNotifications;
 - (NSNumber *)getCityReferrerBonus;
+- (NSNumber *)getCityRefereeBonus;
 
 - (NSArray *)getAllBanks;
 - (NSArray *)getPopularBanks;

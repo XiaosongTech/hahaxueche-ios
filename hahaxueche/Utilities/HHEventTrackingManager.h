@@ -85,6 +85,27 @@
 #define online_test_page_simu_tapped @"online_test_page_simu_tapped"
 #define online_test_page_my_lib_tapped @"online_test_page_my_lib_tapped"
 
+#define home_page_online_test_tapped @"home_page_online_test_tapped"
+#define home_page_course_one_tapped @"home_page_course_one_tapped"
+#define home_page_platform_guard_tapped @"home_page_platform_guard_tapped"
+#define home_page_refer_friends_tapped @"home_page_refer_friends_tapped"
+
+#define my_page_contract_tapped @"my_page_contract_tapped"
+
+#define upload_id_page_viewed @"upload_id_page_viewed"
+#define upload_id_page_cancel_tapped @"upload_id_page_cancel_tapped"
+#define upload_id_page_popup_cancel_tapped @"upload_id_page_popup_cancel_tapped"
+#define upload_id_page_popup_confirm_tapped @"upload_id_page_popup_confirm_tapped"
+#define upload_id_page_confirm_tapped @"upload_id_page_confirm_tapped"
+
+
+#define sign_contract_page_viewed @"sign_contract_page_viewed"
+#define sign_contract_check_box_checked @"sign_contract_check_box_checked"
+#define sign_contract_check_box_unchecked @"sign_contract_check_box_unchecked"
+
+#define my_contract_page_viewed @"my_contract_page_viewed"
+#define my_contract_page_top_right_button_tapped @"my_contract_page_top_right_button_tapped"
+#define my_contract_page_send_by_email_tapped @"my_contract_page_send_by_email_tapped"
 
 
 

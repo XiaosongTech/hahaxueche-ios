@@ -28,13 +28,21 @@
 #import "HHReferFriendsViewController.h"
 #import "HHStudentService.h"
 #import "HHBanner.h"
-#import "HHHomePageSupportView.h"
 #import "HHSupportUtility.h"
 #import "HHFreeTrialUtility.h"
 #import "HHTestView.h"
 #import "HHReferralShareView.h"
 #import "UIView+EAFeatureGuideView.h"
 #import "HHHomPageCardView.h"
+#import <Harpy/Harpy.h>
+#import "HHHomePageItemsView.h"
+#import "HHTestStartViewController.h"
+#import "HHReferFriendsViewController.h"
+#import "HHGenericOneButtonPopupView.h"
+#import "HHIntroViewController.h"
+#import "FLAnimatedImage.h"
+#import "FLAnimatedImageView.h"
+
 
 static NSString *const kCoachLink = @"http://m.hahaxueche.com/share/best-coaches";
 static NSString *const kDrivingSchoolLink = @"http://m.hahaxueche.com/share/zhaojiaxiao";
@@ -43,29 +51,26 @@ static NSString *const kGroupPurchaseLink = @"http://m.hahaxueche.com/share/tuan
 
 static NSString *const kFeatureLink = @"http://activity.hahaxueche.com/share/features";
 static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps";
+static NSString *const kPlatformLink = @"http://m.hahaxueche.com/assurance";
 
 static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
 
-@interface HHHomePageViewController () <SDCycleScrollViewDelegate>
+@interface HHHomePageViewController () <SDCycleScrollViewDelegate, HarpyDelegate>
 
 @property (nonatomic, strong) SDCycleScrollView *bannerView;
-@property (nonatomic, strong) HHHomePageTapView *thirdView;
-@property (nonatomic, strong) HHHomePageTapView *forthView;
-@property (nonatomic, strong) UIImageView *freeTryImageView;
+@property (nonatomic, strong) FLAnimatedImageView *freeTryImageView;
 @property (nonatomic, strong) HHCitySelectView *citySelectView;
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) CLLocation *userLocation;
 @property (nonatomic, strong) NSArray *banners;
 @property (nonatomic, strong) UIScrollView *scrollView;
 
-@property (nonatomic, strong) HHHomePageSupportView *callSupportView;
-@property (nonatomic, strong) HHHomePageSupportView *onlineSupportView;
-@property (nonatomic, strong) HHHomePageSupportView *eventView;
 @property (nonatomic, strong) UIView *freeTrialContainerView;
 
 @property (nonatomic, strong) HHHomPageCardView *drivingSchoolView;
 @property (nonatomic, strong) HHHomPageCardView *coachView;
 @property (nonatomic, strong) HHHomPageCardView *adviserView;
+@property (nonatomic, strong) HHHomePageItemsView *itemsView;
 
 @end
 
@@ -111,21 +116,22 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
                     [HHStudentStore sharedInstance].currentStudent.cityId = @(0);
                 }
                 [HHPopupUtility dismissPopup:weakSelf.popup];
-                if ([HHStudentStore sharedInstance].currentStudent.studentId) {
-                    [weakSelf showUserGuideView];
-                }
-
-                
             };
             
             weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.citySelectView];
             [weakSelf.popup show];
-        } else {
-            if ([HHStudentStore sharedInstance].currentStudent.studentId) {
-                [self showUserGuideView];
-            }
-        }
+        } 
     }
+    //Harpy
+    [[Harpy sharedInstance] setAppID:@"1011236187"];
+    [[Harpy sharedInstance] setPresentingViewController:self];
+    [[Harpy sharedInstance] setDelegate:self];
+    [[Harpy sharedInstance] setAppName:@"哈哈学车"];
+    [[Harpy sharedInstance] setForceLanguageLocalization:HarpyLanguageChineseSimplified];
+    [[Harpy sharedInstance] setDebugEnabled:YES];
+    [[Harpy sharedInstance] setAlertType:HarpyAlertTypeOption];
+    [[Harpy sharedInstance] setCountryCode:@"CN"];
+    [[Harpy sharedInstance] checkVersion];
        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_viewed attributes:nil];
 }
 
@@ -185,49 +191,27 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     };
     [self.scrollView addSubview:self.adviserView];
     
-    self.thirdView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_strengths"] title:@"我的优势" showRightLine:YES showBotLine:NO];
-    self.thirdView.actionBlock = ^() {
-        [weakSelf openWebPage:[NSURL URLWithString:kFeatureLink]];
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_strength_tapped attributes:nil];
-    };
-    [self.scrollView addSubview:self.thirdView];
-    
-    self.forthView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_procedure"] title:@"学车流程" showRightLine:NO showBotLine:NO];
-    self.forthView.actionBlock = ^() {
-        [weakSelf openWebPage:[NSURL URLWithString:kStepsLink]];
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_process_tapped attributes:nil];
-    };
-    [self.scrollView addSubview:self.forthView];
-    
     self.freeTrialContainerView = [[UIView alloc] init];
     self.freeTrialContainerView.backgroundColor = [UIColor whiteColor];
     [self.scrollView addSubview:self.freeTrialContainerView];
     
-    self.freeTryImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"button_free"]];
+    self.freeTryImageView = [[FLAnimatedImageView alloc] init];
+    NSString *imgString = [[NSBundle mainBundle] pathForResource:@"button_freetry" ofType:@"gif"];
+    NSData *imgData = [NSData dataWithContentsOfFile:imgString];
+    FLAnimatedImage *img = [FLAnimatedImage animatedImageWithGIFData:imgData];
+    self.freeTryImageView.animationDuration = 0.1f;
+    self.freeTryImageView.animatedImage = img;
     self.freeTryImageView.userInteractionEnabled = YES;
+    self.freeTryImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.freeTrialContainerView addSubview:self.freeTryImageView];
     UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tryCoachForFree)];
     [self.freeTryImageView addGestureRecognizer:tapRec];
     
-    self.callSupportView = [[HHHomePageSupportView alloc] initWithImage:[UIImage imageNamed:@"ic_ask_call"] title:@"电话咨询" showRightLine:NO];
-    self.callSupportView.actionBlock = ^() {
-        [[HHSupportUtility sharedManager] callSupport];
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_phone_support_tapped attributes:nil];
+    self.itemsView = [[HHHomePageItemsView alloc] init];
+    self.itemsView.itemBlock = ^(ItemType index) {
+        [weakSelf itemTappedWithIndex:index];
     };
-    [self.scrollView addSubview:self.callSupportView];
-    
-    self.onlineSupportView = [[HHHomePageSupportView alloc] initWithImage:[UIImage imageNamed:@"ic_ask_message"] title:@"在线客服" showRightLine:YES];
-    self.onlineSupportView.actionBlock = ^() {
-        [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_online_support_tapped attributes:nil];
-    };
-    [self.scrollView addSubview:self.onlineSupportView];
-    
-    self.eventView = [[HHHomePageSupportView alloc] initWithImage:[UIImage imageNamed:@"ic_discount"] title:@"限时团购" showRightLine:YES];
-    self.eventView.actionBlock = ^() {
-        [weakSelf showEvents];
-    };
-    [self.scrollView addSubview:self.eventView];
+    [self.scrollView addSubview:self.itemsView];
     
     [self makeConstraints];
 }
@@ -241,43 +225,31 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
         make.width.equalTo(self.scrollView.width);
         make.height.equalTo(self.view.width).multipliedBy(2.0f/5.0f);
     }];
+    
+    [self.freeTrialContainerView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.bannerView.bottom);
+        make.centerX.equalTo(self.scrollView.centerX);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(130.0f);
+    }];
 
-    [self.eventView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bannerView.bottom);
-        make.left.equalTo(self.scrollView.left);
-        make.width.equalTo(self.scrollView).multipliedBy(1.0f/3.0f);
-        make.height.mas_equalTo(55.0f);
-    }];
-    
-    [self.callSupportView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bannerView.bottom);
-        make.left.equalTo(self.onlineSupportView.right);
-        make.width.equalTo(self.view).multipliedBy(1.0f/3.0f);
-        make.height.mas_equalTo(55.0f);
-    }];
-    
-    [self.onlineSupportView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bannerView.bottom);
-        make.left.equalTo(self.eventView.right);
-        make.width.equalTo(self.view).multipliedBy(1.0f/3.0f);
-        make.height.mas_equalTo(55.0f);
-    }];
-    
-   
     [self.freeTryImageView makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.freeTrialContainerView.centerY);
         make.centerX.equalTo(self.freeTrialContainerView.centerX);
+        make.width.lessThanOrEqualTo(self.freeTrialContainerView.width).offset(-20.0f);
+        make.height.lessThanOrEqualTo(self.freeTryImageView.height).offset(-10.0f);
     }];
     
-    [self.freeTrialContainerView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.eventView.bottom);
+    [self.itemsView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.freeTrialContainerView.bottom).offset(10.0f);
         make.centerX.equalTo(self.scrollView.centerX);
         make.width.equalTo(self.scrollView.width);
-        make.height.mas_equalTo(90.0f);
+        make.height.mas_equalTo(160.0f);
     }];
     
+    
     [self.drivingSchoolView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.freeTrialContainerView.bottom).offset(10.0f);
+        make.top.equalTo(self.itemsView.bottom).offset(10.0f);
         make.left.equalTo(self.scrollView.left).offset(10.0f);
         make.width.equalTo(self.scrollView.width).offset(-20.0f);
         make.height.mas_equalTo(130.0f);
@@ -299,20 +271,7 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
         make.height.mas_equalTo(130.0f);
         
     }];
-    
-    [self.thirdView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.scrollView.right);
-        make.top.equalTo(self.adviserView.bottom).offset(10.0f);
-        make.width.equalTo(self.scrollView.width).multipliedBy(1/2.0f);
-        make.height.mas_equalTo(50.0f);
-    }];
-    
-    [self.forthView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.thirdView.right);
-        make.top.equalTo(self.adviserView.bottom).offset(10.0f);
-        make.width.equalTo(self.scrollView.width).multipliedBy(1/2.0f);
-        make.height.mas_equalTo(50.0f);
-    }];
+
     
     [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.top);
@@ -321,13 +280,13 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
         make.height.equalTo(self.view.height).offset(-1 * CGRectGetHeight(self.tabBarController.tabBar.bounds));
     }];
     
-    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.forthView
+    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.adviserView
                                                                 attribute:NSLayoutAttributeBottom
                                                                 relatedBy:NSLayoutRelationEqual
                                                                    toItem:self.scrollView
                                                                 attribute:NSLayoutAttributeBottom
                                                                multiplier:1.0
-                                                                 constant:-10.0f]];
+                                                                 constant:-20.0f]];
 
 }
 
@@ -359,33 +318,6 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
 }
 
 
-- (void)showEvents {
-    [self openWebPage:[NSURL URLWithString:kGroupPurchaseLink]];
-    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_group_purchase_tapped attributes:nil];
-    
-}
-
-- (void)showUserGuideView {
-    if ([UIView hasShowFeatureGuideWithKey:kHomePageGuideKey version:nil]) {
-        return;
-    }
-
-    __weak HHHomePageViewController *weakSelf = self;
-    EAFeatureItem *support = [[EAFeatureItem alloc] initWithFocusView:self.onlineSupportView  focusCornerRadius:0 focusInsets:UIEdgeInsetsMake(5.0f, 20.0f, -5.0f, -20.0f)];
-    support.introduce = @"xiaoha.png";
-    support.indicatorImageName = @"arrow";
-    self.view.guideViewDismissCompletion = ^() {
-        EAFeatureItem *coachTab = [[EAFeatureItem alloc] initWithFocusRect:CGRectMake(CGRectGetWidth(weakSelf.tabBarController.tabBar.frame)/4.0f, CGRectGetHeight(weakSelf.view.bounds)-CGRectGetHeight(weakSelf.tabBarController.tabBar.frame), CGRectGetWidth(weakSelf.tabBarController.tabBar.frame)/4.0f, CGRectGetHeight(weakSelf.tabBarController.tabBar.frame))  focusCornerRadius:0 focusInsets:UIEdgeInsetsZero];
-        coachTab.introduce = @"lookingforcoach.png";
-        coachTab.indicatorImageName = @"arrow";
-        weakSelf.view.guideViewDismissCompletion = nil;
-        [weakSelf.view showWithFeatureItems:@[coachTab] saveKeyName:@"coach" inVersion:nil];
-        
-    };
-    [self.view showWithFeatureItems:@[support] saveKeyName:kHomePageGuideKey inVersion:nil];
-    
-}
-
 - (NSMutableAttributedString *)generateStringWithArray:(NSArray *)strings number:(NSNumber *)number color:(UIColor *)color {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:strings[0] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10.0f], NSForegroundColorAttributeName:[UIColor HHLightestTextGray]}];
     
@@ -399,7 +331,98 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
 }
 
 
+- (void)itemTappedWithIndex:(ItemType)index {
+    __weak HHHomePageViewController *weakSelf = self;
+    switch (index) {
+        case ItemTypeGroupPurchase: {
+            [self openWebPage:[NSURL URLWithString:kGroupPurchaseLink]];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_group_purchase_tapped attributes:nil];
+            
+        } break;
+            
+        case ItemTypeOnlineTest: {
+            
+            [self showTestVC];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_online_test_tapped attributes:nil];
+            
+        } break;
+            
+            
+        case ItemTypeCourseOne: {
+            
+            [self showTestVC];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_course_one_tapped attributes:nil];
+        } break;
+            
+        case ItemTypePlatformGuard: {
+            [self openWebPage:[NSURL URLWithString:kPlatformLink]];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_platform_guard_tapped attributes:nil];
+            
+        } break;
+            
+        case ItemTypeProcess: {
+            [self openWebPage:[NSURL URLWithString:kStepsLink]];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_process_tapped attributes:nil];
+            
+        } break;
+            
+        case ItemTypeReferFriends: {
+            if ([HHStudentStore sharedInstance].currentStudent.studentId) {
+                HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+                [self presentViewController:navVC animated:YES completion:nil];
+            } else {
+                NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+                paragraphStyle.lineSpacing = 4.0f;
+                
+                NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"注册登陆后, 就能邀请好友啦! 每成功邀请一个好友你就能获得现金%@元, 好友获得%@元学车代金券! 赶快行动吧!", [[[HHConstantsStore sharedInstance] getCityReferrerBonus] generateMoneyString], [[[HHConstantsStore sharedInstance] getCityRefereeBonus] generateMoneyString]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+                
+                HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithTitle:@"推荐好友" info:attributedString];
+                [view.buttonView.okButton setTitle:@"去注册!" forState:UIControlStateNormal];
+                view.cancelBlock = ^() {
+                    HHIntroViewController *vc = [[HHIntroViewController alloc] init];
+                    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+                    [weakSelf presentViewController:nav animated:YES completion:nil];
+                };
+                self.popup = [HHPopupUtility createPopupWithContentView:view];
+                self.popup.shouldDismissOnContentTouch = NO;
+                [HHPopupUtility showPopup:self.popup];
+            }
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_refer_friends_tapped attributes:nil];
+            
+        } break;
+            
+        case ItemTypeOnlineSupport: {
+            [self.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:self.navigationController] animated:YES];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_online_support_tapped attributes:nil];
 
+            
+            
+        } break;
+            
+        case ItemTypeCallSupport: {
+            [[HHSupportUtility sharedManager] callSupport];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_phone_support_tapped attributes:nil];
+            
+        } break;
+            
+            
+            
+        default:
+            break;
+    }
+}
+
+- (void)showTestVC {
+    __weak HHHomePageViewController *weakSelf = self;
+    HHTestStartViewController *vc =  [[HHTestStartViewController alloc] init];
+    vc.dismissBlock = ^() {
+        weakSelf.tabBarController.selectedIndex = 1;
+    };
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:navVC animated:YES completion:nil];
+    
+}
 
 
 

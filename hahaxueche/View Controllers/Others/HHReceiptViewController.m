@@ -14,15 +14,15 @@
 #import "HHPurchasedService.h"
 #import "NSNumber+HHNumber.h"
 #import "HHFormatUtility.h"
-#import "HHReferFriendsViewController.h"
 #import <TTTAttributedLabel.h>
 #import "HHSupportUtility.h"
+#import "HHUploadIDViewController.h"
 
 @interface HHReceiptViewController () <TTTAttributedLabelDelegate>
 
 @property (nonatomic, strong) UIImageView *imgView;
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UIButton *shareButton;
+@property (nonatomic, strong) UIButton *signContractButton;
 @property (nonatomic, strong) TTTAttributedLabel *supportLable;
 @property (nonatomic, strong) UIScrollView *scrollView;
 
@@ -69,17 +69,18 @@
     self.titleLabel.textColor = [UIColor HHTextDarkGray];
     [self.scrollView addSubview:self.titleLabel];
     
-    self.shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.shareButton setTitle:@"分享得现金!" forState:UIControlStateNormal];
-    [self.shareButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.shareButton setBackgroundColor:[UIColor HHOrange]];
-    self.shareButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
-    self.shareButton.layer.masksToBounds = YES;
-    self.shareButton.layer.cornerRadius = 25.0f;
-    [self.shareButton addTarget:self action:@selector(shareReferral) forControlEvents:UIControlEventTouchUpInside];
-    [self.scrollView addSubview:self.shareButton];
+    self.signContractButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.signContractButton setTitle:@"签署专属协议" forState:UIControlStateNormal];
+    [self.signContractButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.signContractButton setBackgroundColor:[UIColor HHOrange]];
+    self.signContractButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
+    self.signContractButton.layer.masksToBounds = YES;
+    self.signContractButton.layer.cornerRadius = 25.0f;
+    [self.signContractButton addTarget:self action:@selector(shareReferral) forControlEvents:UIControlEventTouchUpInside];
+    [self.scrollView addSubview:self.signContractButton];
     
     self.supportLable = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+    self.supportLable.activeLinkAttributes = @{(NSString *)kCTForegroundColorAttributeName:[UIColor HHOrange]};
     self.supportLable.delegate = self;
     self.supportLable.textAlignment = NSTextAlignmentCenter;
     self.supportLable.numberOfLines = 0;
@@ -147,7 +148,7 @@
         make.height.mas_equalTo(30.0f);
     }];
     
-    [self.shareButton makeConstraints:^(MASConstraintMaker *make) {
+    [self.signContractButton makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.receiptNoView.bottom).offset(30.0f);
         make.centerX.equalTo(self.scrollView.centerX);
         make.width.mas_equalTo(280.0f);
@@ -156,7 +157,7 @@
     }];
     
     [self.supportLable makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.shareButton.bottom).offset(20.0f);
+        make.top.equalTo(self.signContractButton.bottom).offset(20.0f);
         make.centerX.equalTo(self.scrollView.centerX);
         make.width.mas_equalTo(280.0f);
         
@@ -172,8 +173,8 @@
 }
 
 - (void)shareReferral {
-    HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
-    [self.navigationController setViewControllers:@[vc]];
+    HHUploadIDViewController *vc = [[HHUploadIDViewController alloc] init];
+    [self.navigationController setViewControllers:@[vc] animated:YES];
 }
 
 - (NSMutableAttributedString *)buildAttributeString {
