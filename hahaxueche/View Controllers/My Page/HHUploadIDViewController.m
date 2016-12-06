@@ -55,7 +55,7 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"上传身份信息";
-    self.isFaceViewTapped = YES;
+    self.isFaceViewTapped = NO;
     self.view.backgroundColor = [UIColor colorWithRed:1.00 green:0.98 blue:0.95 alpha:1.00];
     [self initSubviews];
 }

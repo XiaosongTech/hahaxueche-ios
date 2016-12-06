@@ -78,7 +78,9 @@
 
 - (void)handleError:(NSError **)error {
     NSMutableDictionary *userInfo = [[*error userInfo] mutableCopy];
-    
+    if (!userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey]) {
+        return;
+    }
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey]
                                                          options:kNilOptions
                                                            error:nil];
