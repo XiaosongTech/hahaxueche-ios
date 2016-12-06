@@ -21,7 +21,7 @@
         
         self.button = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.button setTitle:@"退出账号" forState:UIControlStateNormal];
-        [self.button setTitleColor:[UIColor HHCancelRed] forState:UIControlStateNormal];;
+        [self.button setTitleColor:[UIColor HHCancelRed] forState:UIControlStateNormal];
         self.button.titleLabel.font = [UIFont systemFontOfSize:14.0f];
         self.button.backgroundColor = [UIColor whiteColor];
         [self.button addTarget:self action:@selector(buttonTapped) forControlEvents:UIControlEventTouchUpInside];

@@ -12,6 +12,7 @@
 #import "HHMyPageViewController.h"
 #import "UIColor+HHColor.h"
 #import "HHClubViewController.h"
+#import "HHStudentStore.h"
 
 @interface HHRootViewController ()
 
@@ -58,6 +59,13 @@
         myPageItem.selectedImage = [[UIImage imageNamed:@"ic_bottombar_mypage_hold_btn"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         myPageItem.title = @"我的页面";
         myPageNavVC.tabBarItem = myPageItem;
+        
+        HHStudent *student = [HHStudentStore sharedInstance].currentStudent;
+        if (student.purchasedServiceArray.count > 0 && !student.agreementURL) {
+            myPageItem.badgeValue = @"1";
+        } else {
+             myPageItem.badgeValue = nil;
+        }
         
         
         NSArray *viewControllers = @[homePageNavVC, findCoachNavVC, clubNavVC, myPageNavVC];

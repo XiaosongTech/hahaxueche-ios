@@ -13,6 +13,7 @@
 #import "HHPersonalCoach.h"
 #import "HHShareView.h"
 #import "HHClubPost.h"
+#import "HHTestScore.h"
 
 
 typedef void (^MessageCompletion) (OSMessage *message);
@@ -28,6 +29,7 @@ typedef void (^ShareResultCompletion) (BOOL succceed);
 - (void)shareCoach:(HHCoach *)coach shareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion;
 - (void)shareMyQRCode:(UIImage *)qrCode shareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion;
 - (void)sharePost:(HHClubPost *)post shareType:(SocialMedia)shareType;
+- (void)shareTestScore:(HHTestScore *)score shareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion;
 
 
 - (NSString *)getChannelNameWithType:(SocialMedia)type;

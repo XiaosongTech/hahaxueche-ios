@@ -181,6 +181,7 @@ static CGFloat const kCellHeight = 50.0f;
     
     self.supportLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
     self.supportLabel.attributedText = [self buildAttributeString];
+    self.supportLabel.activeLinkAttributes = @{(NSString *)kCTForegroundColorAttributeName:[UIColor HHOrange]};
     self.supportLabel.delegate = self;
     self.supportLabel.numberOfLines = 0;
     [self.scrollView addSubview:self.supportLabel];

@@ -42,24 +42,24 @@ static NSString *const kCourse4FavoratedKey = @"kCourse4FavoratedKey";
     NSString *fileName;
     switch (courseMode) {
         case CourseMode1: {
-            fileName = @"course1";
+            fileName = @"db_subject_one";
         } break;
             
         case CourseMode4: {
-            fileName = @"course4";
+            fileName = @"db_subject_four";
         } break;
             
         default: {
-            fileName = @"course1";
+            fileName = @"db_subject_one";
         } break;
     }
     
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"txt"];
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"json"];
     NSData *data = [NSData dataWithContentsOfFile:filePath];
     if (data) {
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data
                                                             options:kNilOptions error:nil];
-        NSArray *questions = dic[@"result"];
+        NSArray *questions = (NSArray *)dic;
         NSMutableArray *questionObjects = [NSMutableArray array];
         for (NSDictionary *dictionary in questions) {
             HHQuestion *question = [MTLJSONAdapter modelOfClass:[HHQuestion class] fromJSONDictionary:dictionary error:nil];

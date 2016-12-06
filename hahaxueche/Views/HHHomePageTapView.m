@@ -12,7 +12,7 @@
 
 @implementation HHHomePageTapView
 
-- (instancetype)initWithImage:(UIImage *)image title:(NSString *)title showRightLine:(BOOL)showRightLine showBotLine:(BOOL)showBotLine {
+- (instancetype)initWithImage:(UIImage *)image title:(NSString *)title {
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
@@ -21,31 +21,10 @@
         
         self.titleLabel = [[UILabel alloc] init];
         self.titleLabel.text = title;
-        self.titleLabel.textColor = [UIColor HHTextDarkGray];
-        self.titleLabel.font = [UIFont systemFontOfSize:16.0f];
+        self.titleLabel.textColor = [UIColor HHLightTextGray];
+        self.titleLabel.font = [UIFont systemFontOfSize:12.0f];
         [self.titleLabel sizeToFit];
         [self addSubview:self.titleLabel];
-
-        
-        self.rightLine = [[UIView alloc] init];
-        self.rightLine.backgroundColor = [UIColor HHLightLineGray];
-        [self addSubview:self.rightLine];
-        
-        if (showRightLine) {
-            self.rightLine.hidden = NO;
-        } else {
-            self.rightLine.hidden = YES;
-        }
-        
-        self.bottomLine = [[UIView alloc] init];
-        self.bottomLine.backgroundColor = [UIColor HHLightLineGray];
-        [self addSubview:self.bottomLine];
-        
-        if (showBotLine) {
-            self.bottomLine.hidden = NO;
-        } else {
-            self.bottomLine.hidden = YES;
-        }
         
         [self makeConstraints];
         
@@ -57,27 +36,13 @@
 
 - (void)makeConstraints {
     [self.imageView makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.centerY);
-        make.centerX.equalTo(self.centerX).multipliedBy(0.5f);
+        make.top.equalTo(self.top).offset(10.0f);
+        make.centerX.equalTo(self.centerX);
     }];
     
     [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.centerY);
-        make.centerX.equalTo(self.centerX).multipliedBy(1.3f);
-    }];
-    
-    [self.rightLine makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.centerY);
-        make.right.equalTo(self.right);
-        make.width.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-        make.height.equalTo(self.height);
-    }];
-    
-    [self.bottomLine makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.bottom);
-        make.left.equalTo(self.left);
-        make.width.equalTo(self.width);
-        make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+        make.bottom.equalTo(self.bottom).offset(-5.0f);
+        make.centerX.equalTo(self.centerX);
     }];
     
 }

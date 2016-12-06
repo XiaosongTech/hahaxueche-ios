@@ -19,6 +19,7 @@
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHConstantsStore.h"
 #import "HHBanner.h"
+#import "HHLoadingViewUtility.h"
 
 
 static CGFloat const kButtonHeight = 40.0f;
@@ -179,7 +180,10 @@ static CGFloat const kButtonWidth = 235.0f;
 - (void)enterAsGuest {
     [[HHStudentStore sharedInstance] createGuestStudent];
     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-    [self presentViewController:rootVC animated:NO completion:nil];
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    [self presentViewController:rootVC animated:NO completion:^{
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+    }];
 }
 
 - (void)popupVC {

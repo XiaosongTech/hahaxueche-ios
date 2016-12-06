@@ -28,6 +28,8 @@
              @"coupons":@"coupons",
              @"bankCard":@"bank_card",
              @"vouchers":@"vouchers",
+             @"agreementURL":@"agreement_url",
+             @"idCard":@"identity_card",
              };
 }
 
@@ -41,6 +43,10 @@
 
 + (NSValueTransformer *)bankCardJSONTransformer {
     return [MTLJSONAdapter dictionaryTransformerWithModelClass:[HHBankCard class]];
+}
+
++ (NSValueTransformer *)idCardJSONTransformer {
+    return [MTLJSONAdapter dictionaryTransformerWithModelClass:[HHIdentityCard class]];
 }
 
 - (NSString *)getCourseName {
@@ -88,6 +94,14 @@
 
 + (NSValueTransformer *)vouchersJSONTransformer {
     return [MTLJSONAdapter arrayTransformerWithModelClass:[HHVoucher class]];
+}
+
+- (BOOL)isLoggedIn {
+    return (self.studentId && ![self.studentId isEqualToString:@""]);
+}
+
+- (BOOL)isPurchased {
+    return [self.purchasedServiceArray count];
 }
 
 @end
