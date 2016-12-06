@@ -13,10 +13,10 @@ typedef NS_ENUM(NSInteger, ItemType) {
     ItemTypeOnlineTest,
     ItemTypeCourseOne,
     ItemTypePlatformGuard,
-    ItemTypeProcess,
     ItemTypeReferFriends,
-    ItemTypeOnlineSupport,
     ItemTypeCallSupport,
+    ItemTypeOnlineSupport,
+    ItemTypeProcess,
     ItemTypeCount
 };
 

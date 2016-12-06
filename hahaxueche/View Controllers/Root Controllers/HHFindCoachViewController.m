@@ -124,14 +124,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     self.selectedFields = [NSMutableArray array];
     self.expandedCellIndexPath = [NSMutableArray array];
     [self initSubviews];
-     __weak HHFindCoachViewController *weakSelf = self;
-    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];
-    [self getUserLocationWithCompletion:^{
-        [weakSelf refreshCoachList:YES completion:^{
-            [weakSelf showUserGuideView];
-        }];
-    }];
-
+    
     self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
     
@@ -145,6 +138,12 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     self.segControl.selectedSegmentIndex = CoachTypeDrivingSchoolCoach;
     self.navigationItem.titleView = self.segControl;
     
+    __weak HHFindCoachViewController *weakSelf = self;
+    [self getUserLocationWithCompletion:^{
+        [weakSelf refreshCoachList:YES completion:^{
+            [weakSelf showUserGuideView];
+        }];
+    }];
     [self refreshPersonalCoachList:NO completion:nil];
 
 }
@@ -174,7 +173,10 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         if (completion) {
             completion();
         }
-        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (showLoading) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        }
+        
         
     }];
 }
@@ -212,7 +214,9 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         if (completion) {
             completion();
         }
-         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (showLoading) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        }
     }];
 }
 

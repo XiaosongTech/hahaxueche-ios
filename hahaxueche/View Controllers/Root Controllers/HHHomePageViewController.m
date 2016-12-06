@@ -40,6 +40,8 @@
 #import "HHReferFriendsViewController.h"
 #import "HHGenericOneButtonPopupView.h"
 #import "HHIntroViewController.h"
+#import "FLAnimatedImage.h"
+#import "FLAnimatedImageView.h"
 
 
 static NSString *const kCoachLink = @"http://m.hahaxueche.com/share/best-coaches";
@@ -49,13 +51,14 @@ static NSString *const kGroupPurchaseLink = @"http://m.hahaxueche.com/share/tuan
 
 static NSString *const kFeatureLink = @"http://activity.hahaxueche.com/share/features";
 static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps";
+static NSString *const kPlatformLink = @"http://m.hahaxueche.com/assurance";
 
 static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
 
 @interface HHHomePageViewController () <SDCycleScrollViewDelegate, HarpyDelegate>
 
 @property (nonatomic, strong) SDCycleScrollView *bannerView;
-@property (nonatomic, strong) UIImageView *freeTryImageView;
+@property (nonatomic, strong) FLAnimatedImageView *freeTryImageView;
 @property (nonatomic, strong) HHCitySelectView *citySelectView;
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) CLLocation *userLocation;
@@ -192,7 +195,12 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     self.freeTrialContainerView.backgroundColor = [UIColor whiteColor];
     [self.scrollView addSubview:self.freeTrialContainerView];
     
-    self.freeTryImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_freetry"]];
+    self.freeTryImageView = [[FLAnimatedImageView alloc] init];
+    NSString *imgString = [[NSBundle mainBundle] pathForResource:@"button_freetry" ofType:@"gif"];
+    NSData *imgData = [NSData dataWithContentsOfFile:imgString];
+    FLAnimatedImage *img = [FLAnimatedImage animatedImageWithGIFData:imgData];
+    self.freeTryImageView.animationDuration = 0.1f;
+    self.freeTryImageView.animatedImage = img;
     self.freeTryImageView.userInteractionEnabled = YES;
     self.freeTryImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.freeTrialContainerView addSubview:self.freeTryImageView];
@@ -229,6 +237,7 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
         make.centerY.equalTo(self.freeTrialContainerView.centerY);
         make.centerX.equalTo(self.freeTrialContainerView.centerX);
         make.width.lessThanOrEqualTo(self.freeTrialContainerView.width).offset(-20.0f);
+        make.height.lessThanOrEqualTo(self.freeTryImageView.height).offset(-10.0f);
     }];
     
     [self.itemsView makeConstraints:^(MASConstraintMaker *make) {
@@ -346,7 +355,7 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
         } break;
             
         case ItemTypePlatformGuard: {
-            
+            [self openWebPage:[NSURL URLWithString:kPlatformLink]];
             [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_platform_guard_tapped attributes:nil];
             
         } break;
