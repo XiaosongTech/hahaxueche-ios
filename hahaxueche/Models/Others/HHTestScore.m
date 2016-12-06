@@ -21,9 +21,9 @@
 
 + (NSValueTransformer *)createdAtJSONTransformer {
     return [MTLValueTransformer transformerUsingForwardBlock:^id(NSString *dateString, BOOL *success, NSError *__autoreleasing *error) {
-        return [[HHFormatUtility fullDateFormatter] dateFromString:dateString];
+        return [[HHFormatUtility backendDateFormatter] dateFromString:dateString];
     } reverseBlock:^id(NSDate *date, BOOL *success, NSError *__autoreleasing *error) {
-        return [[HHFormatUtility fullDateFormatter] stringFromDate:date];
+        return [[HHFormatUtility backendDateFormatter] stringFromDate:date];
     }];
 }
 

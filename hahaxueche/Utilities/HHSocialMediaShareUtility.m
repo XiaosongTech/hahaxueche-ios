@@ -12,6 +12,7 @@
 #import "HHLoadingViewUtility.h"
 #import "NSString+HHURL.h"
 #import "HHStudentStore.h"
+#import "HHFormatUtility.h"
 
 
 static NSString *const kStagingShareCoachBaseURL = @"https://staging-api.hahaxueche.net/share/coaches/%@";
@@ -529,8 +530,8 @@ static NSString *const kSupportQQ = @"3319762526";
     NSArray *carNumber = @[@"AZ-521",@"MDS-339",@"TEK-071",@"MIDE-295",@"IDBD-692",@"MIMK-039"];
     NSString *selectedCarNumber = carNumber[arc4random_uniform(carNumber.count)];
     
-    NSString *baseLink = @"m.hahaxueche.com/share/baoguoka?promo_code=406808&";
-    NSDictionary *dic = [MTLJSONAdapter JSONDictionaryFromModel:score error:nil];
+    NSString *baseLink = @"http://m.hahaxueche.com/share/baoguoka?promo_code=406808&";
+    NSDictionary *dic = @{@"score":score.score, @"date":[[HHFormatUtility fullDateFormatter] stringFromDate:score.createdAt]};
     
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic
                                                        options:0
@@ -543,7 +544,7 @@ static NSString *const kSupportQQ = @"3319762526";
     msg.thumbnail = [UIImage imageNamed:@"ic_share"];
     msg.title = @"科一不过包赔!";
     msg.multimediaType = OSMultimediaTypeNews;
-    msg.link = [NSString stringWithFormat:@"%@content=%@", baseLink, base64Encoded];
+    msg.link = [NSString stringWithFormat:@"%@result=%@", baseLink, base64Encoded];
     msg.desc = [NSString stringWithFormat:@"科一保过卡免费送！考不过现金赔！【%@】哈哈老司机要开车了，捂脸~~内有惊喜！", selectedCarNumber];
     
     switch (shareType) {
