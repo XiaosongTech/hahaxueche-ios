@@ -111,7 +111,7 @@ static CGFloat const kAvatarRadius = 30.0f;
 
 - (void)makeConstraints {
     [self.avatarView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.top).offset(20.0f);
+        make.top.equalTo(self.top).offset(10.0f);
         make.left.equalTo(self.left).offset(15.0f);
         make.width.mas_equalTo(kAvatarRadius * 2.0f);
         make.height.mas_equalTo(kAvatarRadius * 2.0f);
@@ -173,8 +173,8 @@ static CGFloat const kAvatarRadius = 30.0f;
     
     if (self.jiaxiaoView) {
         [self.jiaxiaoView makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.badgeView.right).offset(5.0f);
-            make.centerY.equalTo(self.nameLabel.centerY);
+            make.centerX.equalTo(self.avatarView.centerX);
+            make.top.equalTo(self.avatarView.bottom).offset(5.0f);
             make.width.equalTo(self.jiaxiaoView.label.width).offset(20.0f);
             make.height.mas_equalTo(16.0f);
         }];

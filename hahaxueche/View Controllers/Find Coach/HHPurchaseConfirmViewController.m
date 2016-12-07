@@ -26,6 +26,7 @@
 #import "HHVoucher.h"
 #import "HHGenericTwoButtonsPopupView.h"
 #import "HHSelectVoucherViewController.h"
+#import "HHSpecialVouchersView.h"
 
 
 @interface HHPurchaseConfirmViewController ()
@@ -44,6 +45,7 @@
 @property (nonatomic, strong) UIView *voucherView;
 @property (nonatomic, strong) UILabel *voucherTitleLabel;
 @property (nonatomic, strong) UILabel *voucherAmountLabel;
+@property (nonatomic, strong) HHSpecialVouchersView *specialVoucherView;
 
 @property (nonatomic) StudentPaymentMethod selectedMethod;
 @property (nonatomic) CoachProductType selectedProduct;
@@ -55,6 +57,7 @@
 @property (nonatomic, strong) HHPaymentMethodView *bankCardView;
 @property (nonatomic, strong) HHPaymentMethodView *fqlView;
 @property (nonatomic, strong) NSArray *validVouchers;
+@property (nonatomic, strong) NSArray *specialVouchers;
 @property (nonatomic, strong) HHVoucher *selectedVoucher;
 @property (nonatomic, strong) KLCPopup *popup;
 
@@ -70,6 +73,7 @@
         self.selectedMethod = StudentPaymentMethodAlipay;
         self.paymentViews = [NSMutableArray array];
         self.validVouchers = validVouchers;
+        self.specialVouchers = validVouchers;
         if ([self.validVouchers count] > 0) {
             self.selectedVoucher = [self.validVouchers firstObject];
         }
@@ -160,36 +164,42 @@
     
     [self buildClassView];
     
+    UIView *preView = self.classTypeView;
+    if (self.specialVouchers.count > 0) {
+        self.specialVoucherView = [[HHSpecialVouchersView alloc] initWithVouchers:self.specialVouchers];
+        [self.scrollView addSubview:self.specialVoucherView];
+        [self.specialVoucherView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(preView.bottom);
+            make.left.equalTo(self.scrollView.left);
+            make.width.equalTo(self.scrollView.width);
+            make.height.mas_equalTo(40.0f * self.specialVouchers.count);
+        }];
+        preView = self.specialVoucherView;
+    }
+    
+    
+    
     if (self.validVouchers.count > 0) {
         self.voucherView = [self buildVoucherView];
         [self.scrollView addSubview:self.voucherView];
         [self.voucherView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.classTypeView.bottom);
+            make.top.equalTo(preView.bottom);
             make.left.equalTo(self.scrollView.left);
             make.width.equalTo(self.scrollView.width);
             make.height.mas_equalTo(50.0f);
         }];
-        
-        self.totalPriceContainerView = [[UIView alloc] init];
-        self.totalPriceContainerView.backgroundColor = [UIColor whiteColor];
-        [self.scrollView addSubview:self.totalPriceContainerView];
-        [self.totalPriceContainerView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.voucherView.bottom);
-            make.left.equalTo(self.scrollView.left);
-            make.width.equalTo(self.scrollView.width);
-            make.height.mas_equalTo(50.0f);
-        }];
-    } else {
-        self.totalPriceContainerView = [[UIView alloc] init];
-        self.totalPriceContainerView.backgroundColor = [UIColor whiteColor];
-        [self.scrollView addSubview:self.totalPriceContainerView];
-        [self.totalPriceContainerView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.classTypeView.bottom);
-            make.left.equalTo(self.scrollView.left);
-            make.width.equalTo(self.scrollView.width);
-            make.height.mas_equalTo(50.0f);
-        }];
+        preView = self.voucherView;
     }
+    
+    self.totalPriceContainerView = [[UIView alloc] init];
+    self.totalPriceContainerView.backgroundColor = [UIColor whiteColor];
+    [self.scrollView addSubview:self.totalPriceContainerView];
+    [self.totalPriceContainerView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(preView.bottom);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(50.0f);
+    }];
 
     
     self.totalPriceLabel = [[UILabel alloc] init];

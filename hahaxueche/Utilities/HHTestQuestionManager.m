@@ -42,15 +42,15 @@ static NSString *const kCourse4FavoratedKey = @"kCourse4FavoratedKey";
     NSString *fileName;
     switch (courseMode) {
         case CourseMode1: {
-            fileName = @"db_subject_one";
+            fileName = @"one";
         } break;
             
         case CourseMode4: {
-            fileName = @"db_subject_four";
+            fileName = @"four";
         } break;
             
         default: {
-            fileName = @"db_subject_one";
+            fileName = @"one";
         } break;
     }
     
