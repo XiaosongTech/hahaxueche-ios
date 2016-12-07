@@ -10,6 +10,7 @@
 #import "HHCoach.h"
 #import "HHPersonalCoach.h"
 #import "HHCoachTagView.h"
+#import "HHCoachBadgeView.h"
 
 typedef void (^HHLikeCoachBlock)(UIButton *likeButton, UILabel *likeCountLabel);
 typedef void (^HHFollowCoachBlock)();
@@ -25,6 +26,7 @@ typedef void (^HHFollowCoachBlock)();
 @property (nonatomic, strong) UILabel *descriptionLabel;
 @property (nonatomic, strong) HHCoachTagView *jiaxiaoView;
 @property (nonatomic, strong) UIButton *followButton;
+@property (nonatomic, strong) HHCoachBadgeView *badgeView;
 
 @property (nonatomic, strong) HHLikeCoachBlock likeBlock;
 @property (nonatomic, strong) HHFollowCoachBlock followBlock;

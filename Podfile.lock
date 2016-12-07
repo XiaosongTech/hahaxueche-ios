@@ -36,7 +36,7 @@ PODS:
   - Mantle (2.0.7):
     - Mantle/extobjc (= 2.0.7)
   - Mantle/extobjc (2.0.7)
-  - Masonry (1.0.1)
+  - Masonry (1.0.2)
   - MJRefresh (3.1.0)
   - MMNumberKeyboard (0.1.5)
   - Pingpp/Alipay (2.2.8):
@@ -88,7 +88,7 @@ DEPENDENCIES:
   - libPhoneNumber-iOS (~> 0.8)
   - LinkedME-iOS-Deep-Linking-Demo_Pod (from `https://github.com/WFC-LinkedME/LinkedME-iOS-Deep-Linking-Demo.git`)
   - Mantle
-  - Masonry
+  - Masonry (~> 1.0.2)
   - MJRefresh
   - MMNumberKeyboard
   - Pingpp/Alipay (~> 2.2.8)
@@ -137,7 +137,7 @@ SPEC CHECKSUMS:
   libPhoneNumber-iOS: 3a37004baf779b4262ab29a31a87d2ae668159d4
   LinkedME-iOS-Deep-Linking-Demo_Pod: 8a9e596a25a3baaef118b775a44be852c3b51d1a
   Mantle: bc40bb061d8c2c6fb48d5083e04d928c3b7f73d9
-  Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
+  Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   MMNumberKeyboard: 12da79571d08aca21566534a74726c5469aed29a
   Pingpp: b5ad287bd6969d69cff1f2438ea63147976711c9
@@ -154,6 +154,6 @@ SPEC CHECKSUMS:
   UITextView+Placeholder: 77680995fcdd07c3f52ec92fe1150874a2ac89ff
   UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
 
-PODFILE CHECKSUM: cd84f69de15760a0ae221eff03281901b678d489
+PODFILE CHECKSUM: ff7c012759898a0c42ab553451853bb270f10361
 
 COCOAPODS: 1.0.0

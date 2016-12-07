@@ -10,7 +10,7 @@ target "hahaxueche" do
     pod 'AFNetworking', '~> 3.1'
     pod 'SAMKeychain'
     pod 'MJRefresh'
-    pod 'Masonry'
+    pod 'Masonry', '~>1.0.2'
     pod 'Mantle'
     pod 'CRToast'
     pod 'KLCPopup'

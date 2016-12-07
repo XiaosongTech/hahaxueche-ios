@@ -42,10 +42,6 @@ static CGFloat const kAvatarRadius = 30.0f;
     [self.nameLabel sizeToFit];
     [self addSubview:self.nameLabel];
     
-    self.goldenCoachIcon = [[UIImageView alloc] init];
-    self.goldenCoachIcon.contentMode = UIViewContentModeCenter;
-    [self addSubview:self.goldenCoachIcon];
-    
     self.trainingYearLabel = [self createLabelWithFont:[UIFont systemFontOfSize:16.0f] textColor:[UIColor HHLightTextGray]];
     [self.trainingYearLabel sizeToFit];
     [self addSubview:self.trainingYearLabel];
@@ -79,9 +75,37 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.likeCountLabel.font = [UIFont systemFontOfSize:13.0f];
     [self addSubview:self.likeCountLabel];
     
-    [self setupViewWithCoach:self.coach field:self.field userLocation:[HHStudentStore sharedInstance].currentLocation];
+    if ([self.coach isGoldenCoach] || [self.coach.hasDeposit boolValue]) {
+        self.badgeView = [[HHCoachBadgeView alloc] initWithCoach:self.coach];
+        [self addSubview:self.badgeView];
+        
+    }
     
+    if (self.coach.drivingSchool && ![self.coach.drivingSchool isEqualToString:@""]) {
+        self.jiaxiaoView = [[HHCoachTagView alloc] init];
+        [self.jiaxiaoView setDotColor:[UIColor HHOrange] title:self.coach.drivingSchool];
+        [self addSubview:self.jiaxiaoView];
+        
+    }
     [self makeConstraints];
+    
+    self.ratingLabel.text = [NSString stringWithFormat:@"%.1f (%@)",[self.coach.averageRating floatValue], [self.coach.reviewCount stringValue]];;
+    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:self.coach.avatarUrl] placeholderImage:[UIImage imageNamed:@"ic_coach_ava"]];
+    self.nameLabel.text = self.coach.name;
+    self.trainingYearLabel.text = [NSString stringWithFormat:@"%@年教龄", [self.coach.experienceYear stringValue]];
+    self.starRatingView.value = [self.coach.averageRating floatValue];
+    
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[self.field cityAndDistrict] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+    
+    
+    if ([HHStudentStore sharedInstance].currentLocation) {
+        [attributedString appendAttributedString:[self generateDistanceStringWithField:self.field userLocation:[HHStudentStore sharedInstance].currentLocation]];
+        [self.mapButton setAttributedTitle:attributedString forState:UIControlStateNormal];
+    } else {
+        [self.mapButton setAttributedTitle:attributedString forState:UIControlStateNormal];
+    }
+    
+    self.likeCountLabel.text = [self.coach.likeCount stringValue];
     
 }
 
@@ -131,6 +155,14 @@ static CGFloat const kAvatarRadius = 30.0f;
         make.right.equalTo(self.likeCountLabel.left).offset(-3.0f);
     }];
     
+    if (self.badgeView) {
+        [self.badgeView makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.nameLabel.right).offset(3.0f);
+            make.centerY.equalTo(self.nameLabel.centerY);
+            make.right.equalTo(self.badgeView.preView.right);
+        }];
+    }
+    
     
     [self.bottomLine makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.bottom);
@@ -139,6 +171,15 @@ static CGFloat const kAvatarRadius = 30.0f;
         make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
     }];
     
+    if (self.jiaxiaoView) {
+        [self.jiaxiaoView makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.badgeView.right).offset(5.0f);
+            make.centerY.equalTo(self.nameLabel.centerY);
+            make.width.equalTo(self.jiaxiaoView.label.width).offset(20.0f);
+            make.height.mas_equalTo(16.0f);
+        }];
+    }
+   
 }
 
 
@@ -150,53 +191,6 @@ static CGFloat const kAvatarRadius = 30.0f;
     return label;
 }
 
-- (void)setupViewWithCoach:(HHCoach *)coach field:(HHField *)field userLocation:(CLLocation *)location {
-    self.field = field;
-    self.ratingLabel.text = [NSString stringWithFormat:@"%.1f (%@)",[coach.averageRating floatValue], [coach.reviewCount stringValue]];;
-    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl] placeholderImage:[UIImage imageNamed:@"ic_coach_ava"]];
-    self.nameLabel.text = coach.name;
-    self.trainingYearLabel.text = [NSString stringWithFormat:@"%@年教龄", [coach.experienceYear stringValue]];
-    if ([coach isGoldenCoach]) {
-        self.goldenCoachIcon.hidden = NO;
-        self.goldenCoachIcon.image = [UIImage imageNamed:@"ic_auth_golden"];
-        [self.goldenCoachIcon remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.nameLabel.right).offset(3.0f);
-            make.centerY.equalTo(self.nameLabel.centerY);
-        }];
-    } else {
-        self.goldenCoachIcon.hidden = YES;
-    }
-    self.starRatingView.value = [coach.averageRating floatValue];
-    
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[field cityAndDistrict] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
-    
-    
-    if (location) {
-        [attributedString appendAttributedString:[self generateDistanceStringWithField:field userLocation:location]];
-        [self.mapButton setAttributedTitle:attributedString forState:UIControlStateNormal];
-    } else {
-        [self.mapButton setAttributedTitle:attributedString forState:UIControlStateNormal];
-    }
-    
-    self.likeCountLabel.text = [coach.likeCount stringValue];
-    
-    UIView *baseView = self.goldenCoachIcon;
-    if (self.goldenCoachIcon.hidden) {
-        baseView = self.nameLabel;
-    }
-    if (self.coach.drivingSchool && ![self.coach.drivingSchool isEqualToString:@""]) {
-        self.jiaxiaoView = [[HHCoachTagView alloc] init];
-        [self.jiaxiaoView setDotColor:[UIColor HHOrange] title:coach.drivingSchool];
-        [self addSubview:self.jiaxiaoView];
-        [self.jiaxiaoView makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.nameLabel.centerY);
-            make.left.equalTo(baseView.right).offset(3.0f);
-            make.width.equalTo(self.jiaxiaoView.label.width).offset(20.0f);
-            make.height.mas_equalTo(16.0f);
-        }];
-    }
-    
-}
 
 - (NSMutableAttributedString *)generateDistanceStringWithField:(HHField *)field userLocation:(CLLocation *)location {
     //1.将两个经纬度点转成投影点

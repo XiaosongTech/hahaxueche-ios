@@ -759,6 +759,10 @@
 		6DDAE6D81CB7C73E00CE461A /* ic_class_list@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDAE6D51CB7C73E00CE461A /* ic_class_list@3x.png */; };
 		6DDAE6DB1CB8E6B300CE461A /* HHCoachSchedule.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6DA1CB8E6B300CE461A /* HHCoachSchedule.m */; };
 		6DDAE6DE1CB8E6CA00CE461A /* HHCoachSchedules.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6DD1CB8E6CA00CE461A /* HHCoachSchedules.m */; };
+		6DDD4AED1DF7B554002C168F /* HHCoachBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD4AEC1DF7B554002C168F /* HHCoachBadgeView.m */; };
+		6DDD4AF71DF7B778002C168F /* ic_bao.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDD4AF11DF7B778002C168F /* ic_bao.png */; };
+		6DDD4AF81DF7B778002C168F /* ic_bao@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDD4AF21DF7B778002C168F /* ic_bao@2x.png */; };
+		6DDD4AF91DF7B778002C168F /* ic_bao@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDD4AF31DF7B778002C168F /* ic_bao@3x.png */; };
 		6DDF25F11CBF789F00C92C5C /* HHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDF25F01CBF789F00C92C5C /* HHNotification.m */; };
 		6DE046321DE5610900B80343 /* HHMyContractTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE046311DE5610900B80343 /* HHMyContractTableViewCell.m */; };
 		6DE046351DE58B7700B80343 /* HHUploadIDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE046341DE58B7700B80343 /* HHUploadIDViewController.m */; };
@@ -1834,6 +1838,11 @@
 		6DDAE6DA1CB8E6B300CE461A /* HHCoachSchedule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachSchedule.m; sourceTree = "<group>"; };
 		6DDAE6DC1CB8E6CA00CE461A /* HHCoachSchedules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachSchedules.h; sourceTree = "<group>"; };
 		6DDAE6DD1CB8E6CA00CE461A /* HHCoachSchedules.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachSchedules.m; sourceTree = "<group>"; };
+		6DDD4AEB1DF7B554002C168F /* HHCoachBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachBadgeView.h; sourceTree = "<group>"; };
+		6DDD4AEC1DF7B554002C168F /* HHCoachBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachBadgeView.m; sourceTree = "<group>"; };
+		6DDD4AF11DF7B778002C168F /* ic_bao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_bao.png; sourceTree = "<group>"; };
+		6DDD4AF21DF7B778002C168F /* ic_bao@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_bao@2x.png"; sourceTree = "<group>"; };
+		6DDD4AF31DF7B778002C168F /* ic_bao@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_bao@3x.png"; sourceTree = "<group>"; };
 		6DDF25EF1CBF789F00C92C5C /* HHNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNotification.h; sourceTree = "<group>"; };
 		6DDF25F01CBF789F00C92C5C /* HHNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNotification.m; sourceTree = "<group>"; };
 		6DE046301DE5610900B80343 /* HHMyContractTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyContractTableViewCell.h; sourceTree = "<group>"; };
@@ -2564,6 +2573,8 @@
 				6D40235F1DB4E6E200C16DF4 /* HHPersonalCoachTableViewCell.m */,
 				6D4151EC1CF47C89004A7EE8 /* HHSearchHistoryListView.h */,
 				6D4151ED1CF47C89004A7EE8 /* HHSearchHistoryListView.m */,
+				6DDD4AEB1DF7B554002C168F /* HHCoachBadgeView.h */,
+				6DDD4AEC1DF7B554002C168F /* HHCoachBadgeView.m */,
 			);
 			path = Coach;
 			sourceTree = "<group>";
@@ -2751,6 +2762,9 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6DDD4AF11DF7B778002C168F /* ic_bao.png */,
+				6DDD4AF21DF7B778002C168F /* ic_bao@2x.png */,
+				6DDD4AF31DF7B778002C168F /* ic_bao@3x.png */,
 				6D1459F81DF6647B009D4AA7 /* button_freetry.gif */,
 				6D1459F61DF54AE4009D4AA7 /* viewfile.png */,
 				6DD94DD11DF0498800BB3357 /* ic_freetry.png */,
@@ -3730,6 +3744,7 @@
 				6DD568281D65D62800B9B319 /* ic_arrow_more@2x.png in Resources */,
 				6D98E9881D79AD8E00A324B2 /* ic_pay_success_right.png in Resources */,
 				6D330D501D800BC2003F6FC6 /* select.png in Resources */,
+				6DDD4AF81DF7B778002C168F /* ic_bao@2x.png in Resources */,
 				140EC5F11C6D542700DA634D /* ic_coachmsg_classtype.png in Resources */,
 				6D46DCB41D88F45C001F962B /* pic_xiaoha_coach@2x.png in Resources */,
 				6D98E99F1D7A7AF200A324B2 /* ic_coachmsg_sharecoach_friendgroup@3x.png in Resources */,
@@ -3837,6 +3852,7 @@
 				5CDE14721C3776E20004778C /* onboard_bg@2x.png in Resources */,
 				6D3C83A61DAD036F004BD28B /* ic_c2@3x.png in Resources */,
 				5C36D4041C496ECD00443545 /* ic_sort_auto_hold_btn@1x.png in Resources */,
+				6DDD4AF71DF7B778002C168F /* ic_bao.png in Resources */,
 				6D6F9B601D35EB4D00855D2F /* ticket-normal@1x.png in Resources */,
 				6D7D0C781D6323D70002FC56 /* ic_question_upexam.png in Resources */,
 				6DE56FD41D00142800E33BDB /* ic_chaozhi@2x.png in Resources */,
@@ -3915,6 +3931,7 @@
 				6DE24BD81D5B44A10078A21E /* ic_question_exam.png in Resources */,
 				6D54D4271D938ECC00EBBD98 /* icon_share.png in Resources */,
 				6D46DCD01D892E18001F962B /* ic_homepage_coach@3x.png in Resources */,
+				6DDD4AF91DF7B778002C168F /* ic_bao@3x.png in Resources */,
 				6DD94D861DEE889300BB3357 /* ic_hahapass2.png in Resources */,
 				6DE56FD31D00142800E33BDB /* ic_chaozhi@1x.png in Resources */,
 				6D96AE351D20F980003C1E84 /* ic_sort_nice_hold_btn@3x.png in Resources */,
@@ -4489,6 +4506,7 @@
 				5C36D3501C42D7D600443545 /* HHFindCoachViewController.m in Sources */,
 				14700D901C781AAF00660989 /* HHPaymentStatusViewController.m in Sources */,
 				6D82BD551CCF8E2A00D4109A /* HHPaymentMethodCell.m in Sources */,
+				6DDD4AED1DF7B554002C168F /* HHCoachBadgeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

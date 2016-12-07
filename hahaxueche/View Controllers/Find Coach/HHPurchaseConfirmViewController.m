@@ -107,11 +107,11 @@
     self.payButton.backgroundColor = [UIColor HHDarkOrange];
     [self.payButton addTarget:self action:@selector(payCoach) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.payButton];
-    
     [self makeConstraints];
     
     [self buildServiceTypeViews];
     [self buildPaymentViews];
+    
 }
 
 - (void)makeConstraints {
@@ -122,7 +122,6 @@
         make.height.mas_equalTo(100.0f);
     }];
 
-    
     [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.coachView.bottom).offset(10.0f);
         make.left.equalTo(self.view.left);

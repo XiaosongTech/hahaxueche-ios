@@ -38,10 +38,6 @@ static CGFloat const kAvatarRadius = 30.0f;
     [self.nameLabel sizeToFit];
     [self.contentView addSubview:self.nameLabel];
     
-    self.goldenCoachIcon = [[UIImageView alloc] init];
-    self.goldenCoachIcon.contentMode = UIViewContentModeCenter;
-    [self.contentView addSubview:self.goldenCoachIcon];
-    
     self.trainingYearLabel = [self createLabelWithFont:[UIFont systemFontOfSize:16.0f] textColor:[UIColor HHLightTextGray]];
     [self.trainingYearLabel sizeToFit];
     [self.contentView addSubview:self.trainingYearLabel];
@@ -195,17 +191,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     [self.avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl] placeholderImage:[UIImage imageNamed:@"ic_coach_ava"]];
     self.nameLabel.text = coach.name;
     self.trainingYearLabel.text = [NSString stringWithFormat:@"%@年教龄", [coach.experienceYear stringValue]];
-    if ([coach isGoldenCoach]) {
-        self.goldenCoachIcon.hidden = NO;
-        self.goldenCoachIcon.image = [UIImage imageNamed:@"ic_auth_golden"];
-        [self.goldenCoachIcon remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.nameLabel.right).offset(3.0f);
-            make.centerY.equalTo(self.nameLabel.centerY);
-        }];
-        
-    } else {
-         self.goldenCoachIcon.hidden = YES;
-    }
+    
     self.starRatingView.value = [coach.averageRating floatValue];
     
     NSMutableAttributedString *attributedString;
@@ -229,24 +215,33 @@ static CGFloat const kAvatarRadius = 30.0f;
         self.jiaxiaoView.hidden = YES;
     }
     
-    
-    UIView *baseView = self.goldenCoachIcon;
-    if (self.goldenCoachIcon.hidden) {
-        baseView = self.nameLabel;
+    if ([coach isGoldenCoach] || [coach.hasDeposit boolValue]) {
+        if (self.badgeView) {
+            [self.badgeView removeFromSuperview];
+        }
+        self.badgeView = [[HHCoachBadgeView alloc] initWithCoach:coach];
+        [self.contentView addSubview:self.badgeView];
+        [self.badgeView makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.nameLabel.right).offset(3.0f);
+            make.centerY.equalTo(self.nameLabel.centerY);
+            make.right.equalTo(self.badgeView.preView.right);
+        }];
     }
+    
     [self.jiaxiaoView remakeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.nameLabel.centerY);
-        make.left.equalTo(baseView.right).offset(3.0f);
+        make.centerX.equalTo(self.avatarView.centerX);
+        make.top.equalTo(self.avatarView.bottom).offset(8.0f);
         make.width.equalTo(self.jiaxiaoView.label.width).offset(20.0f);
         make.height.mas_equalTo(16.0f);
     }];
+    
     
     if (self.priceView) {
         [self.priceView removeFromSuperview];
         self.priceView = nil;
     }
     
-    baseView = self.mapButton;
+    UIView *baseView = self.mapButton;
     if (mapShowed) {
         baseView = self.mapView;
     }

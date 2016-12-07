@@ -183,7 +183,7 @@ static NSString *const kPartnerCoachoCellID = @"kPartnerCoachoCellID";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case CoachCellDescription: {
-            return CGRectGetHeight([self getDescriptionTextSizeWithText:self.coach.bio]) + 50.0f;
+            return CGRectGetHeight([self getDescriptionTextSizeWithText:self.coach.bio]) + 75.0f;
         }
             
         case CoachCellBasicInfo: {
