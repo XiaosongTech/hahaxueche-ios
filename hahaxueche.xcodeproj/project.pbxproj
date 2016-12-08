@@ -559,6 +559,9 @@
 		6D85522A1CD600310021D4C9 /* HHBonusSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8552291CD600310021D4C9 /* HHBonusSummary.m */; };
 		6D85522E1CD60E700021D4C9 /* HHReferrals.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D85522D1CD60E700021D4C9 /* HHReferrals.m */; };
 		6D8552311CD8408B0021D4C9 /* HHWithdraws.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8552301CD8408B0021D4C9 /* HHWithdraws.m */; };
+		6D8E39B61DF93ACE00D8AC47 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7A4EEF1BBCD345003DB168 /* libz.tbd */; };
+		6D8E39B71DF93ADC00D8AC47 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DDD4B181DF926D8002C168F /* libsqlite3.tbd */; };
+		6D8E39B91DF93AED00D8AC47 /* libGtExtensionSdk-1.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D8E39B81DF93AED00D8AC47 /* libGtExtensionSdk-1.0.0.a */; };
 		6D95A4491DC0C926003CB78D /* HHMyCoachPeerCoachesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D95A4481DC0C926003CB78D /* HHMyCoachPeerCoachesTableViewCell.m */; };
 		6D95A4501DC1ACAD003CB78D /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D95A44F1DC1ACAD003CB78D /* SafariServices.framework */; };
 		6D95A4541DC1DBC6003CB78D /* ic_headline.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D95A4511DC1DBC6003CB78D /* ic_headline.png */; };
@@ -767,6 +770,8 @@
 		6DDD4B021DF7FABA002C168F /* ic_cheap@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDD4AFF1DF7FABA002C168F /* ic_cheap@3x.png */; };
 		6DDD4B051DF80D3B002C168F /* four.json in Resources */ = {isa = PBXBuildFile; fileRef = 6DDD4B031DF80D3B002C168F /* four.json */; };
 		6DDD4B061DF80D3B002C168F /* one.json in Resources */ = {isa = PBXBuildFile; fileRef = 6DDD4B041DF80D3B002C168F /* one.json */; };
+		6DDD4B0F1DF92656002C168F /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD4B0E1DF92656002C168F /* NotificationService.m */; };
+		6DDD4B131DF92656002C168F /* notification-service-extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6DDD4B0B1DF92656002C168F /* notification-service-extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6DDF25F11CBF789F00C92C5C /* HHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDF25F01CBF789F00C92C5C /* HHNotification.m */; };
 		6DE046321DE5610900B80343 /* HHMyContractTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE046311DE5610900B80343 /* HHMyContractTableViewCell.m */; };
 		6DE046351DE58B7700B80343 /* HHUploadIDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE046341DE58B7700B80343 /* HHUploadIDViewController.m */; };
@@ -873,7 +878,28 @@
 			remoteGlobalIDString = 5CC3B5FA1B48268A00D10DFB;
 			remoteInfo = hahaxueche;
 		};
+		6DDD4B111DF92656002C168F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5CC3B5F31B48268A00D10DFB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6DDD4B0A1DF92656002C168F;
+			remoteInfo = "notification-service-extension";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6DDD4B171DF92656002C168F /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				6DDD4B131DF92656002C168F /* notification-service-extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1405CC5A1C74E4330030B114 /* HHCityFixedFee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCityFixedFee.h; sourceTree = "<group>"; };
@@ -1596,6 +1622,8 @@
 		6D85522D1CD60E700021D4C9 /* HHReferrals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHReferrals.m; sourceTree = "<group>"; };
 		6D85522F1CD8408B0021D4C9 /* HHWithdraws.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHWithdraws.h; sourceTree = "<group>"; };
 		6D8552301CD8408B0021D4C9 /* HHWithdraws.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHWithdraws.m; sourceTree = "<group>"; };
+		6D8E39B41DF9370800D8AC47 /* GeTuiExtSdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GeTuiExtSdk.h; path = Pods/GTSDK/GeTuiExtSdk.h; sourceTree = "<group>"; };
+		6D8E39B81DF93AED00D8AC47 /* libGtExtensionSdk-1.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libGtExtensionSdk-1.0.0.a"; path = "Pods/GTSDK/libGtExtensionSdk-1.0.0.a"; sourceTree = "<group>"; };
 		6D95A4471DC0C926003CB78D /* HHMyCoachPeerCoachesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyCoachPeerCoachesTableViewCell.h; sourceTree = "<group>"; };
 		6D95A4481DC0C926003CB78D /* HHMyCoachPeerCoachesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyCoachPeerCoachesTableViewCell.m; sourceTree = "<group>"; };
 		6D95A44F1DC1ACAD003CB78D /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
@@ -1852,6 +1880,11 @@
 		6DDD4AFF1DF7FABA002C168F /* ic_cheap@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_cheap@3x.png"; sourceTree = "<group>"; };
 		6DDD4B031DF80D3B002C168F /* four.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = four.json; sourceTree = "<group>"; };
 		6DDD4B041DF80D3B002C168F /* one.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = one.json; sourceTree = "<group>"; };
+		6DDD4B0B1DF92656002C168F /* notification-service-extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "notification-service-extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6DDD4B0D1DF92656002C168F /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
+		6DDD4B0E1DF92656002C168F /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
+		6DDD4B101DF92656002C168F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6DDD4B181DF926D8002C168F /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		6DDF25EF1CBF789F00C92C5C /* HHNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNotification.h; sourceTree = "<group>"; };
 		6DDF25F01CBF789F00C92C5C /* HHNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNotification.m; sourceTree = "<group>"; };
 		6DE046301DE5610900B80343 /* HHMyContractTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyContractTableViewCell.h; sourceTree = "<group>"; };
@@ -2013,6 +2046,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6DDD4B081DF92656002C168F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6D8E39B91DF93AED00D8AC47 /* libGtExtensionSdk-1.0.0.a in Frameworks */,
+				6D8E39B71DF93ADC00D8AC47 /* libsqlite3.tbd in Frameworks */,
+				6D8E39B61DF93ACE00D8AC47 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2593,8 +2636,10 @@
 		5CC3B5F21B48268A00D10DFB = {
 			isa = PBXGroup;
 			children = (
+				6D8E39B41DF9370800D8AC47 /* GeTuiExtSdk.h */,
 				6DDD4B031DF80D3B002C168F /* four.json */,
 				6DDD4B041DF80D3B002C168F /* one.json */,
+				6DDD4B0C1DF92656002C168F /* notification-service-extension */,
 				D888D3204AF4D3C403817A89 /* Frameworks */,
 				0A8195EAB4AC11B35BEAE119 /* Pods */,
 				5CC3B5FC1B48268A00D10DFB /* Products */,
@@ -2608,6 +2653,7 @@
 			children = (
 				5CC3B5FB1B48268A00D10DFB /* hahaxueche.app */,
 				5CC3B6141B48268A00D10DFB /* hahaxuecheTests.xctest */,
+				6DDD4B0B1DF92656002C168F /* notification-service-extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3463,6 +3509,16 @@
 			path = Openshare;
 			sourceTree = "<group>";
 		};
+		6DDD4B0C1DF92656002C168F /* notification-service-extension */ = {
+			isa = PBXGroup;
+			children = (
+				6DDD4B0D1DF92656002C168F /* NotificationService.h */,
+				6DDD4B0E1DF92656002C168F /* NotificationService.m */,
+				6DDD4B101DF92656002C168F /* Info.plist */,
+			);
+			path = "notification-service-extension";
+			sourceTree = "<group>";
+		};
 		6DF53B5F1D4609F600CA0F6B /* Home Page */ = {
 			isa = PBXGroup;
 			children = (
@@ -3488,6 +3544,8 @@
 		D888D3204AF4D3C403817A89 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6D8E39B81DF93AED00D8AC47 /* libGtExtensionSdk-1.0.0.a */,
+				6DDD4B181DF926D8002C168F /* libsqlite3.tbd */,
 				6D95A44F1DC1ACAD003CB78D /* SafariServices.framework */,
 				14700D911C79550600660989 /* Security.framework */,
 				5C5F87391BF16BEF006F9594 /* UIKit.framework */,
@@ -3526,10 +3584,12 @@
 				5C7B14E91BE0505100264C8A /* ShellScript */,
 				C991D35FB4B95191F8A902FF /* 📦 Embed Pods Frameworks */,
 				32F8FA1B952DECFAC6B42428 /* 📦 Copy Pods Resources */,
+				6DDD4B171DF92656002C168F /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				6DDD4B121DF92656002C168F /* PBXTargetDependency */,
 			);
 			name = hahaxueche;
 			productName = hahaxueche;
@@ -3553,6 +3613,23 @@
 			productName = hahaxuecheTests;
 			productReference = 5CC3B6141B48268A00D10DFB /* hahaxuecheTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		6DDD4B0A1DF92656002C168F /* notification-service-extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6DDD4B141DF92656002C168F /* Build configuration list for PBXNativeTarget "notification-service-extension" */;
+			buildPhases = (
+				6DDD4B071DF92656002C168F /* Sources */,
+				6DDD4B081DF92656002C168F /* Frameworks */,
+				6DDD4B091DF92656002C168F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "notification-service-extension";
+			productName = "notification-service-extension";
+			productReference = 6DDD4B0B1DF92656002C168F /* notification-service-extension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -3586,6 +3663,11 @@
 						CreatedOnToolsVersion = 6.4;
 						TestTargetID = 5CC3B5FA1B48268A00D10DFB;
 					};
+					6DDD4B0A1DF92656002C168F = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = HYWSND54RJ;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 5CC3B5F61B48268A00D10DFB /* Build configuration list for PBXProject "hahaxueche" */;
@@ -3603,6 +3685,7 @@
 			targets = (
 				5CC3B5FA1B48268A00D10DFB /* hahaxueche */,
 				5CC3B6131B48268A00D10DFB /* hahaxuecheTests */,
+				6DDD4B0A1DF92656002C168F /* notification-service-extension */,
 			);
 		};
 /* End PBXProject section */
@@ -4219,6 +4302,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6DDD4B091DF92656002C168F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -4536,6 +4626,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6DDD4B071DF92656002C168F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6DDD4B0F1DF92656002C168F /* NotificationService.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -4543,6 +4641,11 @@
 			isa = PBXTargetDependency;
 			target = 5CC3B5FA1B48268A00D10DFB /* hahaxueche */;
 			targetProxy = 5CC3B6151B48268A00D10DFB /* PBXContainerItemProxy */;
+		};
+		6DDD4B121DF92656002C168F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6DDD4B0A1DF92656002C168F /* notification-service-extension */;
+			targetProxy = 6DDD4B111DF92656002C168F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -4804,6 +4907,53 @@
 			};
 			name = Release;
 		};
+		6DDD4B151DF92656002C168F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Can Zhang (N9G4ZJA58V)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = HYWSND54RJ;
+				ENABLE_TESTABILITY = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/Headers/Public/GTSDK";
+				INFOPLIST_FILE = "notification-service-extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/GTSDK";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "ren.xiaosong.hahaxueche.notification-service-extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6DDD4B161DF92656002C168F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Can Zhang (N9G4ZJA58V)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = HYWSND54RJ;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/Headers/Public/GTSDK";
+				INFOPLIST_FILE = "notification-service-extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/GTSDK";
+				PRODUCT_BUNDLE_IDENTIFIER = "ren.xiaosong.hahaxueche.notification-service-extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -4830,6 +4980,15 @@
 			buildConfigurations = (
 				5CC3B6221B48268A00D10DFB /* Debug */,
 				5CC3B6231B48268A00D10DFB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6DDD4B141DF92656002C168F /* Build configuration list for PBXNativeTarget "notification-service-extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6DDD4B151DF92656002C168F /* Debug */,
+				6DDD4B161DF92656002C168F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
