@@ -66,14 +66,12 @@
 @implementation HHPurchaseConfirmViewController
 
 
-- (instancetype)initWithCoach:(HHCoach *)coach validVouchers:(NSArray *)validVouchers {
+- (instancetype)initWithCoach:(HHCoach *)coach {
     self = [super init];
     if (self) {
         self.coach = coach;
         self.selectedMethod = StudentPaymentMethodAlipay;
         self.paymentViews = [NSMutableArray array];
-        self.validVouchers = validVouchers;
-        self.specialVouchers = validVouchers;
         if ([self.validVouchers count] > 0) {
             self.selectedVoucher = [self.validVouchers firstObject];
         }
@@ -89,7 +87,21 @@
     self.selectedProduct = CoachProductTypeStandard;
     self.selectedClass = ClassTypeStandard;
     self.selectedLicense = LicenseTypeC1;
-    [self initSubviews];
+    
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    [[HHStudentService sharedInstance] getVouchersWithType:@(1) completion:^(NSArray *vouchers) {
+        self.specialVouchers = vouchers;
+        [[HHStudentService sharedInstance] getVouchersWithType:@(0) completion:^(NSArray *vouchers) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            self.validVouchers = vouchers;
+            if (self.validVouchers.count > 0) {
+                self.selectedVoucher = [self.validVouchers firstObject];
+            }
+            [self initSubviews];
+        }];
+        
+    }];
+   
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -172,7 +184,7 @@
             make.top.equalTo(preView.bottom);
             make.left.equalTo(self.scrollView.left);
             make.width.equalTo(self.scrollView.width);
-            make.height.mas_equalTo(40.0f * self.specialVouchers.count);
+            make.height.mas_equalTo(30.0f * self.specialVouchers.count);
         }];
         preView = self.specialVoucherView;
     }
@@ -228,7 +240,7 @@
         make.right.equalTo(self.totalPriceLabel.left).offset(-5.0f);
     }];
     
-    if (self.validVouchers.count > 0) {
+    if (self.validVouchers.count > 0 || self.specialVouchers.count > 0) {
         self.priceDetailLabel = [[UILabel alloc] init];
         self.priceDetailLabel.font = [UIFont systemFontOfSize:13.0f];
         self.priceDetailLabel.textColor = [UIColor HHLightTextGray];
@@ -456,6 +468,12 @@
     if ([self.selectedVoucher.amount floatValue] > 0) {
         finalPrice = @([price floatValue] - [self.selectedVoucher.amount floatValue]);
     }
+    
+    if(self.specialVouchers.count > 0) {
+        for (HHVoucher *voucher in self.specialVouchers) {
+            finalPrice = @([finalPrice floatValue] - [voucher.amount floatValue]);
+        }
+    }
     return finalPrice;
 }
 
@@ -537,7 +555,13 @@
 }
 
 - (NSString *)getPriceDetailString {
-    return [NSString stringWithFormat:@"总价%@  立减%@", [[self getSelectedOriginalPrice] generateMoneyString], [self.selectedVoucher.amount generateMoneyString]];
+    NSNumber *reducedAmount = self.selectedVoucher.amount;
+    if (self.specialVouchers.count > 0) {
+        for (HHVoucher *voucher in self.specialVouchers) {
+            reducedAmount = @([reducedAmount floatValue] + [voucher.amount floatValue]);
+        }
+    }
+    return [NSString stringWithFormat:@"总价%@  立减%@", [[self getSelectedOriginalPrice] generateMoneyString], [reducedAmount generateMoneyString]];
 }
 
 

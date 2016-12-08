@@ -255,4 +255,12 @@ typedef void (^HHSaveTestResultCompletion)(HHTestScore *score);
  */
 - (void)getSimuTestResultWithCompletion:(HHTestResultCompletion)completion;
 
+
+/**
+ Get vouchers
+ @param type The type of vouchers 1=可叠加 0 不可叠加
+ @param completion The completion block to execute on completion
+ */
+- (void)getVouchersWithType:(NSNumber *)type completion:(HHVouchersCompletion)completion;
+
 @end

@@ -139,12 +139,16 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     self.navigationItem.titleView = self.segControl;
     
     __weak HHFindCoachViewController *weakSelf = self;
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
     [self getUserLocationWithCompletion:^{
-        [weakSelf refreshCoachList:YES completion:^{
+        [weakSelf refreshCoachList:NO completion:^{
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
             [weakSelf showUserGuideView];
+            [self refreshPersonalCoachList:NO completion:nil];
         }];
+        
     }];
-    [self refreshPersonalCoachList:NO completion:nil];
+    
 
 }
 

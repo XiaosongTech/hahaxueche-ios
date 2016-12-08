@@ -17,15 +17,17 @@
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
+        int i = 0;
         for (HHVoucher *voucher in vouchers) {
             UIView *view = [self buildViewWithVoucher:voucher];
             [self addSubview:view];
             [view makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.top);
+                make.top.equalTo(self.top).offset(i * 30.0f);
                 make.left.equalTo(self.left).offset(20.0f);
                 make.width.equalTo(self.width).offset(-40.0f);
-                make.height.mas_equalTo(40.0f);
+                make.height.mas_equalTo(30.0f);
             }];
+            i++;
         }
         
         UIView *botLine = [[UIView alloc] init];
