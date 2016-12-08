@@ -1655,20 +1655,6 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>13B764D5C39AA347EB45AF6A8EF87A11</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>F15BE1E4026504F994CDEB218733416F</string>
-				<string>370B38A4492A9C082E10254EBD2C0C9E</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Frameworks</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
 		<key>13F7FF9F474A6840FA37BF0102D399F7</key>
 		<dict>
 			<key>fileRef</key>
@@ -4576,19 +4562,6 @@
 			<string>LinkedME-iOS-Deep-Linking-Demo_Pod</string>
 			<key>path</key>
 			<string>LinkedME-iOS-Deep-Linking-Demo_Pod</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>370B38A4492A9C082E10254EBD2C0C9E</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>archive.ar</string>
-			<key>path</key>
-			<string>libGtExtensionSdk-1.0.0.a</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -16597,6 +16570,20 @@
 			<key>runOnlyForDeploymentPostprocessing</key>
 			<string>0</string>
 		</dict>
+		<key>B90E371059B527E78C0AAD84D462088C</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>BCB3C7136A6654D70222A29E6160CAA5</string>
+				<string>F710107F8A9245B590EB1C81312270DB</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
 		<key>B938F2D9E05392D517333EDF30EFCFA0</key>
 		<dict>
 			<key>children</key>
@@ -16716,7 +16703,7 @@
 			<array>
 				<string>504481F2E568A0E990F9B5A45C69F417</string>
 				<string>10957B3D1BFEFE0B7659395ABC7F9D09</string>
-				<string>13B764D5C39AA347EB45AF6A8EF87A11</string>
+				<string>B90E371059B527E78C0AAD84D462088C</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -16923,6 +16910,19 @@
 			<string>E3F8AD2769AA341D103541E943DCBED9</string>
 			<key>remoteInfo</key>
 			<string>RSKImageCropper</string>
+		</dict>
+		<key>BCB3C7136A6654D70222A29E6160CAA5</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>archive.ar</string>
+			<key>path</key>
+			<string>libGeTuiSdk-1.5.3-noidfa.a</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
 		</dict>
 		<key>BCD4B362C6194513150915437754E2D4</key>
 		<dict>
@@ -21417,19 +21417,6 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>F15BE1E4026504F994CDEB218733416F</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>archive.ar</string>
-			<key>path</key>
-			<string>libGeTuiSdk-1.5.3.a</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
 		<key>F180C99A07A325C35BCF659770E61140</key>
 		<dict>
 			<key>fileRef</key>
@@ -21807,6 +21794,19 @@
 			<string>MJRefreshBackStateFooter.m</string>
 			<key>path</key>
 			<string>MJRefresh/Custom/Footer/Back/MJRefreshBackStateFooter.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F710107F8A9245B590EB1C81312270DB</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>archive.ar</string>
+			<key>path</key>
+			<string>libGtExtensionSdk-1.0.0.a</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
