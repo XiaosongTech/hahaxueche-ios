@@ -307,17 +307,17 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
 - (NSString *)getStudentQRCodeURL {
     #ifdef DEBUG
     if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
-        return [NSString stringWithFormat:@"http://staging-api.hahaxueche.net/share/students/%@/image", [HHStudentStore sharedInstance].currentStudent.studentId];
+        return [NSString stringWithFormat:@"https://staging-api.hahaxueche.net/share/students/%@/image", [HHStudentStore sharedInstance].currentStudent.studentId];
     } else {
-        return @"http://q1.hahaxueche.com/refer_template5.png?watermark/3/image/aHR0cDovL3MtaW1nLmhhaGF4dWVjaGUubmV0L2RlZmF1bHRfZnJlZV90cmlhbF9xcmNvZGUucG5n/dissolve/100/gravity/SouthWest/dx/120/dy/80";
+        return @"https://q1.hahaxueche.com/refer_template5.png?watermark/3/image/aHR0cDovL3MtaW1nLmhhaGF4dWVjaGUubmV0L2RlZmF1bHRfZnJlZV90cmlhbF9xcmNvZGUucG5n/dissolve/100/gravity/SouthWest/dx/120/dy/80";
     }
     
     #else
     if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
-        return [NSString stringWithFormat:@"http://api.hahaxueche.net/share/students/%@/image", [HHStudentStore sharedInstance].currentStudent.studentId];
+        return [NSString stringWithFormat:@"https://api.hahaxueche.net/share/students/%@/image", [HHStudentStore sharedInstance].currentStudent.studentId];
 
     } else {
-        return @"http://q1.hahaxueche.com/refer_template5.png?watermark/3/image/aHR0cDovL3AtaW1nLmhhaGF4dWVjaGUuY29tL2RlZmF1bHRfZnJlZV90cmlhbF9xcmNvZGUucG5n/dissolve/100/gravity/SouthWest/dx/120/dy/80";
+        return @"https://q1.hahaxueche.com/refer_template5.png?watermark/3/image/aHR0cDovL3AtaW1nLmhhaGF4dWVjaGUuY29tL2RlZmF1bHRfZnJlZV90cmlhbF9xcmNvZGUucG5n/dissolve/100/gravity/SouthWest/dx/120/dy/80";
     }
     #endif
 }

@@ -63,7 +63,7 @@ static NSString *const kInfoTwoCellID = @"kInfoTwoCellID";
 static NSString *const kCommentsCellID = @"kCommentsCellID";
 static NSString *const kGuardCellID = @"kGuardCellID";
 
-static NSString *const kPlatformLink = @"http://m.hahaxueche.com/assurance";
+static NSString *const kPlatformLink = @"https://m.hahaxueche.com/assurance";
 
 
 @interface HHCoachDetailViewController () <UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIScrollViewDelegate>

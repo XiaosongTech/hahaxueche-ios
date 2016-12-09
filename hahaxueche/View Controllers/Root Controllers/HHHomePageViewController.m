@@ -44,14 +44,14 @@
 #import "FLAnimatedImageView.h"
 
 
-static NSString *const kCoachLink = @"http://m.hahaxueche.com/share/best-coaches";
-static NSString *const kDrivingSchoolLink = @"http://m.hahaxueche.com/share/zhaojiaxiao";
-static NSString *const kAdvisorLink = @"http://m.hahaxueche.com/share/zhaoguwen?city_id=%@";
-static NSString *const kGroupPurchaseLink = @"http://m.hahaxueche.com/share/tuan";
+static NSString *const kCoachLink = @"https://m.hahaxueche.com/share/best-coaches";
+static NSString *const kDrivingSchoolLink = @"https://m.hahaxueche.com/share/zhaojiaxiao";
+static NSString *const kAdvisorLink = @"https://m.hahaxueche.com/share/zhaoguwen?city_id=%@";
+static NSString *const kGroupPurchaseLink = @"https://m.hahaxueche.com/share/tuan";
 
-static NSString *const kFeatureLink = @"http://activity.hahaxueche.com/share/features";
-static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps";
-static NSString *const kPlatformLink = @"http://m.hahaxueche.com/assurance";
+static NSString *const kFeatureLink = @"https://activity.hahaxueche.com/share/features";
+static NSString *const kStepsLink = @"https://activity.hahaxueche.com/share/steps";
+static NSString *const kPlatformLink = @"https://m.hahaxueche.com/assurance";
 
 static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
 

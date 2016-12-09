@@ -30,11 +30,11 @@
 }
 
 - (NSString *)getShareUrl {
-    return @"http://staging-api.hahaxueche.net/share/article_contents/fd287651-7ebe-4193-8945-242bf9d1ea27";
+    return @"https://staging-api.hahaxueche.net/share/article_contents/fd287651-7ebe-4193-8945-242bf9d1ea27";
 }
 
 - (NSString *)getPostUrl {
-    return @"http://staging-m.hahaxueche.com/articles/ea17d34e-968d-4dcd-bf3d-1d49628fd6a8";
+    return @"https://staging-m.hahaxueche.com/articles/ea17d34e-968d-4dcd-bf3d-1d49628fd6a8";
 }
 
 @end

@@ -60,8 +60,8 @@ static NSString *const kMyCourseScheduleCell = @"kMyCourseScheduleCell";
 static NSString *const kVouchereCell = @"kVouchereCell";
 static NSString *const kContractCell = @"kContractCell";
 
-static NSString *const kActivateVoucherProdLink = @"http://m.hahaxueche.com/share/jihuo?";
-static NSString *const kActivateVoucherStagingLink = @"http://staging-m.hahaxueche.com/share/jihuo?";
+static NSString *const kActivateVoucherProdLink = @"https://m.hahaxueche.com/share/jihuo?";
+static NSString *const kActivateVoucherStagingLink = @"https://staging-m.hahaxueche.com/share/jihuo?";
 
 typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellUserInfo,
@@ -388,7 +388,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             };
             cell.myAdvisorView.actionBlock = ^() {
                 if (!weakSelf.isLoggedIn) {
-                    HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"http://m.hahaxueche.com/share/zhaoguwen"]];
+                    HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/share/zhaoguwen"]];
                     vc.hidesBottomBarWhenPushed = YES;
                     [weakSelf.navigationController pushViewController:vc animated:YES];
                 } else {

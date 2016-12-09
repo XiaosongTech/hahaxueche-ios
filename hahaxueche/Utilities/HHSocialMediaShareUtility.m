@@ -530,7 +530,7 @@ static NSString *const kSupportQQ = @"3319762526";
     NSArray *carNumber = @[@"AZ-521",@"MDS-339",@"TEK-071",@"MIDE-295",@"IDBD-692",@"MIMK-039"];
     NSString *selectedCarNumber = carNumber[arc4random_uniform(carNumber.count)];
     
-    NSString *baseLink = @"http://m.hahaxueche.com/share/baoguoka?promo_code=406808&";
+    NSString *baseLink = @"https://m.hahaxueche.com/share/baoguoka?promo_code=406808&";
     NSDictionary *dic = @{@"score":score.score, @"date":[[HHFormatUtility fullDateFormatter] stringFromDate:score.createdAt]};
     
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic
