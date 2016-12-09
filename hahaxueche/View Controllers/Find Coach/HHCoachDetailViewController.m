@@ -43,11 +43,13 @@
 #import "HHFreeTrialUtility.h"
 #import "HHCoachPriceDetailViewController.h"
 #import "HHGenericOneButtonPopupView.h"
+#import "HHPlatformGuardTableViewCell.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
     CoachCellPrice,
     CoachCellField,
+    CoachCellPlatformGuard,
     CoachCellInfoTwo,
     CoachCellComments,
     CoachCellCount,
@@ -59,6 +61,10 @@ static NSString *const kTypeCellID = @"kTypeCellID";
 static NSString *const kFiledCellID = @"kFiledCellID";
 static NSString *const kInfoTwoCellID = @"kInfoTwoCellID";
 static NSString *const kCommentsCellID = @"kCommentsCellID";
+static NSString *const kGuardCellID = @"kGuardCellID";
+
+static NSString *const kPlatformLink = @"http://m.hahaxueche.com/assurance";
+
 
 @interface HHCoachDetailViewController () <UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIScrollViewDelegate>
 
@@ -155,6 +161,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     [self.tableView registerClass:[HHCoachFieldCell class] forCellReuseIdentifier:kFiledCellID];
     [self.tableView registerClass:[HHCoachDetailSectionTwoCell class] forCellReuseIdentifier:kInfoTwoCellID];
     [self.tableView registerClass:[HHCoachDetailCommentsCell class] forCellReuseIdentifier:kCommentsCellID];
+    [self.tableView registerClass:[HHPlatformGuardTableViewCell class] forCellReuseIdentifier:kGuardCellID];
     
     ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithSubView:self.coachImagesView];
     [self.tableView setTableHeaderView:headerView];
@@ -266,6 +273,15 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             return cell;
         }
             
+        case CoachCellPlatformGuard: {
+            HHPlatformGuardTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kGuardCellID forIndexPath:indexPath];
+            cell.actionBlock = ^() {
+                [weakSelf openWebPage:[NSURL URLWithString:kPlatformLink]];
+            };
+            [cell setupCellWithCoach:self.coach];
+            return cell;
+        }
+            
         case CoachCellInfoTwo: {
             HHCoachDetailSectionTwoCell *cell = [tableView dequeueReusableCellWithIdentifier:kInfoTwoCellID forIndexPath:indexPath];
             [cell setupWithCoach:self.coach];
@@ -320,6 +336,10 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             
         case CoachCellField: {
             return 126.0f;
+        }
+            
+        case CoachCellPlatformGuard: {
+            return 141.0f;
         }
             
             

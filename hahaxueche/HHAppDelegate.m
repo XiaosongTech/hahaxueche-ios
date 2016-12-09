@@ -38,9 +38,9 @@
 #import <UserNotifications/UserNotifications.h>
 #endif
 
-#define kGtAppId           @"iMahVVxurw6BNr7XSn9EF2"
-#define kGtAppKey          @"yIPfqwq6OMAPp6dkqgLpG5"
-#define kGtAppSecret       @"G0aBqAD6t79JfzTB6Z5lo5"
+#define kGtAppId           @"rL8azb2Rf08xOnLyM95un3"
+#define kGtAppKey          @"RV7ExaBUvBA17bdzO6mwk6"
+#define kGtAppSecret       @"WnZrlzC3Ta8LH9npNhyE07"
 
 
 static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
@@ -219,6 +219,7 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [GeTuiSdk startSdkWithAppId:kGtAppId appKey:kGtAppKey appSecret:kGtAppSecret delegate:self];
     // 注册APNS
     [self registerRemoteNotification];
+    [GeTuiSdk runBackgroundEnable:true];
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 
 }
