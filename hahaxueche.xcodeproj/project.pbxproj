@@ -491,6 +491,11 @@
 		6D63F8741DD5C09900DB1ADC /* pic_redbag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D63F8711DD5C09900DB1ADC /* pic_redbag@2x.png */; };
 		6D63F8751DD5C09900DB1ADC /* pic_redbag@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D63F8721DD5C09900DB1ADC /* pic_redbag@3x.png */; };
 		6D68C8221D88058000184AAC /* HHHomPageCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D68C8211D88058000184AAC /* HHHomPageCardView.m */; };
+		6D6C15471DFBA23E003DC1CE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DDD4B181DF926D8002C168F /* libsqlite3.tbd */; };
+		6D6C15491DFBA24F003DC1CE /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D6C15481DFBA24F003DC1CE /* libstdc++.tbd */; };
+		6D6C154B1DFBA261003DC1CE /* CoreSpotlight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D6C154A1DFBA261003DC1CE /* CoreSpotlight.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		6D6C154D1DFBA31F003DC1CE /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D6C154C1DFBA31F003DC1CE /* AdSupport.framework */; };
+		6D6C154F1DFBA491003DC1CE /* LinkedME_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D6C154E1DFBA490003DC1CE /* LinkedME_iOS.framework */; };
 		6D6F9B4B1D34F7A800855D2F /* ic-explain@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D6F9B451D34F7A800855D2F /* ic-explain@1x.png */; };
 		6D6F9B4C1D34F7A800855D2F /* ic-explain@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D6F9B461D34F7A800855D2F /* ic-explain@2x.png */; };
 		6D6F9B4D1D34F7A800855D2F /* ic-explain@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D6F9B471D34F7A800855D2F /* ic-explain@3x.png */; };
@@ -1563,6 +1568,10 @@
 		6D63F8721DD5C09900DB1ADC /* pic_redbag@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_redbag@3x.png"; sourceTree = "<group>"; };
 		6D68C8201D88058000184AAC /* HHHomPageCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHHomPageCardView.h; sourceTree = "<group>"; };
 		6D68C8211D88058000184AAC /* HHHomPageCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHHomPageCardView.m; sourceTree = "<group>"; };
+		6D6C15481DFBA24F003DC1CE /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		6D6C154A1DFBA261003DC1CE /* CoreSpotlight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreSpotlight.framework; path = System/Library/Frameworks/CoreSpotlight.framework; sourceTree = SDKROOT; };
+		6D6C154C1DFBA31F003DC1CE /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		6D6C154E1DFBA490003DC1CE /* LinkedME_iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LinkedME_iOS.framework; sourceTree = "<group>"; };
 		6D6F9B451D34F7A800855D2F /* ic-explain@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic-explain@1x.png"; sourceTree = "<group>"; };
 		6D6F9B461D34F7A800855D2F /* ic-explain@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic-explain@2x.png"; sourceTree = "<group>"; };
 		6D6F9B471D34F7A800855D2F /* ic-explain@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic-explain@3x.png"; sourceTree = "<group>"; };
@@ -2070,6 +2079,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D6C154D1DFBA31F003DC1CE /* AdSupport.framework in Frameworks */,
+				6D6C154B1DFBA261003DC1CE /* CoreSpotlight.framework in Frameworks */,
+				6D6C15491DFBA24F003DC1CE /* libstdc++.tbd in Frameworks */,
+				6D6C15471DFBA23E003DC1CE /* libsqlite3.tbd in Frameworks */,
 				6D95A4501DC1ACAD003CB78D /* SafariServices.framework in Frameworks */,
 				14700D921C79550700660989 /* Security.framework in Frameworks */,
 				5C5F873A1BF16BEF006F9594 /* UIKit.framework in Frameworks */,
@@ -2087,6 +2100,7 @@
 				5C7A4EF41BBCD7EF003DB168 /* MobileCoreServices.framework in Frameworks */,
 				5C7A4EF01BBCD345003DB168 /* libz.tbd in Frameworks */,
 				5C7A4EEE1BBCD2DE003DB168 /* libicucore.tbd in Frameworks */,
+				6D6C154F1DFBA491003DC1CE /* LinkedME_iOS.framework in Frameworks */,
 				5C5451A81B51A7520025D19F /* CoreLocation.framework in Frameworks */,
 				5C5451A61B51A7480025D19F /* MapKit.framework in Frameworks */,
 				3F22F36DEA2D26636C52535B /* libPods-hahaxueche.a in Frameworks */,
@@ -3621,6 +3635,10 @@
 		D888D3204AF4D3C403817A89 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6D6C154E1DFBA490003DC1CE /* LinkedME_iOS.framework */,
+				6D6C154C1DFBA31F003DC1CE /* AdSupport.framework */,
+				6D6C154A1DFBA261003DC1CE /* CoreSpotlight.framework */,
+				6D6C15481DFBA24F003DC1CE /* libstdc++.tbd */,
 				6D8E39B81DF93AED00D8AC47 /* libGtExtensionSdk-1.0.0.a */,
 				6DDD4B181DF926D8002C168F /* libsqlite3.tbd */,
 				6D95A44F1DC1ACAD003CB78D /* SafariServices.framework */,
@@ -4858,6 +4876,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/hahaxueche",
 					"$(PROJECT_DIR)/hahaxueche/Alipay",
+					"$(PROJECT_DIR)/hahaxueche/Third\\ Party\\ Libs",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				HEADER_SEARCH_PATHS = (
@@ -4924,6 +4943,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/hahaxueche",
 					"$(PROJECT_DIR)/hahaxueche/Alipay",
+					"$(PROJECT_DIR)/hahaxueche/Third\\ Party\\ Libs",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				HEADER_SEARCH_PATHS = (

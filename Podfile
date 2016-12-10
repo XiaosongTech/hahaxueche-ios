@@ -3,22 +3,22 @@ platform :ios, '8.0'
 
 target "hahaxueche" do
     pod 'SVProgressHUD'
-    pod 'SDWebImage', '~> 3.7'
-    pod 'libPhoneNumber-iOS', '~> 0.8'
+    pod 'SDWebImage', '~> 3.8'
+    pod 'libPhoneNumber-iOS', '~> 0.9.1'
     pod 'DateTools'
     pod "Appirater"
     pod 'AFNetworking', '~> 3.1'
-    pod 'SAMKeychain'
-    pod 'MJRefresh'
-    pod 'Masonry', '~>1.0.2'
-    pod 'Mantle'
+    pod 'SAMKeychain', '~> 1.5.2'
+    pod 'MJRefresh', '~> 3.1.1'
+    pod 'Masonry', '~> 1.0.2'
+    pod 'Mantle', '~> 2.1.0'
     pod 'CRToast'
     pod 'KLCPopup'
     pod 'pop', '~> 1.0'
-    pod 'StepSlider'
+    pod 'StepSlider', '~> 0.1.5'
     pod 'BEMCheckBox'
     pod 'INTULocationManager', '~> 4.2'
-    pod 'AMap2DMap'
+    pod 'AMap2DMap', '~> 4.5.0'
     pod 'SDCycleScrollView','~> 1.6'
     pod 'HCSStarRatingView', '~> 1.4'
     pod 'ActionSheetPicker-3.0'
@@ -28,9 +28,9 @@ target "hahaxueche" do
     pod 'MMNumberKeyboard'
     pod 'RSKImageCropper'
     pod 'Harpy'
-    pod 'UMengAnalytics-NO-IDFA'
+    pod 'UMengAnalytics-NO-IDFA', '~> 4.1.4'
     pod 'TTTAttributedLabel'
-    pod 'QIYU_iOS_SDK', '~> 2.7.0'
+    pod 'QIYU_iOS_SDK', '~> 3.0'
     pod 'HMSegmentedControl', '~> 1.5'
     pod 'SwipeView', '~> 1.3'
     pod 'FLAnimatedImage', '~> 1.0'
@@ -38,8 +38,6 @@ target "hahaxueche" do
     pod 'UITextView+Placeholder', '~> 1.2'
     pod 'DZNEmptyDataSet'
     pod 'GTSDK', '1.5.3-noidfa'
-    pod 'LinkedME-iOS-Deep-Linking-Demo_Pod',
-    :git=>"https://github.com/WFC-LinkedME/LinkedME-iOS-Deep-Linking-Demo.git"
 
 end
 

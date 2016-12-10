@@ -77,6 +77,12 @@ typedef NS_ENUM(NSInteger, MAUserTrackingMode)
  */
 @property (nonatomic, readonly) BOOL isAbroad;
 
+/**
+ *  是否允许对annotationView根据zIndex进行排序，默认为YES。
+ *  当annotationView数量比较大时可能会引起性能问题，可以设置此属性为NO。
+ */
+@property (nonatomic, assign) BOOL allowsAnnotationViewSorting;
+
 #pragma mark - Logo
 
 /*!
@@ -153,7 +159,7 @@ typedef NS_ENUM(NSInteger, MAUserTrackingMode)
 
 /*!
  @brief 设定地图中心点经纬度
- @param coordinate 要设定的地图中心点经纬度
+ @param centerCoordinate 要设定的地图中心点经纬度
  @param animated 是否采用动画效果
  */
 - (void)setCenterCoordinate:(CLLocationCoordinate2D)centerCoordinate animated:(BOOL)animated;
@@ -212,37 +218,50 @@ typedef NS_ENUM(NSInteger, MAUserTrackingMode)
  */
 - (MAMapRect)mapRectThatFits:(MAMapRect)mapRect edgePadding:(UIEdgeInsets)insets;
 
+#pragma mark - Limitation
+
+/*!
+ @brief 设置可见地图区域的矩形边界，如限制地图只显示北京市范围
+ */
+@property (nonatomic, assign) MACoordinateRegion limitRegion;
+
+/*!
+ @brief 设置可见地图区域的矩形边界，如限制地图只显示北京市范围
+ */
+@property (nonatomic, assign) MAMapRect limitMapRect;
+
 #pragma mark - Zoom
 
 /*!
- @brief 缩放级别
+ @brief 缩放级别, [3, 20]
  */
 @property (nonatomic, assign) double zoomLevel;
 
 /*!
- @brief 最小缩放级别
+ @brief 最小缩放级别, 最小值为3
  */
-@property (nonatomic, readonly) double minZoomLevel;
+@property (nonatomic, assign) double minZoomLevel;
 
 /*!
- @brief 最大缩放级别
+ @brief 最大缩放级别，最大值为20
  */
-@property (nonatomic, readonly) double maxZoomLevel;
+@property (nonatomic, assign) double maxZoomLevel;
 
 /*!
  @brief 设置当前地图的缩放级别zoom level
- @param zoomLevel 要设置的zoom level
+ @param newZoomLevel 要设置的zoom level
  @param animated 是否采用动画效果
  */
 - (void)setZoomLevel:(double)newZoomLevel animated:(BOOL)animated;
 
 /*!
  @brief 设置当前地图的缩放级别zoom level
- @param zoomLevel 要设置的zoom level
+ @param newZoomLevel 要设置的zoom level
  @param pivot 指定缩放的锚点，屏幕坐标
  @param animated 是否采用动画效果
  */
 - (void)setZoomLevel:(double)newZoomLevel atPivot:(CGPoint)pivot animated:(BOOL)animated;
+
 
 #pragma mark - Conversions
 
@@ -339,7 +358,7 @@ typedef NS_ENUM(NSInteger, MAUserTrackingMode)
 
 /*!
  @brief 移除一组标注
- @param annotation 要移除的标注数组
+ @param annotations 要移除的标注数组
  */
 - (void)removeAnnotations:(NSArray *)annotations;
 
@@ -426,13 +445,13 @@ typedef NS_ENUM(NSInteger, MAUserTrackingMode)
 - (MAOverlayView *)viewForOverlay:(id <MAOverlay>)overlay __attribute__ ((deprecated("use - (MAOverlayRenderer *)rendererForOverlay:(id <MAOverlay>)overlay instead")));
 
 /*!
- @brief 向地图窗口添加Overlay，需要实现MAMapViewDelegate的-mapView:rendererForOverlay:函数来生成标注对应的Renderer
+ @brief 向地图添加Overlay，需要实现MAMapViewDelegate的-mapView:rendererForOverlay:函数来生成标注对应的Renderer
  @param overlay 要添加的overlay
  */
 - (void)addOverlay:(id <MAOverlay>)overlay;
 
 /*!
- @brief 向地图窗口添加一组Overlay，需要实现BMKMapViewDelegate的-mapView:rendererForOverlay:函数来生成标注对应的Renderer
+ @brief 向地图添加一组Overlay，需要实现MAMapViewDelegate的-mapView:rendererForOverlay:函数来生成标注对应的Renderer
  @param overlays 要添加的overlay数组
  */
 - (void)addOverlays:(NSArray *)overlays;
@@ -476,6 +495,22 @@ typedef NS_ENUM(NSInteger, MAUserTrackingMode)
  @param sibling 用于指定相对位置的Overlay
  */
 - (void)insertOverlay:(id <MAOverlay>)overlay belowOverlay:(id <MAOverlay>)sibling;
+
+/**
+ 设置地图使其可以显示数组中所有的overlay
+ * @param overlays    需要显示的overlays
+ * @param animated    是否执行动画
+ */
+- (void)showOverlays:(NSArray *)overlays animated:(BOOL)animated;
+
+/**
+ *  设置地图使其可以显示数组中所有的overlay
+ *
+ *  @param overlays    需要显示的overlays
+ *  @param insets      insets 嵌入边界
+ *  @param animated    是否执行动画
+ */
+- (void)showOverlays:(NSArray *)overlays edgePadding:(UIEdgeInsets)insets animated:(BOOL)animated;
 
 #pragma mark - Cache
 
@@ -554,14 +589,14 @@ typedef NS_ENUM(NSInteger, MAUserTrackingMode)
 
 /*!
  @brief 地图区域即将改变时会调用此接口
- @param mapview 地图View
+ @param mapView 地图View
  @param animated 是否动画
  */
 - (void)mapView:(MAMapView *)mapView regionWillChangeAnimated:(BOOL)animated;
 
 /*!
  @brief 地图区域改变完成后会调用此接口
- @param mapview 地图View
+ @param mapView 地图View
  @param animated 是否动画
  */
 - (void)mapView:(MAMapView *)mapView regionDidChangeAnimated:(BOOL)animated;
@@ -632,21 +667,21 @@ typedef NS_ENUM(NSInteger, MAUserTrackingMode)
 /*!
  @brief 当选中一个annotation views时调用此接口
  @param mapView 地图View
- @param views 选中的annotation views
+ @param view 选中的annotationView
  */
 - (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view;
 
 /*!
  @brief 当取消选中一个annotation views时调用此接口
  @param mapView 地图View
- @param views 取消选中的annotation views
+ @param view 取消选中的annotationView
  */
 - (void)mapView:(MAMapView *)mapView didDeselectAnnotationView:(MAAnnotationView *)view;
 
 /*!
  @brief 标注view的accessory view(必须继承自UIControl)被点击时调用此接口
  @param mapView 地图View
- @param annotationView callout所属的标注view
+ @param view callout所属的标注view
  @param control 对应的control
  */
 - (void)mapView:(MAMapView *)mapView annotationView:(MAAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control;

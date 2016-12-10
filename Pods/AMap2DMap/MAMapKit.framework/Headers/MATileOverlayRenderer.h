@@ -21,10 +21,10 @@
 
 /*!
  @brief 根据指定的tileOverlay生成MATileOverlayRenderer
- @param tileOverlay 数据源
+ @param overlay 数据源
  @return 初始化成功则返回overlay renderer,否则返回nil
  */
-- (id)initWithTileOverlay:(MATileOverlay *)overlay;
+- (instancetype)initWithTileOverlay:(MATileOverlay *)overlay;
 
 /*!
  @brief 清除所有tile的缓存，并刷新overlay
