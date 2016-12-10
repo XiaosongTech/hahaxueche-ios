@@ -80,7 +80,6 @@ EOM
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_resource "AMap2DMap/MAMapKit.framework/AMap.bundle"
   install_resource "$PODS_CONFIGURATION_BUILD_DIR/Appirater/Appirater.bundle"
   install_resource "DateTools/DateTools/DateTools.bundle"
   install_resource "EAFeatureGuideView/EAFeatureGuideView/Resources/icon_ea_background@2x.png"
@@ -105,7 +104,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_resource "AMap2DMap/MAMapKit.framework/AMap.bundle"
   install_resource "$PODS_CONFIGURATION_BUILD_DIR/Appirater/Appirater.bundle"
   install_resource "DateTools/DateTools/DateTools.bundle"
   install_resource "EAFeatureGuideView/EAFeatureGuideView/Resources/icon_ea_background@2x.png"

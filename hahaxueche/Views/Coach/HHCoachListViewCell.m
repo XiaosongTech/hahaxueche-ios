@@ -61,7 +61,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     [self.mapButton addTarget:self action:@selector(mapButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:self.mapButton];
     
-    self.mapView = [[MAMapView alloc] init];
+    self.mapView = [[MKMapView alloc] init];
     self.mapView.hidden = YES;
     self.mapView.delegate = self;
     self.mapView.layer.cornerRadius = 5.0f;
@@ -129,7 +129,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     }];
     
     [self.mapView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.mapButton.bottom).offset(5.0f);
+        make.top.equalTo(self.jiaxiaoView.bottom).offset(5.0f);
         make.left.equalTo(self.contentView.left).offset(15.0f);
         make.width.equalTo(self.contentView.width).offset(-30.0f);
         make.height.mas_equalTo(200.0f);
@@ -168,17 +168,8 @@ static CGFloat const kAvatarRadius = 30.0f;
     if (self.mapButtonBlock) {
         self.mapButtonBlock();
     }
-
-    MACoordinateRegion mapRegion;
-    mapRegion.span.latitudeDelta = 0.05;
-    mapRegion.span.longitudeDelta = 0.05;
-    mapRegion.center = CLLocationCoordinate2DMake([self.field.latitude doubleValue], [self.field.longitude doubleValue]);
     
-    [self.mapView setRegion:mapRegion animated: YES];
-    [self.mapView setCenterCoordinate:CLLocationCoordinate2DMake([self.field.latitude doubleValue], [self.field.longitude doubleValue]) animated:NO];
-    
-    
-    MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc] init];
+    MKPointAnnotation *pointAnnotation = [[MKPointAnnotation alloc] init];
     pointAnnotation.coordinate = CLLocationCoordinate2DMake([self.field.latitude doubleValue], [self.field.longitude doubleValue]);
     pointAnnotation.title = self.field.name;
     pointAnnotation.subtitle = self.field.address;
@@ -254,18 +245,21 @@ static CGFloat const kAvatarRadius = 30.0f;
         make.height.mas_equalTo(40.0f);
     }];
     
+    MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2DMake([self.field.latitude doubleValue], [self.field.longitude doubleValue]), 3000, 3000);
+    
+    [self.mapView setRegion:mapRegion animated:NO];
 }
 
 #pragma mark - MapView Delegate Methods
 
-- (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id <MAAnnotation>)annotation {
-    if ([annotation isKindOfClass:[MAUserLocation class]]) {
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
         return nil;
     } else {
         static NSString *reuseIndetifier = @"annotationReuseIndetifier";
-        MAAnnotationView *annotationView = (MAAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIndetifier];
+        MKAnnotationView *annotationView = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIndetifier];
         if (!annotationView) {
-            annotationView = [[MAAnnotationView alloc] initWithAnnotation:annotation
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
                                                           reuseIdentifier:reuseIndetifier];
         }
         annotationView.image = [UIImage imageNamed:@"ic_map_local_choseon"];
@@ -275,9 +269,9 @@ static CGFloat const kAvatarRadius = 30.0f;
     }
 }
 
-- (void)mapView:(MAMapView *)mapView didAddAnnotationViews:(NSArray *)views {
-    for (MAAnnotationView *view in views) {
-        if ([view.annotation isKindOfClass:[MAUserLocation class]]) {
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
+    for (MKAnnotationView *view in views) {
+        if ([view.annotation isKindOfClass:[MKUserLocation class]]) {
             continue;
         }
         [mapView selectAnnotation:view.annotation animated:NO];
@@ -286,10 +280,10 @@ static CGFloat const kAvatarRadius = 30.0f;
 
 - (NSMutableAttributedString *)generateDistanceStringWithField:(HHField *)field userLocation:(CLLocation *)location {
     //1.将两个经纬度点转成投影点
-    MAMapPoint point1 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
-    MAMapPoint point2 = MAMapPointForCoordinate(CLLocationCoordinate2DMake([field.latitude doubleValue], [field.longitude doubleValue]));
+    MKMapPoint point1 = MKMapPointForCoordinate(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
+    MKMapPoint point2 = MKMapPointForCoordinate(CLLocationCoordinate2DMake([field.latitude doubleValue], [field.longitude doubleValue]));
     //2.计算距离
-    CLLocationDistance distance = MAMetersBetweenMapPoints(point1,point2);
+    CLLocationDistance distance = MKMetersBetweenMapPoints(point1,point2);
     NSNumber *disNumber = @(distance/1000.0f);
     if ([disNumber doubleValue] > 50.0f) {
         NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:@"  距您" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];

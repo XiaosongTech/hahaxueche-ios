@@ -204,7 +204,8 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [[[SDWebImageManager sharedManager] imageDownloader] setExecutionOrder:SDWebImageDownloaderLIFOExecutionOrder];
     
     //高德
-    [AMapServices sharedServices].apiKey =kMapServiceKey;
+    [AMapServices sharedServices].enableHTTPS = YES;
+    [AMapServices sharedServices].apiKey = kMapServiceKey;
     
     //Openshare
     [HHSocialMediaShareUtility sharedInstance];

@@ -23,7 +23,6 @@
 #import "HHFieldsMapViewController.h"
 #import <MJRefresh/MJRefresh.h>
 #import "HHCoachListViewCell.h"
-#import <MAMapKit/MAMapKit.h>
 #import "HHConstantsStore.h"
 #import "HHToastManager.h"
 #import "HHCoachService.h"
@@ -54,7 +53,7 @@ static NSString *const kCellId = @"kCoachListCellId";
 static NSString *const kPersonalCoachCellId = @"kPersonalCoachCellId";
 static NSString *const kFindCoachGuideKey = @"kFindCoachGuideKey";
 static CGFloat const kCellHeightNormal = 100.0f;
-static CGFloat const kCellHeightExpanded = 305.0f;
+static CGFloat const kCellHeightExpanded = 325.0f;
 
 @interface HHFindCoachViewController () <UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate,SwipeViewDataSource, SwipeViewDelegate>
 

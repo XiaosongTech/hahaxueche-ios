@@ -10,7 +10,6 @@
 #import "HHCoach.h"
 #import "HHField.h"
 #import "HHStarRatingView.h"
-#import <MAMapKit/MAMapKit.h>
 #import "HHCoachTagView.h"
 #import "HHCoachBadgeView.h"
 

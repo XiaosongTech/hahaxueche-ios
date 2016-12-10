@@ -13,6 +13,7 @@
 #import "NSNumber+HHNumber.h"
 #import <UIImageView+WebCache.h>
 #import "HHStudentStore.h"
+#import <MapKit/MapKit.h>
 
 static CGFloat const kAvatarRadius = 30.0f;
 
@@ -194,10 +195,10 @@ static CGFloat const kAvatarRadius = 30.0f;
 
 - (NSMutableAttributedString *)generateDistanceStringWithField:(HHField *)field userLocation:(CLLocation *)location {
     //1.将两个经纬度点转成投影点
-    MAMapPoint point1 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
-    MAMapPoint point2 = MAMapPointForCoordinate(CLLocationCoordinate2DMake([field.latitude doubleValue], [field.longitude doubleValue]));
+    MKMapPoint point1 = MKMapPointForCoordinate(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
+    MKMapPoint point2 = MKMapPointForCoordinate(CLLocationCoordinate2DMake([field.latitude doubleValue], [field.longitude doubleValue]));
     //2.计算距离
-    CLLocationDistance distance = MAMetersBetweenMapPoints(point1,point2);
+    CLLocationDistance distance = MKMetersBetweenMapPoints(point1,point2);
     NSNumber *disNumber = @(distance/1000.0f);
     if ([disNumber doubleValue] > 50.0f) {
         NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:@"  距您" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];

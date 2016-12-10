@@ -18,7 +18,7 @@ target "hahaxueche" do
     pod 'StepSlider', '~> 0.1.5'
     pod 'BEMCheckBox'
     pod 'INTULocationManager', '~> 4.2'
-    pod 'AMap2DMap', '~> 4.5.0'
+    pod 'AMapFoundation'
     pod 'SDCycleScrollView','~> 1.6'
     pod 'HCSStarRatingView', '~> 1.4'
     pod 'ActionSheetPicker-3.0'

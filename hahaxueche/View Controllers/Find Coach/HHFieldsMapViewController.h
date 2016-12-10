@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <MAMapKit/MAMapKit.h>
+#import <MapKit/MapKit.h>
 #import "HHButton.h"
 #import "UIColor+HHColor.h"
 #import "HHField.h"
@@ -15,9 +15,9 @@
 
 typedef void (^HHFieldsConfirmBlock)(NSMutableArray *selectedFields);
 
-@interface HHFieldsMapViewController : UIViewController <MAMapViewDelegate>
+@interface HHFieldsMapViewController : UIViewController <MKMapViewDelegate>
 
-@property (nonatomic, strong) MAMapView *mapView;
+@property (nonatomic, strong) MKMapView *mapView;
 @property (nonatomic, strong) UIView *explanationView;
 @property (nonatomic, strong) UILabel *explanationLabel;
 @property (nonatomic, strong) HHButton *bottomButton;
