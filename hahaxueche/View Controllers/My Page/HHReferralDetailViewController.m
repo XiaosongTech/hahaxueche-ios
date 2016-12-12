@@ -167,6 +167,7 @@ static NSString *const kCellId = @"kCellId";
     
     [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
         if (student) {
+            [HHStudentStore sharedInstance].currentStudent = student;
             self.valueLabel.text = [[HHStudentStore sharedInstance].currentStudent.bonusBalance generateMoneyString];
         }
     }];
