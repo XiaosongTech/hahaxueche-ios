@@ -105,37 +105,6 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     self.shareButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
     [self.scrollView addSubview:self.shareButton];
     
-//    self.topView = [[UIView alloc] init];
-//    self.topView.backgroundColor = [UIColor HHOrange];
-//    [self.scrollView addSubview:self.topView];
-//    
-//    self.titleLabel = [[UILabel alloc] init];
-//    self.titleLabel.text = @"可提现";
-//    self.titleLabel.textColor = [UIColor whiteColor];
-//    self.titleLabel.font = [UIFont systemFontOfSize:15.0f];
-//    [self.topView addSubview:self.titleLabel];
-//    
-//    self.valueLabel = [[UILabel alloc] init];
-//    self.valueLabel.textColor = [UIColor whiteColor];
-//    if (self.isLoggedIn) {
-//        self.valueLabel.text = [[HHStudentStore sharedInstance].currentStudent.bonusBalance generateMoneyString];
-//    } else {
-//        self.valueLabel.text = [@(0) generateMoneyString];
-//    }
-//    
-//    self.valueLabel.font = [UIFont systemFontOfSize:28.0f];
-//    [self.topView addSubview:self.valueLabel];
-//    
-//    self.withdrawButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [self.withdrawButton setTitle:@"提现" forState:UIControlStateNormal];
-//    [self.withdrawButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    self.withdrawButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
-//    self.withdrawButton.layer.borderColor = [UIColor whiteColor].CGColor;
-//    self.withdrawButton.layer.masksToBounds = YES;
-//    self.withdrawButton.layer.cornerRadius = 5.0f;
-//    self.withdrawButton.layer.borderWidth = 2.0f/[UIScreen mainScreen].scale;
-//    [self.withdrawButton addTarget:self action:@selector(showWithdrawVC) forControlEvents:UIControlEventTouchUpInside];
-//    [self.topView addSubview:self.withdrawButton];
 //    
 //    self.arrowButton = [UIButton buttonWithType:UIButtonTypeCustom];
 //    [self.arrowButton setImage:[UIImage imageNamed:@"ic_arrow_more_white"] forState:UIControlStateNormal];

@@ -16,6 +16,8 @@
 #import "HHReferrals.h"
 #import <MJRefresh/MJRefresh.h>
 #import "UIScrollView+EmptyDataSet.h"
+#import "HHStudentStore.h"
+#import "NSNumber+HHNumber.h"
 
 static NSString *const kCellId = @"kCellId";
 
@@ -24,6 +26,10 @@ static NSString *const kCellId = @"kCellId";
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) HHReferrals *referrals;
 @property (nonatomic, strong) NSMutableArray *referralsArray;
+@property (nonatomic, strong) UIView *topView;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *valueLabel;
+@property (nonatomic, strong) UIButton *withdrawButton;
 
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 @property (nonatomic, strong) MJRefreshAutoNormalFooter *loadMoreFooter;
@@ -35,10 +41,40 @@ static NSString *const kCellId = @"kCellId";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
     self.title = @"推荐有奖";
     self.referralsArray = [NSMutableArray array];
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
+    
+    self.topView = [[UIView alloc] init];
+    self.topView.backgroundColor = [UIColor HHOrange];
+    [self.view addSubview:self.topView];
+    
+    self.titleLabel = [[UILabel alloc] init];
+    self.titleLabel.text = @"可提现";
+    self.titleLabel.textColor = [UIColor whiteColor];
+    self.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    [self.topView addSubview:self.titleLabel];
+    
+    self.valueLabel = [[UILabel alloc] init];
+    self.valueLabel.textColor = [UIColor whiteColor];
+   self.valueLabel.text = [[HHStudentStore sharedInstance].currentStudent.bonusBalance generateMoneyString];
+    
+    self.valueLabel.font = [UIFont systemFontOfSize:28.0f];
+    [self.topView addSubview:self.valueLabel];
+    
+    self.withdrawButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.withdrawButton setTitle:@"提现" forState:UIControlStateNormal];
+    [self.withdrawButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.withdrawButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+    self.withdrawButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.withdrawButton.layer.masksToBounds = YES;
+    self.withdrawButton.layer.cornerRadius = 5.0f;
+    self.withdrawButton.layer.borderWidth = 2.0f/[UIScreen mainScreen].scale;
+    [self.withdrawButton addTarget:self action:@selector(showWithdrawVC) forControlEvents:UIControlEventTouchUpInside];
+    [self.topView addSubview:self.withdrawButton];
+
     
     self.tableView = [[UITableView alloc] init];
     self.tableView.delegate = self;
@@ -57,12 +93,6 @@ static NSString *const kCellId = @"kCellId";
             self.referrals = referralsObject;
             [self.tableView reloadData];
         }
-    }];
-    
-    [self.tableView makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.view);
-        make.width.equalTo(self.view.width);
-        make.height.equalTo(self.view.height);
     }];
     
     self.refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
@@ -85,6 +115,40 @@ static NSString *const kCellId = @"kCellId";
     self.loadMoreFooter.stateLabel.textColor = [UIColor HHLightTextGray];
     self.tableView.mj_footer = self.loadMoreFooter;
     
+    [self makeConstraints];
+}
+
+- (void)makeConstraints {
+    [self.topView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.top);
+        make.left.equalTo(self.view.left);
+        make.width.equalTo(self.view.width);
+        make.height.mas_equalTo(90.0f);
+    }];
+    
+    [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.topView.top).offset(20.0f);
+        make.left.equalTo(self.topView.left).offset(20.0f);
+    }];
+    
+    [self.valueLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.titleLabel.bottom).offset(5.0f);
+        make.left.equalTo(self.topView.left).offset(20.0f);
+    }];
+
+    [self.withdrawButton makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.topView.top).offset(30.0f);
+        make.right.equalTo(self.topView.right).offset(-20.0f);
+        make.width.mas_equalTo(60.0f);
+        make.height.mas_equalTo(30.0f);
+    }];
+    
+    [self.tableView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.topView.bottom);
+        make.left.equalTo(self.view.left);
+        make.width.equalTo(self.view.width);
+        make.bottom.equalTo(self.view.bottom);
+    }];
 }
 
 - (void)dismissVC {
@@ -92,13 +156,18 @@ static NSString *const kCellId = @"kCellId";
 }
 
 - (void)refreshData {
-    
     [[HHStudentService sharedInstance] fetchReferralsWithCompletion:^(HHReferrals *referralsObject, NSError *error) {
         [self.refreshHeader endRefreshing];
         if (!error) {
             self.referralsArray = [NSMutableArray arrayWithArray:self.referrals.referrals];
             self.referrals = referralsObject;
             [self.tableView reloadData];
+        }
+    }];
+    
+    [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
+        if (student) {
+            self.valueLabel.text = [[HHStudentStore sharedInstance].currentStudent.bonusBalance generateMoneyString];
         }
     }];
 }
@@ -168,6 +237,10 @@ static NSString *const kCellId = @"kCellId";
 
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView {
     return YES;
+}
+
+- (void)showWithdrawVC {
+    
 }
 
 @end
