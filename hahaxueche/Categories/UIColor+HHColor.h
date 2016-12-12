@@ -46,4 +46,8 @@
 
 + (UIColor *)HHDarkOrange;
 
++ (UIColor *)HHPink;
+
++ (UIColor *)HHBrown;
+
 @end
