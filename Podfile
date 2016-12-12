@@ -29,7 +29,7 @@ target "hahaxueche" do
     pod 'RSKImageCropper'
     pod 'Harpy'
     pod 'UMengAnalytics-NO-IDFA', '~> 4.1.4'
-    pod 'TTTAttributedLabel'
+    pod 'TTTAttributedLabel', '~> 2.0'
     pod 'QIYU_iOS_SDK', '~> 3.0'
     pod 'HMSegmentedControl', '~> 1.5'
     pod 'SwipeView', '~> 1.3'
