@@ -82,10 +82,6 @@ EOM
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "$PODS_CONFIGURATION_BUILD_DIR/Appirater/Appirater.bundle"
   install_resource "DateTools/DateTools/DateTools.bundle"
-  install_resource "EAFeatureGuideView/EAFeatureGuideView/Resources/icon_ea_background@2x.png"
-  install_resource "EAFeatureGuideView/EAFeatureGuideView/Resources/icon_ea_background@3x.png"
-  install_resource "EAFeatureGuideView/EAFeatureGuideView/Resources/icon_ea_indicator@2x.png"
-  install_resource "EAFeatureGuideView/EAFeatureGuideView/Resources/icon_ea_indicator@3x.png"
   install_resource "Harpy/Harpy/Harpy.bundle"
   install_resource "MJRefresh/MJRefresh/MJRefresh.bundle"
   install_resource "MMNumberKeyboard/Images/MMNumberKeyboardDeleteKey.png"
@@ -106,10 +102,6 @@ fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "$PODS_CONFIGURATION_BUILD_DIR/Appirater/Appirater.bundle"
   install_resource "DateTools/DateTools/DateTools.bundle"
-  install_resource "EAFeatureGuideView/EAFeatureGuideView/Resources/icon_ea_background@2x.png"
-  install_resource "EAFeatureGuideView/EAFeatureGuideView/Resources/icon_ea_background@3x.png"
-  install_resource "EAFeatureGuideView/EAFeatureGuideView/Resources/icon_ea_indicator@2x.png"
-  install_resource "EAFeatureGuideView/EAFeatureGuideView/Resources/icon_ea_indicator@3x.png"
   install_resource "Harpy/Harpy/Harpy.bundle"
   install_resource "MJRefresh/MJRefresh/MJRefresh.bundle"
   install_resource "MMNumberKeyboard/Images/MMNumberKeyboardDeleteKey.png"

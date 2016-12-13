@@ -18,6 +18,7 @@
 #import "UIScrollView+EmptyDataSet.h"
 #import "HHStudentStore.h"
 #import "NSNumber+HHNumber.h"
+#import "HHWithdrawViewController.h"
 
 static NSString *const kCellId = @"kCellId";
 
@@ -33,6 +34,7 @@ static NSString *const kCellId = @"kCellId";
 
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 @property (nonatomic, strong) MJRefreshAutoNormalFooter *loadMoreFooter;
+@property (nonatomic, strong) HHStudent *student;
 
 @end
 
@@ -41,7 +43,7 @@ static NSString *const kCellId = @"kCellId";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+    self.student = [HHStudentStore sharedInstance].currentStudent;
     self.title = @"推荐有奖";
     self.referralsArray = [NSMutableArray array];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -59,7 +61,7 @@ static NSString *const kCellId = @"kCellId";
     
     self.valueLabel = [[UILabel alloc] init];
     self.valueLabel.textColor = [UIColor whiteColor];
-   self.valueLabel.text = [[HHStudentStore sharedInstance].currentStudent.bonusBalance generateMoneyString];
+    self.valueLabel.text = [self.student.bonusBalance generateMoneyString];
     
     self.valueLabel.font = [UIFont systemFontOfSize:28.0f];
     [self.topView addSubview:self.valueLabel];
@@ -165,10 +167,11 @@ static NSString *const kCellId = @"kCellId";
         }
     }];
     
-    [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
+    [[HHStudentService sharedInstance] fetchStudentWithId:self.student.studentId completion:^(HHStudent *student, NSError *error) {
         if (student) {
             [HHStudentStore sharedInstance].currentStudent = student;
-            self.valueLabel.text = [[HHStudentStore sharedInstance].currentStudent.bonusBalance generateMoneyString];
+            self.student = student;
+            self.valueLabel.text = [self.student.bonusBalance generateMoneyString];
         }
     }];
 }
@@ -219,7 +222,7 @@ static NSString *const kCellId = @"kCellId";
 
 #pragma mark - DZNEmptyDataSetSource Methods
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
-    return [[NSMutableAttributedString alloc] initWithString:@"您还木有推荐的小伙伴, 快去分享专自己的专属二维码, 赢取无上限现金奖励!" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+    return [[NSMutableAttributedString alloc] initWithString:@"您还木有推荐的小伙伴, 快去分享学车大礼包给好友, 赢取无上限现金奖励!" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
 }
 
 - (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView {
@@ -233,15 +236,20 @@ static NSString *const kCellId = @"kCellId";
 }
 
 - (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView {
-    return NO;
+    return YES;
 }
 
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView {
     return YES;
 }
 
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)showWithdrawVC {
-    
+    HHWithdrawViewController *vc = [[HHWithdrawViewController alloc] initWithAvailableAmount:self.student.bonusBalance];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

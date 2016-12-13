@@ -32,7 +32,6 @@
 #import "HHCoachDetailViewController.h"
 #import "HHSearchCoachViewController.h"
 #import "HHGifRefreshHeader.h"
-#import "UIView+EAFeatureGuideView.h"
 #import "UIScrollView+EmptyDataSet.h"
 #import "SwipeView.h"
 #import "HHPersonalCoachTableViewCell.h"
@@ -42,6 +41,7 @@
 #import "HHPersonalCoachSortView.h"
 #import "HHPersonalCoachDetailViewController.h"
 #import "HHPersonalCoaches.h"
+#import "HHAppVersionUtility.h"
 
 typedef NS_ENUM(NSInteger, CoachType) {
     CoachTypeDrivingSchoolCoach,
@@ -142,8 +142,9 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     [self getUserLocationWithCompletion:^{
         [weakSelf refreshCoachList:NO completion:^{
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-            [weakSelf showUserGuideView];
             [self refreshPersonalCoachList:NO completion:nil];
+            //check app version
+            [[HHAppVersionUtility sharedManager] checkVersionInVC:weakSelf];
         }];
         
     }];
@@ -548,39 +549,6 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:navVC animated:NO completion:nil];
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_search_tapped attributes:nil];
-}
-
-
-- (void)showUserGuideView {
-    if ([UIView hasShowFeatureGuideWithKey:kFindCoachGuideKey version:nil]) {
-        return;
-    }
-    
-    __weak HHFindCoachViewController *weakSelf = self;
-    EAFeatureItem *filter = [[EAFeatureItem alloc] initWithFocusView:self.filterButton focusCornerRadius:0 focusInsets:UIEdgeInsetsMake(5.0f, 20.0f, -5.0f, -20.0f)];
-    filter.introduce = @"select.png";
-    filter.indicatorImageName = @"arrow.png";
-    self.view.guideViewDismissCompletion = ^() {
-        EAFeatureItem *leftTop = [[EAFeatureItem alloc] initWithFocusRect:CGRectMake(10.0f, 25.0f, 35.0f, 35.0f) focusCornerRadius:15.5f focusInsets:UIEdgeInsetsZero];
-        leftTop.introduce = @"pointtomap.png";
-        leftTop.indicatorImageName = @"arrow.png";
-        if ([weakSelf.coaches count] > 0) {
-            weakSelf.view.guideViewDismissCompletion = ^() {
-                EAFeatureItem *mapButton = [[EAFeatureItem alloc] initWithFocusRect:CGRectMake(85.0f, 165.0f, 90.0f, 25.0f) focusCornerRadius:0 focusInsets:UIEdgeInsetsZero];
-                mapButton.introduce = @"wheretopractice.png";
-                mapButton.indicatorImageName = @"arrow.png";
-                weakSelf.view.guideViewDismissCompletion = nil;
-                [weakSelf.view showWithFeatureItems:@[mapButton] saveKeyName:kFindCoachGuideKey inVersion:nil];
-            };
-        } else {
-            weakSelf.view.guideViewDismissCompletion = nil;
-        }
-        
-        [weakSelf.view showWithFeatureItems:@[leftTop] saveKeyName:kFindCoachGuideKey inVersion:nil];
-    };
-    
-    [self.view showWithFeatureItems:@[filter] saveKeyName:kFindCoachGuideKey inVersion:nil];
-    
 }
 
 #pragma mark - DZNEmptyDataSetSource Methods

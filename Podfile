@@ -34,7 +34,6 @@ target "hahaxueche" do
     pod 'HMSegmentedControl', '~> 1.5'
     pod 'SwipeView', '~> 1.3'
     pod 'FLAnimatedImage', '~> 1.0'
-    pod 'EAFeatureGuideView'
     pod 'UITextView+Placeholder', '~> 1.2'
     pod 'DZNEmptyDataSet'
     pod 'GTSDK', '1.5.3-noidfa'

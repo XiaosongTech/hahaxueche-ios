@@ -499,13 +499,17 @@ static NSString *const kPlatformLink = @"https://m.hahaxueche.com/assurance";
 }
 
 - (void)shareCoach {
+    __weak HHCoachDetailViewController *weakSelf = self;
     HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 0)];
     
     shareView.dismissBlock = ^() {
         [HHPopupUtility dismissPopup:self.popup];
     };
     shareView.actionBlock = ^(SocialMedia selecteItem) {
-        [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:selecteItem resultCompletion:^(BOOL succceed) {
+        if (selecteItem == SocialMediaMessage) {
+            [HHPopupUtility dismissPopup:weakSelf.popup];
+        }
+        [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:selecteItem inVC:weakSelf resultCompletion:^(BOOL succceed) {
             if (succceed) {
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_share_coach_succeed attributes:@{@"coach_id":self.coach.coachId, @"channel": [[HHSocialMediaShareUtility sharedInstance] getChannelNameWithType:selecteItem]}];
             }

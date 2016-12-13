@@ -18,7 +18,6 @@
 #import <MessageUI/MessageUI.h>
 #import <UIImageView+WebCache.h>
 #import "HHConstantsStore.h"
-#import "HHWithdrawViewController.h"
 #import "HHStudentStore.h"
 #import "HHStudentService.h"
 #import "HHToastManager.h"
@@ -29,6 +28,7 @@
 #import <TTTAttributedLabel.h>
 #import "HHSupportUtility.h"
 #import "HHIntroViewController.h"
+#import "HHQRCodeShareView.h"
 
 
 static NSString *const kRulesString = @"1. 点击分享此页面给好友, 好友可领取%@元新人专享代金券，报名时可直接立减%@元！\n2. 好友完成报名后，您将获得%@元奖励，累计无上限，可随时提现. \n3. 新用户仅限领取一次优惠礼包.\n4. 如发现作弊行为, 将取消用户活动资格, 并扣除所获奖励. \n5. 活动解释权归哈哈学车所有. 如对本活动规则有任何疑问, 请拨打400-001-6006或联系在线客服";
@@ -41,7 +41,6 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIImageView *couponOne;
 @property (nonatomic, strong) UIImageView *couponTwo;
-@property (nonatomic, strong) TTTAttributedLabel *eventRulesLabel;
 @property (nonatomic, strong) UILabel *labelOne;
 @property (nonatomic, strong) TTTAttributedLabel *labelTwo;
 @property (nonatomic, strong) UILabel *labelThree;
@@ -60,7 +59,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     [super viewDidLoad];
     self.referrerBonus = [[HHConstantsStore sharedInstance] getCityReferrerBonus];
     self.refereeBonus = [[HHConstantsStore sharedInstance] getCityRefereeBonus];
-    self.title = [NSString stringWithFormat:@"邀请好友 平分%@元", [@([self.referrerBonus floatValue] + [self.refereeBonus floatValue]) stringValue]];
+    self.title = [NSString stringWithFormat:@"邀请好友 平分%@元", [@([self.referrerBonus floatValue] + [self.refereeBonus floatValue]) generateMoneyString]];
     self.isLoggedIn = [[HHStudentStore sharedInstance].currentStudent isLoggedIn];
     
     self.view.backgroundColor = [UIColor whiteColor];
@@ -104,42 +103,6 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     [self.shareButton addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
     self.shareButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
     [self.scrollView addSubview:self.shareButton];
-    
-//    
-//    self.arrowButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [self.arrowButton setImage:[UIImage imageNamed:@"ic_arrow_more_white"] forState:UIControlStateNormal];
-//    [self.arrowButton addTarget:self action:@selector(showReferralDetailVC) forControlEvents:UIControlEventTouchUpInside];
-//    [self.topView addSubview:self.arrowButton];
-//    
-//    self.midView = [[UIView alloc] init];
-//    self.midView.backgroundColor = [UIColor whiteColor];
-//    [self.scrollView addSubview:self.midView];
-//    
-//    self.myQRCodeView = [[UIImageView alloc] init];
-//    [self.myQRCodeView sd_setImageWithURL:[NSURL URLWithString:[[HHStudentService sharedInstance] getStudentQRCodeURL]]];
-//    self.myQRCodeView.userInteractionEnabled = YES;
-//    [self.midView addSubview:self.myQRCodeView];
-//    UILongPressGestureRecognizer *longRec = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showOptions)];
-//    [self.myQRCodeView addGestureRecognizer:longRec];
-//    
-//    self.shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [self.shareButton setTitle:@"点击分享, 赚回学费" forState:UIControlStateNormal];
-//    [self.shareButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    self.shareButton.titleLabel.font = [UIFont boldSystemFontOfSize:18.0f];
-//    self.shareButton.backgroundColor = [UIColor HHOrange];
-//    self.shareButton.layer.masksToBounds = YES;
-//    self.shareButton.layer.cornerRadius = 25.0f;
-//    [self.shareButton addTarget:self action:@selector(shareImg) forControlEvents:UIControlEventTouchUpInside];
-//    [self.midView addSubview:self.shareButton];
-//    
-//    HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
-//    self.imageView = [[UIImageView alloc] init];
-//    [self.imageView sd_setImageWithURL:[NSURL URLWithString:city.referalBanner] placeholderImage:nil];
-//    [self.scrollView addSubview:self.imageView];
-//    
-//    self.eventTitleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_line"]];
-//    [self.scrollView addSubview:self.eventTitleImageView];
-//
     [self makeConstraints];
     
 }
@@ -237,8 +200,26 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 }
 
 - (void)share {
+    __weak HHReferFriendsViewController *weakSelf = self;
     if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
-        //share
+        NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+        style.alignment = NSTextAlignmentCenter;
+        NSMutableAttributedString *sting = [[NSMutableAttributedString alloc] initWithString:@"爱分享的人运气一定不会差!" attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSParagraphStyleAttributeName:style}];
+        
+        NSMutableAttributedString *sting2 = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n成功邀请好友, 一起平分%@元!", [@([self.referrerBonus floatValue] + [self.refereeBonus floatValue]) generateMoneyString]] attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSParagraphStyleAttributeName:style}];
+        [sting appendAttributedString:sting2];
+
+        HHQRCodeShareView *shareView = [[HHQRCodeShareView alloc] initWithTitle:sting qrCodeImg:nil];
+        shareView.dismissBlock = ^() {
+            [HHPopupUtility dismissPopup:weakSelf.popup];
+        };
+        shareView.selectedBlock = ^(SocialMedia selectedIndex) {
+            // share action
+            [HHPopupUtility dismissPopup:weakSelf.popup];
+        };
+        self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
+        [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
+
     } else {
         [self showLoginAlert];
     }
@@ -253,22 +234,11 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 
 }
 
-- (void)showWithdrawVC {
-    if (self.isLoggedIn) {
-        HHWithdrawViewController *vc = [[HHWithdrawViewController alloc] initWithAvailableAmount:[HHStudentStore sharedInstance].currentStudent.bonusBalance];
-        [self.navigationController pushViewController:vc animated:YES];
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:refer_page_cash_tapped attributes:nil];
-    } else {
-        [self showLoginAlert];
-    }
-    
-}
-
 - (void)showReferralDetailVC {
     if (self.isLoggedIn) {
         HHReferralDetailViewController *vc = [[HHReferralDetailViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:refer_page_check_balance_tapped attributes:nil];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:refer_page_cash_tapped attributes:nil];
     } else {
         [self showLoginAlert];
     }
@@ -334,7 +304,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
         make.left.equalTo(view.left);
         make.width.equalTo(view.width);
         make.top.equalTo(view.top).offset(30.0f);
-        make.height.mas_equalTo(3.0f);
+        make.height.mas_equalTo(2.0f);
     }];
     
     UILabel *label = [[UILabel alloc] init];

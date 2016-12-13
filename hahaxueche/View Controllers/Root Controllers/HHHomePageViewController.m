@@ -32,9 +32,7 @@
 #import "HHFreeTrialUtility.h"
 #import "HHTestView.h"
 #import "HHReferralShareView.h"
-#import "UIView+EAFeatureGuideView.h"
 #import "HHHomPageCardView.h"
-#import <Harpy/Harpy.h>
 #import "HHHomePageItemsView.h"
 #import "HHTestStartViewController.h"
 #import "HHReferFriendsViewController.h"
@@ -42,6 +40,8 @@
 #import "HHIntroViewController.h"
 #import "FLAnimatedImage.h"
 #import "FLAnimatedImageView.h"
+#import "HHQRCodeShareView.h"
+#import "HHVoucherPopupView.h"
 
 
 static NSString *const kCoachLink = @"https://m.hahaxueche.com/share/best-coaches";
@@ -53,9 +53,9 @@ static NSString *const kFeatureLink = @"https://activity.hahaxueche.com/share/fe
 static NSString *const kStepsLink = @"https://activity.hahaxueche.com/share/steps";
 static NSString *const kPlatformLink = @"https://m.hahaxueche.com/assurance";
 
-static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
+static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
 
-@interface HHHomePageViewController () <SDCycleScrollViewDelegate, HarpyDelegate>
+@interface HHHomePageViewController () <SDCycleScrollViewDelegate>
 
 @property (nonatomic, strong) SDCycleScrollView *bannerView;
 @property (nonatomic, strong) FLAnimatedImageView *freeTryImageView;
@@ -120,19 +120,36 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
             
             weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.citySelectView];
             [weakSelf.popup show];
-        } 
+        } else {
+            if ([HHStudentStore sharedInstance].currentStudent.vouchers.count > 0 && ![[HHStudentStore sharedInstance].currentStudent isPurchased]) {
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                NSNumber *voucherPopupShowed = [defaults objectForKey:kHomePageVoucherPopupKey];
+                if ([voucherPopupShowed boolValue]) {
+                    return;
+                }
+                NSArray *voucers = [HHStudentStore sharedInstance].currentStudent.vouchers;
+                HHVoucher *biggestVoucher = [voucers firstObject];
+                for (HHVoucher *voucher in voucers) {
+                    if (biggestVoucher.amount < voucher.amount) {
+                        biggestVoucher = voucher;
+                    }
+                }
+                HHVoucherPopupView *popupView = [[HHVoucherPopupView alloc] initWithVoucher:biggestVoucher];
+                popupView.dismissBlock = ^() {
+                    [HHPopupUtility dismissPopup:weakSelf.popup];
+                };
+                popupView.shareBlock = ^() {
+                    [HHPopupUtility dismissPopup:weakSelf.popup];
+                    [weakSelf showShareView];
+                };
+                self.popup = [HHPopupUtility createPopupWithContentView:popupView];
+                [HHPopupUtility showPopup:self.popup];
+                [defaults setObject:@(1) forKey:kHomePageVoucherPopupKey];
+            }
+        }
     }
-    //Harpy
-    [[Harpy sharedInstance] setAppID:@"1011236187"];
-    [[Harpy sharedInstance] setPresentingViewController:self];
-    [[Harpy sharedInstance] setDelegate:self];
-    [[Harpy sharedInstance] setAppName:@"哈哈学车"];
-    [[Harpy sharedInstance] setForceLanguageLocalization:HarpyLanguageChineseSimplified];
-    [[Harpy sharedInstance] setDebugEnabled:YES];
-    [[Harpy sharedInstance] setAlertType:HarpyAlertTypeOption];
-    [[Harpy sharedInstance] setCountryCode:@"CN"];
-    [[Harpy sharedInstance] checkVersion];
-       [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_viewed attributes:nil];
+
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_viewed attributes:nil];
 }
 
 - (void)initSubviews {
@@ -422,6 +439,27 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:navVC animated:YES completion:nil];
     
+}
+
+- (void)showShareView {
+    __weak HHHomePageViewController *weakSelf = self;
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.alignment = NSTextAlignmentCenter;
+    NSMutableAttributedString *sting = [[NSMutableAttributedString alloc] initWithString:@"爱分享的人运气一定不会差~\n" attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSParagraphStyleAttributeName:style}];
+    
+    NSMutableAttributedString *sting2 = [[NSMutableAttributedString alloc] initWithString:@"邀请好友领取哈哈学车新人大礼包哟" attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSParagraphStyleAttributeName:style}];
+    [sting appendAttributedString:sting2];
+    
+    HHQRCodeShareView *shareView = [[HHQRCodeShareView alloc] initWithTitle:sting qrCodeImg:nil];
+    shareView.dismissBlock = ^() {
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+    };
+    shareView.selectedBlock = ^(SocialMedia selectedIndex) {
+        // share action
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+    };
+    self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
+    [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
 }
 
 
