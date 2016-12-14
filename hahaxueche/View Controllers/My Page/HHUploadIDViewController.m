@@ -20,6 +20,8 @@
 #import "HHSignContractViewController.h"
 #import "HHStudentService.h"
 #import "HHLoadingViewUtility.h"
+#import "HHConstantsStore.h"
+#import "NSNumber+HHNumber.h"
 
 static NSString *const kLabelText = @"请上传您的身份证信息，我们将会生成您的哈哈学车专属学员电子协议，该协议将在您的学车途中保障您的利益，同时也有助于教练尽快开展教学活动！若不上传您的真实信息，我们将无法保障您的合法权益！";
 static NSString *const kSecurityText = @"*请确保您的二代身份证处于有效期内\n**所有信息已经经过加密处理, 保证您的信息安全";
@@ -346,7 +348,7 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
 
 - (void)showSharePopup {
     __weak HHUploadIDViewController *weakSelf = self;
-    HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithTitle:@"推荐好友" info:[self buildPopupInfoTextWithString:@"恭喜您！报名成功，现在分享<学车大礼包>给好友吧, 好友报名学车立减¥200元, 还有科一保过卡！"]];
+    HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithTitle:@"推荐好友" info:[self buildPopupInfoTextWithString:[NSString stringWithFormat:@"恭喜您！报名成功，现在分享<学车大礼包>给好友吧, 好友报名学车立减%@元, 还有科一保过卡！", [[[HHConstantsStore sharedInstance] getCityRefereeBonus] generateMoneyString]]]];
     [view.buttonView.okButton setTitle:@"分享得现金" forState:UIControlStateNormal];
     view.cancelBlock = ^() {
         [HHPopupUtility dismissPopup:weakSelf.popup];

@@ -320,7 +320,11 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
     HHBanner *banner = self.banners[index];
     if ([banner.targetURL length] > 0) {
         [self openWebPage:[NSURL URLWithString:banner.targetURL]];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_banner_tapped attributes:@{@"URL":banner.targetURL}];
+    } else {
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_banner_tapped attributes:nil];
     }
+    
     
 }
 
@@ -445,6 +449,7 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
 }
 
 - (void)showShareView {
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_voucher_popup_share_tapped attributes:nil];
     __weak HHHomePageViewController *weakSelf = self;
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
     style.alignment = NSTextAlignmentCenter;
@@ -461,7 +466,11 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
         if (selectedIndex == SocialMediaMessage) {
             [HHPopupUtility dismissPopup:weakSelf.popup];
         }
-        [[HHSocialMediaShareUtility sharedInstance] shareMyReferPageWithShareType:selectedIndex inVC:weakSelf resultCompletion:nil];
+        [[HHSocialMediaShareUtility sharedInstance] shareMyReferPageWithShareType:selectedIndex inVC:weakSelf resultCompletion:^(BOOL succceed) {
+            if (succceed) {
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_voucher_popup_share_succeed attributes:@{@"channel": [[HHSocialMediaShareUtility sharedInstance] getChannelNameWithType:selectedIndex]}];
+            }
+        }];
     };
     self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
     [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
