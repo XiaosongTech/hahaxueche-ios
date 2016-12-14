@@ -200,6 +200,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 }
 
 - (void)share {
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:refer_page_share_pic_tapped attributes:nil];
     __weak HHReferFriendsViewController *weakSelf = self;
     if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
         NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
@@ -209,13 +210,17 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
         NSMutableAttributedString *sting2 = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n成功邀请好友, 一起平分%@元!", [@([self.referrerBonus floatValue] + [self.refereeBonus floatValue]) generateMoneyString]] attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSParagraphStyleAttributeName:style}];
         [sting appendAttributedString:sting2];
 
-        HHQRCodeShareView *shareView = [[HHQRCodeShareView alloc] initWithTitle:sting qrCodeImg:nil];
+        HHQRCodeShareView *shareView = [[HHQRCodeShareView alloc] initWithTitle:sting qrCodeImg:[[HHSocialMediaShareUtility sharedInstance] generateReferQRCode:YES]];
         shareView.dismissBlock = ^() {
             [HHPopupUtility dismissPopup:weakSelf.popup];
         };
         shareView.selectedBlock = ^(SocialMedia selectedIndex) {
             // share action
-            [HHPopupUtility dismissPopup:weakSelf.popup];
+            [[HHSocialMediaShareUtility sharedInstance] shareMyReferPageWithShareType:selectedIndex resultCompletion:^(BOOL succceed) {
+                if (succceed) {
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:refer_page_share_pic_succeed attributes:nil];
+                }
+            }];
         };
         self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
         [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];

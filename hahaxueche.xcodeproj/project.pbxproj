@@ -433,6 +433,7 @@
 		6D44E4711E00273F00BC753F /* button_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D44E46E1E00273F00BC753F /* button_close@2x.png */; };
 		6D44E4721E00273F00BC753F /* button_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D44E46F1E00273F00BC753F /* button_close@3x.png */; };
 		6D44E4751E0029CB00BC753F /* HHAppVersionUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44E4741E0029CB00BC753F /* HHAppVersionUtility.m */; };
+		6D44E4781E00E24700BC753F /* HHQRCodeUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44E4771E00E24700BC753F /* HHQRCodeUtility.m */; };
 		6D4592321CFC6F1D00AF5B45 /* HHTOUViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4592311CFC6F1D00AF5B45 /* HHTOUViewController.m */; };
 		6D4592361CFD68EB00AF5B45 /* ic_edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4592331CFD68EB00AF5B45 /* ic_edit.png */; };
 		6D4592371CFD68EB00AF5B45 /* ic_edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4592341CFD68EB00AF5B45 /* ic_edit@2x.png */; };
@@ -1525,6 +1526,8 @@
 		6D44E46F1E00273F00BC753F /* button_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_close@3x.png"; sourceTree = "<group>"; };
 		6D44E4731E0029CB00BC753F /* HHAppVersionUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAppVersionUtility.h; sourceTree = "<group>"; };
 		6D44E4741E0029CB00BC753F /* HHAppVersionUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHAppVersionUtility.m; sourceTree = "<group>"; };
+		6D44E4761E00E24700BC753F /* HHQRCodeUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHQRCodeUtility.h; sourceTree = "<group>"; };
+		6D44E4771E00E24700BC753F /* HHQRCodeUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHQRCodeUtility.m; sourceTree = "<group>"; };
 		6D4592301CFC6F1D00AF5B45 /* HHTOUViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTOUViewController.h; sourceTree = "<group>"; };
 		6D4592311CFC6F1D00AF5B45 /* HHTOUViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHTOUViewController.m; sourceTree = "<group>"; };
 		6D4592331CFD68EB00AF5B45 /* ic_edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_edit.png; sourceTree = "<group>"; };
@@ -2581,6 +2584,8 @@
 				5CDE14751C3778BD0004778C /* HHToastManager.m */,
 				6D44E4731E0029CB00BC753F /* HHAppVersionUtility.h */,
 				6D44E4741E0029CB00BC753F /* HHAppVersionUtility.m */,
+				6D44E4761E00E24700BC753F /* HHQRCodeUtility.h */,
+				6D44E4771E00E24700BC753F /* HHQRCodeUtility.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -4783,6 +4788,7 @@
 				6DE24BCB1D5B387F0078A21E /* HHTestQuestionViewController.m in Sources */,
 				14700D951C795FBF00660989 /* HHPurchasedService.m in Sources */,
 				14F608DA1C83BDEF00EA70A7 /* HHPayCoachExplanationView.m in Sources */,
+				6D44E4781E00E24700BC753F /* HHQRCodeUtility.m in Sources */,
 				6DB1481C1D50BFAB009E3F1E /* HHCardInfoInputView.m in Sources */,
 				6D98E9841D796D7100A324B2 /* HHReceiptViewController.m in Sources */,
 				6DD1970C1DD99ADA0015ABF6 /* HHSelectVoucherViewController.m in Sources */,

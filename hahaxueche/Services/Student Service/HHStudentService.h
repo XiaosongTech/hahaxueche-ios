@@ -170,12 +170,6 @@ typedef void (^HHSaveTestResultCompletion)(HHTestScore *score);
 - (void)likeOrUnlikeCoachWithId:(NSString *)coachId like:(NSNumber *)like completion:(HHLikeCompletion)completion;
 
 /**
- Get student QR Code URL
- */
-- (NSString *)getStudentQRCodeURL;
-
-
-/**
  Get advisor info
  */
 - (void)getMyAdvisorWithCompletion:(HHAdvisorCompletion)completion;

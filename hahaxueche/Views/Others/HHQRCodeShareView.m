@@ -37,7 +37,7 @@
         [self addSubview:self.cancelButton];
         
         
-        self.botView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.titleLabel.bounds) + 10.0f, CGRectGetWidth(self.bounds), 210.0f)];
+        self.botView = [[UIView alloc] initWithFrame:CGRectMake(20.0f, CGRectGetMaxY(self.titleLabel.bounds) + 10.0f, CGRectGetWidth(self.bounds)-40.0f, 210.0f)];
         [self addSubview:self.botView];
         
         self.qrCodeImgView = [[UIImageView alloc] initWithImage:img];
@@ -47,7 +47,7 @@
             make.centerX.equalTo(self.botView.centerX);
             make.width.mas_equalTo(90.0f);
             make.height.mas_equalTo(90.0f);
-            make.top.equalTo(self.botView.top);
+            make.top.equalTo(self.botView.top).offset(10.0f);
         }];
         
         HHShareViewItem *item;

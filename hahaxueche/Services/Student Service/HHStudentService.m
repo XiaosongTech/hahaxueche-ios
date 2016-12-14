@@ -304,24 +304,6 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     
 }
 
-- (NSString *)getStudentQRCodeURL {
-    #ifdef DEBUG
-    if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
-        return [NSString stringWithFormat:@"https://staging-api.hahaxueche.net/share/students/%@/image", [HHStudentStore sharedInstance].currentStudent.studentId];
-    } else {
-        return @"https://q1.hahaxueche.com/refer_template5.png?watermark/3/image/aHR0cDovL3MtaW1nLmhhaGF4dWVjaGUubmV0L2RlZmF1bHRfZnJlZV90cmlhbF9xcmNvZGUucG5n/dissolve/100/gravity/SouthWest/dx/120/dy/80";
-    }
-    
-    #else
-    if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
-        return [NSString stringWithFormat:@"https://api.hahaxueche.net/share/students/%@/image", [HHStudentStore sharedInstance].currentStudent.studentId];
-
-    } else {
-        return @"https://q1.hahaxueche.com/refer_template5.png?watermark/3/image/aHR0cDovL3AtaW1nLmhhaGF4dWVjaGUuY29tL2RlZmF1bHRfZnJlZV90cmlhbF9xcmNvZGUucG5n/dissolve/100/gravity/SouthWest/dx/120/dy/80";
-    }
-    #endif
-}
-
 - (void)addBankCardToStudent:(HHBankCard *)card completion:(HHCardCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIBankCards];
     NSDictionary *dic = @{@"name":card.cardHolderName, @"card_number":card.cardNumber, @"open_bank_code":card.bankCode, @"transferable_type":@"Student", @"transferable_id":[HHStudentStore sharedInstance].currentStudent.studentId};

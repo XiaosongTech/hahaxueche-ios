@@ -15,6 +15,8 @@
 #import "HHFormatUtility.h"
 #import <MessageUI/MessageUI.h>
 #import "HHToastManager.h"
+#import "HHStudentStore.h"
+#import "HHQRCodeUtility.h"
 
 
 static NSString *const kStagingShareCoachBaseURL = @"https://staging-api.hahaxueche.net/share/coaches/%@";
@@ -285,11 +287,13 @@ static NSString *const kSupportQQ = @"3319762526";
 
 
 
-- (void)shareMyQRCode:(UIImage *)qrCode shareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion {
+- (void)shareMyReferPageWithShareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion {
     OSMessage *msg = [[OSMessage alloc] init];
-    msg.image = qrCode;
-    msg.title = @"";
-    msg.desc = @"";
+    msg.title = @"新人大礼包";
+    msg.desc = @"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你一张保过卡. 比心❤️";
+    msg.image = [UIImage imageNamed:@"ic_share"];
+    msg.thumbnail = [UIImage imageNamed:@"ic_share"];
+    msg.link = [NSString stringWithFormat:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?referrer_id=%@&promo_code=553353", [HHStudentStore sharedInstance].currentStudent.studentId];
     
     switch (shareType) {
         case SocialMediaQQFriend: {
@@ -297,7 +301,6 @@ static NSString *const kSupportQQ = @"3319762526";
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
                 return;
             }
-            msg.thumbnail = qrCode;
             [OpenShare shareToQQFriends:msg Success:^(OSMessage *message) {
                 if (resultCompletion) {
                     resultCompletion(YES);
@@ -314,7 +317,8 @@ static NSString *const kSupportQQ = @"3319762526";
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微博应用, 然后重试"];
                 return;
             }
-            msg.thumbnail = qrCode;
+            msg = [[OSMessage alloc] init];
+            msg.title = [NSString stringWithFormat:@"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你一张保过卡. 比心❤️ %@", [NSString stringWithFormat:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?referrer_id=%@&promo_code=553353", [HHStudentStore sharedInstance].currentStudent.studentId]];
             [OpenShare shareToWeibo:msg Success:^(OSMessage *message) {
                 if (resultCompletion) {
                     resultCompletion(YES);
@@ -380,6 +384,10 @@ static NSString *const kSupportQQ = @"3319762526";
                 }
             } ];
         } break;
+            
+        case SocialMediaMessage: {
+            [self showSMS:[NSString stringWithFormat:@"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你一张保过卡. 比心❤️ %@", [NSString stringWithFormat:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?referrer_id=%@&promo_code=553353", [HHStudentStore sharedInstance].currentStudent.studentId]]];
+        }
         default:
             break;
     }
@@ -687,6 +695,14 @@ static NSString *const kSupportQQ = @"3319762526";
         [self.containerVC dismissViewControllerAnimated:YES completion:nil];
     }
     
+}
+
+- (UIImage *)generateReferQRCode:(BOOL)refer {
+    NSString *string = [NSString stringWithFormat:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?referrer_id=%@&promo_code=553353", [HHStudentStore sharedInstance].currentStudent.studentId];
+    if (!refer) {
+        string = @"https://m.hahaxueche.com/share/xin-ren-da-li-bao?promo_code=553353";
+    }
+    return [[HHQRCodeUtility sharedManager] generateQRCodeWithString:string];
 }
 
 
