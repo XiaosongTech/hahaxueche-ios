@@ -346,7 +346,7 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
 
 - (void)showSharePopup {
     __weak HHUploadIDViewController *weakSelf = self;
-    HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithTitle:@"推荐好友" info:[self buildPopupInfoTextWithString:@"恭喜您！报名成功，现在分享给好友即有机会获得¥100元返现！好友报名学车立减¥200元！快去分享吧~"]];
+    HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithTitle:@"推荐好友" info:[self buildPopupInfoTextWithString:@"恭喜您！报名成功，现在分享<学车大礼包>给好友吧, 好友报名学车立减¥200元, 还有科一保过卡！"]];
     [view.buttonView.okButton setTitle:@"分享得现金" forState:UIControlStateNormal];
     view.cancelBlock = ^() {
         [HHPopupUtility dismissPopup:weakSelf.popup];

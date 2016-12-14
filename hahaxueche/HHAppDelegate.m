@@ -74,12 +74,18 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                     if (valid) {
                         [[HHStudentService sharedInstance] fetchStudentWithId:savedStudent.studentId completion:^(HHStudent *student, NSError *error) {
                             if (!error) {
+                                if (!student) {
+                                    self.window.rootViewController = self.finalRootVC;
+                                    [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
+                                    return ;
+                                }
                                 [HHStudentStore sharedInstance].currentStudent = student;
                                 if (!student.name || !student.cityId) {
                                     // Student created, but not set up yet
                                     HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
                                     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
                                     self.finalRootVC = navVC;
+                                    self.window.rootViewController = self.finalRootVC;
                                     [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                             
                                 } else {
@@ -115,7 +121,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [self setupAllThirdPartyServices];
     [self setAppearance];
     
-    //notification
     // APNs注册，获取deviceToken并上报
     [self registerAPNS:application];
     // 初始化SDK

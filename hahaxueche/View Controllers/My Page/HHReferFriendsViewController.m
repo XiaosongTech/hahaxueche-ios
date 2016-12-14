@@ -215,8 +215,10 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
             [HHPopupUtility dismissPopup:weakSelf.popup];
         };
         shareView.selectedBlock = ^(SocialMedia selectedIndex) {
-            // share action
-            [[HHSocialMediaShareUtility sharedInstance] shareMyReferPageWithShareType:selectedIndex resultCompletion:^(BOOL succceed) {
+            if (selectedIndex == SocialMediaMessage) {
+                [HHPopupUtility dismissPopup:weakSelf.popup];
+            }
+            [[HHSocialMediaShareUtility sharedInstance] shareMyReferPageWithShareType:selectedIndex inVC:weakSelf resultCompletion:^(BOOL succceed) {
                 if (succceed) {
                     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:refer_page_share_pic_succeed attributes:nil];
                 }

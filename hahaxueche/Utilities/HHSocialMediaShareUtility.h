@@ -27,7 +27,7 @@ typedef void (^ShareResultCompletion) (BOOL succceed);
 
 - (void)sharePersonalCoach:(HHPersonalCoach *)coach shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion;
 - (void)shareCoach:(HHCoach *)coach shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion;
-- (void)shareMyReferPageWithShareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion;
+- (void)shareMyReferPageWithShareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion;
 - (void)sharePost:(HHClubPost *)post shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC;
 - (void)shareTestScore:(HHTestScore *)score shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion;
 

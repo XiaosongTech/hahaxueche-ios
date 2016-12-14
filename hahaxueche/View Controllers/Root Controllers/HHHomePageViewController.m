@@ -125,24 +125,29 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
                 if (self.popupVoucherShowed) {
                     return;
                 }
-                NSArray *voucers = [HHStudentStore sharedInstance].currentStudent.vouchers;
-                HHVoucher *biggestVoucher = [voucers firstObject];
-                for (HHVoucher *voucher in voucers) {
-                    if (biggestVoucher.amount < voucher.amount) {
-                        biggestVoucher = voucher;
+                [[HHLoadingViewUtility sharedInstance] showLoadingView];
+                [[HHStudentService sharedInstance] getVouchersWithType:@(0) completion:^(NSArray *vouchers) {
+                    [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+                    HHVoucher *biggestVoucher = [vouchers firstObject];
+                    for (HHVoucher *voucher in vouchers) {
+                        if (biggestVoucher.amount < voucher.amount) {
+                            biggestVoucher = voucher;
+                        }
                     }
-                }
-                HHVoucherPopupView *popupView = [[HHVoucherPopupView alloc] initWithVoucher:biggestVoucher];
-                popupView.dismissBlock = ^() {
-                    [HHPopupUtility dismissPopup:weakSelf.popup];
-                };
-                popupView.shareBlock = ^() {
-                    [HHPopupUtility dismissPopup:weakSelf.popup];
-                    [weakSelf showShareView];
-                };
-                self.popup = [HHPopupUtility createPopupWithContentView:popupView];
-                [HHPopupUtility showPopup:self.popup];
-                self.popupVoucherShowed = YES;
+                    HHVoucherPopupView *popupView = [[HHVoucherPopupView alloc] initWithVoucher:biggestVoucher];
+                    popupView.dismissBlock = ^() {
+                        [HHPopupUtility dismissPopup:weakSelf.popup];
+                    };
+                    popupView.shareBlock = ^() {
+                        [HHPopupUtility dismissPopup:weakSelf.popup];
+                        [weakSelf showShareView];
+                    };
+                    self.popup = [HHPopupUtility createPopupWithContentView:popupView];
+                    [HHPopupUtility showPopup:self.popup];
+                    self.popupVoucherShowed = YES;
+                }];
+
+                
             }
         }
     }
@@ -328,7 +333,7 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
 
 - (void)tryCoachForFree {
     NSString *urlString = [[HHFreeTrialUtility sharedManager] buildFreeTrialURLStringWithCoachId:nil];
-    [self openWebPage:[NSURL URLWithString:urlString]];
+    [self openWebPage:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:homepage_free_trial_tapped attributes:nil];
 }
 
@@ -453,7 +458,10 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
         [HHPopupUtility dismissPopup:weakSelf.popup];
     };
     shareView.selectedBlock = ^(SocialMedia selectedIndex) {
-        [[HHSocialMediaShareUtility sharedInstance] shareMyReferPageWithShareType:selectedIndex resultCompletion:nil];
+        if (selectedIndex == SocialMediaMessage) {
+            [HHPopupUtility dismissPopup:weakSelf.popup];
+        }
+        [[HHSocialMediaShareUtility sharedInstance] shareMyReferPageWithShareType:selectedIndex inVC:weakSelf resultCompletion:nil];
     };
     self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
     [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];

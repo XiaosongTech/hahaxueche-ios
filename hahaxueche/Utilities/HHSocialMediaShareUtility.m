@@ -287,7 +287,8 @@ static NSString *const kSupportQQ = @"3319762526";
 
 
 
-- (void)shareMyReferPageWithShareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion {
+- (void)shareMyReferPageWithShareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion {
+    self.containerVC = inVC;
     OSMessage *msg = [[OSMessage alloc] init];
     msg.title = @"新人大礼包";
     msg.desc = @"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你一张保过卡. 比心❤️";
@@ -698,7 +699,7 @@ static NSString *const kSupportQQ = @"3319762526";
 }
 
 - (UIImage *)generateReferQRCode:(BOOL)refer {
-    NSString *string = [NSString stringWithFormat:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?referrer_id=%@&promo_code=553353", [HHStudentStore sharedInstance].currentStudent.studentId];
+    NSString *string = [NSString stringWithFormat:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?referrer_id=%@&promo_code=553353", [HHStudentStore sharedInstance].currentStudent.userIdentityId];
     if (!refer) {
         string = @"https://m.hahaxueche.com/share/xin-ren-da-li-bao?promo_code=553353";
     }

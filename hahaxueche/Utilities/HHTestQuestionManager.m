@@ -78,15 +78,15 @@ static NSString *const kCourse4FavoratedKey = @"kCourse4FavoratedKey";
     
     switch (courseMode) {
         case CourseMode1: {
-            questions = [NSMutableArray arrayWithArray:self.allCourseMode1Questions];
+            questions = [NSMutableArray arrayWithArray:[self getAllQuestionsForCourseMode:CourseMode1]];
         } break;
             
         case CourseMode4: {
-            questions = [NSMutableArray arrayWithArray:self.allCourseMode4Questions];
+            questions = [NSMutableArray arrayWithArray:[self getAllQuestionsForCourseMode:CourseMode4]];
         } break;
             
         default: {
-            questions = [NSMutableArray arrayWithArray:self.allCourseMode1Questions];
+            questions = [NSMutableArray arrayWithArray:[self getAllQuestionsForCourseMode:CourseMode1]];
         } break;
     }
     
