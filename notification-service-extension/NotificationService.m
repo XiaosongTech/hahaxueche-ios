@@ -7,7 +7,6 @@
 //
 
 #import "NotificationService.h"
-#import "GeTuiExtSdk.h"
 
 @interface NotificationService ()
 
@@ -24,13 +23,9 @@
     self.contentHandler = contentHandler;
     self.bestAttemptContent = [request.content mutableCopy];
     
-    //使用 handelNotificationServiceRequest 上报推送送达数据。
-    [GeTuiExtSdk handelNotificationServiceRequest:request withComplete:^{
-        
-        self.bestAttemptContent.title = [NSString stringWithFormat:@"%@ [modified]", self.bestAttemptContent.title];
-        // 待展示推送的回调处理需要放到回执完成的回调中
-        self.contentHandler(self.bestAttemptContent);
-    }];
+    self.bestAttemptContent.title = [NSString stringWithFormat:@"%@ [modified]", self.bestAttemptContent.title];
+    
+    self.contentHandler(self.bestAttemptContent);
 }
 
 - (void)serviceExtensionTimeWillExpire {

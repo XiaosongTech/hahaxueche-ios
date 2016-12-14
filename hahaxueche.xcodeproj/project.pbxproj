@@ -434,6 +434,10 @@
 		6D44E4721E00273F00BC753F /* button_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D44E46F1E00273F00BC753F /* button_close@3x.png */; };
 		6D44E4751E0029CB00BC753F /* HHAppVersionUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44E4741E0029CB00BC753F /* HHAppVersionUtility.m */; };
 		6D44E4781E00E24700BC753F /* HHQRCodeUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D44E4771E00E24700BC753F /* HHQRCodeUtility.m */; };
+		6D44E4821E011E1F00BC753F /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D44E4811E011E1F00BC753F /* libresolv.tbd */; };
+		6D44E48C1E011E9700BC753F /* AlicloudUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D44E4891E011E9700BC753F /* AlicloudUtils.framework */; };
+		6D44E48D1E011E9700BC753F /* CloudPushSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D44E48A1E011E9700BC753F /* CloudPushSDK.framework */; };
+		6D44E48E1E011E9700BC753F /* UTDID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D44E48B1E011E9700BC753F /* UTDID.framework */; };
 		6D4592321CFC6F1D00AF5B45 /* HHTOUViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4592311CFC6F1D00AF5B45 /* HHTOUViewController.m */; };
 		6D4592361CFD68EB00AF5B45 /* ic_edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4592331CFD68EB00AF5B45 /* ic_edit.png */; };
 		6D4592371CFD68EB00AF5B45 /* ic_edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4592341CFD68EB00AF5B45 /* ic_edit@2x.png */; };
@@ -610,9 +614,6 @@
 		6D8908381DFE9BE300756FDC /* pic_shareforaward.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8908351DFE9BE300756FDC /* pic_shareforaward.png */; };
 		6D8908391DFE9BE300756FDC /* pic_shareforaward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8908361DFE9BE300756FDC /* pic_shareforaward@2x.png */; };
 		6D89083A1DFE9BE300756FDC /* pic_shareforaward@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8908371DFE9BE300756FDC /* pic_shareforaward@3x.png */; };
-		6D8E39B61DF93ACE00D8AC47 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7A4EEF1BBCD345003DB168 /* libz.tbd */; };
-		6D8E39B71DF93ADC00D8AC47 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DDD4B181DF926D8002C168F /* libsqlite3.tbd */; };
-		6D8E39B91DF93AED00D8AC47 /* libGtExtensionSdk-1.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D8E39B81DF93AED00D8AC47 /* libGtExtensionSdk-1.0.0.a */; };
 		6D95A4491DC0C926003CB78D /* HHMyCoachPeerCoachesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D95A4481DC0C926003CB78D /* HHMyCoachPeerCoachesTableViewCell.m */; };
 		6D95A4501DC1ACAD003CB78D /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D95A44F1DC1ACAD003CB78D /* SafariServices.framework */; };
 		6D95A4541DC1DBC6003CB78D /* ic_headline.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D95A4511DC1DBC6003CB78D /* ic_headline.png */; };
@@ -1528,6 +1529,10 @@
 		6D44E4741E0029CB00BC753F /* HHAppVersionUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHAppVersionUtility.m; sourceTree = "<group>"; };
 		6D44E4761E00E24700BC753F /* HHQRCodeUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHQRCodeUtility.h; sourceTree = "<group>"; };
 		6D44E4771E00E24700BC753F /* HHQRCodeUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHQRCodeUtility.m; sourceTree = "<group>"; };
+		6D44E4811E011E1F00BC753F /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		6D44E4891E011E9700BC753F /* AlicloudUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlicloudUtils.framework; sourceTree = "<group>"; };
+		6D44E48A1E011E9700BC753F /* CloudPushSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CloudPushSDK.framework; sourceTree = "<group>"; };
+		6D44E48B1E011E9700BC753F /* UTDID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UTDID.framework; sourceTree = "<group>"; };
 		6D4592301CFC6F1D00AF5B45 /* HHTOUViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHTOUViewController.h; sourceTree = "<group>"; };
 		6D4592311CFC6F1D00AF5B45 /* HHTOUViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHTOUViewController.m; sourceTree = "<group>"; };
 		6D4592331CFD68EB00AF5B45 /* ic_edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_edit.png; sourceTree = "<group>"; };
@@ -2139,6 +2144,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D44E4821E011E1F00BC753F /* libresolv.tbd in Frameworks */,
 				6D6C154D1DFBA31F003DC1CE /* AdSupport.framework in Frameworks */,
 				6D6C154B1DFBA261003DC1CE /* CoreSpotlight.framework in Frameworks */,
 				6D6C15491DFBA24F003DC1CE /* libstdc++.tbd in Frameworks */,
@@ -2149,15 +2155,18 @@
 				5CD4E9F81B5AA10C003CF15E /* SystemConfiguration.framework in Frameworks */,
 				5C5F87381BF16BD6006F9594 /* QuartzCore.framework in Frameworks */,
 				5C5F87361BF16BCE006F9594 /* OpenGLES.framework in Frameworks */,
+				6D44E48D1E011E9700BC753F /* CloudPushSDK.framework in Frameworks */,
 				5CD4E9FA1B5AA115003CF15E /* MessageUI.framework in Frameworks */,
 				5C5F87341BF16BBA006F9594 /* libc++.tbd in Frameworks */,
 				5C5F87321BF16BB1006F9594 /* GLKit.framework in Frameworks */,
+				6D44E48E1E011E9700BC753F /* UTDID.framework in Frameworks */,
 				5C5F87301BF16BA8006F9594 /* Foundation.framework in Frameworks */,
 				5C7A4EF61BBCD7FC003DB168 /* CoreTelephony.framework in Frameworks */,
 				5C5F872E1BF16B98006F9594 /* CoreMotion.framework in Frameworks */,
 				5C5F872C1BF16B8F006F9594 /* CoreGraphics.framework in Frameworks */,
 				5C5F872A1BF16B80006F9594 /* AudioToolbox.framework in Frameworks */,
 				5C7A4EF41BBCD7EF003DB168 /* MobileCoreServices.framework in Frameworks */,
+				6D44E48C1E011E9700BC753F /* AlicloudUtils.framework in Frameworks */,
 				5C7A4EF01BBCD345003DB168 /* libz.tbd in Frameworks */,
 				5C7A4EEE1BBCD2DE003DB168 /* libicucore.tbd in Frameworks */,
 				6D6C154F1DFBA491003DC1CE /* LinkedME_iOS.framework in Frameworks */,
@@ -2178,9 +2187,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D8E39B91DF93AED00D8AC47 /* libGtExtensionSdk-1.0.0.a in Frameworks */,
-				6D8E39B71DF93ADC00D8AC47 /* libsqlite3.tbd in Frameworks */,
-				6D8E39B61DF93ACE00D8AC47 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3727,6 +3733,10 @@
 		D888D3204AF4D3C403817A89 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6D44E4891E011E9700BC753F /* AlicloudUtils.framework */,
+				6D44E48A1E011E9700BC753F /* CloudPushSDK.framework */,
+				6D44E48B1E011E9700BC753F /* UTDID.framework */,
+				6D44E4811E011E1F00BC753F /* libresolv.tbd */,
 				6D6C154E1DFBA490003DC1CE /* LinkedME_iOS.framework */,
 				6D6C154C1DFBA31F003DC1CE /* AdSupport.framework */,
 				6D6C154A1DFBA261003DC1CE /* CoreSpotlight.framework */,

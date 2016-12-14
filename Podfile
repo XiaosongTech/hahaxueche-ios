@@ -36,7 +36,6 @@ target "hahaxueche" do
     pod 'FLAnimatedImage', '~> 1.0'
     pod 'UITextView+Placeholder', '~> 1.2'
     pod 'DZNEmptyDataSet'
-    pod 'GTSDK', '1.5.3-noidfa'
 
 end
 
