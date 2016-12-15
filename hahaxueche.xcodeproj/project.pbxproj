@@ -1739,7 +1739,6 @@
 		6D8908351DFE9BE300756FDC /* pic_shareforaward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic_shareforaward.png; sourceTree = "<group>"; };
 		6D8908361DFE9BE300756FDC /* pic_shareforaward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_shareforaward@2x.png"; sourceTree = "<group>"; };
 		6D8908371DFE9BE300756FDC /* pic_shareforaward@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_shareforaward@3x.png"; sourceTree = "<group>"; };
-		6D8E39B41DF9370800D8AC47 /* GeTuiExtSdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GeTuiExtSdk.h; path = Pods/GTSDK/GeTuiExtSdk.h; sourceTree = "<group>"; };
 		6D8E39B81DF93AED00D8AC47 /* libGtExtensionSdk-1.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libGtExtensionSdk-1.0.0.a"; path = "Pods/GTSDK/libGtExtensionSdk-1.0.0.a"; sourceTree = "<group>"; };
 		6D95A4471DC0C926003CB78D /* HHMyCoachPeerCoachesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyCoachPeerCoachesTableViewCell.h; sourceTree = "<group>"; };
 		6D95A4481DC0C926003CB78D /* HHMyCoachPeerCoachesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyCoachPeerCoachesTableViewCell.m; sourceTree = "<group>"; };
@@ -2775,7 +2774,6 @@
 		5CC3B5F21B48268A00D10DFB = {
 			isa = PBXGroup;
 			children = (
-				6D8E39B41DF9370800D8AC47 /* GeTuiExtSdk.h */,
 				6DDD4B031DF80D3B002C168F /* four.json */,
 				6DDD4B041DF80D3B002C168F /* one.json */,
 				6DDD4B0C1DF92656002C168F /* notification-service-extension */,
