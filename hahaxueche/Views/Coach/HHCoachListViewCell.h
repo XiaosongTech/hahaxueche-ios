@@ -8,26 +8,26 @@
 
 #import <UIKit/UIKit.h>
 #import "HHStarRatingView.h"
-#import <MAMapKit/MAMapKit.h>
+#import <MapKit/MapKit.h>
 #import "HHField.h"
 #import "HHCoach.h"
-#import <MAMapKit/MAMapKit.h>
 #import "HHCoachTagView.h"
 #import "HHPriceView.h"
+#import "HHCoachBadgeView.h"
 
 typedef void (^HHMapButtonActionBlock)();
 
-@interface HHCoachListViewCell : UITableViewCell <MAMapViewDelegate>
+@interface HHCoachListViewCell : UITableViewCell <MKMapViewDelegate>
 
 @property (nonatomic, strong) UIImageView *avatarView;
 @property (nonatomic, strong) UILabel *nameLabel;
-@property (nonatomic, strong) UIImageView *goldenCoachIcon;
+@property (nonatomic, strong) HHCoachBadgeView *badgeView;
 @property (nonatomic, strong) UILabel *trainingYearLabel;
 @property (nonatomic, strong) UIView *bottomLine;
 @property (nonatomic, strong) HHStarRatingView *starRatingView;
 @property (nonatomic, strong) UILabel *ratingLabel;
 @property (nonatomic, strong) UIButton *mapButton;
-@property (nonatomic, strong) MAMapView *mapView;
+@property (nonatomic, strong) MKMapView *mapView;
 @property (nonatomic, strong) UIButton *likeButton;
 @property (nonatomic, strong) UILabel *likeCountLabel;
 

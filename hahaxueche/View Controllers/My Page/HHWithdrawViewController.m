@@ -262,6 +262,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
         [self.cardView removeFromSuperview];
     }
     [self.noCardView removeFromSuperview];
+    self.noCardView = nil;
     self.cardView = [[UIView alloc] init];
     [self.scrollView addSubview:self.cardView];
     

@@ -21,6 +21,6 @@ typedef NS_ENUM(NSInteger, ClassType) {
 
 @interface HHPurchaseConfirmViewController : UIViewController
 
-- (instancetype)initWithCoach:(HHCoach *)coach validVouchers:(NSArray *)validVouchers;
+- (instancetype)initWithCoach:(HHCoach *)coach;
 
 @end

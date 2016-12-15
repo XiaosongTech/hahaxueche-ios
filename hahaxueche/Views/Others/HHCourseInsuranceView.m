@@ -9,6 +9,7 @@
 #import "HHCourseInsuranceView.h"
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
+#import "NSNumber+HHNumber.h"
 
 @implementation HHCourseInsuranceView
 
@@ -73,7 +74,7 @@
             make.height.mas_equalTo(CGRectGetHeight(self.button.bounds) + 8.0f);
         }];
         
-        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@人", [peopleCount stringValue]] attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:13.0f]}];
+        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@人", [peopleCount generateLargeNumberString]] attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:13.0f]}];
         NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:@"已获得保过卡" attributes:@{NSForegroundColorAttributeName:[UIColor HHLightestTextGray], NSFontAttributeName:[UIFont systemFontOfSize:13.0f]}];
         [string appendAttributedString:string2];
         

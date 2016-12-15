@@ -13,6 +13,7 @@
 #import "NSNumber+HHNumber.h"
 #import <UIImageView+WebCache.h>
 #import "HHStudentStore.h"
+#import <MapKit/MapKit.h>
 
 static CGFloat const kAvatarRadius = 30.0f;
 
@@ -41,10 +42,6 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.nameLabel = [self createLabelWithFont:[UIFont systemFontOfSize:20.0f] textColor:[UIColor colorWithRed:0.43 green:0.43 blue:0.43 alpha:1]];
     [self.nameLabel sizeToFit];
     [self addSubview:self.nameLabel];
-    
-    self.goldenCoachIcon = [[UIImageView alloc] init];
-    self.goldenCoachIcon.contentMode = UIViewContentModeCenter;
-    [self addSubview:self.goldenCoachIcon];
     
     self.trainingYearLabel = [self createLabelWithFont:[UIFont systemFontOfSize:16.0f] textColor:[UIColor HHLightTextGray]];
     [self.trainingYearLabel sizeToFit];
@@ -79,15 +76,43 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.likeCountLabel.font = [UIFont systemFontOfSize:13.0f];
     [self addSubview:self.likeCountLabel];
     
-    [self setupViewWithCoach:self.coach field:self.field userLocation:[HHStudentStore sharedInstance].currentLocation];
+    if ([self.coach isGoldenCoach] || [self.coach.hasDeposit boolValue]) {
+        self.badgeView = [[HHCoachBadgeView alloc] initWithCoach:self.coach];
+        [self addSubview:self.badgeView];
+        
+    }
     
+    if (self.coach.drivingSchool && ![self.coach.drivingSchool isEqualToString:@""]) {
+        self.jiaxiaoView = [[HHCoachTagView alloc] init];
+        [self.jiaxiaoView setDotColor:[UIColor HHOrange] title:self.coach.drivingSchool];
+        [self addSubview:self.jiaxiaoView];
+        
+    }
     [self makeConstraints];
+    
+    self.ratingLabel.text = [NSString stringWithFormat:@"%.1f (%@)",[self.coach.averageRating floatValue], [self.coach.reviewCount stringValue]];;
+    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:self.coach.avatarUrl] placeholderImage:[UIImage imageNamed:@"ic_coach_ava"]];
+    self.nameLabel.text = self.coach.name;
+    self.trainingYearLabel.text = [NSString stringWithFormat:@"%@年教龄", [self.coach.experienceYear stringValue]];
+    self.starRatingView.value = [self.coach.averageRating floatValue];
+    
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[self.field cityAndDistrict] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+    
+    
+    if ([HHStudentStore sharedInstance].currentLocation) {
+        [attributedString appendAttributedString:[self generateDistanceStringWithField:self.field userLocation:[HHStudentStore sharedInstance].currentLocation]];
+        [self.mapButton setAttributedTitle:attributedString forState:UIControlStateNormal];
+    } else {
+        [self.mapButton setAttributedTitle:attributedString forState:UIControlStateNormal];
+    }
+    
+    self.likeCountLabel.text = [self.coach.likeCount stringValue];
     
 }
 
 - (void)makeConstraints {
     [self.avatarView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.top).offset(20.0f);
+        make.top.equalTo(self.top).offset(10.0f);
         make.left.equalTo(self.left).offset(15.0f);
         make.width.mas_equalTo(kAvatarRadius * 2.0f);
         make.height.mas_equalTo(kAvatarRadius * 2.0f);
@@ -131,6 +156,14 @@ static CGFloat const kAvatarRadius = 30.0f;
         make.right.equalTo(self.likeCountLabel.left).offset(-3.0f);
     }];
     
+    if (self.badgeView) {
+        [self.badgeView makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.nameLabel.right).offset(3.0f);
+            make.centerY.equalTo(self.nameLabel.centerY);
+            make.right.equalTo(self.badgeView.preView.right);
+        }];
+    }
+    
     
     [self.bottomLine makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.bottom);
@@ -139,6 +172,15 @@ static CGFloat const kAvatarRadius = 30.0f;
         make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
     }];
     
+    if (self.jiaxiaoView) {
+        [self.jiaxiaoView makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.avatarView.centerX);
+            make.top.equalTo(self.avatarView.bottom).offset(5.0f);
+            make.width.equalTo(self.jiaxiaoView.label.width).offset(20.0f);
+            make.height.mas_equalTo(16.0f);
+        }];
+    }
+   
 }
 
 
@@ -150,60 +192,13 @@ static CGFloat const kAvatarRadius = 30.0f;
     return label;
 }
 
-- (void)setupViewWithCoach:(HHCoach *)coach field:(HHField *)field userLocation:(CLLocation *)location {
-    self.field = field;
-    self.ratingLabel.text = [NSString stringWithFormat:@"%.1f (%@)",[coach.averageRating floatValue], [coach.reviewCount stringValue]];;
-    [self.avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl] placeholderImage:[UIImage imageNamed:@"ic_coach_ava"]];
-    self.nameLabel.text = coach.name;
-    self.trainingYearLabel.text = [NSString stringWithFormat:@"%@年教龄", [coach.experienceYear stringValue]];
-    if ([coach isGoldenCoach]) {
-        self.goldenCoachIcon.hidden = NO;
-        self.goldenCoachIcon.image = [UIImage imageNamed:@"ic_auth_golden"];
-        [self.goldenCoachIcon remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.nameLabel.right).offset(3.0f);
-            make.centerY.equalTo(self.nameLabel.centerY);
-        }];
-    } else {
-        self.goldenCoachIcon.hidden = YES;
-    }
-    self.starRatingView.value = [coach.averageRating floatValue];
-    
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[field cityAndDistrict] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
-    
-    
-    if (location) {
-        [attributedString appendAttributedString:[self generateDistanceStringWithField:field userLocation:location]];
-        [self.mapButton setAttributedTitle:attributedString forState:UIControlStateNormal];
-    } else {
-        [self.mapButton setAttributedTitle:attributedString forState:UIControlStateNormal];
-    }
-    
-    self.likeCountLabel.text = [coach.likeCount stringValue];
-    
-    UIView *baseView = self.goldenCoachIcon;
-    if (self.goldenCoachIcon.hidden) {
-        baseView = self.nameLabel;
-    }
-    if (self.coach.drivingSchool && ![self.coach.drivingSchool isEqualToString:@""]) {
-        self.jiaxiaoView = [[HHCoachTagView alloc] init];
-        [self.jiaxiaoView setDotColor:[UIColor HHOrange] title:coach.drivingSchool];
-        [self addSubview:self.jiaxiaoView];
-        [self.jiaxiaoView makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.nameLabel.centerY);
-            make.left.equalTo(baseView.right).offset(3.0f);
-            make.width.equalTo(self.jiaxiaoView.label.width).offset(20.0f);
-            make.height.mas_equalTo(16.0f);
-        }];
-    }
-    
-}
 
 - (NSMutableAttributedString *)generateDistanceStringWithField:(HHField *)field userLocation:(CLLocation *)location {
     //1.将两个经纬度点转成投影点
-    MAMapPoint point1 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
-    MAMapPoint point2 = MAMapPointForCoordinate(CLLocationCoordinate2DMake([field.latitude doubleValue], [field.longitude doubleValue]));
+    MKMapPoint point1 = MKMapPointForCoordinate(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
+    MKMapPoint point2 = MKMapPointForCoordinate(CLLocationCoordinate2DMake([field.latitude doubleValue], [field.longitude doubleValue]));
     //2.计算距离
-    CLLocationDistance distance = MAMetersBetweenMapPoints(point1,point2);
+    CLLocationDistance distance = MKMetersBetweenMapPoints(point1,point2);
     NSNumber *disNumber = @(distance/1000.0f);
     if ([disNumber doubleValue] > 50.0f) {
         NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:@"  距您" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];

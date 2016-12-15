@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "HHStudent.h"
 #import "HHUser.h"
-#import <MAMapKit/MAMapKit.h>
+#import <MapKit/MapKit.h>
 
 @interface HHStudentStore : NSObject
 

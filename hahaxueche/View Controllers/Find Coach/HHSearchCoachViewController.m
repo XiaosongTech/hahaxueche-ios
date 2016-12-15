@@ -12,7 +12,6 @@
 #import "Masonry.h"
 #import "HHCoachService.h"
 #import "HHCoachListViewCell.h"
-#import <MAMapKit/MAMapKit.h>
 #import "HHConstantsStore.h"
 #import "HHCoachDetailViewController.h"
 #import "HHToastManager.h"

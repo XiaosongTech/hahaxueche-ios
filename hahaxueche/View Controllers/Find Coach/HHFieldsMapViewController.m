@@ -53,7 +53,7 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
 }
 
 - (void)initSubviews {
-    self.mapView = [[MAMapView alloc] initWithFrame:CGRectZero];
+    self.mapView = [[MKMapView alloc] initWithFrame:CGRectZero];
     self.mapView.delegate = self;
     self.mapView.showsUserLocation = YES;
     [self.view addSubview:self.mapView];
@@ -113,21 +113,17 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     for (HHField *field in self.allFields) {
-        MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc] init];
+        MKPointAnnotation *pointAnnotation = [[MKPointAnnotation alloc] init];
         pointAnnotation.coordinate = CLLocationCoordinate2DMake([field.latitude doubleValue], [field.longitude doubleValue]);
         pointAnnotation.title = field.name;
         pointAnnotation.subtitle = field.address;
+        [self.annotationViews addObject:pointAnnotation];
         [self.mapView addAnnotation:pointAnnotation];
         
-        [self.annotationViews addObject:pointAnnotation];
     }
     
-    MACoordinateRegion mapRegion;
-    mapRegion.span.latitudeDelta = 0.08;
-    mapRegion.span.longitudeDelta = 0.08;
-    mapRegion.center = self.userLocation.coordinate;
-    [self.mapView setRegion:mapRegion animated: YES];
-    [self.mapView setCenterCoordinate:self.userLocation.coordinate animated:NO];
+    MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(self.userLocation.coordinate, 15000, 15000);
+    [self.mapView setRegion:mapRegion animated:YES];
 }
 
 
@@ -138,7 +134,7 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
 }
 
 - (void)annotationViewTapped:(UITapGestureRecognizer *)recognizer {
-    MAAnnotationView *annotationView = (MAAnnotationView *)recognizer.view;
+    MKAnnotationView *annotationView = (MKAnnotationView *)recognizer.view;
     NSInteger index = [self.annotationViews indexOfObject:annotationView.annotation];
     HHField *field = self.allFields[index];
     if ([self.selectedFields containsObject:field.fieldId]) {
@@ -178,14 +174,14 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
 }
 
 #pragma mark - MapView Delegate Methods 
-- (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id <MAAnnotation>)annotation {
-    if ([annotation isKindOfClass:[MAUserLocation class]]) {
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
         return nil;
     } else {
         static NSString *reuseIndetifier = @"annotationReuseIndetifier";
-        MAAnnotationView *annotationView = (MAAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIndetifier];
+        MKAnnotationView *annotationView = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIndetifier];
         if (!annotationView) {
-            annotationView = [[MAAnnotationView alloc] initWithAnnotation:annotation
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
                                                           reuseIdentifier:reuseIndetifier];
         }
        
@@ -195,9 +191,9 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
     }
 }
 
-- (void)mapView:(MAMapView *)mapView didAddAnnotationViews:(NSArray *)views {
-    for (MAAnnotationView *view in views) {
-        if ([view.annotation isKindOfClass:[MAUserLocation class]]) {
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
+    for (MKAnnotationView *view in views) {
+        if ([view.annotation isKindOfClass:[MKUserLocation class]]) {
             continue;
         }
         

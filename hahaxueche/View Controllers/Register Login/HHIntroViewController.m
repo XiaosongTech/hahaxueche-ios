@@ -179,8 +179,8 @@ static CGFloat const kButtonWidth = 235.0f;
 
 - (void)enterAsGuest {
     [[HHStudentStore sharedInstance] createGuestStudent];
-    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
     [self presentViewController:rootVC animated:NO completion:^{
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
     }];

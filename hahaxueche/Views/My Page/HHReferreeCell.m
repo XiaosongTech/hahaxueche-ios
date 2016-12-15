@@ -82,8 +82,10 @@
     self.numberLabel.text = referral.phone;
     if (referral.purchasedAt) {
         self.statusLabel.text = @"已购买教练";
+        self.numberLabel.textColor = [UIColor HHOrange];
     } else {
         self.statusLabel.text = @"未购买教练";
+        self.numberLabel.textColor = [UIColor HHLightestTextGray];
     }
 }
 

@@ -22,7 +22,7 @@
 #import "HHPostCategory.h"
 #import "HHWebViewController.h"
 
-static NSString *const kGroupPurchaseLink = @"http://m.hahaxueche.com/share/tuan";
+static NSString *const kGroupPurchaseLink = @"https://m.hahaxueche.com/share/tuan";
 static NSString *const kCellID = @"kCellId";
 
 @interface HHClubViewController () <UITableViewDelegate, UITableViewDataSource, SwipeViewDataSource, SwipeViewDelegate>

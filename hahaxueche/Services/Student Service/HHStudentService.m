@@ -304,24 +304,6 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     
 }
 
-- (NSString *)getStudentQRCodeURL {
-    #ifdef DEBUG
-    if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
-        return [NSString stringWithFormat:@"http://staging-api.hahaxueche.net/share/students/%@/image", [HHStudentStore sharedInstance].currentStudent.studentId];
-    } else {
-        return @"http://q1.hahaxueche.com/refer_template5.png?watermark/3/image/aHR0cDovL3MtaW1nLmhhaGF4dWVjaGUubmV0L2RlZmF1bHRfZnJlZV90cmlhbF9xcmNvZGUucG5n/dissolve/100/gravity/SouthWest/dx/120/dy/80";
-    }
-    
-    #else
-    if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
-        return [NSString stringWithFormat:@"http://api.hahaxueche.net/share/students/%@/image", [HHStudentStore sharedInstance].currentStudent.studentId];
-
-    } else {
-        return @"http://q1.hahaxueche.com/refer_template5.png?watermark/3/image/aHR0cDovL3AtaW1nLmhhaGF4dWVjaGUuY29tL2RlZmF1bHRfZnJlZV90cmlhbF9xcmNvZGUucG5n/dissolve/100/gravity/SouthWest/dx/120/dy/80";
-    }
-    #endif
-}
-
 - (void)addBankCardToStudent:(HHBankCard *)card completion:(HHCardCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIBankCards];
     NSDictionary *dic = @{@"name":card.cardHolderName, @"card_number":card.cardNumber, @"open_bank_code":card.bankCode, @"transferable_type":@"Student", @"transferable_id":[HHStudentStore sharedInstance].currentStudent.studentId};
@@ -502,6 +484,19 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
             if (completion) {
                 completion (nil);
             }
+        }
+    }];
+}
+
+- (void)getVouchersWithType:(NSNumber *)type completion:(HHVouchersCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIValidVouchers, [HHStudentStore sharedInstance].currentStudent.studentId]];
+    [APIClient getWithParameters:@{@"cumulative":type} completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            if (completion) {
+                completion([MTLJSONAdapter modelsOfClass:[HHVoucher class] fromJSONArray:(NSArray *)response error:nil]);
+            }
+        } else {
+            completion(nil);
         }
     }];
 }

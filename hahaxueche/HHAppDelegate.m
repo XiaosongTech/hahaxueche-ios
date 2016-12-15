@@ -31,19 +31,22 @@
 #import "HHNetworkUtility.h"
 #import "HHCoachDetailViewController.h"
 #import "HHPersonalCoachDetailViewController.h"
-#import "GeTuiSdk.h"
 #import <LinkedME_iOS/LinkedME.h>
+#import <CloudPushSDK/CloudPushSDK.h>
+#import <UserNotifications/UserNotifications.h>
 
-#define kGtAppId           @"iMahVVxurw6BNr7XSn9EF2"
-#define kGtAppKey          @"yIPfqwq6OMAPp6dkqgLpG5"
-#define kGtAppSecret       @"G0aBqAD6t79JfzTB6Z5lo5"
+
+
+#define kAliPushAppKey          @"23260416"
+#define kAliPushAppSecret       @"996121506d96c60827a917c2ca26ab14"
 
 
 static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
-@interface HHAppDelegate () <GeTuiSdkDelegate>
+@interface HHAppDelegate () <UIApplicationDelegate, UNUserNotificationCenterDelegate>
 
 @property (nonatomic, strong) __block UIViewController *finalRootVC;
+@property (nonatomic, strong) UNUserNotificationCenter *notificationCenter;
 
 @end
 
@@ -71,12 +74,18 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                     if (valid) {
                         [[HHStudentService sharedInstance] fetchStudentWithId:savedStudent.studentId completion:^(HHStudent *student, NSError *error) {
                             if (!error) {
+                                if (!student) {
+                                    self.window.rootViewController = self.finalRootVC;
+                                    [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
+                                    return ;
+                                }
                                 [HHStudentStore sharedInstance].currentStudent = student;
                                 if (!student.name || !student.cityId) {
                                     // Student created, but not set up yet
                                     HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
                                     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
                                     self.finalRootVC = navVC;
+                                    self.window.rootViewController = self.finalRootVC;
                                     [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                             
                                 } else {
@@ -111,6 +120,15 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [self setWindow:self.window];
     [self setupAllThirdPartyServices];
     [self setAppearance];
+    
+    // APNs注册，获取deviceToken并上报
+    [self registerAPNS:application];
+    // 初始化SDK
+    [self initCloudPush];
+    
+    [self registerMessageReceive];
+    [CloudPushSDK sendNotificationAck:launchOptions];
+
     return YES;
 }
 
@@ -139,6 +157,10 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
     }];
     
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary *)options {
@@ -200,7 +222,8 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [[[SDWebImageManager sharedManager] imageDownloader] setExecutionOrder:SDWebImageDownloaderLIFOExecutionOrder];
     
     //高德
-    [AMapServices sharedServices].apiKey =kMapServiceKey;
+    [AMapServices sharedServices].enableHTTPS = YES;
+    [AMapServices sharedServices].apiKey = kMapServiceKey;
     
     //Openshare
     [HHSocialMediaShareUtility sharedInstance];
@@ -210,12 +233,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     
     //七牛
     [[QYSDK sharedSDK] registerAppId:@"2f328da38ac77ce6d796c2977248f7e2" appName:@"hahaxueche-ios"];
-    
-    //个推
-    [GeTuiSdk startSdkWithAppId:kGtAppId appKey:kGtAppKey appSecret:kGtAppSecret delegate:self];
-    // 注册APNS
-    [self registerRemoteNotification];
-    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 
 }
 
@@ -228,70 +245,195 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     return topController;
 }
 
-/** 注册APNS */
-- (void)registerRemoteNotification {
-#ifdef __IPHONE_8_0
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
-        
-        UIUserNotificationType types = (UIUserNotificationTypeAlert |
-                                        UIUserNotificationTypeSound |
-                                        UIUserNotificationTypeBadge);
-        
-        UIUserNotificationSettings *settings;
-        settings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-        
+
+#pragma mark - AliPush & Notification Delegate Methods
+
+- (void)initCloudPush {
+    // 正式上线建议关闭
+    [CloudPushSDK turnOnDebug];
+    // SDK初始化
+    [CloudPushSDK asyncInit:kAliPushAppKey appSecret:kAliPushAppSecret callback:^(CloudPushCallbackResult *res) {
+        if (res.success) {
+            NSLog(@"Push SDK init success, deviceId: %@.", [CloudPushSDK getDeviceId]);
+        } else {
+            NSLog(@"Push SDK init failed, error: %@", res.error);
+        }
+    }];
+}
+
+- (void)registerAPNS:(UIApplication *)application {
+    float systemVersionNum = [[[UIDevice currentDevice] systemVersion] floatValue];
+    if (systemVersionNum >= 10.0) {
+        // iOS 10 notifications
+        _notificationCenter = [UNUserNotificationCenter currentNotificationCenter];
+        _notificationCenter.delegate = self;
+        // 请求推送权限
+        [_notificationCenter requestAuthorizationWithOptions:UNAuthorizationOptionAlert | UNAuthorizationOptionBadge | UNAuthorizationOptionSound completionHandler:^(BOOL granted, NSError * _Nullable error) {
+            if (granted) {
+                // granted
+                NSLog(@"User authored notification.");
+                // 向APNs注册，获取deviceToken
+                [application registerForRemoteNotifications];
+            } else {
+                // not granted
+                NSLog(@"User denied notification.");
+            }
+        }];
+    } else if (systemVersionNum >= 8.0) {
+        // iOS 8 Notifications
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored"-Wdeprecated-declarations"
+        [application registerUserNotificationSettings:
+         [UIUserNotificationSettings settingsForTypes:
+          (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge)
+                                           categories:nil]];
+        [application registerForRemoteNotifications];
+#pragma clang diagnostic pop
     } else {
-        UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert |
-                                                                       UIRemoteNotificationTypeSound |
-                                                                       UIRemoteNotificationTypeBadge);
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
+        // iOS < 8 Notifications
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored"-Wdeprecated-declarations"
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+         (UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
+#pragma clang diagnostic pop
     }
-#else
-    UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert |
-                                                                   UIRemoteNotificationTypeSound |
-                                                                   UIRemoteNotificationTypeBadge);
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
-#endif
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
-    token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSLog(@"\n>>>[DeviceToken Success]:%@\n\n", token);
+    [CloudPushSDK registerDevice:deviceToken withCallback:^(CloudPushCallbackResult *res) {
+        if (res.success) {
+            NSLog(@"Register deviceToken success.");
+        } else {
+            NSLog(@"Register deviceToken failed, error: %@", res.error);
+        }
+    }];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"didFailToRegisterForRemoteNotificationsWithError %@", error);
+}
+
+- (void)registerMessageReceive {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(onMessageReceived:)
+                                                 name:@"CCPDidReceiveMessageNotification"
+                                               object:nil];
+}
+/**
+ *    处理到来推送消息
+ *
+ *    @param     notification
+ */
+- (void)onMessageReceived:(NSNotification *)notification {
+    CCPSysMessage *message = [notification object];
+    NSString *title = [[NSString alloc] initWithData:message.title encoding:NSUTF8StringEncoding];
+    NSString *body = [[NSString alloc] initWithData:message.body encoding:NSUTF8StringEncoding];
+    NSLog(@"Receive message title: %@, content: %@.", title, body);
+}
+
+/*
+ *  App处于启动状态时，通知打开回调
+ */
+- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo {
+    NSLog(@"Receive one notification.");
+    // 取得APNS通知内容
+    NSDictionary *aps = [userInfo valueForKey:@"aps"];
+    // 内容
+    NSString *content = [aps valueForKey:@"alert"];
+    // badge数量
+    NSInteger badge = [[aps valueForKey:@"badge"] integerValue];
+    // 播放声音
+    NSString *sound = [aps valueForKey:@"sound"];
+    // 取得Extras字段内容
+    NSString *Extras = [userInfo valueForKey:@"Extras"]; //服务端中Extras字段，key是自己定义的
+    NSLog(@"content = [%@], badge = [%ld], sound = [%@], Extras = [%@]", content, (long)badge, sound, Extras);
+    [CloudPushSDK sendNotificationAck:userInfo];
+}
+
+/**
+ *  主动获取设备通知是否授权(iOS 10+)
+ */
+- (void)getNotificationSettingStatus {
+    [_notificationCenter getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+        if (settings.authorizationStatus == UNAuthorizationStatusAuthorized) {
+            NSLog(@"User authed.");
+        } else {
+            NSLog(@"User denied.");
+        }
+    }];
+}
+
+/**
+ *  App处于前台时收到通知(iOS 10+)
+ */
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+    NSLog(@"Receive a notification in foregound.");
+    // 处理iOS 10通知，并上报通知打开回执
+    [self handleiOS10Notification:notification];
+    // 通知不弹出
+    completionHandler(UNNotificationPresentationOptionNone);
     
-    //向个推服务器注册deviceToken
-    [GeTuiSdk registerDeviceToken:token];
+    // 通知弹出，且带有声音、内容和角标
+    //completionHandler(UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge);
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    application.applicationIconBadgeNumber = 0;
+/**
+ *  触发通知动作时回调，比如点击、删除通知和点击自定义action(iOS 10+)
+ */
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+    NSString *userAction = response.actionIdentifier;
+    // 点击通知打开
+    if ([userAction isEqualToString:UNNotificationDefaultActionIdentifier]) {
+        NSLog(@"User opened the notification.");
+        // 处理iOS 10通知，并上报通知打开回执
+        [self handleiOS10Notification:response.notification];
+    }
+    // 通知dismiss，category创建时传入UNNotificationCategoryOptionCustomDismissAction才可以触发
+    if ([userAction isEqualToString:UNNotificationDismissActionIdentifier]) {
+        NSLog(@"User dismissed the notification.");
+    }
+    NSString *customAction1 = @"action1";
+    NSString *customAction2 = @"action2";
+    // 点击用户自定义Action1
+    if ([userAction isEqualToString:customAction1]) {
+        NSLog(@"User custom action1.");
+    }
+    
+    // 点击用户自定义Action2
+    if ([userAction isEqualToString:customAction2]) {
+        NSLog(@"User custom action2.");
+    }
+    completionHandler();
 }
 
-- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    /// Background Fetch 恢复SDK 运行
-    [GeTuiSdk resume];
-    completionHandler(UIBackgroundFetchResultNewData);
+/**
+ *  处理iOS 10通知(iOS 10+)
+ */
+- (void)handleiOS10Notification:(UNNotification *)notification {
+    UNNotificationRequest *request = notification.request;
+    UNNotificationContent *content = request.content;
+    NSDictionary *userInfo = content.userInfo;
+    // 通知时间
+    NSDate *noticeDate = notification.date;
+    // 标题
+    NSString *title = content.title;
+    // 副标题
+    NSString *subtitle = content.subtitle;
+    // 内容
+    NSString *body = content.body;
+    // 角标
+    int badge = [content.badge intValue];
+    // 取得通知自定义字段内容，例：获取key为"Extras"的内容
+    NSString *extras = [userInfo valueForKey:@"Extras"];
+    // 通知打开回执上报
+    [CloudPushSDK sendNotificationAck:userInfo];
+    NSLog(@"Notification, date: %@, title: %@, subtitle: %@, body: %@, badge: %d, extras: %@.", noticeDate, title, subtitle, body, badge, extras);
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    // 将收到的APNs信息传给个推统计
-    [GeTuiSdk handleRemoteNotification:userInfo];
-    completionHandler(UIBackgroundFetchResultNewData);
-}
 
-/** SDK启动成功返回cid */
-- (void)GeTuiSdkDidRegisterClient:(NSString *)clientId {
-    //个推SDK已注册，返回clientId
-    NSLog(@"\n>>>[GeTuiSdk RegisterClient]:%@\n\n", clientId);
-}
 
-/** SDK遇到错误回调 */
-- (void)GeTuiSdkDidOccurError:(NSError *)error {
-    //个推错误报告，集成步骤发生的任何错误都在这里通知，如果集成后，无法正常收到消息，查看这里的通知。
-    NSLog(@"\n>>>[GexinSdk error]:%@\n\n", [error localizedDescription]);
-}
+
+
 
 
 @end
