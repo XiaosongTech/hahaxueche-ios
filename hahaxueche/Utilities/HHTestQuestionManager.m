@@ -42,15 +42,15 @@ static NSString *const kCourse4FavoratedKey = @"kCourse4FavoratedKey";
     NSString *fileName;
     switch (courseMode) {
         case CourseMode1: {
-            fileName = @"db_subject_one";
+            fileName = @"one";
         } break;
             
         case CourseMode4: {
-            fileName = @"db_subject_four";
+            fileName = @"four";
         } break;
             
         default: {
-            fileName = @"db_subject_one";
+            fileName = @"one";
         } break;
     }
     
@@ -78,15 +78,15 @@ static NSString *const kCourse4FavoratedKey = @"kCourse4FavoratedKey";
     
     switch (courseMode) {
         case CourseMode1: {
-            questions = [NSMutableArray arrayWithArray:self.allCourseMode1Questions];
+            questions = [NSMutableArray arrayWithArray:[self getAllQuestionsForCourseMode:CourseMode1]];
         } break;
             
         case CourseMode4: {
-            questions = [NSMutableArray arrayWithArray:self.allCourseMode4Questions];
+            questions = [NSMutableArray arrayWithArray:[self getAllQuestionsForCourseMode:CourseMode4]];
         } break;
             
         default: {
-            questions = [NSMutableArray arrayWithArray:self.allCourseMode1Questions];
+            questions = [NSMutableArray arrayWithArray:[self getAllQuestionsForCourseMode:CourseMode1]];
         } break;
     }
     

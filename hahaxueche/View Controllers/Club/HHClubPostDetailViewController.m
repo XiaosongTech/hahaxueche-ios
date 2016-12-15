@@ -218,7 +218,10 @@
         [HHPopupUtility dismissPopup:weakSelf.popup];
     };
     shareView.actionBlock = ^(SocialMedia selecteItem) {
-        [[HHSocialMediaShareUtility sharedInstance] sharePost:weakSelf.clubPost shareType:selecteItem];
+        if (selecteItem == SocialMediaMessage) {
+            [HHPopupUtility dismissPopup:weakSelf.popup];
+        }
+        [[HHSocialMediaShareUtility sharedInstance] sharePost:weakSelf.clubPost shareType:selecteItem inVC:weakSelf];
     };
     
     self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];

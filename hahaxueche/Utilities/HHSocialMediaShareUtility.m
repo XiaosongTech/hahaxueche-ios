@@ -13,6 +13,10 @@
 #import "NSString+HHURL.h"
 #import "HHStudentStore.h"
 #import "HHFormatUtility.h"
+#import <MessageUI/MessageUI.h>
+#import "HHToastManager.h"
+#import "HHStudentStore.h"
+#import "HHQRCodeUtility.h"
 
 
 static NSString *const kStagingShareCoachBaseURL = @"https://staging-api.hahaxueche.net/share/coaches/%@";
@@ -23,6 +27,12 @@ static NSString *const kProdSharePersonalCoachBaseURL = @"https://api.hahaxueche
 
 
 static NSString *const kSupportQQ = @"3319762526";
+
+@interface HHSocialMediaShareUtility () <MFMessageComposeViewControllerDelegate>
+
+@property (nonatomic, strong) UIViewController *containerVC;
+
+@end
 
 @implementation HHSocialMediaShareUtility
 
@@ -47,7 +57,8 @@ static NSString *const kSupportQQ = @"3319762526";
     return self;
 }
 
-- (void)shareCoach:(HHCoach *)coach shareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion {
+- (void)shareCoach:(HHCoach *)coach shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion {
+    self.containerVC = inVC;
     switch (shareType) {
         case SocialMediaQQFriend: {
             if (![OpenShare isQQInstalled]) {
@@ -132,13 +143,18 @@ static NSString *const kSupportQQ = @"3319762526";
             } ];
         } break;
             
+        case SocialMediaMessage: {
+            OSMessage *msg =[self generateShareMessageWithCoach:coach shareType:shareType];
+            [self showSMS:msg.title];
+        }
+            
         default:
             break;
     }
 }
 
 
-- (void)sharePost:(HHClubPost *)post shareType:(SocialMedia)shareType {
+- (void)sharePost:(HHClubPost *)post shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC {
     OSMessage *msg = [[OSMessage alloc] init];
     msg.image = [UIImage imageNamed:@"ic_share"];
     msg.thumbnail = [UIImage imageNamed:@"ic_share"];
@@ -146,6 +162,8 @@ static NSString *const kSupportQQ = @"3319762526";
     msg.multimediaType = OSMultimediaTypeNews;
     msg.link = [post getShareUrl];;
     msg.desc = post.abstract;
+    
+    self.containerVC = inVC;
     
     switch (shareType) {
         case SocialMediaQQFriend: {
@@ -196,6 +214,10 @@ static NSString *const kSupportQQ = @"3319762526";
             [OpenShare shareToQQZone:msg Success:nil Fail:nil];
             
             
+        } break;
+            
+        case SocialMediaMessage: {
+            [self showSMS:[NSString stringWithFormat:@"%@%@", post.title, msg.link]];
         } break;
             
         default:
@@ -251,6 +273,11 @@ static NSString *const kSupportQQ = @"3319762526";
             msg.link = link;
 
         } break;
+            
+        case SocialMediaMessage: {
+            msg.title = [NSString stringWithFormat:@"墙裂推荐:哈哈学车优秀教练%@ %@", coach.name, link];
+        } break;
+            
         default:
             break;
     }
@@ -260,11 +287,14 @@ static NSString *const kSupportQQ = @"3319762526";
 
 
 
-- (void)shareMyQRCode:(UIImage *)qrCode shareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion {
+- (void)shareMyReferPageWithShareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion {
+    self.containerVC = inVC;
     OSMessage *msg = [[OSMessage alloc] init];
-    msg.image = qrCode;
-    msg.title = @"";
-    msg.desc = @"";
+    msg.title = @"新人大礼包";
+    msg.desc = @"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你一张保过卡. 比心❤️";
+    msg.image = [UIImage imageNamed:@"ic_share"];
+    msg.thumbnail = [UIImage imageNamed:@"ic_share"];
+    msg.link = [NSString stringWithFormat:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?referrer_id=%@&promo_code=553353", [HHStudentStore sharedInstance].currentStudent.studentId];
     
     switch (shareType) {
         case SocialMediaQQFriend: {
@@ -272,7 +302,6 @@ static NSString *const kSupportQQ = @"3319762526";
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
                 return;
             }
-            msg.thumbnail = qrCode;
             [OpenShare shareToQQFriends:msg Success:^(OSMessage *message) {
                 if (resultCompletion) {
                     resultCompletion(YES);
@@ -289,7 +318,8 @@ static NSString *const kSupportQQ = @"3319762526";
                 [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微博应用, 然后重试"];
                 return;
             }
-            msg.thumbnail = qrCode;
+            msg = [[OSMessage alloc] init];
+            msg.title = [NSString stringWithFormat:@"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你一张保过卡. 比心❤️ %@", [NSString stringWithFormat:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?referrer_id=%@&promo_code=553353", [HHStudentStore sharedInstance].currentStudent.studentId]];
             [OpenShare shareToWeibo:msg Success:^(OSMessage *message) {
                 if (resultCompletion) {
                     resultCompletion(YES);
@@ -355,12 +385,17 @@ static NSString *const kSupportQQ = @"3319762526";
                 }
             } ];
         } break;
+            
+        case SocialMediaMessage: {
+            [self showSMS:[NSString stringWithFormat:@"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你一张保过卡. 比心❤️ %@", [NSString stringWithFormat:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?referrer_id=%@&promo_code=553353", [HHStudentStore sharedInstance].currentStudent.studentId]]];
+        }
         default:
             break;
     }
 }
 
-- (void)sharePersonalCoach:(HHPersonalCoach *)coach shareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion {
+- (void)sharePersonalCoach:(HHPersonalCoach *)coach shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion {
+    self.containerVC = inVC;
     switch (shareType) {
         case SocialMediaQQFriend: {
             if (![OpenShare isQQInstalled]) {
@@ -445,6 +480,11 @@ static NSString *const kSupportQQ = @"3319762526";
             } ];
         } break;
             
+        case SocialMediaMessage: {
+            OSMessage *msg = [self generateMessageWithPersonalCoach:coach shareType:shareType];
+            [self showSMS:msg.title];
+        } break;
+            
         default:
             break;
     }
@@ -497,6 +537,10 @@ static NSString *const kSupportQQ = @"3319762526";
             msg.link = link;
             
         } break;
+            
+        case SocialMediaMessage: {
+            msg.title = [NSString stringWithFormat:@"墙裂推荐:哈哈学车优秀陪练教练%@ %@", coach.name, link];
+        } break;
         default:
             break;
     }
@@ -519,6 +563,8 @@ static NSString *const kSupportQQ = @"3319762526";
             
         case SocialMediaQZone:
             return @"qzone";
+        case SocialMediaMessage:
+            return @"短信";
         default:
             return nil;
 
@@ -526,11 +572,12 @@ static NSString *const kSupportQQ = @"3319762526";
 }
 
 
-- (void)shareTestScore:(HHTestScore *)score shareType:(SocialMedia)shareType resultCompletion:(ShareResultCompletion)resultCompletion {
+- (void)shareTestScore:(HHTestScore *)score shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion {
+    self.containerVC = inVC;
     NSArray *carNumber = @[@"AZ-521",@"MDS-339",@"TEK-071",@"MIDE-295",@"IDBD-692",@"MIMK-039"];
     NSString *selectedCarNumber = carNumber[arc4random_uniform(carNumber.count)];
     
-    NSString *baseLink = @"http://m.hahaxueche.com/share/baoguoka?promo_code=406808&";
+    NSString *baseLink = @"https://m.hahaxueche.com/share/baoguoka?promo_code=406808&";
     NSDictionary *dic = @{@"score":score.score, @"date":[[HHFormatUtility fullDateFormatter] stringFromDate:score.createdAt]};
     
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic
@@ -598,9 +645,65 @@ static NSString *const kSupportQQ = @"3319762526";
             
         } break;
             
+        case SocialMediaMessage: {
+            [self showSMS:[NSString stringWithFormat:@"%@%@", msg.desc, msg.link]];
+        } break;
+            
         default:
             break;
     }
+}
+
+
+- (void)showSMS:(NSString *)body {
+    
+    if(![MFMessageComposeViewController canSendText]) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"抱歉, 您的设备不支持短信发送"];
+        return;
+    }
+    
+    MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
+    messageController.messageComposeDelegate = self;
+    [messageController setRecipients:nil];
+    [messageController setBody:body];
+    if (self.containerVC) {
+        [self.containerVC presentViewController:messageController animated:YES completion:nil];
+    }
+    
+}
+
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result {
+    switch (result) {
+        case MessageComposeResultCancelled:
+            break;
+            
+        case MessageComposeResultFailed: {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"发送失败, 请重试!"];
+            break;
+        }
+            
+        case MessageComposeResultSent:
+            [[HHToastManager sharedManager] showSuccessToastWithText:@"发送成功!"];
+
+            break;
+            
+        default:
+            break;
+    }
+    
+    if (self.containerVC) {
+        [self.containerVC dismissViewControllerAnimated:YES completion:nil];
+    }
+    
+}
+
+- (UIImage *)generateReferQRCode:(BOOL)refer {
+    NSString *string = [NSString stringWithFormat:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?referrer_id=%@&promo_code=553353", [HHStudentStore sharedInstance].currentStudent.userIdentityId];
+    if (!refer) {
+        string = @"https://m.hahaxueche.com/share/xin-ren-da-li-bao?promo_code=553353";
+    }
+    return [[HHQRCodeUtility sharedManager] generateQRCodeWithString:string];
 }
 
 

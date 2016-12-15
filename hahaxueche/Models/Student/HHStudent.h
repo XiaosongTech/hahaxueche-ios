@@ -33,6 +33,7 @@
 @property (nonatomic, copy) NSArray *vouchers;
 @property (nonatomic, copy) NSString *agreementURL;
 @property (nonatomic, strong) HHIdentityCard *idCard;
+@property (nonatomic, strong) NSString *userIdentityId;
 
 
 - (NSString *)getCourseName;

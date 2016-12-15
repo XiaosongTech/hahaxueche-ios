@@ -107,6 +107,10 @@
 #define my_contract_page_top_right_button_tapped @"my_contract_page_top_right_button_tapped"
 #define my_contract_page_send_by_email_tapped @"my_contract_page_send_by_email_tapped"
 
+#define home_page_voucher_popup_share_tapped @"home_page_voucher_popup_share_tapped"
+#define home_page_banner_tapped @"home_page_banner_tapped"
+#define home_page_voucher_popup_share_succeed @"home_page_voucher_popup_share_succeed"
+
 
 
 @interface HHEventTrackingManager : NSObject

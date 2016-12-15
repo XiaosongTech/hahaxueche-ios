@@ -30,6 +30,7 @@
              @"vouchers":@"vouchers",
              @"agreementURL":@"agreement_url",
              @"idCard":@"identity_card",
+             @"userIdentityId":@"user_identity_id",
              };
 }
 

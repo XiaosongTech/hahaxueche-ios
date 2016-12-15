@@ -43,6 +43,7 @@
              @"stageThreePassRate":@"stage_three_pass_rate",
              @"stageTwoPassRate":@"stage_two_pass_rate",
              @"averagePassDays":@"average_pass_days",
+             @"hasDeposit":@"has_cash_pledge",
              };
 }
 

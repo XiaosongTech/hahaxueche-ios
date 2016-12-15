@@ -37,7 +37,7 @@ static NSString *const kSupportNumber = @"4000016006";
 - (QYSessionViewController *)buildOnlineSupportVCInNavVC:(UINavigationController *)navVC {
     QYSource *source = [[QYSource alloc] init];
     source.title =  @"哈哈学车";
-    source.urlString = @"http://hahaxueche.com";
+    source.urlString = @"https://hahaxueche.com";
     QYSessionViewController *sessionViewController = [[QYSDK sharedSDK] sessionViewController];
     sessionViewController.sessionTitle = @"哈哈学车在线客服";
     sessionViewController.source = source;

@@ -43,11 +43,13 @@
 #import "HHFreeTrialUtility.h"
 #import "HHCoachPriceDetailViewController.h"
 #import "HHGenericOneButtonPopupView.h"
+#import "HHPlatformGuardTableViewCell.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
     CoachCellPrice,
     CoachCellField,
+    CoachCellPlatformGuard,
     CoachCellInfoTwo,
     CoachCellComments,
     CoachCellCount,
@@ -59,6 +61,10 @@ static NSString *const kTypeCellID = @"kTypeCellID";
 static NSString *const kFiledCellID = @"kFiledCellID";
 static NSString *const kInfoTwoCellID = @"kInfoTwoCellID";
 static NSString *const kCommentsCellID = @"kCommentsCellID";
+static NSString *const kGuardCellID = @"kGuardCellID";
+
+static NSString *const kPlatformLink = @"https://m.hahaxueche.com/assurance";
+
 
 @interface HHCoachDetailViewController () <UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIScrollViewDelegate>
 
@@ -155,6 +161,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
     [self.tableView registerClass:[HHCoachFieldCell class] forCellReuseIdentifier:kFiledCellID];
     [self.tableView registerClass:[HHCoachDetailSectionTwoCell class] forCellReuseIdentifier:kInfoTwoCellID];
     [self.tableView registerClass:[HHCoachDetailCommentsCell class] forCellReuseIdentifier:kCommentsCellID];
+    [self.tableView registerClass:[HHPlatformGuardTableViewCell class] forCellReuseIdentifier:kGuardCellID];
     
     ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithSubView:self.coachImagesView];
     [self.tableView setTableHeaderView:headerView];
@@ -178,16 +185,10 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             return ;
         }
         
-        [[HHLoadingViewUtility sharedInstance] showLoadingView];
-        [[HHStudentService sharedInstance] getValidVouchersWithCoachId:weakSelf.coach.coachId completion:^(NSArray *vouchers) {
-            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-            HHPurchaseConfirmViewController *vc = [[HHPurchaseConfirmViewController alloc] initWithCoach:weakSelf.coach validVouchers:vouchers];
-            [weakSelf.navigationController pushViewController:vc animated:YES];
-            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_purchase_tapped attributes:@{@"coach_id":weakSelf.coach.coachId}];
-        }];
+        HHPurchaseConfirmViewController *vc = [[HHPurchaseConfirmViewController alloc] initWithCoach:weakSelf.coach];
+        [weakSelf.navigationController pushViewController:vc animated:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_purchase_tapped attributes:@{@"coach_id":weakSelf.coach.coachId}];
         
-        
-
     };
     
     [[HHCoachService sharedInstance] checkFollowedCoach:self.coach.userId completion:^(BOOL followed) {
@@ -272,6 +273,15 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             return cell;
         }
             
+        case CoachCellPlatformGuard: {
+            HHPlatformGuardTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kGuardCellID forIndexPath:indexPath];
+            cell.actionBlock = ^() {
+                [weakSelf openWebPage:[NSURL URLWithString:kPlatformLink]];
+            };
+            [cell setupCellWithCoach:self.coach];
+            return cell;
+        }
+            
         case CoachCellInfoTwo: {
             HHCoachDetailSectionTwoCell *cell = [tableView dequeueReusableCellWithIdentifier:kInfoTwoCellID forIndexPath:indexPath];
             [cell setupWithCoach:self.coach];
@@ -306,7 +316,7 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case CoachCellDescription: {
-            return CGRectGetHeight([self getDescriptionTextSizeWithText:self.coach.bio]) + 55.0f;
+            return CGRectGetHeight([self getDescriptionTextSizeWithText:self.coach.bio]) + 75.0f;
         }
             
         case CoachCellPrice: {
@@ -326,6 +336,10 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
             
         case CoachCellField: {
             return 126.0f;
+        }
+            
+        case CoachCellPlatformGuard: {
+            return 141.0f;
         }
             
             
@@ -485,13 +499,17 @@ static NSString *const kCommentsCellID = @"kCommentsCellID";
 }
 
 - (void)shareCoach {
+    __weak HHCoachDetailViewController *weakSelf = self;
     HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 0)];
     
     shareView.dismissBlock = ^() {
         [HHPopupUtility dismissPopup:self.popup];
     };
     shareView.actionBlock = ^(SocialMedia selecteItem) {
-        [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:selecteItem resultCompletion:^(BOOL succceed) {
+        if (selecteItem == SocialMediaMessage) {
+            [HHPopupUtility dismissPopup:weakSelf.popup];
+        }
+        [[HHSocialMediaShareUtility sharedInstance] shareCoach:self.coach shareType:selecteItem inVC:weakSelf resultCompletion:^(BOOL succceed) {
             if (succceed) {
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_share_coach_succeed attributes:@{@"coach_id":self.coach.coachId, @"channel": [[HHSocialMediaShareUtility sharedInstance] getChannelNameWithType:selecteItem]}];
             }

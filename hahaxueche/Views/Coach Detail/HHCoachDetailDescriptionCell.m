@@ -93,19 +93,19 @@ static CGFloat const avatarRadius = 30.0f;
         make.width.equalTo(self.contentView.width).offset(-40.0f);
     }];
     
-    [self.likeCountLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.nameLabel.bottom);
-        make.right.equalTo(self.contentView.right).offset(-20.0f);
-    }];
-    
     [self.likeButton makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.nameLabel.bottom).offset(-1.0f);
+        make.bottom.equalTo(self.contentView.bottom).offset(-10.0f);
         make.right.equalTo(self.likeCountLabel.left).offset(-3.0f);
     }];
     
     [self.followButton makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.likeButton.bottom);
+        make.bottom.equalTo(self.contentView.bottom).offset(-10.0f);
         make.right.equalTo(self.likeButton.left).offset(-8.0f);
+    }];
+    
+    [self.likeCountLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.contentView.bottom).offset(-10.0f);
+        make.right.equalTo(self.contentView.right).offset(-20.0f);
     }];
 }
 
@@ -123,6 +123,20 @@ static CGFloat const avatarRadius = 30.0f;
     }
     self.likeCountLabel.text = [coach.likeCount stringValue];
     
+    if ([coach isGoldenCoach] || [coach.hasDeposit boolValue]) {
+        if (self.badgeView) {
+            [self.badgeView removeFromSuperview];
+            self.badgeView = nil;
+        }
+        self.badgeView = [[HHCoachBadgeView alloc] initWithCoach:coach];
+        [self.contentView addSubview:self.badgeView];
+        [self.badgeView makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.nameLabel.centerY);
+            make.left.equalTo(self.nameLabel.right).offset(3.0f);
+            make.right.equalTo(self.badgeView.preView.right);
+        }];
+    }
+    
     if (coach.drivingSchool && ![coach.drivingSchool isEqualToString:@""]) {
         [self.jiaxiaoView removeFromSuperview];
         self.jiaxiaoView = [[HHCoachTagView alloc] init];
@@ -130,12 +144,17 @@ static CGFloat const avatarRadius = 30.0f;
         [self.jiaxiaoView setDotColor:[UIColor HHOrange] title:coach.drivingSchool];
         [self.jiaxiaoView makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.nameLabel.centerY);
-            make.left.equalTo(self.nameLabel.right).offset(3.0f);
+            UIView * leftView = self.nameLabel;
+            if (self.badgeView) {
+                leftView = self.badgeView;
+            }
+            make.left.equalTo(leftView.right).offset(5.0f);
             make.width.equalTo(self.jiaxiaoView.label.width).offset(20.0f);
             make.height.mas_equalTo(16.0f);
         }];
     } else {
         [self.jiaxiaoView removeFromSuperview];
+        self.jiaxiaoView = nil;
     }
     
     if (followed) {

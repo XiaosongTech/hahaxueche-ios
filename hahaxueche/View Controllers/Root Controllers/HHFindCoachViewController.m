@@ -23,7 +23,6 @@
 #import "HHFieldsMapViewController.h"
 #import <MJRefresh/MJRefresh.h>
 #import "HHCoachListViewCell.h"
-#import <MAMapKit/MAMapKit.h>
 #import "HHConstantsStore.h"
 #import "HHToastManager.h"
 #import "HHCoachService.h"
@@ -33,7 +32,6 @@
 #import "HHCoachDetailViewController.h"
 #import "HHSearchCoachViewController.h"
 #import "HHGifRefreshHeader.h"
-#import "UIView+EAFeatureGuideView.h"
 #import "UIScrollView+EmptyDataSet.h"
 #import "SwipeView.h"
 #import "HHPersonalCoachTableViewCell.h"
@@ -43,6 +41,7 @@
 #import "HHPersonalCoachSortView.h"
 #import "HHPersonalCoachDetailViewController.h"
 #import "HHPersonalCoaches.h"
+#import "HHAppVersionUtility.h"
 
 typedef NS_ENUM(NSInteger, CoachType) {
     CoachTypeDrivingSchoolCoach,
@@ -54,7 +53,7 @@ static NSString *const kCellId = @"kCoachListCellId";
 static NSString *const kPersonalCoachCellId = @"kPersonalCoachCellId";
 static NSString *const kFindCoachGuideKey = @"kFindCoachGuideKey";
 static CGFloat const kCellHeightNormal = 100.0f;
-static CGFloat const kCellHeightExpanded = 305.0f;
+static CGFloat const kCellHeightExpanded = 325.0f;
 
 @interface HHFindCoachViewController () <UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate,SwipeViewDataSource, SwipeViewDelegate>
 
@@ -139,12 +138,17 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     self.navigationItem.titleView = self.segControl;
     
     __weak HHFindCoachViewController *weakSelf = self;
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
     [self getUserLocationWithCompletion:^{
-        [weakSelf refreshCoachList:YES completion:^{
-            [weakSelf showUserGuideView];
+        [weakSelf refreshCoachList:NO completion:^{
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            [self refreshPersonalCoachList:NO completion:nil];
+            //check app version
+            [[HHAppVersionUtility sharedManager] checkVersionInVC:weakSelf];
         }];
+        
     }];
-    [self refreshPersonalCoachList:NO completion:nil];
+    
 
 }
 
@@ -545,39 +549,6 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:navVC animated:NO completion:nil];
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_search_tapped attributes:nil];
-}
-
-
-- (void)showUserGuideView {
-    if ([UIView hasShowFeatureGuideWithKey:kFindCoachGuideKey version:nil]) {
-        return;
-    }
-    
-    __weak HHFindCoachViewController *weakSelf = self;
-    EAFeatureItem *filter = [[EAFeatureItem alloc] initWithFocusView:self.filterButton focusCornerRadius:0 focusInsets:UIEdgeInsetsMake(5.0f, 20.0f, -5.0f, -20.0f)];
-    filter.introduce = @"select.png";
-    filter.indicatorImageName = @"arrow.png";
-    self.view.guideViewDismissCompletion = ^() {
-        EAFeatureItem *leftTop = [[EAFeatureItem alloc] initWithFocusRect:CGRectMake(10.0f, 25.0f, 35.0f, 35.0f) focusCornerRadius:15.5f focusInsets:UIEdgeInsetsZero];
-        leftTop.introduce = @"pointtomap.png";
-        leftTop.indicatorImageName = @"arrow.png";
-        if ([weakSelf.coaches count] > 0) {
-            weakSelf.view.guideViewDismissCompletion = ^() {
-                EAFeatureItem *mapButton = [[EAFeatureItem alloc] initWithFocusRect:CGRectMake(85.0f, 165.0f, 90.0f, 25.0f) focusCornerRadius:0 focusInsets:UIEdgeInsetsZero];
-                mapButton.introduce = @"wheretopractice.png";
-                mapButton.indicatorImageName = @"arrow.png";
-                weakSelf.view.guideViewDismissCompletion = nil;
-                [weakSelf.view showWithFeatureItems:@[mapButton] saveKeyName:kFindCoachGuideKey inVersion:nil];
-            };
-        } else {
-            weakSelf.view.guideViewDismissCompletion = nil;
-        }
-        
-        [weakSelf.view showWithFeatureItems:@[leftTop] saveKeyName:kFindCoachGuideKey inVersion:nil];
-    };
-    
-    [self.view showWithFeatureItems:@[filter] saveKeyName:kFindCoachGuideKey inVersion:nil];
-    
 }
 
 #pragma mark - DZNEmptyDataSetSource Methods

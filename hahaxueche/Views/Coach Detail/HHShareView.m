@@ -12,8 +12,8 @@
 #import "UIView+HHRect.h"
 #import "HHShareViewItem.h"
 
-static CGFloat const kItemViewHeight = 100.0f;
-static NSInteger const kCountPerLine = 5;
+static CGFloat const kItemViewHeight = 90.0f;
+static NSInteger const kCountPerLine = 3;
 
 @implementation HHShareView
 
@@ -75,6 +75,10 @@ static NSInteger const kCountPerLine = 5;
                 
             case SocialMediaQZone: {
                 item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_sharecoach_kongjian"] title:@"空间"];
+            } break;
+                
+            case SocialMediaMessage: {
+                item = [[HHShareViewItem alloc] initWithImage:[UIImage imageNamed:@"ic_message"] title:@"短信"];
             } break;
                 
             default:

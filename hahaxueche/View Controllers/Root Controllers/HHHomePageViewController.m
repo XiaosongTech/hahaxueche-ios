@@ -32,9 +32,7 @@
 #import "HHFreeTrialUtility.h"
 #import "HHTestView.h"
 #import "HHReferralShareView.h"
-#import "UIView+EAFeatureGuideView.h"
 #import "HHHomPageCardView.h"
-#import <Harpy/Harpy.h>
 #import "HHHomePageItemsView.h"
 #import "HHTestStartViewController.h"
 #import "HHReferFriendsViewController.h"
@@ -42,20 +40,22 @@
 #import "HHIntroViewController.h"
 #import "FLAnimatedImage.h"
 #import "FLAnimatedImageView.h"
+#import "HHQRCodeShareView.h"
+#import "HHVoucherPopupView.h"
+#import "HHSocialMediaShareUtility.h"
 
 
-static NSString *const kCoachLink = @"http://m.hahaxueche.com/share/best-coaches";
-static NSString *const kDrivingSchoolLink = @"http://m.hahaxueche.com/share/zhaojiaxiao";
-static NSString *const kAdvisorLink = @"http://m.hahaxueche.com/share/zhaoguwen?city_id=%@";
-static NSString *const kGroupPurchaseLink = @"http://m.hahaxueche.com/share/tuan";
+static NSString *const kCoachLink = @"https://m.hahaxueche.com/share/best-coaches";
+static NSString *const kDrivingSchoolLink = @"https://m.hahaxueche.com/share/zhaojiaxiao";
+static NSString *const kAdvisorLink = @"https://m.hahaxueche.com/share/zhaoguwen?city_id=%@";
+static NSString *const kGroupPurchaseLink = @"https://m.hahaxueche.com/share/tuan";
 
-static NSString *const kFeatureLink = @"http://activity.hahaxueche.com/share/features";
-static NSString *const kStepsLink = @"http://activity.hahaxueche.com/share/steps";
-static NSString *const kPlatformLink = @"http://m.hahaxueche.com/assurance";
+static NSString *const kStepsLink = @"https://activity.hahaxueche.com/share/steps";
+static NSString *const kPlatformLink = @"https://m.hahaxueche.com/assurance";
 
-static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
+static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
 
-@interface HHHomePageViewController () <SDCycleScrollViewDelegate, HarpyDelegate>
+@interface HHHomePageViewController () <SDCycleScrollViewDelegate>
 
 @property (nonatomic, strong) SDCycleScrollView *bannerView;
 @property (nonatomic, strong) FLAnimatedImageView *freeTryImageView;
@@ -72,6 +72,8 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
 @property (nonatomic, strong) HHHomPageCardView *adviserView;
 @property (nonatomic, strong) HHHomePageItemsView *itemsView;
 
+@property (nonatomic) BOOL popupVoucherShowed;
+
 @end
 
 @implementation HHHomePageViewController
@@ -85,8 +87,6 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     [self initSubviews];
     self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
-
-
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -120,19 +120,39 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
             
             weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.citySelectView];
             [weakSelf.popup show];
-        } 
+        } else {
+            if ([HHStudentStore sharedInstance].currentStudent.vouchers.count > 0 && ![[HHStudentStore sharedInstance].currentStudent isPurchased]) {
+                if (self.popupVoucherShowed) {
+                    return;
+                }
+                [[HHLoadingViewUtility sharedInstance] showLoadingView];
+                [[HHStudentService sharedInstance] getVouchersWithType:@(0) completion:^(NSArray *vouchers) {
+                    [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+                    HHVoucher *biggestVoucher = [vouchers firstObject];
+                    for (HHVoucher *voucher in vouchers) {
+                        if (biggestVoucher.amount < voucher.amount) {
+                            biggestVoucher = voucher;
+                        }
+                    }
+                    HHVoucherPopupView *popupView = [[HHVoucherPopupView alloc] initWithVoucher:biggestVoucher];
+                    popupView.dismissBlock = ^() {
+                        [HHPopupUtility dismissPopup:weakSelf.popup];
+                    };
+                    popupView.shareBlock = ^() {
+                        [HHPopupUtility dismissPopup:weakSelf.popup];
+                        [weakSelf showShareView];
+                    };
+                    self.popup = [HHPopupUtility createPopupWithContentView:popupView];
+                    [HHPopupUtility showPopup:self.popup];
+                    self.popupVoucherShowed = YES;
+                }];
+
+                
+            }
+        }
     }
-    //Harpy
-    [[Harpy sharedInstance] setAppID:@"1011236187"];
-    [[Harpy sharedInstance] setPresentingViewController:self];
-    [[Harpy sharedInstance] setDelegate:self];
-    [[Harpy sharedInstance] setAppName:@"哈哈学车"];
-    [[Harpy sharedInstance] setForceLanguageLocalization:HarpyLanguageChineseSimplified];
-    [[Harpy sharedInstance] setDebugEnabled:YES];
-    [[Harpy sharedInstance] setAlertType:HarpyAlertTypeOption];
-    [[Harpy sharedInstance] setCountryCode:@"CN"];
-    [[Harpy sharedInstance] checkVersion];
-       [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_viewed attributes:nil];
+
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_viewed attributes:nil];
 }
 
 - (void)initSubviews {
@@ -300,7 +320,11 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     HHBanner *banner = self.banners[index];
     if ([banner.targetURL length] > 0) {
         [self openWebPage:[NSURL URLWithString:banner.targetURL]];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_banner_tapped attributes:@{@"URL":banner.targetURL}];
+    } else {
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_banner_tapped attributes:nil];
     }
+    
     
 }
 
@@ -422,6 +446,34 @@ static NSString *const kHomePageGuideKey = @"kHomePageGuideKey";
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:navVC animated:YES completion:nil];
     
+}
+
+- (void)showShareView {
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_voucher_popup_share_tapped attributes:nil];
+    __weak HHHomePageViewController *weakSelf = self;
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.alignment = NSTextAlignmentCenter;
+    NSMutableAttributedString *sting = [[NSMutableAttributedString alloc] initWithString:@"爱分享的人运气一定不会差~\n" attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSParagraphStyleAttributeName:style}];
+    
+    NSMutableAttributedString *sting2 = [[NSMutableAttributedString alloc] initWithString:@"邀请好友领取哈哈学车新人大礼包哟" attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSParagraphStyleAttributeName:style}];
+    [sting appendAttributedString:sting2];
+    
+    HHQRCodeShareView *shareView = [[HHQRCodeShareView alloc] initWithTitle:sting qrCodeImg:[[HHSocialMediaShareUtility sharedInstance] generateReferQRCode:NO]];
+    shareView.dismissBlock = ^() {
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+    };
+    shareView.selectedBlock = ^(SocialMedia selectedIndex) {
+        if (selectedIndex == SocialMediaMessage) {
+            [HHPopupUtility dismissPopup:weakSelf.popup];
+        }
+        [[HHSocialMediaShareUtility sharedInstance] shareMyReferPageWithShareType:selectedIndex inVC:weakSelf resultCompletion:^(BOOL succceed) {
+            if (succceed) {
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_voucher_popup_share_succeed attributes:@{@"channel": [[HHSocialMediaShareUtility sharedInstance] getChannelNameWithType:selectedIndex]}];
+            }
+        }];
+    };
+    self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
+    [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
 }
 
 

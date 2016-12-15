@@ -183,7 +183,7 @@ static NSString *const kPartnerCoachoCellID = @"kPartnerCoachoCellID";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case CoachCellDescription: {
-            return CGRectGetHeight([self getDescriptionTextSizeWithText:self.coach.bio]) + 50.0f;
+            return CGRectGetHeight([self getDescriptionTextSizeWithText:self.coach.bio]) + 75.0f;
         }
             
         case CoachCellBasicInfo: {
@@ -241,7 +241,10 @@ static NSString *const kPartnerCoachoCellID = @"kPartnerCoachoCellID";
         [HHPopupUtility dismissPopup:weakSelf.popup];
     };
     shareView.actionBlock = ^(SocialMedia selecteItem) {
-        [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:selecteItem resultCompletion:^(BOOL succceed) {
+        if (selecteItem == SocialMediaMessage) {
+            [HHPopupUtility dismissPopup:weakSelf.popup];
+        }
+        [[HHSocialMediaShareUtility sharedInstance] shareCoach:weakSelf.coach shareType:selecteItem inVC:weakSelf resultCompletion:^(BOOL succceed) {
             if (succceed) {
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_coach_page_share_coach_succeed attributes:@{@"coach_id":self.coach.coachId, @"channel":[[HHSocialMediaShareUtility sharedInstance] getChannelNameWithType:selecteItem]}];
             }

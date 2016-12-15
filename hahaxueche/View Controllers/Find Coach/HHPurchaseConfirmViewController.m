@@ -26,6 +26,7 @@
 #import "HHVoucher.h"
 #import "HHGenericTwoButtonsPopupView.h"
 #import "HHSelectVoucherViewController.h"
+#import "HHSpecialVouchersView.h"
 
 
 @interface HHPurchaseConfirmViewController ()
@@ -44,6 +45,7 @@
 @property (nonatomic, strong) UIView *voucherView;
 @property (nonatomic, strong) UILabel *voucherTitleLabel;
 @property (nonatomic, strong) UILabel *voucherAmountLabel;
+@property (nonatomic, strong) HHSpecialVouchersView *specialVoucherView;
 
 @property (nonatomic) StudentPaymentMethod selectedMethod;
 @property (nonatomic) CoachProductType selectedProduct;
@@ -55,6 +57,7 @@
 @property (nonatomic, strong) HHPaymentMethodView *bankCardView;
 @property (nonatomic, strong) HHPaymentMethodView *fqlView;
 @property (nonatomic, strong) NSArray *validVouchers;
+@property (nonatomic, strong) NSArray *specialVouchers;
 @property (nonatomic, strong) HHVoucher *selectedVoucher;
 @property (nonatomic, strong) KLCPopup *popup;
 
@@ -63,13 +66,12 @@
 @implementation HHPurchaseConfirmViewController
 
 
-- (instancetype)initWithCoach:(HHCoach *)coach validVouchers:(NSArray *)validVouchers {
+- (instancetype)initWithCoach:(HHCoach *)coach {
     self = [super init];
     if (self) {
         self.coach = coach;
         self.selectedMethod = StudentPaymentMethodAlipay;
         self.paymentViews = [NSMutableArray array];
-        self.validVouchers = validVouchers;
         if ([self.validVouchers count] > 0) {
             self.selectedVoucher = [self.validVouchers firstObject];
         }
@@ -85,7 +87,21 @@
     self.selectedProduct = CoachProductTypeStandard;
     self.selectedClass = ClassTypeStandard;
     self.selectedLicense = LicenseTypeC1;
-    [self initSubviews];
+    
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    [[HHStudentService sharedInstance] getVouchersWithType:@(1) completion:^(NSArray *vouchers) {
+        self.specialVouchers = vouchers;
+        [[HHStudentService sharedInstance] getVouchersWithType:@(0) completion:^(NSArray *vouchers) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            self.validVouchers = vouchers;
+            if (self.validVouchers.count > 0) {
+                self.selectedVoucher = [self.validVouchers firstObject];
+            }
+            [self initSubviews];
+        }];
+        
+    }];
+   
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -107,11 +123,11 @@
     self.payButton.backgroundColor = [UIColor HHDarkOrange];
     [self.payButton addTarget:self action:@selector(payCoach) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.payButton];
-    
     [self makeConstraints];
     
     [self buildServiceTypeViews];
     [self buildPaymentViews];
+    
 }
 
 - (void)makeConstraints {
@@ -122,7 +138,6 @@
         make.height.mas_equalTo(100.0f);
     }];
 
-    
     [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.coachView.bottom).offset(10.0f);
         make.left.equalTo(self.view.left);
@@ -161,36 +176,42 @@
     
     [self buildClassView];
     
+    UIView *preView = self.classTypeView;
+    if (self.specialVouchers.count > 0) {
+        self.specialVoucherView = [[HHSpecialVouchersView alloc] initWithVouchers:self.specialVouchers];
+        [self.scrollView addSubview:self.specialVoucherView];
+        [self.specialVoucherView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(preView.bottom);
+            make.left.equalTo(self.scrollView.left);
+            make.width.equalTo(self.scrollView.width);
+            make.height.mas_equalTo(30.0f * self.specialVouchers.count);
+        }];
+        preView = self.specialVoucherView;
+    }
+    
+    
+    
     if (self.validVouchers.count > 0) {
         self.voucherView = [self buildVoucherView];
         [self.scrollView addSubview:self.voucherView];
         [self.voucherView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.classTypeView.bottom);
+            make.top.equalTo(preView.bottom);
             make.left.equalTo(self.scrollView.left);
             make.width.equalTo(self.scrollView.width);
             make.height.mas_equalTo(50.0f);
         }];
-        
-        self.totalPriceContainerView = [[UIView alloc] init];
-        self.totalPriceContainerView.backgroundColor = [UIColor whiteColor];
-        [self.scrollView addSubview:self.totalPriceContainerView];
-        [self.totalPriceContainerView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.voucherView.bottom);
-            make.left.equalTo(self.scrollView.left);
-            make.width.equalTo(self.scrollView.width);
-            make.height.mas_equalTo(50.0f);
-        }];
-    } else {
-        self.totalPriceContainerView = [[UIView alloc] init];
-        self.totalPriceContainerView.backgroundColor = [UIColor whiteColor];
-        [self.scrollView addSubview:self.totalPriceContainerView];
-        [self.totalPriceContainerView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.classTypeView.bottom);
-            make.left.equalTo(self.scrollView.left);
-            make.width.equalTo(self.scrollView.width);
-            make.height.mas_equalTo(50.0f);
-        }];
+        preView = self.voucherView;
     }
+    
+    self.totalPriceContainerView = [[UIView alloc] init];
+    self.totalPriceContainerView.backgroundColor = [UIColor whiteColor];
+    [self.scrollView addSubview:self.totalPriceContainerView];
+    [self.totalPriceContainerView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(preView.bottom);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(50.0f);
+    }];
 
     
     self.totalPriceLabel = [[UILabel alloc] init];
@@ -219,7 +240,7 @@
         make.right.equalTo(self.totalPriceLabel.left).offset(-5.0f);
     }];
     
-    if (self.validVouchers.count > 0) {
+    if (self.validVouchers.count > 0 || self.specialVouchers.count > 0) {
         self.priceDetailLabel = [[UILabel alloc] init];
         self.priceDetailLabel.font = [UIFont systemFontOfSize:13.0f];
         self.priceDetailLabel.textColor = [UIColor HHLightTextGray];
@@ -447,6 +468,12 @@
     if ([self.selectedVoucher.amount floatValue] > 0) {
         finalPrice = @([price floatValue] - [self.selectedVoucher.amount floatValue]);
     }
+    
+    if(self.specialVouchers.count > 0) {
+        for (HHVoucher *voucher in self.specialVouchers) {
+            finalPrice = @([finalPrice floatValue] - [voucher.amount floatValue]);
+        }
+    }
     return finalPrice;
 }
 
@@ -528,7 +555,13 @@
 }
 
 - (NSString *)getPriceDetailString {
-    return [NSString stringWithFormat:@"总价%@  立减%@", [[self getSelectedOriginalPrice] generateMoneyString], [self.selectedVoucher.amount generateMoneyString]];
+    NSNumber *reducedAmount = self.selectedVoucher.amount;
+    if (self.specialVouchers.count > 0) {
+        for (HHVoucher *voucher in self.specialVouchers) {
+            reducedAmount = @([reducedAmount floatValue] + [voucher.amount floatValue]);
+        }
+    }
+    return [NSString stringWithFormat:@"总价%@  立减%@", [[self getSelectedOriginalPrice] generateMoneyString], [reducedAmount generateMoneyString]];
 }
 
 
