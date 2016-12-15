@@ -499,7 +499,6 @@ static CGFloat const kCellHeightExpanded = 325.0f;
             [HHStudentStore sharedInstance].currentLocation = currentLocation;
             
         } else if (status == INTULocationStatusError) {
-            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了，请重试"];
             self.userLocation = nil;
         } else {
             HHAskLocationPermissionViewController *vc = [[HHAskLocationPermissionViewController alloc] init];
