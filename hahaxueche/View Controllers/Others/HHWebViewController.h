@@ -16,6 +16,7 @@
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) UIProgressView *progressView;
+@property (nonatomic, strong) UILabel *titleLabel;
 
 - (instancetype)initWithURL:(NSURL *)url;
 

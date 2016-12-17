@@ -290,8 +290,8 @@ static NSString *const kSupportQQ = @"3319762526";
 - (void)shareMyReferPageWithShareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion {
     self.containerVC = inVC;
     OSMessage *msg = [[OSMessage alloc] init];
-    msg.title = @"新人大礼包";
-    msg.desc = @"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你一张保过卡. 比心❤️";
+    msg.title = @"送你￥200元学车券，怕你考不过，再送你一张保过卡。比心❤️";
+    msg.desc = @"Hi~朋友，知道你最近想学车，我把我学车的地方告诉你了，要一把考过哟！";
     msg.image = [UIImage imageNamed:@"ic_share"];
     msg.thumbnail = [UIImage imageNamed:@"ic_share"];
     msg.link = [NSString stringWithFormat:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?referrer_id=%@&promo_code=553353", [HHStudentStore sharedInstance].currentStudent.studentId];
@@ -357,6 +357,8 @@ static NSString *const kSupportQQ = @"3319762526";
                 return;
             }
             
+            msg.title = @"Hi~朋友，知道你最近想学车，我把我学车的地方告诉你了，要一把考过哟！";
+            
             [OpenShare shareToWeixinTimeline:msg Success:^(OSMessage *message) {
                 if (resultCompletion) {
                     resultCompletion(YES);
@@ -387,7 +389,7 @@ static NSString *const kSupportQQ = @"3319762526";
         } break;
             
         case SocialMediaMessage: {
-            [self showSMS:[NSString stringWithFormat:@"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你一张保过卡. 比心❤️ %@", [NSString stringWithFormat:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?referrer_id=%@&promo_code=553353", [HHStudentStore sharedInstance].currentStudent.studentId]]];
+            [self showSMS:[NSString stringWithFormat:@"【哈哈学车】Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你一张保过卡. 比心❤️ %@", [NSString stringWithFormat:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?referrer_id=%@&promo_code=553353", [HHStudentStore sharedInstance].currentStudent.studentId]]];
         }
         default:
             break;

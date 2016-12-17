@@ -27,7 +27,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItems = @[[UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(backPage) target:self], [UIBarButtonItem buttonItemWithTitle:@"关闭" titleColor:[UIColor whiteColor] action:@selector(dismissVC) target:self isLeft:NO]];
+    UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixedItem.width = 10.0f;
+    UIButton *button = [[UIButton alloc] init];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button setTitle:@"关闭" forState:UIControlStateNormal];
+    button.backgroundColor = [UIColor clearColor];
+    button.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    [button addTarget:self action:@selector(dismissVC) forControlEvents:UIControlEventTouchUpInside];
+    [button sizeToFit];
+    UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+    
+    
+    self.navigationItem.leftBarButtonItems = @[[UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(backPage) target:self], fixedItem, closeItem];
+    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-130.0f, 40.0f)];
+    self.titleLabel.textColor = [UIColor whiteColor];
+    self.titleLabel.font = [UIFont boldSystemFontOfSize:18.0f];
+    self.titleLabel.textAlignment = NSTextAlignmentCenter;
+    self.navigationItem.titleView = self.titleLabel;
+    
     
     self.webView = [[WKWebView alloc] init];
     self.webView.scrollView.bounces = NO;
@@ -62,6 +80,7 @@
     [self.webView loadRequest:nsrequest];
     
     [self.webView addObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress)) options:NSKeyValueObservingOptionNew context:NULL];
+    [self.webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:NULL];
     
 }
 
@@ -91,7 +110,14 @@
             }];
         }
     }
-    else {
+    else if ([keyPath isEqualToString:@"title"]) {
+        if (object == self.webView) {
+            self.titleLabel.text = self.webView.title;
+        }
+        else {
+            [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+        }
+    } else {
         // Make sure to call the superclass's implementation in the else block in case it is also implementing KVO
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
@@ -123,12 +149,9 @@
 }
 
 - (void)dealloc {
-    
-    if ([self isViewLoaded]) {
-        [self.webView removeObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress))];
-    }
-    
-    // if you have set either WKWebView delegate also set these to nil here
+
+    [self.webView removeObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress))];
+    [self.webView removeObserver:self forKeyPath:@"title"];
     [self.webView setNavigationDelegate:nil];
     [self.webView setUIDelegate:nil];
 }

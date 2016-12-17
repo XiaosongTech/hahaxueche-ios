@@ -328,7 +328,6 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
 
 - (void)openWebPage:(NSURL *)url {
     HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:url];
-    webVC.title = @"哈哈学车";
     webVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:webVC animated:YES];
 }
@@ -354,7 +353,6 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
 
 
 - (void)itemTappedWithIndex:(ItemType)index {
-    __weak HHHomePageViewController *weakSelf = self;
     switch (index) {
         case ItemTypeGroupPurchase: {
             [self openWebPage:[NSURL URLWithString:kGroupPurchaseLink]];
@@ -363,15 +361,12 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
         } break;
             
         case ItemTypeOnlineTest: {
-            
             [self showTestVC];
             [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_online_test_tapped attributes:nil];
             
         } break;
             
-            
         case ItemTypeCourseOne: {
-            
             [self showTestVC];
             [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_course_one_tapped attributes:nil];
         } break;
@@ -389,27 +384,9 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
         } break;
             
         case ItemTypeReferFriends: {
-            if ([HHStudentStore sharedInstance].currentStudent.studentId) {
-                HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
-                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-                [self presentViewController:navVC animated:YES completion:nil];
-            } else {
-                NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-                paragraphStyle.lineSpacing = 4.0f;
-                
-                NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"注册登陆后, 就能邀请好友啦! 每成功邀请一个好友你就能获得现金%@元, 好友获得%@元学车代金券! 赶快行动吧!", [[[HHConstantsStore sharedInstance] getCityReferrerBonus] generateMoneyString], [[[HHConstantsStore sharedInstance] getCityRefereeBonus] generateMoneyString]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
-                
-                HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithTitle:@"推荐好友" info:attributedString];
-                [view.buttonView.okButton setTitle:@"去注册!" forState:UIControlStateNormal];
-                view.cancelBlock = ^() {
-                    HHIntroViewController *vc = [[HHIntroViewController alloc] init];
-                    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-                    [weakSelf presentViewController:nav animated:YES completion:nil];
-                };
-                self.popup = [HHPopupUtility createPopupWithContentView:view];
-                self.popup.shouldDismissOnContentTouch = NO;
-                [HHPopupUtility showPopup:self.popup];
-            }
+            HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+            [self presentViewController:navVC animated:YES completion:nil];
             [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_refer_friends_tapped attributes:nil];
             
         } break;
