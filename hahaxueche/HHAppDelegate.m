@@ -34,6 +34,7 @@
 #import <LinkedME_iOS/LinkedME.h>
 #import <CloudPushSDK/CloudPushSDK.h>
 #import <UserNotifications/UserNotifications.h>
+#import "HHWebViewController.h"
 
 
 
@@ -249,8 +250,10 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 #pragma mark - AliPush & Notification Delegate Methods
 
 - (void)initCloudPush {
-    // 正式上线建议关闭
+#ifdef DEBUG
     [CloudPushSDK turnOnDebug];
+#endif
+    
     // SDK初始化
     [CloudPushSDK asyncInit:kAliPushAppKey appSecret:kAliPushAppSecret callback:^(CloudPushCallbackResult *res) {
         if (res.success) {
@@ -336,17 +339,11 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
  */
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo {
     NSLog(@"Receive one notification.");
-    // 取得APNS通知内容
-    NSDictionary *aps = [userInfo valueForKey:@"aps"];
-    // 内容
-    NSString *content = [aps valueForKey:@"alert"];
-    // badge数量
-    NSInteger badge = [[aps valueForKey:@"badge"] integerValue];
-    // 播放声音
-    NSString *sound = [aps valueForKey:@"sound"];
-    // 取得Extras字段内容
-    NSString *Extras = [userInfo valueForKey:@"Extras"]; //服务端中Extras字段，key是自己定义的
-    NSLog(@"content = [%@], badge = [%ld], sound = [%@], Extras = [%@]", content, (long)badge, sound, Extras);
+    if (userInfo[@"url"]) {
+        HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:userInfo[@"url"]]];
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:webVC];
+        [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
+    }
     [CloudPushSDK sendNotificationAck:userInfo];
 }
 
@@ -413,21 +410,12 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     UNNotificationRequest *request = notification.request;
     UNNotificationContent *content = request.content;
     NSDictionary *userInfo = content.userInfo;
-    // 通知时间
-    NSDate *noticeDate = notification.date;
-    // 标题
-    NSString *title = content.title;
-    // 副标题
-    NSString *subtitle = content.subtitle;
-    // 内容
-    NSString *body = content.body;
-    // 角标
-    int badge = [content.badge intValue];
-    // 取得通知自定义字段内容，例：获取key为"Extras"的内容
-    NSString *extras = [userInfo valueForKey:@"Extras"];
-    // 通知打开回执上报
+    if (userInfo[@"url"]) {
+        HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:userInfo[@"url"]]];
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:webVC];
+        [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
+    }
     [CloudPushSDK sendNotificationAck:userInfo];
-    NSLog(@"Notification, date: %@, title: %@, subtitle: %@, body: %@, badge: %d, extras: %@.", noticeDate, title, subtitle, body, badge, extras);
 }
 
 
