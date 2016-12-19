@@ -104,7 +104,7 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
     [super viewDidAppear:animated];
     __weak HHHomePageViewController *weakSelf = self;
     NSArray *cities = [[HHConstantsStore sharedInstance] getSupporteCities];
-    if ([cities count]) {
+    if (cities.count > 0) {
         // Guest Student
         if (![HHStudentStore sharedInstance].currentStudent.cityId) {
             CGFloat height = MAX(300.0f, CGRectGetHeight(weakSelf.view.bounds)/2.0f);
@@ -145,9 +145,10 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
                     self.popupVoucherShowed = YES;
                 }];
 
-                
             }
         }
+    } else {
+        [HHStudentStore sharedInstance].currentStudent.cityId = @(0);
     }
 
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_viewed attributes:nil];
