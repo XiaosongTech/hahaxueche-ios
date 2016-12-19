@@ -31,6 +31,8 @@ typedef void (^ShareResultCompletion) (BOOL succceed);
 - (void)sharePost:(HHClubPost *)post shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC;
 - (void)shareTestScore:(HHTestScore *)score shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion;
 
+- (void)shareWebPage:(NSURL *)url title:(NSString *)title shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion;
+
 
 - (NSString *)getChannelNameWithType:(SocialMedia)type;
 - (UIImage *)generateReferQRCode:(BOOL)refer;

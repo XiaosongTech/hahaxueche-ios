@@ -13,7 +13,6 @@
 #import "HHSocialMediaShareUtility.h"
 #import "UIColor+HHColor.h"
 
-
 @implementation HHWebViewController
 
 - (instancetype)initWithURL:(NSURL *)url {
@@ -40,6 +39,8 @@
     
     
     self.navigationItem.leftBarButtonItems = @[[UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(backPage) target:self], fixedItem, closeItem];
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"icon_share"] action:@selector(shareWebPage) target:self];
+    
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-130.0f, 40.0f)];
     self.titleLabel.textColor = [UIColor whiteColor];
     self.titleLabel.font = [UIFont boldSystemFontOfSize:18.0f];
@@ -150,6 +151,23 @@
     } else {
         decisionHandler(WKNavigationActionPolicyAllow);
     }
+}
+
+- (void)shareWebPage {
+    __weak HHWebViewController *weakSelf = self;
+    HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 0)];
+    shareView.dismissBlock = ^() {
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+    };
+    shareView.actionBlock = ^(SocialMedia selecteItem) {
+        if (selecteItem == SocialMediaMessage) {
+            [HHPopupUtility dismissPopup:weakSelf.popup];
+        }
+        [[HHSocialMediaShareUtility sharedInstance] shareWebPage:weakSelf.url title:weakSelf.titleLabel.text shareType:selecteItem inVC:weakSelf resultCompletion:nil];
+    };
+    
+    self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
+    [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
 }
 
 - (void)dealloc {

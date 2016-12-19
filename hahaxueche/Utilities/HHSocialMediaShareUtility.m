@@ -689,4 +689,76 @@ static NSString *const kSupportQQ = @"3319762526";
 }
 
 
+- (void)shareWebPage:(NSURL *)url title:(NSString *)title shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion {
+    self.containerVC = inVC;
+    OSMessage *msg = [[OSMessage alloc] init];
+    msg.image = [UIImage imageNamed:@"ic_share"];
+    msg.thumbnail = [UIImage imageNamed:@"ic_share"];
+    msg.title = title;
+    msg.multimediaType = OSMultimediaTypeNews;
+    msg.desc = msg.title;
+    [[HHURLUtility sharedManager] generateShortURLWithOriginalURL:url.absoluteString completion:^(NSString *shortURL) {
+        msg.link = shortURL;
+        switch (shareType) {
+            case SocialMediaQQFriend: {
+                if (![OpenShare isQQInstalled]) {
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
+                    return;
+                }
+                [OpenShare shareToQQFriends:msg Success:nil Fail:nil];
+            } break;
+                
+            case SocialMediaWeibo: {
+                if (![OpenShare isWeiboInstalled]) {
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微博应用, 然后重试"];
+                    return;
+                }
+                msg.title = [NSString stringWithFormat:@"%@%@", msg.title, shortURL];
+                msg.image = [UIImage imageNamed:@"viewfile"];
+                msg.link = nil;
+                msg.desc = nil;
+                [OpenShare shareToWeibo:msg Success:nil Fail:nil];
+            } break;
+                
+            case SocialMediaWeChatFriend: {
+                if (![OpenShare isWeixinInstalled]) {
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微信应用, 然后重试"];
+                    return;
+                }
+                [OpenShare shareToWeixinSession:msg Success:nil Fail:nil];
+                
+                
+            } break;
+                
+            case SocialMediaWeChaPYQ: {
+                if (![OpenShare isWeixinInstalled]) {
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微信应用, 然后重试"];
+                    return;
+                }
+                [OpenShare shareToWeixinTimeline:msg Success:nil Fail:nil];
+                
+                
+            } break;
+                
+            case SocialMediaQZone: {
+                if (![OpenShare isQQInstalled]) {
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
+                    return;
+                }
+                [OpenShare shareToQQZone:msg Success:nil Fail:nil];
+                
+                
+            } break;
+                
+            case SocialMediaMessage: {
+                [self showSMS:[NSString stringWithFormat:@"%@%@", msg.title, shortURL]];
+            } break;
+                
+            default:
+                break;
+        }
+    }];
+}
+
+
 @end
