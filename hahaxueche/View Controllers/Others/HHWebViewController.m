@@ -85,7 +85,11 @@
 }
 
 - (void)dismissVC {
-    [self.navigationController popViewControllerAnimated:YES];
+    if ([[self.navigationController.viewControllers firstObject] isEqual:self]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 
