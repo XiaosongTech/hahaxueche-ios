@@ -7,10 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AFNetworking/AFNetworking.h>
+
+typedef void (^HHURLUtilCompletion)(NSString *shortURL);
 
 @interface HHURLUtility : NSObject
 
 + (HHURLUtility *)sharedManager;
-- (NSString *)generateShortURLWithOriginalURL:(NSString *)string;
+- (void)generateShortURLWithOriginalURL:(NSString *)string completion:(HHURLUtilCompletion)completion;
+
+@property (nonatomic, strong) AFHTTPSessionManager *requestManager;
 
 @end
