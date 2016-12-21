@@ -91,8 +91,8 @@ static NSString *const kCellId = @"kCellId";
     [[HHStudentService sharedInstance] fetchReferralsWithCompletion:^(HHReferrals *referralsObject, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
-            self.referralsArray = [NSMutableArray arrayWithArray:self.referrals.referrals];
             self.referrals = referralsObject;
+            self.referralsArray = [NSMutableArray arrayWithArray:self.referrals.referrals];
             [self.tableView reloadData];
         }
     }];
@@ -161,8 +161,8 @@ static NSString *const kCellId = @"kCellId";
     [[HHStudentService sharedInstance] fetchReferralsWithCompletion:^(HHReferrals *referralsObject, NSError *error) {
         [self.refreshHeader endRefreshing];
         if (!error) {
-            self.referralsArray = [NSMutableArray arrayWithArray:self.referrals.referrals];
             self.referrals = referralsObject;
+            self.referralsArray = [NSMutableArray arrayWithArray:self.referrals.referrals];
             [self.tableView reloadData];
         }
     }];

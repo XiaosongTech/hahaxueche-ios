@@ -10,11 +10,10 @@
 #import "UIImage+HHImage.h"
 #import "UIColor+HHColor.h"
 #import "UIBarButtonItem+HHCustomButton.h"
+#import "Masonry.h"
 
 @interface HHLongImageViewController () <UIScrollViewDelegate>
 
-@property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIImage *image;
 
 @end
@@ -37,13 +36,20 @@
     self.view.backgroundColor = [UIColor HHOrange];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
     
-    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
+    self.scrollView = [[UIScrollView alloc] init];
     self.scrollView.maximumZoomScale = 3.0f;
     self.scrollView.minimumZoomScale = 1.0f;
     self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
+    self.scrollView.bounces = NO;
     self.scrollView.delegate = self;
     [self.view addSubview:self.scrollView];
+    
+    [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.view);
+        make.width.equalTo(self.view.width);
+        make.height.equalTo(self.view.height);
+    }];
 
     
     self.imageView = [[UIImageView alloc] init];
@@ -63,7 +69,11 @@
 }
 
 - (void)dismissVC {
-    [self.navigationController popViewControllerAnimated:YES];
+    if ([[self.navigationController.viewControllers firstObject] isEqual:self]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 

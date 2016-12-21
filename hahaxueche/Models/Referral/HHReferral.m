@@ -15,6 +15,7 @@
     return @{
              @"name": @"name",
              @"phone": @"phone",
+             @"amount": @"amount",
              @"purchasedAt":@"purchased_at",
              };
 }

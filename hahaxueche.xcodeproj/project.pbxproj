@@ -731,6 +731,12 @@
 		6DD5684F1D6948E000B9B319 /* OpenShare+Weixin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD568481D6948E000B9B319 /* OpenShare+Weixin.m */; };
 		6DD568541D6B3B4C00B9B319 /* HHGifRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD568531D6B3B4B00B9B319 /* HHGifRefreshHeader.m */; };
 		6DD568561D6E83AA00B9B319 /* loading_car.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6DD568551D6E83AA00B9B319 /* loading_car.gif */; };
+		6DD73F4D1E0A26CD00B356BF /* HHAddressBookUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD73F4C1E0A26CD00B356BF /* HHAddressBookUtility.m */; };
+		6DD73F501E0A355200B356BF /* HHGuardCardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD73F4F1E0A355200B356BF /* HHGuardCardTableViewCell.m */; };
+		6DD73F561E0A39BF00B356BF /* HHGuardCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD73F551E0A39BF00B356BF /* HHGuardCardViewController.m */; };
+		6DD73F661E0A55A300B356BF /* Group_15.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD73F631E0A55A300B356BF /* Group_15.png */; };
+		6DD73F671E0A55A300B356BF /* Group_15@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD73F641E0A55A300B356BF /* Group_15@2x.png */; };
+		6DD73F681E0A55A300B356BF /* Group_15@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD73F651E0A55A300B356BF /* Group_15@3x.png */; };
 		6DD94D0A1DEBFF9C00BB3357 /* HHHomePageItemsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD94D091DEBFF9C00BB3357 /* HHHomePageItemsView.m */; };
 		6DD94D3D1DED914500BB3357 /* HHIdentityCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD94D3C1DED914500BB3357 /* HHIdentityCard.m */; };
 		6DD94D401DEE7FFC00BB3357 /* HHCourseInsuranceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD94D3F1DEE7FFC00BB3357 /* HHCourseInsuranceView.m */; };
@@ -1895,6 +1901,15 @@
 		6DD568521D6B3B4B00B9B319 /* HHGifRefreshHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHGifRefreshHeader.h; sourceTree = "<group>"; };
 		6DD568531D6B3B4B00B9B319 /* HHGifRefreshHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHGifRefreshHeader.m; sourceTree = "<group>"; };
 		6DD568551D6E83AA00B9B319 /* loading_car.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading_car.gif; sourceTree = "<group>"; };
+		6DD73F4B1E0A26CD00B356BF /* HHAddressBookUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAddressBookUtility.h; sourceTree = "<group>"; };
+		6DD73F4C1E0A26CD00B356BF /* HHAddressBookUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHAddressBookUtility.m; sourceTree = "<group>"; };
+		6DD73F4E1E0A355200B356BF /* HHGuardCardTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHGuardCardTableViewCell.h; sourceTree = "<group>"; };
+		6DD73F4F1E0A355200B356BF /* HHGuardCardTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHGuardCardTableViewCell.m; sourceTree = "<group>"; };
+		6DD73F541E0A39BF00B356BF /* HHGuardCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHGuardCardViewController.h; sourceTree = "<group>"; };
+		6DD73F551E0A39BF00B356BF /* HHGuardCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHGuardCardViewController.m; sourceTree = "<group>"; };
+		6DD73F631E0A55A300B356BF /* Group_15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Group_15.png; sourceTree = "<group>"; };
+		6DD73F641E0A55A300B356BF /* Group_15@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Group_15@2x.png"; sourceTree = "<group>"; };
+		6DD73F651E0A55A300B356BF /* Group_15@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Group_15@3x.png"; sourceTree = "<group>"; };
 		6DD94D081DEBFF9C00BB3357 /* HHHomePageItemsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHHomePageItemsView.h; sourceTree = "<group>"; };
 		6DD94D091DEBFF9C00BB3357 /* HHHomePageItemsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHHomePageItemsView.m; sourceTree = "<group>"; };
 		6DD94D3B1DED914500BB3357 /* HHIdentityCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHIdentityCard.h; sourceTree = "<group>"; };
@@ -2302,6 +2317,8 @@
 				6DE046371DE5929B00B80343 /* HHUploadIdView.m */,
 				6DEB24501DFA4F6800A86739 /* HHPlatformGuardTableViewCell.h */,
 				6DEB24511DFA4F6800A86739 /* HHPlatformGuardTableViewCell.m */,
+				6DD73F4E1E0A355200B356BF /* HHGuardCardTableViewCell.h */,
+				6DD73F4F1E0A355200B356BF /* HHGuardCardTableViewCell.m */,
 			);
 			path = "My Page";
 			sourceTree = "<group>";
@@ -2337,6 +2354,8 @@
 				6DE046341DE58B7700B80343 /* HHUploadIDViewController.m */,
 				6DE046451DE6C5DD00B80343 /* HHContractViewController.h */,
 				6DE046461DE6C5DD00B80343 /* HHContractViewController.m */,
+				6DD73F541E0A39BF00B356BF /* HHGuardCardViewController.h */,
+				6DD73F551E0A39BF00B356BF /* HHGuardCardViewController.m */,
 			);
 			path = "My Page";
 			sourceTree = "<group>";
@@ -2596,6 +2615,8 @@
 				6D44E4771E00E24700BC753F /* HHQRCodeUtility.m */,
 				6DED8F1C1E0539D20041F974 /* HHURLUtility.h */,
 				6DED8F1D1E0539D20041F974 /* HHURLUtility.m */,
+				6DD73F4B1E0A26CD00B356BF /* HHAddressBookUtility.h */,
+				6DD73F4C1E0A26CD00B356BF /* HHAddressBookUtility.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -2961,6 +2982,9 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6DD73F631E0A55A300B356BF /* Group_15.png */,
+				6DD73F641E0A55A300B356BF /* Group_15@2x.png */,
+				6DD73F651E0A55A300B356BF /* Group_15@3x.png */,
 				6D44E48F1E03E27D00BC753F /* pic_shareforaward.png */,
 				6D44E4901E03E27D00BC753F /* pic_shareforaward@2x.png */,
 				6D44E4911E03E27D00BC753F /* pic_shareforaward@3x.png */,
@@ -4196,6 +4220,7 @@
 				6DB148151D50AD7C009E3F1E /* ic_add@2x.png in Resources */,
 				5C36D41E1C496ECD00443545 /* ic_sort_price_hold_btn@3x.png in Resources */,
 				6D4592361CFD68EB00AF5B45 /* ic_edit.png in Resources */,
+				6DD73F661E0A55A300B356BF /* Group_15.png in Resources */,
 				5C36D3741C42D9F800443545 /* ic_bottombar_date_normal_btn@3x.png in Resources */,
 				6DE24BF31D5C56740078A21E /* ic_question_alcollect@3x.png in Resources */,
 				5CDE14831C3787CF0004778C /* ic_triangle@3x.png in Resources */,
@@ -4237,6 +4262,7 @@
 				6D46DCB91D88F52D001F962B /* ic_adviser.png in Resources */,
 				6D3C83B21DAD039A004BD28B /* ic_vip@3x.png in Resources */,
 				6D44B6A91D0D12DF00E2F455 /* ic_coupon.png in Resources */,
+				6DD73F681E0A55A300B356BF /* Group_15@3x.png in Resources */,
 				147AA0021C7ABB6D000DED3B /* ic_havenotpay@3x.png in Resources */,
 				5C36D3731C42D9F800443545 /* ic_bottombar_date_normal_btn@2x.png in Resources */,
 				6DE24BDB1D5B44A10078A21E /* ic_question_lib.png in Resources */,
@@ -4310,6 +4336,7 @@
 				5C6D8C8D1C3AD6840055CB31 /* ic_toast_right@1x.png in Resources */,
 				6D44B6B01D0D213B00E2F455 /* input@2x.png in Resources */,
 				5C36D3B71C474FF600443545 /* ic_screen_hold_btn@1X.png in Resources */,
+				6DD73F671E0A55A300B356BF /* Group_15@2x.png in Resources */,
 				6D330D521D800BC2003F6FC6 /* select@3x.png in Resources */,
 				6D3D6F9F1CC0933100E3BD8E /* ic_class_emptyava@2x.png in Resources */,
 				6DD1AAC51D4882D9001D50FC /* ic_group_ic.png in Resources */,
@@ -4729,6 +4756,7 @@
 				6D82BD701CCF9DEC00D4109A /* HHGenericTwoButtonsPopupView.m in Sources */,
 				5C54517B1B4EA5130025D19F /* UIBarButtonItem+HHCustomButton.m in Sources */,
 				6D98E9C61D7D2BF800A324B2 /* HHPriceView.m in Sources */,
+				6DD73F4D1E0A26CD00B356BF /* HHAddressBookUtility.m in Sources */,
 				6DDD4AFC1DF7F733002C168F /* HHSpecialVouchersView.m in Sources */,
 				6D4151DC1CF321AB004A7EE8 /* HHSearchCoachViewController.m in Sources */,
 				6D0FB0A41D925C590045C421 /* HHClubPostStatView.m in Sources */,
@@ -4763,6 +4791,7 @@
 				6DD5684C1D6948E000B9B319 /* OpenShare+QQ.m in Sources */,
 				5C36D39A1C4311FF00443545 /* HHConstantsStore.m in Sources */,
 				6D68C8221D88058000184AAC /* HHHomPageCardView.m in Sources */,
+				6DD73F501E0A355200B356BF /* HHGuardCardTableViewCell.m in Sources */,
 				5C36D3A01C442A6300443545 /* HHStudentStore.m in Sources */,
 				14700D9B1C797C7600660989 /* HHMoneyAmountView.m in Sources */,
 				6DB7B5841DBE21E000D91166 /* HHPriceItemCollectionViewCell.m in Sources */,
@@ -4783,6 +4812,7 @@
 				140EC6441C6E9A6100DA634D /* HHCoachReviewView.m in Sources */,
 				6D97BDC61D275B3F001B4562 /* HHBanner.m in Sources */,
 				6D44E4571DFFDDA200BC753F /* HHQRCodeShareView.m in Sources */,
+				6DD73F561E0A39BF00B356BF /* HHGuardCardViewController.m in Sources */,
 				6DA2F76D1DC9B56900F2CB21 /* HHPostCategory.m in Sources */,
 				6D7D0C711D63012A0002FC56 /* HHTestSimuLandingViewController.m in Sources */,
 				6D98E9AE1D7A880F00A324B2 /* HHReferralShareView.m in Sources */,

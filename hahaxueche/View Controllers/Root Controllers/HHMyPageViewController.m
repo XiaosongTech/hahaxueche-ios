@@ -48,6 +48,8 @@
 #import "HHGenericTwoButtonsPopupView.h"
 #import "HHUploadIDViewController.h"
 #import "HHSignContractViewController.h"
+#import "HHGuardCardTableViewCell.h"
+#import "HHGuardCardViewController.h"
 
 
 static NSString *const kUserInfoCell = @"userInfoCell";
@@ -59,6 +61,7 @@ static NSString *const kReferCell = @"referCell";
 static NSString *const kMyCourseScheduleCell = @"kMyCourseScheduleCell";
 static NSString *const kVouchereCell = @"kVouchereCell";
 static NSString *const kContractCell = @"kContractCell";
+static NSString *const kGuardCardCell = @"kGuardCardCell";
 
 static NSString *const kActivateVoucherProdLink = @"https://m.hahaxueche.com/share/jihuo?";
 static NSString *const kActivateVoucherStagingLink = @"https://staging-m.hahaxueche.com/share/jihuo?";
@@ -68,6 +71,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     MyPageCellRefer,
     MyPageCellCoach,
     MyPageCellVoucher,
+    MyPageCellGuardCard,
     MyPageCellContract,
     MyPageCellMyCourseSchedule,
     MyPageCellSupport,
@@ -162,6 +166,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     [self.tableView registerClass:[HHMyPageMyCourseScheduleCell class] forCellReuseIdentifier:kMyCourseScheduleCell];
     [self.tableView registerClass:[HHMyPageVoucherCell class] forCellReuseIdentifier:kVouchereCell];
     [self.tableView registerClass:[HHMyContractTableViewCell class] forCellReuseIdentifier:kContractCell];
+    [self.tableView registerClass:[HHGuardCardTableViewCell class] forCellReuseIdentifier:kGuardCardCell];
 }
 
 #pragma mark - TableView Delegate & Datasource Methods
@@ -300,6 +305,16 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             
         } break;
             
+            
+        case MyPageCellGuardCard: {
+            HHGuardCardTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kGuardCardCell];
+            cell.courseOneFourView.actionBlock = ^() {
+                HHGuardCardViewController *vc = [[HHGuardCardViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
+            return cell;
+        }
         case MyPageCellContract: {
             HHMyContractTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kContractCell];
             cell.myContractView.actionBlock = ^() {
@@ -460,6 +475,9 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
             
         case MyPageCellCoach:
             return kTitleViewHeight + kItemViewHeight * 2.0f;
+            
+        case MyPageCellGuardCard:
+            return kTopPadding + kTitleViewHeight + kItemViewHeight;
             
         case MyPageCellVoucher:
             return kTopPadding + kTitleViewHeight + kItemViewHeight;

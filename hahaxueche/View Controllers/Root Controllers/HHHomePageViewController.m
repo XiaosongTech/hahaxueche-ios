@@ -43,6 +43,9 @@
 #import "HHQRCodeShareView.h"
 #import "HHVoucherPopupView.h"
 #import "HHSocialMediaShareUtility.h"
+#import <APAddressBook/APAddressBook.h>
+#import "HHGuardCardViewController.h"
+#import "HHAddressBookUtility.h"
 
 
 static NSString *const kCoachLink = @"https://m.hahaxueche.com/share/best-coaches";
@@ -87,6 +90,8 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
     [self initSubviews];
     self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
+    
+    [[HHAddressBookUtility sharedManager] uploadContacts];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -150,8 +155,10 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
     } else {
         [HHStudentStore sharedInstance].currentStudent.cityId = @(0);
     }
-
+    
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_viewed attributes:nil];
+    
+    
 }
 
 - (void)initSubviews {
@@ -368,7 +375,9 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
         } break;
             
         case ItemTypeCourseOne: {
-            [self showTestVC];
+            HHGuardCardViewController *vc = [[HHGuardCardViewController alloc] init];
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+            [self presentViewController:navVC animated:YES completion:nil];
             [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_course_one_tapped attributes:nil];
         } break;
             

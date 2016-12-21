@@ -36,8 +36,6 @@
 #import <UserNotifications/UserNotifications.h>
 #import "HHWebViewController.h"
 
-
-
 #define kAliPushAppKey          @"23260416"
 #define kAliPushAppSecret       @"996121506d96c60827a917c2ca26ab14"
 
