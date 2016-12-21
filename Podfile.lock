@@ -16,6 +16,9 @@ PODS:
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
   - AMapFoundation (1.3.2)
+  - APAddressBook (0.3.0):
+    - APAddressBook/Core (= 0.3.0)
+  - APAddressBook/Core (0.3.0)
   - Appirater (2.0.5)
   - BEMCheckBox (1.2.1)
   - CRToast (0.0.9)
@@ -67,6 +70,7 @@ DEPENDENCIES:
   - ActionSheetPicker-3.0
   - AFNetworking (~> 3.1)
   - AMapFoundation
+  - APAddressBook
   - Appirater
   - BEMCheckBox
   - CRToast
@@ -103,6 +107,7 @@ SPEC CHECKSUMS:
   ActionSheetPicker-3.0: db66605feb85689279d328206c61f0e4f398df92
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   AMapFoundation: 843dc27b2c02bc0bc2ef3346bb3dd0456cf64dbb
+  APAddressBook: 36cf22eb78d57dc53eb7f03d3d4a10af7e6b015d
   Appirater: e7c0a47fb67ee5041ce8479e6ba960927fb40264
   BEMCheckBox: 264b8b72aa92adbfefa265cc58a0cdb86b207b9f
   CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
@@ -133,6 +138,6 @@ SPEC CHECKSUMS:
   UITextView+Placeholder: 77680995fcdd07c3f52ec92fe1150874a2ac89ff
   UMengAnalytics-NO-IDFA: f1b08b540eba6ebad044a574cae6d988cf40cfda
 
-PODFILE CHECKSUM: efcef54472fb209c610f56c9504bffc3113cd455
+PODFILE CHECKSUM: 61c784c1524f798a2ece715941e89b41a5a42d04
 
 COCOAPODS: 1.0.0

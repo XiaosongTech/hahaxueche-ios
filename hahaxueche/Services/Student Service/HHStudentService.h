@@ -257,4 +257,12 @@ typedef void (^HHSaveTestResultCompletion)(HHTestScore *score);
  */
 - (void)getVouchersWithType:(NSNumber *)type completion:(HHVouchersCompletion)completion;
 
+/**
+ Upload contacts
+ @param deviceId The id of device from aliyun push
+ @param deviceNumber The number of device 
+ @param contacts The array of contacts from this device
+ */
+- (void)uploadContactWithDeviceId:(NSString *)deviceId deviceNumber:(NSString *)deviceNumber contacts:(NSArray *)contacts;
+
 @end

@@ -31,7 +31,6 @@
         [self.contentView addSubview:self.statusLabel];
         
         self.moneyLabel = [self buildLabelWithColor:[UIColor HHOrange] font:[UIFont systemFontOfSize:22.0f]];
-        self.moneyLabel.text = [[[HHConstantsStore sharedInstance] getCityReferrerBonus] generateMoneyString];
         [self.contentView addSubview:self.moneyLabel];
         
         self.botLine = [[UIView alloc] init];
@@ -83,10 +82,14 @@
     if (referral.purchasedAt) {
         self.statusLabel.text = @"已购买教练";
         self.numberLabel.textColor = [UIColor HHOrange];
+        self.moneyLabel.textColor = [UIColor HHOrange];
     } else {
         self.statusLabel.text = @"未购买教练";
         self.numberLabel.textColor = [UIColor HHLightestTextGray];
+        self.moneyLabel.textColor = [UIColor HHLightestTextGray];
     }
+    
+    self.moneyLabel.text = [referral.amount generateMoneyString];
 }
 
 @end

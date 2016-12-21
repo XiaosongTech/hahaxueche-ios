@@ -12,6 +12,7 @@
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *phone;
+@property (nonatomic, copy) NSNumber *amount;
 @property (nonatomic, copy) NSDate *purchasedAt;
 
 

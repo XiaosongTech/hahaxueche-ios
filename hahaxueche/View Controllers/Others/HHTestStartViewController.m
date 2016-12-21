@@ -28,6 +28,7 @@
 #import "HHPopupUtility.h"
 #import "HHSocialMediaShareUtility.h"
 #import "HHGenericTwoButtonsPopupView.h"
+#import "HHWebViewController.h"
 
 
 @interface HHTestStartViewController ()
@@ -141,8 +142,8 @@
     
     if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
         cardImage = [UIImage imageNamed:@"protectioncard_noget"];
-        text = @"快去登录注册获取保过卡呦~";
-        buttonTitle = @"注册/登录";
+        text = @"快去领取科一科四保过卡哟~";
+        buttonTitle = @"领取保过卡";
         showSlotView = NO;
         
         
@@ -217,9 +218,8 @@
     
     self.insuranceCardView.buttonActionBlock = ^() {
         if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
-            HHIntroViewController *vc = [[HHIntroViewController alloc] init];
-            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-            [weakSelf presentViewController:navVC animated:YES completion:nil];
+            HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/share/bao-guo-ka?promo_code=553353"]];
+            [weakSelf.navigationController pushViewController:webVC animated:YES];
         } else {
             if([[HHStudentStore sharedInstance].currentStudent isPurchased]) {
                 if (weakSelf.validScores.count > 0) {

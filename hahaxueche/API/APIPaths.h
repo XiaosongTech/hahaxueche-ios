@@ -72,4 +72,6 @@
 
 #define kAPIConstantsPath @"constants"
 
+#define kAPIAddressBook @"address_books"
+
 #endif /* APIPaths_h */
