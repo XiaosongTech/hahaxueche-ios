@@ -504,11 +504,18 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
 - (void)uploadContactWithDeviceId:(NSString *)deviceId deviceNumber:(NSString *)deviceNumber contacts:(NSArray *)contacts {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIAddressBook];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
-    param[@"address_book"] = contacts;
-    param[@"device_id"] = deviceId;
+    if (contacts.count > 0) {
+        param[@"address_book"] = contacts;
+    }
+    
+    if (deviceId) {
+        param[@"device_id"] = deviceId;
+    }
+    
     if (deviceNumber) {
         param[@"phone"] = deviceNumber;
     }
+    
     [APIClient postWithParameters:param completion:nil];
 }
 
