@@ -253,9 +253,10 @@ typedef void (^HHSaveTestResultCompletion)(HHTestScore *score);
 /**
  Get vouchers
  @param type The type of vouchers 1=可叠加 0 不可叠加
+ @param coachId The id of specific coach
  @param completion The completion block to execute on completion
  */
-- (void)getVouchersWithType:(NSNumber *)type completion:(HHVouchersCompletion)completion;
+- (void)getVouchersWithType:(NSNumber *)type coachId:(NSString *)coachId completion:(HHVouchersCompletion)completion;
 
 /**
  Upload contacts

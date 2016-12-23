@@ -488,9 +488,17 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     }];
 }
 
-- (void)getVouchersWithType:(NSNumber *)type completion:(HHVouchersCompletion)completion {
+- (void)getVouchersWithType:(NSNumber *)type coachId:(NSString *)coachId completion:(HHVouchersCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIValidVouchers, [HHStudentStore sharedInstance].currentStudent.studentId]];
-    [APIClient getWithParameters:@{@"cumulative":type} completion:^(NSDictionary *response, NSError *error) {
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    if (type) {
+        param[@"cumulative"] = type;
+    }
+    
+    if (coachId) {
+        param[@"coach_id"] = coachId;
+    }
+    [APIClient getWithParameters:param completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             if (completion) {
                 completion([MTLJSONAdapter modelsOfClass:[HHVoucher class] fromJSONArray:(NSArray *)response error:nil]);

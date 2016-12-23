@@ -240,8 +240,8 @@ static NSString *const kSupportQQ = @"3319762526";
     msg.image = [UIImage imageNamed:@"ic_share"];
     msg.thumbnail = [UIImage imageNamed:@"ic_share"];
     msg.multimediaType = OSMultimediaTypeNews;
-    msg.title = @"哈哈学车-选驾校, 挑教练, 上哈哈学车~";
-    msg.desc = [NSString stringWithFormat:@"墙裂推荐:\n哈哈学车优秀教练%@", coach.name];
+    msg.title = @"不知道哪里学车靠谱？悄悄告诉你一个特别靠谱的教练，学过的都说好！";
+    msg.desc = @"优秀教练给你保驾护航，学车一点儿都不难！";
 #ifdef DEBUG
     baseURL = kStagingShareCoachBaseURL;
 #else
@@ -258,7 +258,7 @@ static NSString *const kSupportQQ = @"3319762526";
                 
             case SocialMediaWeibo: {
                 msg = [[OSMessage alloc] init];
-                msg.title = [NSString stringWithFormat:@"墙裂推荐:哈哈学车优秀教练%@ %@", coach.name, shortURL];
+                msg.title = [NSString stringWithFormat:@"不知道哪里学车靠谱？悄悄告诉你一个特别靠谱的教练，学过的都说好！优秀教练给你保驾护航，学车一点儿都不难！%@", shortURL];
                 msg.image = [UIImage imageNamed:@"viewfile"];
                 
             } break;
@@ -278,7 +278,7 @@ static NSString *const kSupportQQ = @"3319762526";
             } break;
                 
             case SocialMediaMessage: {
-                msg.title = [NSString stringWithFormat:@"墙裂推荐:哈哈学车优秀教练%@ %@", coach.name, shortURL];
+                msg.title = [NSString stringWithFormat:@"不知道哪里学车靠谱？悄悄告诉你一个特别靠谱的教练，学过的都说好！优秀教练给你保驾护航，学车一点儿都不难！%@", shortURL];
             } break;
                 
             default:
@@ -476,8 +476,8 @@ static NSString *const kSupportQQ = @"3319762526";
     msg.image = [UIImage imageNamed:@"ic_share"];
     msg.thumbnail = [UIImage imageNamed:@"ic_share"];
     msg.multimediaType = OSMultimediaTypeNews;
-    msg.title = @"哈哈学车-选驾校, 挑教练, 上哈哈学车~";
-    msg.desc = [NSString stringWithFormat:@"墙裂推荐:\n哈哈学车优秀陪练教练%@", coach.name];
+    msg.title = @"学车拿证后不敢上路？看哪呢？说的就是你！";
+    msg.desc = @"推荐一个陪练教练老司机，秋名山车神就是你！";
 #ifdef DEBUG
     baseURL = kStagingSharePersonalCoachBaseURL;
 #else
@@ -493,7 +493,7 @@ static NSString *const kSupportQQ = @"3319762526";
                 
             case SocialMediaWeibo: {
                 msg = [[OSMessage alloc] init];
-                msg.title = [NSString stringWithFormat:@"墙裂推荐:哈哈学车优秀陪练教练%@ %@", coach.name, shortURL];
+                msg.title = [NSString stringWithFormat:@"学车拿证后不敢上路？看哪呢？说的就是你！推荐一个陪练教练老司机，秋名山车神就是你！%@", shortURL];
                 msg.image = [UIImage imageNamed:@"viewfile"];
                 
             } break;
@@ -513,7 +513,7 @@ static NSString *const kSupportQQ = @"3319762526";
             } break;
                 
             case SocialMediaMessage: {
-                msg.title = [NSString stringWithFormat:@"墙裂推荐:哈哈学车优秀陪练教练%@ %@", coach.name, shortURL];
+                msg.title = [NSString stringWithFormat:@"学车拿证后不敢上路？看哪呢？说的就是你！推荐一个陪练教练老司机，秋名山车神就是你！%@", shortURL];
             } break;
             default:
                 break;
@@ -551,8 +551,6 @@ static NSString *const kSupportQQ = @"3319762526";
 
 - (void)shareTestScore:(HHTestScore *)score shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion {
     self.containerVC = inVC;
-    NSArray *carNumber = @[@"AZ-521",@"MDS-339",@"TEK-071",@"MIDE-295",@"IDBD-692",@"MIMK-039"];
-    NSString *selectedCarNumber = carNumber[arc4random_uniform(carNumber.count)];
     
     NSString *baseLink = @"https://m.hahaxueche.com/share/baoguoka?promo_code=406808&";
     NSDictionary *dic = @{@"score":score.score, @"date":[[HHFormatUtility fullDateFormatter] stringFromDate:score.createdAt]};
@@ -566,9 +564,9 @@ static NSString *const kSupportQQ = @"3319762526";
     OSMessage *msg = [[OSMessage alloc] init];
     msg.image = [UIImage imageNamed:@"ic_share"];
     msg.thumbnail = [UIImage imageNamed:@"ic_share"];
-    msg.title = @"科一不过包赔!";
+    msg.title = @"最近想学车？别急！送你科一科四保过卡，考不过现金赔！";
     msg.multimediaType = OSMultimediaTypeNews;
-    msg.desc = [NSString stringWithFormat:@"科一保过卡免费送！考不过现金赔！【%@】哈哈老司机要开车了，捂脸~~内有惊喜！", selectedCarNumber];
+    msg.desc = @"快来抢啊！百万福利补贴！保过卡在手，天下路任我走";
     
     NSString *link = [NSString stringWithFormat:@"%@result=%@", baseLink, base64Encoded];
     [[HHURLUtility sharedManager] generateShortURLWithOriginalURL:link completion:^(NSString *shortURL) {
@@ -587,7 +585,7 @@ static NSString *const kSupportQQ = @"3319762526";
                     [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微博应用, 然后重试"];
                     return;
                 }
-                msg.title = [NSString stringWithFormat:@"%@%@", msg.desc, shortURL];
+                msg.title = [NSString stringWithFormat:@"%@%@", msg.title, shortURL];
                 msg.image = [UIImage imageNamed:@"viewfile"];
                 msg.link = nil;
                 msg.desc = nil;
@@ -625,7 +623,7 @@ static NSString *const kSupportQQ = @"3319762526";
             } break;
                 
             case SocialMediaMessage: {
-                [self showSMS:[NSString stringWithFormat:@"%@%@", msg.desc, shortURL]];
+                [self showSMS:[NSString stringWithFormat:@"%@%@", msg.title, shortURL]];
             } break;
                 
             default:

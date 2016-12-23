@@ -89,9 +89,9 @@
     self.selectedLicense = LicenseTypeC1;
     
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
-    [[HHStudentService sharedInstance] getVouchersWithType:@(1) completion:^(NSArray *vouchers) {
+    [[HHStudentService sharedInstance] getVouchersWithType:@(1) coachId:self.coach.coachId completion:^(NSArray *vouchers) {
         self.specialVouchers = vouchers;
-        [[HHStudentService sharedInstance] getVouchersWithType:@(0) completion:^(NSArray *vouchers) {
+        [[HHStudentService sharedInstance] getVouchersWithType:@(0) coachId:self.coach.coachId completion:^(NSArray *vouchers) {
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
             self.validVouchers = vouchers;
             if (self.validVouchers.count > 0) {

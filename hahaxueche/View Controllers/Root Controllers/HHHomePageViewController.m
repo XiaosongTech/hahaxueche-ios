@@ -130,7 +130,7 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
                 if (self.popupVoucherShowed) {
                     return;
                 }
-                [[HHStudentService sharedInstance] getVouchersWithType:@(0) completion:^(NSArray *vouchers) {
+                [[HHStudentService sharedInstance] getVouchersWithType:@(0) coachId:nil completion:^(NSArray *vouchers) {
                     HHVoucher *biggestVoucher = [vouchers firstObject];
                     for (HHVoucher *voucher in vouchers) {
                         if (biggestVoucher.amount < voucher.amount) {
