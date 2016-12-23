@@ -54,7 +54,7 @@ static CGFloat const kFieldViewWidth = 280.0f;
     [super viewDidLoad];
     self.title = @"个人信息";
     self.view.backgroundColor = [UIColor HHOrange];
-    
+    self.selectedCity = [[[HHConstantsStore sharedInstance] getSupporteCities] firstObject];
     [self initSubviews];
 }
 
@@ -87,6 +87,9 @@ static CGFloat const kFieldViewWidth = 280.0f;
     UITapGestureRecognizer *cityTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showCitySelectorView)];
     [self.cityField addGestureRecognizer:cityTapRecognizer];
     [self.view addSubview:self.cityField];
+    if (self.selectedCity) {
+        self.cityField.textField.text = self.selectedCity.cityName;
+    }
     
     self.finishButton = [[HHButton alloc] init];
     [self.finishButton HHWhiteBorderButton];
@@ -169,13 +172,16 @@ static CGFloat const kFieldViewWidth = 280.0f;
     __weak HHAccountSetupViewController *weakSelf = self;
     [self.view endEditing:YES];
     NSArray *cities = [[HHConstantsStore sharedInstance] getSupporteCities];
-    CGFloat height = MAX(300.0f, CGRectGetHeight(self.view.bounds)/2.0f);
-    self.citySelectView = [[HHCitySelectView alloc] initWithCities:cities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:self.selectedCity];
-    self.citySelectView.completion = ^(HHCity *selectedCity) {
-        weakSelf.selectedCity = selectedCity;
-        weakSelf.cityField.textField.text = selectedCity.cityName;
-        [HHPopupUtility dismissPopup:weakSelf.popup];
-    };
+    if (cities.count > 0) {
+        CGFloat height = MAX(300.0f, CGRectGetHeight(self.view.bounds)/2.0f);
+        self.citySelectView = [[HHCitySelectView alloc] initWithCities:cities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:self.selectedCity];
+        self.citySelectView.completion = ^(HHCity *selectedCity) {
+            weakSelf.selectedCity = selectedCity;
+            weakSelf.cityField.textField.text = selectedCity.cityName;
+            [HHPopupUtility dismissPopup:weakSelf.popup];
+        };
+    }
+    
     self.popup = [HHPopupUtility createPopupWithContentView:self.citySelectView];
     [self.popup show];
 }

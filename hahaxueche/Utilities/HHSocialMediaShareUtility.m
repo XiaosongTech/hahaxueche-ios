@@ -641,13 +641,16 @@ static NSString *const kSupportQQ = @"3319762526";
         [[HHToastManager sharedManager] showErrorToastWithText:@"抱歉, 您的设备不支持短信发送"];
         return;
     }
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
     
     MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
     messageController.messageComposeDelegate = self;
     [messageController setRecipients:nil];
     [messageController setBody:body];
     if (self.containerVC) {
-        [self.containerVC presentViewController:messageController animated:YES completion:nil];
+        [self.containerVC presentViewController:messageController animated:YES completion:^{
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        }];
     }
     
 }
