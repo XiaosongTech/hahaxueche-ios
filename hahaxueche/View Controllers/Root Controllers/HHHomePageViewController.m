@@ -376,8 +376,8 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
             
         case ItemTypeCourseOne: {
             HHGuardCardViewController *vc = [[HHGuardCardViewController alloc] init];
-            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-            [self presentViewController:navVC animated:YES completion:nil];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
             [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_course_one_tapped attributes:nil];
         } break;
             
