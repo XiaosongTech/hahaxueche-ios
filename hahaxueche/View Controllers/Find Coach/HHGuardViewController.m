@@ -51,7 +51,7 @@ static NSString *const kDepositText = @"该教练已缴纳平台保证金。在�
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"平台保证";
+    self.title = @"平台保障";
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
     
