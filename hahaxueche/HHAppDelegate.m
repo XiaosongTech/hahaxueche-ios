@@ -46,6 +46,7 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
 @property (nonatomic, strong) __block UIViewController *finalRootVC;
 @property (nonatomic, strong) UNUserNotificationCenter *notificationCenter;
+@property (nonatomic, strong) NSDictionary *notificationUserInfo;
 
 @end
 
@@ -151,11 +152,17 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                     [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
                 }
                 
+            } else {
+                // notification handling
+                if (self.notificationUserInfo[@"url"]) {
+                    HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:self.notificationUserInfo[@"url"]]];
+                    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:webVC];
+                    [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
+                }
             }
         }
 
     }];
-    
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -337,10 +344,8 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
  */
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo {
     NSLog(@"Receive one notification.");
-    if (userInfo[@"url"]) {
-        HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:userInfo[@"url"]]];
-        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:webVC];
-        [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
+    if (userInfo) {
+        self.notificationUserInfo = userInfo;
     }
     [CloudPushSDK sendNotificationAck:userInfo];
 }
@@ -408,10 +413,8 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     UNNotificationRequest *request = notification.request;
     UNNotificationContent *content = request.content;
     NSDictionary *userInfo = content.userInfo;
-    if (userInfo[@"url"]) {
-        HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:userInfo[@"url"]]];
-        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:webVC];
-        [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
+    if (userInfo) {
+        self.notificationUserInfo = userInfo;
     }
     [CloudPushSDK sendNotificationAck:userInfo];
 }
