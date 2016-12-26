@@ -150,21 +150,14 @@
         
     } else {
         cardImage = [UIImage imageNamed:@"protectioncard_get"];
-        if ([[HHStudentStore sharedInstance].currentStudent isPurchased]) {
-            if (self.validScores.count > 0) {
-                text = [NSString stringWithFormat:@"您已在%ld次模拟考试中获得90分以上的成绩.", self.validScores.count];
-                buttonTitle = @"晒成绩";
-                showSlotView = YES;
-            } else {
-                text = @"您还未在模拟考试中获得90分以上的成绩.";
-                buttonTitle = @"去模拟";
-                showSlotView = YES;
-            }
-            
+        if (self.validScores.count > 0) {
+            text = [NSString stringWithFormat:@"您已在%ld次模拟考试中获得90分以上的成绩.", self.validScores.count];
+            buttonTitle = @"晒成绩";
+            showSlotView = YES;
         } else {
-            text = @"快去报名~不通过立即现金赔付!";
-            buttonTitle = @"去报名";
-            showSlotView = NO;
+            text = @"您还未在模拟考试中获得90分以上的成绩.";
+            buttonTitle = @"去模拟";
+            showSlotView = YES;
         }
     }
     self.insuranceCardView = [[HHCourseInsuranceView alloc] initWithImage:cardImage count:@(self.validScores.count) text:text buttonTitle:buttonTitle showSlotView:showSlotView peopleCount:[HHConstantsStore sharedInstance].constants.registeredCount];
@@ -178,20 +171,11 @@
             HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/share/bao-guo-ka?promo_code=553353"]];
             [weakSelf.navigationController pushViewController:webVC animated:YES];
         } else {
-            if([[HHStudentStore sharedInstance].currentStudent isPurchased]) {
-                if (weakSelf.validScores.count > 0) {
-                    [weakSelf showShareView];
-                } else {
-                    weakSelf.segControl.selectedSegmentIndex = 0;
-                    [weakSelf showTestVCWithMode:TestModeSimu];
-                }
+            if (weakSelf.validScores.count > 0) {
+                [weakSelf showShareView];
             } else {
-                [weakSelf dismissVC];
-                if (weakSelf.dismissBlock) {
-                    weakSelf.dismissBlock();
-                }
+                [weakSelf showTestVCWithMode:TestModeSimu];
             }
-            
         }
     };
     [self.scrollView addSubview:self.insuranceCardView];
@@ -199,7 +183,7 @@
         make.top.equalTo(self.myQuestionView.bottom).offset(10.0f);
         make.width.equalTo(self.scrollView.width);
         make.left.equalTo(self.scrollView.right);
-        if ([[HHStudentStore sharedInstance].currentStudent.purchasedServiceArray count] > 0) {
+        if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
             make.height.mas_equalTo(340.0f);
         } else {
             make.height.mas_equalTo(290.0f);

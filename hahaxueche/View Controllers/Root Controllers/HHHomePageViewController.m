@@ -375,9 +375,7 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
         } break;
             
         case ItemTypeCourseOne: {
-            HHGuardCardViewController *vc = [[HHGuardCardViewController alloc] init];
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
+            [self showTestVC];
             [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_course_one_tapped attributes:nil];
         } break;
             
@@ -423,11 +421,7 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
 }
 
 - (void)showTestVC {
-    __weak HHHomePageViewController *weakSelf = self;
     HHTestStartViewController *vc =  [[HHTestStartViewController alloc] init];
-    vc.dismissBlock = ^() {
-        weakSelf.tabBarController.selectedIndex = 1;
-    };
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:navVC animated:YES completion:nil];
     
