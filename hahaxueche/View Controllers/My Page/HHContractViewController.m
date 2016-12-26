@@ -27,10 +27,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"我的协议";
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_more"] action:@selector(showOptions) target:self];
     
     self.webView = [[WKWebView alloc] init];
     self.webView.scrollView.bounces = NO;
@@ -43,8 +41,17 @@
         make.width.equalTo(self.view.width);
         make.height.equalTo(self.view.height);
     }];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[HHStudentStore sharedInstance].currentStudent.agreementURL]]];
     [self.webView addObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress)) options:NSKeyValueObservingOptionNew context:NULL];
+    
+    if ([[HHStudentStore sharedInstance].currentStudent.agreementURL length] > 0) {
+        self.title = @"我的协议";
+        self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_more"] action:@selector(showOptions) target:self];
+        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[HHStudentStore sharedInstance].currentStudent.agreementURL]]];
+    } else {
+        self.title = @"协议模板";
+        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://api.hahaxueche.net/share/students/agreement_template.pdf"]]];
+    }
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -53,7 +60,11 @@
 }
 
 - (void)dismissVC {
-    [self.navigationController popViewControllerAnimated:YES];
+    if ([[self.navigationController.viewControllers firstObject] isEqual:self]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)showOptions {

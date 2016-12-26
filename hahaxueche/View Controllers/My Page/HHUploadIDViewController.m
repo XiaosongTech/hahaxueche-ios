@@ -22,6 +22,8 @@
 #import "HHLoadingViewUtility.h"
 #import "HHConstantsStore.h"
 #import "NSNumber+HHNumber.h"
+#import "HHContractViewController.h"
+#import "UIBarButtonItem+HHCustomButton.h"
 
 static NSString *const kLabelText = @"请上传您的身份证信息，我们将会生成您的哈哈学车专属学员电子协议，该协议将在您的学车途中保障您的利益，同时也有助于教练尽快开展教学活动！若不上传您的真实信息，我们将无法保障您的合法权益！";
 static NSString *const kSecurityText = @"*请确保您的二代身份证处于有效期内\n**所有信息已经经过加密处理, 保证您的信息安全";
@@ -60,6 +62,9 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
     self.isFaceViewTapped = NO;
     self.view.backgroundColor = [UIColor colorWithRed:1.00 green:0.98 blue:0.95 alpha:1.00];
     [self initSubviews];
+    
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithTitle:@"协议模板" titleColor:[UIColor whiteColor] action:@selector(showTemplate) target:self isLeft:NO];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -372,6 +377,14 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
     style.alignment = NSTextAlignmentLeft;
     style.lineSpacing = 5.0f;
     return [[NSMutableAttributedString alloc] initWithString:string attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:style}];
+}
+
+
+- (void)showTemplate {
+    HHContractViewController *vc = [[HHContractViewController alloc] init];
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:navVC animated:YES completion:nil];
+
 }
 
 @end
