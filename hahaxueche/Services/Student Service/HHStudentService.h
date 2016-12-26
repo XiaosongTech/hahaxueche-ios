@@ -39,7 +39,7 @@ typedef void (^HHAdvisorCompletion)(HHAdvisor *advisor, NSError *error);
 typedef void (^HHVouchersCompletion)(NSArray *vouchers);
 typedef void (^HHVoucherCompletion)(HHVoucher *voucher, NSError *error);
 typedef void (^HHIDImageCompletion)(NSString *imgURL);
-typedef void (^HHAgreementCompletion)(NSURL *url);
+typedef void (^HHAgreementCompletion)(NSURL *url, NSError *error);
 typedef void (^HHSignAgreementCompletion)(HHStudent *student, NSError *error);
 typedef void (^HHTestResultCompletion)(NSArray *results);
 typedef void (^HHSaveTestResultCompletion)(HHTestScore *score);

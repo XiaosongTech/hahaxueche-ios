@@ -418,11 +418,11 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
         if (!error) {
             NSString *url = response[@"agreement_url"];
             if (completion) {
-                completion([NSURL URLWithString:url]);
+                completion([NSURL URLWithString:url], nil);
             }
         } else {
             if (completion) {
-                completion(nil);
+                completion(nil, error);
             }
         }
     }];

@@ -53,7 +53,7 @@
     if (self.agreementURL) {
         [self.webView loadRequest:[NSURLRequest requestWithURL:self.agreementURL]];
     } else {
-        [[HHStudentService sharedInstance] getAgreementURLWithCompletion:^(NSURL *url) {
+        [[HHStudentService sharedInstance] getAgreementURLWithCompletion:^(NSURL *url, NSError *error) {
             if (url) {
                 self.agreementURL = url;
                 [self.webView loadRequest:[NSURLRequest requestWithURL:self.agreementURL]];

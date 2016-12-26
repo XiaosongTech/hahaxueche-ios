@@ -330,14 +330,20 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
         return;
     }
     [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"图片处理中..."];
-    [[HHStudentService sharedInstance] getAgreementURLWithCompletion:^(NSURL *url) {
+    [[HHStudentService sharedInstance] getAgreementURLWithCompletion:^(NSURL *url, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-        if (url) {
+        if (!error && url) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"studentUpdated" object:nil];
             HHSignContractViewController *vc = [[HHSignContractViewController alloc] initWithURL:url];
             [self.navigationController setViewControllers:@[vc] animated:YES];
         } else {
-            [[HHToastManager sharedManager] showErrorToastWithText:@"图片处理失败, 请检查图片是否包含身份证的所有信息, 然后重新上传!"];
+            if ([error.localizedFailureReason isEqual:@(40026)]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"身份证正面识别失败, 请重新拍摄并上传!"];
+            } else if ([error.localizedFailureReason isEqual:@(40028)]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"身份证信息无效, 请确保使用真实的第二代身份证!"];
+            } else {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败, 请重试!"];
+            }
         }
     }];
     
