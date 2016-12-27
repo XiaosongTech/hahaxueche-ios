@@ -42,6 +42,7 @@
 #import "HHPersonalCoachDetailViewController.h"
 #import "HHPersonalCoaches.h"
 #import "HHAppVersionUtility.h"
+#import <pop/POP.h>
 
 typedef NS_ENUM(NSInteger, CoachType) {
     CoachTypeDrivingSchoolCoach,
@@ -106,6 +107,8 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 @property (nonatomic, strong) UISegmentedControl *segControl;
 @property (nonatomic, strong) HHGenericOneButtonPopupView *personalCoachExplanationView;
 
+@property (nonatomic, strong) UIButton *floatButton;
+
 @end
 
 @implementation HHFindCoachViewController
@@ -145,6 +148,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
             [self refreshPersonalCoachList:NO completion:nil];
             //check app version
             [[HHAppVersionUtility sharedManager] checkVersionInVC:weakSelf];
+            [self buildFloatButton];
         }];
         
     }];
@@ -155,6 +159,16 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_viewed attributes:nil];
+}
+
+- (void)buildFloatButton {
+    self.floatButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.floatButton setImage:[UIImage imageNamed:@"flyingredbag"] forState:UIControlStateNormal];
+    [self.view addSubview:self.floatButton];
+    [self.floatButton makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.bottom).offset(-70.0f);
+        make.right.equalTo(self.view.right);
+    }];
 }
 
 - (void)refreshCoachList:(BOOL)showLoading completion:(HHRefreshCoachCompletionBlock)completion {
@@ -630,6 +644,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
         self.tableView.dataSource = self;
         self.tableView.emptyDataSetSource = self;
         self.tableView.emptyDataSetDelegate = self;
+        self.tableView.showsVerticalScrollIndicator = NO;
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         self.refreshHeader = [HHGifRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
@@ -719,6 +734,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
         self.tableView2.emptyDataSetSource = self;
         self.tableView2.emptyDataSetDelegate = self;
         self.tableView2.separatorStyle = UITableViewCellSeparatorStyleNone;
+        self.tableView2.showsVerticalScrollIndicator = NO;
         
         self.refreshHeader2 = [HHGifRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
         NSString *imgString = [[NSBundle mainBundle] pathForResource:@"loading_car" ofType:@"gif"];
@@ -845,5 +861,27 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     CGPoint center = CGPointMake(CGRectGetMidX(self.sortButton2.frame), 90.0f);
     [HHPopupUtility showPopup:self.popup AtCenter:center inView:self.view];
 }
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+    anim.toValue = @(CGRectGetWidth(self.view.bounds) + 20.0f);
+    [self.floatButton pop_addAnimation:anim forKey:@"move"];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {;
+    POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+    anim.toValue = @(CGRectGetWidth(self.view.bounds) - 45.0f);
+    [self.floatButton pop_addAnimation:anim forKey:@"move"];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (!decelerate) {
+        POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+        anim.toValue = @(CGRectGetWidth(self.view.bounds) - 45.0f);
+        [self.floatButton pop_addAnimation:anim forKey:@"move"];
+    }
+}
+
+
 
 @end

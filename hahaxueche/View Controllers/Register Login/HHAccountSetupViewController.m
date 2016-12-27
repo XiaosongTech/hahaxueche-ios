@@ -54,7 +54,10 @@ static CGFloat const kFieldViewWidth = 280.0f;
     [super viewDidLoad];
     self.title = @"个人信息";
     self.view.backgroundColor = [UIColor HHOrange];
-    self.selectedCity = [[[HHConstantsStore sharedInstance] getSupporteCities] firstObject];
+    if ([[HHConstantsStore sharedInstance] getSupporteCities].count > 0) {
+        self.selectedCity = [[[HHConstantsStore sharedInstance] getSupporteCities] firstObject];
+    }
+    
     [self initSubviews];
 }
 
