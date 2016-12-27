@@ -213,7 +213,12 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
 
 
 - (void)dismissVC {
-    [self.navigationController popViewControllerAnimated:YES];
+    if ([[self.navigationController.viewControllers firstObject] isEqual:self]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
 }
 
 - (void)buildVoucherViews {
