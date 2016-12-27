@@ -43,6 +43,7 @@
 #import "HHPersonalCoaches.h"
 #import "HHAppVersionUtility.h"
 #import <pop/POP.h>
+#import "HHReferFriendsViewController.h"
 
 typedef NS_ENUM(NSInteger, CoachType) {
     CoachTypeDrivingSchoolCoach,
@@ -164,6 +165,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 - (void)buildFloatButton {
     self.floatButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.floatButton setImage:[UIImage imageNamed:@"flyingredbag"] forState:UIControlStateNormal];
+    [self.floatButton addTarget:self action:@selector(jumpToReferVC) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.floatButton];
     [self.floatButton makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view.bottom).offset(-70.0f);
@@ -880,6 +882,11 @@ static CGFloat const kCellHeightExpanded = 325.0f;
         anim.toValue = @(CGRectGetWidth(self.view.bounds) - 45.0f);
         [self.floatButton pop_addAnimation:anim forKey:@"move"];
     }
+}
+
+- (void)jumpToReferVC {
+    HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 
