@@ -74,7 +74,7 @@ static NSString *const kSavedConstants = @"kSavedConstant";
 }
 
 - (NSArray *)getSupporteCities {
-    if ([HHConstantsStore sharedInstance].constants.cities) {
+    if ([HHConstantsStore sharedInstance].constants.cities.count > 0) {
         return [HHConstantsStore sharedInstance].constants.cities;
     }
     return nil;
