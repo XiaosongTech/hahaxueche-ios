@@ -44,6 +44,7 @@
 #import "HHCoachPriceDetailViewController.h"
 #import "HHGenericOneButtonPopupView.h"
 #import "HHPlatformGuardTableViewCell.h"
+#import "HHGuardViewController.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -276,7 +277,9 @@ static NSString *const kPlatformLink = @"https://m.hahaxueche.com/assurance";
         case CoachCellPlatformGuard: {
             HHPlatformGuardTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kGuardCellID forIndexPath:indexPath];
             cell.actionBlock = ^() {
-                [weakSelf openWebPage:[NSURL URLWithString:kPlatformLink]];
+                HHGuardViewController *vc =  [[HHGuardViewController alloc] initWithCoach:weakSelf.coach];
+                vc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:vc animated:YES];
             };
             [cell setupCellWithCoach:self.coach];
             return cell;

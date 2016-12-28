@@ -148,6 +148,9 @@
         self.tabBarController.selectedIndex = 1;
         [self.navigationController popToRootViewControllerAnimated:NO];
         
+    } else if ([url isEqualToString:@"https://lkme.cc/RnC/weMAYR8c8"]) {
+        decisionHandler(WKNavigationActionPolicyCancel);
+        [self dismissViewControllerAnimated:YES completion:nil];
     } else {
         decisionHandler(WKNavigationActionPolicyAllow);
     }

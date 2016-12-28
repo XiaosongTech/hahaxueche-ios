@@ -29,6 +29,7 @@
 #import "HHSocialMediaShareUtility.h"
 #import "HHGenericTwoButtonsPopupView.h"
 #import "HHWebViewController.h"
+#import "HHGuardCardViewController.h"
 
 
 @interface HHTestStartViewController ()
@@ -149,71 +150,20 @@
         
     } else {
         cardImage = [UIImage imageNamed:@"protectioncard_get"];
-        if ([[HHStudentStore sharedInstance].currentStudent isPurchased]) {
-            if (self.validScores.count > 0) {
-                text = [NSString stringWithFormat:@"您已在%ld次模拟考试中获得90分以上的成绩.", self.validScores.count];
-                buttonTitle = @"晒成绩";
-                showSlotView = YES;
-            } else {
-                text = @"您还未在模拟考试中获得90分以上的成绩.";
-                buttonTitle = @"去模拟";
-                showSlotView = YES;
-            }
-            
+        if (self.validScores.count > 0) {
+            text = [NSString stringWithFormat:@"您已在%ld次模拟考试中获得90分以上的成绩.", self.validScores.count];
+            buttonTitle = @"晒成绩";
+            showSlotView = YES;
         } else {
-            text = @"快去报名~不通过立即现金赔付!";
-            buttonTitle = @"去报名";
-            showSlotView = NO;
+            text = @"您还未在模拟考试中获得90分以上的成绩.";
+            buttonTitle = @"去模拟";
+            showSlotView = YES;
         }
     }
     self.insuranceCardView = [[HHCourseInsuranceView alloc] initWithImage:cardImage count:@(self.validScores.count) text:text buttonTitle:buttonTitle showSlotView:showSlotView peopleCount:[HHConstantsStore sharedInstance].constants.registeredCount];
     self.insuranceCardView.cardActionBlock = ^() {
-        NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-        style.lineSpacing = 5.0f;
-        style.alignment = NSTextAlignmentLeft;
-        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"如何获得" attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:20.0f], NSParagraphStyleAttributeName:style}];
-        NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:@"\n在哈哈学车平台上注册登录即可获得保过卡。" attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:15.0f],NSParagraphStyleAttributeName:style}];
-        
-        NSMutableAttributedString *string3 = [[NSMutableAttributedString alloc] initWithString:@"\n\n使用规则" attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:20.0f],NSParagraphStyleAttributeName:style}];
-        
-        NSMutableAttributedString *string4 = [[NSMutableAttributedString alloc] initWithString:@"\n学员在哈哈学车平台报名后，通过哈哈学车APP模拟科目一考试5次成绩均在90分以上，并分享至第三方平台即可发起理赔，当科目一考试未通过可凭借成绩单获得全额赔付120元。" attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:15.0f],NSParagraphStyleAttributeName:style}];
-        
-        [string appendAttributedString:string2];
-        [string appendAttributedString:string3];
-        [string appendAttributedString:string4];
-
-        HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"保过卡详情" info:string leftButtonTitle:@"取消" rightButtonTitle:buttonTitle];
-        view.infoLabel.textAlignment = NSTextAlignmentLeft;
-        view.cancelBlock = ^() {
-            [HHPopupUtility dismissPopup:weakSelf.popup];
-        };
-        
-        view.confirmBlock = ^() {
-            [HHPopupUtility dismissPopup:weakSelf.popup];
-            if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
-                HHIntroViewController *vc = [[HHIntroViewController alloc] init];
-                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-                [weakSelf presentViewController:navVC animated:YES completion:nil];
-            } else {
-                if([[HHStudentStore sharedInstance].currentStudent isPurchased]) {
-                    if (weakSelf.validScores.count > 0) {
-                        [weakSelf showShareView];
-                    } else {
-                        weakSelf.segControl.selectedSegmentIndex = 0;
-                        [weakSelf showTestVCWithMode:TestModeSimu];
-                    }
-                } else {
-                    [weakSelf dismissVC];
-                    if (weakSelf.dismissBlock) {
-                        weakSelf.dismissBlock();
-                    }
-                }
-                
-            }
-        };
-        
-        weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
-        [HHPopupUtility showPopup:weakSelf.popup];
+        HHGuardCardViewController *vc = [[HHGuardCardViewController alloc] init];
+        [weakSelf.navigationController pushViewController:vc animated:YES];
     };
     
     self.insuranceCardView.buttonActionBlock = ^() {
@@ -221,20 +171,11 @@
             HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/share/bao-guo-ka?promo_code=553353"]];
             [weakSelf.navigationController pushViewController:webVC animated:YES];
         } else {
-            if([[HHStudentStore sharedInstance].currentStudent isPurchased]) {
-                if (weakSelf.validScores.count > 0) {
-                    [weakSelf showShareView];
-                } else {
-                    weakSelf.segControl.selectedSegmentIndex = 0;
-                    [weakSelf showTestVCWithMode:TestModeSimu];
-                }
+            if (weakSelf.validScores.count > 0) {
+                [weakSelf showShareView];
             } else {
-                [weakSelf dismissVC];
-                if (weakSelf.dismissBlock) {
-                    weakSelf.dismissBlock();
-                }
+                [weakSelf showTestVCWithMode:TestModeSimu];
             }
-            
         }
     };
     [self.scrollView addSubview:self.insuranceCardView];
@@ -242,7 +183,7 @@
         make.top.equalTo(self.myQuestionView.bottom).offset(10.0f);
         make.width.equalTo(self.scrollView.width);
         make.left.equalTo(self.scrollView.right);
-        if ([[HHStudentStore sharedInstance].currentStudent.purchasedServiceArray count] > 0) {
+        if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
             make.height.mas_equalTo(340.0f);
         } else {
             make.height.mas_equalTo(290.0f);

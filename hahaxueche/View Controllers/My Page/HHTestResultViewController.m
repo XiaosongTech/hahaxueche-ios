@@ -204,8 +204,7 @@
                                                                  constant:-30.0f]];
     
     [self showReferPopup];
-    
-    [[HHStudentService sharedInstance] saveTestScore:@(89) course:@(self.courseMode) completion:^(HHTestScore *score) {
+    [[HHStudentService sharedInstance] saveTestScore:@(self.score) course:@(self.courseMode) completion:^(HHTestScore *score) {
         if (score.score.integerValue >= 90) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"scoreAdded" object:nil userInfo:@{@"score":score}];
         }

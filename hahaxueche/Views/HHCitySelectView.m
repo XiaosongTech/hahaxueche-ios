@@ -18,7 +18,7 @@ static CGFloat const kCityButtonWidth = 85.0f;
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor HHLightBackgroudGray];
-        self.cities = cities;
+        self.cities = [NSArray arrayWithArray:cities];
         self.selectedCity = selectedCity;
         self.cityButtons = [NSMutableArray array];
         [self initSubviews];

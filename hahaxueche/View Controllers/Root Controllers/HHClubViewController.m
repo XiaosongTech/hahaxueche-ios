@@ -177,9 +177,6 @@ static NSString *const kCellID = @"kCellId";
     self.testView = [[HHClubItemView alloc] initWithIcon:[UIImage imageNamed:@"exercise"] title:@"在线题库" subTitle:@"题库想练就练" showRightLine:NO showBotLine:YES];
     self.testView.actionBlock = ^() {
         HHTestStartViewController *vc = [[HHTestStartViewController alloc] init];
-        vc.dismissBlock = ^() {
-            weakSelf.tabBarController.selectedIndex = 1;
-        };
         UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
         [weakSelf presentViewController:navVC animated:YES completion:nil];
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:club_page_online_test_tapped attributes:nil];

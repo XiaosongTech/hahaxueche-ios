@@ -308,7 +308,7 @@ static NSInteger const pwdLimit = 20;
         [[HHUserAuthService sharedInstance] loginWithCellphone:self.phoneNumberField.textField.text veriCode:self.verificationCodeField.textField.text completion:^(HHStudent *student, NSError *error) {
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
             if (student) {
-                if (!student.cityId || !student.cityId) {
+                if (!student.name || !student.cityId) {
                     HHAccountSetupViewController *setupVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
                     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:setupVC];
                     [self presentViewController:navVC animated:YES completion:nil];
@@ -331,7 +331,7 @@ static NSInteger const pwdLimit = 20;
         [[HHUserAuthService sharedInstance] loginWithCellphone:self.phoneNumberField.textField.text password:self.pwdField.textField.text completion:^(HHStudent *student, NSError *error) {
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
             if (student) {
-                if (!student.cityId || !student.cityId) {
+                if (!student.name || !student.cityId) {
                     HHAccountSetupViewController *setupVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
                     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:setupVC];
                     [self presentViewController:navVC animated:YES completion:nil];

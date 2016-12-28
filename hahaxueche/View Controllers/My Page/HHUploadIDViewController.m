@@ -22,6 +22,8 @@
 #import "HHLoadingViewUtility.h"
 #import "HHConstantsStore.h"
 #import "NSNumber+HHNumber.h"
+#import "HHContractViewController.h"
+#import "UIBarButtonItem+HHCustomButton.h"
 
 static NSString *const kLabelText = @"请上传您的身份证信息，我们将会生成您的哈哈学车专属学员电子协议，该协议将在您的学车途中保障您的利益，同时也有助于教练尽快开展教学活动！若不上传您的真实信息，我们将无法保障您的合法权益！";
 static NSString *const kSecurityText = @"*请确保您的二代身份证处于有效期内\n**所有信息已经经过加密处理, 保证您的信息安全";
@@ -60,6 +62,9 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
     self.isFaceViewTapped = NO;
     self.view.backgroundColor = [UIColor colorWithRed:1.00 green:0.98 blue:0.95 alpha:1.00];
     [self initSubviews];
+    
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithTitle:@"协议模板" titleColor:[UIColor whiteColor] action:@selector(showTemplate) target:self isLeft:NO];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -330,14 +335,20 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
         return;
     }
     [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"图片处理中..."];
-    [[HHStudentService sharedInstance] getAgreementURLWithCompletion:^(NSURL *url) {
+    [[HHStudentService sharedInstance] getAgreementURLWithCompletion:^(NSURL *url, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-        if (url) {
+        if (!error && url) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"studentUpdated" object:nil];
             HHSignContractViewController *vc = [[HHSignContractViewController alloc] initWithURL:url];
             [self.navigationController setViewControllers:@[vc] animated:YES];
         } else {
-            [[HHToastManager sharedManager] showErrorToastWithText:@"图片处理失败, 请检查图片是否包含身份证的所有信息, 然后重新上传!"];
+            if ([error.localizedFailureReason isEqual:@(40026)]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"身份证正面识别失败, 请重新拍摄并上传!"];
+            } else if ([error.localizedFailureReason isEqual:@(40028)]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"身份证信息无效, 请确保使用真实的第二代身份证!"];
+            } else {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败, 请重试!"];
+            }
         }
     }];
     
@@ -366,6 +377,14 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
     style.alignment = NSTextAlignmentLeft;
     style.lineSpacing = 5.0f;
     return [[NSMutableAttributedString alloc] initWithString:string attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:style}];
+}
+
+
+- (void)showTemplate {
+    HHContractViewController *vc = [[HHContractViewController alloc] init];
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:navVC animated:YES completion:nil];
+
 }
 
 @end

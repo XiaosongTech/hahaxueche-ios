@@ -12,6 +12,4 @@ typedef void (^HHTestStartCompletion)();
 
 @interface HHTestStartViewController : UIViewController
 
-@property (nonatomic, strong) HHTestStartCompletion dismissBlock;
-
 @end

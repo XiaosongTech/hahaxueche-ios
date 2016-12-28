@@ -30,7 +30,7 @@
 }
 
 - (void)showLoadingView {
-    [self showLoadingViewWithText:@"加载中"];
+    [self showLoadingViewWithText:@"加载中..."];
 }
 
 - (void)showLoadingViewWithText:(NSString *)text {
