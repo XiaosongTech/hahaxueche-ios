@@ -886,6 +886,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 - (void)jumpToReferVC {
     HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
