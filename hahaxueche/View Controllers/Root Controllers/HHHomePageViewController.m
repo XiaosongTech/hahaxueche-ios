@@ -46,6 +46,7 @@
 #import <APAddressBook/APAddressBook.h>
 #import "HHGuardCardViewController.h"
 #import "HHAddressBookUtility.h"
+#import <CloudPushSDK/CloudPushSDK.h>
 
 
 static NSString *const kCoachLink = @"https://m.hahaxueche.com/share/best-coaches";
@@ -92,6 +93,11 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
     
     [[HHAddressBookUtility sharedManager] uploadContacts];
+    
+    if([[HHStudentStore sharedInstance].currentStudent isPurchased]) {
+        [CloudPushSDK bindTag:1 withTags:@[@"purchased"] withAlias:nil withCallback:nil];
+
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{

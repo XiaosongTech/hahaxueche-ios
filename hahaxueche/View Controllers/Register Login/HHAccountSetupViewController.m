@@ -37,6 +37,7 @@ static CGFloat const kFieldViewWidth = 280.0f;
 @property (nonatomic, strong) NSString *studentId;
 @property (nonatomic, strong) UITextField *promoField;
 @property (nonatomic, strong) UIButton *promoButton;
+@property (nonatomic, strong) NSArray *supportCities;
 
 @end
 
@@ -54,8 +55,14 @@ static CGFloat const kFieldViewWidth = 280.0f;
     [super viewDidLoad];
     self.title = @"个人信息";
     self.view.backgroundColor = [UIColor HHOrange];
-    if ([[HHConstantsStore sharedInstance] getSupporteCities].count > 0) {
-        self.selectedCity = [[[HHConstantsStore sharedInstance] getSupporteCities] firstObject];
+    self.supportCities = [[HHConstantsStore sharedInstance] getSupporteCities];
+    if (self.supportCities.count > 0) {
+        self.selectedCity = [self.supportCities firstObject];
+    } else {
+        HHCity *defaultCity = [[HHCity alloc] init];
+        defaultCity.cityId = @(0);
+        defaultCity.cityName = @"武汉";
+        self.selectedCity = defaultCity;
     }
     
     [self initSubviews];
@@ -172,18 +179,18 @@ static CGFloat const kFieldViewWidth = 280.0f;
 #pragma mark - Button Actions 
 
 - (void)showCitySelectorView {
+    if (self.supportCities.count <= 0) {
+        return;
+    }
     __weak HHAccountSetupViewController *weakSelf = self;
     [self.view endEditing:YES];
-    NSArray *cities = [[HHConstantsStore sharedInstance] getSupporteCities];
-    if (cities.count > 0) {
-        CGFloat height = MAX(300.0f, CGRectGetHeight(self.view.bounds)/2.0f);
-        self.citySelectView = [[HHCitySelectView alloc] initWithCities:cities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:self.selectedCity];
-        self.citySelectView.completion = ^(HHCity *selectedCity) {
-            weakSelf.selectedCity = selectedCity;
-            weakSelf.cityField.textField.text = selectedCity.cityName;
-            [HHPopupUtility dismissPopup:weakSelf.popup];
-        };
-    }
+    CGFloat height = MAX(300.0f, CGRectGetHeight(self.view.bounds)/2.0f);
+    self.citySelectView = [[HHCitySelectView alloc] initWithCities:self.supportCities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:self.selectedCity];
+    self.citySelectView.completion = ^(HHCity *selectedCity) {
+        weakSelf.selectedCity = selectedCity;
+        weakSelf.cityField.textField.text = selectedCity.cityName;
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+    };
     
     self.popup = [HHPopupUtility createPopupWithContentView:self.citySelectView];
     [self.popup show];
