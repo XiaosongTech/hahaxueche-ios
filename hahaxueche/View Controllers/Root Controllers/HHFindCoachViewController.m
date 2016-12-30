@@ -177,7 +177,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     [self.expandedCellIndexPath removeAllObjects];
     __weak HHFindCoachViewController *weakSelf = self;
     if (showLoading) {
-        [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];
+        [[HHLoadingViewUtility sharedInstance] showLoadingView];
     }
     NSNumber *lat = @(weakSelf.userLocation.coordinate.latitude);
     NSNumber *lon = @(weakSelf.userLocation.coordinate.longitude);
@@ -220,7 +220,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 - (void)refreshPersonalCoachList:(BOOL)showLoading completion:(HHRefreshCoachCompletionBlock)completion {
     __weak HHFindCoachViewController *weakSelf = self;
     if (showLoading) {
-        [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];
+        [[HHLoadingViewUtility sharedInstance] showLoadingView];
     }
    
     [[HHCoachService sharedInstance] fetchPersoanlCoachWithFilters:self.coachFilters2 sortOption:self.currentSortOption2 completion:^(HHPersonalCoaches *coaches, NSError *error) {

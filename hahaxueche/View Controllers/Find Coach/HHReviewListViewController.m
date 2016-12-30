@@ -233,7 +233,7 @@ static NSString *kCellID = @"kCellId";
 - (void)refreshCoachListWithCompletion:(HHRefreshCoachCompletionBlock)completion {
     __weak HHReviewListViewController *weakSelf = self;
     if (!completion) {
-        [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];
+        [[HHLoadingViewUtility sharedInstance] showLoadingView];
     }
     
     [[HHCoachService sharedInstance] fetchReviewsWithUserId:self.coach.userId completion:^(HHReviews *reviews, NSError *error) {
