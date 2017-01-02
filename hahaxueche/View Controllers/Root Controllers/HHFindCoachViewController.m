@@ -885,6 +885,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 }
 
 - (void)jumpToReferVC {
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_flying_envelop_tapped attributes:nil];
     HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];

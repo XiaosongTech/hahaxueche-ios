@@ -309,6 +309,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         case MyPageCellGuardCard: {
             HHGuardCardTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kGuardCardCell];
             cell.courseOneFourView.actionBlock = ^() {
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_course_guard_tapped attributes:nil];
                 HHGuardCardViewController *vc = [[HHGuardCardViewController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
