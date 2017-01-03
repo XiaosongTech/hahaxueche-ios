@@ -20,6 +20,7 @@ typedef void (^HHGuardBlock)();
 @property (nonatomic, strong) UIView *botLeftView;
 @property (nonatomic, strong) UIImageView *arrowView;
 @property (nonatomic, strong) HHGuardBlock actionBlock;
+@property (nonatomic, strong) NSMutableArray *viewsArray;
 
 - (void)setupCellWithCoach:(HHCoach *)coach;
 

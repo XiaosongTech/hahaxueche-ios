@@ -9,6 +9,7 @@
 #import "HHPlatformGuardTableViewCell.h"
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
+#import "HHGuardItemView.h"
 
 @implementation HHPlatformGuardTableViewCell
 
@@ -23,6 +24,7 @@
 }
 
 - (void)initSubviews {
+    self.viewsArray = [NSMutableArray array];
     self.mainView = [[UIView alloc] init];
     self.mainView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:self.mainView];
@@ -88,7 +90,7 @@
     for (int i = 0; i < 5; i++) {
         NSString *title;
         UIImage *image;
-        UIView *view;
+        HHGuardItemView *view;
         switch (i) {
             case 0: {
                 title = @"教练认证";
@@ -97,15 +99,12 @@
                     title = @"金牌教练";
                     image = [UIImage imageNamed:@"ic_jinpaijiaolian"];
                 }
-                view = [self guardItemViewWithTitle:title image:image];
-                [self.botLeftView addSubview:view];
+                
             } break;
                 
             case 1: {
                 title = @"车辆保险";
                 image = [UIImage imageNamed:@"ic_cheliangbaoxian"];
-                view = [self guardItemViewWithTitle:title image:image];
-                [self.botLeftView addSubview:view];
                 
             } break;
                 
@@ -116,27 +115,30 @@
                     title = @"先行赔付";
                     image = [UIImage imageNamed:@"ic_xianxiangpeifu"];
                 }
-                view = [self guardItemViewWithTitle:title image:image];
-                [self.botLeftView addSubview:view];
                 
             } break;
                 
             case 3: {
                 title = @"分段打款";
                 image = [UIImage imageNamed:@"ic_fenduandakuan"];
-                view = [self guardItemViewWithTitle:title image:image];
-                [self.botLeftView addSubview:view];
                 
             } break;
                 
             case 4: {
                 title = @"分期付款";
                 image = [UIImage imageNamed:@"ic_fenqidakuan"];
-                view = [self guardItemViewWithTitle:title image:image];
-                [self.botLeftView addSubview:view];
             } break;
             default:
                 break;
+        }
+        
+        if (self.viewsArray.count >= i+1) {
+            view = (HHGuardItemView *)self.viewsArray[i];
+            view.label.text = title;
+            view.imgView.image = image;
+        } else {
+            view = [self guardItemViewWithTitle:title image:image];
+            [self.botLeftView addSubview:view];
         }
         
         [view makeConstraints:^(MASConstraintMaker *make) {
@@ -150,24 +152,9 @@
     
 }
 
-- (UIView *)guardItemViewWithTitle:(NSString *)title image:(UIImage *)image {
-    UIView *view = [[UIView alloc] init];
-    UIImageView *imgView = [[UIImageView alloc] initWithImage:image];
-    [view addSubview:imgView];
-    [imgView makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(view.centerY).offset(3.0f);
-        make.centerX.equalTo(view.centerX);
-    }];
-    
-    UILabel *label = [[UILabel alloc] init];
-    label.text = title;
-    label.textColor = [UIColor HHLightTextGray];
-    label.font = [UIFont systemFontOfSize:12.0f];
-    [view addSubview:label];
-    [label makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(imgView.bottom).offset(5.0f);
-        make.centerX.equalTo(view.centerX);
-    }];
+- (HHGuardItemView *)guardItemViewWithTitle:(NSString *)title image:(UIImage *)image {
+    HHGuardItemView *view = [[HHGuardItemView alloc] initWithImg:image title:title];
+    [self.viewsArray addObject:view];
     return view;
 }
 

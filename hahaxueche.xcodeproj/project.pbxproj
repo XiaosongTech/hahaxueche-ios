@@ -495,6 +495,7 @@
 		6D5C86651CDC2AC100D7B5CB /* ic_homepage_groupbuy_close.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5C86621CDC2AC100D7B5CB /* ic_homepage_groupbuy_close.png */; };
 		6D5C86661CDC2AC100D7B5CB /* ic_homepage_groupbuy_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5C86631CDC2AC100D7B5CB /* ic_homepage_groupbuy_close@2x.png */; };
 		6D5C86671CDC2AC100D7B5CB /* ic_homepage_groupbuy_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5C86641CDC2AC100D7B5CB /* ic_homepage_groupbuy_close@3x.png */; };
+		6D61596F1E1B71D3005D5000 /* HHGuardItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D61596E1E1B71D3005D5000 /* HHGuardItemView.m */; };
 		6D61FE3F1DD099420016788E /* hahaxueche.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6D6043151CC5EDB300C6C582 /* hahaxueche.entitlements */; };
 		6D63F8451DD44E1C00DB1ADC /* HHMyPageVoucherCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D63F8441DD44E1C00DB1ADC /* HHMyPageVoucherCell.m */; };
 		6D63F8481DD45FAC00DB1ADC /* HHVoucher.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D63F8471DD45FAC00DB1ADC /* HHVoucher.m */; };
@@ -1633,6 +1634,8 @@
 		6D5C86631CDC2AC100D7B5CB /* ic_homepage_groupbuy_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_homepage_groupbuy_close@2x.png"; sourceTree = "<group>"; };
 		6D5C86641CDC2AC100D7B5CB /* ic_homepage_groupbuy_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_homepage_groupbuy_close@3x.png"; sourceTree = "<group>"; };
 		6D6043151CC5EDB300C6C582 /* hahaxueche.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = hahaxueche.entitlements; sourceTree = "<group>"; };
+		6D61596D1E1B71D3005D5000 /* HHGuardItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHGuardItemView.h; sourceTree = "<group>"; };
+		6D61596E1E1B71D3005D5000 /* HHGuardItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHGuardItemView.m; sourceTree = "<group>"; };
 		6D63F8431DD44E1C00DB1ADC /* HHMyPageVoucherCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyPageVoucherCell.h; sourceTree = "<group>"; };
 		6D63F8441DD44E1C00DB1ADC /* HHMyPageVoucherCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyPageVoucherCell.m; sourceTree = "<group>"; };
 		6D63F8461DD45FAC00DB1ADC /* HHVoucher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHVoucher.h; sourceTree = "<group>"; };
@@ -2501,6 +2504,8 @@
 				14604F491C6FAA04009DBE10 /* HHShareViewItem.m */,
 				6DD73F6C1E0D323600B356BF /* HHGuardItemTableViewCell.h */,
 				6DD73F6D1E0D323600B356BF /* HHGuardItemTableViewCell.m */,
+				6D61596D1E1B71D3005D5000 /* HHGuardItemView.h */,
+				6D61596E1E1B71D3005D5000 /* HHGuardItemView.m */,
 			);
 			path = "Coach Detail";
 			sourceTree = "<group>";
@@ -4893,6 +4898,7 @@
 				6DE046321DE5610900B80343 /* HHMyContractTableViewCell.m in Sources */,
 				147A9FFC1C7AB74C000DED3B /* HHPaymentStageInfoView.m in Sources */,
 				6D22C6611DCB32B8003249E0 /* HHPostComment.m in Sources */,
+				6D61596F1E1B71D3005D5000 /* HHGuardItemView.m in Sources */,
 				141FA0F61C6BACCE00113B1A /* HHCoachDetailViewController.m in Sources */,
 				5C36D34D1C42D7B800443545 /* HHHomePageViewController.m in Sources */,
 				5C36D34A1C42D69700443545 /* HHRootViewController.m in Sources */,
