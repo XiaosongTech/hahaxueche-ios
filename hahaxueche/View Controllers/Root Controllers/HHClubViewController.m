@@ -21,6 +21,8 @@
 #import "HHConstantsStore.h"
 #import "HHPostCategory.h"
 #import "HHWebViewController.h"
+#import <pop/POP.h>
+#import "HHReferFriendsViewController.h"
 
 static NSString *const kGroupPurchaseLink = @"https://m.hahaxueche.com/share/tuan";
 static NSString *const kCellID = @"kCellId";
@@ -47,6 +49,7 @@ static NSString *const kCellID = @"kCellId";
 
 @property (nonatomic, strong) NSArray *categories;
 @property (nonatomic, strong) HHClubPost *headLine;
+@property (nonatomic, strong) UIButton *floatButton;
 
 @end
 
@@ -213,6 +216,11 @@ static NSString *const kCellID = @"kCellId";
     self.swipeView.dataSource = self;
     self.swipeView.delegate = self;
     [self.view addSubview:self.swipeView];
+    
+    self.floatButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.floatButton setImage:[UIImage imageNamed:@"flyingredbag"] forState:UIControlStateNormal];
+    [self.floatButton addTarget:self action:@selector(jumpToReferVC) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.floatButton];
 
     [self makeConstraints];
 }
@@ -267,6 +275,11 @@ static NSString *const kCellID = @"kCellId";
         make.bottom.equalTo(self.view.bottom).offset(-1 * CGRectGetHeight(self.tabBarController.tabBar.frame));
     }];
     
+    [self.floatButton makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.bottom).offset(-70.0f);
+        make.right.equalTo(self.view.right);
+    }];
+    
 }
 
 #pragma mark -SwipeView methods
@@ -299,6 +312,7 @@ static NSString *const kCellID = @"kCellId";
     tableView.delegate = self;
     tableView.dataSource = self;
     [tableView registerClass:[HHClubPostTableViewCell class] forCellReuseIdentifier:kCellID];
+    tableView.showsVerticalScrollIndicator = NO;
     tableView.mj_header = self.refreshHeaderArray[index];
     tableView.mj_footer = self.loadMoreFooterArray[index];
     
@@ -453,6 +467,34 @@ static NSString *const kCellID = @"kCellId";
     webVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:webVC animated:YES];
 }
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+    anim.toValue = @(CGRectGetWidth(self.view.bounds) + 20.0f);
+    [self.floatButton pop_addAnimation:anim forKey:@"move"];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {;
+    POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+    anim.toValue = @(CGRectGetWidth(self.view.bounds) - 45.0f);
+    [self.floatButton pop_addAnimation:anim forKey:@"move"];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (!decelerate) {
+        POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+        anim.toValue = @(CGRectGetWidth(self.view.bounds) - 45.0f);
+        [self.floatButton pop_addAnimation:anim forKey:@"move"];
+    }
+}
+
+- (void)jumpToReferVC {
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_flying_envelop_tapped attributes:nil];
+    HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 
 
 
