@@ -111,6 +111,11 @@
 #define home_page_banner_tapped @"home_page_banner_tapped"
 #define home_page_voucher_popup_share_succeed @"home_page_voucher_popup_share_succeed"
 
+#define my_page_course_guard_tapped @"my_page_course_guard_tapped"
+#define find_coach_flying_envelop_tapped @"find_coach_flying_envelop_tapped"
+
+#define club_page_flying_envelop_tapped @"club_page_flying_envelop_tapped"
+
 
 
 @interface HHEventTrackingManager : NSObject

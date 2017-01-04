@@ -179,7 +179,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 - (void)refreshCoachListWithCompletion:(HHRefreshCoachCompletionBlock)completion {
     __weak HHFollowedCoachListViewController *weakSelf = self;
     if (!completion) {
-        [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"加载中"];
+        [[HHLoadingViewUtility sharedInstance] showLoadingView];
     }
 
     [[HHCoachService sharedInstance] fetchFollowedCoachListWithCompletion:^(HHCoaches *coaches, NSError *error) {

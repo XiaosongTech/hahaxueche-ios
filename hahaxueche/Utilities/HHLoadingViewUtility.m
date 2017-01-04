@@ -7,6 +7,7 @@
 //
 
 #import "HHLoadingViewUtility.h"
+#import "UIColor+HHColor.h"
 
 @implementation HHLoadingViewUtility
 
@@ -25,12 +26,15 @@
     self = [super init];
     if (self) {
         [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
+        [SVProgressHUD setDefaultStyle: SVProgressHUDStyleCustom];
+        [SVProgressHUD setBackgroundColor:[UIColor whiteColor]];
+        [SVProgressHUD setForegroundColor:[UIColor darkTextColor]];
     }
     return self;
 }
 
 - (void)showLoadingView {
-    [self showLoadingViewWithText:@"加载中..."];
+    [self showLoadingViewWithText:@"为学员保驾护航!"];
 }
 
 - (void)showLoadingViewWithText:(NSString *)text {
@@ -46,7 +50,7 @@
 }
 
 - (void)showProgressView:(float)progress {
-    [SVProgressHUD showProgress:progress status:@"加载中..."];
+    [SVProgressHUD showProgress:progress status:@"为学员保驾护航!"];
 }
 
 @end

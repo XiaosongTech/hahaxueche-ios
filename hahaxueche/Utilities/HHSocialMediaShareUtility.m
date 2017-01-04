@@ -18,6 +18,7 @@
 #import "HHStudentStore.h"
 #import "HHQRCodeUtility.h"
 #import "HHURLUtility.h"
+#import "UIImage+HHImage.h"
 
 
 static NSString *const kStagingShareCoachBaseURL = @"https://staging-api.hahaxueche.net/share/coaches/%@";
@@ -148,7 +149,7 @@ static NSString *const kSupportQQ = @"3319762526";
             } break;
                 
             case SocialMediaMessage:
-                 [self showSMS:message.title];
+                [self showSMS:message.title attachment:nil];
                 break;
                 
             default:
@@ -224,7 +225,7 @@ static NSString *const kSupportQQ = @"3319762526";
             } break;
                 
             case SocialMediaMessage: {
-                [self showSMS:[NSString stringWithFormat:@"%@%@", post.title, shortURL]];
+                [self showSMS:[NSString stringWithFormat:@"%@%@", post.title, shortURL] attachment:nil];
             } break;
                 
             default:
@@ -397,7 +398,7 @@ static NSString *const kSupportQQ = @"3319762526";
             } break;
                 
             case SocialMediaMessage: {
-                [self showSMS:[NSString stringWithFormat:@"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你一张保过卡. 比心❤️ %@", shortURL]];
+                [self showSMS:[NSString stringWithFormat:@"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你一张保过卡. 比心❤️ %@", shortURL] attachment:nil];
             }
             default:
                 break;
@@ -460,7 +461,7 @@ static NSString *const kSupportQQ = @"3319762526";
                 } break;
                     
                 case SocialMediaMessage: {
-                    [self showSMS:message.title];
+                    [self showSMS:message.title attachment:nil];
                 } break;
                     
                 default:
@@ -549,93 +550,84 @@ static NSString *const kSupportQQ = @"3319762526";
 }
 
 
-- (void)shareTestScore:(HHTestScore *)score shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion {
+- (void)shareTestScoreWithType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion {
     self.containerVC = inVC;
     
-    NSString *baseLink = @"https://m.hahaxueche.com/share/baoguoka?promo_code=406808&";
-    NSDictionary *dic = @{@"score":score.score, @"date":[[HHFormatUtility fullDateFormatter] stringFromDate:score.createdAt]};
+    NSString *urlString;
     
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic
-                                                       options:0
-                                                         error:nil];
-    
-    NSString *base64Encoded = [jsonData base64EncodedStringWithOptions:0];
+#ifdef DEBUG
+    urlString = [NSString stringWithFormat:@"https://staging-api.hahaxueche.net/share/students/%@/exam_result", [HHStudentStore sharedInstance].currentStudent.studentId];
+#else
+    urlString = [NSString stringWithFormat:@"https://api.hahaxueche.net/share/students/%@/exam_result", [HHStudentStore sharedInstance].currentStudent.studentId];
+#endif
     
     OSMessage *msg = [[OSMessage alloc] init];
-    msg.image = [UIImage imageNamed:@"ic_share"];
-    msg.thumbnail = [UIImage imageNamed:@"ic_share"];
-    msg.title = @"最近想学车？别急！送你科一科四保过卡，考不过现金赔！";
-    msg.multimediaType = OSMultimediaTypeNews;
-    msg.desc = @"快来抢啊！百万福利补贴！保过卡在手，天下路任我走";
-    
-    NSString *link = [NSString stringWithFormat:@"%@result=%@", baseLink, base64Encoded];
-    [[HHURLUtility sharedManager] generateShortURLWithOriginalURL:link completion:^(NSString *shortURL) {
-        msg.link = shortURL;
-        switch (shareType) {
-            case SocialMediaQQFriend: {
-                if (![OpenShare isQQInstalled]) {
-                    [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
-                    return;
-                }
-                [OpenShare shareToQQFriends:msg Success:nil Fail:nil];
-            } break;
-                
-            case SocialMediaWeibo: {
-                if (![OpenShare isWeiboInstalled]) {
-                    [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微博应用, 然后重试"];
-                    return;
-                }
-                msg.title = [NSString stringWithFormat:@"%@%@", msg.title, shortURL];
-                msg.image = [UIImage imageNamed:@"viewfile"];
-                msg.link = nil;
-                msg.desc = nil;
-                [OpenShare shareToWeibo:msg Success:nil Fail:nil];
-            } break;
-                
-            case SocialMediaWeChatFriend: {
-                if (![OpenShare isWeixinInstalled]) {
-                    [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微信应用, 然后重试"];
-                    return;
-                }
-                [OpenShare shareToWeixinSession:msg Success:nil Fail:nil];
-                
-                
-            } break;
-                
-            case SocialMediaWeChaPYQ: {
-                if (![OpenShare isWeixinInstalled]) {
-                    [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微信应用, 然后重试"];
-                    return;
-                }
-                [OpenShare shareToWeixinTimeline:msg Success:nil Fail:nil];
-                
-                
-            } break;
-                
-            case SocialMediaQZone: {
-                if (![OpenShare isQQInstalled]) {
-                    [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
-                    return;
-                }
-                [OpenShare shareToQQZone:msg Success:nil Fail:nil];
-                
-                
-            } break;
-                
-            case SocialMediaMessage: {
-                [self showSMS:[NSString stringWithFormat:@"%@%@", msg.title, shortURL]];
-            } break;
-                
-            default:
-                break;
-        }
-    }];
+    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
+    msg.title = @"";
+    msg.desc = @"";
+    msg.image = [UIImage imageWithImage:[UIImage imageWithData:data] scaledToWidth:500.0f];
+  
+    switch (shareType) {
+        case SocialMediaQQFriend: {
+            if (![OpenShare isQQInstalled]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
+                return;
+            }
+            [OpenShare shareToQQFriends:msg Success:nil Fail:nil];
+        } break;
+            
+        case SocialMediaWeibo: {
+            if (![OpenShare isWeiboInstalled]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微博应用, 然后重试"];
+                return;
+            }
+            [OpenShare shareToWeibo:msg Success:nil Fail:nil];
+        } break;
+            
+        case SocialMediaWeChatFriend: {
+            if (![OpenShare isWeixinInstalled]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微信应用, 然后重试"];
+                return;
+            }
+            [OpenShare shareToWeixinSession:msg Success:nil Fail:nil];
+            
+            
+        } break;
+            
+        case SocialMediaWeChaPYQ: {
+            if (![OpenShare isWeixinInstalled]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机微信应用, 然后重试"];
+                return;
+            }
+            [OpenShare shareToWeixinTimeline:msg Success:nil Fail:nil];
+            
+            
+        } break;
+            
+        case SocialMediaQZone: {
+            if (![OpenShare isQQInstalled]) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"请先安装手机QQ应用, 然后重试"];
+                return;
+            }
+            [OpenShare shareToQQZone:msg Success:nil Fail:nil];
+            
+            
+        } break;
+            
+        case SocialMediaMessage: {
+            [self showSMS:@"" attachment:data];
+        } break;
+            
+        default:
+            break;
+    }
+
     
     
 }
 
 
-- (void)showSMS:(NSString *)body {
+- (void)showSMS:(NSString *)body attachment:(NSData *)attachment {
     
     if(![MFMessageComposeViewController canSendText]) {
         [[HHToastManager sharedManager] showErrorToastWithText:@"抱歉, 您的设备不支持短信发送"];
@@ -647,6 +639,9 @@ static NSString *const kSupportQQ = @"3319762526";
     messageController.messageComposeDelegate = self;
     [messageController setRecipients:nil];
     [messageController setBody:body];
+    if (attachment) {
+        [messageController addAttachmentData:attachment typeIdentifier:@"public.data" filename:@"哈哈学车.png"];
+    }
     if (self.containerVC) {
         [self.containerVC presentViewController:messageController animated:YES completion:^{
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
@@ -752,7 +747,7 @@ static NSString *const kSupportQQ = @"3319762526";
             } break;
                 
             case SocialMediaMessage: {
-                [self showSMS:[NSString stringWithFormat:@"%@%@", msg.title, shortURL]];
+                [self showSMS:[NSString stringWithFormat:@"%@%@", msg.title, shortURL] attachment:nil];
             } break;
                 
             default:
