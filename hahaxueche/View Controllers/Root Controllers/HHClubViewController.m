@@ -489,7 +489,7 @@ static NSString *const kCellID = @"kCellId";
 }
 
 - (void)jumpToReferVC {
-    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_flying_envelop_tapped attributes:nil];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:club_page_flying_envelop_tapped attributes:nil];
     HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];

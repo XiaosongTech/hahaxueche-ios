@@ -314,12 +314,6 @@
 }
 
 - (void)showShareView {
-    HHTestScore *bestScore = [self.validScores firstObject];
-    for (HHTestScore *score in self.validScores) {
-        if (score.score.integerValue > bestScore.score.integerValue) {
-            bestScore = score;
-        }
-    }
     __weak HHTestStartViewController *weakSelf = self;
     HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 0)];
     shareView.dismissBlock = ^() {
@@ -329,7 +323,7 @@
         if (selecteItem == SocialMediaMessage) {
             [HHPopupUtility dismissPopup:weakSelf.popup];
         }
-        [[HHSocialMediaShareUtility sharedInstance] shareTestScore:bestScore shareType:selecteItem inVC:weakSelf resultCompletion:nil];
+        [[HHSocialMediaShareUtility sharedInstance] shareTestScoreWithType:selecteItem inVC:weakSelf resultCompletion:nil];
     };
     
     self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];

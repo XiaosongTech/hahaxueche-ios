@@ -28,7 +28,6 @@
 #import "HHLoadingViewUtility.h"
 #import "HHWebViewController.h"
 #import "HHAppInfoViewController.h"
-#import "HHMyPageReferCell.h"
 #import <Appirater.h>
 #import "HHReferFriendsViewController.h"
 #import "HHLongImageViewController.h"
@@ -57,7 +56,6 @@ static NSString *const kCoachCell = @"coachCell";
 static NSString *const kSupportCell = @"supportCell";
 static NSString *const kHelpCell = @"helpCell";
 static NSString *const kLogoutCell = @"logoutCell";
-static NSString *const kReferCell = @"referCell";
 static NSString *const kMyCourseScheduleCell = @"kMyCourseScheduleCell";
 static NSString *const kVouchereCell = @"kVouchereCell";
 static NSString *const kContractCell = @"kContractCell";
@@ -66,18 +64,21 @@ static NSString *const kGuardCardCell = @"kGuardCardCell";
 static NSString *const kActivateVoucherProdLink = @"https://m.hahaxueche.com/share/jihuo?";
 static NSString *const kActivateVoucherStagingLink = @"https://staging-m.hahaxueche.com/share/jihuo?";
 
-typedef NS_ENUM(NSInteger, MyPageCell) {
-    MyPageCellUserInfo,
-    MyPageCellRefer,
-    MyPageCellCoach,
-    MyPageCellVoucher,
-    MyPageCellGuardCard,
-    MyPageCellContract,
-    MyPageCellMyCourseSchedule,
-    MyPageCellSupport,
-    MyPageCellHelp,
-    MyPageCellLogout,
-    MyPageCellCount,
+typedef NS_ENUM(NSInteger, MyPageCellSectionOne) {
+    MyPageCellSectionOneUserInfo,
+    MyPageCellSectionOneCount,
+};
+
+typedef NS_ENUM(NSInteger, MyPageCellSectionTwo) {
+    MyPageCellSectionTwoCoach,
+    MyPageCellSectionTwoVoucher,
+    MyPageCellSectionTwoGuardCard,
+    MyPageCellSectionTwoContract,
+    MyPageCellSectionTwoCourseSchedule,
+    MyPageCellSectionTwoSupport,
+    MyPageCellSectionTwoHelp,
+    MyPageCellSectionTwoLogout,
+    MyPageCellSectionTwoCount,
 };
 
 @interface HHMyPageViewController() <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, RSKImageCropViewControllerDelegate>
@@ -93,6 +94,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 @property (nonatomic, strong) UIImage *selectedImage;
 @property (nonatomic, strong) HHAdvisor *advisor;
 @property (nonatomic) BOOL isLoggedIn;
+@property (nonatomic, strong) UIView *referView;
 
 @end
 
@@ -162,7 +164,6 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     [self.tableView registerClass:[HHMyPageSupportCell class] forCellReuseIdentifier:kSupportCell];
     [self.tableView registerClass:[HHMyPageHelpCell class] forCellReuseIdentifier:kHelpCell];
     [self.tableView registerClass:[HHMyPageLogoutCell class] forCellReuseIdentifier:kLogoutCell];
-    [self.tableView registerClass:[HHMyPageReferCell class] forCellReuseIdentifier:kReferCell];
     [self.tableView registerClass:[HHMyPageMyCourseScheduleCell class] forCellReuseIdentifier:kMyCourseScheduleCell];
     [self.tableView registerClass:[HHMyPageVoucherCell class] forCellReuseIdentifier:kVouchereCell];
     [self.tableView registerClass:[HHMyContractTableViewCell class] forCellReuseIdentifier:kContractCell];
@@ -172,345 +173,354 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
 #pragma mark - TableView Delegate & Datasource Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return MyPageCellCount;
+    if (section == 0) {
+        return MyPageCellSectionOneCount;
+    } else {
+        return MyPageCellSectionTwoCount;
+    }
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     __weak HHMyPageViewController *weakSelf = self;
-    switch (indexPath.row) {
-        case MyPageCellUserInfo: {
-            HHMyPageUserInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kUserInfoCell];
-            cell.paymentViewActionBlock = ^(){
-                if (!weakSelf.isLoggedIn) {
-                    [weakSelf showLoginAlert];
-                    return;
-                }
-                if ([weakSelf.currentStudent.purchasedServiceArray firstObject]) {
-                    HHPaymentStatusViewController *vc = [[HHPaymentStatusViewController alloc] initWithPurchasedService:[weakSelf.currentStudent.purchasedServiceArray firstObject] coach:weakSelf.myCoach];
-                    vc.updatePSBlock = ^(HHPurchasedService *updatePS){
-                        weakSelf.currentStudent.purchasedServiceArray = @[updatePS];
-                        [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:MyPageCellUserInfo inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-                        [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
-                            [HHStudentStore sharedInstance].currentStudent = student;
-                            weakSelf.currentStudent = student;
-                            [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:MyPageCellUserInfo inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-                        }];
-                    };
-                    vc.hidesBottomBarWhenPushed = YES;
-                    [weakSelf.navigationController pushViewController:vc animated:YES];
-                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_pay_coach_status_tapped attributes:nil];
-                }
-                
-            };
-            cell.avatarViewActionBlock = ^() {
-                if (!weakSelf.isLoggedIn) {
-                    [weakSelf showLoginAlert];
-                } else {
-                    [weakSelf showImageOptions];
-                }
-                
-            };
-            
-            cell.editNameBlock = ^() {
-                if (!weakSelf.isLoggedIn) {
-                    [weakSelf showLoginAlert];
-                } else {
-                    UIAlertController *alertController = [UIAlertController
-                                                          alertControllerWithTitle:@"修改姓名"
-                                                          message:nil
-                                                          preferredStyle:UIAlertControllerStyleAlert];
-                    UIAlertAction *cancelAction = [UIAlertAction
-                                                   actionWithTitle:@"取消"
-                                                   style:UIAlertActionStyleCancel
-                                                   handler:nil];
-                    
-                    UIAlertAction *okAction = [UIAlertAction
-                                               actionWithTitle:@"确认"
-                                               style:UIAlertActionStyleDefault
-                                               handler:^(UIAlertAction *action) {
-                                                   NSString *name = alertController.textFields.firstObject.text;
-                                                   [self saveName:name];
-                                               }];
-                    
-                    [alertController addAction:cancelAction];
-                    [alertController addAction:okAction];
-                    
-                    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-                        textField.placeholder = @"输入新用户名";
-                        textField.returnKeyType = UIReturnKeyDone;
+    if (indexPath.section == 0) {
+        HHMyPageUserInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kUserInfoCell];
+        cell.paymentViewActionBlock = ^(){
+            if (!weakSelf.isLoggedIn) {
+                [weakSelf showLoginAlert];
+                return;
+            }
+            if ([weakSelf.currentStudent.purchasedServiceArray firstObject]) {
+                HHPaymentStatusViewController *vc = [[HHPaymentStatusViewController alloc] initWithPurchasedService:[weakSelf.currentStudent.purchasedServiceArray firstObject] coach:weakSelf.myCoach];
+                vc.updatePSBlock = ^(HHPurchasedService *updatePS){
+                    weakSelf.currentStudent.purchasedServiceArray = @[updatePS];
+                    [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:MyPageCellSectionOneUserInfo inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                    [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
+                        [HHStudentStore sharedInstance].currentStudent = student;
+                        weakSelf.currentStudent = student;
+                        [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:MyPageCellSectionOneUserInfo inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
                     }];
-                    
-                    
-                    [self presentViewController:alertController animated:YES completion:nil];
-                }
-               
-            };
-            if (self.isLoggedIn) {
-                [cell setupCellWithStudent:self.currentStudent];
-            } else {
-                [cell setupCellWithStudent:nil];
+                };
+                vc.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_pay_coach_status_tapped attributes:nil];
             }
             
-            return cell;
+        };
+        cell.avatarViewActionBlock = ^() {
+            if (!weakSelf.isLoggedIn) {
+                [weakSelf showLoginAlert];
+            } else {
+                [weakSelf showImageOptions];
+            }
             
-        } break;
+        };
+        
+        cell.editNameBlock = ^() {
+            if (!weakSelf.isLoggedIn) {
+                [weakSelf showLoginAlert];
+            } else {
+                UIAlertController *alertController = [UIAlertController
+                                                      alertControllerWithTitle:@"修改姓名"
+                                                      message:nil
+                                                      preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *cancelAction = [UIAlertAction
+                                               actionWithTitle:@"取消"
+                                               style:UIAlertActionStyleCancel
+                                               handler:nil];
+                
+                UIAlertAction *okAction = [UIAlertAction
+                                           actionWithTitle:@"确认"
+                                           style:UIAlertActionStyleDefault
+                                           handler:^(UIAlertAction *action) {
+                                               NSString *name = alertController.textFields.firstObject.text;
+                                               [self saveName:name];
+                                           }];
+                
+                [alertController addAction:cancelAction];
+                [alertController addAction:okAction];
+                
+                [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                    textField.placeholder = @"输入新用户名";
+                    textField.returnKeyType = UIReturnKeyDone;
+                }];
+                
+                
+                [self presentViewController:alertController animated:YES completion:nil];
+            }
             
-        case MyPageCellRefer: {
-            HHMyPageReferCell *cell = [tableView dequeueReusableCellWithIdentifier:kReferCell];
-            return cell;
-        } break;
-            
-        case MyPageCellCoach: {
-            HHMyPageCoachCell *cell = [tableView dequeueReusableCellWithIdentifier:kCoachCell];
-            cell.myCoachView.actionBlock = ^(){
-                if (!weakSelf.isLoggedIn) {
-                    [weakSelf showLoginAlert];
-                    return;
-                }
-                if ([weakSelf.currentStudent.purchasedServiceArray count]) {
-                    HHMyCoachDetailViewController *myCoachVC = [[HHMyCoachDetailViewController alloc] initWithCoach:weakSelf.myCoach];
-                    myCoachVC.hidesBottomBarWhenPushed = YES;
-                    myCoachVC.updateCoachBlock = ^(HHCoach *coach) {
-                        weakSelf.myCoach = coach;
-                    };
-                    [weakSelf.navigationController pushViewController:myCoachVC animated:YES];
-                } else {
-                    [[HHToastManager sharedManager] showErrorToastWithText:@"您还没有购买的教练"];
-                }
-                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_my_coach_tapped attributes:nil];
-            };
-            cell.followedCoachView.actionBlock = ^(){
-                if (!weakSelf.isLoggedIn) {
-                    [weakSelf showLoginAlert];
-                    return;
-                }
-                HHFollowedCoachListViewController *vc = [[HHFollowedCoachListViewController alloc] init];
-                vc.hidesBottomBarWhenPushed = YES;
-                [weakSelf.navigationController pushViewController:vc animated:YES];
-                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_my_followed_coach_tapped attributes:nil];
-            };
-            return cell;
-        } break;
-            
-            
-        case MyPageCellVoucher: {
-            HHMyPageVoucherCell *cell = [tableView dequeueReusableCellWithIdentifier:kVouchereCell];
-            cell.myVoucherView.actionBlock = ^() {
-                HHVouchersViewController *vc = [[HHVouchersViewController alloc] init];
-                vc.hidesBottomBarWhenPushed = YES;
-                [weakSelf.navigationController pushViewController:vc animated:YES];
-            };
-            return cell;
-            
-        } break;
-            
-            
-        case MyPageCellGuardCard: {
-            HHGuardCardTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kGuardCardCell];
-            cell.courseOneFourView.actionBlock = ^() {
-                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_course_guard_tapped attributes:nil];
-                HHGuardCardViewController *vc = [[HHGuardCardViewController alloc] init];
-                vc.hidesBottomBarWhenPushed = YES;
-                [weakSelf.navigationController pushViewController:vc animated:YES];
-            };
-            return cell;
+        };
+        if (self.isLoggedIn) {
+            [cell setupCellWithStudent:self.currentStudent];
+        } else {
+            [cell setupCellWithStudent:nil];
         }
-        case MyPageCellContract: {
-            HHMyContractTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kContractCell];
-            cell.myContractView.actionBlock = ^() {
-                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_contract_tapped attributes:nil];
-                if (!weakSelf.isLoggedIn) {
-                    [weakSelf showLoginAlert];
-                    return;
-                }
-                if ([self.currentStudent.purchasedServiceArray count]) {
-                    if (!self.currentStudent.idCard) {
-                        //pop up upload id
-                        HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"友情提醒" info:[weakSelf buildPopupInfoTextWithString:@"快去上传资料签署专属学员协议吧!"] leftButtonTitle:@"取消" rightButtonTitle:@"去上传"];
-                        view.confirmBlock = ^() {
-                            [HHPopupUtility dismissPopup:weakSelf.popup];
-                            HHUploadIDViewController *vc = [[HHUploadIDViewController alloc] init];
-                            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-                            [weakSelf presentViewController:navVC animated:YES completion:nil];
+        
+        return cell;
+
+    } else {
+        switch (indexPath.row) {
+            case MyPageCellSectionTwoCoach: {
+                HHMyPageCoachCell *cell = [tableView dequeueReusableCellWithIdentifier:kCoachCell];
+                cell.myCoachView.actionBlock = ^(){
+                    if (!weakSelf.isLoggedIn) {
+                        [weakSelf showLoginAlert];
+                        return;
+                    }
+                    if ([weakSelf.currentStudent.purchasedServiceArray count]) {
+                        HHMyCoachDetailViewController *myCoachVC = [[HHMyCoachDetailViewController alloc] initWithCoach:weakSelf.myCoach];
+                        myCoachVC.hidesBottomBarWhenPushed = YES;
+                        myCoachVC.updateCoachBlock = ^(HHCoach *coach) {
+                            weakSelf.myCoach = coach;
                         };
-                        view.cancelBlock = ^() {
-                            [HHPopupUtility dismissPopup:weakSelf.popup];
-                        };
-                        weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
-                        [HHPopupUtility showPopup:weakSelf.popup];
+                        [weakSelf.navigationController pushViewController:myCoachVC animated:YES];
+                    } else {
+                        [[HHToastManager sharedManager] showErrorToastWithText:@"您还没有购买的教练"];
+                    }
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_my_coach_tapped attributes:nil];
+                };
+                cell.followedCoachView.actionBlock = ^(){
+                    if (!weakSelf.isLoggedIn) {
+                        [weakSelf showLoginAlert];
+                        return;
+                    }
+                    HHFollowedCoachListViewController *vc = [[HHFollowedCoachListViewController alloc] init];
+                    vc.hidesBottomBarWhenPushed = YES;
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_my_followed_coach_tapped attributes:nil];
+                };
+                return cell;
+            } break;
+                
+                
+            case MyPageCellSectionTwoVoucher: {
+                HHMyPageVoucherCell *cell = [tableView dequeueReusableCellWithIdentifier:kVouchereCell];
+                cell.myVoucherView.actionBlock = ^() {
+                    HHVouchersViewController *vc = [[HHVouchersViewController alloc] init];
+                    vc.hidesBottomBarWhenPushed = YES;
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
+                };
+                return cell;
+                
+            } break;
+                
+                
+            case MyPageCellSectionTwoGuardCard: {
+                HHGuardCardTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kGuardCardCell];
+                cell.courseOneFourView.actionBlock = ^() {
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_course_guard_tapped attributes:nil];
+                    HHGuardCardViewController *vc = [[HHGuardCardViewController alloc] init];
+                    vc.hidesBottomBarWhenPushed = YES;
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
+                };
+                return cell;
+            }
+            case MyPageCellSectionTwoContract: {
+                HHMyContractTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kContractCell];
+                cell.myContractView.actionBlock = ^() {
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_contract_tapped attributes:nil];
+                    if (!weakSelf.isLoggedIn) {
+                        [weakSelf showLoginAlert];
+                        return;
+                    }
+                    if ([self.currentStudent.purchasedServiceArray count]) {
+                        if (!self.currentStudent.idCard) {
+                            //pop up upload id
+                            HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"友情提醒" info:[weakSelf buildPopupInfoTextWithString:@"快去上传资料签署专属学员协议吧!"] leftButtonTitle:@"取消" rightButtonTitle:@"去上传"];
+                            view.confirmBlock = ^() {
+                                [HHPopupUtility dismissPopup:weakSelf.popup];
+                                HHUploadIDViewController *vc = [[HHUploadIDViewController alloc] init];
+                                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+                                [weakSelf presentViewController:navVC animated:YES completion:nil];
+                            };
+                            view.cancelBlock = ^() {
+                                [HHPopupUtility dismissPopup:weakSelf.popup];
+                            };
+                            weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                            [HHPopupUtility showPopup:weakSelf.popup];
+                            
+                        } else if (!self.currentStudent.agreementURL || [self.currentStudent.agreementURL isEqualToString:@""]) {
+                            //pop up sign contract
+                            HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"友情提醒" info:[weakSelf buildPopupInfoTextWithString:@"快去签署专属学员协议吧!"] leftButtonTitle:@"取消" rightButtonTitle:@"去签署"];
+                            view.confirmBlock = ^() {
+                                [HHPopupUtility dismissPopup:weakSelf.popup];
+                                HHSignContractViewController *vc = [[HHSignContractViewController alloc] initWithURL:nil];
+                                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+                                [weakSelf presentViewController:navVC animated:YES completion:nil];
+                            };
+                            view.cancelBlock = ^() {
+                                [HHPopupUtility dismissPopup:weakSelf.popup];
+                            };
+                            weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                            [HHPopupUtility showPopup:weakSelf.popup];
+                            
+                        } else {
+                            HHContractViewController *vc = [[HHContractViewController alloc] init];
+                            vc.hidesBottomBarWhenPushed = YES;
+                            [self.navigationController pushViewController:vc animated:YES];
+                        }
                         
-                    } else if (!self.currentStudent.agreementURL || [self.currentStudent.agreementURL isEqualToString:@""]) {
-                        //pop up sign contract
-                        HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"友情提醒" info:[weakSelf buildPopupInfoTextWithString:@"快去签署专属学员协议吧!"] leftButtonTitle:@"取消" rightButtonTitle:@"去签署"];
-                        view.confirmBlock = ^() {
-                            [HHPopupUtility dismissPopup:weakSelf.popup];
-                            HHSignContractViewController *vc = [[HHSignContractViewController alloc] initWithURL:nil];
-                            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-                            [weakSelf presentViewController:navVC animated:YES completion:nil];
-                        };
-                        view.cancelBlock = ^() {
-                            [HHPopupUtility dismissPopup:weakSelf.popup];
-                        };
-                        weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
-                        [HHPopupUtility showPopup:weakSelf.popup];
                         
                     } else {
-                        HHContractViewController *vc = [[HHContractViewController alloc] init];
-                        vc.hidesBottomBarWhenPushed = YES;
-                        [self.navigationController pushViewController:vc animated:YES];
-                    }
-                    
-
-                } else {
-                    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"友情提醒" info:[weakSelf buildPopupInfoTextWithString:@"您还没有报名哟~\n快去选选心仪的教练报名学车吧~"] leftButtonTitle:@"取消" rightButtonTitle:@"去逛逛"];
-                    view.confirmBlock = ^() {
-                        [HHPopupUtility dismissPopup:weakSelf.popup];
-                        weakSelf.tabBarController.selectedIndex = 1;
-                    };
-                    view.cancelBlock = ^() {
-                        [HHPopupUtility dismissPopup:weakSelf.popup];
-                    };
-                    weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
-                    [HHPopupUtility showPopup:weakSelf.popup];
-                    
-                }
-            };
-            return cell;
-        } break;
-            
-        case MyPageCellMyCourseSchedule: {
-            HHMyPageMyCourseScheduleCell *cell = [tableView dequeueReusableCellWithIdentifier:kMyCourseScheduleCell];
-            cell.myCourseView.actionBlock = ^() {
-                if (!weakSelf.isLoggedIn) {
-                    [weakSelf showLoginAlert];
-                    return;
-                }
-                HHBookTrainingViewController *vc = [[HHBookTrainingViewController alloc] init];
-                vc.hidesBottomBarWhenPushed = YES;
-                [weakSelf.navigationController pushViewController:vc animated:YES];
-                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_my_course_tapped attributes:nil];
-            };
-            
-            return cell;
+                        HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"友情提醒" info:[weakSelf buildPopupInfoTextWithString:@"您还没有报名哟~\n快去选选心仪的教练报名学车吧~"] leftButtonTitle:@"取消" rightButtonTitle:@"去逛逛"];
+                        view.confirmBlock = ^() {
+                            [HHPopupUtility dismissPopup:weakSelf.popup];
+                            weakSelf.tabBarController.selectedIndex = 1;
+                        };
+                        view.cancelBlock = ^() {
+                            [HHPopupUtility dismissPopup:weakSelf.popup];
+                        };
+                        weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                        [HHPopupUtility showPopup:weakSelf.popup];
                         
-        } break;
-            
-        case MyPageCellSupport: {
-            HHMyPageSupportCell *cell = [tableView dequeueReusableCellWithIdentifier:kSupportCell];
-            cell.supportOnlineView.actionBlock = ^() {
-                [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
-                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_online_support_tapped attributes:nil];
-            };
-            cell.myAdvisorView.actionBlock = ^() {
-                if (!weakSelf.isLoggedIn) {
-                    HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/share/zhaoguwen"]];
+                    }
+                };
+                return cell;
+            } break;
+                
+            case MyPageCellSectionTwoCourseSchedule: {
+                HHMyPageMyCourseScheduleCell *cell = [tableView dequeueReusableCellWithIdentifier:kMyCourseScheduleCell];
+                cell.myCourseView.actionBlock = ^() {
+                    if (!weakSelf.isLoggedIn) {
+                        [weakSelf showLoginAlert];
+                        return;
+                    }
+                    HHBookTrainingViewController *vc = [[HHBookTrainingViewController alloc] init];
                     vc.hidesBottomBarWhenPushed = YES;
                     [weakSelf.navigationController pushViewController:vc animated:YES];
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_my_course_tapped attributes:nil];
+                };
+                
+                return cell;
+                
+            } break;
+                
+            case MyPageCellSectionTwoSupport: {
+                HHMyPageSupportCell *cell = [tableView dequeueReusableCellWithIdentifier:kSupportCell];
+                cell.supportOnlineView.actionBlock = ^() {
+                    [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_online_support_tapped attributes:nil];
+                };
+                cell.myAdvisorView.actionBlock = ^() {
+                    if (!weakSelf.isLoggedIn) {
+                        HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/share/zhaoguwen"]];
+                        vc.hidesBottomBarWhenPushed = YES;
+                        [weakSelf.navigationController pushViewController:vc animated:YES];
+                    } else {
+                        HHAdvisorView *view = [[HHAdvisorView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 240.0f) advisor:self.advisor];
+                        view.callBlock = ^() {
+                            [weakSelf callAdvisor];
+                            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_my_advisor_tapped attributes:nil];
+                        };
+                        weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                        [HHPopupUtility showPopup:weakSelf.popup];
+                        
+                    }
+                };
+                return cell;
+            } break;
+                
+            case MyPageCellSectionTwoHelp: {
+                HHMyPageHelpCell *cell = [tableView dequeueReusableCellWithIdentifier:kHelpCell];
+                
+                cell.faqView.actionBlock = ^() {
+                    HHLongImageViewController *faq = [[HHLongImageViewController alloc] initWithImage:[UIImage imageNamed:@"faq.png"]];
+                    faq.hidesBottomBarWhenPushed = YES;
+                    [weakSelf.navigationController pushViewController:faq animated:YES];
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_FAQ_tapped attributes:nil];
+                };
+                
+                cell.appInfoView.actionBlock = ^() {
+                    HHAppInfoViewController *vc = [[HHAppInfoViewController alloc] init];
+                    vc.hidesBottomBarWhenPushed = YES;
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_version_check_tapped attributes:nil];
+                };
+                cell.rateUsView.actionBlock = ^() {
+                    [Appirater rateApp];
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_rate_us_tapped attributes:nil];
+                };
+                return cell;
+            } break;
+                
+            case MyPageCellSectionTwoLogout: {
+                HHMyPageLogoutCell *cell = [tableView dequeueReusableCellWithIdentifier:kLogoutCell];
+                if (!self.isLoggedIn) {
+                    [cell.button addTarget:self action:@selector(jumpToIntroVC) forControlEvents:UIControlEventTouchUpInside];
+                    [cell.button setTitle:@"注册/登录" forState:UIControlStateNormal];
+                    [cell.button setTitleColor:[UIColor HHConfirmGreen] forState:UIControlStateNormal];
                 } else {
-                    HHAdvisorView *view = [[HHAdvisorView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 20.0f, 240.0f) advisor:self.advisor];
-                    view.callBlock = ^() {
-                        [weakSelf callAdvisor];
-                        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_my_advisor_tapped attributes:nil];
-                    };
-                    weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
-                    [HHPopupUtility showPopup:weakSelf.popup];
-
+                    [cell.button addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
+                    [cell.button setTitle:@"退出账号" forState:UIControlStateNormal];
+                    [cell.button setTitleColor:[UIColor HHCancelRed] forState:UIControlStateNormal];
                 }
-            };
-            return cell;
-        } break;
-            
-        case MyPageCellHelp: {
-            HHMyPageHelpCell *cell = [tableView dequeueReusableCellWithIdentifier:kHelpCell];
-            
-            cell.faqView.actionBlock = ^() {
-                HHLongImageViewController *faq = [[HHLongImageViewController alloc] initWithImage:[UIImage imageNamed:@"faq.png"]];
-                faq.hidesBottomBarWhenPushed = YES;
-                [weakSelf.navigationController pushViewController:faq animated:YES];
-                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_FAQ_tapped attributes:nil];
-            };
-            
-            cell.appInfoView.actionBlock = ^() {
-                HHAppInfoViewController *vc = [[HHAppInfoViewController alloc] init];
-                vc.hidesBottomBarWhenPushed = YES;
-                [weakSelf.navigationController pushViewController:vc animated:YES];
-                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_version_check_tapped attributes:nil];
-            };
-            cell.rateUsView.actionBlock = ^() {
-                [Appirater rateApp];
-                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_rate_us_tapped attributes:nil];
-            };
-            return cell;
-        } break;
-          
-        case MyPageCellLogout: {
-            HHMyPageLogoutCell *cell = [tableView dequeueReusableCellWithIdentifier:kLogoutCell];
-            if (!self.isLoggedIn) {
-                [cell.button addTarget:self action:@selector(jumpToIntroVC) forControlEvents:UIControlEventTouchUpInside];
-                [cell.button setTitle:@"注册/登录" forState:UIControlStateNormal];
-                [cell.button setTitleColor:[UIColor HHConfirmGreen] forState:UIControlStateNormal];
-            } else {
-                [cell.button addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
-                [cell.button setTitle:@"退出账号" forState:UIControlStateNormal];
-                [cell.button setTitleColor:[UIColor HHCancelRed] forState:UIControlStateNormal];
-            }
-            return cell;
-           
-        } break;
-            
-        default: {
-            UITableViewCell *cell = [[UITableViewCell alloc] init];
-            return cell;
-        } break;
-    }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch (indexPath.row) {
-        case MyPageCellUserInfo:
-            return 280.0f;
-            
-        case MyPageCellRefer:
-            return 60.0f;
-            
-        case MyPageCellCoach:
-            return kTitleViewHeight + kItemViewHeight * 2.0f;
-            
-        case MyPageCellGuardCard:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight;
-            
-        case MyPageCellVoucher:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight;
-        
-        case MyPageCellContract:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight;
-            
-        case MyPageCellMyCourseSchedule:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight;
-            
-        case MyPageCellSupport:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
-            
-        case MyPageCellHelp:
-            return kTopPadding + kTitleViewHeight + kItemViewHeight * 3.0f;
-            
-        case MyPageCellLogout:
-            return 50 + kTopPadding * 2.0f;
-            
-        default:
-            return 50;
+                return cell;
+                
+            } break;
+                
+            default: {
+                UITableViewCell *cell = [[UITableViewCell alloc] init];
+                return cell;
+            } break;
+        }
     }
     
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == MyPageCellRefer) {
-        HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_refer_tapped attributes:nil];
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return 280.0f;
+    } else {
+        switch (indexPath.row) {
+                
+            case MyPageCellSectionTwoCoach:
+                return kTitleViewHeight + kItemViewHeight * 2.0f;
+                
+            case MyPageCellSectionTwoGuardCard:
+                return kTopPadding + kTitleViewHeight + kItemViewHeight;
+                
+            case MyPageCellSectionTwoVoucher:
+                return kTopPadding + kTitleViewHeight + kItemViewHeight;
+                
+            case MyPageCellSectionTwoContract:
+                return kTopPadding + kTitleViewHeight + kItemViewHeight;
+                
+            case MyPageCellSectionTwoCourseSchedule:
+                return kTopPadding + kTitleViewHeight + kItemViewHeight;
+                
+            case MyPageCellSectionTwoSupport:
+                return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
+                
+            case MyPageCellSectionTwoHelp:
+                return kTopPadding + kTitleViewHeight + kItemViewHeight * 3.0f;
+                
+            case MyPageCellSectionTwoLogout:
+                return 50 + kTopPadding * 2.0f;
+                
+            default:
+                return 50;
+        }
     }
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return 0;
+    } else {
+        return 60.0f;
+    }
+}
+
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if (section == 1) {
+        return [self buildReferView];
+    }
+    return nil;
 }
 
 #pragma mark - Others
@@ -631,7 +641,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
             self.currentStudent = student;
-            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:MyPageCellUserInfo inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:MyPageCellSectionOneUserInfo inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
             [HHPopupUtility dismissPopup:self.popup];
             [[HHToastManager sharedManager] showSuccessToastWithText:@"设置成功"];
         } else {
@@ -674,7 +684,7 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
         if (error) {
             [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败，请您重试！"];
         } else {
-            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:MyPageCellUserInfo inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:MyPageCellSectionOneUserInfo inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
             [HHStudentStore sharedInstance].currentStudent = student;
             self.currentStudent = student;
             [self.tableView reloadData];
@@ -720,6 +730,56 @@ typedef NS_ENUM(NSInteger, MyPageCell) {
     [alertController addAction:confirmAction];
     
     [self presentViewController:alertController animated:YES completion:nil];
+}
+
+- (UIView *)buildReferView {
+    if (self.referView) {
+        return self.referView;
+    } else {
+        self.referView = [self getReferView];
+        return self.referView;
+    }
+    
+}
+
+- (UIView *)getReferView {
+    UIView *view = [[UIView alloc] init];
+    view.backgroundColor = [UIColor HHOrange];
+    
+    UILabel *label = [[UILabel alloc] init];
+    label.textColor = [UIColor whiteColor];
+    label.font = [UIFont systemFontOfSize:15.0f];
+    label.adjustsFontSizeToFitWidth = YES;
+    label.minimumScaleFactor = 0.5;
+    label.text = @"邀请好友平分¥400！邀请越多，奖励越多！";
+    [view addSubview:label];
+    
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pic_xiaoha"]];
+    [view addSubview:imgView];
+    
+    [imgView makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(view.bottom);
+        make.right.equalTo(view.right).offset(-15.0f);
+    }];
+    
+    [label makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(view.centerY);
+        make.left.equalTo(view.left).offset(15.0f);
+        make.right.equalTo(imgView.left).offset(-10.0f);
+    }];
+    
+    UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpToReferVC)];
+    [view addGestureRecognizer:tapRec];
+    
+    
+    return view;
+}
+
+- (void)jumpToReferVC {
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_refer_tapped attributes:nil];
+    HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end
