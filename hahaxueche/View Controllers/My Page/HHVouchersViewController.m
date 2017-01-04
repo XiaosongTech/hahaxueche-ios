@@ -28,7 +28,7 @@ static NSString *const kRuleString2 = @"1）什么是哈哈学车代金券\n哈�
 
 static NSString *const kSupportString = @"\n*如有其他疑问请联系客服或您的专属学车顾问\n哈哈学车客服热线：400-001-6006\n哈哈学车在线客服";
 
-@interface HHVouchersViewController () <TTTAttributedLabelDelegate, UIScrollViewDelegate>
+@interface HHVouchersViewController () <TTTAttributedLabelDelegate, UIScrollViewDelegate, UITextFieldDelegate>
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) HHStudent *student;
@@ -130,6 +130,8 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
     self.rulesLabel.delegate = self;
     self.rulesLabel.numberOfLines = 0;
     self.rulesLabel.textAlignment = NSTextAlignmentLeft;
+    self.rulesLabel.linkAttributes = @{(NSString *)kCTForegroundColorAttributeName:[UIColor HHOrange]};
+    self.rulesLabel.activeLinkAttributes = @{(NSString *)kCTForegroundColorAttributeName:[UIColor HHOrange]};
     [self.scrollView addSubview:self.rulesLabel];
     [self.rulesLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(button.bottom).offset(20.0f);
@@ -144,6 +146,8 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
                                                                 attribute:NSLayoutAttributeBottom
                                                                multiplier:1.0
                                                                  constant:-20.0f]];
+    [self.rulesLabel addLinkToURL:[NSURL URLWithString:@"callSupport"] withRange:[self.rulesLabel.attributedText.string rangeOfString:@"400-001-6006"]];
+    [self.rulesLabel addLinkToURL:[NSURL URLWithString:@"onlineSupport"] withRange:[self.rulesLabel.attributedText.string rangeOfString:@"在线客服"]];
 
 
 }
@@ -171,6 +175,8 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
     self.supportLabel.delegate = self;
     self.supportLabel.numberOfLines = 0;
     self.supportLabel.textAlignment = NSTextAlignmentCenter;
+    self.supportLabel.linkAttributes = @{(NSString *)kCTForegroundColorAttributeName:[UIColor HHOrange]};
+    self.supportLabel.activeLinkAttributes = @{(NSString *)kCTForegroundColorAttributeName:[UIColor HHOrange]};
     [self.view addSubview:self.supportLabel];
     [self.supportLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.emptyImgView.bottom).offset(40.0f);
@@ -178,8 +184,8 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
         make.width.equalTo(self.view.width).offset(-40.0f);
     }];
     
-    UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
-    [self.view addGestureRecognizer:tapRec];
+    [self.supportLabel addLinkToURL:[NSURL URLWithString:@"callSupport"] withRange:[self.supportLabel.attributedText.string rangeOfString:@"400-001-6006"]];
+    [self.supportLabel addLinkToURL:[NSURL URLWithString:@"onlineSupport"] withRange:[self.supportLabel.attributedText.string rangeOfString:@"在线客服"]];
     
 }
 
@@ -203,9 +209,6 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
         make.width.equalTo(self.view.width);
         make.bottom.equalTo(self.view.bottom);
     }];
-    
-    UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
-    [self.scrollView addGestureRecognizer:tapRec];
     
     [self buildVoucherViews];
     [self buildRulesView];
@@ -243,12 +246,17 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
     self.rulesLabel.delegate = self;
     self.rulesLabel.numberOfLines = 0;
     self.rulesLabel.textAlignment = NSTextAlignmentLeft;
+    self.rulesLabel.linkAttributes = @{(NSString *)kCTForegroundColorAttributeName:[UIColor HHOrange]};
+    self.rulesLabel.activeLinkAttributes = @{(NSString *)kCTForegroundColorAttributeName:[UIColor HHOrange]};
     [self.scrollView addSubview:self.rulesLabel];
     [self.rulesLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.scrollView.top).offset(110.0f * self.vouchers.count + 40.0f);
         make.centerX.equalTo(self.view.centerX);
         make.width.equalTo(self.view.width).offset(-40.0f);
     }];
+    
+    [self.rulesLabel addLinkToURL:[NSURL URLWithString:@"callSupport"] withRange:[self.rulesLabel.attributedText.string rangeOfString:@"400-001-6006"]];
+    [self.rulesLabel addLinkToURL:[NSURL URLWithString:@"onlineSupport"] withRange:[self.rulesLabel.attributedText.string rangeOfString:@"在线客服"]];
     
     [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.rulesLabel
                                                                 attribute:NSLayoutAttributeBottom
@@ -269,10 +277,6 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
     
     [attrString addAttributes:@{NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle), NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:15.0f]} range:[baseString rangeOfString:@"400-001-6006"]];
     [attrString addAttributes:@{NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle), NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:15.0f]} range:[baseString rangeOfString:@"在线客服"]];
-    
-    [self.supportLabel addLinkToURL:[NSURL URLWithString:@"callSupport"] withRange:[baseString rangeOfString:@"400-001-6006"]];
-    [self.supportLabel addLinkToURL:[NSURL URLWithString:@"onlineSupport"] withRange:[baseString rangeOfString:@"在线客服"]];
-    
     
     return attrString;
 }
@@ -304,9 +308,6 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
     
     [attrString appendAttributedString:attrString2];
     
-    [self.rulesLabel addLinkToURL:[NSURL URLWithString:@"callSupport"] withRange:[[kRuleString stringByAppendingString:kSupportString] rangeOfString:@"400-001-6006"]];
-    [self.rulesLabel addLinkToURL:[NSURL URLWithString:@"onlineSupport"] withRange:[[kRuleString stringByAppendingString:kSupportString] rangeOfString:@"在线客服"]];
-    
     
     return attrString;
 }
@@ -336,6 +337,8 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
     self.voucherCodeField.font = [UIFont systemFontOfSize:13.0f];
     self.voucherCodeField.tintColor = [UIColor HHOrange];
     self.voucherCodeField.textColor = [UIColor darkTextColor];
+    self.voucherCodeField.returnKeyType = UIReturnKeyDone;
+    self.voucherCodeField.delegate = self;
     [view addSubview:self.voucherCodeField];
     [self.voucherCodeField makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(view.centerY);
@@ -381,6 +384,7 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
 }
 
 - (void)didAddNewVoucher:(HHVoucher *)voucher {
+    self.voucherCodeField.text = @"";
     [self.voucherCodeField resignFirstResponder];
     [self.vouchers addObject:voucher];
     
@@ -411,6 +415,11 @@ static NSString *const kSupportString = @"\n*如有其他疑问请联系客服�
     NSString *urlString = [[HHFreeTrialUtility sharedManager] buildFreeTrialURLStringWithCoachId:nil];
     HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:urlString]];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self.voucherCodeField resignFirstResponder];
+    return YES;
 }
 
 
