@@ -219,7 +219,7 @@ static NSString *const kCellID = @"kCellId";
     
     self.floatButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.floatButton setImage:[UIImage imageNamed:@"flyingredbag"] forState:UIControlStateNormal];
-    [self.floatButton addTarget:self action:@selector(jumpToReferVC) forControlEvents:UIControlEventTouchUpInside];
+    [self.floatButton addTarget:self action:@selector(jumpToWebVC) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.floatButton];
 
     [self makeConstraints];
@@ -488,9 +488,9 @@ static NSString *const kCellID = @"kCellId";
     }
 }
 
-- (void)jumpToReferVC {
+- (void)jumpToWebVC {
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:club_page_flying_envelop_tapped attributes:nil];
-    HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+    HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?promo_code=553353"]];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }

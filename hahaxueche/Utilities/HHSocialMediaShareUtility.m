@@ -18,6 +18,7 @@
 #import "HHStudentStore.h"
 #import "HHQRCodeUtility.h"
 #import "HHURLUtility.h"
+#import "UIImage+HHImage.h"
 
 
 static NSString *const kStagingShareCoachBaseURL = @"https://staging-api.hahaxueche.net/share/coaches/%@";
@@ -148,7 +149,7 @@ static NSString *const kSupportQQ = @"3319762526";
             } break;
                 
             case SocialMediaMessage:
-                 [self showSMS:message.title];
+                [self showSMS:message.title attachment:nil];
                 break;
                 
             default:
@@ -224,7 +225,7 @@ static NSString *const kSupportQQ = @"3319762526";
             } break;
                 
             case SocialMediaMessage: {
-                [self showSMS:[NSString stringWithFormat:@"%@%@", post.title, shortURL]];
+                [self showSMS:[NSString stringWithFormat:@"%@%@", post.title, shortURL] attachment:nil];
             } break;
                 
             default:
@@ -397,7 +398,7 @@ static NSString *const kSupportQQ = @"3319762526";
             } break;
                 
             case SocialMediaMessage: {
-                [self showSMS:[NSString stringWithFormat:@"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你一张保过卡. 比心❤️ %@", shortURL]];
+                [self showSMS:[NSString stringWithFormat:@"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你一张保过卡. 比心❤️ %@", shortURL] attachment:nil];
             }
             default:
                 break;
@@ -460,7 +461,7 @@ static NSString *const kSupportQQ = @"3319762526";
                 } break;
                     
                 case SocialMediaMessage: {
-                    [self showSMS:message.title];
+                    [self showSMS:message.title attachment:nil];
                 } break;
                     
                 default:
@@ -549,10 +550,22 @@ static NSString *const kSupportQQ = @"3319762526";
 }
 
 
-- (void)shareTestshareTestScoreWithTypeType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion {
+- (void)shareTestScoreWithType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion {
     self.containerVC = inVC;
+    
+    NSString *urlString;
+    
+#ifdef DEBUG
+    urlString = [NSString stringWithFormat:@"https://staging-api.hahaxueche.net/share/students/%@/exam_result", [HHStudentStore sharedInstance].currentStudent.studentId];
+#else
+    urlString = [NSString stringWithFormat:@"https://api.hahaxueche.net/share/students/%@/exam_result", [HHStudentStore sharedInstance].currentStudent.studentId];
+#endif
+    
     OSMessage *msg = [[OSMessage alloc] init];
-    msg.image = [UIImage imageNamed:@"ic_share"];
+    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
+    msg.title = @"";
+    msg.desc = @"";
+    msg.image = [UIImage imageWithImage:[UIImage imageWithData:data] scaledToWidth:500.0f];
   
     switch (shareType) {
         case SocialMediaQQFriend: {
@@ -602,7 +615,7 @@ static NSString *const kSupportQQ = @"3319762526";
         } break;
             
         case SocialMediaMessage: {
-            [self showSMS:@""];
+            [self showSMS:@"" attachment:data];
         } break;
             
         default:
@@ -614,7 +627,7 @@ static NSString *const kSupportQQ = @"3319762526";
 }
 
 
-- (void)showSMS:(NSString *)body {
+- (void)showSMS:(NSString *)body attachment:(NSData *)attachment {
     
     if(![MFMessageComposeViewController canSendText]) {
         [[HHToastManager sharedManager] showErrorToastWithText:@"抱歉, 您的设备不支持短信发送"];
@@ -626,6 +639,9 @@ static NSString *const kSupportQQ = @"3319762526";
     messageController.messageComposeDelegate = self;
     [messageController setRecipients:nil];
     [messageController setBody:body];
+    if (attachment) {
+        [messageController addAttachmentData:attachment typeIdentifier:@"public.data" filename:@"哈哈学车.png"];
+    }
     if (self.containerVC) {
         [self.containerVC presentViewController:messageController animated:YES completion:^{
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
@@ -731,7 +747,7 @@ static NSString *const kSupportQQ = @"3319762526";
             } break;
                 
             case SocialMediaMessage: {
-                [self showSMS:[NSString stringWithFormat:@"%@%@", msg.title, shortURL]];
+                [self showSMS:[NSString stringWithFormat:@"%@%@", msg.title, shortURL] attachment:nil];
             } break;
                 
             default:

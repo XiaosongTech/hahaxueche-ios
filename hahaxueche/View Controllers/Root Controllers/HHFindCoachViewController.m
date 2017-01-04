@@ -43,7 +43,7 @@
 #import "HHPersonalCoaches.h"
 #import "HHAppVersionUtility.h"
 #import <pop/POP.h>
-#import "HHReferFriendsViewController.h"
+#import "HHWebViewController.h"
 
 typedef NS_ENUM(NSInteger, CoachType) {
     CoachTypeDrivingSchoolCoach,
@@ -165,7 +165,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 - (void)buildFloatButton {
     self.floatButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.floatButton setImage:[UIImage imageNamed:@"flyingredbag"] forState:UIControlStateNormal];
-    [self.floatButton addTarget:self action:@selector(jumpToReferVC) forControlEvents:UIControlEventTouchUpInside];
+    [self.floatButton addTarget:self action:@selector(jumpToWebVC) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.floatButton];
     [self.floatButton makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view.bottom).offset(-70.0f);
@@ -884,9 +884,9 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     }
 }
 
-- (void)jumpToReferVC {
+- (void)jumpToWebVC {
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_flying_envelop_tapped attributes:nil];
-    HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+    HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?promo_code=553353"]];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
