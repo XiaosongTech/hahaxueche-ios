@@ -60,9 +60,10 @@ static NSString *const kSupportQQ = @"3319762526";
 }
 
 - (void)shareCoach:(HHCoach *)coach shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion {
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
     self.containerVC = inVC;
     [self generateShareMessageWithCoach:coach shareType:shareType completion:^(OSMessage *message) {
-        
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         switch (shareType) {
             case SocialMediaQQFriend: {
                 if (![OpenShare isQQInstalled]) {
@@ -161,6 +162,7 @@ static NSString *const kSupportQQ = @"3319762526";
 
 
 - (void)sharePost:(HHClubPost *)post shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC {
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
     OSMessage *msg = [[OSMessage alloc] init];
     msg.image = [UIImage imageNamed:@"ic_share"];
     msg.thumbnail = [UIImage imageNamed:@"ic_share"];
@@ -172,6 +174,7 @@ static NSString *const kSupportQQ = @"3319762526";
     
     NSString *link = [post getShareUrl];
     [[HHURLUtility sharedManager] generateShortURLWithOriginalURL:link completion:^(NSString *shortURL) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         msg.link = shortURL;
         switch (shareType) {
             case SocialMediaQQFriend: {
@@ -211,7 +214,6 @@ static NSString *const kSupportQQ = @"3319762526";
                 }
                 [OpenShare shareToWeixinTimeline:msg Success:nil Fail:nil];
                 
-                
             } break;
                 
             case SocialMediaQZone: {
@@ -220,7 +222,6 @@ static NSString *const kSupportQQ = @"3319762526";
                     return;
                 }
                 [OpenShare shareToQQZone:msg Success:nil Fail:nil];
-                
                 
             } break;
                 
@@ -295,6 +296,7 @@ static NSString *const kSupportQQ = @"3319762526";
 
 
 - (void)shareMyReferPageWithShareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion {
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
     self.containerVC = inVC;
     __block OSMessage *msg = [[OSMessage alloc] init];
     msg.title = @"送你￥200元学车券，怕你考不过，再送你一张保过卡。比心❤️";
@@ -304,6 +306,7 @@ static NSString *const kSupportQQ = @"3319762526";
     NSString *longURL = [NSString stringWithFormat:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?referrer_id=%@&promo_code=553353", [HHStudentStore sharedInstance].currentStudent.userIdentityId];
     
     [[HHURLUtility sharedManager] generateShortURLWithOriginalURL:longURL completion:^(NSString *shortURL) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         msg.link = shortURL;
         switch (shareType) {
             case SocialMediaQQFriend: {
@@ -408,9 +411,12 @@ static NSString *const kSupportQQ = @"3319762526";
 }
 
 - (void)sharePersonalCoach:(HHPersonalCoach *)coach shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion {
+    
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
     self.containerVC = inVC;
     
     [self generateMessageWithPersonalCoach:coach shareType:shareType completion:^(OSMessage *message) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (message) {
             switch (shareType) {
                 case SocialMediaQQFriend: {
@@ -437,7 +443,6 @@ static NSString *const kSupportQQ = @"3319762526";
                     }
                     [OpenShare shareToWeixinSession:message Success:nil Fail:nil];
                     
-                    
                 } break;
                     
                 case SocialMediaWeChaPYQ: {
@@ -447,7 +452,6 @@ static NSString *const kSupportQQ = @"3319762526";
                     }
                     [OpenShare shareToWeixinTimeline:message Success:nil Fail:nil];
                     
-                    
                 } break;
                     
                 case SocialMediaQZone: {
@@ -456,7 +460,6 @@ static NSString *const kSupportQQ = @"3319762526";
                         return;
                     }
                     [OpenShare shareToQQZone:message Success:nil Fail:nil];
-                    
                     
                 } break;
                     
@@ -551,6 +554,7 @@ static NSString *const kSupportQQ = @"3319762526";
 
 
 - (void)shareTestScoreWithType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion {
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
     self.containerVC = inVC;
     
     NSString *urlString;
@@ -591,7 +595,6 @@ static NSString *const kSupportQQ = @"3319762526";
             }
             [OpenShare shareToWeixinSession:msg Success:nil Fail:nil];
             
-            
         } break;
             
         case SocialMediaWeChaPYQ: {
@@ -600,7 +603,6 @@ static NSString *const kSupportQQ = @"3319762526";
                 return;
             }
             [OpenShare shareToWeixinTimeline:msg Success:nil Fail:nil];
-            
             
         } break;
             
@@ -611,7 +613,6 @@ static NSString *const kSupportQQ = @"3319762526";
             }
             [OpenShare shareToQQZone:msg Success:nil Fail:nil];
             
-            
         } break;
             
         case SocialMediaMessage: {
@@ -621,9 +622,8 @@ static NSString *const kSupportQQ = @"3319762526";
         default:
             break;
     }
+    [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
 
-    
-    
 }
 
 
@@ -686,6 +686,7 @@ static NSString *const kSupportQQ = @"3319762526";
 
 
 - (void)shareWebPage:(NSURL *)url title:(NSString *)title shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion {
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
     self.containerVC = inVC;
     OSMessage *msg = [[OSMessage alloc] init];
     msg.image = [UIImage imageNamed:@"ic_share"];
@@ -753,6 +754,7 @@ static NSString *const kSupportQQ = @"3319762526";
             default:
                 break;
         }
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
     }];
 }
 

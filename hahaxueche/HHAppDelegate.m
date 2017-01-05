@@ -39,6 +39,7 @@
 #import "HHTestStartViewController.h"
 #import "HHVouchersViewController.h"
 #import "HHGuardCardViewController.h"
+#import "HHClubPostDetailViewController.h"
 
 #define kAliPushAppKey          @"23260416"
 #define kAliPushAppSecret       @"996121506d96c60827a917c2ca26ab14"
@@ -154,7 +155,15 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                     [self jumpToVC:coachVC];
                 }
                 
-            } else {
+            } else if ([HHParam[@"type"] isEqualToString: @"article"]) {
+                NSString *articleId = HHParam[@"id"];
+                if (articleId) {
+                    HHClubPostDetailViewController *vc = [[HHClubPostDetailViewController alloc] initWithPostId:articleId];
+                    [self jumpToVC:vc];
+                }
+            }
+            
+            else {
                 if (self.notificationUserInfo) {
                     [self handleSchema:self.notificationUserInfo];
                 }

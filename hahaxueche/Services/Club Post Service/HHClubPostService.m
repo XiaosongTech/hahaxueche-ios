@@ -109,5 +109,22 @@
     }];
 }
 
+- (void)getPostWithId:(NSString *)postId completion:(HHPostCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIClubPost, postId]];
+    [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHClubPost *post = [MTLJSONAdapter modelOfClass:[HHClubPost class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(post, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+    
+}
+
 
 @end

@@ -64,6 +64,7 @@
 #pragma mark ClubPost
 
 #define kAPIClubPosts @"articles"
+#define kAPIClubPost @"articles/%@"
 #define kAPIClubPostLike @"students/%@/liked_articles/%@"
 #define kAPIClubPostComment @"articles/%@/comments"
 #define kAPIClubPostHeadLine @"articles/headline"

@@ -39,6 +39,7 @@
 @property (nonatomic, strong) UIView *userCommentsView;
 @property (nonatomic, strong) NSMutableArray *userCommentViewArray;
 @property (nonatomic) CGFloat webViewHeight;
+@property (nonatomic, strong) NSString *postId;
 
 @end
 
@@ -52,6 +53,14 @@
     return self;
 }
 
+- (instancetype)initWithPostId:(NSString *)postId {
+    self = [super init];
+    if (self) {
+        self.postId = postId;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -60,9 +69,17 @@
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"icon_share"] action:@selector(sharePost) target:self];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    [self initSubviews];
-    
-    [self.webView addObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress)) options:NSKeyValueObservingOptionNew context:NULL];
+    if (self.postId) {
+        [[HHClubPostService sharedInstance] getPostWithId:self.postId completion:^(HHClubPost *post, NSError *error) {
+            if (!error) {
+                self.clubPost = post;
+                [self initSubviews];
+            }
+        }];
+        
+    } else {
+        [self initSubviews];
+    }
     
 }
 
@@ -91,6 +108,7 @@
         [self.scrollView addSubview:self.userCommentsView];
     }
     
+    [self.webView addObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress)) options:NSKeyValueObservingOptionNew context:NULL];
     [self makeConstraints];
     
 }
@@ -208,7 +226,13 @@
 }
 
 - (void)dismissVC {
-    [self.navigationController popViewControllerAnimated:YES];
+    if ([[self.navigationController.viewControllers firstObject] isEqual:self]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
 }
 
 - (void)sharePost {
