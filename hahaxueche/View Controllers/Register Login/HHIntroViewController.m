@@ -33,6 +33,7 @@ static CGFloat const kButtonWidth = 235.0f;
 @property (nonatomic, strong) UIView *bottomLine;
 @property (nonatomic, strong) SDCycleScrollView *bannerView;
 @property (nonatomic, strong) NSArray *banners;
+@property (nonatomic, strong) HHRootViewController *rootVC;
 
 
 @end
@@ -52,7 +53,7 @@ static CGFloat const kButtonWidth = 235.0f;
     } else {
         self.backButton.hidden = YES;
     }
-
+    self.rootVC = [[HHRootViewController alloc] init];
 }
 
 - (void)initSubviews {
@@ -179,11 +180,7 @@ static CGFloat const kButtonWidth = 235.0f;
 
 - (void)enterAsGuest {
     [[HHStudentStore sharedInstance] createGuestStudent];
-    [[HHLoadingViewUtility sharedInstance] showLoadingView];
-    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-    [self presentViewController:rootVC animated:NO completion:^{
-        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-    }];
+    [self presentViewController:self.rootVC animated:YES completion:nil];
 }
 
 - (void)popupVC {
