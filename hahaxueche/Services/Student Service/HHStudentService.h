@@ -43,6 +43,7 @@ typedef void (^HHAgreementCompletion)(NSURL *url, NSError *error);
 typedef void (^HHSignAgreementCompletion)(HHStudent *student, NSError *error);
 typedef void (^HHTestResultCompletion)(NSArray *results);
 typedef void (^HHSaveTestResultCompletion)(HHTestScore *score);
+typedef void (^HHMarketingChannelCompletion)(NSString *code);
 
 @interface HHStudentService : NSObject
 
@@ -265,5 +266,13 @@ typedef void (^HHSaveTestResultCompletion)(HHTestScore *score);
  @param contacts The array of contacts from this device
  */
 - (void)uploadContactWithDeviceId:(NSString *)deviceId deviceNumber:(NSString *)deviceNumber contacts:(NSArray *)contacts;
+
+/**
+ Get right promo code for activity web page
+ @param originalCode The original promo code
+ @param channelName The channel name of expected promo code
+ @param completion The completion block to execute on completion
+ */
+- (void)getMarketingChannelCodeWithCode:(NSString *)originalCode channelName:(NSString *)channelName completion:(HHMarketingChannelCompletion)completion;
 
 @end

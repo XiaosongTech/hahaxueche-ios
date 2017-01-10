@@ -72,7 +72,7 @@
 #pragma mark Constants
 
 #define kAPIConstantsPath @"constants"
-
+#define kAPIMarketingChannelPath @"marketing_information"
 #define kAPIAddressBook @"address_books"
 
 #endif /* APIPaths_h */
