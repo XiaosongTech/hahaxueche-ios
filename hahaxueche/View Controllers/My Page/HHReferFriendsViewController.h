@@ -10,4 +10,6 @@
 
 @interface HHReferFriendsViewController : UIViewController
 
+- (void)showReferralDetailVC;
+
 @end

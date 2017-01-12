@@ -591,7 +591,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 }
 
 - (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView {
-    return NO;
+    return YES;
 }
 
 #pragma mark -SwipeView methods
