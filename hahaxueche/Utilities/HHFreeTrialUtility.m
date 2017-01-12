@@ -26,9 +26,9 @@
     NSString *urlBase;
     
 #ifdef DEBUG
-    urlBase = @"https://staging-m.hahaxueche.com/free_trial?promo_code=553353";
+    urlBase = @"https://staging-m.hahaxueche.com/free_trial?promo_code=442216";
 #else
-    urlBase = @"https://m.hahaxueche.com/free_trial?promo_code=553353";
+    urlBase = @"https://m.hahaxueche.com/free_trial?promo_code=601811";
 #endif
     
     HHStudent *student = [HHStudentStore sharedInstance].currentStudent;

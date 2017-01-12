@@ -886,7 +886,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 - (void)jumpToWebVC {
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_flying_envelop_tapped attributes:nil];
-    HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?promo_code=553353"]];
+    HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?promo_code=840157"]];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }

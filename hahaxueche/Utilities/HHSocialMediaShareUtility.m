@@ -311,7 +311,7 @@ static NSString *const kSupportQQ = @"3319762526";
 #ifdef DEBUG
     promoCode = @"625240";
 #else
-    promoCode = @"";
+    promoCode = @"215362";
 #endif
     
     __block NSString *finalURLString = [NSString stringWithFormat:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?referrer_id=%@&promo_code=%@", [HHStudentStore sharedInstance].currentStudent.userIdentityId, promoCode];
@@ -702,9 +702,9 @@ static NSString *const kSupportQQ = @"3319762526";
 }
 
 - (UIImage *)generateReferQRCode:(BOOL)refer {
-    NSString *string = [NSString stringWithFormat:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?referrer_id=%@&promo_code=553353", [HHStudentStore sharedInstance].currentStudent.userIdentityId];
+    NSString *string = [NSString stringWithFormat:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?referrer_id=%@&promo_code=215362", [HHStudentStore sharedInstance].currentStudent.userIdentityId];
     if (!refer) {
-        string = @"https://m.hahaxueche.com/share/xin-ren-da-li-bao?promo_code=553353";
+        string = @"https://m.hahaxueche.com/share/xin-ren-da-li-bao?promo_code=215362";
     }
     return [[HHQRCodeUtility sharedManager] generateQRCodeWithString:string];
 }
