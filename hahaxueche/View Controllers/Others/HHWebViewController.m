@@ -165,40 +165,10 @@
         [HHPopupUtility dismissPopup:weakSelf.popup];
     };
     shareView.actionBlock = ^(SocialMedia selecteItem) {
-        __block NSString *finalURLString = weakSelf.url.absoluteString;
-        NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:weakSelf.url resolvingAgainstBaseURL:NO];
-        NSArray *queryItems = urlComponents.queryItems;
-        NSString *promoCode = [self valueForKey:@"promo_code" fromQueryItems:queryItems];
-        NSString *channelName;
-        if (promoCode) {
-            if (selecteItem == SocialMediaQZone || selecteItem == SocialMediaQQFriend) {
-                channelName = @"QQ";
-            } else if (selecteItem == SocialMediaWeChaPYQ || selecteItem == SocialMediaWeChatFriend) {
-                channelName = @"微信";
-            } else if (selecteItem == SocialMediaWeibo) {
-                channelName = @"微博";
-            } else {
-                channelName = @"短信";
-            }
+        if (selecteItem == SocialMediaMessage) {
+            [HHPopupUtility dismissPopup:weakSelf.popup];
         }
-        
-        if (promoCode && channelName) {
-            [[HHLoadingViewUtility sharedInstance] showLoadingView];
-            [[HHStudentService sharedInstance] getMarketingChannelCodeWithCode:promoCode channelName:channelName completion:^(NSString *code) {
-                if (code) {
-                    finalURLString = [finalURLString stringByReplacingOccurrencesOfString:promoCode withString:code];
-                }
-                if (selecteItem == SocialMediaMessage) {
-                    [HHPopupUtility dismissPopup:weakSelf.popup];
-                }
-                [[HHSocialMediaShareUtility sharedInstance] shareWebPage:[NSURL URLWithString:finalURLString] title:weakSelf.titleLabel.text shareType:selecteItem inVC:weakSelf resultCompletion:nil];
-            }];
-        } else {
-            if (selecteItem == SocialMediaMessage) {
-                [HHPopupUtility dismissPopup:weakSelf.popup];
-            }
-            [[HHSocialMediaShareUtility sharedInstance] shareWebPage:[NSURL URLWithString:finalURLString] title:weakSelf.titleLabel.text shareType:selecteItem inVC:weakSelf resultCompletion:nil];
-        }
+        [[HHSocialMediaShareUtility sharedInstance] shareWebPage:weakSelf.url title:weakSelf.titleLabel.text shareType:selecteItem inVC:weakSelf resultCompletion:nil];
 
     };
     
@@ -206,11 +176,6 @@
     [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
 }
 
-- (NSString *)valueForKey:(NSString *)key fromQueryItems:(NSArray *)queryItems {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name=%@", key];
-    NSURLQueryItem *queryItem = [[queryItems filteredArrayUsingPredicate:predicate] firstObject];
-    return queryItem.value;
-}
 
 - (void)dealloc {
 

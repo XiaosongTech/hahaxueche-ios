@@ -270,9 +270,9 @@ typedef void (^HHMarketingChannelCompletion)(NSString *code);
 /**
  Get right promo code for activity web page
  @param originalCode The original promo code
- @param channelName The channel name of expected promo code
+ @param channelId The channel id of expected promo code
  @param completion The completion block to execute on completion
  */
-- (void)getMarketingChannelCodeWithCode:(NSString *)originalCode channelName:(NSString *)channelName completion:(HHMarketingChannelCompletion)completion;
+- (void)getMarketingChannelCodeWithCode:(NSString *)originalCode channelId:(NSString *)channelId completion:(HHMarketingChannelCompletion)completion;
 
 @end

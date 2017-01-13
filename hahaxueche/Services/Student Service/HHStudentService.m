@@ -527,9 +527,9 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     [APIClient postWithParameters:param completion:nil];
 }
 
-- (void)getMarketingChannelCodeWithCode:(NSString *)originalCode channelName:(NSString *)channelName completion:(HHMarketingChannelCompletion)completion {
+- (void)getMarketingChannelCodeWithCode:(NSString *)originalCode channelId:(NSString *)channelId completion:(HHMarketingChannelCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIMarketingChannelPath];
-    [APIClient getWithParameters:@{@"promo_code":originalCode, @"channel_name":channelName} completion:^(NSDictionary *response, NSError *error) {
+    [APIClient getWithParameters:@{@"promo_code":originalCode, @"channel_id":channelId} completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             if (completion) {
                 completion(response[@"promo_code"]);
