@@ -168,9 +168,15 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                 [self jumpToVC:vc completion:^{
                     [vc showReferralDetailVC];
                 }];
-            }
-            
-            else {
+            } else if ([HHParam[@"type"] isEqualToString:@"test_practice"]) {
+                HHTestStartViewController *vc = [[HHTestStartViewController alloc] init];
+                [self jumpToVC:vc completion:nil];
+                
+            } else if ([HHParam[@"type"] isEqualToString:@"coach_list"]) {
+                HHRootViewController *rootVC = [[HHRootViewController alloc] initWithDefaultIndex:TabBarItemCoach];
+                self.window.rootViewController = rootVC;
+
+            } else {
                 if (self.notificationUserInfo) {
                     [self handleSchema:self.notificationUserInfo];
                 }

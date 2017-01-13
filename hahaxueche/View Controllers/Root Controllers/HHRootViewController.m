@@ -21,6 +21,10 @@
 @implementation HHRootViewController
 
 - (instancetype)init {
+    return [self initWithDefaultIndex:TabBarItemHomePage];
+}
+
+- (instancetype)initWithDefaultIndex:(TabBarItem)index {
     self = [super init];
     if (self) {
         self.tabBar.tintColor = [UIColor HHOrange];
@@ -64,14 +68,13 @@
         if (student.purchasedServiceArray.count > 0 && !student.agreementURL) {
             myPageItem.badgeValue = @"1";
         } else {
-             myPageItem.badgeValue = nil;
+            myPageItem.badgeValue = nil;
         }
         
         
         NSArray *viewControllers = @[homePageNavVC, findCoachNavVC, clubNavVC, myPageNavVC];
         self.viewControllers = viewControllers;
-        
-        self.selectedIndex = TabBarItemHomePage;
+        self.selectedIndex = index;
         
     }
     return self;
