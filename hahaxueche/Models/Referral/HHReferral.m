@@ -17,6 +17,7 @@
              @"phone": @"phone",
              @"amount": @"amount",
              @"purchasedAt":@"purchased_at",
+             @"status":@"sales_status",
              };
 }
 

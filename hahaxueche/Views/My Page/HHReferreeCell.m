@@ -79,13 +79,10 @@
 - (void)setupCellWithReferral:(HHReferral *)referral {
     self.nameLabel.text = referral.name;
     self.numberLabel.text = referral.phone;
+    self.statusLabel.text = referral.status;
     if (referral.purchasedAt) {
-        self.statusLabel.text = @"已购买教练";
-        self.numberLabel.textColor = [UIColor HHOrange];
         self.moneyLabel.textColor = [UIColor HHOrange];
     } else {
-        self.statusLabel.text = @"未购买教练";
-        self.numberLabel.textColor = [UIColor HHLightestTextGray];
         self.moneyLabel.textColor = [UIColor HHLightestTextGray];
     }
     
