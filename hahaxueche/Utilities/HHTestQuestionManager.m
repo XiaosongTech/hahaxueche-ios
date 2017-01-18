@@ -63,6 +63,7 @@ static NSString *const kCourse4FavoratedKey = @"kCourse4FavoratedKey";
         NSMutableArray *questionObjects = [NSMutableArray array];
         for (NSDictionary *dictionary in questions) {
             HHQuestion *question = [MTLJSONAdapter modelOfClass:[HHQuestion class] fromJSONDictionary:dictionary error:nil];
+            question.answered = nil;
             [questionObjects addObject:question];
         }
         return questionObjects;
