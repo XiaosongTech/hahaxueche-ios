@@ -570,7 +570,7 @@ static NSString *const kSupportQQ = @"3319762526";
     msg.title = @"";
     msg.desc = @"";
     msg.image = [UIImage imageWithImage:[UIImage imageWithData:data] scaledToWidth:500.0f];
-  
+    [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
     switch (shareType) {
         case SocialMediaQQFriend: {
             if (![OpenShare isQQInstalled]) {
@@ -622,7 +622,6 @@ static NSString *const kSupportQQ = @"3319762526";
         default:
             break;
     }
-    [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
 
 }
 
