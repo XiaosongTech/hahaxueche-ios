@@ -70,7 +70,7 @@
     self = [super init];
     if (self) {
         self.coach = coach;
-        self.selectedMethod = StudentPaymentMethodAlipay;
+        self.selectedMethod = StudentPaymentMethodBankCard;
         self.paymentViews = [NSMutableArray array];
         if ([self.validVouchers count] > 0) {
             self.selectedVoucher = [self.validVouchers firstObject];
@@ -256,32 +256,33 @@
 
 - (void)buildPaymentViews {
     __weak HHPurchaseConfirmViewController *weakSelf = self;
-
-    self.aliPayView = [[HHPaymentMethodView alloc] initWithTitle:@"支付宝" subTitle:@"推荐拥有支付宝账号的用户使用" icon:[UIImage imageNamed:@"ic_alipay_icon"] selected:YES];
-    self.aliPayView.viewSelectedBlock = ^() {
-        weakSelf.selectedMethod = StudentPaymentMethodAlipay;
-    };
-    [self.scrollView addSubview:self.aliPayView];
-    [self.aliPayView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.totalPriceContainerView.bottom).offset(10.0f);
-        make.left.equalTo(self.scrollView.left);
-        make.width.equalTo(self.scrollView.width);
-        make.height.mas_equalTo(60.0f);
-    }];
-    [self.paymentViews addObject:self.aliPayView];
     
-    self.bankCardView = [[HHPaymentMethodView alloc] initWithTitle:@"银行卡" subTitle:@"安全极速支付, 无需开通网银" icon:[UIImage imageNamed:@"ic_cardpay_icon"] selected:NO];
+    self.bankCardView = [[HHPaymentMethodView alloc] initWithTitle:@"银行卡" subTitle:@"使用一网通支付，最高再减99元!" icon:[UIImage imageNamed:@"cmcc_icon"] selected:YES];
     self.bankCardView.viewSelectedBlock = ^() {
         weakSelf.selectedMethod = StudentPaymentMethodBankCard;
     };
     [self.scrollView addSubview:self.bankCardView];
     [self.bankCardView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.aliPayView.bottom);
+        make.top.equalTo(self.totalPriceContainerView.bottom).offset(10.0f);
         make.left.equalTo(self.scrollView.left);
         make.width.equalTo(self.scrollView.width);
         make.height.mas_equalTo(60.0f);
     }];
     [self.paymentViews addObject:self.bankCardView];
+
+    self.aliPayView = [[HHPaymentMethodView alloc] initWithTitle:@"支付宝" subTitle:@"推荐拥有支付宝账号的用户使用" icon:[UIImage imageNamed:@"ic_alipay_icon"] selected:NO];
+    self.aliPayView.viewSelectedBlock = ^() {
+        weakSelf.selectedMethod = StudentPaymentMethodAlipay;
+    };
+    [self.scrollView addSubview:self.aliPayView];
+    [self.aliPayView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.bankCardView.bottom);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(60.0f);
+    }];
+    [self.paymentViews addObject:self.aliPayView];
+
     
     self.fqlView = [[HHPaymentMethodView alloc] initWithTitle:@"分期乐" subTitle:@"推荐分期用户使用" icon:[UIImage imageNamed:@"fql"] selected:NO];
     self.fqlView.viewSelectedBlock = ^() {
@@ -289,7 +290,7 @@
     };
     [self.scrollView addSubview:self.fqlView];
     [self.fqlView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bankCardView.bottom);
+        make.top.equalTo(self.aliPayView.bottom);
         make.left.equalTo(self.scrollView.left);
         make.width.equalTo(self.scrollView.width);
         make.height.mas_equalTo(60.0f);
@@ -313,14 +314,24 @@
 
 - (void)setSelectedMethod:(StudentPaymentMethod)selectedMethod {
     _selectedMethod = selectedMethod;
-    int i = 0;
-    for (HHPaymentMethodView *view in self.paymentViews) {
-        if (i == self.selectedMethod) {
-            view.selected = YES;
-        } else {
-            view.selected = NO;
-        }
-        i++;
+    self.bankCardView.selected = NO;
+    self.aliPayView.selected = NO;
+    self.fqlView.selected = NO;
+    switch (selectedMethod) {
+        case StudentPaymentMethodBankCard: {
+            self.bankCardView.selected = YES;
+        } break;
+            
+        case StudentPaymentMethodAlipay: {
+            self.aliPayView.selected = YES;
+        } break;
+            
+        case StudentPaymentMethodFql: {
+            self.fqlView.selected = YES;
+        } break;
+            
+        default:
+            break;
     }
 }
 
