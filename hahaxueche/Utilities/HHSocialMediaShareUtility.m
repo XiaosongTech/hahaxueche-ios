@@ -643,7 +643,6 @@ static NSString *const kSupportQQ = @"3319762526";
             }
         }
     }];
-    
 }
 
 
