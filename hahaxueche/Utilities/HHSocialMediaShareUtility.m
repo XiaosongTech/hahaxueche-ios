@@ -718,6 +718,12 @@ static NSString *const kSupportQQ = @"3319762526";
     NSArray *queryItems = urlComponents.queryItems;
     NSString *promoCode = [self valueForKey:@"promo_code" fromQueryItems:queryItems];
     
+    if ([url.path isEqualToString:@"/free_trial"]) {
+        NSURLComponents *newURLComponents = [[NSURLComponents alloc] initWithURL:url resolvingAgainstBaseURL:NO];
+        newURLComponents.query = nil;
+        finalURLString = [NSString stringWithFormat:@"%@?promo_code=%@", newURLComponents.string, promoCode];
+    }
+    
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
     if (promoCode) {
         [[HHStudentService sharedInstance] getMarketingChannelCodeWithCode:promoCode channelId:[self getShareChannelIdWithShareType:shareType] completion:^(NSString *code) {
