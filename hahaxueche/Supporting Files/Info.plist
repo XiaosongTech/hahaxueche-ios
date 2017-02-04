@@ -115,5 +115,10 @@
 		<key>live</key>
 		<string>linkedme_live_6e02127dcdac518550bb02a4450c5f3c</string>
 	</dict>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
 </dict>
 </plist>
