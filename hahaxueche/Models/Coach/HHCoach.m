@@ -44,6 +44,7 @@
              @"stageTwoPassRate":@"stage_two_pass_rate",
              @"averagePassDays":@"average_pass_days",
              @"hasDeposit":@"has_cash_pledge",
+             @"cooperationType":@"cooperation_type",
              };
 }
 
