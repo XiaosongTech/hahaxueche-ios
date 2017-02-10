@@ -10,8 +10,8 @@
 #import <Pingpp/Pingpp.h>
 
 typedef NS_ENUM(NSInteger, StudentPaymentMethod) {
-    StudentPaymentMethodAlipay, // 支付宝
     StudentPaymentMethodBankCard, // 银行卡
+    StudentPaymentMethodAlipay, // 支付宝
     StudentPaymentMethodFql, //分期乐
 };
 

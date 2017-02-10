@@ -17,4 +17,6 @@ typedef NS_ENUM(NSInteger, TabBarItem) {
 
 @interface HHRootViewController : UITabBarController
 
+- (instancetype)initWithDefaultIndex:(TabBarItem)index;
+
 @end

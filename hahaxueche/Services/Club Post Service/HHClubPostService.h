@@ -57,5 +57,12 @@ typedef void (^HHPostCompletion)(HHClubPost *post, NSError *error);
  */
 - (void)fetchHeadlineWithCompletion:(HHPostCompletion)completion;
 
+/**
+ Get a single post
+ @param postId The id of the post
+ @param completion The completion block to execute on completion
+ */
+- (void)getPostWithId:(NSString *)postId completion:(HHPostCompletion)completion;
+
 
 @end

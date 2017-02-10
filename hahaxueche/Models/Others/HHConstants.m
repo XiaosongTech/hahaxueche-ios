@@ -29,6 +29,7 @@
              @"coachCount": @"statistics.coach_count",
              @"registeredCount": @"statistics.student_count",
              @"postCategory": @"article_categories",
+             @"marketingChannels": @"marketing_channels",
              };
 }
 

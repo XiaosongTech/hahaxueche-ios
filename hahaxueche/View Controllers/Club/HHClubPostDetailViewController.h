@@ -13,6 +13,7 @@
 @interface HHClubPostDetailViewController : UIViewController
 
 - (instancetype)initWithClubPost:(HHClubPost *)clubPost;
+- (instancetype)initWithPostId:(NSString *)postId;
 
 @property (nonatomic, strong) HHUpdatePostBlock updateBlock;
 

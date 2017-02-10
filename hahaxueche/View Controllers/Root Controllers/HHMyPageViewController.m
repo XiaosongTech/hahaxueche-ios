@@ -61,8 +61,6 @@ static NSString *const kVouchereCell = @"kVouchereCell";
 static NSString *const kContractCell = @"kContractCell";
 static NSString *const kGuardCardCell = @"kGuardCardCell";
 
-static NSString *const kActivateVoucherProdLink = @"https://m.hahaxueche.com/share/jihuo?";
-static NSString *const kActivateVoucherStagingLink = @"https://staging-m.hahaxueche.com/share/jihuo?";
 
 typedef NS_ENUM(NSInteger, MyPageCellSectionOne) {
     MyPageCellSectionOneUserInfo,

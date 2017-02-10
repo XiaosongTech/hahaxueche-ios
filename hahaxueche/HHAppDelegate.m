@@ -39,10 +39,13 @@
 #import "HHTestStartViewController.h"
 #import "HHVouchersViewController.h"
 #import "HHGuardCardViewController.h"
+#import "HHClubPostDetailViewController.h"
 
 #define kAliPushAppKey          @"23260416"
 #define kAliPushAppSecret       @"996121506d96c60827a917c2ca26ab14"
 
+
+typedef void (^HHAppDelegateCompletion)();
 
 static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
@@ -145,15 +148,34 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                 NSString *coachId = HHParam[@"coach_id"];
                 if (coachId) {
                     HHCoachDetailViewController *coachVC = [[HHCoachDetailViewController alloc] initWithCoachId:coachId];
-                    [self jumpToVC:coachVC];
+                    [self jumpToVC:coachVC completion:nil];
                 }
             } else if ([HHParam[@"type"] isEqualToString: @"training_partner_detail"]) {
                 NSString *coachId = HHParam[@"training_partner_id"];
                 if (coachId) {
                     HHPersonalCoachDetailViewController *coachVC = [[HHPersonalCoachDetailViewController alloc] initWithCoachId:coachId];
-                    [self jumpToVC:coachVC];
+                    [self jumpToVC:coachVC completion:nil];
                 }
                 
+            } else if ([HHParam[@"type"] isEqualToString: @"article"]) {
+                NSString *articleId = HHParam[@"id"];
+                if (articleId) {
+                    HHClubPostDetailViewController *vc = [[HHClubPostDetailViewController alloc] initWithPostId:articleId];
+                    [self jumpToVC:vc completion:nil];
+                }
+            } else if ([HHParam[@"type"] isEqualToString:@"refer_record"]) {
+                HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
+                [self jumpToVC:vc completion:^{
+                    [vc showReferralDetailVC];
+                }];
+            } else if ([HHParam[@"type"] isEqualToString:@"test_practice"]) {
+                HHTestStartViewController *vc = [[HHTestStartViewController alloc] init];
+                [self jumpToVC:vc completion:nil];
+                
+            } else if ([HHParam[@"type"] isEqualToString:@"coach_list"]) {
+                HHRootViewController *rootVC = [[HHRootViewController alloc] initWithDefaultIndex:TabBarItemCoach];
+                self.window.rootViewController = rootVC;
+
             } else {
                 if (self.notificationUserInfo) {
                     [self handleSchema:self.notificationUserInfo];
@@ -168,25 +190,25 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 - (void)handleSchema:(NSDictionary *)userInfo {
     if (userInfo[@"url"]) {
         HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:userInfo[@"url"]]];
-        [self jumpToVC:webVC];
+        [self jumpToVC:webVC completion:nil];
     } else if (self.notificationUserInfo[@"page"]) {
         NSString *page = self.notificationUserInfo[@"page"];
         if ([page isEqualToString:@"ReferPage"]) {
             HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
-            [self jumpToVC:vc];
+            [self jumpToVC:vc completion:nil];
             
         } else if ([page isEqualToString:@"CourseOneGuardPage"]) {
             HHGuardCardViewController *vc = [[HHGuardCardViewController alloc] init];
-            [self jumpToVC:vc];
+            [self jumpToVC:vc completion:nil];
             
         } else if ([page isEqualToString:@"VoucherPage"]) {
             HHVouchersViewController *vc = [[HHVouchersViewController alloc] init];
-            [self jumpToVC:vc];
+            [self jumpToVC:vc completion:nil];
             
             
         } else if ([page isEqualToString:@"TestPage"]) {
             HHTestStartViewController *vc = [[HHTestStartViewController alloc] init];
-            [self jumpToVC:vc];
+            [self jumpToVC:vc completion:nil];
             
         }
     }
@@ -457,9 +479,9 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 }
 
 
-- (void)jumpToVC:(UIViewController *)viewController {
+- (void)jumpToVC:(UIViewController *)viewController completion:(HHAppDelegateCompletion)completion {
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:viewController];
-    [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:nil];
+    [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:completion];
 }
 
 

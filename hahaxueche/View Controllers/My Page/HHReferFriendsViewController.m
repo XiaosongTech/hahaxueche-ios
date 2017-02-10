@@ -228,7 +228,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
         [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
 
     } else {
-        [self showLoginAlert];
+        [self showLoginAlertWithTitle:@"注册/登录后即可分享!"];
     }
 }
 
@@ -247,7 +247,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
         [self.navigationController pushViewController:vc animated:YES];
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:refer_page_cash_tapped attributes:nil];
     } else {
-        [self showLoginAlert];
+        [self showLoginAlertWithTitle:@"注册/登录后即查看提现金额和推荐记录!"];
     }
     
 }
@@ -271,8 +271,8 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     }
 }
 
-- (void)showLoginAlert {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"注册/登录后即可分享!" message:nil preferredStyle:UIAlertControllerStyleAlert];
+- (void)showLoginAlertWithTitle:(NSString *)title {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"去注册/登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         HHIntroViewController *introVC = [[HHIntroViewController alloc] init];

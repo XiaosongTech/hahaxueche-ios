@@ -42,6 +42,8 @@
 @property (nonatomic, copy) NSString *stageTwoPassRate;
 @property (nonatomic, copy) NSString *averagePassDays;
 @property (nonatomic, copy) NSNumber *hasDeposit;
+//cooperationType: A, B, C
+@property (nonatomic, copy) NSString *cooperationType;
 
 // 0 = 优秀教练; 1 = 金牌教练
 - (BOOL)isGoldenCoach;

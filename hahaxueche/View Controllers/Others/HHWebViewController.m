@@ -12,6 +12,8 @@
 #import "HHShareView.h"
 #import "HHSocialMediaShareUtility.h"
 #import "UIColor+HHColor.h"
+#import "HHStudentService.h"
+#import "HHLoadingViewUtility.h"
 
 @implementation HHWebViewController
 
@@ -167,11 +169,13 @@
             [HHPopupUtility dismissPopup:weakSelf.popup];
         }
         [[HHSocialMediaShareUtility sharedInstance] shareWebPage:weakSelf.url title:weakSelf.titleLabel.text shareType:selecteItem inVC:weakSelf resultCompletion:nil];
+
     };
     
     self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
     [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
 }
+
 
 - (void)dealloc {
 
