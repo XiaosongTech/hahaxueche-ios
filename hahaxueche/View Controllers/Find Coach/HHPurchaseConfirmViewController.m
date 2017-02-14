@@ -55,6 +55,7 @@
 
 @property (nonatomic, strong) HHPaymentMethodView *aliPayView;
 @property (nonatomic, strong) HHPaymentMethodView *bankCardView;
+@property (nonatomic, strong) HHPaymentMethodView *wechatPayView;
 @property (nonatomic, strong) HHPaymentMethodView *fqlView;
 @property (nonatomic, strong) NSArray *validVouchers;
 @property (nonatomic, strong) NSArray *specialVouchers;
@@ -282,7 +283,19 @@
         make.height.mas_equalTo(60.0f);
     }];
     [self.paymentViews addObject:self.aliPayView];
-
+    
+    self.wechatPayView = [[HHPaymentMethodView alloc] initWithTitle:@"微信支付" subTitle:@"推荐拥有微信账号的用户使用" icon:[UIImage imageNamed:@"ic_wechatpay_icon"] selected:NO];
+    self.wechatPayView.viewSelectedBlock = ^() {
+        weakSelf.selectedMethod = StudentPaymentMethodWechatPay;
+    };
+    [self.scrollView addSubview:self.wechatPayView];
+    [self.wechatPayView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.aliPayView.bottom);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(60.0f);
+    }];
+    [self.paymentViews addObject:self.wechatPayView];
     
     self.fqlView = [[HHPaymentMethodView alloc] initWithTitle:@"分期乐" subTitle:@"推荐分期用户使用" icon:[UIImage imageNamed:@"fql"] selected:NO];
     self.fqlView.viewSelectedBlock = ^() {
@@ -290,7 +303,7 @@
     };
     [self.scrollView addSubview:self.fqlView];
     [self.fqlView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.aliPayView.bottom);
+        make.top.equalTo(self.wechatPayView.bottom);
         make.left.equalTo(self.scrollView.left);
         make.width.equalTo(self.scrollView.width);
         make.height.mas_equalTo(60.0f);
@@ -314,9 +327,9 @@
 
 - (void)setSelectedMethod:(StudentPaymentMethod)selectedMethod {
     _selectedMethod = selectedMethod;
-    self.bankCardView.selected = NO;
-    self.aliPayView.selected = NO;
-    self.fqlView.selected = NO;
+    for (HHPaymentMethodView *view in self.paymentViews) {
+        view.selected = NO;
+    }
     switch (selectedMethod) {
         case StudentPaymentMethodBankCard: {
             self.bankCardView.selected = YES;
@@ -330,6 +343,9 @@
             self.fqlView.selected = YES;
         } break;
             
+        case StudentPaymentMethodWechatPay: {
+            self.wechatPayView.selected = YES;
+        } break;
         default:
             break;
     }

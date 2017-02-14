@@ -31,14 +31,28 @@
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     // 0-Alipay; 4-银行卡; 1-分期乐
     NSNumber *paymentMethodNumber = @(0);
-    if (paymentMethod == StudentPaymentMethodBankCard) {
-        paymentMethodNumber = @(4);
-    } else if (paymentMethod == StudentPaymentMethodFql) {
-        paymentMethodNumber = @(1);
-    } else {
-        paymentMethodNumber = @(0);
-    }
     
+    switch (paymentMethod) {
+        case StudentPaymentMethodAlipay: {
+            paymentMethodNumber = @(0);
+        } break;
+        
+        case StudentPaymentMethodWechatPay: {
+            paymentMethodNumber = @(5);
+        } break;
+            
+        case StudentPaymentMethodBankCard: {
+            paymentMethodNumber = @(4);
+        } break;
+            
+        case StudentPaymentMethodFql: {
+            paymentMethodNumber = @(1);
+        } break;
+            
+        default: {
+            paymentMethodNumber = @(0);
+        } break;
+    }
     if ([paymentMethodNumber isEqual:@(4)]) {
         [Pingpp ignoreResultUrl:YES];
     }
