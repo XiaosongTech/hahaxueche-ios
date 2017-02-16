@@ -258,7 +258,7 @@
 - (void)buildPaymentViews {
     __weak HHPurchaseConfirmViewController *weakSelf = self;
     
-    self.bankCardView = [[HHPaymentMethodView alloc] initWithTitle:@"银行卡" subTitle:@"使用一网通支付，最高再减99元!" icon:[UIImage imageNamed:@"cmcc_icon"] selected:YES];
+    self.bankCardView = [[HHPaymentMethodView alloc] initWithTitle:@"银行卡" subTitle:@"一网通支付，支持所有主流借记卡/信用卡" icon:[UIImage imageNamed:@"cmcc_icon"] selected:YES];
     self.bankCardView.viewSelectedBlock = ^() {
         weakSelf.selectedMethod = StudentPaymentMethodBankCard;
     };
