@@ -37,18 +37,18 @@ PODS:
   - Masonry (1.0.2)
   - MJRefresh (3.1.12)
   - MMNumberKeyboard (0.1.5)
-  - Pingpp/Alipay (2.2.8):
+  - Pingpp/Alipay (2.2.10):
     - Pingpp/Core
-  - Pingpp/CmbWallet (2.2.8):
-    - Pingpp/Core
-    - Pingpp/WebView
-  - Pingpp/Core (2.2.8):
-    - Pingpp/Network
-  - Pingpp/Fqlpay (2.2.8):
+  - Pingpp/CmbWallet (2.2.10):
     - Pingpp/Core
     - Pingpp/WebView
-  - Pingpp/Network (2.2.8)
-  - Pingpp/WebView (2.2.8):
+  - Pingpp/Core (2.2.10)
+  - Pingpp/Fqlpay (2.2.10):
+    - Pingpp/Core
+    - Pingpp/WebView
+  - Pingpp/WebView (2.2.10):
+    - Pingpp/Core
+  - Pingpp/Wx (2.2.10):
     - Pingpp/Core
   - pop (1.0.9)
   - QIYU_iOS_SDK (3.0.0)
@@ -87,9 +87,10 @@ DEPENDENCIES:
   - Masonry (~> 1.0.2)
   - MJRefresh (~> 3.1.1)
   - MMNumberKeyboard
-  - Pingpp/Alipay (~> 2.2.8)
-  - Pingpp/CmbWallet (~> 2.2.8)
-  - Pingpp/Fqlpay (~> 2.2.8)
+  - Pingpp/Alipay (~> 2.2.10)
+  - Pingpp/CmbWallet (~> 2.2.10)
+  - Pingpp/Fqlpay (~> 2.2.10)
+  - Pingpp/Wx (~> 2.2.10)
   - pop (~> 1.0)
   - QIYU_iOS_SDK (~> 3.0)
   - RSKImageCropper
@@ -124,7 +125,7 @@ SPEC CHECKSUMS:
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   MMNumberKeyboard: 12da79571d08aca21566534a74726c5469aed29a
-  Pingpp: b5ad287bd6969d69cff1f2438ea63147976711c9
+  Pingpp: a267566fbab76c4c3b65adb0655635b1d5ba7fdc
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   QIYU_iOS_SDK: d6fbbcee08694b61389a7dd5301c83b03cf7835c
   RSKImageCropper: edd65fedb3734332818deb139906d6b7f54b8a44
@@ -138,6 +139,6 @@ SPEC CHECKSUMS:
   UITextView+Placeholder: 77680995fcdd07c3f52ec92fe1150874a2ac89ff
   UMengAnalytics-NO-IDFA: f1b08b540eba6ebad044a574cae6d988cf40cfda
 
-PODFILE CHECKSUM: 61c784c1524f798a2ece715941e89b41a5a42d04
+PODFILE CHECKSUM: 5e60c23e4ffcbdb6eb7e45cad1a153edae73c1a7
 
 COCOAPODS: 1.0.0
