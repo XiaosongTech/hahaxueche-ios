@@ -71,7 +71,7 @@
     self = [super init];
     if (self) {
         self.coach = coach;
-        self.selectedMethod = StudentPaymentMethodBankCard;
+        self.selectedMethod = StudentPaymentMethodAlipay;
         self.paymentViews = [NSMutableArray array];
         if ([self.validVouchers count] > 0) {
             self.selectedVoucher = [self.validVouchers firstObject];
@@ -258,26 +258,13 @@
 - (void)buildPaymentViews {
     __weak HHPurchaseConfirmViewController *weakSelf = self;
     
-    self.bankCardView = [[HHPaymentMethodView alloc] initWithTitle:@"银行卡" subTitle:@"一网通支付，支持所有主流借记卡/信用卡" icon:[UIImage imageNamed:@"cmcc_icon"] selected:YES];
-    self.bankCardView.viewSelectedBlock = ^() {
-        weakSelf.selectedMethod = StudentPaymentMethodBankCard;
-    };
-    [self.scrollView addSubview:self.bankCardView];
-    [self.bankCardView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.totalPriceContainerView.bottom).offset(10.0f);
-        make.left.equalTo(self.scrollView.left);
-        make.width.equalTo(self.scrollView.width);
-        make.height.mas_equalTo(60.0f);
-    }];
-    [self.paymentViews addObject:self.bankCardView];
-
-    self.aliPayView = [[HHPaymentMethodView alloc] initWithTitle:@"支付宝" subTitle:@"推荐拥有支付宝账号的用户使用" icon:[UIImage imageNamed:@"ic_alipay_icon"] selected:NO];
+    self.aliPayView = [[HHPaymentMethodView alloc] initWithTitle:@"支付宝" subTitle:@"推荐拥有支付宝账号的用户使用" icon:[UIImage imageNamed:@"ic_alipay_icon"] selected:YES];
     self.aliPayView.viewSelectedBlock = ^() {
         weakSelf.selectedMethod = StudentPaymentMethodAlipay;
     };
     [self.scrollView addSubview:self.aliPayView];
     [self.aliPayView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bankCardView.bottom);
+        make.top.equalTo(self.totalPriceContainerView.bottom).offset(10.0f);
         make.left.equalTo(self.scrollView.left);
         make.width.equalTo(self.scrollView.width);
         make.height.mas_equalTo(60.0f);
@@ -297,13 +284,27 @@
     }];
     [self.paymentViews addObject:self.wechatPayView];
     
+    self.bankCardView = [[HHPaymentMethodView alloc] initWithTitle:@"银行卡" subTitle:@"一网通支付，支持所有主流借记卡/信用卡" icon:[UIImage imageNamed:@"cmcc_icon"] selected:NO];
+    self.bankCardView.viewSelectedBlock = ^() {
+        weakSelf.selectedMethod = StudentPaymentMethodBankCard;
+    };
+    [self.scrollView addSubview:self.bankCardView];
+    [self.bankCardView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.wechatPayView.bottom);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(60.0f);
+    }];
+    [self.paymentViews addObject:self.bankCardView];
+
+    
     self.fqlView = [[HHPaymentMethodView alloc] initWithTitle:@"分期乐" subTitle:@"推荐分期用户使用" icon:[UIImage imageNamed:@"fql"] selected:NO];
     self.fqlView.viewSelectedBlock = ^() {
         weakSelf.selectedMethod = StudentPaymentMethodFql;
     };
     [self.scrollView addSubview:self.fqlView];
     [self.fqlView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.wechatPayView.bottom);
+        make.top.equalTo(self.bankCardView.bottom);
         make.left.equalTo(self.scrollView.left);
         make.width.equalTo(self.scrollView.width);
         make.height.mas_equalTo(60.0f);
