@@ -753,6 +753,7 @@ typedef NS_ENUM(NSInteger, MyPageCellSectionTwo) {
     [view addSubview:label];
     
     UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pic_xiaoha"]];
+    imgView.contentMode = UIViewContentModeScaleAspectFit;
     [view addSubview:imgView];
     
     [imgView makeConstraints:^(MASConstraintMaker *make) {
