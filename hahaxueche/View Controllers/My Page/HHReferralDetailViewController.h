@@ -10,5 +10,7 @@
 
 @interface HHReferralDetailViewController : UIViewController
 
+- (instancetype)initWithTopView:(BOOL)showTopView;
+
 
 @end
