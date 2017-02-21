@@ -35,16 +35,31 @@ static NSString *const kCellId = @"kCellId";
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 @property (nonatomic, strong) MJRefreshAutoNormalFooter *loadMoreFooter;
 @property (nonatomic, strong) HHStudent *student;
+@property (nonatomic) BOOL showTopView;
 
 @end
 
 @implementation HHReferralDetailViewController
 
+- (instancetype)initWithTopView:(BOOL)showTopView {
+    self = [super init];
+    if (self) {
+        self.showTopView = showTopView;
+    }
+    return self;
+}
+
+- (instancetype)init {
+    return [self initWithTopView:YES];
+}
+
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.student = [HHStudentStore sharedInstance].currentStudent;
-    self.title = @"推荐有奖";
+    self.title = @"推荐明细";
     self.referralsArray = [NSMutableArray array];
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
@@ -117,6 +132,12 @@ static NSString *const kCellId = @"kCellId";
     self.loadMoreFooter.stateLabel.textColor = [UIColor HHLightTextGray];
     self.tableView.mj_footer = self.loadMoreFooter;
     
+    if (!self.showTopView) {
+        self.topView.hidden = YES;
+    } else {
+        self.topView.hidden = NO;
+    }
+    
     [self makeConstraints];
 }
 
@@ -145,12 +166,22 @@ static NSString *const kCellId = @"kCellId";
         make.height.mas_equalTo(30.0f);
     }];
     
-    [self.tableView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.topView.bottom);
-        make.left.equalTo(self.view.left);
-        make.width.equalTo(self.view.width);
-        make.bottom.equalTo(self.view.bottom);
-    }];
+    if (self.showTopView) {
+        [self.tableView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.topView.bottom);
+            make.left.equalTo(self.view.left);
+            make.width.equalTo(self.view.width);
+            make.bottom.equalTo(self.view.bottom);
+        }];
+    } else {
+        [self.tableView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.view.top);
+            make.left.equalTo(self.view.left);
+            make.width.equalTo(self.view.width);
+            make.bottom.equalTo(self.view.bottom);
+        }];
+    }
+    
 }
 
 - (void)dismissVC {

@@ -302,7 +302,7 @@ static NSString *const kSupportQQ = @"3319762526";
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
     self.containerVC = inVC;
     __block OSMessage *msg = [[OSMessage alloc] init];
-    msg.title = @"送你￥200元学车券，怕你考不过，再送你一张保过卡。比心❤️";
+    msg.title = @"送你￥200元学车券，怕你考不过，再送你挂科险。比心❤️";
     msg.desc = @"Hi~朋友，知道你最近想学车，我把我学车的地方告诉你了，要一把考过哟！";
     msg.image = [UIImage imageNamed:@"ic_share"];
     msg.thumbnail = [UIImage imageNamed:@"ic_share"];
@@ -348,7 +348,7 @@ static NSString *const kSupportQQ = @"3319762526";
                         return;
                     }
                     msg = [[OSMessage alloc] init];
-                    msg.title = [NSString stringWithFormat:@"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你一张保过卡. 比心❤️ %@", shortURL];
+                    msg.title = [NSString stringWithFormat:@"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你科一挂科险. 比心❤️ %@", shortURL];
                     [OpenShare shareToWeibo:msg Success:^(OSMessage *message) {
                         if (resultCompletion) {
                             resultCompletion(YES);
@@ -418,7 +418,7 @@ static NSString *const kSupportQQ = @"3319762526";
                 } break;
                     
                 case SocialMediaMessage: {
-                    [self showSMS:[NSString stringWithFormat:@"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你一张保过卡. 比心❤️ %@", shortURL] attachment:nil];
+                    [self showSMS:[NSString stringWithFormat:@"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你科一挂科险. 比心❤️ %@", shortURL] attachment:nil];
                 }
                 default:
                     break;

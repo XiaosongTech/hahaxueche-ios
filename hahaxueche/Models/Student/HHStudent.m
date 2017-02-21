@@ -31,6 +31,7 @@
              @"agreementURL":@"agreement_url",
              @"idCard":@"identity_card",
              @"userIdentityId":@"user_identity_id",
+             @"isAgent": @"is_sales_agent",
              };
 }
 
