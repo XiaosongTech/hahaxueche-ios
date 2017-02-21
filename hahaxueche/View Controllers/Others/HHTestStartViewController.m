@@ -56,7 +56,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"科一保过";
+    self.title = @"科一挂科险";
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
     
@@ -143,8 +143,8 @@
     
     if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
         cardImage = [UIImage imageNamed:@"protectioncard_noget"];
-        text = @"快去领取科一科四保过卡哟~";
-        buttonTitle = @"领取保过卡";
+        text = @"快去领取科一科四挂科险哟~";
+        buttonTitle = @"领取挂科险";
         showSlotView = NO;
         
         

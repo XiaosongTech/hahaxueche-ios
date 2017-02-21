@@ -25,10 +25,10 @@
 }
 
 - (void)initSubviews {
-    self.titleView = [[HHMyPageItemTitleView alloc] initWithTitle:@"我的保过卡"];
+    self.titleView = [[HHMyPageItemTitleView alloc] initWithTitle:@"我的挂科险"];
     [self.contentView addSubview:self.titleView];
     
-    self.courseOneFourView = [[HHMyPageItemView alloc] initWitTitle:@"科目一四保过卡" showLine:NO];
+    self.courseOneFourView = [[HHMyPageItemView alloc] initWitTitle:@"科目一四挂科险" showLine:NO];
     if ([[HHStudentStore sharedInstance].currentStudent isPurchased]) {
         self.courseOneFourView.arrowImageView.hidden = NO;
         self.courseOneFourView.redDot.hidden = YES;

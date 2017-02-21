@@ -348,7 +348,7 @@ static NSString *const kSupportQQ = @"3319762526";
                         return;
                     }
                     msg = [[OSMessage alloc] init];
-                    msg.title = [NSString stringWithFormat:@"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你一张保过卡. 比心❤️ %@", shortURL];
+                    msg.title = [NSString stringWithFormat:@"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你科一挂科险. 比心❤️ %@", shortURL];
                     [OpenShare shareToWeibo:msg Success:^(OSMessage *message) {
                         if (resultCompletion) {
                             resultCompletion(YES);
@@ -418,7 +418,7 @@ static NSString *const kSupportQQ = @"3319762526";
                 } break;
                     
                 case SocialMediaMessage: {
-                    [self showSMS:[NSString stringWithFormat:@"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你一张保过卡. 比心❤️ %@", shortURL] attachment:nil];
+                    [self showSMS:[NSString stringWithFormat:@"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你科一挂科险. 比心❤️ %@", shortURL] attachment:nil];
                 }
                 default:
                     break;

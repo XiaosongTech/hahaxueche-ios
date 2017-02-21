@@ -29,7 +29,7 @@ static NSString *const kBaseString = @"*如有其它疑问请联系客服或您�
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"科目一四保过卡";
+    self.title = @"科目一四挂科险";
     self.view.backgroundColor = [UIColor whiteColor];
     
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
