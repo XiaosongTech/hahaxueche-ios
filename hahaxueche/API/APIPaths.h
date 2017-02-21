@@ -50,6 +50,7 @@
 #define kAPIVouchers @"vouchers"
 #define kAPIStudentIDCard @"students/%@/id_card"
 #define kAPIStudentAgreement @"students/%@/agreement"
+#define kAPIStudentIdInfo @"students/%@/id_card_info"
 #define kAPIStudentSendAgreement @"students/%@/agreement_mail"
 #define kAPIStudentTestResult @"students/%@/exam_results"
 

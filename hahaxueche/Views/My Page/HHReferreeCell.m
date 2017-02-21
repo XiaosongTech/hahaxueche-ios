@@ -11,6 +11,8 @@
 #import "UIColor+HHColor.h"
 #import "HHConstantsStore.h"
 #import "NSNumber+HHNumber.h"
+#import "HHStudentStore.h"
+#import "HHFormatUtility.h"
 
 @implementation HHReferreeCell
 
@@ -29,6 +31,9 @@
         
         self.statusLabel = [self buildLabelWithColor:[UIColor HHLightestTextGray] font:[UIFont systemFontOfSize:14.0f]];
         [self.contentView addSubview:self.statusLabel];
+        
+        self.timeLabel = [self buildLabelWithColor:[UIColor HHLightestTextGray] font:[UIFont systemFontOfSize:14.0f]];
+        [self.contentView addSubview:self.timeLabel];
         
         self.moneyLabel = [self buildLabelWithColor:[UIColor HHOrange] font:[UIFont systemFontOfSize:22.0f]];
         [self.contentView addSubview:self.moneyLabel];
@@ -59,6 +64,11 @@
             make.top.equalTo(self.contentView.centerY).offset(2.0f);
         }];
         
+        [self.timeLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.statusLabel.right).offset(5.0f);
+            make.centerY.equalTo(self.statusLabel.centerY);
+        }];
+        
         [self.moneyLabel makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self.contentView.right).offset(-20.0f);
             make.centerY.equalTo(self.contentView.centerY);
@@ -80,13 +90,21 @@
     self.nameLabel.text = referral.name;
     self.numberLabel.text = referral.phone;
     self.statusLabel.text = referral.status;
+    
+    if ([[HHStudentStore sharedInstance].currentStudent.isAgent boolValue]) {
+        self.moneyLabel.hidden = NO;
+    } else {
+        self.moneyLabel.hidden = YES;
+    }
+    self.moneyLabel.text = [referral.amount generateMoneyString];
+    
     if (referral.purchasedAt) {
         self.moneyLabel.textColor = [UIColor HHOrange];
+        self.timeLabel.text = [[HHFormatUtility fullDateFormatter] stringFromDate:referral.purchasedAt];
     } else {
         self.moneyLabel.textColor = [UIColor HHLightestTextGray];
+        self.timeLabel.text = @"";
     }
-    
-    self.moneyLabel.text = [referral.amount generateMoneyString];
 }
 
 @end

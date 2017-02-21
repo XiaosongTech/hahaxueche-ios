@@ -35,7 +35,7 @@
                     
                     
                 case ItemTypeCourseOne: {
-                    tapView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_lessonone"] title:@"科一保过"];
+                    tapView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_lessonone"] title:@"科一挂科险"];
                     [self addSubview:tapView];
                     
                 } break;

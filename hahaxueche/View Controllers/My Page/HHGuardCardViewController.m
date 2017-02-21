@@ -23,13 +23,13 @@ static NSString *const kBaseString = @"*如有其它疑问请联系客服或您�
 @implementation HHGuardCardViewController
 
 - (instancetype)init {
-    self = [super initWithImage:[UIImage imageNamed:@"Group_15"]];
+    self = [super initWithImage:[UIImage imageNamed:@"bgk"]];
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"科目一四保过卡";
+    self.title = @"科目一四挂科险";
     self.view.backgroundColor = [UIColor whiteColor];
     
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];

@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UILabel *numberLabel;
 @property (nonatomic, strong) UILabel *statusLabel;
 @property (nonatomic, strong) UILabel *moneyLabel;
+@property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UIView *botLine;
 
 - (void)setupCellWithReferral:(HHReferral *)referral;

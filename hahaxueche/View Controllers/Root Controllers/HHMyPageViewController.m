@@ -749,10 +749,20 @@ typedef NS_ENUM(NSInteger, MyPageCellSectionTwo) {
     label.font = [UIFont systemFontOfSize:15.0f];
     label.adjustsFontSizeToFitWidth = YES;
     label.minimumScaleFactor = 0.5;
-    label.text = @"邀请好友平分¥400！邀请越多，奖励越多！";
+    if (self.isLoggedIn) {
+        if (![self.currentStudent.isAgent boolValue]) {
+            label.text = @"你推荐我送礼！推荐越多，礼品越多！";
+        } else {
+            label.text = @"邀请好友平分¥400！邀请越多，奖励越多！";
+        }
+    } else {
+        label.text = @"你推荐我送礼！推荐越多，礼品越多！";
+    }
+    
     [view addSubview:label];
     
     UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pic_xiaoha"]];
+    imgView.contentMode = UIViewContentModeScaleAspectFit;
     [view addSubview:imgView];
     
     [imgView makeConstraints:^(MASConstraintMaker *make) {
@@ -774,7 +784,6 @@ typedef NS_ENUM(NSInteger, MyPageCellSectionTwo) {
 }
 
 - (void)jumpToReferVC {
-    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_refer_tapped attributes:nil];
     HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
