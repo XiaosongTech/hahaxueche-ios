@@ -35,7 +35,7 @@
 @property (nonatomic, strong) HHIdentityCard *idCard;
 @property (nonatomic, copy) NSString *userIdentityId;
 //区分代理和用户--用于推荐有奖
-@property (nonatomic, copy) NSNumber *isNormalUser;
+@property (nonatomic, copy) NSNumber *isAgent;
 
 
 - (NSString *)getCourseName;

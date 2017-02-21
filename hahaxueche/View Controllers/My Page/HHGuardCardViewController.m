@@ -23,7 +23,7 @@ static NSString *const kBaseString = @"*如有其它疑问请联系客服或您�
 @implementation HHGuardCardViewController
 
 - (instancetype)init {
-    self = [super initWithImage:[UIImage imageNamed:@"Group_15"]];
+    self = [super initWithImage:[UIImage imageNamed:@"bgk"]];
     return self;
 }
 

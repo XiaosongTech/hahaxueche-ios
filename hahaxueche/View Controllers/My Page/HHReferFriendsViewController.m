@@ -444,7 +444,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 
 - (BOOL)isNormalUser {
     if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
-        return [HHStudentStore sharedInstance].currentStudent.isNormalUser;
+        return ![[HHStudentStore sharedInstance].currentStudent.isAgent boolValue];
     } else {
         return YES;
     }

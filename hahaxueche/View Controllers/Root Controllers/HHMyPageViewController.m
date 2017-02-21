@@ -750,7 +750,7 @@ typedef NS_ENUM(NSInteger, MyPageCellSectionTwo) {
     label.adjustsFontSizeToFitWidth = YES;
     label.minimumScaleFactor = 0.5;
     if (self.isLoggedIn) {
-        if ([self.currentStudent.isNormalUser boolValue]) {
+        if (![self.currentStudent.isAgent boolValue]) {
             label.text = @"你推荐我送礼！推荐越多，礼品越多！";
         } else {
             label.text = @"邀请好友平分¥400！邀请越多，奖励越多！";

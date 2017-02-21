@@ -46,6 +46,8 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
 @property (nonatomic, strong) UIImage *backImg;
 
 @property (nonatomic, strong) KLCPopup *popup;
+@property (nonatomic, strong) UITextField *nameField;
+@property (nonatomic, strong) UITextField *idNumField;
 
 @property (nonatomic) BOOL isFaceViewTapped;
 
@@ -64,6 +66,8 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
     [self initSubviews];
     
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithTitle:@"协议模板" titleColor:[UIColor whiteColor] action:@selector(showTemplate) target:self isLeft:NO];
+    
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithTitle:@"手动填写" titleColor:[UIColor whiteColor] action:@selector(showIdInputView) target:self isLeft:YES];
     
 }
 
@@ -385,6 +389,53 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:navVC animated:YES completion:nil];
 
+}
+
+
+- (void)showIdInputView {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入您的真实姓名和身份证号码" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"提交" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if ([self.idNumField.text isEqualToString:@""] || [self.nameField.text isEqualToString:@""]) {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"请填写真实姓名和身份证号码"];
+        } else {
+            [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"验证中..."];
+            [[HHStudentService sharedInstance] verifyIdWithNumber:self.idNumField.text name:self.nameField.text completion:^(NSError *error) {
+                if (!error) {
+                    [[HHStudentService sharedInstance] getAgreementURLWithCompletion:^(NSURL *url, NSError *error) {
+                        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+                        if (!error && url) {
+                            [[NSNotificationCenter defaultCenter] postNotificationName:@"studentUpdated" object:nil];
+                            HHSignContractViewController *vc = [[HHSignContractViewController alloc] initWithURL:url];
+                            [self.navigationController setViewControllers:@[vc] animated:YES];
+                        } else {
+                            [[HHToastManager sharedManager] showErrorToastWithText:@"获取失败"];
+                        }
+                    }];
+
+                } else {
+                    [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"实名认证失败, 请确认真实姓名和身份证号码信息!"];
+                }
+            }];
+        }
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:cancelAction];
+    [alertController addAction:confirmAction];
+    
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+         self.nameField = textField;
+         textField.placeholder = @"真实姓名";
+     }];
+    
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        self.idNumField = textField;
+         textField.placeholder = @"身份证号码";
+     }];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 @end

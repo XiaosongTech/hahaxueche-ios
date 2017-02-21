@@ -275,4 +275,13 @@ typedef void (^HHMarketingChannelCompletion)(NSString *code);
  */
 - (void)getMarketingChannelCodeWithCode:(NSString *)originalCode channelId:(NSString *)channelId completion:(HHMarketingChannelCompletion)completion;
 
+
+/**
+ Verify id and name
+ @param idNum The id number
+ @param name The real name of user
+ @param completion The completion block to execute on completion
+ */
+- (void)verifyIdWithNumber:(NSString *)idNum name:(NSString *)name completion:(HHStudentGenericCompletion)completion;
+
 @end

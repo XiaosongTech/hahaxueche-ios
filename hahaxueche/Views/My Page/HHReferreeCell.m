@@ -91,10 +91,10 @@
     self.numberLabel.text = referral.phone;
     self.statusLabel.text = referral.status;
     
-    if ([[HHStudentStore sharedInstance].currentStudent.isNormalUser boolValue]) {
-        self.moneyLabel.hidden = YES;
-    } else {
+    if ([[HHStudentStore sharedInstance].currentStudent.isAgent boolValue]) {
         self.moneyLabel.hidden = NO;
+    } else {
+        self.moneyLabel.hidden = YES;
     }
     self.moneyLabel.text = [referral.amount generateMoneyString];
     
