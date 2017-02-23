@@ -54,7 +54,7 @@ static NSString *const kDrivingSchoolLink = @"https://m.hahaxueche.com/share/zha
 static NSString *const kAdvisorLink = @"https://m.hahaxueche.com/share/zhaoguwen?city_id=%@";
 static NSString *const kGroupPurchaseLink = @"https://m.hahaxueche.com/share/tuan?promo_code=456134";
 
-static NSString *const kStepsLink = @"https://activity.hahaxueche.com/share/steps";
+static NSString *const kStepsLink = @"https://m.hahaxueche.com/xue-che-liu-cheng";
 static NSString *const kPlatformLink = @"https://m.hahaxueche.com/assurance";
 
 static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
