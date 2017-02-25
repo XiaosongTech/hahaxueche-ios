@@ -31,7 +31,6 @@
 #import "HHSupportUtility.h"
 #import "HHFreeTrialUtility.h"
 #import "HHTestView.h"
-#import "HHReferralShareView.h"
 #import "HHHomPageCardView.h"
 #import "HHHomePageItemsView.h"
 #import "HHTestStartViewController.h"
@@ -380,9 +379,8 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
             
         } break;
             
-        case ItemTypeCourseOne: {
-            [self showTestVC];
-            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_course_one_tapped attributes:nil];
+        case ItemTypePeifu: {
+            //show peifu vc
         } break;
             
         case ItemTypePlatformGuard: {

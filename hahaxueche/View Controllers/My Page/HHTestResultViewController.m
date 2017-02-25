@@ -15,9 +15,9 @@
 #import "HHTestSimuInfoView.h"
 #import "HHTestQuestionViewController.h"
 #import "HHReferFriendsViewController.h"
-#import "HHReferralShareView.h"
 #import "HHPopupUtility.h"
 #import "HHStudentService.h"
+#import "HHShareReferralView.h"
 
 @interface HHTestResultViewController ()
 
@@ -236,20 +236,15 @@
         return;
     }
     __weak HHTestResultViewController *weakSelf = self;
-    HHReferralShareView *shareView = [[HHReferralShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 300.0f)];
-    shareView.cancelBlock = ^(){
-        [weakSelf.popup dismiss:YES];
+    HHShareReferralView *view = [[HHShareReferralView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 350.0f) text:@"现在分享给好友即可获得神秘礼品! 好友报名学车立减¥200! 快去分享吧~"];
+    view.shareBlock = ^(){
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+        HHReferFriendsViewController *referVC = [[HHReferFriendsViewController alloc] init];
+        [weakSelf.navigationController setViewControllers:@[referVC] animated:YES];
     };
-    
-    shareView.shareBlock = ^(){
-        [weakSelf.popup dismiss:YES];
-        
-        HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
-        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-        [weakSelf presentViewController:navVC animated:YES completion:nil];
-    };
-    self.popup = [HHPopupUtility createPopupWithContentView:shareView];
-    self.popup.shouldDismissOnBackgroundTouch = NO;
+    self.popup = [HHPopupUtility createPopupWithContentView:view];
+    self.popup.shouldDismissOnContentTouch = NO;
+    self.popup.shouldDismissOnBackgroundTouch = YES;
     [HHPopupUtility showPopup:self.popup];
 }
 

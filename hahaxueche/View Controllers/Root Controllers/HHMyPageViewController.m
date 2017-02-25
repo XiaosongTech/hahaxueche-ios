@@ -331,7 +331,7 @@ typedef NS_ENUM(NSInteger, MyPageCellSectionTwo) {
                             HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"友情提醒" info:[weakSelf buildPopupInfoTextWithString:@"快去上传资料签署专属学员协议吧!"] leftButtonTitle:@"取消" rightButtonTitle:@"去上传"];
                             view.confirmBlock = ^() {
                                 [HHPopupUtility dismissPopup:weakSelf.popup];
-                                HHUploadIDViewController *vc = [[HHUploadIDViewController alloc] init];
+                                HHUploadIDViewController *vc = [[HHUploadIDViewController alloc] initWithType:UploadViewTypeContract];
                                 UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
                                 [weakSelf presentViewController:navVC animated:YES completion:nil];
                             };

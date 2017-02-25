@@ -20,6 +20,7 @@
 #import "HHLoadingViewUtility.h"
 #import "HHStudentService.h"
 #import "HHToastManager.h"
+#import "HHShareReferralView.h"
 
 @interface HHSignContractViewController () <BEMCheckBoxDelegate, WKNavigationDelegate, WKUIDelegate>
 
@@ -145,17 +146,17 @@
 
 - (void)showSharePopup {
     __weak HHSignContractViewController *weakSelf = self;
-    HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithTitle:@"推荐好友" info:[self buildPopupInfoTextWithString:[NSString stringWithFormat:@"恭喜您！协议签署成功! 可在\"我的页面\"-\"我的协议\"里面查看. \n现在分享<学车大礼包>给好友吧, 好友报名学车立减%@元, 还有科一挂科险！",[[[HHConstantsStore sharedInstance] getCityRefereeBonus] generateMoneyString]]]];
-    [view.buttonView.okButton setTitle:@"分享得现金" forState:UIControlStateNormal];
-    view.cancelBlock = ^() {
+    
+    HHShareReferralView *view = [[HHShareReferralView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 350.0f) text:@"恭喜您！协议签署成功! 可在\"我的页面\"-\"我的协议\"里面查看. 现在分享给好友即可获得神秘礼品! 好友报名学车立减¥200! 快去分享吧~"];
+    view.shareBlock = ^(){
         [HHPopupUtility dismissPopup:weakSelf.popup];
-        HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
-        [weakSelf.navigationController setViewControllers:@[vc] animated:YES];
+        HHReferFriendsViewController *referVC = [[HHReferFriendsViewController alloc] init];
+        [weakSelf.navigationController setViewControllers:@[referVC] animated:YES];
     };
-    weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
-    weakSelf.popup.shouldDismissOnContentTouch = NO;
-    weakSelf.popup.shouldDismissOnBackgroundTouch = NO;
-    [HHPopupUtility showPopup:weakSelf.popup];
+    self.popup = [HHPopupUtility createPopupWithContentView:view];
+    self.popup.shouldDismissOnContentTouch = NO;
+    self.popup.shouldDismissOnBackgroundTouch = NO;
+    [HHPopupUtility showPopup:self.popup];
 
 }
 

@@ -11,7 +11,7 @@
 typedef NS_ENUM(NSInteger, ItemType) {
     ItemTypeGroupPurchase,
     ItemTypeOnlineTest,
-    ItemTypeCourseOne,
+    ItemTypePeifu,
     ItemTypePlatformGuard,
     ItemTypeReferFriends,
     ItemTypeCallSupport,

@@ -9,9 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "HHCoach.h"
 
+typedef NS_ENUM(NSInteger, ReceiptViewType) {
+    ReceiptViewTypeContract, // 签署合同
+    ReceiptViewTypePeifubao //赔付宝
+    
+};
 
 @interface HHReceiptViewController : UIViewController
 
-- (instancetype)initWithCoach:(HHCoach *)coach;
+- (instancetype)initWithCoach:(HHCoach *)coach type:(ReceiptViewType)type;
 
 @end

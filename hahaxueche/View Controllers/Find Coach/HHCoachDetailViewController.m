@@ -45,10 +45,12 @@
 #import "HHGenericOneButtonPopupView.h"
 #import "HHPlatformGuardTableViewCell.h"
 #import "HHGuardViewController.h"
+#import "HHInsuranceTableViewCell.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
     CoachCellPrice,
+    CoachCellInsurance,
     CoachCellField,
     CoachCellPlatformGuard,
     CoachCellInfoTwo,
@@ -63,8 +65,11 @@ static NSString *const kFiledCellID = @"kFiledCellID";
 static NSString *const kInfoTwoCellID = @"kInfoTwoCellID";
 static NSString *const kCommentsCellID = @"kCommentsCellID";
 static NSString *const kGuardCellID = @"kGuardCellID";
+static NSString *const kInsuranceCellID = @"kInsuranceCellID";
 
 static NSString *const kPlatformLink = @"https://m.hahaxueche.com/assurance";
+
+static NSString *const kInsuranceText = @"赔付宝是一款由中国平安承保量身为哈哈学车定制的一份学车保险。提供了一站式驾考报名、选购保险、保险理赔申诉的平台，全面保障你的学车利益，赔付宝在购买后的次日生效，保期最长为一年";
 
 
 @interface HHCoachDetailViewController () <UITableViewDataSource, UITableViewDelegate, SDCycleScrollViewDelegate, UIScrollViewDelegate>
@@ -163,6 +168,7 @@ static NSString *const kPlatformLink = @"https://m.hahaxueche.com/assurance";
     [self.tableView registerClass:[HHCoachDetailSectionTwoCell class] forCellReuseIdentifier:kInfoTwoCellID];
     [self.tableView registerClass:[HHCoachDetailCommentsCell class] forCellReuseIdentifier:kCommentsCellID];
     [self.tableView registerClass:[HHPlatformGuardTableViewCell class] forCellReuseIdentifier:kGuardCellID];
+    [self.tableView registerClass:[HHInsuranceTableViewCell class] forCellReuseIdentifier:kInsuranceCellID];
     
     ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithSubView:self.coachImagesView];
     [self.tableView setTableHeaderView:headerView];
@@ -261,6 +267,23 @@ static NSString *const kPlatformLink = @"https://m.hahaxueche.com/assurance";
             [cell setupCellWithCoach:self.coach];
             return cell;
         }
+        
+        case CoachCellInsurance: {
+            HHInsuranceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kInsuranceCellID forIndexPath:indexPath];
+            cell.questionAction = ^() {
+                NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+                style.lineSpacing = 3.0f;
+                NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:kInsuranceText attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:style}];
+                HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithTitle:@"什么是赔付宝?" info:attString];
+                view.cancelBlock = ^() {
+                    [HHPopupUtility dismissPopup:weakSelf.popup];
+                };
+                weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                [HHPopupUtility showPopup:weakSelf.popup];
+
+            };
+            return cell;
+        } break;
             
         case CoachCellField: {
             HHCoachFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:kFiledCellID forIndexPath:indexPath];
@@ -335,6 +358,10 @@ static NSString *const kPlatformLink = @"https://m.hahaxueche.com/assurance";
                 height = height + 35.0f + 50.0f;
             }
             return height;
+        }
+        
+        case CoachCellInsurance: {
+            return 305.0f;
         }
             
         case CoachCellField: {

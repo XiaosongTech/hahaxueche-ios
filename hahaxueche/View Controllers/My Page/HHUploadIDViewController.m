@@ -24,10 +24,12 @@
 #import "NSNumber+HHNumber.h"
 #import "HHContractViewController.h"
 #import "UIBarButtonItem+HHCustomButton.h"
+#import "HHShareReferralView.h"
 
-static NSString *const kLabelText = @"请上传您的身份证信息，我们将会生成您的哈哈学车专属学员电子协议，该协议将在您的学车途中保障您的利益，同时也有助于教练尽快开展教学活动！若不上传您的真实信息，我们将无法保障您的合法权益！";
+static NSString *const kContractText = @"请上传您的身份证信息，我们将会生成您的哈哈学车专属学员电子协议，该协议将在您的学车途中保障您的利益，同时也有助于教练尽快开展教学活动！若不上传您的真实信息，我们将无法保障您的合法权益！";
+static NSString *const kInsuranceText = @"请上传身份信息，我们将会用于您的赔付宝投保事宜。赔付宝将在您的学车途中保障您的利益，若不上传您的真实信息，赔付宝将无法生效，中国平安将无法对您进行承保。";
 static NSString *const kSecurityText = @"*请确保您的二代身份证处于有效期内\n**所有信息已经经过加密处理, 保证您的信息安全";
-static NSString *const kSupportText = @"对协议有任何疑问可致电客服热线400-001-6006\n或点击联系在线客服";
+static NSString *const kSupportText = @"有任何疑问可致电客服热线400-001-6006\n或点击联系在线客服";
 
 @interface HHUploadIDViewController () <TTTAttributedLabelDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
@@ -35,7 +37,6 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
 @property (nonatomic, strong) UILabel *topLabel;
 @property (nonatomic, strong) UIView *topContainerView;
 @property (nonatomic, strong) HHUploadIdView *faceView;
-@property (nonatomic, strong) HHUploadIdView *backView;
 @property (nonatomic, strong) UILabel *securityLabel;
 @property (nonatomic, strong) TTTAttributedLabel *supportLabel;
 @property (nonatomic, strong) UIButton *uploadButton;
@@ -43,30 +44,35 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
 @property (nonatomic, strong) UIActionSheet *imgActionSheet;
 
 @property (nonatomic, strong) UIImage *faceImg;
-@property (nonatomic, strong) UIImage *backImg;
 
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) UITextField *nameField;
 @property (nonatomic, strong) UITextField *idNumField;
 
-@property (nonatomic) BOOL isFaceViewTapped;
-
-@property (nonatomic) BOOL faceImgUploadSucceed;
-@property (nonatomic) BOOL backImgUploadSucceed;
+@property (nonatomic) UploadViewType type;
 
 @end
 
 @implementation HHUploadIDViewController
 
+- (instancetype)initWithType:(UploadViewType)type {
+    self = [super init];
+    if (self) {
+        self.type = type;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"上传身份信息";
-    self.isFaceViewTapped = NO;
     self.view.backgroundColor = [UIColor colorWithRed:1.00 green:0.98 blue:0.95 alpha:1.00];
     [self initSubviews];
     
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithTitle:@"协议模板" titleColor:[UIColor whiteColor] action:@selector(showTemplate) target:self isLeft:NO];
-    
+    if (self.type == UploadViewTypeContract) {
+        self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithTitle:@"协议模板" titleColor:[UIColor whiteColor] action:@selector(showTemplate) target:self isLeft:NO];
+    }
+
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithTitle:@"手动填写" titleColor:[UIColor whiteColor] action:@selector(showIdInputView) target:self isLeft:YES];
     
 }
@@ -93,7 +99,12 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
     style.tailIndent = -10.0f;
     style.lineSpacing = 5.0f;
     
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:kLabelText attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor whiteColor], NSParagraphStyleAttributeName:style}];
+    NSString *baseString = kContractText;
+    if (self.type == UploadViewTypePeifubao) {
+        baseString = kInsuranceText;
+    }
+    
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:baseString attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor whiteColor], NSParagraphStyleAttributeName:style}];
     
     CGRect rect = [string boundingRectWithSize:CGSizeMake(CGRectGetWidth([UIScreen mainScreen].bounds), CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
     
@@ -124,7 +135,6 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
     __weak HHUploadIDViewController *weakSelf = self;
     self.faceView = [[HHUploadIdView alloc] initWithText:@"点击上传\n身份证\n正面" image:[UIImage imageNamed:@"idcard_a"]];
     self.faceView.actionBlock = ^() {
-        weakSelf.isFaceViewTapped = YES;
         [weakSelf showImageOptionsWithTitle:@"上传身份证正面"];
     };
     [self.scrollView addSubview:self.faceView];
@@ -135,18 +145,6 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
         make.height.mas_equalTo(150.0f);
     }];
     
-    self.backView = [[HHUploadIdView alloc] initWithText:@"点击上传\n身份证\n反面" image:[UIImage imageNamed:@"idcard_b"]];
-    self.backView.actionBlock = ^() {
-        weakSelf.isFaceViewTapped = NO;
-        [weakSelf showImageOptionsWithTitle:@"上传身份证反面"];
-    };
-    [self.scrollView addSubview:self.backView];
-    [self.backView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.scrollView.left).offset(20.0f);
-        make.top.equalTo(self.faceView.bottom).offset(20.0f);
-        make.width.equalTo(self.scrollView.width).offset(-40.0f);
-        make.height.mas_equalTo(150.0f);
-    }];
     
     self.securityLabel = [[UILabel alloc] init];
     self.securityLabel.text = kSecurityText;
@@ -156,7 +154,7 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
     [self.scrollView addSubview:self.securityLabel];
     [self.securityLabel makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.scrollView.left).offset(20.0f);
-        make.top.equalTo(self.backView.bottom).offset(20.0f);
+        make.top.equalTo(self.faceView.bottom).offset(20.0f);
         make.width.equalTo(self.scrollView.width).offset(-40.0f);
     }];
     
@@ -217,8 +215,8 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
     
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:kSupportText attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:13.0f], NSParagraphStyleAttributeName:style}];
     
-    [attrString addAttributes:@{NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle)} range:[kSupportText rangeOfString:@"400-001-6006"]];
-    [attrString addAttributes:@{NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle)} range:[kSupportText rangeOfString:@"在线客服"]];
+    [attrString addAttributes:@{NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle), NSForegroundColorAttributeName:[UIColor HHOrange]} range:[kSupportText rangeOfString:@"400-001-6006"]];
+    [attrString addAttributes:@{NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle), NSForegroundColorAttributeName:[UIColor HHOrange]} range:[kSupportText rangeOfString:@"在线客服"]];
     
     [self.supportLabel addLinkToURL:[NSURL URLWithString:@"callSupport"] withRange:[kSupportText rangeOfString:@"400-001-6006"]];
     [self.supportLabel addLinkToURL:[NSURL URLWithString:@"onlineSupport"] withRange:[kSupportText rangeOfString:@"在线客服"]];
@@ -267,45 +265,24 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [picker dismissViewControllerAnimated:YES completion:nil];
     if ([info objectForKey:@"UIImagePickerControllerOriginalImage"]) {
-        if (self.isFaceViewTapped) {
-            self.faceImg = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-        } else {
-            self.backImg = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-        }
-        
+        self.faceImg = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     }
     
-    if (self.isFaceViewTapped) {
-        [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"上传中!"];
-        [[HHStudentService sharedInstance] uploadIDCardWithImage:self.faceImg side:@(0) completion:^(NSString *imgURL) {
-            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-            if (imgURL) {
-                [[HHToastManager sharedManager] showSuccessToastWithText:@"上传成功!"];
-                self.faceView.imgView.contentMode = UIViewContentModeScaleToFill;
-                self.faceView.imgView.image = self.faceImg;
-                self.faceImgUploadSucceed = YES;
-            } else {
-                [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败! 请检查图片是否包含身份证的所有信息, 然后重新上传!"];
-                self.faceImg = nil;
-            }
-        }];
-    } else if (self.backImg) {
-        
-        [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"上传中!"];
-        [[HHStudentService sharedInstance] uploadIDCardWithImage:self.backImg side:@(1) completion:^(NSString *imgURL) {
-            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-            if (imgURL) {
-                [[HHToastManager sharedManager] showSuccessToastWithText:@"上传成功!"];
-                self.backView.imgView.contentMode = UIViewContentModeScaleToFill;
-                self.backView.imgView.image = self.backImg;
-                self.backImgUploadSucceed = YES;
-            } else {
-                [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败! 请检查图片是否包含身份证的所有信息, 然后重新上传!"];
-                self.backImg = nil;
-            }
-        }];
+    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"上传中!"];
+    [[HHStudentService sharedInstance] uploadIDCardWithImage:self.faceImg side:@(0) completion:^(NSString *imgURL) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (imgURL) {
+            [[HHToastManager sharedManager] showSuccessToastWithText:@"上传成功!"];
+            self.faceView.imgView.contentMode = UIViewContentModeScaleToFill;
+            self.faceView.imgView.image = self.faceImg;
 
-    }
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败! 请检查图片是否包含身份证的所有信息, 然后重新上传!"];
+            self.faceImg = nil;
+            self.faceView.imgView.image = nil;
+        }
+    }];
+
     
 }
 
@@ -334,27 +311,44 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
 }
 
 - (void)confirmButtonTapped {
-    if (!self.faceImg || !self.backImg) {
-        [[HHToastManager sharedManager] showErrorToastWithText:@"请先上传身份证正反面"];
+    __weak HHUploadIDViewController *weakSelf = self;
+    if (!self.faceImg) {
+        [[HHToastManager sharedManager] showErrorToastWithText:@"请先上传身份证正面"];
         return;
     }
-    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"图片处理中..."];
-    [[HHStudentService sharedInstance] getAgreementURLWithCompletion:^(NSURL *url, NSError *error) {
-        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-        if (!error && url) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"studentUpdated" object:nil];
-            HHSignContractViewController *vc = [[HHSignContractViewController alloc] initWithURL:url];
-            [self.navigationController setViewControllers:@[vc] animated:YES];
-        } else {
-            if ([error.localizedFailureReason isEqual:@(40026)]) {
-                [[HHToastManager sharedManager] showErrorToastWithText:@"身份证正面识别失败, 请重新拍摄并上传!"];
-            } else if ([error.localizedFailureReason isEqual:@(40028)]) {
-                [[HHToastManager sharedManager] showErrorToastWithText:@"身份证信息无效, 请确保使用真实的第二代身份证!"];
+    
+    if(self.type == UploadViewTypeContract) {
+        [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"图片处理中..."];
+        [[HHStudentService sharedInstance] getAgreementURLWithCompletion:^(NSURL *url, NSError *error) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            if (!error && url) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"studentUpdated" object:nil];
+                HHSignContractViewController *vc = [[HHSignContractViewController alloc] initWithURL:url];
+                [self.navigationController setViewControllers:@[vc] animated:YES];
             } else {
-                [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败, 请重试!"];
+                if ([error.localizedFailureReason isEqual:@(40026)]) {
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"身份证正面识别失败, 请重新拍摄并上传!"];
+                } else if ([error.localizedFailureReason isEqual:@(40028)]) {
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"身份证信息无效, 请确保使用真实的第二代身份证!"];
+                } else {
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败, 请重试!"];
+                }
             }
-        }
-    }];
+        }];
+    } else {
+        //upload id and peifubao
+        HHShareReferralView *view = [[HHShareReferralView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 350.0f) text:@"恭喜您, 投保成功, 现在分享给好友即可获得神秘礼品! 好友报名学车立减¥200! 快去分享吧~"];
+        view.shareBlock = ^(){
+            [HHPopupUtility dismissPopup:weakSelf.popup];
+            HHReferFriendsViewController *referVC = [[HHReferFriendsViewController alloc] init];
+            [weakSelf.navigationController setViewControllers:@[referVC] animated:YES];
+        };
+        self.popup = [HHPopupUtility createPopupWithContentView:view];
+        self.popup.shouldDismissOnContentTouch = NO;
+        self.popup.shouldDismissOnBackgroundTouch = NO;
+        [HHPopupUtility showPopup:self.popup];
+
+    }
     
     
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:upload_id_page_confirm_tapped attributes:nil];
@@ -363,17 +357,16 @@ static NSString *const kSupportText = @"对协议有任何疑问可致电客服�
 
 - (void)showSharePopup {
     __weak HHUploadIDViewController *weakSelf = self;
-    HHGenericOneButtonPopupView *view = [[HHGenericOneButtonPopupView alloc] initWithTitle:@"推荐好友" info:[self buildPopupInfoTextWithString:[NSString stringWithFormat:@"恭喜您！报名成功，现在分享<学车大礼包>给好友吧, 好友报名学车立减%@元, 还有科一挂科险！", [[[HHConstantsStore sharedInstance] getCityRefereeBonus] generateMoneyString]]]];
-    [view.buttonView.okButton setTitle:@"分享得现金" forState:UIControlStateNormal];
-    view.cancelBlock = ^() {
+    HHShareReferralView *view = [[HHShareReferralView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 350.0f) text:@"现在分享给好友即可获得神秘礼品! 好友报名学车立减¥200! 快去分享吧~"];
+    view.shareBlock = ^(){
         [HHPopupUtility dismissPopup:weakSelf.popup];
-        HHReferFriendsViewController *vc = [[HHReferFriendsViewController alloc] init];
-        [weakSelf.navigationController setViewControllers:@[vc] animated:YES];
+        HHReferFriendsViewController *referVC = [[HHReferFriendsViewController alloc] init];
+        [weakSelf.navigationController setViewControllers:@[referVC] animated:YES];
     };
-    weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
-    weakSelf.popup.shouldDismissOnContentTouch = NO;
-    weakSelf.popup.shouldDismissOnBackgroundTouch = NO;
-    [HHPopupUtility showPopup:weakSelf.popup];
+    self.popup = [HHPopupUtility createPopupWithContentView:view];
+    self.popup.shouldDismissOnContentTouch = NO;
+    self.popup.shouldDismissOnBackgroundTouch = NO;
+    [HHPopupUtility showPopup:self.popup];
 }
 
 - (NSMutableAttributedString *)buildPopupInfoTextWithString:(NSString *)string {

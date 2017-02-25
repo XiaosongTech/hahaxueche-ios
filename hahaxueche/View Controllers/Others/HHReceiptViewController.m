@@ -32,15 +32,17 @@
 @property (nonatomic, strong) HHReceiptItemView *receiptNoView;
 @property (nonatomic, strong) HHPurchasedService *ps;
 @property (nonatomic, strong) HHCoach *coach;
+@property (nonatomic) ReceiptViewType type;
 
 @end
 
 @implementation HHReceiptViewController
 
-- (instancetype)initWithCoach:(id)coach {
+- (instancetype)initWithCoach:(id)coach type:(ReceiptViewType)type {
     self = [super init];
     if (self) {
         self.coach = coach;
+        self.type = type;
     }
     return self;
 }
@@ -70,13 +72,18 @@
     [self.scrollView addSubview:self.titleLabel];
     
     self.signContractButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.signContractButton setTitle:@"签署专属协议" forState:UIControlStateNormal];
+    if (self.type == ReceiptViewTypeContract) {
+        [self.signContractButton setTitle:@"签署专属协议" forState:UIControlStateNormal];
+    } else {
+        [self.signContractButton setTitle:@"上传投保信息" forState:UIControlStateNormal];
+    }
+    
     [self.signContractButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.signContractButton setBackgroundColor:[UIColor HHOrange]];
     self.signContractButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
     self.signContractButton.layer.masksToBounds = YES;
     self.signContractButton.layer.cornerRadius = 25.0f;
-    [self.signContractButton addTarget:self action:@selector(shareReferral) forControlEvents:UIControlEventTouchUpInside];
+    [self.signContractButton addTarget:self action:@selector(buttonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.scrollView addSubview:self.signContractButton];
     
     self.supportLable = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
@@ -172,8 +179,14 @@
                                                                  constant:-20.0f]];
 }
 
-- (void)shareReferral {
-    HHUploadIDViewController *vc = [[HHUploadIDViewController alloc] init];
+- (void)buttonTapped {
+    UploadViewType type;
+    if (self.type == ReceiptViewTypeContract) {
+        type = UploadViewTypeContract;
+    } else {
+        type = UploadViewTypePeifubao;
+    }
+    HHUploadIDViewController *vc = [[HHUploadIDViewController alloc] initWithType:type];
     [self.navigationController setViewControllers:@[vc] animated:YES];
 }
 

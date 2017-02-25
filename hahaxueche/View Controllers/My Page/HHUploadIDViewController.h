@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, UploadViewType) {
+    UploadViewTypeContract, // 签署合同
+    UploadViewTypePeifubao //赔付宝
+    
+};
+
 @interface HHUploadIDViewController : UIViewController
+
+- (instancetype)initWithType:(UploadViewType)type;
 
 @end
