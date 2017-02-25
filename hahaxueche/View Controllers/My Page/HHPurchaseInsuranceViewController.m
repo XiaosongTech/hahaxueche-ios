@@ -10,12 +10,19 @@
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
 #import "UIBarButtonItem+HHCustomButton.h"
+#import "HHPurchaseTagView.h"
+#import "NSNumber+HHNumber.h"
+#import "HHPaymentMethodsView.h"
 
 @interface HHPurchaseInsuranceViewController ()
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIButton *confirmButton;
 @property (nonatomic, strong) UILabel *warnLabel;
+@property (nonatomic, strong) HHPurchaseTagView *insuranceTagView;
+@property (nonatomic, strong) UIView *totalPriceContainerView;
+@property (nonatomic, strong) UILabel *totalPriceLabel;
+@property (nonatomic, strong) HHPaymentMethodsView *paymentMethodsView;
 
 @end
 
@@ -37,10 +44,58 @@
         make.top.equalTo(self.view.top);
         make.left.equalTo(self.view.left);
         make.width.equalTo(self.view.width);
-        make.height.equalTo(self.view.height).offset(-70.0f);
+        make.height.equalTo(self.view.height).offset(-80.0f);
     }];
     
+    self.insuranceTagView = [[HHPurchaseTagView alloc] initWithTags:@[@"赔付宝"] title:@"保险类型" defaultTag:@"赔付宝"];
+    [self.scrollView addSubview:self.insuranceTagView];
+    [self.insuranceTagView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.scrollView.top);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(80.0f);
+    }];
+    
+    self.totalPriceContainerView = [[UIView alloc] init];
+    self.totalPriceContainerView.backgroundColor = [UIColor whiteColor];
+    [self.scrollView addSubview:self.totalPriceContainerView];
+    [self.totalPriceContainerView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.insuranceTagView.bottom);
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(50.0f);
+    }];
+    
+    
+    self.totalPriceLabel = [[UILabel alloc] init];
+    self.totalPriceLabel.font = [UIFont systemFontOfSize:18.0f];
+    self.totalPriceLabel.text = [NSString stringWithFormat:@"总价: %@", [@(13000) generateMoneyString]];
+    self.totalPriceLabel.textColor = [UIColor HHOrange];
+    [self.totalPriceContainerView addSubview:self.totalPriceLabel];
+    [self.totalPriceLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.totalPriceContainerView.centerY);
+        make.right.equalTo(self.totalPriceContainerView.right).offset(-20.0f);
+    }];
+    
+    self.paymentMethodsView = [[HHPaymentMethodsView alloc] init];
+    [self.scrollView addSubview:self.paymentMethodsView];
+    [self.paymentMethodsView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.totalPriceContainerView.bottom).offset(10.0f);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(60.0f * StudentPaymentMethodCount);
+        make.left.equalTo(self.scrollView.left);
+    }];
+    
+    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.paymentMethodsView
+                                                                attribute:NSLayoutAttributeBottom
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self.scrollView
+                                                                attribute:NSLayoutAttributeBottom
+                                                               multiplier:1.0
+                                                                 constant:-10.0f]];
+    
     self.confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.confirmButton.backgroundColor = [UIColor HHDarkOrange];
     [self.confirmButton setTitle:@"确认并购买" forState:UIControlStateNormal];
     [self.confirmButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.confirmButton.titleLabel.font = [UIFont systemFontOfSize:18.0f];
@@ -60,9 +115,10 @@
     [self.warnLabel makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.left).offset(15.0f);
         make.width.equalTo(self.view.width).offset(-30.0f);
-        make.height.mas_equalTo(20.0f);
+        make.height.mas_equalTo(30.0f);
         make.bottom.equalTo(self.confirmButton.top);
     }];
+    
     
 }
 

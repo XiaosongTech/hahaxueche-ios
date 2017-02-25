@@ -28,6 +28,7 @@
 #import "HHSelectVoucherViewController.h"
 #import "HHSpecialVouchersView.h"
 #import "HHInsuranceSelectionView.h"
+#import "HHPaymentMethodsView.h"
 
 
 @interface HHPurchaseConfirmViewController ()
@@ -35,7 +36,6 @@
 @property (nonatomic, strong) HHCoachListView *coachView;
 @property (nonatomic, strong) HHCoach *coach;
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) NSMutableArray *paymentViews;
 @property (nonatomic, strong) UIButton *payButton;
 @property (nonatomic, strong) HHPurchaseTagView *licenseTypeView;
 @property (nonatomic, strong) HHPurchaseTagView *classTypeView;
@@ -49,16 +49,12 @@
 @property (nonatomic, strong) HHSpecialVouchersView *specialVoucherView;
 @property (nonatomic, strong) UILabel *insurancePriceLabel;
 
-@property (nonatomic) StudentPaymentMethod selectedMethod;
 @property (nonatomic) CoachProductType selectedProduct;
 
 @property (nonatomic) LicenseType selectedLicense;
 @property (nonatomic) ClassType selectedClass;
 
-@property (nonatomic, strong) HHPaymentMethodView *aliPayView;
-@property (nonatomic, strong) HHPaymentMethodView *bankCardView;
-@property (nonatomic, strong) HHPaymentMethodView *wechatPayView;
-@property (nonatomic, strong) HHPaymentMethodView *fqlView;
+@property (nonatomic, strong) HHPaymentMethodsView *paymentMethodsView;
 @property (nonatomic, strong) NSArray *validVouchers;
 @property (nonatomic, strong) NSArray *specialVouchers;
 @property (nonatomic, strong) HHVoucher *selectedVoucher;
@@ -74,7 +70,6 @@
     self = [super init];
     if (self) {
         self.coach = coach;
-        self.paymentViews = [NSMutableArray array];
         if ([self.validVouchers count] > 0) {
             self.selectedVoucher = [self.validVouchers firstObject];
         }
@@ -90,7 +85,6 @@
     self.selectedProduct = CoachProductTypeStandard;
     self.selectedClass = ClassTypeStandard;
     self.selectedLicense = LicenseTypeC1;
-    self.selectedMethod = StudentPaymentMethodAlipay;
     self.selectedInsurance = YES;
     
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
@@ -269,69 +263,23 @@
 }
 
 - (void)buildPaymentViews {
-    __weak HHPurchaseConfirmViewController *weakSelf = self;
     
-    self.aliPayView = [[HHPaymentMethodView alloc] initWithTitle:@"支付宝" subTitle:@"推荐拥有支付宝账号的用户使用" icon:[UIImage imageNamed:@"ic_alipay_icon"] selected:YES];
-    self.aliPayView.viewSelectedBlock = ^() {
-        weakSelf.selectedMethod = StudentPaymentMethodAlipay;
-    };
-    [self.scrollView addSubview:self.aliPayView];
-    [self.aliPayView makeConstraints:^(MASConstraintMaker *make) {
+    self.paymentMethodsView = [[HHPaymentMethodsView alloc] init];
+    [self.scrollView addSubview:self.paymentMethodsView];
+    [self.paymentMethodsView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.totalPriceContainerView.bottom).offset(10.0f);
-        make.left.equalTo(self.scrollView.left);
         make.width.equalTo(self.scrollView.width);
-        make.height.mas_equalTo(60.0f);
-    }];
-    [self.paymentViews addObject:self.aliPayView];
-    
-    self.wechatPayView = [[HHPaymentMethodView alloc] initWithTitle:@"微信支付" subTitle:@"推荐拥有微信账号的用户使用" icon:[UIImage imageNamed:@"ic_wechatpay_icon"] selected:NO];
-    self.wechatPayView.viewSelectedBlock = ^() {
-        weakSelf.selectedMethod = StudentPaymentMethodWechatPay;
-    };
-    [self.scrollView addSubview:self.wechatPayView];
-    [self.wechatPayView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.aliPayView.bottom);
+        make.height.mas_equalTo(StudentPaymentMethodCount * 60.0f);
         make.left.equalTo(self.scrollView.left);
-        make.width.equalTo(self.scrollView.width);
-        make.height.mas_equalTo(60.0f);
     }];
-    [self.paymentViews addObject:self.wechatPayView];
     
-    self.bankCardView = [[HHPaymentMethodView alloc] initWithTitle:@"银行卡" subTitle:@"一网通支付，支持所有主流借记卡/信用卡" icon:[UIImage imageNamed:@"cmcc_icon"] selected:NO];
-    self.bankCardView.viewSelectedBlock = ^() {
-        weakSelf.selectedMethod = StudentPaymentMethodBankCard;
-    };
-    [self.scrollView addSubview:self.bankCardView];
-    [self.bankCardView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.wechatPayView.bottom);
-        make.left.equalTo(self.scrollView.left);
-        make.width.equalTo(self.scrollView.width);
-        make.height.mas_equalTo(60.0f);
-    }];
-    [self.paymentViews addObject:self.bankCardView];
-
-    
-    self.fqlView = [[HHPaymentMethodView alloc] initWithTitle:@"分期乐" subTitle:@"推荐分期用户使用" icon:[UIImage imageNamed:@"fql"] selected:NO];
-    self.fqlView.viewSelectedBlock = ^() {
-        weakSelf.selectedMethod = StudentPaymentMethodFql;
-    };
-    [self.scrollView addSubview:self.fqlView];
-    [self.fqlView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bankCardView.bottom);
-        make.left.equalTo(self.scrollView.left);
-        make.width.equalTo(self.scrollView.width);
-        make.height.mas_equalTo(60.0f);
-    }];
-    [self.paymentViews addObject:self.fqlView];
-    
-    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.fqlView
+    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.paymentMethodsView
                                                                 attribute:NSLayoutAttributeBottom
                                                                 relatedBy:NSLayoutRelationEqual
                                                                    toItem:self.scrollView
                                                                 attribute:NSLayoutAttributeBottom
                                                                multiplier:1.0
                                                                  constant:-30.0f]];
-
     
 }
 
@@ -339,31 +287,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)setSelectedMethod:(StudentPaymentMethod)selectedMethod {
-    _selectedMethod = selectedMethod;
-    for (HHPaymentMethodView *view in self.paymentViews) {
-        view.selected = NO;
-    }
-    switch (selectedMethod) {
-        case StudentPaymentMethodBankCard: {
-            self.bankCardView.selected = YES;
-        } break;
-            
-        case StudentPaymentMethodAlipay: {
-            self.aliPayView.selected = YES;
-        } break;
-            
-        case StudentPaymentMethodFql: {
-            self.fqlView.selected = YES;
-        } break;
-            
-        case StudentPaymentMethodWechatPay: {
-            self.wechatPayView.selected = YES;
-        } break;
-        default:
-            break;
-    }
-}
 
 - (void)payCoach {
     if ([[HHStudentStore sharedInstance].currentStudent isPurchased]) {
@@ -382,7 +305,7 @@
     }
     
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
-    [[HHPaymentService sharedInstance] payWithCoachId:self.coach.coachId studentId:[HHStudentStore sharedInstance].currentStudent.studentId paymentMethod:self.selectedMethod productType:self.selectedProduct voucherId:voucherId inController:self completion:^(BOOL succeed) {
+    [[HHPaymentService sharedInstance] payWithCoachId:self.coach.coachId studentId:[HHStudentStore sharedInstance].currentStudent.studentId paymentMethod:self.paymentMethodsView.selectedMethod productType:self.selectedProduct voucherId:voucherId inController:self completion:^(BOOL succeed) {
         if (succeed) {
             [self fetchStudentAfterPurchase];
         } else {

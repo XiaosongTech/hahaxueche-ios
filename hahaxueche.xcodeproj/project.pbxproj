@@ -382,6 +382,7 @@
 		6D1485A01E61752300B7E0FA /* pic_lipeierweima@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D14859D1E61752300B7E0FA /* pic_lipeierweima@3x.png */; };
 		6D1485A21E617B9F00B7E0FA /* hhxc.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 6D1485A11E617B9F00B7E0FA /* hhxc.jpeg */; };
 		6D1485A51E6184D800B7E0FA /* HHPurchaseInsuranceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1485A41E6184D800B7E0FA /* HHPurchaseInsuranceViewController.m */; };
+		6D1485A81E61C9A200B7E0FA /* HHPaymentMethodsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1485A71E61C9A200B7E0FA /* HHPaymentMethodsView.m */; };
 		6D22C65E1DCAD238003249E0 /* HHPostCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D22C65D1DCAD238003249E0 /* HHPostCommentView.m */; };
 		6D22C6611DCB32B8003249E0 /* HHPostComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D22C6601DCB32B8003249E0 /* HHPostComment.m */; };
 		6D330D2C1D7FC230003F6FC6 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D330D171D7FC230003F6FC6 /* arrow.png */; };
@@ -1543,6 +1544,8 @@
 		6D1485A11E617B9F00B7E0FA /* hhxc.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = hhxc.jpeg; sourceTree = "<group>"; };
 		6D1485A31E6184D800B7E0FA /* HHPurchaseInsuranceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPurchaseInsuranceViewController.h; sourceTree = "<group>"; };
 		6D1485A41E6184D800B7E0FA /* HHPurchaseInsuranceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPurchaseInsuranceViewController.m; sourceTree = "<group>"; };
+		6D1485A61E61C9A200B7E0FA /* HHPaymentMethodsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPaymentMethodsView.h; sourceTree = "<group>"; };
+		6D1485A71E61C9A200B7E0FA /* HHPaymentMethodsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPaymentMethodsView.m; sourceTree = "<group>"; };
 		6D22C65C1DCAD238003249E0 /* HHPostCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPostCommentView.h; sourceTree = "<group>"; };
 		6D22C65D1DCAD238003249E0 /* HHPostCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPostCommentView.m; sourceTree = "<group>"; };
 		6D22C65F1DCB32B8003249E0 /* HHPostComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPostComment.h; sourceTree = "<group>"; };
@@ -2654,6 +2657,8 @@
 				6D14855D1E601B6B00B7E0FA /* HHInsuranceSelectionView.m */,
 				6D1485651E6126FC00B7E0FA /* HHShareReferralView.h */,
 				6D1485661E6126FC00B7E0FA /* HHShareReferralView.m */,
+				6D1485A61E61C9A200B7E0FA /* HHPaymentMethodsView.h */,
+				6D1485A71E61C9A200B7E0FA /* HHPaymentMethodsView.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -4962,6 +4967,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D1485A81E61C9A200B7E0FA /* HHPaymentMethodsView.m in Sources */,
 				6DD568321D66E2EC00B9B319 /* HHReferralDetailViewController.m in Sources */,
 				6D85522A1CD600310021D4C9 /* HHBonusSummary.m in Sources */,
 				147A9FED1C7A73F3000DED3B /* HHPaymentStatusCell.m in Sources */,

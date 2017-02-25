@@ -14,6 +14,7 @@ typedef NS_ENUM(NSInteger, StudentPaymentMethod) {
     StudentPaymentMethodWechatPay, // 微信支付
     StudentPaymentMethodBankCard, // 银行卡
     StudentPaymentMethodFql, //分期乐
+    StudentPaymentMethodCount, //分期乐
 };
 
 typedef NS_ENUM(NSInteger, CoachProductType) {
