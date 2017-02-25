@@ -49,6 +49,7 @@
 #import "HHSignContractViewController.h"
 #import "HHGuardCardTableViewCell.h"
 #import "HHGuardCardViewController.h"
+#import "HHInsuranceViewController.h"
 
 
 static NSString *const kUserInfoCell = @"userInfoCell";
@@ -302,6 +303,7 @@ typedef NS_ENUM(NSInteger, MyPageCellSectionTwo) {
                     vc.hidesBottomBarWhenPushed = YES;
                     [weakSelf.navigationController pushViewController:vc animated:YES];
                 };
+                
                 return cell;
                 
             } break;
@@ -312,6 +314,12 @@ typedef NS_ENUM(NSInteger, MyPageCellSectionTwo) {
                 cell.courseOneFourView.actionBlock = ^() {
                     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_course_guard_tapped attributes:nil];
                     HHGuardCardViewController *vc = [[HHGuardCardViewController alloc] init];
+                    vc.hidesBottomBarWhenPushed = YES;
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
+                };
+                
+                cell.insuranceView.actionBlock = ^() {
+                    HHInsuranceViewController *vc = [[HHInsuranceViewController alloc] init];
                     vc.hidesBottomBarWhenPushed = YES;
                     [weakSelf.navigationController pushViewController:vc animated:YES];
                 };
@@ -479,7 +487,7 @@ typedef NS_ENUM(NSInteger, MyPageCellSectionTwo) {
                 return kTitleViewHeight + kItemViewHeight * 2.0f;
                 
             case MyPageCellSectionTwoGuardCard:
-                return kTopPadding + kTitleViewHeight + kItemViewHeight;
+                return kTopPadding + kTitleViewHeight + kItemViewHeight * 2.0f;
                 
             case MyPageCellSectionTwoVoucher:
                 return kTopPadding + kTitleViewHeight + kItemViewHeight;

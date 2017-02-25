@@ -46,6 +46,7 @@
 #import "HHGuardCardViewController.h"
 #import "HHAddressBookUtility.h"
 #import <CloudPushSDK/CloudPushSDK.h>
+#import "HHInsuranceViewController.h"
 
 
 static NSString *const kCoachLink = @"https://m.hahaxueche.com/share/best-coaches";
@@ -380,7 +381,9 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
         } break;
             
         case ItemTypePeifu: {
-            //show peifu vc
+            HHInsuranceViewController *vc = [[HHInsuranceViewController alloc] init];
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+            [self presentViewController:navVC animated:YES completion:nil];
         } break;
             
         case ItemTypePlatformGuard: {
