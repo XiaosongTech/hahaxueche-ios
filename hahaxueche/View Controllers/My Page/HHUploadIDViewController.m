@@ -25,6 +25,7 @@
 #import "HHContractViewController.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHShareReferralView.h"
+#import "HHStudentStore.h"
 
 static NSString *const kContractText = @"请上传您的身份证信息，我们将会生成您的哈哈学车专属学员电子协议，该协议将在您的学车途中保障您的利益，同时也有助于教练尽快开展教学活动！若不上传您的真实信息，我们将无法保障您的合法权益！";
 static NSString *const kInsuranceText = @"请上传身份信息，我们将会用于您的赔付宝投保事宜。赔付宝将在您的学车途中保障您的利益，若不上传您的真实信息，赔付宝将无法生效，中国平安将无法对您进行承保。";
@@ -48,6 +49,7 @@ static NSString *const kSupportText = @"有任何疑问可致电客服热线400-
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) UITextField *nameField;
 @property (nonatomic, strong) UITextField *idNumField;
+@property (nonatomic, strong) HHStudent *student;
 
 @property (nonatomic) UploadViewType type;
 
@@ -75,11 +77,16 @@ static NSString *const kSupportText = @"有任何疑问可致电客服热线400-
 
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithTitle:@"手动填写" titleColor:[UIColor whiteColor] action:@selector(showIdInputView) target:self isLeft:YES];
     
+    self.student = [HHStudentStore sharedInstance].currentStudent;
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:upload_id_page_viewed attributes:nil];
+    if ([self.student.idCard isVerified]) {
+        [self showSavedIdInfo];
+    }
 }
 
 - (void)initSubviews {
@@ -427,6 +434,20 @@ static NSString *const kSupportText = @"有任何疑问可致电客服热线400-
         self.idNumField = textField;
          textField.placeholder = @"身份证号码";
      }];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+- (void)showSavedIdInfo {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"后台检测到您之前上传的信息, 请确认:" message:[NSString stringWithFormat:@"真实姓名: %@\n身份证号码: %@", self.student.idCard.name, self.student.idCard.num] preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"提交" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        // call haimianbao
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:cancelAction];
+    [alertController addAction:confirmAction];
     
     [self presentViewController:alertController animated:YES completion:nil];
 }
