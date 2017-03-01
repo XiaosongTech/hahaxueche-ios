@@ -16,6 +16,8 @@
 #import "HHToastManager.h"
 #import "HHRootViewController.h"
 #import "HHPurchaseInsuranceViewController.h"
+#import "HHStudentStore.h"
+#import "HHIntroViewController.h"
 
 static NSString *const kStepString = @"1.点击下载二维码\n2.打开微信扫描此二维码关注哈哈学车官方公众号\n3.进入公众号点击右下角\"哈哈学车\"选择子菜单\"我要理赔\"";
 static NSString *const kSupportString = @"如果问题请联系400-001-6006或联系在线客服";
@@ -139,7 +141,7 @@ static NSString *const kSupportString = @"如果问题请联系400-001-6006或�
     }];
     
     UIButton *optionOne = [UIButton buttonWithType:UIButtonTypeCustom];
-    [optionOne setImage:[UIImage imageNamed:@"botton_120peifubaby"] forState:UIControlStateNormal];
+    [optionOne setImage:[UIImage imageNamed:@"botton_149peifubaby_wei"] forState:UIControlStateNormal];
     [optionOne addTarget:self action:@selector(optionOneTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.insuranceInfoView  addSubview:optionOne];
     [optionOne makeConstraints:^(MASConstraintMaker *make) {
@@ -150,7 +152,7 @@ static NSString *const kSupportString = @"如果问题请联系400-001-6006或�
     
     UIButton *optionTwo = [UIButton buttonWithType:UIButtonTypeCustom];
     [optionTwo addTarget:self action:@selector(optionTwoTapped) forControlEvents:UIControlEventTouchUpInside];
-    [optionTwo setImage:[UIImage imageNamed:@"botton_130peifubaby"] forState:UIControlStateNormal];
+    [optionTwo setImage:[UIImage imageNamed:@"botton_149peifubaby_yi"] forState:UIControlStateNormal];
     [self.insuranceInfoView  addSubview:optionTwo];
     [optionTwo makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.insuranceInfoView .centerX);
@@ -159,7 +161,7 @@ static NSString *const kSupportString = @"如果问题请联系400-001-6006或�
     }];
     
     UIButton *optionThree = [UIButton buttonWithType:UIButtonTypeCustom];
-    [optionThree setImage:[UIImage imageNamed:@"botton_150peifubaby"] forState:UIControlStateNormal];
+    [optionThree setImage:[UIImage imageNamed:@"botton_169peifubaby"] forState:UIControlStateNormal];
     [optionThree addTarget:self action:@selector(optionThreeTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.insuranceInfoView  addSubview:optionThree];
     [optionThree makeConstraints:^(MASConstraintMaker *make) {
@@ -289,21 +291,54 @@ static NSString *const kSupportString = @"如果问题请联系400-001-6006或�
 }
 
 - (void)optionOneTapped {
+    if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
+        [self showLoginAlert];
+        return;
+    }
     HHRootViewController *vc = [[HHRootViewController alloc] initWithDefaultIndex:TabBarItemCoach];
     [[UIApplication sharedApplication] keyWindow].rootViewController = vc;
 }
 
 - (void)optionTwoTapped {
+    if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
+        [self showLoginAlert];
+        return;
+    }
     [self showInsurancePurchaseVC];
 }
 
 - (void)optionThreeTapped {
+    if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
+        [self showLoginAlert];
+        return;
+    }
     [self showInsurancePurchaseVC];
 }
 
 - (void)showInsurancePurchaseVC {
     HHPurchaseInsuranceViewController *vc = [[HHPurchaseInsuranceViewController alloc] init];
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:navVC animated:YES completion:nil];
+}
+
+- (void)showLoginAlert {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"注册/登录后即可购买" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"去注册/登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self jumpToIntroVC];
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"再看看" style:UIAlertActionStyleDefault handler:nil];
+    
+    [alertController addAction:cancelAction];
+    [alertController addAction:confirmAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+- (void)jumpToIntroVC {
+    HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
     [self presentViewController:navVC animated:YES completion:nil];
 }
 

@@ -442,7 +442,7 @@
 - (NSNumber *)getFinalPriceWithPrice:(NSNumber *)price {
     NSNumber *finalPrice = price;
     if (self.selectedInsurance) {
-        finalPrice = @([finalPrice floatValue] + 12000);
+        finalPrice = @([finalPrice floatValue] + 14900);
     }
     if ([self.selectedVoucher.amount floatValue] > 0) {
         finalPrice = @([finalPrice floatValue] - [self.selectedVoucher.amount floatValue]);
@@ -545,7 +545,7 @@
 - (NSNumber *)getPriceWithoudDiscount {
     NSNumber *price = [self getSelectedOriginalPrice];
     if (self.selectedInsurance) {
-        price = @([price floatValue] + 12000);
+        price = @([price floatValue] + 14900);
     }
     return price;
 }
@@ -602,7 +602,7 @@
     
     self.insurancePriceLabel = [[UILabel alloc] init];
     self.insurancePriceLabel.textAlignment = NSTextAlignmentRight;
-    self.insurancePriceLabel.text = [@(12000) generateMoneyString];
+    self.insurancePriceLabel.text = [@(14900) generateMoneyString];
     self.insurancePriceLabel.textColor = [UIColor HHOrange];
     self.insurancePriceLabel.font = [UIFont systemFontOfSize:14.0f];
     [view addSubview:self.insurancePriceLabel];
@@ -646,7 +646,7 @@
 - (void)setSelectedInsurance:(BOOL)selectedInsurance {
     _selectedInsurance = selectedInsurance;
     if (selectedInsurance) {
-        self.insurancePriceLabel.text = [@(12000) generateMoneyString];
+        self.insurancePriceLabel.text = [@(14900) generateMoneyString];
         self.insurancePriceLabel.textColor = [UIColor HHOrange];
     } else {
         self.insurancePriceLabel.text = @"未选择";

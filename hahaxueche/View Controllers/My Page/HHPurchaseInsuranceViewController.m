@@ -69,7 +69,7 @@
     
     self.totalPriceLabel = [[UILabel alloc] init];
     self.totalPriceLabel.font = [UIFont systemFontOfSize:18.0f];
-    self.totalPriceLabel.text = [NSString stringWithFormat:@"总价: %@", [@(13000) generateMoneyString]];
+    self.totalPriceLabel.text = [NSString stringWithFormat:@"总价: %@", [@(14900) generateMoneyString]];
     self.totalPriceLabel.textColor = [UIColor HHOrange];
     [self.totalPriceContainerView addSubview:self.totalPriceLabel];
     [self.totalPriceLabel makeConstraints:^(MASConstraintMaker *make) {
