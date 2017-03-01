@@ -85,7 +85,13 @@
     self.selectedProduct = CoachProductTypeStandard;
     self.selectedClass = ClassTypeStandard;
     self.selectedLicense = LicenseTypeC1;
-    self.selectedInsurance = YES;
+    
+    if ([[HHStudentStore sharedInstance].currentStudent.insuranceOrder isPurchased]) {
+        self.selectedInsurance = NO;
+    } else {
+        self.selectedInsurance = YES;
+    }
+    
     
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
     [[HHStudentService sharedInstance] getVouchersWithType:@(1) coachId:self.coach.coachId completion:^(NSArray *vouchers) {
@@ -177,17 +183,18 @@
     [self buildClassView];
     UIView *preView = self.classTypeView;
     
-    UIView *insuranceView = [self buildInsuranceView];
-    [self.scrollView addSubview:insuranceView];
-    [insuranceView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(preView.bottom);
-        make.left.equalTo(self.scrollView.left);
-        make.width.equalTo(self.scrollView.width);
-        make.height.mas_equalTo(50.0f);
-    }];
-    
-    preView = insuranceView;
-    
+    if (![[HHStudentStore sharedInstance].currentStudent.insuranceOrder isPurchased]) {
+        UIView *insuranceView = [self buildInsuranceView];
+        [self.scrollView addSubview:insuranceView];
+        [insuranceView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(preView.bottom);
+            make.left.equalTo(self.scrollView.left);
+            make.width.equalTo(self.scrollView.width);
+            make.height.mas_equalTo(50.0f);
+        }];
+        
+        preView = insuranceView;
+    }
     if (self.specialVouchers.count > 0) {
         self.specialVoucherView = [[HHSpecialVouchersView alloc] initWithVouchers:self.specialVouchers];
         [self.scrollView addSubview:self.specialVoucherView];
@@ -305,7 +312,7 @@
     }
     
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
-    [[HHPaymentService sharedInstance] payWithCoachId:self.coach.coachId studentId:[HHStudentStore sharedInstance].currentStudent.studentId paymentMethod:self.paymentMethodsView.selectedMethod productType:self.selectedProduct voucherId:voucherId inController:self completion:^(BOOL succeed) {
+    [[HHPaymentService sharedInstance] payWithCoachId:self.coach.coachId studentId:[HHStudentStore sharedInstance].currentStudent.studentId paymentMethod:self.paymentMethodsView.selectedMethod productType:self.selectedProduct voucherId:voucherId needInsurance:self.selectedInsurance inController:self completion:^(BOOL succeed) {
         if (succeed) {
             [self fetchStudentAfterPurchase];
         } else {

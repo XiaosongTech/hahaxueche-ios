@@ -32,6 +32,8 @@ typedef void (^HHPaymentResultCompletion)(BOOL succeed);
 + (instancetype)sharedInstance;
 
 
-- (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod productType:(CoachProductType)productType voucherId:(NSString *)voucherId inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion;
+- (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod productType:(CoachProductType)productType voucherId:(NSString *)voucherId needInsurance:(BOOL)needInsurance inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion;
+
+- (void)purchaseInsuranceWithpaymentMethod:(StudentPaymentMethod)paymentMethod inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion;
 
 @end

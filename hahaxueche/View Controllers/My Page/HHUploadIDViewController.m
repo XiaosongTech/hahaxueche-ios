@@ -280,6 +280,7 @@ static NSString *const kSupportText = @"有任何疑问可致电客服热线400-
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (imgURL) {
             [[HHToastManager sharedManager] showSuccessToastWithText:@"上传成功!"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"studentUpdated" object:nil];
             self.faceView.imgView.contentMode = UIViewContentModeScaleToFill;
             self.faceView.imgView.image = self.faceImg;
 
@@ -300,7 +301,11 @@ static NSString *const kSupportText = @"有任何疑问可致电客服热线400-
 
 - (void)cancelButtonTapped {
     __weak HHUploadIDViewController *weakSelf = self;
-    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"友情提醒" info:[self buildPopupInfoTextWithString:@"如果不上传合您的信息, \n我们将无法保证您的合法权益!"] leftButtonTitle:@"稍后上传" rightButtonTitle:@"继续上传"];
+    NSString *baseString = @"如果不上传合您的信息, \n我们将无法保证您的合法权益!";
+    if (self.type == UploadViewTypePeifubao) {
+        baseString = @"如果不上传合您的信息, \n我们将无法为您投保!";
+    }
+    HHGenericTwoButtonsPopupView *view = [[HHGenericTwoButtonsPopupView alloc] initWithTitle:@"友情提醒" info:[self buildPopupInfoTextWithString:baseString] leftButtonTitle:@"稍后上传" rightButtonTitle:@"继续上传"];
     view.confirmBlock = ^() {
         [HHPopupUtility dismissPopup:weakSelf.popup];
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:upload_id_page_popup_confirm_tapped attributes:nil];
@@ -318,48 +323,52 @@ static NSString *const kSupportText = @"有任何疑问可致电客服热线400-
 }
 
 - (void)confirmButtonTapped {
-    __weak HHUploadIDViewController *weakSelf = self;
     if (!self.faceImg) {
         [[HHToastManager sharedManager] showErrorToastWithText:@"请先上传身份证正面"];
         return;
     }
     
     if(self.type == UploadViewTypeContract) {
-        [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"图片处理中..."];
+        [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"获取协议中..."];
         [[HHStudentService sharedInstance] getAgreementURLWithCompletion:^(NSURL *url, NSError *error) {
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
             if (!error && url) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"studentUpdated" object:nil];
                 HHSignContractViewController *vc = [[HHSignContractViewController alloc] initWithURL:url];
                 [self.navigationController setViewControllers:@[vc] animated:YES];
             } else {
-                if ([error.localizedFailureReason isEqual:@(40026)]) {
-                    [[HHToastManager sharedManager] showErrorToastWithText:@"身份证正面识别失败, 请重新拍摄并上传!"];
-                } else if ([error.localizedFailureReason isEqual:@(40028)]) {
-                    [[HHToastManager sharedManager] showErrorToastWithText:@"身份证信息无效, 请确保使用真实的第二代身份证!"];
-                } else {
-                    [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败, 请重试!"];
-                }
+                [[HHToastManager sharedManager] showErrorToastWithText:@"获取失败!"];
             }
         }];
     } else {
-        //upload id and peifubao
-        HHShareReferralView *view = [[HHShareReferralView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 350.0f) text:@"恭喜您, 投保成功, 现在分享给好友即可获得神秘礼品! 好友报名学车立减¥200! 快去分享吧~"];
-        view.shareBlock = ^(){
-            [HHPopupUtility dismissPopup:weakSelf.popup];
-            HHReferFriendsViewController *referVC = [[HHReferFriendsViewController alloc] init];
-            [weakSelf.navigationController setViewControllers:@[referVC] animated:YES];
-        };
-        self.popup = [HHPopupUtility createPopupWithContentView:view];
-        self.popup.shouldDismissOnContentTouch = NO;
-        self.popup.shouldDismissOnBackgroundTouch = NO;
-        [HHPopupUtility showPopup:self.popup];
-
+        [self insure];
     }
     
     
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:upload_id_page_confirm_tapped attributes:nil];
     
+}
+
+- (void)insure {
+    __weak HHUploadIDViewController *weakSelf = self;
+    [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"投保中..."];
+    [[HHStudentService sharedInstance] insureWithcompletion:^(NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (!error) {
+            HHShareReferralView *view = [[HHShareReferralView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 350.0f) text:@"恭喜您, 投保成功, 现在分享给好友即可获得神秘礼品! 好友报名学车立减¥200! 快去分享吧~"];
+            view.shareBlock = ^(){
+                [HHPopupUtility dismissPopup:weakSelf.popup];
+                HHReferFriendsViewController *referVC = [[HHReferFriendsViewController alloc] init];
+                [weakSelf.navigationController setViewControllers:@[referVC] animated:YES];
+            };
+            self.popup = [HHPopupUtility createPopupWithContentView:view];
+            self.popup.shouldDismissOnContentTouch = NO;
+            self.popup.shouldDismissOnBackgroundTouch = NO;
+            [HHPopupUtility showPopup:self.popup];
+            [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:nil];
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"投保失败"];
+        }
+    }];
 }
 
 - (void)showSharePopup {
@@ -441,12 +450,10 @@ static NSString *const kSupportText = @"有任何疑问可致电客服热线400-
 - (void)showSavedIdInfo {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"后台检测到您之前上传的信息, 请确认:" message:[NSString stringWithFormat:@"真实姓名: %@\n身份证号码: %@", self.student.idCard.name, self.student.idCard.num] preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"提交" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        // call haimianbao
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self insure];
     }];
     
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
-    [alertController addAction:cancelAction];
     [alertController addAction:confirmAction];
     
     [self presentViewController:alertController animated:YES completion:nil];

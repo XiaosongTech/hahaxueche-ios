@@ -284,4 +284,16 @@ typedef void (^HHMarketingChannelCompletion)(NSString *code);
  */
 - (void)verifyIdWithNumber:(NSString *)idNum name:(NSString *)name completion:(HHStudentGenericCompletion)completion;
 
+/**
+ Insure (投保海绵宝)
+ @param completion The completion block to execute on completion
+ */
+- (void)insureWithcompletion:(HHStudentGenericCompletion)completion;
+
+/**
+ Purchase insurance (投保海绵宝)
+ @param completion The completion block to execute on completion
+ */
+- (void)insureWithcompletion:(HHStudentGenericCompletion)completion;
+
 @end

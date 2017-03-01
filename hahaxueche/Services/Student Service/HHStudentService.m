@@ -551,4 +551,14 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     }];
 }
 
+
+- (void)insureWithcompletion:(HHStudentGenericCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentInsure, [HHStudentStore sharedInstance].currentStudent.studentId]];
+    [APIClient postWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (completion) {
+            completion(error);
+        }
+    }];
+}
+
 @end

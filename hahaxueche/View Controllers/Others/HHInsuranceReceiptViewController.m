@@ -1,12 +1,12 @@
 //
-//  HHReceiptViewController.m
+//  HHInsuranceReceiptViewController.m
 //  hahaxueche
 //
-//  Created by Zixiao Wang on 9/2/16.
-//  Copyright © 2016 Zixiao Wang. All rights reserved.
+//  Created by Zixiao Wang on 01/03/2017.
+//  Copyright © 2017 Zixiao Wang. All rights reserved.
 //
 
-#import "HHReceiptViewController.h"
+#import "HHInsuranceReceiptViewController.h"
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
 #import "HHReceiptItemView.h"
@@ -18,41 +18,29 @@
 #import "HHSupportUtility.h"
 #import "HHUploadIDViewController.h"
 
-@interface HHReceiptViewController () <TTTAttributedLabelDelegate>
+@interface HHInsuranceReceiptViewController () <TTTAttributedLabelDelegate>
 
 @property (nonatomic, strong) UIImageView *imgView;
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UIButton *signContractButton;
+@property (nonatomic, strong) UIButton *uploadIdButton;
 @property (nonatomic, strong) TTTAttributedLabel *supportLable;
 @property (nonatomic, strong) UIScrollView *scrollView;
 
-@property (nonatomic, strong) HHReceiptItemView *coachView;
 @property (nonatomic, strong) HHReceiptItemView *amountView;
 @property (nonatomic, strong) HHReceiptItemView *dateView;
-@property (nonatomic, strong) HHReceiptItemView *receiptNoView;
-@property (nonatomic, strong) HHPurchasedService *ps;
-@property (nonatomic, strong) HHCoach *coach;
-@property (nonatomic) ReceiptViewType type;
+
+@property (nonatomic, strong) HHStudent *student;
 
 @end
 
-@implementation HHReceiptViewController
-
-- (instancetype)initWithCoach:(id)coach type:(ReceiptViewType)type {
-    self = [super init];
-    if (self) {
-        self.coach = coach;
-        self.type = type;
-    }
-    return self;
-}
+@implementation HHInsuranceReceiptViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"付款成功";
     self.view.backgroundColor = [UIColor HHLightBackgroundYellow];
-    self.ps = [[HHStudentStore sharedInstance].currentStudent.purchasedServiceArray firstObject];
     self.navigationItem.leftBarButtonItem = nil;
+    self.student = [HHStudentStore sharedInstance].currentStudent;
     
     [self initSubviews];
 }
@@ -71,20 +59,16 @@
     self.titleLabel.textColor = [UIColor HHTextDarkGray];
     [self.scrollView addSubview:self.titleLabel];
     
-    self.signContractButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    if (self.type == ReceiptViewTypeContract) {
-        [self.signContractButton setTitle:@"签署专属协议" forState:UIControlStateNormal];
-    } else {
-        [self.signContractButton setTitle:@"上传投保信息" forState:UIControlStateNormal];
-    }
+    self.uploadIdButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.uploadIdButton setTitle:@"上传投保信息" forState:UIControlStateNormal];
     
-    [self.signContractButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.signContractButton setBackgroundColor:[UIColor HHOrange]];
-    self.signContractButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
-    self.signContractButton.layer.masksToBounds = YES;
-    self.signContractButton.layer.cornerRadius = 25.0f;
-    [self.signContractButton addTarget:self action:@selector(buttonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.scrollView addSubview:self.signContractButton];
+    [self.uploadIdButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.uploadIdButton setBackgroundColor:[UIColor HHOrange]];
+    self.uploadIdButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
+    self.uploadIdButton.layer.masksToBounds = YES;
+    self.uploadIdButton.layer.cornerRadius = 25.0f;
+    [self.uploadIdButton addTarget:self action:@selector(buttonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.scrollView addSubview:self.uploadIdButton];
     
     self.supportLable = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
     self.supportLable.activeLinkAttributes = @{(NSString *)kCTForegroundColorAttributeName:[UIColor HHOrange]};
@@ -95,17 +79,12 @@
     self.supportLable.attributedText = [self buildAttributeString];
     [self.scrollView addSubview:self.supportLable];
     
-    self.coachView = [[HHReceiptItemView alloc] initWithTitle:@"购买教练" value:self.coach.name];
-    [self.scrollView addSubview:self.coachView];
     
-    self.amountView = [[HHReceiptItemView alloc] initWithTitle:@"付款金额" value:[self.ps.actualAmount generateMoneyString]];
+    self.amountView = [[HHReceiptItemView alloc] initWithTitle:@"付款金额" value:[self.student.insuranceOrder.paidAmount generateMoneyString]];
     [self.scrollView addSubview:self.amountView];
     
-    self.dateView = [[HHReceiptItemView alloc] initWithTitle:@"付款时间" value:[[HHFormatUtility chineseFullDateFormatter] stringFromDate:self.ps.paidAt]];
+    self.dateView = [[HHReceiptItemView alloc] initWithTitle:@"付款时间" value:[[HHFormatUtility chineseFullDateFormatter] stringFromDate:self.student.insuranceOrder.paidAt]];
     [self.scrollView addSubview:self.dateView];
-    
-    self.receiptNoView = [[HHReceiptItemView alloc] initWithTitle:@"订单编号" value:self.ps.orderNo];
-    [self.scrollView addSubview:self.receiptNoView];
     
     [self makeConstraints];
 }
@@ -127,16 +106,10 @@
         make.top.equalTo(self.imgView.bottom).offset(15.0f);
         make.centerX.equalTo(self.scrollView.centerX);
     }];
-    
-    [self.coachView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.bottom).offset(20.0f);
-        make.centerX.equalTo(self.scrollView.centerX);
-        make.width.mas_equalTo(200.0f);
-        make.height.mas_equalTo(30.0f);
-    }];
+
     
     [self.amountView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.coachView.bottom).offset(10.0f);
+        make.top.equalTo(self.titleLabel.bottom).offset(20.0f);
         make.centerX.equalTo(self.scrollView.centerX);
         make.width.mas_equalTo(200.0f);
         make.height.mas_equalTo(30.0f);
@@ -148,24 +121,18 @@
         make.width.mas_equalTo(200.0f);
         make.height.mas_equalTo(30.0f);
     }];
+
     
-    [self.receiptNoView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.dateView.bottom).offset(10.0f);
-        make.centerX.equalTo(self.scrollView.centerX);
-        make.width.mas_equalTo(200.0f);
-        make.height.mas_equalTo(30.0f);
-    }];
-    
-    [self.signContractButton makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.receiptNoView.bottom).offset(30.0f);
+    [self.uploadIdButton makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.dateView.bottom).offset(30.0f);
         make.centerX.equalTo(self.scrollView.centerX);
         make.width.mas_equalTo(280.0f);
         make.height.mas_equalTo(50.0f);
-
+        
     }];
     
     [self.supportLable makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.signContractButton.bottom).offset(20.0f);
+        make.top.equalTo(self.uploadIdButton.bottom).offset(20.0f);
         make.centerX.equalTo(self.scrollView.centerX);
         make.width.mas_equalTo(280.0f);
         
@@ -181,13 +148,7 @@
 }
 
 - (void)buttonTapped {
-    UploadViewType type;
-    if (self.type == ReceiptViewTypeContract) {
-        type = UploadViewTypeContract;
-    } else {
-        type = UploadViewTypePeifubao;
-    }
-    HHUploadIDViewController *vc = [[HHUploadIDViewController alloc] initWithType:type];
+    HHUploadIDViewController *vc = [[HHUploadIDViewController alloc] initWithType:UploadViewTypePeifubao];
     [self.navigationController setViewControllers:@[vc] animated:YES];
 }
 
@@ -202,7 +163,7 @@
     
     [self.supportLable addLinkToURL:[NSURL URLWithString:@"callSupport"] withRange:[baseString rangeOfString:@"400-001-6006"]];
     [self.supportLable addLinkToURL:[NSURL URLWithString:@"onlineSupport"] withRange:[baseString rangeOfString:@"在线客服"]];
-
+    
     
     return attrString;
 }
@@ -214,5 +175,7 @@
         [self.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:self.navigationController] animated:YES];
     }
 }
+
+
 
 @end

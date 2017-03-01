@@ -32,6 +32,7 @@
              @"idCard":@"identity_card",
              @"userIdentityId":@"user_identity_id",
              @"isAgent": @"is_sales_agent",
+             @"insuranceOrder": @"insurance_order",
              };
 }
 
@@ -49,6 +50,10 @@
 
 + (NSValueTransformer *)idCardJSONTransformer {
     return [MTLJSONAdapter dictionaryTransformerWithModelClass:[HHIdentityCard class]];
+}
+
++ (NSValueTransformer *)insuranceOrderJSONTransformer {
+    return [MTLJSONAdapter dictionaryTransformerWithModelClass:[HHInsuranceOrder class]];
 }
 
 - (NSString *)getCourseName {

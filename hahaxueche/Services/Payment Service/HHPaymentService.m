@@ -26,7 +26,7 @@
     return sharedInstance;
 }
 
-- (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod productType:(CoachProductType)productType voucherId:(NSString *)voucherId inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion {
+- (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod productType:(CoachProductType)productType voucherId:(NSString *)voucherId needInsurance:(BOOL)needInsurance inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion {
     
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     // 0-Alipay; 4-银行卡; 1-分期乐
@@ -64,6 +64,10 @@
     if (voucherId) {
         dic[@"voucher_id"] = voucherId;
     }
+    
+    if (needInsurance) {
+        dic[@"need_insurance"] = @"true";
+    }
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICharges];
     [APIClient postWithParameters:dic completion:^(NSDictionary *response, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
@@ -88,6 +92,62 @@
             }
         }
     }];
+}
+
+- (void)purchaseInsuranceWithpaymentMethod:(StudentPaymentMethod)paymentMethod inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIInsuranceCharges, [HHStudentStore sharedInstance].currentStudent.studentId]];
+    NSNumber *paymentMethodNumber = @(0);
+    
+    switch (paymentMethod) {
+        case StudentPaymentMethodAlipay: {
+            paymentMethodNumber = @(0);
+        } break;
+            
+        case StudentPaymentMethodWechatPay: {
+            paymentMethodNumber = @(5);
+        } break;
+            
+        case StudentPaymentMethodBankCard: {
+            paymentMethodNumber = @(4);
+        } break;
+            
+        case StudentPaymentMethodFql: {
+            paymentMethodNumber = @(1);
+        } break;
+            
+        default: {
+            paymentMethodNumber = @(0);
+        } break;
+    }
+    if ([paymentMethodNumber isEqual:@(4)]) {
+        [Pingpp ignoreResultUrl:YES];
+    }
+
+    [APIClient postWithParameters:@{@"method":paymentMethodNumber} completion:^(NSDictionary *response, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (!error) {
+            [Pingpp createPayment:response
+                   viewController:viewController
+                     appURLScheme:@"hhxc"
+                   withCompletion:^(NSString *result, PingppError *error) {
+                       if ([result isEqualToString:@"success"]) {
+                           if (completion) {
+                               completion(YES);
+                           }
+                       } else {
+                           if (completion) {
+                               completion(NO);
+                           }
+                       }
+                   }];
+        } else {
+            if (completion) {
+                completion(NO);
+            }
+        }
+    }];
+
+    
 }
 
 

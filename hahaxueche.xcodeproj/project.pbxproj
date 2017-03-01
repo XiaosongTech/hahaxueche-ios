@@ -884,6 +884,9 @@
 		6DDAE4E91E666D5C0074CA30 /* button_cant149_yi.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDAE4D71E666D5C0074CA30 /* button_cant149_yi.png */; };
 		6DDAE4EA1E666D5C0074CA30 /* button_cant149_yi@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDAE4D81E666D5C0074CA30 /* button_cant149_yi@2x.png */; };
 		6DDAE4EB1E666D5C0074CA30 /* button_cant149_yi@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDAE4D91E666D5C0074CA30 /* button_cant149_yi@3x.png */; };
+		6DDAE4EE1E6685AC0074CA30 /* HHInsuranceOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE4ED1E6685AC0074CA30 /* HHInsuranceOrder.m */; };
+		6DDAE4F11E66A0440074CA30 /* HHLongTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE4F01E66A0440074CA30 /* HHLongTextViewController.m */; };
+		6DDAE4F71E66D0190074CA30 /* HHInsuranceReceiptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE4F61E66D0190074CA30 /* HHInsuranceReceiptViewController.m */; };
 		6DDAE6C31CB7566900CE461A /* HHNoCoachView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */; };
 		6DDAE6C91CB7899F00CE461A /* HHAppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C81CB7899F00CE461A /* HHAppInfoViewController.m */; };
 		6DDAE6CD1CB78B1B00CE461A /* ic_aboutmsg_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDAE6CA1CB78B1B00CE461A /* ic_aboutmsg_logo.png */; };
@@ -2145,6 +2148,12 @@
 		6DDAE4D71E666D5C0074CA30 /* button_cant149_yi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_cant149_yi.png; sourceTree = "<group>"; };
 		6DDAE4D81E666D5C0074CA30 /* button_cant149_yi@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_cant149_yi@2x.png"; sourceTree = "<group>"; };
 		6DDAE4D91E666D5C0074CA30 /* button_cant149_yi@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_cant149_yi@3x.png"; sourceTree = "<group>"; };
+		6DDAE4EC1E6685AC0074CA30 /* HHInsuranceOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHInsuranceOrder.h; sourceTree = "<group>"; };
+		6DDAE4ED1E6685AC0074CA30 /* HHInsuranceOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHInsuranceOrder.m; sourceTree = "<group>"; };
+		6DDAE4EF1E66A0440074CA30 /* HHLongTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHLongTextViewController.h; sourceTree = "<group>"; };
+		6DDAE4F01E66A0440074CA30 /* HHLongTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHLongTextViewController.m; sourceTree = "<group>"; };
+		6DDAE4F51E66D0190074CA30 /* HHInsuranceReceiptViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHInsuranceReceiptViewController.h; sourceTree = "<group>"; };
+		6DDAE4F61E66D0190074CA30 /* HHInsuranceReceiptViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHInsuranceReceiptViewController.m; sourceTree = "<group>"; };
 		6DDAE6C11CB7566900CE461A /* HHNoCoachView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNoCoachView.h; sourceTree = "<group>"; };
 		6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNoCoachView.m; sourceTree = "<group>"; };
 		6DDAE6C71CB7899F00CE461A /* HHAppInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAppInfoViewController.h; sourceTree = "<group>"; };
@@ -2686,6 +2695,10 @@
 				6DD1970B1DD99ADA0015ABF6 /* HHSelectVoucherViewController.m */,
 				6DFB30961DE7FF7500AF973E /* HHSignContractViewController.h */,
 				6DFB30971DE7FF7500AF973E /* HHSignContractViewController.m */,
+				6DDAE4EF1E66A0440074CA30 /* HHLongTextViewController.h */,
+				6DDAE4F01E66A0440074CA30 /* HHLongTextViewController.m */,
+				6DDAE4F51E66D0190074CA30 /* HHInsuranceReceiptViewController.h */,
+				6DDAE4F61E66D0190074CA30 /* HHInsuranceReceiptViewController.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -2717,6 +2730,8 @@
 				147A9FEF1C7AA8B1000DED3B /* HHPaymentStage.m */,
 				14700D931C795FBF00660989 /* HHPurchasedService.h */,
 				14700D941C795FBF00660989 /* HHPurchasedService.m */,
+				6DDAE4EC1E6685AC0074CA30 /* HHInsuranceOrder.h */,
+				6DDAE4ED1E6685AC0074CA30 /* HHInsuranceOrder.m */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -5018,11 +5033,14 @@
 				14604F471C6F8BED009DBE10 /* HHShareView.m in Sources */,
 				6D0FB09E1D92340F0045C421 /* HHClubPostTableViewCell.m in Sources */,
 				6D8552311CD8408B0021D4C9 /* HHWithdraws.m in Sources */,
+				6DDAE4EE1E6685AC0074CA30 /* HHInsuranceOrder.m in Sources */,
 				14604F651C6FF926009DBE10 /* NSNumber+HHNumber.m in Sources */,
 				6DE56FDE1D00297100E33BDB /* HHCoachServiceTypeCell.m in Sources */,
 				6DD5684D1D6948E000B9B319 /* OpenShare+Renren.m in Sources */,
 				5CDE14891C3859290004778C /* HHPopupUtility.m in Sources */,
+				6DDAE4F71E66D0190074CA30 /* HHInsuranceReceiptViewController.m in Sources */,
 				6DF202E01CD0C217002092B4 /* HHWithdraw.m in Sources */,
+				6DDAE4F11E66A0440074CA30 /* HHLongTextViewController.m in Sources */,
 				6D4CCAEE1D3E070400AD896F /* HHActivateCouponView.m in Sources */,
 				1482A9BA1C829CEC007F9019 /* HHReviewer.m in Sources */,
 				6DB7B5961DBF419500D91166 /* HHCityOtherFee.m in Sources */,

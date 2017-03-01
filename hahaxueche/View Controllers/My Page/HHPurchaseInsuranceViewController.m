@@ -13,6 +13,12 @@
 #import "HHPurchaseTagView.h"
 #import "NSNumber+HHNumber.h"
 #import "HHPaymentMethodsView.h"
+#import "HHPaymentService.h"
+#import "HHToastManager.h"
+#import "HHLoadingViewUtility.h"
+#import "HHInsuranceReceiptViewController.h"
+#import "HHStudentService.h"
+#import "HHStudentStore.h"
 
 @interface HHPurchaseInsuranceViewController ()
 
@@ -96,6 +102,7 @@
     
     self.confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.confirmButton.backgroundColor = [UIColor HHDarkOrange];
+    [self.confirmButton addTarget:self action:@selector(purchaseInsurance) forControlEvents:UIControlEventTouchUpInside];
     [self.confirmButton setTitle:@"确认并购买" forState:UIControlStateNormal];
     [self.confirmButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.confirmButton.titleLabel.font = [UIFont systemFontOfSize:18.0f];
@@ -128,6 +135,40 @@
     } else {
         [self.navigationController popViewControllerAnimated:YES];
     }
+}
+
+- (void)purchaseInsurance {
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    [[HHPaymentService sharedInstance] purchaseInsuranceWithpaymentMethod:self.paymentMethodsView.selectedMethod inController:self completion:^(BOOL succeed) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (succeed) {
+            [self fetchStudentAfterPurchase];
+            
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"支付失败或您取消了支付, 请重试"];
+            
+        }
+    }];
+}
+
+- (void)fetchStudentAfterPurchase {
+    if (![[HHLoadingViewUtility sharedInstance] isVisible]) {
+        [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    }
+    [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
+        if ([student.insuranceOrder isPurchased]) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            [HHStudentStore sharedInstance].currentStudent = student;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"insurancePurchased" object:nil];
+            
+            HHInsuranceReceiptViewController *vc = [[HHInsuranceReceiptViewController alloc] init];
+            [self.navigationController setViewControllers:@[vc]];
+            
+        } else {
+            [self fetchStudentAfterPurchase];
+        }
+        
+    }];
 }
 
 

@@ -19,4 +19,5 @@ typedef NS_ENUM(NSInteger, ReceiptViewType) {
 
 - (instancetype)initWithCoach:(HHCoach *)coach type:(ReceiptViewType)type;
 
+
 @end
