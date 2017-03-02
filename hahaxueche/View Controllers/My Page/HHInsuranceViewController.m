@@ -195,12 +195,17 @@ static NSString *const kInsuDetailString = @"1.培训驾驶学员意外伤害仅
         make.width.equalTo(self.insuranceInfoView.width).offset(-30.0f);
     }];
     
-    UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@""]];
-    [self.insuranceInfoView addSubview:imgView];
-    [imgView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(label.bottom).offset(10.0f);
-        make.right.equalTo(label.right);
+    UILabel *companyNameLabel = [[UILabel alloc] init];
+    companyNameLabel.text = @"平安财险承保";
+    companyNameLabel.textColor = [UIColor HHOrange];
+    companyNameLabel.font = [UIFont systemFontOfSize:14.0f];
+    [self.insuranceInfoView addSubview:companyNameLabel];
+    [companyNameLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.insuranceInfoView.bottom).offset(-10.0f);
+        make.right.equalTo(self.insuranceInfoView.right).offset(-15.0f);
     }];
+    
+    
 }
 
 -(void)buildInsuranceInfoViewWithoutInsured {
