@@ -159,7 +159,7 @@
         if ([student.insuranceOrder isPurchased]) {
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
             [HHStudentStore sharedInstance].currentStudent = student;
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"insurancePurchased" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"studentUpdated" object:nil];
             
             HHInsuranceReceiptViewController *vc = [[HHInsuranceReceiptViewController alloc] init];
             [self.navigationController setViewControllers:@[vc]];

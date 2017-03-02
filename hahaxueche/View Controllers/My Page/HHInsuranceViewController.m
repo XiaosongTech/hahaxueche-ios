@@ -51,7 +51,7 @@ static NSString *const kInsuDetailString = @"1.培训驾驶学员意外伤害仅
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
     self.student = [HHStudentStore sharedInstance].currentStudent;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:@"insurancePurchased" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:@"studentUpdated" object:nil];
 
     self.scrollView = [[UIScrollView alloc] init];
     self.scrollView.showsVerticalScrollIndicator = NO;
@@ -149,6 +149,7 @@ static NSString *const kInsuDetailString = @"1.培训驾驶学员意外伤害仅
             self.insuranceInfoTitleView = [self buildTitleViewWithTitle:@"您已投保成功!"];
             [self.scrollView addSubview:self.insuranceInfoTitleView];
             [self buildInsuranceInfoViewWithUserInfo];
+            self.navigationItem.rightBarButtonItem = nil;
         } else {
             self.insuranceInfoTitleView = [self buildTitleViewWithTitle:@"您已购买成功!"];
             [self.scrollView addSubview:self.insuranceInfoTitleView];

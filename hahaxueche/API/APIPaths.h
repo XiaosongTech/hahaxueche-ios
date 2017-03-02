@@ -54,7 +54,7 @@
 #define kAPIStudentIdInfo @"students/%@/id_card_info"
 #define kAPIStudentSendAgreement @"students/%@/agreement_mail"
 #define kAPIStudentTestResult @"students/%@/exam_results"
-#define kAPIStudentInsure @"students/%@/insuracne_services/hmb"
+#define kAPIStudentInsure @"students/%@/insurance_services/hmb"
 
 #pragma mark Coach
 

@@ -79,14 +79,15 @@ static NSString *const kSupportText = @"有任何疑问可致电客服热线400-
     
     self.student = [HHStudentStore sharedInstance].currentStudent;
     
+    if ([self.student.idCard isVerified]) {
+        [self showSavedIdInfo];
+    }
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:upload_id_page_viewed attributes:nil];
-    if ([self.student.idCard isVerified]) {
-        [self showSavedIdInfo];
-    }
 }
 
 - (void)initSubviews {
@@ -276,18 +277,24 @@ static NSString *const kSupportText = @"有任何疑问可致电客服热线400-
     }
     
     [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"上传中!"];
-    [[HHStudentService sharedInstance] uploadIDCardWithImage:self.faceImg side:@(0) completion:^(NSString *imgURL) {
+    [[HHStudentService sharedInstance] uploadIDCardWithImage:self.faceImg side:@(0) completion:^(NSString *imgURL, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-        if (imgURL) {
+        if (!error) {
             [[HHToastManager sharedManager] showSuccessToastWithText:@"上传成功!"];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"studentUpdated" object:nil];
             self.faceView.imgView.contentMode = UIViewContentModeScaleToFill;
             self.faceView.imgView.image = self.faceImg;
 
         } else {
-            [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败! 请检查图片是否包含身份证的所有信息, 然后重新上传!"];
-            self.faceImg = nil;
-            self.faceView.imgView.image = nil;
+            if ([error.localizedDescription isEqualToString:@"id card already uploaded"]) {
+                self.faceView.imgView.contentMode = UIViewContentModeScaleToFill;
+                self.faceView.imgView.image = self.faceImg;
+                [self confirmButtonTapped];
+            } else {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"上传失败! 请检查图片是否包含身份证的所有信息, 然后重新上传!"];
+                self.faceImg = nil;
+                self.faceView.imgView.image = nil;
+            }
         }
     }];
 
@@ -351,7 +358,7 @@ static NSString *const kSupportText = @"有任何疑问可致电客服热线400-
 - (void)insure {
     __weak HHUploadIDViewController *weakSelf = self;
     [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"投保中..."];
-    [[HHStudentService sharedInstance] insureWithcompletion:^(NSError *error) {
+    [[HHStudentService sharedInstance] insureWithcompletion:^(HHStudent *student, NSError *error) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
             HHShareReferralView *view = [[HHShareReferralView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds) - 40.0f, 350.0f) text:@"恭喜您, 投保成功, 现在分享给好友即可获得神秘礼品! 好友报名学车立减¥200! 快去分享吧~"];
@@ -364,7 +371,8 @@ static NSString *const kSupportText = @"有任何疑问可致电客服热线400-
             self.popup.shouldDismissOnContentTouch = NO;
             self.popup.shouldDismissOnBackgroundTouch = NO;
             [HHPopupUtility showPopup:self.popup];
-            [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:nil];
+            [HHStudentStore sharedInstance].currentStudent = student;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"studentUpdated" object:nil];
         } else {
             [[HHToastManager sharedManager] showErrorToastWithText:@"投保失败"];
         }
@@ -411,20 +419,15 @@ static NSString *const kSupportText = @"有任何疑问可致电客服热线400-
             [[HHLoadingViewUtility sharedInstance] showLoadingViewWithText:@"验证中..."];
             [[HHStudentService sharedInstance] verifyIdWithNumber:self.idNumField.text name:self.nameField.text completion:^(NSError *error) {
                 if (!error) {
-                    [[HHStudentService sharedInstance] getAgreementURLWithCompletion:^(NSURL *url, NSError *error) {
-                        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-                        if (!error && url) {
-                            [[NSNotificationCenter defaultCenter] postNotificationName:@"studentUpdated" object:nil];
-                            HHSignContractViewController *vc = [[HHSignContractViewController alloc] initWithURL:url];
-                            [self.navigationController setViewControllers:@[vc] animated:YES];
-                        } else {
-                            [[HHToastManager sharedManager] showErrorToastWithText:@"获取失败"];
-                        }
-                    }];
-
+                    [self manuVerificationConfirmAction];
+                    
                 } else {
-                    [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-                    [[HHToastManager sharedManager] showErrorToastWithText:@"实名认证失败, 请确认真实姓名和身份证号码信息!"];
+                    if ([error.localizedDescription isEqualToString:@"id card already uploaded"]) {
+                        [self manuVerificationConfirmAction];
+                    } else {
+                        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+                        [[HHToastManager sharedManager] showErrorToastWithText:@"实名认证失败, 请确认真实姓名和身份证号码信息!"];
+                    }
                 }
             }];
         }
@@ -447,8 +450,25 @@ static NSString *const kSupportText = @"有任何疑问可致电客服热线400-
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
+- (void)manuVerificationConfirmAction {
+    if (self.type == UploadViewTypeContract) {
+        [[HHStudentService sharedInstance] getAgreementURLWithCompletion:^(NSURL *url, NSError *error) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            if (!error && url) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"studentUpdated" object:nil];
+                HHSignContractViewController *vc = [[HHSignContractViewController alloc] initWithURL:url];
+                [self.navigationController setViewControllers:@[vc] animated:YES];
+            } else {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"获取失败"];
+            }
+        }];
+    } else {
+        [self insure];
+    }
+}
+
 - (void)showSavedIdInfo {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"后台检测到您之前上传的信息, 请确认:" message:[NSString stringWithFormat:@"真实姓名: %@\n身份证号码: %@", self.student.idCard.name, self.student.idCard.num] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"后台检测到您之前上传的信息" message:[NSString stringWithFormat:@"真实姓名: %@\n身份证号码: %@", self.student.idCard.name, self.student.idCard.num] preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self insure];
