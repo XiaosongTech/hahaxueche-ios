@@ -619,16 +619,16 @@
         make.left.equalTo(view.right).offset(-100.0f);
     }];
     
-    UIImageView *arrowView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_more_arrow"]];
-    [view addSubview:arrowView];
-    [arrowView makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(view.centerY);
-        make.left.equalTo(self.insurancePriceLabel.right).offset(5.0f);
-    }];
-    
-    UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInsuranceDetailView)];
-    [view addGestureRecognizer:tapRec];
-
+    if (![self.coach.isCheyouWuyou boolValue]) {
+        UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInsuranceDetailView)];
+        [view addGestureRecognizer:tapRec];
+        UIImageView *arrowView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_more_arrow"]];
+        [view addSubview:arrowView];
+        [arrowView makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(view.centerY);
+            make.left.equalTo(self.insurancePriceLabel.right).offset(5.0f);
+        }];
+    }
 
     return view;
 }
