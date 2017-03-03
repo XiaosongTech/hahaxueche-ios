@@ -32,15 +32,17 @@
 @property (nonatomic, strong) HHReceiptItemView *receiptNoView;
 @property (nonatomic, strong) HHPurchasedService *ps;
 @property (nonatomic, strong) HHCoach *coach;
+@property (nonatomic) ReceiptViewType type;
 
 @end
 
 @implementation HHReceiptViewController
 
-- (instancetype)initWithCoach:(id)coach {
+- (instancetype)initWithCoach:(id)coach type:(ReceiptViewType)type {
     self = [super init];
     if (self) {
         self.coach = coach;
+        self.type = type;
     }
     return self;
 }
@@ -70,17 +72,23 @@
     [self.scrollView addSubview:self.titleLabel];
     
     self.signContractButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.signContractButton setTitle:@"签署专属协议" forState:UIControlStateNormal];
+    if (self.type == ReceiptViewTypeContract) {
+        [self.signContractButton setTitle:@"签署专属协议" forState:UIControlStateNormal];
+    } else {
+        [self.signContractButton setTitle:@"上传投保信息" forState:UIControlStateNormal];
+    }
+    
     [self.signContractButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.signContractButton setBackgroundColor:[UIColor HHOrange]];
     self.signContractButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
     self.signContractButton.layer.masksToBounds = YES;
     self.signContractButton.layer.cornerRadius = 25.0f;
-    [self.signContractButton addTarget:self action:@selector(shareReferral) forControlEvents:UIControlEventTouchUpInside];
+    [self.signContractButton addTarget:self action:@selector(buttonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.scrollView addSubview:self.signContractButton];
     
     self.supportLable = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
     self.supportLable.activeLinkAttributes = @{(NSString *)kCTForegroundColorAttributeName:[UIColor HHOrange]};
+    self.supportLable.linkAttributes = @{(NSString *)kCTForegroundColorAttributeName:[UIColor HHOrange]};
     self.supportLable.delegate = self;
     self.supportLable.textAlignment = NSTextAlignmentCenter;
     self.supportLable.numberOfLines = 0;
@@ -172,8 +180,14 @@
                                                                  constant:-20.0f]];
 }
 
-- (void)shareReferral {
-    HHUploadIDViewController *vc = [[HHUploadIDViewController alloc] init];
+- (void)buttonTapped {
+    UploadViewType type;
+    if (self.type == ReceiptViewTypeContract) {
+        type = UploadViewTypeContract;
+    } else {
+        type = UploadViewTypePeifubao;
+    }
+    HHUploadIDViewController *vc = [[HHUploadIDViewController alloc] initWithType:type];
     [self.navigationController setViewControllers:@[vc] animated:YES];
 }
 
@@ -183,8 +197,8 @@
     NSString *baseString = @"对订单有任何疑问可致电客服热线400-001-6006 或 点击联系:在线客服";
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:baseString attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:13.0f], NSParagraphStyleAttributeName:paraStyle}];
     
-    [attrString addAttributes:@{NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle)} range:[baseString rangeOfString:@"400-001-6006"]];
-    [attrString addAttributes:@{NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle)} range:[baseString rangeOfString:@"在线客服"]];
+    [attrString addAttributes:@{NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle), NSForegroundColorAttributeName:[UIColor HHOrange]} range:[baseString rangeOfString:@"400-001-6006"]];
+    [attrString addAttributes:@{NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle), NSForegroundColorAttributeName:[UIColor HHOrange]} range:[baseString rangeOfString:@"在线客服"]];
     
     [self.supportLable addLinkToURL:[NSURL URLWithString:@"callSupport"] withRange:[baseString rangeOfString:@"400-001-6006"]];
     [self.supportLable addLinkToURL:[NSURL URLWithString:@"onlineSupport"] withRange:[baseString rangeOfString:@"在线客服"]];

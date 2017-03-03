@@ -253,7 +253,7 @@ static NSString *const kCellId = @"kCellId";
 
 #pragma mark - DZNEmptyDataSetSource Methods
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
-    return [[NSMutableAttributedString alloc] initWithString:@"您还木有推荐的小伙伴, 快去分享学车大礼包给好友, 赢取无上限现金奖励!" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+    return [[NSMutableAttributedString alloc] initWithString:@"您还木有推荐的小伙伴, 快去分享学车大礼包给好友, 赢取神秘礼品!" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
 }
 
 - (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView {

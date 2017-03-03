@@ -40,13 +40,13 @@
         }];
         
         self.imgView = [[UIImageView alloc] initWithImage:image];
-        self.imgView.contentMode = UIViewContentModeCenter;
+        self.imgView.contentMode = UIViewContentModeScaleAspectFit;
         [self addSubview:self.imgView];
         [self.imgView makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.leftView.right);
             make.top.equalTo(self.top);
             make.height.equalTo(self.height);
-            make.width.equalTo(self.width).offset(-90.0f);
+            make.right.equalTo(self.right);
         }];
         
         UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chooseImg)];

@@ -14,6 +14,7 @@ typedef NS_ENUM(NSInteger, StudentPaymentMethod) {
     StudentPaymentMethodWechatPay, // 微信支付
     StudentPaymentMethodBankCard, // 银行卡
     StudentPaymentMethodFql, //分期乐
+    StudentPaymentMethodCount, //分期乐
 };
 
 typedef NS_ENUM(NSInteger, CoachProductType) {
@@ -31,6 +32,8 @@ typedef void (^HHPaymentResultCompletion)(BOOL succeed);
 + (instancetype)sharedInstance;
 
 
-- (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod productType:(CoachProductType)productType voucherId:(NSString *)voucherId inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion;
+- (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod productType:(CoachProductType)productType voucherId:(NSString *)voucherId needInsurance:(BOOL)needInsurance inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion;
+
+- (void)purchaseInsuranceWithpaymentMethod:(StudentPaymentMethod)paymentMethod inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion;
 
 @end

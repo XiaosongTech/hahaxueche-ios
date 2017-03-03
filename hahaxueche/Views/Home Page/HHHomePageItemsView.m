@@ -34,8 +34,8 @@
                 } break;
                     
                     
-                case ItemTypeCourseOne: {
-                    tapView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_lessonone"] title:@"科一挂科险"];
+                case ItemTypePeifu: {
+                    tapView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_peifubaby"] title:@"赔付宝"];
                     [self addSubview:tapView];
                     
                 } break;

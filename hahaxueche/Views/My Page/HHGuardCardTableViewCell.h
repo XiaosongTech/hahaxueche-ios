@@ -14,5 +14,6 @@
 
 @property (nonatomic, strong) HHMyPageItemTitleView *titleView;
 @property (nonatomic, strong) HHMyPageItemView *courseOneFourView;
+@property (nonatomic, strong) HHMyPageItemView *insuranceView;
 
 @end
