@@ -44,6 +44,7 @@
 @property (nonatomic, copy) NSNumber *hasDeposit;
 //cooperationType: A, B, C
 @property (nonatomic, copy) NSString *cooperationType;
+@property (nonatomic, copy) NSNumber *isCheyouWuyou;
 
 // 0 = 优秀教练; 1 = 金牌教练
 - (BOOL)isGoldenCoach;

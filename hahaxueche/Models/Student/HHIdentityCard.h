@@ -15,4 +15,6 @@
 @property (nonatomic, copy) NSString *gender;
 @property (nonatomic, copy) NSString *address;
 
+- (BOOL)isVerified;
+
 @end

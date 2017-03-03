@@ -401,11 +401,11 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     [APIClient uploadImage:scaleDownedImage otherParam:@{@"side":side} completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             if (completion) {
-                completion(response[@"url"]);
+                completion(response[@"url"], nil);
             }
         } else {
             if (completion) {
-                completion(nil);
+                completion(nil, error);
             }
         }
         
@@ -548,6 +548,24 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
         if (completion) {
             completion(error);
         }
+    }];
+}
+
+
+- (void)insureWithcompletion:(HHStudentCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIStudentInsure, [HHStudentStore sharedInstance].currentStudent.studentId]];
+    [APIClient postWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHStudent *student = [MTLJSONAdapter modelOfClass:[HHStudent class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(student, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+        
     }];
 }
 

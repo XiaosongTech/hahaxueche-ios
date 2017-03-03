@@ -19,5 +19,8 @@
              };
 }
 
+- (BOOL)isVerified {
+    return (self.name && self.num);
+}
 
 @end

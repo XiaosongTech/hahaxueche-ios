@@ -31,7 +31,6 @@
 #import "HHSupportUtility.h"
 #import "HHFreeTrialUtility.h"
 #import "HHTestView.h"
-#import "HHReferralShareView.h"
 #import "HHHomPageCardView.h"
 #import "HHHomePageItemsView.h"
 #import "HHTestStartViewController.h"
@@ -47,6 +46,7 @@
 #import "HHGuardCardViewController.h"
 #import "HHAddressBookUtility.h"
 #import <CloudPushSDK/CloudPushSDK.h>
+#import "HHInsuranceViewController.h"
 
 
 static NSString *const kCoachLink = @"https://m.hahaxueche.com/share/best-coaches";
@@ -380,9 +380,10 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
             
         } break;
             
-        case ItemTypeCourseOne: {
-            [self showTestVC];
-            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_course_one_tapped attributes:nil];
+        case ItemTypePeifu: {
+            HHInsuranceViewController *vc = [[HHInsuranceViewController alloc] init];
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+            [self presentViewController:navVC animated:YES completion:nil];
         } break;
             
         case ItemTypePlatformGuard: {

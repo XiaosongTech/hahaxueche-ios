@@ -38,7 +38,7 @@ typedef void (^HHCardCompletion)(HHBankCard *card, NSError *error);
 typedef void (^HHAdvisorCompletion)(HHAdvisor *advisor, NSError *error);
 typedef void (^HHVouchersCompletion)(NSArray *vouchers);
 typedef void (^HHVoucherCompletion)(HHVoucher *voucher, NSError *error);
-typedef void (^HHIDImageCompletion)(NSString *imgURL);
+typedef void (^HHIDImageCompletion)(NSString *imgURL, NSError *error);
 typedef void (^HHAgreementCompletion)(NSURL *url, NSError *error);
 typedef void (^HHSignAgreementCompletion)(HHStudent *student, NSError *error);
 typedef void (^HHTestResultCompletion)(NSArray *results);
@@ -283,5 +283,12 @@ typedef void (^HHMarketingChannelCompletion)(NSString *code);
  @param completion The completion block to execute on completion
  */
 - (void)verifyIdWithNumber:(NSString *)idNum name:(NSString *)name completion:(HHStudentGenericCompletion)completion;
+
+/**
+ Insure (投保海绵宝)
+ @param completion The completion block to execute on completion
+ */
+- (void)insureWithcompletion:(HHStudentCompletion)completion;
+
 
 @end

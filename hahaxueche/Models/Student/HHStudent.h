@@ -12,6 +12,7 @@
 #import "HHBankCard.h"
 #import "HHAdvisor.h"
 #import "HHIdentityCard.h"
+#import "HHInsuranceOrder.h"
 
 @interface HHStudent : MTLModel <MTLJSONSerializing>
 
@@ -36,6 +37,8 @@
 @property (nonatomic, copy) NSString *userIdentityId;
 //区分代理和用户--用于推荐有奖
 @property (nonatomic, copy) NSNumber *isAgent;
+
+@property (nonatomic, strong) HHInsuranceOrder *insuranceOrder;
 
 
 - (NSString *)getCourseName;
