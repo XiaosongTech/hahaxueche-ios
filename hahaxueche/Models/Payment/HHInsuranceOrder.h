@@ -11,6 +11,7 @@
 @interface HHInsuranceOrder : MTLModel <MTLJSONSerializing>
 
 @property (nonatomic, strong) NSDate *paidAt;
+@property (nonatomic, strong) NSDate *policyStartTime;
 @property (nonatomic, copy) NSString *policyNum;
 @property (nonatomic, strong) NSNumber *paidAmount;
 

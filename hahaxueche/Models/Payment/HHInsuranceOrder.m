@@ -16,10 +16,19 @@
              @"policyNum": @"policy_no",
              @"paidAt":@"paid_at",
              @"paidAmount":@"total_amount",
+             @"policyStartTime":@"policy_start_time",
             };
 }
 
 + (NSValueTransformer *)paidAtJSONTransformer {
+    return [MTLValueTransformer transformerUsingForwardBlock:^id(NSString *dateString, BOOL *success, NSError *__autoreleasing *error) {
+        return [[HHFormatUtility backendDateFormatter] dateFromString:dateString];
+    } reverseBlock:^id(NSDate *date, BOOL *success, NSError *__autoreleasing *error) {
+        return [[HHFormatUtility backendDateFormatter] stringFromDate:date];
+    }];
+}
+
++ (NSValueTransformer *)policyStartTimeJSONTransformer {
     return [MTLValueTransformer transformerUsingForwardBlock:^id(NSString *dateString, BOOL *success, NSError *__autoreleasing *error) {
         return [[HHFormatUtility backendDateFormatter] dateFromString:dateString];
     } reverseBlock:^id(NSDate *date, BOOL *success, NSError *__autoreleasing *error) {

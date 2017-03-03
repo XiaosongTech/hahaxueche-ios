@@ -185,7 +185,7 @@ static NSString *const kInsuDetailString = @"1.培训驾驶学员意外伤害仅
     
     UILabel *label = [[UILabel alloc] init];
     label.numberOfLines = 0;
-    label.text = [NSString stringWithFormat:@"投保人: %@\n投保时间: %@\n有效期至: 领取到机动车驾驶证当日24时(投保日)", self.student.idCard.name, [[HHFormatUtility fullDateFormatter] stringFromDate:self.student.insuranceOrder.paidAt]];
+    label.text = [NSString stringWithFormat:@"投保人: %@\n投保时间: %@\n有效期至: 领取到机动车驾驶证当日24时(投保日)", self.student.idCard.name, [[HHFormatUtility fullDateFormatter] stringFromDate:self.student.insuranceOrder.policyStartTime]];
     label.textColor = [UIColor HHTextDarkGray];
     label.font = [UIFont systemFontOfSize:16.0f];
     [self.insuranceInfoView addSubview:label];
