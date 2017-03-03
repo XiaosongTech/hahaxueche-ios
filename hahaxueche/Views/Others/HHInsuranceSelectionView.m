@@ -41,7 +41,7 @@
         
         self.textLabel = [[UILabel alloc] init];
         self.textLabel.numberOfLines = 0;
-        self.textLabel.text = @"赔付宝是一款由中国平安承保量身为哈哈学车定制的一份学车保险。提供了一站式驾考报名、选购保险、保险理赔申诉的平台，全面保障你的学车利益，赔付宝在购买后的次日生效，保期最长为一年";
+        self.textLabel.text = @"赔付宝是一款由平安财险承保量身为哈哈学车定制的一份学车保险。提供了一站式驾考报名、选购保险、保险理赔申诉的平台，全面保障你的学车利益，赔付宝在购买后的次日生效，保期最长为一年";
         self.textLabel.textColor = [UIColor HHTextDarkGray];
         self.textLabel.font = [UIFont systemFontOfSize:13.0f];
         [self addSubview:self.textLabel];

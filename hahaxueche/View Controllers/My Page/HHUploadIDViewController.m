@@ -28,7 +28,7 @@
 #import "HHStudentStore.h"
 
 static NSString *const kContractText = @"请上传您的身份证信息，我们将会生成您的哈哈学车专属学员电子协议，该协议将在您的学车途中保障您的利益，同时也有助于教练尽快开展教学活动！若不上传您的真实信息，我们将无法保障您的合法权益！";
-static NSString *const kInsuranceText = @"请上传身份信息，我们将会用于您的赔付宝投保事宜。赔付宝将在您的学车途中保障您的利益，若不上传您的真实信息，赔付宝将无法生效，中国平安将无法对您进行承保。";
+static NSString *const kInsuranceText = @"请上传身份信息，我们将会用于您的赔付宝投保事宜。赔付宝将在您的学车途中保障您的利益，若不上传您的真实信息，赔付宝将无法生效，平安财险将无法对您进行承保。";
 static NSString *const kSecurityText = @"*请确保您的二代身份证处于有效期内\n**所有信息已经经过加密处理, 保证您的信息安全";
 static NSString *const kSupportText = @"有任何疑问可致电客服热线400-001-6006\n或点击联系在线客服";
 

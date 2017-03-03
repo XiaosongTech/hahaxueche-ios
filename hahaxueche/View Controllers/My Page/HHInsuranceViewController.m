@@ -196,9 +196,9 @@ static NSString *const kInsuDetailString = @"1.培训驾驶学员意外伤害仅
     }];
     
     UILabel *companyNameLabel = [[UILabel alloc] init];
-    companyNameLabel.text = @"平安财险承保";
-    companyNameLabel.textColor = [UIColor HHOrange];
-    companyNameLabel.font = [UIFont systemFontOfSize:14.0f];
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"平安财险 承保" attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:14.0f]}];
+    [string addAttribute:NSForegroundColorAttributeName value:[UIColor HHTextDarkGray] range:[@"平安财险 承保" rangeOfString:@"承保"]];
+    companyNameLabel.attributedText = string;
     [self.insuranceInfoView addSubview:companyNameLabel];
     [companyNameLabel makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.insuranceInfoView.bottom).offset(-10.0f);
@@ -221,7 +221,7 @@ static NSString *const kInsuDetailString = @"1.培训驾驶学员意外伤害仅
     
     UILabel *label = [[UILabel alloc] init];
     label.numberOfLines = 0;
-    label.text = @"请点击右上角按钮上传投保信息, 否则该保险无法生效, 中国平安无法为您进行理赔.";
+    label.text = @"请点击右上角按钮上传投保信息, 否则该保险无法生效, 平安财险无法为您进行理赔.";
     label.textColor = [UIColor HHTextDarkGray];
     label.font = [UIFont systemFontOfSize:16.0f];
     [self.insuranceInfoView addSubview:label];
