@@ -33,16 +33,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = self.navTitle;
+    self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
     self.textView = [[UITextView alloc] init];
     self.textView.textAlignment = NSTextAlignmentLeft;
     self.textView.font = [UIFont systemFontOfSize:15.0f];
     self.textView.textColor = [UIColor darkTextColor];
+    self.textView.editable = NO;
     self.textView.text = self.longText;
     [self.view addSubview:self.textView];
     [self.textView makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.view);
-        make.width.equalTo(self.view.width);
+        make.width.equalTo(self.view.width).offset(-30.0f);
         make.height.equalTo(self.view.height);
     }];
 }
