@@ -56,7 +56,7 @@
     WKUserContentController* userController = [[WKUserContentController alloc]init];
     
     [userController addScriptMessageHandler:self name:@"nativeCall"];
-    WKUserScript *script = [[WKUserScript alloc] initWithSource:@"window.nativeCall = window.webkit.messageHandlers.nativeCall.postMessage.bind(window.webkit.messageHandlers.nativeCall)" injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
+    WKUserScript *script = [[WKUserScript alloc] initWithSource:@"window.jsBridge = {nativeCall:window.webkit.messageHandlers.nativeCall.postMessage.bind(window.webkit.messageHandlers.nativeCall)}" injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
     
     [userController addUserScript:script];
     
