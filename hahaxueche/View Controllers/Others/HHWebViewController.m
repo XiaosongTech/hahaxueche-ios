@@ -14,6 +14,7 @@
 #import "UIColor+HHColor.h"
 #import "HHStudentService.h"
 #import "HHLoadingViewUtility.h"
+#import "HHRootViewController.h"
 
 @implementation HHWebViewController
 
@@ -50,7 +51,15 @@
     self.navigationItem.titleView = self.titleLabel;
     
     
-    self.webView = [[WKWebView alloc] init];
+    WKWebViewConfiguration *webConfig = [[WKWebViewConfiguration alloc]init];
+    WKUserContentController* userController = [[WKUserContentController alloc]init];
+    
+    // Add a script message handler for receiving  "nativeCall" event notifications posted from the JS document using window.webkit.messageHandlers.buttonClicked.postMessage script message
+    [userController addScriptMessageHandler:self name:@"nativeCall"];
+    
+    webConfig.userContentController = userController;
+    
+    self.webView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:webConfig];
     self.webView.scrollView.bounces = NO;
     self.webView.backgroundColor = [UIColor HHOrange];
     self.webView.navigationDelegate = self;
@@ -145,14 +154,8 @@
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     
     NSString *url = [navigationAction.request.URL.absoluteString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    if ([url isEqualToString:@"hhxc://findcoach"]) {
+    if ([url isEqualToString:@"https://lkme.cc/RnC/weMAYR8c8"]) {
         decisionHandler(WKNavigationActionPolicyCancel);
-        self.tabBarController.selectedIndex = 1;
-        [self.navigationController popToRootViewControllerAnimated:NO];
-        
-    } else if ([url isEqualToString:@"https://lkme.cc/RnC/weMAYR8c8"]) {
-        decisionHandler(WKNavigationActionPolicyCancel);
-        [self dismissViewControllerAnimated:YES completion:nil];
     } else {
         decisionHandler(WKNavigationActionPolicyAllow);
     }
@@ -174,6 +177,18 @@
     
     self.popup = [HHPopupUtility createPopupWithContentView:shareView showType:KLCPopupShowTypeSlideInFromBottom dismissType:KLCPopupDismissTypeSlideOutToBottom];
     [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
+}
+
+#pragma mark -WKScriptMessageHandler
+- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
+    if ([message.name isEqualToString:@"nativeCall"]) {
+        if ([message.body isEqualToString:@"findCoach"]) {
+            HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+            rootVC.selectedIndex = TabBarItemCoach;
+            [[UIApplication sharedApplication] delegate].window.rootViewController = rootVC;
+        }
+    }
+
 }
 
 

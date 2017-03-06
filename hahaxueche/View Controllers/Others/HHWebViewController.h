@@ -11,7 +11,7 @@
 #import <WebKit/WebKit.h>
 #import "HHShareView.h"
 
-@interface HHWebViewController : UIViewController <WKNavigationDelegate, WKUIDelegate>
+@interface HHWebViewController : UIViewController <WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler>
 
 @property (nonatomic, strong) NSURL *url;
 @property (nonatomic, strong) WKWebView *webView;
