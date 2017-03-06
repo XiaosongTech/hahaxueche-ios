@@ -301,7 +301,11 @@
         return;
     }
     
-    [self makeChargeCall];
+    if (self.selectedInsurance) {
+        [self showInsuranceWarningAlert];
+    } else {
+        [self makeChargeCall];
+    }
     
 }
 
@@ -660,6 +664,21 @@
         self.insurancePriceLabel.textColor = [UIColor HHTextDarkGray];
     }
     [self updatePriceLabelsWithSelectedPrice:[self getSelectedOriginalPrice]];
+}
+
+- (void)showInsuranceWarningAlert {
+     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"赔付宝购买提示" message:@"请确认您还未参加考科目一考试，购买后，必须在预约第一次科目一考试的前一个工作日24点前，完成身份信息上传。否则无法获得理赔." preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self makeChargeCall];
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    
+    [alertController addAction:confirmAction];
+    [alertController addAction:cancelAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 

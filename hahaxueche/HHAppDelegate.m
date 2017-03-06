@@ -40,6 +40,7 @@
 #import "HHVouchersViewController.h"
 #import "HHGuardCardViewController.h"
 #import "HHClubPostDetailViewController.h"
+#import "HHInsuranceViewController.h"
 
 #define kAliPushAppKey          @"23260416"
 #define kAliPushAppSecret       @"996121506d96c60827a917c2ca26ab14"
@@ -175,6 +176,10 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
             } else if ([HHParam[@"type"] isEqualToString:@"coach_list"]) {
                 HHRootViewController *rootVC = [[HHRootViewController alloc] initWithDefaultIndex:TabBarItemCoach];
                 self.window.rootViewController = rootVC;
+
+            } else if ([HHParam[@"type"] isEqualToString:@"peifubao"]) {
+                HHInsuranceViewController *insuranceVC = [[HHInsuranceViewController alloc] init];
+                [self jumpToVC:insuranceVC completion:nil];
 
             } else {
                 if (self.notificationUserInfo) {

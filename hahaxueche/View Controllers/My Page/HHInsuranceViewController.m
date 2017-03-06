@@ -187,7 +187,7 @@ static NSString *const kInsuranceLink = @"https://m.hahaxueche.com/pei-fu-bao";
     
     UILabel *label = [[UILabel alloc] init];
     label.numberOfLines = 0;
-    label.text = [NSString stringWithFormat:@"投保人: %@\n投保时间: %@\n有效期至: 领取到机动车驾驶证当日24时(投保日)", self.student.idCard.name, [[HHFormatUtility fullDateFormatter] stringFromDate:self.student.insuranceOrder.policyStartTime]];
+    label.text = [NSString stringWithFormat:@"投保人: %@\n投保时间: %@\n有效期至: 领取到机动车驾驶证当日24时(投保日起一年内)", self.student.idCard.name, [[HHFormatUtility fullDateFormatter] stringFromDate:self.student.insuranceOrder.policyStartTime]];
     label.textColor = [UIColor HHTextDarkGray];
     label.font = [UIFont systemFontOfSize:16.0f];
     [self.insuranceInfoView addSubview:label];
@@ -291,10 +291,10 @@ static NSString *const kInsuranceLink = @"https://m.hahaxueche.com/pei-fu-bao";
     }];
     
     if ([self.student isPurchased]) {
-        [optionThree setImage:[UIImage imageNamed:@"botton_cant169"] forState:UIControlStateNormal];
+        [optionThree setImage:[UIImage imageNamed:@"botton_cant249"] forState:UIControlStateNormal];
         optionThree.enabled = NO;
     } else {
-        [optionThree setImage:[UIImage imageNamed:@"botton_169peifubaby"] forState:UIControlStateNormal];
+        [optionThree setImage:[UIImage imageNamed:@"botton_249peifubaby"] forState:UIControlStateNormal];
         optionThree.enabled = YES;
     }
 }
