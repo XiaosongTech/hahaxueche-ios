@@ -15,6 +15,7 @@
 #import "HHStudentService.h"
 #import "HHLoadingViewUtility.h"
 #import "HHRootViewController.h"
+#import "HHInsuranceViewController.h"
 
 @implementation HHWebViewController
 
@@ -54,8 +55,10 @@
     WKWebViewConfiguration *webConfig = [[WKWebViewConfiguration alloc]init];
     WKUserContentController* userController = [[WKUserContentController alloc]init];
     
-    // Add a script message handler for receiving  "nativeCall" event notifications posted from the JS document using window.webkit.messageHandlers.buttonClicked.postMessage script message
     [userController addScriptMessageHandler:self name:@"nativeCall"];
+    WKUserScript *script = [[WKUserScript alloc] initWithSource:@"window.nativeCall = window.webkit.messageHandlers.nativeCall.postMessage.bind(window.webkit.messageHandlers.nativeCall)" injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
+    
+    [userController addUserScript:script];
     
     webConfig.userContentController = userController;
     
@@ -186,6 +189,12 @@
             HHRootViewController *rootVC = [[HHRootViewController alloc] init];
             rootVC.selectedIndex = TabBarItemCoach;
             [[UIApplication sharedApplication] delegate].window.rootViewController = rootVC;
+        } else if ([message.body isEqualToString:@"peifubao"]) {
+            HHInsuranceViewController *insuranceVC = [[HHInsuranceViewController alloc] init];
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:insuranceVC];
+            [self presentViewController:navVC animated:YES completion:nil];
+        } else {
+            
         }
     }
 
