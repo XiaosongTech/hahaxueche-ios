@@ -30,6 +30,7 @@
              @"registeredCount": @"statistics.student_count",
              @"postCategory": @"article_categories",
              @"marketingChannels": @"marketing_channels",
+             @"insurancePrices": @"insurance_prices",
              };
 }
 

@@ -154,8 +154,8 @@ static NSString *const kPartnerCoachoCellID = @"kPartnerCoachoCellID";
             HHMyCoachCourseInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kCourseInfoCellID forIndexPath:indexPath];
             [cell setupCellWithStudent:[HHStudentStore sharedInstance].currentStudent];
             cell.feeDetailView.actionBlock = ^() {
-                HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:weakSelf.coach];
-                [weakSelf.navigationController pushViewController:vc animated:YES];
+//                HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:weakSelf.coach];
+//                [weakSelf.navigationController pushViewController:vc animated:YES];
             };
             return cell;
         }

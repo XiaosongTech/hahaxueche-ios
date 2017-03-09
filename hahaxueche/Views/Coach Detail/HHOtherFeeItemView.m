@@ -20,15 +20,15 @@
         [self addSubview:self.stickView];
         [self.stickView makeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(5.0f);
-            make.height.mas_equalTo(20.0f);
+            make.height.mas_equalTo(15.0f);
             make.left.equalTo(self.left);
             make.top.equalTo(self.top);
         }];
         
         self.titleLabel = [[UILabel alloc] init];
-        self.titleLabel.textColor = [UIColor HHLightTextGray];
+        self.titleLabel.textColor = [UIColor HHTextDarkGray];
         self.titleLabel.text = title;
-        self.titleLabel.font = [UIFont systemFontOfSize:16.0f];
+        self.titleLabel.font = [UIFont systemFontOfSize:14.0f];
         [self addSubview:self.titleLabel];
         [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.stickView.right).offset(8.0f);

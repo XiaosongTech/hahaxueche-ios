@@ -11,7 +11,7 @@
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "ParallaxHeaderView.h"
 #import "HHCoachDetailDescriptionCell.h"
-#import "HHCoachPriceCell.h"
+#import "HHPersonalCoachPriceCell.h"
 #import "HHImageGalleryViewController.h"
 #import "HHStudentStore.h"
 #import "HHGenericTwoButtonsPopupView.h"
@@ -121,7 +121,7 @@ static NSString *const kPriceCellID = @"kPriceCellID";
     [self.tableView sendSubviewToBack:self.tableView.tableHeaderView];
     
     [self.tableView registerClass:[HHCoachDetailDescriptionCell class] forCellReuseIdentifier:kDescriptionCellID];
-    [self.tableView registerClass:[HHCoachPriceCell class] forCellReuseIdentifier:kPriceCellID];
+    [self.tableView registerClass:[HHPersonalCoachPriceCell class] forCellReuseIdentifier:kPriceCellID];
     
     self.callButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.callButton setTitle:@"联系教练" forState:UIControlStateNormal];
@@ -168,7 +168,7 @@ static NSString *const kPriceCellID = @"kPriceCellID";
         }
             
         case CoachCellPrice: {
-            HHCoachPriceCell *cell = [tableView dequeueReusableCellWithIdentifier:kPriceCellID forIndexPath:indexPath];
+            HHPersonalCoachPriceCell *cell = [tableView dequeueReusableCellWithIdentifier:kPriceCellID forIndexPath:indexPath];
             cell.licenseTypeAction = ^(NSInteger licenseType) {
                 NSString *text = @"C1为手动挡小型车驾照，取得了C1类驾驶证的人可以驾驶C2类车。";
                 CGFloat height = 200.0f;

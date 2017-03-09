@@ -6,12 +6,12 @@
 //  Copyright © 2016 Zixiao Wang. All rights reserved.
 //
 
-#import "HHCoachPriceCell.h"
+#import "HHPersonalCoachPriceCell.h"
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
 #import "HHPersonalCoachPrice.h"
 
-@implementation HHCoachPriceCell
+@implementation HHPersonalCoachPriceCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -43,21 +43,11 @@
         make.height.mas_equalTo(56.0f);
     }];
     
-    UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showPriceDetail)];
-    [self.topView addGestureRecognizer:tapRec];
-    
     self.titleLabel = [[UILabel alloc] init];
     [self.topView addSubview:self.titleLabel];
     [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.topView.centerY);
         make.left.equalTo(self.topView.left).offset(20.0f);
-    }];
-    
-    self.arrowView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_more_arrow"]];
-    [self.topView addSubview:self.arrowView];
-    [self.arrowView makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.titleLabel.centerY);
-        make.right.equalTo(self.topView.right).offset(-20.0f);
     }];
     
     self.topLine = [[UIView alloc] init];
@@ -72,63 +62,9 @@
     
 }
 
-- (void)setupCellWithCoach:(HHCoach *)coach {
-    __weak HHCoachPriceCell *weakSelf = self;
-    self.titleLabel.attributedText = [self generateAttrStringWithText:@"拿证价格" image:[UIImage imageNamed:@"ic_coachmsg_charge"]];
-    
-    if (self.c1View) {
-        [self.c1View removeFromSuperview];
-    }
-    self.c1View = [[HHPriceSectionView alloc] initWithTitle:@"C1手动挡" price:coach.price VIPPrice:coach.VIPPrice];
-    self.c1View.questionAction = ^() {
-        if (weakSelf.licenseTypeAction) {
-            weakSelf.licenseTypeAction(1);
-        }
-    };
-    [self.contentView addSubview:self.c1View];
-    [self.c1View makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.contentView.left);
-        make.width.equalTo(self.contentView.width);
-        make.top.equalTo(self.topView.bottom);
-        CGFloat height = 35.0f + 50.0f;
-        if ([coach.VIPPrice floatValue] > 0) {
-            height = height + 50.0f;
-        }
-        make.height.mas_equalTo(height);
-    }];
-    
-    if (self.c2View) {
-        [self.c2View removeFromSuperview];
-    }
-    if ([coach.c2Price floatValue] > 0 || [coach.c2VIPPrice floatValue] > 0) {
-        self.c2View = [[HHPriceSectionView alloc] initWithTitle:@"C2自动挡" price:coach.c2Price VIPPrice:coach.c2VIPPrice];
-        self.c2View.questionAction = ^() {
-            if (weakSelf.licenseTypeAction) {
-                weakSelf.licenseTypeAction(2);
-            }
-        };
-        [self.contentView addSubview:self.c2View];
-        [self.c2View makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.contentView.left);
-            make.width.equalTo(self.contentView.width);
-            make.top.equalTo(self.c1View.bottom);
-            CGFloat height = 35.0f;
-            if ([coach.c2VIPPrice floatValue] > 0 && [coach.c2Price floatValue] > 0) {
-                height = height + 50.0f * 2;
-            } else if ([coach.c2VIPPrice floatValue] > 0 || [coach.c2Price floatValue] > 0) {
-                height = height + 50.0f;
-            }
-            make.height.mas_equalTo(height);
-        }];
-
-    }
-    
-}
-
 - (void)setupCellWithPersonalCoach:(HHPersonalCoach *)coach {
-    __weak HHCoachPriceCell *weakSelf = self;
+    __weak HHPersonalCoachPriceCell *weakSelf = self;
     self.titleLabel.attributedText = [self generateAttrStringWithText:@"陪练价格" image:[UIImage imageNamed:@"ic_coachmsg_charge"]];
-    self.arrowView.hidden = YES;
     
     if (self.c1View) {
         [self.c1View removeFromSuperview];
@@ -198,10 +134,5 @@
     return attributedString;
 }
 
-- (void)showPriceDetail {
-    if (self.priceAction) {
-        self.priceAction ();
-    }
-}
 
 @end

@@ -34,7 +34,6 @@
 #import "HHImageGalleryViewController.h"
 #import "HHLoadingViewUtility.h"
 #import "HHPurchaseConfirmViewController.h"
-#import "HHCoachPriceCell.h"
 #import "HHCoachServiceTypeCell.h"
 #import "HHCoachFieldCell.h"
 #import <pop/POP.h>
@@ -46,6 +45,7 @@
 #import "HHPlatformGuardTableViewCell.h"
 #import "HHGuardViewController.h"
 #import "HHInsuranceTableViewCell.h"
+#import "HHCoachPriceTableViewCell.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -59,7 +59,7 @@ typedef NS_ENUM(NSInteger, CoachCell) {
 };
 
 static NSString *const kDescriptionCellID = @"kDescriptionCellID";
-static NSString *const kPriceCellID = @"kPriceCellID";
+static NSString *const kCoachPriceCellID = @"kCoachPriceCellID";
 static NSString *const kTypeCellID = @"kTypeCellID";
 static NSString *const kFiledCellID = @"kFiledCellID";
 static NSString *const kInfoTwoCellID = @"kInfoTwoCellID";
@@ -83,6 +83,8 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) HHReviews *reviewsObject;
 @property (nonatomic, strong) NSArray *reviews;
+@property (nonatomic) NSInteger selecteLicenseType;
+
 @property (nonatomic) BOOL liking;
 @property (nonatomic) BOOL followed;
 
@@ -131,6 +133,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"教练详情";
+    self.selecteLicenseType = 1;
     
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(popupVC) target:self];
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"icon_share"] action:@selector(shareCoach) target:self];
@@ -163,7 +166,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
     self.coachImagesView.autoScroll = NO;
     
     [self.tableView registerClass:[HHCoachDetailDescriptionCell class] forCellReuseIdentifier:kDescriptionCellID];
-    [self.tableView registerClass:[HHCoachPriceCell class] forCellReuseIdentifier:kPriceCellID];
+    [self.tableView registerClass:[HHCoachPriceTableViewCell class] forCellReuseIdentifier:kCoachPriceCellID];
     [self.tableView registerClass:[HHCoachServiceTypeCell class] forCellReuseIdentifier:kTypeCellID];
     [self.tableView registerClass:[HHCoachFieldCell class] forCellReuseIdentifier:kFiledCellID];
     [self.tableView registerClass:[HHCoachDetailSectionTwoCell class] forCellReuseIdentifier:kInfoTwoCellID];
@@ -188,14 +191,11 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
     };
     
     self.bottomBar.purchaseCoachAction = ^(){
-        if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
-            [weakSelf showLoginSignupAlertView];
-            return ;
-        }
-        
-        HHPurchaseConfirmViewController *vc = [[HHPurchaseConfirmViewController alloc] initWithCoach:weakSelf.coach];
-        [weakSelf.navigationController pushViewController:vc animated:YES];
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_purchase_tapped attributes:@{@"coach_id":weakSelf.coach.coachId}];
+//        if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
+//            [weakSelf showLoginSignupAlertView];
+//            return ;
+//        }
+//        
         
     };
     
@@ -238,17 +238,12 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
         }
             
         case CoachCellPrice: {
-            HHCoachPriceCell *cell = [tableView dequeueReusableCellWithIdentifier:kPriceCellID forIndexPath:indexPath];
-            cell.priceAction = ^() {
-                HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:weakSelf.coach];
-                [weakSelf.navigationController pushViewController:vc animated:YES];
-                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_price_detail_tapped attributes:@{@"coach_id":weakSelf.coach.coachId}];
-            };
-            cell.licenseTypeAction = ^ (NSInteger licenseType) {
+            HHCoachPriceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCoachPriceCellID forIndexPath:indexPath];
+            cell.questionMarkBlock = ^(NSInteger type) {
                 NSString *text = @"C1为手动挡小型车驾照，取得了C1类驾驶证的人可以驾驶C2类车。";
                 CGFloat height = 200.0f;
                 NSString *title = @"什么是C1手动挡?";
-                if (licenseType == 2) {
+                if (type == 2) {
                     height = 250.0f;
                     title = @"什么是C2自动挡?";
                     text = @"C2为自动挡小型车驾照，取得了C2类驾驶证的人不可以驾驶C1类车。C2驾照培训费要稍贵于C1照。费用的差别主要是由于C2自动挡教练车数量比较少，使用过程中维修费用比较高所致。";
@@ -263,9 +258,25 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
                 };
                 weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
                 [HHPopupUtility showPopup:weakSelf.popup];
-                
+
             };
-            [cell setupCellWithCoach:self.coach];
+            
+            cell.selectedBlock = ^(NSInteger type) {
+                weakSelf.selecteLicenseType = type;
+                [weakSelf.tableView reloadData];
+            };
+            
+            cell.purchaseBlock = ^(CoachProductType type) {
+                HHPurchaseConfirmViewController *vc = [[HHPurchaseConfirmViewController alloc] initWithCoach:weakSelf.coach selectedType:type];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+
+            };
+            
+            cell.priceDetailBlock = ^(CoachProductType type) {
+                HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:weakSelf.coach productType:type];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
+            [cell setupCellWithCoach:self.coach selectedType:self.selecteLicenseType];
             return cell;
         }
         
@@ -341,15 +352,23 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
             
         case CoachCellPrice: {
 
-            CGFloat height = 86.0f + 50.0f + 35.0f;
-            if ([self.coach.VIPPrice floatValue] > 0) {
-                height = height + 50.0f;
-            }
-            
-            if ([self.coach.c2VIPPrice floatValue] > 0 && [self.coach.c2Price floatValue] > 0) {
-                height = height + 35.0f + 2 * 50.0f;
-            } else if ([self.coach.c2VIPPrice floatValue] > 0 || [self.coach.c2Price floatValue] > 0) {
-                height = height + 35.0f + 50.0f;
+            CGFloat height = 136.0f;
+            if (self.selecteLicenseType == 1) {
+                if ([self.coach.price floatValue] > 0) {
+                    height = height + 85.0f * 2;
+                }
+                
+                if ([self.coach.VIPPrice floatValue] > 0) {
+                    height = height + 85.0f;
+                }
+            } else {
+                if ([self.coach.c2Price floatValue] > 0) {
+                    height = height + 85.0f * 2;
+                }
+                
+                if ([self.coach.c2VIPPrice floatValue] > 0) {
+                    height = height + 85.0f;
+                }
             }
             return height;
         }

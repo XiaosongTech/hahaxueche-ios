@@ -22,7 +22,8 @@ typedef NS_ENUM(NSInteger, CoachProductType) {
     CoachProductTypeVIP, //VIP
     CoachProductTypeC2Standard, //c2普通服务
     CoachProductTypeC2VIP, //C2 VIP
-   
+    CoachProductTypeC1Wuyou, //c1无忧
+    CoachProductTypeC2Wuyou, //C2 无忧
 };
 
 typedef void (^HHPaymentResultCompletion)(BOOL succeed);

@@ -22,5 +22,6 @@
 @property (nonatomic, copy) NSNumber *registeredCount;
 @property (nonatomic, copy) NSArray *postCategory;
 @property (nonatomic, copy) NSArray *marketingChannels;
+@property (nonatomic, copy) NSDictionary *insurancePrices;
 
 @end

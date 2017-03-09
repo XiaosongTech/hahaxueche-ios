@@ -14,7 +14,6 @@
 #import "HHConstantsStore.h"
 #import "HHPaymentMethodView.h"
 #import "NSNumber+HHNumber.h"
-#import "HHPaymentService.h"
 #import "HHStudentStore.h"
 #import "HHEventTrackingManager.h"
 #import "HHToastManager.h"
@@ -22,7 +21,6 @@
 #import "HHStudentService.h"
 #import "HHPopupUtility.h"
 #import "HHReceiptViewController.h"
-#import "HHPurchaseTagView.h"
 #import "HHVoucher.h"
 #import "HHGenericTwoButtonsPopupView.h"
 #import "HHSelectVoucherViewController.h"
@@ -37,8 +35,6 @@
 @property (nonatomic, strong) HHCoach *coach;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIButton *payButton;
-@property (nonatomic, strong) HHPurchaseTagView *licenseTypeView;
-@property (nonatomic, strong) HHPurchaseTagView *classTypeView;
 @property (nonatomic, strong) UIView *totalPriceContainerView;
 @property (nonatomic, strong) UILabel *totalPriceLabel;
 @property (nonatomic, strong) UILabel *totalPriceTitleLabel;
@@ -47,12 +43,9 @@
 @property (nonatomic, strong) UILabel *voucherTitleLabel;
 @property (nonatomic, strong) UILabel *voucherAmountLabel;
 @property (nonatomic, strong) HHSpecialVouchersView *specialVoucherView;
-@property (nonatomic, strong) UILabel *insurancePriceLabel;
+@property (nonatomic, strong) UIView *classTypeView;
 
 @property (nonatomic) CoachProductType selectedProduct;
-
-@property (nonatomic) LicenseType selectedLicense;
-@property (nonatomic) ClassType selectedClass;
 
 @property (nonatomic, strong) HHPaymentMethodsView *paymentMethodsView;
 @property (nonatomic, strong) NSArray *validVouchers;
@@ -60,19 +53,28 @@
 @property (nonatomic, strong) HHVoucher *selectedVoucher;
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic) BOOL selectedInsurance;
+@property (nonatomic, strong) NSNumber *classPrice;
 
 @end
 
 @implementation HHPurchaseConfirmViewController
 
 
-- (instancetype)initWithCoach:(HHCoach *)coach {
+- (instancetype)initWithCoach:(HHCoach *)coach selectedType:(CoachProductType)type {
     self = [super init];
     if (self) {
         self.coach = coach;
+        self.selectedProduct = type;
+        self.selectedInsurance = NO;
+        if (type == CoachProductTypeC1Wuyou || type == CoachProductTypeC2Wuyou) {
+            self.selectedInsurance = YES;
+        }
         if ([self.validVouchers count] > 0) {
             self.selectedVoucher = [self.validVouchers firstObject];
         }
+        self.classPrice = [self.coach getPriceProductType:self.selectedProduct];
+        
+
     }
     return self;
 }
@@ -82,9 +84,6 @@
     self.view.backgroundColor = [UIColor HHBackgroundGary];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(popupVC) target:self];
     self.title = @"购买教练";
-    self.selectedProduct = CoachProductTypeStandard;
-    self.selectedClass = ClassTypeStandard;
-    self.selectedLicense = LicenseTypeC1;
     
     if ([[HHStudentStore sharedInstance].currentStudent.insuranceOrder isPurchased]) {
         self.selectedInsurance = NO;
@@ -130,9 +129,10 @@
     [self.view addSubview:self.payButton];
     [self makeConstraints];
     
-    [self buildServiceTypeViews];
+    [self buildClassTypeView];
+    [self buildPriceDetailView];
     [self buildPaymentViews];
-    [self updatePriceLabelsWithSelectedPrice:self.coach.price];
+    [self updatePriceLabels];
     
 }
 
@@ -145,7 +145,7 @@
     }];
 
     [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.coachView.bottom).offset(10.0f);
+        make.top.equalTo(self.coachView.bottom);
         make.left.equalTo(self.view.left);
         make.width.equalTo(self.view.width);
         make.bottom.equalTo(self.view.bottom).offset(-50.0f);
@@ -160,41 +160,92 @@
 
 }
 
-- (void)buildServiceTypeViews {
-    __weak HHPurchaseConfirmViewController *weakSelf = self;
-    NSMutableArray *licenseTypes = [NSMutableArray arrayWithObject:@"C1手动挡"];
-    if ([self.coach.c2Price floatValue] > 0 || [self.coach.c2VIPPrice floatValue] > 0) {
-        [licenseTypes addObject:@"C2自动挡"];
-    }
-    self.licenseTypeView = [[HHPurchaseTagView alloc] initWithTags:licenseTypes title:@"驾照类型" defaultTag:licenseTypes[self.selectedLicense]];
-    self.licenseTypeView.tagAction = ^(NSInteger selectedIndex){
-        weakSelf.selectedLicense = selectedIndex;
-        [weakSelf buildClassView];
-    };
-    [self.scrollView addSubview:self.licenseTypeView];
-    [self.licenseTypeView makeConstraints:^(MASConstraintMaker *make) {
+- (void)buildClassTypeView {
+    self.classTypeView = [[UIView alloc] init];
+    self.classTypeView.backgroundColor = [UIColor whiteColor];
+    [self.scrollView addSubview:self.classTypeView];
+    [self.classTypeView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.scrollView.top);
         make.left.equalTo(self.scrollView.left);
         make.width.equalTo(self.scrollView.width);
-        make.height.mas_equalTo(80.0f);
-        
+        make.height.mas_equalTo(50.0f);
     }];
     
-    [self buildClassView];
-    UIView *preView = self.classTypeView;
+    UIView *topLine = [[UIView alloc] init];
+    topLine.backgroundColor = [UIColor HHLightLineGray];
+    [self.classTypeView addSubview:topLine];
+    [topLine makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.classTypeView.top);
+        make.left.equalTo(self.classTypeView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+    }];
     
-    if (![[HHStudentStore sharedInstance].currentStudent.insuranceOrder isPurchased]) {
-        UIView *insuranceView = [self buildInsuranceView];
-        [self.scrollView addSubview:insuranceView];
-        [insuranceView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(preView.bottom);
-            make.left.equalTo(self.scrollView.left);
-            make.width.equalTo(self.scrollView.width);
-            make.height.mas_equalTo(50.0f);
-        }];
-        
-        preView = insuranceView;
+    UIView *botLine = [[UIView alloc] init];
+    botLine.backgroundColor = [UIColor HHLightLineGray];
+    [self.classTypeView addSubview:botLine];
+    [botLine makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.classTypeView.bottom);
+        make.left.equalTo(self.classTypeView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+    }];
+    
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.textColor = [UIColor HHLightTextGray];
+    titleLabel.font =  [UIFont systemFontOfSize:13.0f];
+    [self.classTypeView addSubview:titleLabel];
+    [titleLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.classTypeView.centerY);
+        make.left.equalTo(self.classTypeView.left).offset(20.0f);
+    }];
+    
+    UILabel *priceLabel = [[UILabel alloc] init];
+    priceLabel.textColor = [UIColor HHOrange];
+    priceLabel.font =  [UIFont systemFontOfSize:13.0f];
+    [self.classTypeView addSubview:priceLabel];
+    [priceLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.classTypeView.centerY);
+        make.right.equalTo(self.classTypeView.right).offset(-20.0f);
+    }];
+    
+    priceLabel.text = [[self.coach getPriceProductType:self.selectedProduct] generateMoneyString];
+    switch (self.selectedProduct) {
+        case CoachProductTypeStandard: {
+            titleLabel.text = @"C1超值班";
+            
+        } break;
+            
+        case CoachProductTypeVIP: {
+            titleLabel.text = @"C1VIP班";
+            
+        } break;
+            
+        case CoachProductTypeC2Standard: {
+            titleLabel.text = @"C2超值班";
+            
+        } break;
+            
+        case CoachProductTypeC2VIP: {
+            titleLabel.text = @"C2VIP班";
+        } break;
+            
+        case CoachProductTypeC1Wuyou: {
+            titleLabel.text = @"C1无忧班";
+            
+        } break;
+            
+        case CoachProductTypeC2Wuyou: {
+           titleLabel.text = @"C2无忧班";
+        } break;
+            
+        default:
+            break;
     }
+}
+
+- (void)buildPriceDetailView {
+    UIView *preView = self.classTypeView;
     if (self.specialVouchers.count > 0) {
         self.specialVoucherView = [[HHSpecialVouchersView alloc] initWithVouchers:self.specialVouchers];
         [self.scrollView addSubview:self.specialVoucherView];
@@ -374,99 +425,6 @@
     return view;
 }
 
-- (void)buildClassView {
-    if(self.classTypeView) {
-        self.classTypeView = nil;
-        [self.classTypeView removeFromSuperview];
-    }
-    __weak HHPurchaseConfirmViewController *weakSelf = self;
-    NSMutableArray *classTags = [NSMutableArray array];
-    if (self.selectedLicense == LicenseTypeC1) {
-        if ([self.coach.price floatValue] > 0) {
-            [classTags addObject:@"超值"];
-        }
-        
-        if ([self.coach.VIPPrice floatValue] > 0) {
-            [classTags addObject:@"VIP"];
-        }
-    } else {
-        if ([self.coach.c2Price floatValue] > 0) {
-            [classTags addObject:@"超值"];
-        }
-        
-        if ([self.coach.c2VIPPrice floatValue] > 0) {
-            [classTags addObject:@"VIP"];
-        }
-    }
-    
-    self.classTypeView = [[HHPurchaseTagView alloc] initWithTags:classTags title:@"班别" defaultTag:classTags[self.selectedClass]];
-    self.classTypeView.tagAction = ^(NSInteger selectedIndex){
-        weakSelf.selectedClass = selectedIndex;
-    };
-    [self.scrollView addSubview:self.classTypeView];
-    [self.classTypeView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.licenseTypeView.bottom);
-        make.left.equalTo(self.scrollView.left);
-        make.width.equalTo(self.scrollView.width);
-        make.height.mas_equalTo(80.0f);
-    }];
-}
-
-- (void)setSelectedLicense:(LicenseType)selectedLicense {
-    _selectedLicense = selectedLicense;
-    self.selectedClass = 0;
-    [self selectionChanged];
-}
-
-- (void)setSelectedClass:(ClassType)selectedClass {
-    _selectedClass = selectedClass;
-    [self selectionChanged];
-}
-
-- (void)selectionChanged {
-    NSNumber *price;
-    if (self.selectedLicense == LicenseTypeC1) {
-        if (self.selectedClass == ClassTypeStandard) {
-            price = self.coach.price;
-            self.selectedProduct = CoachProductTypeStandard;
-        } else {
-            price = self.coach.VIPPrice;
-            self.selectedProduct = CoachProductTypeVIP;
-        }
-    } else {
-        if (self.selectedClass == ClassTypeStandard) {
-            price = self.coach.c2Price;
-            self.selectedProduct = CoachProductTypeC2Standard;
-        } else {
-            price = self.coach.c2VIPPrice;
-            self.selectedProduct = CoachProductTypeC2VIP;
-        }
-    }
-    [self updatePriceLabelsWithSelectedPrice:price];
-}
-
-- (void)updatePriceLabelsWithSelectedPrice:(NSNumber *)price {
-    self.totalPriceLabel.text = [[self getFinalPriceWithPrice:price] generateMoneyString];
-    self.priceDetailLabel.text = [self getPriceDetailString];
-}
-
-- (NSNumber *)getFinalPriceWithPrice:(NSNumber *)price {
-    NSNumber *finalPrice = price;
-    if (self.selectedInsurance) {
-        finalPrice = @([finalPrice floatValue] + 14900);
-    }
-    if ([self.selectedVoucher.amount floatValue] > 0) {
-        finalPrice = @([finalPrice floatValue] - [self.selectedVoucher.amount floatValue]);
-    }
-    
-    if(self.specialVouchers.count > 0) {
-        for (HHVoucher *voucher in self.specialVouchers) {
-            finalPrice = @([finalPrice floatValue] - [voucher.amount floatValue]);
-        }
-    }
-    return finalPrice;
-}
-
 - (UIView *)buildVoucherView {
     UIView *view = [[UIView alloc] init];
     view.backgroundColor = [UIColor whiteColor];
@@ -540,7 +498,17 @@
     _selectedVoucher = selectedVoucher;
     self.voucherTitleLabel.text = self.selectedVoucher.title;
     self.voucherAmountLabel.text = [NSString stringWithFormat:@"-%@", [self.selectedVoucher.amount generateMoneyString]];
-    [self updatePriceLabelsWithSelectedPrice:[self getSelectedOriginalPrice]];
+    [self updatePriceLabels];
+}
+
+
+
+- (void)updatePriceLabels {
+    self.totalPriceLabel.text = [[self getFinalPrice] generateMoneyString];
+    if (self.selectedVoucher || self.specialVouchers.count > 0) {
+        self.priceDetailLabel.text = [self getPriceDetailString];
+
+    }
 }
 
 - (NSString *)getPriceDetailString {
@@ -550,121 +518,26 @@
             reducedAmount = @([reducedAmount floatValue] + [voucher.amount floatValue]);
         }
     }
-    return [NSString stringWithFormat:@"总价%@  立减%@", [[self getPriceWithoudDiscount] generateMoneyString], [reducedAmount generateMoneyString]];
+    return [NSString stringWithFormat:@"总价%@  立减%@", [self.classPrice generateMoneyString], [reducedAmount generateMoneyString]];
 }
 
-- (NSNumber *)getPriceWithoudDiscount {
-    NSNumber *price = [self getSelectedOriginalPrice];
-    if (self.selectedInsurance) {
-        price = @([price floatValue] + 14900);
+
+- (NSNumber *)getFinalPrice{
+    NSNumber *finalPrice = self.classPrice;
+    if ([self.selectedVoucher.amount floatValue] > 0) {
+        finalPrice = @([finalPrice floatValue] - [self.selectedVoucher.amount floatValue]);
     }
-    return price;
-}
-
-- (NSNumber *)getSelectedOriginalPrice {
-    NSNumber *price = self.coach.price;
-    switch (self.selectedProduct) {
-        case CoachProductTypeStandard: {
-            price = self.coach.price;
-        } break;
-            
-        case CoachProductTypeVIP: {
-            price = self.coach.VIPPrice;
-        } break;
-            
-        case CoachProductTypeC2Standard: {
-            price = self.coach.c2Price;
-        } break;
-            
-        case CoachProductTypeC2VIP: {
-            price = self.coach.c2VIPPrice;
-        } break;
-            
-        default: {
-            price = self.coach.price;
-        } break;
-    }
-    return price;
-}
-
-- (UIView *)buildInsuranceView {
-    UIView *view = [[UIView alloc] init];
-    view.backgroundColor = [UIColor whiteColor];
     
-    UILabel *label = [[UILabel alloc] init];
-    label.text = @"赔付宝";
-    label.textColor = [UIColor HHLightTextGray];
-    label.font = [UIFont systemFontOfSize:13.0f];
-    [view addSubview:label];
-    [label makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(view.centerY);
-        make.left.equalTo(view.left).offset(20.0f);
-    }];
-    
-    UIView *botLine = [[UIView alloc] init];
-    botLine.backgroundColor = [UIColor HHLightLineGray];
-    [view addSubview:botLine];
-    [botLine makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(view.left);
-        make.width.equalTo(view.width);
-        make.bottom.equalTo(view.bottom);
-        make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-    }];
-    
-    self.insurancePriceLabel = [[UILabel alloc] init];
-    self.insurancePriceLabel.textAlignment = NSTextAlignmentRight;
-    self.insurancePriceLabel.text = [@(14900) generateMoneyString];
-    self.insurancePriceLabel.textColor = [UIColor HHOrange];
-    self.insurancePriceLabel.font = [UIFont systemFontOfSize:14.0f];
-    [view addSubview:self.insurancePriceLabel];
-    [self.insurancePriceLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(view.centerY);
-        make.right.equalTo(view.right).offset(-20.0f);
-        make.left.equalTo(view.right).offset(-100.0f);
-    }];
-    
-    if (![self.coach.isCheyouWuyou boolValue]) {
-        UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showInsuranceDetailView)];
-        [view addGestureRecognizer:tapRec];
-        UIImageView *arrowView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_more_arrow"]];
-        [view addSubview:arrowView];
-        [arrowView makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(view.centerY);
-            make.left.equalTo(self.insurancePriceLabel.right).offset(5.0f);
-        }];
-    }
-
-    return view;
-}
-
-- (void)showInsuranceDetailView {
-    __weak HHPurchaseConfirmViewController *weakSelf = self;
-    HHInsuranceSelectionView *view = [[HHInsuranceSelectionView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)*0.5f) selected:self.selectedInsurance];
-    view.buttonAction = ^(BOOL confirmed, BOOL checked) {
-        if (confirmed) {
-            weakSelf.selectedInsurance = checked;
+    if(self.specialVouchers.count > 0) {
+        for (HHVoucher *voucher in self.specialVouchers) {
+            finalPrice = @([finalPrice floatValue] - [voucher.amount floatValue]);
         }
-        [weakSelf.popup dismiss:YES];
-    };
-    self.popup = [HHPopupUtility createPopupWithContentView:view];
-    self.popup.shouldDismissOnBackgroundTouch = YES;
-    self.popup.shouldDismissOnContentTouch = NO;
-    self.popup.showType = KLCPopupShowTypeSlideInFromBottom;
-    self.popup.dismissType = KLCPopupDismissTypeSlideOutToBottom;
-    [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutBottom)];
+    }
+    return finalPrice;
 }
 
-- (void)setSelectedInsurance:(BOOL)selectedInsurance {
-    _selectedInsurance = selectedInsurance;
-    if (selectedInsurance) {
-        self.insurancePriceLabel.text = [@(14900) generateMoneyString];
-        self.insurancePriceLabel.textColor = [UIColor HHOrange];
-    } else {
-        self.insurancePriceLabel.text = @"未选择";
-        self.insurancePriceLabel.textColor = [UIColor HHTextDarkGray];
-    }
-    [self updatePriceLabelsWithSelectedPrice:[self getSelectedOriginalPrice]];
-}
+
+
 
 - (void)showInsuranceWarningAlert {
      UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"赔付宝购买提示" message:@"请确认您还未参加考科目一考试，购买后，必须在预约第一次科目一考试的前一个工作日24点前，完成身份信息上传。否则无法获得理赔." preferredStyle:UIAlertControllerStyleAlert];

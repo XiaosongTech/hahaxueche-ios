@@ -633,6 +633,19 @@
 		6D8309AC1CC70DB700BA6977 /* ic_mycoach_sharecoach@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8309A91CC70DB700BA6977 /* ic_mycoach_sharecoach@2x.png */; };
 		6D8309AD1CC70DB700BA6977 /* ic_mycoach_sharecoach@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8309AA1CC70DB700BA6977 /* ic_mycoach_sharecoach@3x.png */; };
 		6D8309B01CC923F600BA6977 /* NSString+HHURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8309AF1CC923F600BA6977 /* NSString+HHURL.m */; };
+		6D8311EE1E700649003A2FEA /* HHCoachPriceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8311ED1E700649003A2FEA /* HHCoachPriceTableViewCell.m */; };
+		6D8311F11E70081A003A2FEA /* HHCoachPriceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8311F01E70081A003A2FEA /* HHCoachPriceView.m */; };
+		6D8311F41E700F9F003A2FEA /* HHLicenseTypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8311F31E700F9F003A2FEA /* HHLicenseTypeView.m */; };
+		6D8311F71E70E30D003A2FEA /* HHCoachPriceInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8311F61E70E30D003A2FEA /* HHCoachPriceInfoView.m */; };
+		6D8312011E71478A003A2FEA /* pricedetails_ic_attention.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8311F81E71478A003A2FEA /* pricedetails_ic_attention.png */; };
+		6D8312021E71478A003A2FEA /* pricedetails_ic_attention@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8311F91E71478A003A2FEA /* pricedetails_ic_attention@2x.png */; };
+		6D8312031E71478A003A2FEA /* pricedetails_ic_attention@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8311FA1E71478A003A2FEA /* pricedetails_ic_attention@3x.png */; };
+		6D8312041E71478A003A2FEA /* pricedetails_ic_price.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8311FB1E71478A003A2FEA /* pricedetails_ic_price.png */; };
+		6D8312051E71478A003A2FEA /* pricedetails_ic_price@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8311FC1E71478A003A2FEA /* pricedetails_ic_price@2x.png */; };
+		6D8312061E71478A003A2FEA /* pricedetails_ic_price@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8311FD1E71478A003A2FEA /* pricedetails_ic_price@3x.png */; };
+		6D8312071E71478A003A2FEA /* pricedetails_ic_service.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8311FE1E71478A003A2FEA /* pricedetails_ic_service.png */; };
+		6D8312081E71478A003A2FEA /* pricedetails_ic_service@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8311FF1E71478A003A2FEA /* pricedetails_ic_service@2x.png */; };
+		6D8312091E71478A003A2FEA /* pricedetails_ic_service@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8312001E71478A003A2FEA /* pricedetails_ic_service@3x.png */; };
 		6D85522A1CD600310021D4C9 /* HHBonusSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8552291CD600310021D4C9 /* HHBonusSummary.m */; };
 		6D85522E1CD60E700021D4C9 /* HHReferrals.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D85522D1CD60E700021D4C9 /* HHReferrals.m */; };
 		6D8552311CD8408B0021D4C9 /* HHWithdraws.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8552301CD8408B0021D4C9 /* HHWithdraws.m */; };
@@ -948,7 +961,7 @@
 		6DE56FC71CFF1D7A00E33BDB /* ic_VIP_listing@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE56FC41CFF1D7A00E33BDB /* ic_VIP_listing@1x.png */; };
 		6DE56FC81CFF1D7A00E33BDB /* ic_VIP_listing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE56FC51CFF1D7A00E33BDB /* ic_VIP_listing@2x.png */; };
 		6DE56FC91CFF1D7A00E33BDB /* ic_VIP_listing@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE56FC61CFF1D7A00E33BDB /* ic_VIP_listing@3x.png */; };
-		6DE56FCC1CFFF15A00E33BDB /* HHCoachPriceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE56FCB1CFFF15A00E33BDB /* HHCoachPriceCell.m */; };
+		6DE56FCC1CFFF15A00E33BDB /* HHPersonalCoachPriceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE56FCB1CFFF15A00E33BDB /* HHPersonalCoachPriceCell.m */; };
 		6DE56FCF1CFFF2A200E33BDB /* HHPriceItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE56FCE1CFFF2A200E33BDB /* HHPriceItemView.m */; };
 		6DE56FD31D00142800E33BDB /* ic_chaozhi@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE56FD01D00142800E33BDB /* ic_chaozhi@1x.png */; };
 		6DE56FD41D00142800E33BDB /* ic_chaozhi@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE56FD11D00142800E33BDB /* ic_chaozhi@2x.png */; };
@@ -1848,6 +1861,23 @@
 		6D8309AA1CC70DB700BA6977 /* ic_mycoach_sharecoach@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_mycoach_sharecoach@3x.png"; sourceTree = "<group>"; };
 		6D8309AE1CC923F600BA6977 /* NSString+HHURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HHURL.h"; sourceTree = "<group>"; };
 		6D8309AF1CC923F600BA6977 /* NSString+HHURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HHURL.m"; sourceTree = "<group>"; };
+		6D8311EC1E700649003A2FEA /* HHCoachPriceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachPriceTableViewCell.h; sourceTree = "<group>"; };
+		6D8311ED1E700649003A2FEA /* HHCoachPriceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachPriceTableViewCell.m; sourceTree = "<group>"; };
+		6D8311EF1E70081A003A2FEA /* HHCoachPriceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachPriceView.h; sourceTree = "<group>"; };
+		6D8311F01E70081A003A2FEA /* HHCoachPriceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachPriceView.m; sourceTree = "<group>"; };
+		6D8311F21E700F9F003A2FEA /* HHLicenseTypeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHLicenseTypeView.h; sourceTree = "<group>"; };
+		6D8311F31E700F9F003A2FEA /* HHLicenseTypeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHLicenseTypeView.m; sourceTree = "<group>"; };
+		6D8311F51E70E30C003A2FEA /* HHCoachPriceInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachPriceInfoView.h; sourceTree = "<group>"; };
+		6D8311F61E70E30D003A2FEA /* HHCoachPriceInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachPriceInfoView.m; sourceTree = "<group>"; };
+		6D8311F81E71478A003A2FEA /* pricedetails_ic_attention.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pricedetails_ic_attention.png; sourceTree = "<group>"; };
+		6D8311F91E71478A003A2FEA /* pricedetails_ic_attention@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pricedetails_ic_attention@2x.png"; sourceTree = "<group>"; };
+		6D8311FA1E71478A003A2FEA /* pricedetails_ic_attention@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pricedetails_ic_attention@3x.png"; sourceTree = "<group>"; };
+		6D8311FB1E71478A003A2FEA /* pricedetails_ic_price.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pricedetails_ic_price.png; sourceTree = "<group>"; };
+		6D8311FC1E71478A003A2FEA /* pricedetails_ic_price@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pricedetails_ic_price@2x.png"; sourceTree = "<group>"; };
+		6D8311FD1E71478A003A2FEA /* pricedetails_ic_price@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pricedetails_ic_price@3x.png"; sourceTree = "<group>"; };
+		6D8311FE1E71478A003A2FEA /* pricedetails_ic_service.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pricedetails_ic_service.png; sourceTree = "<group>"; };
+		6D8311FF1E71478A003A2FEA /* pricedetails_ic_service@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pricedetails_ic_service@2x.png"; sourceTree = "<group>"; };
+		6D8312001E71478A003A2FEA /* pricedetails_ic_service@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pricedetails_ic_service@3x.png"; sourceTree = "<group>"; };
 		6D8552281CD600310021D4C9 /* HHBonusSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHBonusSummary.h; sourceTree = "<group>"; };
 		6D8552291CD600310021D4C9 /* HHBonusSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHBonusSummary.m; sourceTree = "<group>"; };
 		6D85522C1CD60E700021D4C9 /* HHReferrals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHReferrals.h; sourceTree = "<group>"; };
@@ -2236,8 +2266,8 @@
 		6DE56FC41CFF1D7A00E33BDB /* ic_VIP_listing@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_VIP_listing@1x.png"; sourceTree = "<group>"; };
 		6DE56FC51CFF1D7A00E33BDB /* ic_VIP_listing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_VIP_listing@2x.png"; sourceTree = "<group>"; };
 		6DE56FC61CFF1D7A00E33BDB /* ic_VIP_listing@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_VIP_listing@3x.png"; sourceTree = "<group>"; };
-		6DE56FCA1CFFF15A00E33BDB /* HHCoachPriceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoachPriceCell.h; sourceTree = "<group>"; };
-		6DE56FCB1CFFF15A00E33BDB /* HHCoachPriceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoachPriceCell.m; sourceTree = "<group>"; };
+		6DE56FCA1CFFF15A00E33BDB /* HHPersonalCoachPriceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPersonalCoachPriceCell.h; sourceTree = "<group>"; };
+		6DE56FCB1CFFF15A00E33BDB /* HHPersonalCoachPriceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPersonalCoachPriceCell.m; sourceTree = "<group>"; };
 		6DE56FCD1CFFF2A200E33BDB /* HHPriceItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPriceItemView.h; sourceTree = "<group>"; };
 		6DE56FCE1CFFF2A200E33BDB /* HHPriceItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPriceItemView.m; sourceTree = "<group>"; };
 		6DE56FD01D00142800E33BDB /* ic_chaozhi@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_chaozhi@1x.png"; sourceTree = "<group>"; };
@@ -2591,8 +2621,8 @@
 				141FA1121C6BF88400113B1A /* HHCoachDetailSingleInfoView.m */,
 				6DE56FDF1D00394C00E33BDB /* HHCoachFieldCell.h */,
 				6DE56FE01D00394C00E33BDB /* HHCoachFieldCell.m */,
-				6DE56FCA1CFFF15A00E33BDB /* HHCoachPriceCell.h */,
-				6DE56FCB1CFFF15A00E33BDB /* HHCoachPriceCell.m */,
+				6DE56FCA1CFFF15A00E33BDB /* HHPersonalCoachPriceCell.h */,
+				6DE56FCB1CFFF15A00E33BDB /* HHPersonalCoachPriceCell.m */,
 				140EC6421C6E9A6100DA634D /* HHCoachReviewView.h */,
 				140EC6431C6E9A6100DA634D /* HHCoachReviewView.m */,
 				6DE56FDC1D00297100E33BDB /* HHCoachServiceTypeCell.h */,
@@ -2623,6 +2653,14 @@
 				6D61596E1E1B71D3005D5000 /* HHGuardItemView.m */,
 				6D14854D1E6001C800B7E0FA /* HHInsuranceTableViewCell.h */,
 				6D14854E1E6001C800B7E0FA /* HHInsuranceTableViewCell.m */,
+				6D8311EC1E700649003A2FEA /* HHCoachPriceTableViewCell.h */,
+				6D8311ED1E700649003A2FEA /* HHCoachPriceTableViewCell.m */,
+				6D8311EF1E70081A003A2FEA /* HHCoachPriceView.h */,
+				6D8311F01E70081A003A2FEA /* HHCoachPriceView.m */,
+				6D8311F21E700F9F003A2FEA /* HHLicenseTypeView.h */,
+				6D8311F31E700F9F003A2FEA /* HHLicenseTypeView.m */,
+				6D8311F51E70E30C003A2FEA /* HHCoachPriceInfoView.h */,
+				6D8311F61E70E30D003A2FEA /* HHCoachPriceInfoView.m */,
 			);
 			path = "Coach Detail";
 			sourceTree = "<group>";
@@ -3172,6 +3210,15 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6D8311F81E71478A003A2FEA /* pricedetails_ic_attention.png */,
+				6D8311F91E71478A003A2FEA /* pricedetails_ic_attention@2x.png */,
+				6D8311FA1E71478A003A2FEA /* pricedetails_ic_attention@3x.png */,
+				6D8311FB1E71478A003A2FEA /* pricedetails_ic_price.png */,
+				6D8311FC1E71478A003A2FEA /* pricedetails_ic_price@2x.png */,
+				6D8311FD1E71478A003A2FEA /* pricedetails_ic_price@3x.png */,
+				6D8311FE1E71478A003A2FEA /* pricedetails_ic_service.png */,
+				6D8311FF1E71478A003A2FEA /* pricedetails_ic_service@2x.png */,
+				6D8312001E71478A003A2FEA /* pricedetails_ic_service@3x.png */,
 				6D86FCE21E6D38CF00189BBB /* botton_249peifubaby.png */,
 				6D86FCE31E6D38CF00189BBB /* botton_249peifubaby@2x.png */,
 				6D86FCE41E6D38CF00189BBB /* botton_249peifubaby@3x.png */,
@@ -4224,6 +4271,7 @@
 				6D8908161DFE7DB300756FDC /* ic_fenduandakuan@3x.png in Resources */,
 				6D3C839A1DAB9708004BD28B /* ic_discount@3x.png in Resources */,
 				6DE0463F1DE5A0B800B80343 /* idcard_a.png in Resources */,
+				6D8312051E71478A003A2FEA /* pricedetails_ic_price@2x.png in Resources */,
 				6D44E4681DFFF2B400BC753F /* pic_window@2x.png in Resources */,
 				141F7C041C617EC7003278C6 /* ic_Star_half@3x.png in Resources */,
 				6D63F8611DD57BB800DB1ADC /* ic_overdue.png in Resources */,
@@ -4307,6 +4355,7 @@
 				6D82BD601CCF91D800D4109A /* ic_cardpay_icon@2x.png in Resources */,
 				6D89081E1DFE7DB300756FDC /* ic_jinpaijiaolian@2x.png in Resources */,
 				5C36D3711C42D9F800443545 /* ic_bottombar_date_hold_btn@3x.png in Resources */,
+				6D8312081E71478A003A2FEA /* pricedetails_ic_service@2x.png in Resources */,
 				6DD94D8E1DEE889300BB3357 /* ic_hahapass4@3x.png in Resources */,
 				140EC6081C6D68D000DA634D /* ic_coachmsg_coachlevel@3x.png in Resources */,
 				6DD73F781E0D3E8200B356BF /* ic_fenduandakuan2.png in Resources */,
@@ -4361,6 +4410,7 @@
 				5C36D43E1C4C743700443545 /* ic_map_local_choseon@1x.png in Resources */,
 				6DD568281D65D62800B9B319 /* ic_arrow_more@2x.png in Resources */,
 				6D98E9881D79AD8E00A324B2 /* ic_pay_success_right.png in Resources */,
+				6D8312041E71478A003A2FEA /* pricedetails_ic_price.png in Resources */,
 				6D330D501D800BC2003F6FC6 /* select.png in Resources */,
 				6DDD4B001DF7FABA002C168F /* ic_cheap.png in Resources */,
 				6DDD4AF81DF7B778002C168F /* ic_bao@2x.png in Resources */,
@@ -4456,6 +4506,7 @@
 				5C36D3851C42D9F800443545 /* ic_bottombar_mypage_normal_btn@2x.png in Resources */,
 				6DD94D901DEE889300BB3357 /* ic_hahapass5@2x.png in Resources */,
 				6D7D0C6C1D61FFDB0002FC56 /* ic_question_delete.png in Resources */,
+				6D8312011E71478A003A2FEA /* pricedetails_ic_attention.png in Resources */,
 				6D1485411E5BE3DB00B7E0FA /* protectioncard_noget.png in Resources */,
 				6DEB24801DFA7A4000A86739 /* ic_xianxiangpeifu.png in Resources */,
 				6D3C83AE1DAD039A004BD28B /* ic_sale@2x.png in Resources */,
@@ -4478,6 +4529,7 @@
 				6DFB309E1DE84C9800AF973E /* ic_more@3x.png in Resources */,
 				6D330D4C1D7FC737003F6FC6 /* lookingforcoach@3x.png in Resources */,
 				6DD94DC11DEED6A100BB3357 /* ic_phone@3x.png in Resources */,
+				6D8312021E71478A003A2FEA /* pricedetails_ic_attention@2x.png in Resources */,
 				6D330D371D7FC230003F6FC6 /* pointtomap@3x.png in Resources */,
 				6DDAE51B1E680EC10074CA30 /* button_cant149_yi@3x.png in Resources */,
 				6D6F9B4B1D34F7A800855D2F /* ic-explain@1x.png in Resources */,
@@ -4509,6 +4561,7 @@
 				6D44E4481DFF8FC600BC753F /* ic_message@3x.png in Resources */,
 				6DD94D881DEE889300BB3357 /* ic_hahapass2@3x.png in Resources */,
 				6DD73F981E0D3EE200B356BF /* ic_xianxiangpeifu2@3x.png in Resources */,
+				6D8312031E71478A003A2FEA /* pricedetails_ic_attention@3x.png in Resources */,
 				6DB148151D50AD7C009E3F1E /* ic_add@2x.png in Resources */,
 				5C36D41E1C496ECD00443545 /* ic_sort_price_hold_btn@3x.png in Resources */,
 				6D4592361CFD68EB00AF5B45 /* ic_edit.png in Resources */,
@@ -4600,6 +4653,7 @@
 				6D8908291DFE956100756FDC /* pic_120_big.png in Resources */,
 				6D63F8751DD5C09900DB1ADC /* pic_redbag@3x.png in Resources */,
 				6D44E44C1DFFABED00BC753F /* button_close2.png in Resources */,
+				6D8312091E71478A003A2FEA /* pricedetails_ic_service@3x.png in Resources */,
 				141F7C011C617EC7003278C6 /* ic_Star_grey@3x.png in Resources */,
 				6DD94D891DEE889300BB3357 /* ic_hahapass3.png in Resources */,
 				5C36D4051C496ECD00443545 /* ic_sort_auto_hold_btn@2x.png in Resources */,
@@ -4722,6 +4776,7 @@
 				1408B4CA1C94929400B642F8 /* ic_coach_ava.png in Resources */,
 				6D52228A1D3F9BF000E92075 /* ic_ask_call@3x.png in Resources */,
 				6DE24BDF1D5B44A10078A21E /* ic_question_random@2x.png in Resources */,
+				6D8312061E71478A003A2FEA /* pricedetails_ic_price@3x.png in Resources */,
 				5C36D36F1C42D9F800443545 /* ic_bottombar_date_hold_btn@1x.png in Resources */,
 				5C36D37A1C42D9F800443545 /* ic_bottombar_haha_normal_btn@3x.png in Resources */,
 				140EC6061C6D68D000DA634D /* ic_coachmsg_coachlevel.png in Resources */,
@@ -4730,6 +4785,7 @@
 				6DF934ED1D91367C00018BE9 /* exercise@3x.png in Resources */,
 				6D14856E1E6127E600B7E0FA /* sharewindow_bg.png in Resources */,
 				6D3C83991DAB9708004BD28B /* ic_discount@2x.png in Resources */,
+				6D8312071E71478A003A2FEA /* pricedetails_ic_service.png in Resources */,
 				6D46DCAD1D88F41A001F962B /* ic_medal_h.png in Resources */,
 				5C36D3841C42D9F800443545 /* ic_bottombar_mypage_normal_btn@1x.png in Resources */,
 				6D3C83911DAB716C004BD28B /* ic_star_collect_click@3x.png in Resources */,
@@ -4984,6 +5040,7 @@
 			files = (
 				6D1485A81E61C9A200B7E0FA /* HHPaymentMethodsView.m in Sources */,
 				6DD568321D66E2EC00B9B319 /* HHReferralDetailViewController.m in Sources */,
+				6D8311EE1E700649003A2FEA /* HHCoachPriceTableViewCell.m in Sources */,
 				6D85522A1CD600310021D4C9 /* HHBonusSummary.m in Sources */,
 				147A9FED1C7A73F3000DED3B /* HHPaymentStatusCell.m in Sources */,
 				141FA0FA1C6BAD1A00113B1A /* ParallaxHeaderView.m in Sources */,
@@ -5052,9 +5109,10 @@
 				141FA1011C6BB0CE00113B1A /* UIImage+ImageEffects.m in Sources */,
 				6D7D0C7D1D6331600002FC56 /* HHTestResultViewController.m in Sources */,
 				5C36D4441C4DA54000443545 /* HHCoachListViewCell.m in Sources */,
-				6DE56FCC1CFFF15A00E33BDB /* HHCoachPriceCell.m in Sources */,
+				6DE56FCC1CFFF15A00E33BDB /* HHPersonalCoachPriceCell.m in Sources */,
 				6D4151F41CF724EF004A7EE8 /* HHCoachListView.m in Sources */,
 				6D95A4491DC0C926003CB78D /* HHMyCoachPeerCoachesTableViewCell.m in Sources */,
+				6D8311F71E70E30D003A2FEA /* HHCoachPriceInfoView.m in Sources */,
 				1482A9A51C80D0D3007F9019 /* HHReviewCell.m in Sources */,
 				141FA0FE1C6BAF6600113B1A /* HHCoachDetailDescriptionCell.m in Sources */,
 				14B5EB7D1C7CCE0D00A37669 /* HHFollowedCoachListViewController.m in Sources */,
@@ -5168,6 +5226,7 @@
 				6D0FB0C01D9289450045C421 /* HHClubPostDetailViewController.m in Sources */,
 				6D3D6F9A1CBFA68300E3BD8E /* HHNotificationExplanationView.m in Sources */,
 				5C5F87671BF6723F006F9594 /* HHEventTrackingManager.m in Sources */,
+				6D8311F11E70081A003A2FEA /* HHCoachPriceView.m in Sources */,
 				6DE24BCB1D5B387F0078A21E /* HHTestQuestionViewController.m in Sources */,
 				14700D951C795FBF00660989 /* HHPurchasedService.m in Sources */,
 				14F608DA1C83BDEF00EA70A7 /* HHPayCoachExplanationView.m in Sources */,
@@ -5190,6 +5249,7 @@
 				1405CC891C765FD60030B114 /* HHMyPageSupportCell.m in Sources */,
 				1405CC971C7693E40030B114 /* HHMyCoachBasicInfoCell.m in Sources */,
 				6DF53B6F1D4707C700CA0F6B /* CountDown.m in Sources */,
+				6D8311F41E700F9F003A2FEA /* HHLicenseTypeView.m in Sources */,
 				5C37C1CB1C55D0D80073970F /* HHField.m in Sources */,
 				6D14854F1E6001C800B7E0FA /* HHInsuranceTableViewCell.m in Sources */,
 				6D82BD2F1CCE2AD400D4109A /* HHReferFriendsViewController.m in Sources */,
