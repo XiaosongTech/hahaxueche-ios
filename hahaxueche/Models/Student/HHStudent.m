@@ -95,6 +95,12 @@
         case CoachProductTypeC2VIP: {
             return @"C2自动挡-VIP班";
         }
+        case CoachProductTypeC1Wuyou: {
+            return @"C1手动档-无忧班";
+        }
+        case CoachProductTypeC2Wuyou: {
+            return @"C2手动档-无忧班";
+        }
         default: return @"C1手动挡-超值班";
     }
 }

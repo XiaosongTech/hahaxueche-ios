@@ -37,4 +37,7 @@ typedef void (^HHPaymentResultCompletion)(BOOL succeed);
 
 - (void)purchaseInsuranceWithpaymentMethod:(StudentPaymentMethod)paymentMethod inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion;
 
+//0=提“钱”抢红包488, 1=提“钱”抢红包388, 2=情人节88换388, 3=预付100得300	
+- (void)prepayWithType:(NSInteger)type paymentMethod:(StudentPaymentMethod)paymentMethod inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion;
+
 @end

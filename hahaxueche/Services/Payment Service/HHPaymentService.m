@@ -29,30 +29,8 @@
 - (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod productType:(CoachProductType)productType voucherId:(NSString *)voucherId needInsurance:(BOOL)needInsurance inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion {
     
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    // 0-Alipay; 4-银行卡; 1-分期乐
-    NSNumber *paymentMethodNumber = @(0);
-    
-    switch (paymentMethod) {
-        case StudentPaymentMethodAlipay: {
-            paymentMethodNumber = @(0);
-        } break;
-        
-        case StudentPaymentMethodWechatPay: {
-            paymentMethodNumber = @(5);
-        } break;
-            
-        case StudentPaymentMethodBankCard: {
-            paymentMethodNumber = @(4);
-        } break;
-            
-        case StudentPaymentMethodFql: {
-            paymentMethodNumber = @(1);
-        } break;
-            
-        default: {
-            paymentMethodNumber = @(0);
-        } break;
-    }
+    NSNumber *paymentMethodNumber = [self getPaymentMethodForBackend:paymentMethod];
+
     if ([paymentMethodNumber isEqual:@(4)]) {
         [Pingpp ignoreResultUrl:YES];
     }
@@ -96,29 +74,8 @@
 
 - (void)purchaseInsuranceWithpaymentMethod:(StudentPaymentMethod)paymentMethod inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIInsuranceCharges, [HHStudentStore sharedInstance].currentStudent.studentId]];
-    NSNumber *paymentMethodNumber = @(0);
-    
-    switch (paymentMethod) {
-        case StudentPaymentMethodAlipay: {
-            paymentMethodNumber = @(0);
-        } break;
-            
-        case StudentPaymentMethodWechatPay: {
-            paymentMethodNumber = @(5);
-        } break;
-            
-        case StudentPaymentMethodBankCard: {
-            paymentMethodNumber = @(4);
-        } break;
-            
-        case StudentPaymentMethodFql: {
-            paymentMethodNumber = @(1);
-        } break;
-            
-        default: {
-            paymentMethodNumber = @(0);
-        } break;
-    }
+    NSNumber *paymentMethodNumber = [self getPaymentMethodForBackend:paymentMethod];
+   
     if ([paymentMethodNumber isEqual:@(4)]) {
         [Pingpp ignoreResultUrl:YES];
     }
@@ -148,6 +105,63 @@
     }];
 
     
+}
+
+- (void)prepayWithType:(NSInteger)type paymentMethod:(StudentPaymentMethod)paymentMethod inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIPrepayCharges];
+    NSNumber *paymentMethodNumber = [self getPaymentMethodForBackend:paymentMethod];
+    if ([paymentMethodNumber isEqual:@(4)]) {
+        [Pingpp ignoreResultUrl:YES];
+    }
+    [APIClient postWithParameters:@{@"phone":[HHStudentStore sharedInstance].currentStudent.cellPhone, @"event_type":@(type), @"method":paymentMethodNumber} completion:^(NSDictionary *response, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (!error) {
+            [Pingpp createPayment:response
+                   viewController:viewController
+                     appURLScheme:@"hhxc"
+                   withCompletion:^(NSString *result, PingppError *error) {
+                       if ([result isEqualToString:@"success"]) {
+                           if (completion) {
+                               completion(YES);
+                           }
+                       } else {
+                           if (completion) {
+                               completion(NO);
+                           }
+                       }
+                   }];
+        } else {
+            if (completion) {
+                completion(NO);
+            }
+        }
+    }];
+}
+
+- (NSNumber *)getPaymentMethodForBackend:(StudentPaymentMethod)method {
+    NSNumber *paymentMethodNumber = @(0);
+    switch (method) {
+        case StudentPaymentMethodAlipay: {
+            paymentMethodNumber = @(0);
+        } break;
+            
+        case StudentPaymentMethodWechatPay: {
+            paymentMethodNumber = @(5);
+        } break;
+            
+        case StudentPaymentMethodBankCard: {
+            paymentMethodNumber = @(4);
+        } break;
+            
+        case StudentPaymentMethodFql: {
+            paymentMethodNumber = @(1);
+        } break;
+            
+        default: {
+            paymentMethodNumber = @(0);
+        } break;
+    }
+    return paymentMethodNumber;
 }
 
 

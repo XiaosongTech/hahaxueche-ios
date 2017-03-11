@@ -190,12 +190,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
         [weakSelf tryCoachForFree];
     };
     
-    self.bottomBar.purchaseCoachAction = ^(){
-//        if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
-//            [weakSelf showLoginSignupAlertView];
-//            return ;
-//        }
-//        
+    self.bottomBar.prepayAction = ^(){
         
     };
     
@@ -351,7 +346,6 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
         }
             
         case CoachCellPrice: {
-
             CGFloat height = 136.0f;
             if (self.selecteLicenseType == 1) {
                 if ([self.coach.price floatValue] > 0) {
@@ -360,6 +354,10 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
                 
                 if ([self.coach.VIPPrice floatValue] > 0) {
                     height = height + 85.0f;
+                }
+                
+                if ([self.coach.isCheyouWuyou boolValue]) {
+                    return  136.0f + 85.0f;
                 }
             } else {
                 if ([self.coach.c2Price floatValue] > 0) {

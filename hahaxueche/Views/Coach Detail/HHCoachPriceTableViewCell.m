@@ -74,7 +74,7 @@
 
 - (void)setupCellWithCoach:(HHCoach *)coach selectedType:(NSInteger)type {
     self.selectedType = type;
-    self.titleLabel.attributedText = [self generateAttrStringWithText:@"陪练价格" image:[UIImage imageNamed:@"ic_coachmsg_charge"]];
+    self.titleLabel.attributedText = [self generateAttrStringWithText:@"拿证价格" image:[UIImage imageNamed:@"ic_coachmsg_charge"]];
     [self buildLicenseTypesViewWithCoach:coach];
     [self buildClassViewWithCoach:coach];
 }
@@ -100,19 +100,25 @@
         self.c1ContainerView.backgroundColor = [UIColor whiteColor];
         [self.mainView addSubview:self.c1ContainerView];
         if ([coach.price floatValue] > 0) {
-            [self buildSingleClassViewWithType:CoachProductTypeStandard coach:coach index:count containerView:self.c1ContainerView];
-            count++;
+            if (![coach.isCheyouWuyou boolValue]) {
+                [self buildSingleClassViewWithType:CoachProductTypeStandard coach:coach index:count containerView:self.c1ContainerView];
+                count++;
+            }
+            
         }
         
         if ([coach.VIPPrice floatValue] > 0) {
-            [self buildSingleClassViewWithType:CoachProductTypeVIP coach:coach index:count containerView:self.c1ContainerView];
-            count++;
+            if (![coach.isCheyouWuyou boolValue]) {
+                [self buildSingleClassViewWithType:CoachProductTypeVIP coach:coach index:count containerView:self.c1ContainerView];
+                count++;
+            }
         }
         
         if ([coach.price floatValue] > 0) {
             [self buildSingleClassViewWithType:CoachProductTypeC1Wuyou coach:coach index:count containerView:self.c1ContainerView];
             count++;
         }
+        
         [self.c1ContainerView makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.licenseView.bottom);
             make.left.equalTo(self.mainView.left);
@@ -173,6 +179,18 @@
 
 - (void)buildLicenseTypesViewWithCoach:(HHCoach *)coach {
     if (self.c1View) {
+        return;
+    }
+    
+    if ([coach.isCheyouWuyou boolValue]) {
+        self.c1View = [self buildLicenseTypeViewWithType:1 selected:YES alignLeft:YES];
+        [self.licenseView addSubview:self.c1View];
+        [self.c1View makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.licenseView.left);
+            make.top.equalTo(self.licenseView.top);
+            make.width.equalTo(self.licenseView.width).multipliedBy(0.5f);
+            make.height.equalTo(self.licenseView.height);
+        }];
         return;
     }
     

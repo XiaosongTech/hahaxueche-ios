@@ -24,6 +24,7 @@
 #pragma mark Payment
 #define kAPICharges @"charges"
 #define kAPIInsuranceCharges @"students/%@/insurance_services"
+#define kAPIPrepayCharges @"groupons"
 
 #pragma mark Student
 
