@@ -191,7 +191,11 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
     };
     
     self.bottomBar.prepayAction = ^(){
-        
+        if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
+            [weakSelf showLoginSignupAlertView];
+        } else {
+            //jump to prepay confirm VC
+        }
     };
     
     [[HHCoachService sharedInstance] checkFollowedCoach:self.coach.userId completion:^(BOOL followed) {

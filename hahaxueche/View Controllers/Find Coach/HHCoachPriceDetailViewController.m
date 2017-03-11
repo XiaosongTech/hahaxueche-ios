@@ -19,6 +19,7 @@
 #import "HHCityOtherFee.h"
 #import "HHOtherFeeItemView.h"
 #import "HHPurchaseConfirmViewController.h"
+#import "HHStudentStore.h"
 
 
 @interface HHCoachPriceDetailViewController () <TTTAttributedLabelDelegate>
@@ -118,23 +119,27 @@
         make.left.equalTo(self.scrollView.left).offset(15.0f);
         make.width.equalTo(self.scrollView.width).offset(-30.0f);
     }];
+    self.lastView = self.supportLabel;
+    
+    if (![[HHStudentStore sharedInstance].currentStudent isPurchased]) {
+        self.purchaseButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.purchaseButton setTitle:@"立即购买" forState:UIControlStateNormal];
+        [self.purchaseButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        self.purchaseButton.backgroundColor = [UIColor HHDarkOrange];
+        self.purchaseButton.titleLabel.font = [UIFont systemFontOfSize:18.0f];
+        [self.purchaseButton addTarget:self action:@selector(purchaseButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+        [self.scrollView addSubview: self.purchaseButton];
+        [self.purchaseButton makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.scrollView.centerX);
+            make.top.equalTo(self.supportLabel.bottom).offset(20.0f);
+            make.width.mas_equalTo(200.0f);
+            make.height.mas_equalTo(40.0f);
+        }];
+        self.lastView = self.purchaseButton;
+    }
     
     
-    self.purchaseButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.purchaseButton setTitle:@"立即购买" forState:UIControlStateNormal];
-    [self.purchaseButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.purchaseButton.backgroundColor = [UIColor HHDarkOrange];
-    self.purchaseButton.titleLabel.font = [UIFont systemFontOfSize:18.0f];
-    [self.purchaseButton addTarget:self action:@selector(purchaseButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.scrollView addSubview: self.purchaseButton];
-    [self.purchaseButton makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.scrollView.centerX);
-        make.top.equalTo(self.supportLabel.bottom).offset(20.0f);
-        make.width.mas_equalTo(200.0f);
-        make.height.mas_equalTo(40.0f);
-    }];
-    
-    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.purchaseButton
+    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.lastView
                                                                 attribute:NSLayoutAttributeBottom
                                                                 relatedBy:NSLayoutRelationEqual
                                                                    toItem:self.scrollView
