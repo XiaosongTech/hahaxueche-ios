@@ -95,10 +95,14 @@
     [self.scrollView addSubview:self.supportLable];
     
     
-    self.amountView = [[HHReceiptItemView alloc] initWithTitle:@"付款金额" value:[self.student.insuranceOrder.paidAmount generateMoneyString]];
+    if (self.type == ReceiptTypeInsurance) {
+        self.amountView = [[HHReceiptItemView alloc] initWithTitle:@"付款金额" value:[self.student.insuranceOrder.paidAmount generateMoneyString]];
+        self.dateView = [[HHReceiptItemView alloc] initWithTitle:@"付款时间" value:[[HHFormatUtility chineseFullDateFormatter] stringFromDate:self.student.insuranceOrder.paidAt]];
+    } else {
+        self.amountView = [[HHReceiptItemView alloc] initWithTitle:@"付款金额" value:[@(10000) generateMoneyString]];
+        self.dateView = [[HHReceiptItemView alloc] initWithTitle:@"付款时间" value:[[HHFormatUtility chineseFullDateFormatter] stringFromDate:[NSDate date]]];
+    }
     [self.scrollView addSubview:self.amountView];
-    
-    self.dateView = [[HHReceiptItemView alloc] initWithTitle:@"付款时间" value:[[HHFormatUtility chineseFullDateFormatter] stringFromDate:self.student.insuranceOrder.paidAt]];
     [self.scrollView addSubview:self.dateView];
     
     [self makeConstraints];
