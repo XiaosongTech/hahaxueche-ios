@@ -167,6 +167,9 @@
     }
     if (self.type == CoachProductTypeC1Wuyou || self.type == CoachProductTypeC2Wuyou) {
         trainingFee = @([trainingFee floatValue] - [[[HHConstantsStore sharedInstance] getInsuranceWithType:0] floatValue]);
+        if ([self.coach.isCheyouWuyou boolValue]) {
+            trainingFee = @([trainingFee floatValue] - 50000);
+        }
         UIView *view = [self buildPriceItemViewWithTitle:@"培训费" valueString:[trainingFee generateMoneyString] type:0];
         [self.scrollView addSubview:view];
         [view makeConstraints:^(MASConstraintMaker *make) {
@@ -217,6 +220,18 @@
             make.height.mas_equalTo(10.0f);
         }];
         self.lastView = item3;
+        
+        if ([self.coach.isCheyouWuyou boolValue]) {
+            UIView *view = [self buildPriceItemViewWithTitle:@"考场模拟费" valueString:[@(50000) generateMoneyString] type:0];
+            [self.scrollView addSubview:view];
+            [view makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(self.lastView.bottom).offset(10.0f);
+                make.left.equalTo(self.scrollView.left);
+                make.width.equalTo(self.scrollView.width);
+                make.height.mas_equalTo(20.0f);
+            }];
+            self.lastView = view;
+        }
         
     } else {
         
@@ -505,6 +520,9 @@
     for (HHCityOtherFee *otherFee in city.cityOtherFees) {
         if (self.type == CoachProductTypeC1Wuyou || self.type == CoachProductTypeC2Wuyou) {
             if ([otherFee.feeName isEqualToString:@"补考费（车管所收取）"]) {
+                continue;
+            }
+            if ([self.coach.isCheyouWuyou boolValue] && [otherFee.feeName isEqualToString:@"考场模拟费（考场收取）"]) {
                 continue;
             }
         }
