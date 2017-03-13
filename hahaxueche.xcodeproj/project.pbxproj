@@ -531,6 +531,7 @@
 		6D5C86671CDC2AC100D7B5CB /* ic_homepage_groupbuy_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5C86641CDC2AC100D7B5CB /* ic_homepage_groupbuy_close@3x.png */; };
 		6D61596F1E1B71D3005D5000 /* HHGuardItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D61596E1E1B71D3005D5000 /* HHGuardItemView.m */; };
 		6D61FE3F1DD099420016788E /* hahaxueche.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6D6043151CC5EDB300C6C582 /* hahaxueche.entitlements */; };
+		6D62E1091E76469300F400C8 /* HHPrepayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D62E1081E76469300F400C8 /* HHPrepayViewController.m */; };
 		6D63F8451DD44E1C00DB1ADC /* HHMyPageVoucherCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D63F8441DD44E1C00DB1ADC /* HHMyPageVoucherCell.m */; };
 		6D63F8481DD45FAC00DB1ADC /* HHVoucher.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D63F8471DD45FAC00DB1ADC /* HHVoucher.m */; };
 		6D63F84B1DD481CD00DB1ADC /* HHVouchersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D63F84A1DD481CD00DB1ADC /* HHVouchersViewController.m */; };
@@ -723,6 +724,7 @@
 		6DA2F7601DC979C800F2CB21 /* HHClubPostService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DA2F75F1DC979C800F2CB21 /* HHClubPostService.m */; };
 		6DA2F7641DC97AF500F2CB21 /* HHClubPosts.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DA2F7631DC97AF500F2CB21 /* HHClubPosts.m */; };
 		6DA2F76D1DC9B56900F2CB21 /* HHPostCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DA2F76C1DC9B56900F2CB21 /* HHPostCategory.m */; };
+		6DA31DF31E764E91000A895B /* HHGenericReceiptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DA31DF21E764E91000A895B /* HHGenericReceiptViewController.m */; };
 		6DACD0111D34CA0700BDE2EE /* HHMyPageMyCourseScheduleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DACD0101D34CA0700BDE2EE /* HHMyPageMyCourseScheduleCell.m */; };
 		6DB1480E1D4B4EF0009E3F1E /* pic_xiaoha.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB1480B1D4B4EEF009E3F1E /* pic_xiaoha.png */; };
 		6DB1480F1D4B4EF0009E3F1E /* pic_xiaoha@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB1480C1D4B4EEF009E3F1E /* pic_xiaoha@2x.png */; };
@@ -881,7 +883,6 @@
 		6DD94DD61DF0498800BB3357 /* ic_freetry@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DD94DD31DF0498800BB3357 /* ic_freetry@3x.png */; };
 		6DDAE4EE1E6685AC0074CA30 /* HHInsuranceOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE4ED1E6685AC0074CA30 /* HHInsuranceOrder.m */; };
 		6DDAE4F11E66A0440074CA30 /* HHLongTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE4F01E66A0440074CA30 /* HHLongTextViewController.m */; };
-		6DDAE4F71E66D0190074CA30 /* HHInsuranceReceiptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE4F61E66D0190074CA30 /* HHInsuranceReceiptViewController.m */; };
 		6DDAE6C31CB7566900CE461A /* HHNoCoachView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */; };
 		6DDAE6C91CB7899F00CE461A /* HHAppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAE6C81CB7899F00CE461A /* HHAppInfoViewController.m */; };
 		6DDAE6CD1CB78B1B00CE461A /* ic_aboutmsg_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDAE6CA1CB78B1B00CE461A /* ic_aboutmsg_logo.png */; };
@@ -1724,6 +1725,8 @@
 		6D6043151CC5EDB300C6C582 /* hahaxueche.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = hahaxueche.entitlements; sourceTree = "<group>"; };
 		6D61596D1E1B71D3005D5000 /* HHGuardItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHGuardItemView.h; sourceTree = "<group>"; };
 		6D61596E1E1B71D3005D5000 /* HHGuardItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHGuardItemView.m; sourceTree = "<group>"; };
+		6D62E1071E76469300F400C8 /* HHPrepayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPrepayViewController.h; sourceTree = "<group>"; };
+		6D62E1081E76469300F400C8 /* HHPrepayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPrepayViewController.m; sourceTree = "<group>"; };
 		6D63F8431DD44E1C00DB1ADC /* HHMyPageVoucherCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyPageVoucherCell.h; sourceTree = "<group>"; };
 		6D63F8441DD44E1C00DB1ADC /* HHMyPageVoucherCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyPageVoucherCell.m; sourceTree = "<group>"; };
 		6D63F8461DD45FAC00DB1ADC /* HHVoucher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHVoucher.h; sourceTree = "<group>"; };
@@ -1951,6 +1954,7 @@
 		6DA2F7631DC97AF500F2CB21 /* HHClubPosts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHClubPosts.m; sourceTree = "<group>"; };
 		6DA2F76B1DC9B56900F2CB21 /* HHPostCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPostCategory.h; sourceTree = "<group>"; };
 		6DA2F76C1DC9B56900F2CB21 /* HHPostCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPostCategory.m; sourceTree = "<group>"; };
+		6DA31DF21E764E91000A895B /* HHGenericReceiptViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHGenericReceiptViewController.m; sourceTree = "<group>"; };
 		6DACD00F1D34CA0700BDE2EE /* HHMyPageMyCourseScheduleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyPageMyCourseScheduleCell.h; sourceTree = "<group>"; };
 		6DACD0101D34CA0700BDE2EE /* HHMyPageMyCourseScheduleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMyPageMyCourseScheduleCell.m; sourceTree = "<group>"; };
 		6DB1480B1D4B4EEF009E3F1E /* pic_xiaoha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic_xiaoha.png; sourceTree = "<group>"; };
@@ -2146,8 +2150,7 @@
 		6DDAE4ED1E6685AC0074CA30 /* HHInsuranceOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHInsuranceOrder.m; sourceTree = "<group>"; };
 		6DDAE4EF1E66A0440074CA30 /* HHLongTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHLongTextViewController.h; sourceTree = "<group>"; };
 		6DDAE4F01E66A0440074CA30 /* HHLongTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHLongTextViewController.m; sourceTree = "<group>"; };
-		6DDAE4F51E66D0190074CA30 /* HHInsuranceReceiptViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHInsuranceReceiptViewController.h; sourceTree = "<group>"; };
-		6DDAE4F61E66D0190074CA30 /* HHInsuranceReceiptViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHInsuranceReceiptViewController.m; sourceTree = "<group>"; };
+		6DDAE4F51E66D0190074CA30 /* HHGenericReceiptViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHGenericReceiptViewController.h; sourceTree = "<group>"; };
 		6DDAE6C11CB7566900CE461A /* HHNoCoachView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNoCoachView.h; sourceTree = "<group>"; };
 		6DDAE6C21CB7566900CE461A /* HHNoCoachView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNoCoachView.m; sourceTree = "<group>"; };
 		6DDAE6C71CB7899F00CE461A /* HHAppInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAppInfoViewController.h; sourceTree = "<group>"; };
@@ -2677,6 +2680,7 @@
 		143778EC1C6125A700339D20 /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				6DA31DF21E764E91000A895B /* HHGenericReceiptViewController.m */,
 				6DB79D561D559C78008F31C9 /* HHBankSelectionViewController.h */,
 				6DB79D571D559C78008F31C9 /* HHBankSelectionViewController.m */,
 				1421510F1C98D9D200569DFB /* HHImageGalleryViewController.h */,
@@ -2699,8 +2703,9 @@
 				6DFB30971DE7FF7500AF973E /* HHSignContractViewController.m */,
 				6DDAE4EF1E66A0440074CA30 /* HHLongTextViewController.h */,
 				6DDAE4F01E66A0440074CA30 /* HHLongTextViewController.m */,
-				6DDAE4F51E66D0190074CA30 /* HHInsuranceReceiptViewController.h */,
-				6DDAE4F61E66D0190074CA30 /* HHInsuranceReceiptViewController.m */,
+				6DDAE4F51E66D0190074CA30 /* HHGenericReceiptViewController.h */,
+				6D62E1071E76469300F400C8 /* HHPrepayViewController.h */,
+				6D62E1081E76469300F400C8 /* HHPrepayViewController.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -5023,7 +5028,6 @@
 				6DE56FDE1D00297100E33BDB /* HHCoachServiceTypeCell.m in Sources */,
 				6DD5684D1D6948E000B9B319 /* OpenShare+Renren.m in Sources */,
 				5CDE14891C3859290004778C /* HHPopupUtility.m in Sources */,
-				6DDAE4F71E66D0190074CA30 /* HHInsuranceReceiptViewController.m in Sources */,
 				6DF202E01CD0C217002092B4 /* HHWithdraw.m in Sources */,
 				6DDAE4F11E66A0440074CA30 /* HHLongTextViewController.m in Sources */,
 				6D4CCAEE1D3E070400AD896F /* HHActivateCouponView.m in Sources */,
@@ -5058,6 +5062,7 @@
 				6D4592321CFC6F1D00AF5B45 /* HHTOUViewController.m in Sources */,
 				1405CC801C7641690030B114 /* HHMyPageItemView.m in Sources */,
 				1405CC8F1C7664080030B114 /* HHMyPageLogoutCell.m in Sources */,
+				6DA31DF31E764E91000A895B /* HHGenericReceiptViewController.m in Sources */,
 				6D7D0C801D6568650002FC56 /* HHBank.m in Sources */,
 				6DB79D581D559C78008F31C9 /* HHBankSelectionViewController.m in Sources */,
 				6DDAE6D21CB7C26E00CE461A /* HHCoachScheduleCellTableViewCell.m in Sources */,
@@ -5117,6 +5122,7 @@
 				6DD5684C1D6948E000B9B319 /* OpenShare+QQ.m in Sources */,
 				5C36D39A1C4311FF00443545 /* HHConstantsStore.m in Sources */,
 				6D68C8221D88058000184AAC /* HHHomPageCardView.m in Sources */,
+				6D62E1091E76469300F400C8 /* HHPrepayViewController.m in Sources */,
 				6DD73F501E0A355200B356BF /* HHGuardCardTableViewCell.m in Sources */,
 				5C36D3A01C442A6300443545 /* HHStudentStore.m in Sources */,
 				14700D9B1C797C7600660989 /* HHMoneyAmountView.m in Sources */,

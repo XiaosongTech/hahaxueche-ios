@@ -85,13 +85,6 @@
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(popupVC) target:self];
     self.title = @"购买教练";
     
-    if ([[HHStudentStore sharedInstance].currentStudent.insuranceOrder isPurchased]) {
-        self.selectedInsurance = NO;
-    } else {
-        self.selectedInsurance = YES;
-    }
-    
-    
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
     [[HHStudentService sharedInstance] getVouchersWithType:@(1) coachId:self.coach.coachId completion:^(NSArray *vouchers) {
         self.specialVouchers = vouchers;
@@ -391,7 +384,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"coachPurchased" object:nil];
             
             ReceiptViewType type;
-            if (self.selectedInsurance) {
+            if (student.insuranceOrder.paidAt) {
                 type = ReceiptViewTypePeifubao;
             } else {
                 type = ReceiptViewTypeContract;

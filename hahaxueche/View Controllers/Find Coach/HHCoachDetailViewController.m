@@ -46,6 +46,7 @@
 #import "HHGuardViewController.h"
 #import "HHInsuranceTableViewCell.h"
 #import "HHCoachPriceTableViewCell.h"
+#import "HHPrepayViewController.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -195,6 +196,9 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
             [weakSelf showLoginSignupAlertView];
         } else {
             //jump to prepay confirm VC
+            HHPrepayViewController *vc = [[HHPrepayViewController alloc] init];
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+            [weakSelf presentViewController:navVC animated:YES completion:nil];
         }
     };
     

@@ -1,12 +1,12 @@
 //
-//  HHPurchaseInsuranceViewController.m
+//  HHPrepayViewController.m
 //  hahaxueche
 //
-//  Created by Zixiao Wang on 25/02/2017.
+//  Created by Zixiao Wang on 13/03/2017.
 //  Copyright © 2017 Zixiao Wang. All rights reserved.
 //
 
-#import "HHPurchaseInsuranceViewController.h"
+#import "HHPrepayViewController.h"
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
 #import "UIBarButtonItem+HHCustomButton.h"
@@ -21,23 +21,24 @@
 #import "HHStudentStore.h"
 #import "HHConstantsStore.h"
 
-@interface HHPurchaseInsuranceViewController ()
+@interface HHPrepayViewController ()
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIButton *confirmButton;
 @property (nonatomic, strong) UILabel *warnLabel;
-@property (nonatomic, strong) HHPurchaseTagView *insuranceTagView;
+@property (nonatomic, strong) HHPurchaseTagView *prepayTagView;
 @property (nonatomic, strong) UIView *totalPriceContainerView;
 @property (nonatomic, strong) UILabel *totalPriceLabel;
 @property (nonatomic, strong) HHPaymentMethodsView *paymentMethodsView;
 
 @end
 
-@implementation HHPurchaseInsuranceViewController
+@implementation HHPrepayViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"购买赔付宝";
+    [super viewDidLoad];
+    self.title = @"预付定金";
     self.view.backgroundColor = [UIColor HHBackgroundGary];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
     [self initSubviews];
@@ -51,12 +52,12 @@
         make.top.equalTo(self.view.top);
         make.left.equalTo(self.view.left);
         make.width.equalTo(self.view.width);
-        make.height.equalTo(self.view.height).offset(-80.0f);
+        make.height.equalTo(self.view.height).offset(-50.0f);
     }];
     
-    self.insuranceTagView = [[HHPurchaseTagView alloc] initWithTags:@[@"赔付宝"] title:@"保险类型" defaultTag:@"赔付宝"];
-    [self.scrollView addSubview:self.insuranceTagView];
-    [self.insuranceTagView makeConstraints:^(MASConstraintMaker *make) {
+    self.prepayTagView = [[HHPurchaseTagView alloc] initWithTags:@[@"预付100得300"] title:@"定金类型" defaultTag:@"预付100得300"];
+    [self.scrollView addSubview:self.prepayTagView];
+    [self.prepayTagView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.scrollView.top);
         make.left.equalTo(self.scrollView.left);
         make.width.equalTo(self.scrollView.width);
@@ -67,21 +68,14 @@
     self.totalPriceContainerView.backgroundColor = [UIColor whiteColor];
     [self.scrollView addSubview:self.totalPriceContainerView];
     [self.totalPriceContainerView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.insuranceTagView.bottom);
+        make.top.equalTo(self.prepayTagView.bottom);
         make.left.equalTo(self.scrollView.left);
         make.width.equalTo(self.scrollView.width);
         make.height.mas_equalTo(50.0f);
     }];
-    
-    NSNumber *price;
-    if ([[HHStudentStore sharedInstance].currentStudent isPurchased]) {
-        price = [[HHConstantsStore sharedInstance] getInsuranceWithType:1];
-    } else {
-        price = [[HHConstantsStore sharedInstance] getInsuranceWithType:2];
-    }
     self.totalPriceLabel = [[UILabel alloc] init];
     self.totalPriceLabel.font = [UIFont systemFontOfSize:18.0f];
-    self.totalPriceLabel.text = [NSString stringWithFormat:@"总价: %@", [price generateMoneyString]];
+    self.totalPriceLabel.text = [NSString stringWithFormat:@"总价: %@", [@(10000) generateMoneyString]];
     self.totalPriceLabel.textColor = [UIColor HHOrange];
     [self.totalPriceContainerView addSubview:self.totalPriceLabel];
     [self.totalPriceLabel makeConstraints:^(MASConstraintMaker *make) {
@@ -98,7 +92,20 @@
         make.left.equalTo(self.scrollView.left);
     }];
     
-    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.paymentMethodsView
+    self.warnLabel = [[UILabel alloc] init];
+    self.warnLabel.numberOfLines = 0;
+    self.warnLabel.text = @"预付定金说明:\n预付100元即可在哈哈学车报名立减300元\n红包只能用于哈哈学车App报名学车, 需一次性使用, 不能拆分, 不可退换, 不可折现, 不能转赠\n该红包长期有效, 无使用截止日期\n本活动优惠不与平台其他优惠叠加";
+    self.warnLabel.textColor = [UIColor HHDarkOrange];
+    self.warnLabel.font = [UIFont systemFontOfSize:12.0f];
+    [self.scrollView addSubview:self.warnLabel];
+    [self.warnLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.left).offset(15.0f);
+        make.width.equalTo(self.view.width).offset(-30.0f);
+        make.top.equalTo(self.paymentMethodsView.bottom).offset(30.0f);
+    }];
+
+    
+    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.warnLabel
                                                                 attribute:NSLayoutAttributeBottom
                                                                 relatedBy:NSLayoutRelationEqual
                                                                    toItem:self.scrollView
@@ -108,7 +115,7 @@
     
     self.confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.confirmButton.backgroundColor = [UIColor HHDarkOrange];
-    [self.confirmButton addTarget:self action:@selector(showInsuranceWarningAlert) forControlEvents:UIControlEventTouchUpInside];
+    [self.confirmButton addTarget:self action:@selector(prepay) forControlEvents:UIControlEventTouchUpInside];
     [self.confirmButton setTitle:@"确认并购买" forState:UIControlStateNormal];
     [self.confirmButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.confirmButton.titleLabel.font = [UIFont systemFontOfSize:18.0f];
@@ -118,18 +125,6 @@
         make.width.equalTo(self.view.width);
         make.height.mas_equalTo(50.0f);
         make.bottom.equalTo(self.view.bottom);
-    }];
-    
-    self.warnLabel = [[UILabel alloc] init];
-    self.warnLabel.text = @"注: 请确认您还未参加科目一考试";
-    self.warnLabel.textColor = [UIColor HHDarkOrange];
-    self.warnLabel.font = [UIFont systemFontOfSize:12.0f];
-    [self.view addSubview:self.warnLabel];
-    [self.warnLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view.left).offset(15.0f);
-        make.width.equalTo(self.view.width).offset(-30.0f);
-        make.height.mas_equalTo(30.0f);
-        make.bottom.equalTo(self.confirmButton.top);
     }];
     
     
@@ -143,9 +138,9 @@
     }
 }
 
-- (void)purchaseInsurance {
+- (void)prepay {
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
-    [[HHPaymentService sharedInstance] purchaseInsuranceWithpaymentMethod:self.paymentMethodsView.selectedMethod inController:self completion:^(BOOL succeed) {
+    [[HHPaymentService sharedInstance] prepayWithType:3 paymentMethod:self.paymentMethodsView.selectedMethod inController:self completion:^(BOOL succeed) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (succeed) {
             [self fetchStudentAfterPurchase];
@@ -154,6 +149,7 @@
             [[HHToastManager sharedManager] showErrorToastWithText:@"支付失败或您取消了支付, 请重试"];
             
         }
+
     }];
 }
 
@@ -162,12 +158,11 @@
         [[HHLoadingViewUtility sharedInstance] showLoadingView];
     }
     [[HHStudentService sharedInstance] fetchStudentWithId:[HHStudentStore sharedInstance].currentStudent.studentId completion:^(HHStudent *student, NSError *error) {
-        if ([student.insuranceOrder isPurchased]) {
+        if ([student.prepayAmount floatValue] > 0) {
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
             [HHStudentStore sharedInstance].currentStudent = student;
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"studentUpdated" object:nil];
             
-            HHGenericReceiptViewController *vc = [[HHGenericReceiptViewController alloc] initWithType:ReceiptTypeInsurance];
+            HHGenericReceiptViewController *vc = [[HHGenericReceiptViewController alloc] initWithType:ReceiptTypePrepay];
             [self.navigationController setViewControllers:@[vc]];
             
         } else {
@@ -176,22 +171,6 @@
         
     }];
 }
-
-- (void)showInsuranceWarningAlert {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"赔付宝购买提示" message:@"请确认您还未参加考科目一考试，购买后，必须在预约第一次科目一考试的前一个工作日24点前，完成身份信息上传。否则无法获得理赔." preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self purchaseInsurance];
-    }];
-    
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-    
-    [alertController addAction:confirmAction];
-    [alertController addAction:cancelAction];
-    
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-
 
 
 @end

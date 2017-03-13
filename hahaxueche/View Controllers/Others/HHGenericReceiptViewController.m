@@ -6,7 +6,7 @@
 //  Copyright © 2017 Zixiao Wang. All rights reserved.
 //
 
-#import "HHInsuranceReceiptViewController.h"
+#import "HHGenericReceiptViewController.h"
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
 #import "HHReceiptItemView.h"
@@ -17,8 +17,9 @@
 #import <TTTAttributedLabel.h>
 #import "HHSupportUtility.h"
 #import "HHUploadIDViewController.h"
+#import "HHVouchersViewController.h"
 
-@interface HHInsuranceReceiptViewController () <TTTAttributedLabelDelegate>
+@interface HHGenericReceiptViewController () <TTTAttributedLabelDelegate>
 
 @property (nonatomic, strong) UIImageView *imgView;
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -30,10 +31,19 @@
 @property (nonatomic, strong) HHReceiptItemView *dateView;
 
 @property (nonatomic, strong) HHStudent *student;
+@property (nonatomic) ReceiptType type;
 
 @end
 
-@implementation HHInsuranceReceiptViewController
+@implementation HHGenericReceiptViewController
+
+- (instancetype)initWithType:(ReceiptType)type {
+    self = [super init];
+    if (self) {
+        self.type = type;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -60,7 +70,12 @@
     [self.scrollView addSubview:self.titleLabel];
     
     self.uploadIdButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.uploadIdButton setTitle:@"上传投保信息" forState:UIControlStateNormal];
+    if (self.type == ReceiptTypeInsurance) {
+        [self.uploadIdButton setTitle:@"上传投保信息" forState:UIControlStateNormal];
+    } else {
+        [self.uploadIdButton setTitle:@"查看我的现金红包" forState:UIControlStateNormal];
+    }
+    
     
     [self.uploadIdButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.uploadIdButton setBackgroundColor:[UIColor HHOrange]];
@@ -148,8 +163,14 @@
 }
 
 - (void)buttonTapped {
-    HHUploadIDViewController *vc = [[HHUploadIDViewController alloc] initWithType:UploadViewTypePeifubao];
-    [self.navigationController setViewControllers:@[vc] animated:YES];
+    if(self.type == ReceiptTypeInsurance) {
+        HHUploadIDViewController *vc = [[HHUploadIDViewController alloc] initWithType:UploadViewTypePeifubao];
+        [self.navigationController setViewControllers:@[vc] animated:YES];
+    } else {
+        HHVouchersViewController *vc = [[HHVouchersViewController alloc] init];
+        [self.navigationController setViewControllers:@[vc] animated:YES];
+    }
+    
 }
 
 - (NSMutableAttributedString *)buildAttributeString {

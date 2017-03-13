@@ -33,6 +33,7 @@
              @"userIdentityId":@"user_identity_id",
              @"isAgent": @"is_sales_agent",
              @"insuranceOrder": @"insurance_order",
+             @"prepayAmount": @"prepaid_amount",
              };
 }
 

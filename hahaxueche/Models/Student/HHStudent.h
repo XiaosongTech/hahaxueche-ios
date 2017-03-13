@@ -39,6 +39,7 @@
 @property (nonatomic, copy) NSNumber *isAgent;
 
 @property (nonatomic, strong) HHInsuranceOrder *insuranceOrder;
+@property (nonatomic, strong) NSNumber *prepayAmount;
 
 
 - (NSString *)getCourseName;
