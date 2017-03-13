@@ -44,14 +44,12 @@
 #import "HHGenericOneButtonPopupView.h"
 #import "HHPlatformGuardTableViewCell.h"
 #import "HHGuardViewController.h"
-#import "HHInsuranceTableViewCell.h"
 #import "HHCoachPriceTableViewCell.h"
 #import "HHPrepayViewController.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
     CoachCellPrice,
-    CoachCellInsurance,
     CoachCellField,
     CoachCellPlatformGuard,
     CoachCellInfoTwo,
@@ -66,7 +64,6 @@ static NSString *const kFiledCellID = @"kFiledCellID";
 static NSString *const kInfoTwoCellID = @"kInfoTwoCellID";
 static NSString *const kCommentsCellID = @"kCommentsCellID";
 static NSString *const kGuardCellID = @"kGuardCellID";
-static NSString *const kInsuranceCellID = @"kInsuranceCellID";
 
 static NSString *const kPlatformLink = @"https://m.hahaxueche.com/assurance";
 static NSString *const kInsuranceLink = @"https://m.hahaxueche.com/pei-fu-bao";
@@ -173,7 +170,6 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
     [self.tableView registerClass:[HHCoachDetailSectionTwoCell class] forCellReuseIdentifier:kInfoTwoCellID];
     [self.tableView registerClass:[HHCoachDetailCommentsCell class] forCellReuseIdentifier:kCommentsCellID];
     [self.tableView registerClass:[HHPlatformGuardTableViewCell class] forCellReuseIdentifier:kGuardCellID];
-    [self.tableView registerClass:[HHInsuranceTableViewCell class] forCellReuseIdentifier:kInsuranceCellID];
     
     ParallaxHeaderView *headerView = [ParallaxHeaderView parallaxHeaderViewWithSubView:self.coachImagesView];
     [self.tableView setTableHeaderView:headerView];
@@ -282,16 +278,6 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
             [cell setupCellWithCoach:self.coach selectedType:self.selecteLicenseType];
             return cell;
         }
-        
-        case CoachCellInsurance: {
-            HHInsuranceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kInsuranceCellID forIndexPath:indexPath];
-            cell.questionAction = ^() {
-                HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:kInsuranceLink]];
-                [self.navigationController pushViewController:webVC animated:YES];
-
-            };
-            return cell;
-        } break;
             
         case CoachCellField: {
             HHCoachFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:kFiledCellID forIndexPath:indexPath];
@@ -377,10 +363,6 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
                 }
             }
             return height;
-        }
-        
-        case CoachCellInsurance: {
-            return 305.0f;
         }
             
         case CoachCellField: {

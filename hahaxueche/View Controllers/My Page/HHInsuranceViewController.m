@@ -246,25 +246,10 @@ static NSString *const kInsuranceLink = @"https://m.hahaxueche.com/pei-fu-bao";
         make.width.equalTo(self.scrollView.width);
         make.height.mas_equalTo(115.0f);
     }];
-    
-    UIView *optionOne;
-    if ([self.student isPurchased]) {
-       optionOne = [self buildPurchaseOptionViewWithType:0 enabled:NO];
-    } else {
-        optionOne = [self buildPurchaseOptionViewWithType:0 enabled:YES];
-    }
-    
-    [self.insuranceInfoView addSubview:optionOne];
-    [optionOne makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.insuranceInfoView.centerX).multipliedBy(1.0f/3.0f);
-        make.centerY.equalTo(self.insuranceInfoView.centerY);
-        make.width.mas_equalTo((CGRectGetWidth(self.view.frame)-40.0f)/3.0f);
-         make.height.mas_equalTo(80.0f);
-    }];
 
     
     UIView *optionTwo;
-    if ([self.student isPurchased]) {
+    if ([self.student isPurchased] || ![self.student isLoggedIn]) {
         optionTwo = [self buildPurchaseOptionViewWithType:1 enabled:YES];
     } else {
         optionTwo = [self buildPurchaseOptionViewWithType:1 enabled:NO];
@@ -272,9 +257,9 @@ static NSString *const kInsuranceLink = @"https://m.hahaxueche.com/pei-fu-bao";
     
     [self.insuranceInfoView addSubview:optionTwo];
     [optionTwo makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.insuranceInfoView.centerX);
+        make.centerX.equalTo(self.insuranceInfoView.centerX).multipliedBy(0.5f);
         make.centerY.equalTo(self.insuranceInfoView.centerY);
-        make.width.mas_equalTo((CGRectGetWidth(self.view.frame)-40.0f)/3.0f);
+        make.width.equalTo(self.insuranceInfoView.width).multipliedBy(1.0f/3.0f);
         make.height.mas_equalTo(80.0f);
     }];
     
@@ -287,9 +272,9 @@ static NSString *const kInsuranceLink = @"https://m.hahaxueche.com/pei-fu-bao";
     
     [self.insuranceInfoView addSubview:optionThree];
     [optionThree makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.insuranceInfoView.centerX).multipliedBy(5.0f/3.0f);
+        make.centerX.equalTo(self.insuranceInfoView.centerX).multipliedBy(1.5f);
         make.centerY.equalTo(self.insuranceInfoView.centerY);
-        make.width.mas_equalTo((CGRectGetWidth(self.view.frame)-40.0f)/3.0f);
+        make.width.equalTo(self.insuranceInfoView.width).multipliedBy(1.0f/3.0f);
         make.height.mas_equalTo(80.0f);
     }];
 
@@ -354,9 +339,9 @@ static NSString *const kInsuranceLink = @"https://m.hahaxueche.com/pei-fu-bao";
     if (type == 0) {
         topLabel.text = @"未在哈哈报名";
     } else if (type == 1) {
-        topLabel.text = @"已在哈哈报名未考科一";
+        topLabel.text = @"已在哈哈报名\n未考科一";
     } else {
-        topLabel.text = @"合作驾校报名未考科一";
+        topLabel.text = @"合作驾校报名\n未考科一";
     }
     botLabel.text = [NSString stringWithFormat:@"限时价%@", [[[HHConstantsStore sharedInstance] getInsuranceWithType:type] generateMoneyString]];
     view.tag = type;
@@ -495,22 +480,11 @@ static NSString *const kInsuranceLink = @"https://m.hahaxueche.com/pei-fu-bao";
 
 - (void)optionTapped:(UITapGestureRecognizer *)rec {
     UIView *view = rec.view;
-    if (view.tag == 0) {
-        [self optionOneTapped];
-    } else if (view.tag == 1) {
+    if (view.tag == 1) {
         [self optionTwoTapped];
     } else {
         [self optionThreeTapped];
     }
-}
-
-- (void)optionOneTapped {
-    if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
-        [self showLoginAlert];
-        return;
-    }
-    HHRootViewController *vc = [[HHRootViewController alloc] initWithDefaultIndex:TabBarItemCoach];
-    [[UIApplication sharedApplication] keyWindow].rootViewController = vc;
 }
 
 - (void)optionTwoTapped {

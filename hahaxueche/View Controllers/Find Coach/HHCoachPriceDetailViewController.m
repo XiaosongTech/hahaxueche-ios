@@ -70,8 +70,29 @@
         make.top.equalTo(self.view.top);
         make.left.equalTo(self.view.left);
         make.width.equalTo(self.view.width);
-        make.height.equalTo(self.view.height);
+        if (![[HHStudentStore sharedInstance].currentStudent isPurchased]) {
+            make.height.equalTo(self.view.height).offset(-50.0f);
+        } else {
+            make.height.equalTo(self.view.height);
+        }
     }];
+    
+    if (![[HHStudentStore sharedInstance].currentStudent isPurchased]) {
+        self.purchaseButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.purchaseButton setTitle:@"立即购买" forState:UIControlStateNormal];
+        [self.purchaseButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        self.purchaseButton.backgroundColor = [UIColor HHDarkOrange];
+        self.purchaseButton.titleLabel.font = [UIFont systemFontOfSize:18.0f];
+        [self.purchaseButton addTarget:self action:@selector(purchaseButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview: self.purchaseButton];
+        [self.purchaseButton makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.view.left);
+            make.top.equalTo(self.scrollView.bottom);
+            make.width.equalTo(self.view.width);
+            make.height.mas_equalTo(50.0f);
+        }];
+        self.lastView = self.purchaseButton;
+    }
     
     self.serviceTitleLabel = [[UILabel alloc] init];
     self.serviceTitleLabel.attributedText = [self generateAttrStringWithText:@"服务内容" image:[UIImage imageNamed:@"pricedetails_ic_service"]];
@@ -121,24 +142,6 @@
     }];
     self.lastView = self.supportLabel;
     
-    if (![[HHStudentStore sharedInstance].currentStudent isPurchased]) {
-        self.purchaseButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.purchaseButton setTitle:@"立即购买" forState:UIControlStateNormal];
-        [self.purchaseButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        self.purchaseButton.backgroundColor = [UIColor HHDarkOrange];
-        self.purchaseButton.titleLabel.font = [UIFont systemFontOfSize:18.0f];
-        [self.purchaseButton addTarget:self action:@selector(purchaseButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-        [self.scrollView addSubview: self.purchaseButton];
-        [self.purchaseButton makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self.scrollView.centerX);
-            make.top.equalTo(self.supportLabel.bottom).offset(20.0f);
-            make.width.mas_equalTo(200.0f);
-            make.height.mas_equalTo(40.0f);
-        }];
-        self.lastView = self.purchaseButton;
-    }
-    
-    
     [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.lastView
                                                                 attribute:NSLayoutAttributeBottom
                                                                 relatedBy:NSLayoutRelationEqual
@@ -166,7 +169,6 @@
         self.lastView = view;
     }
     if (self.type == CoachProductTypeC1Wuyou || self.type == CoachProductTypeC2Wuyou) {
-        trainingFee = @([trainingFee floatValue] - [[[HHConstantsStore sharedInstance] getInsuranceWithType:0] floatValue]);
         if ([self.coach.isCheyouWuyou boolValue]) {
             trainingFee = @([trainingFee floatValue] - 50000);
         }
@@ -278,7 +280,7 @@
         make.left.equalTo(view.left).offset(25.0f);
         make.centerY.equalTo(view.centerY);
     }];
-    
+
     UILabel *pricelLabel = [[UILabel alloc] init];
     pricelLabel.text = valueString;
     pricelLabel.textColor = [UIColor HHOrange];
@@ -314,6 +316,10 @@
         make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
     }];
     
+    if ([title isEqualToString:@"赔付宝"]) {
+        line.hidden = YES;
+        pricelLabel.hidden = YES;
+    }
     return view;
     
 }

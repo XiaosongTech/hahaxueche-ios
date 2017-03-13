@@ -49,19 +49,20 @@
         self.purchaseButton.layer.cornerRadius = 5.0f;
         [self.purchaseButton setTitle:@"报名" forState:UIControlStateNormal];
         [self.purchaseButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        self.purchaseButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+        self.purchaseButton.titleLabel.font = [UIFont systemFontOfSize:16.0f];
         [self addSubview:self.purchaseButton];
         [self.purchaseButton makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.subTitleLabel.centerY);
+            make.centerY.equalTo(self.centerY);
             make.right.equalTo(self.right).offset(-20.0f);
-            make.width.mas_equalTo(40.0f);
-            make.height.mas_equalTo(20.0f);
+            make.width.mas_equalTo(50.0f);
+            make.height.mas_equalTo(30.0f);
         }];
         
         self.priceLabel = [self buildLabelWithTextColor:[UIColor HHDarkOrange]];
+        self.priceLabel.font = [UIFont systemFontOfSize:18.0f];
         [self addSubview:self.priceLabel];
         [self.priceLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.subTitleLabel.centerY);
+            make.centerY.equalTo(self.centerY);
             make.right.equalTo(self.purchaseButton.left).offset(-10.0f);
         }];
         
@@ -69,7 +70,7 @@
         [self addSubview:self.arrowView];
         [self.arrowView makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.titleLabel.centerY);
-            make.right.equalTo(self.right).offset(-20.0f);
+            make.left.equalTo(self.titleLabel.right).offset(5.0f);
         }];
         
         self.topLine = [[UIView alloc] init];
