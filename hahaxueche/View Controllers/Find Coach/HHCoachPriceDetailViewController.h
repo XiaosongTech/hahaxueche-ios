@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "HHCoach.h"
+#import "HHPaymentService.h"
 
 @interface HHCoachPriceDetailViewController : UIViewController
 
-- (instancetype)initWithCoach:(HHCoach *)coach;
+- (instancetype)initWithCoach:(HHCoach *)coach productType:(CoachProductType)type;
 
 @end

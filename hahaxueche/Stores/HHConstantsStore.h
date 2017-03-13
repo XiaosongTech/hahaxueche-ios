@@ -36,5 +36,8 @@ typedef void (^HHConstantsCompletion)(HHConstants *constants);
 - (NSArray *)getPopularBanks;
 - (HHBank *)getCardBankWithCode:(NSString *)bankCode;
 
+//type: 0, 1, 2
+- (NSNumber *)getInsuranceWithType:(NSInteger)type;
+
 
 @end

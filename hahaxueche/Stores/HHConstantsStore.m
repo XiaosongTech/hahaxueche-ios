@@ -165,4 +165,16 @@ static NSString *const kSavedConstants = @"kSavedConstant";
     return nil;
 }
 
+- (NSNumber *)getInsuranceWithType:(NSInteger)type {
+    NSNumber *price;
+    if (type == 0) {
+        price = self.constants.insurancePrices[@"pay_with_new_coach_price"];
+    } else if (type == 1) {
+        price = self.constants.insurancePrices[@"pay_with_paid_coach_price"];
+    } else {
+        price = self.constants.insurancePrices[@"pay_without_coach_price"];
+    }
+    return price;
+}
+
 @end

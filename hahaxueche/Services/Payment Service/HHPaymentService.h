@@ -22,7 +22,8 @@ typedef NS_ENUM(NSInteger, CoachProductType) {
     CoachProductTypeVIP, //VIP
     CoachProductTypeC2Standard, //c2普通服务
     CoachProductTypeC2VIP, //C2 VIP
-   
+    CoachProductTypeC1Wuyou, //c1无忧
+    CoachProductTypeC2Wuyou, //C2 无忧
 };
 
 typedef void (^HHPaymentResultCompletion)(BOOL succeed);
@@ -35,5 +36,8 @@ typedef void (^HHPaymentResultCompletion)(BOOL succeed);
 - (void)payWithCoachId:(NSString *)coachId studentId:(NSString *)studentId paymentMethod:(StudentPaymentMethod)paymentMethod productType:(CoachProductType)productType voucherId:(NSString *)voucherId needInsurance:(BOOL)needInsurance inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion;
 
 - (void)purchaseInsuranceWithpaymentMethod:(StudentPaymentMethod)paymentMethod inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion;
+
+//0=提“钱”抢红包488, 1=提“钱”抢红包388, 2=情人节88换388, 3=预付100得300	
+- (void)prepayWithType:(NSInteger)type paymentMethod:(StudentPaymentMethod)paymentMethod inController:(UIViewController *)viewController completion:(HHPaymentResultCompletion)completion;
 
 @end
