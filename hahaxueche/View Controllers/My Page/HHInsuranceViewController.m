@@ -23,6 +23,8 @@
 #import "HHUploadIDViewController.h"
 #import "HHLongTextViewController.h"
 #import "HHWebViewController.h"
+#import "HHConstantsStore.h"
+#import "NSNumber+HHNumber.h"
 
 static NSString *const kStepString = @"1.点击下载二维码\n2.打开微信扫描此二维码关注哈哈学车官方公众号\n3.进入公众号点击右下角\"哈哈学车\"选择子菜单\"我要理赔\"";
 static NSString *const kSupportString = @"如果问题请联系400-001-6006或联系在线客服";
@@ -245,60 +247,125 @@ static NSString *const kInsuranceLink = @"https://m.hahaxueche.com/pei-fu-bao";
         make.height.mas_equalTo(115.0f);
     }];
     
-    UIButton *optionOne = [UIButton buttonWithType:UIButtonTypeCustom];
-    [optionOne addTarget:self action:@selector(optionOneTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.insuranceInfoView  addSubview:optionOne];
+    UIView *optionOne;
+    if ([self.student isPurchased]) {
+       optionOne = [self buildPurchaseOptionViewWithType:0 enabled:NO];
+    } else {
+        optionOne = [self buildPurchaseOptionViewWithType:0 enabled:YES];
+    }
+    
+    [self.insuranceInfoView addSubview:optionOne];
     [optionOne makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.insuranceInfoView .centerX).multipliedBy(1.0f/3.0f);
-        make.centerY.equalTo(self.insuranceInfoView .centerY);
+        make.centerX.equalTo(self.insuranceInfoView.centerX).multipliedBy(1.0f/3.0f);
+        make.centerY.equalTo(self.insuranceInfoView.centerY);
         make.width.mas_equalTo((CGRectGetWidth(self.view.frame)-40.0f)/3.0f);
+         make.height.mas_equalTo(80.0f);
     }];
+
     
+    UIView *optionTwo;
     if ([self.student isPurchased]) {
-        [optionOne setImage:[UIImage imageNamed:@"botton_cant149_wei"] forState:UIControlStateNormal];
-        optionOne.enabled = NO;
+        optionTwo = [self buildPurchaseOptionViewWithType:1 enabled:YES];
     } else {
-        [optionOne setImage:[UIImage imageNamed:@"botton_149peifubaby_wei"] forState:UIControlStateNormal];
-        optionOne.enabled = YES;
+        optionTwo = [self buildPurchaseOptionViewWithType:1 enabled:NO];
     }
     
-    UIButton *optionTwo = [UIButton buttonWithType:UIButtonTypeCustom];
-    [optionTwo addTarget:self action:@selector(optionTwoTapped) forControlEvents:UIControlEventTouchUpInside];
-    [optionTwo setImage:[UIImage imageNamed:@"botton_149peifubaby_yi"] forState:UIControlStateNormal];
-    [self.insuranceInfoView  addSubview:optionTwo];
+    [self.insuranceInfoView addSubview:optionTwo];
     [optionTwo makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.insuranceInfoView .centerX);
-        make.centerY.equalTo(self.insuranceInfoView .centerY);
+        make.centerX.equalTo(self.insuranceInfoView.centerX);
+        make.centerY.equalTo(self.insuranceInfoView.centerY);
         make.width.mas_equalTo((CGRectGetWidth(self.view.frame)-40.0f)/3.0f);
+        make.height.mas_equalTo(80.0f);
     }];
     
+    UIView *optionThree;
     if ([self.student isPurchased]) {
-        [optionTwo setImage:[UIImage imageNamed:@"botton_149peifubaby_yi"] forState:UIControlStateNormal];
-        optionTwo.enabled = YES;
+        optionThree = [self buildPurchaseOptionViewWithType:2 enabled:NO];
     } else {
-        [optionTwo setImage:[UIImage imageNamed:@"button_cant149_yi"] forState:UIControlStateNormal];
-        optionTwo.enabled = NO;
+        optionThree = [self buildPurchaseOptionViewWithType:2 enabled:YES];
     }
     
-    UIButton *optionThree = [UIButton buttonWithType:UIButtonTypeCustom];
-    [optionThree setImage:[UIImage imageNamed:@"botton_169peifubaby"] forState:UIControlStateNormal];
-    [optionThree addTarget:self action:@selector(optionThreeTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.insuranceInfoView  addSubview:optionThree];
+    [self.insuranceInfoView addSubview:optionThree];
     [optionThree makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.insuranceInfoView .centerX).multipliedBy(5.0f/3.0f);
-        make.centerY.equalTo(self.insuranceInfoView .centerY);
+        make.centerX.equalTo(self.insuranceInfoView.centerX).multipliedBy(5.0f/3.0f);
+        make.centerY.equalTo(self.insuranceInfoView.centerY);
         make.width.mas_equalTo((CGRectGetWidth(self.view.frame)-40.0f)/3.0f);
+        make.height.mas_equalTo(80.0f);
     }];
-    
-    if ([self.student isPurchased]) {
-        [optionThree setImage:[UIImage imageNamed:@"botton_cant249"] forState:UIControlStateNormal];
-        optionThree.enabled = NO;
-    } else {
-        [optionThree setImage:[UIImage imageNamed:@"botton_249peifubaby"] forState:UIControlStateNormal];
-        optionThree.enabled = YES;
-    }
+
 }
 
+- (UIView *)buildPurchaseOptionViewWithType:(NSInteger)type enabled:(BOOL)enabled {
+    UIView *view = [[UIView alloc] init];
+    view.layer.masksToBounds = YES;
+    view.layer.cornerRadius = 5.0f;
+    
+    UIView *topView = [[UIView alloc] init];
+    [view addSubview:topView];
+    [topView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(view.top);
+        make.left.equalTo(view.left);
+        make.width.equalTo(view.width);
+        make.height.equalTo(view.height).multipliedBy(2.0f/3.0f);
+    }];
+    
+    UIView *botView = [[UIView alloc] init];
+    [view addSubview:botView];
+    [botView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(topView.bottom);
+        make.left.equalTo(view.left);
+        make.width.equalTo(view.width);
+        make.height.equalTo(view.height).multipliedBy(1.0f/3.0f);
+    }];
+    
+    UILabel *topLabel = [[UILabel alloc] init];
+    topLabel.numberOfLines = 0;
+    topLabel.textColor = [UIColor HHTextDarkGray];
+    topLabel.textAlignment = NSTextAlignmentCenter;
+    topLabel.font = [UIFont systemFontOfSize:13.0f];
+    [topView addSubview:topLabel];
+    [topLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(topView);
+        make.width.equalTo(topView.width).offset(-10.0f);
+        
+    }];
+    
+    UILabel *botLabel = [[UILabel alloc] init];
+    botLabel.numberOfLines = 0;
+    botLabel.textAlignment = NSTextAlignmentCenter;
+    botLabel.textColor = [UIColor whiteColor];
+    botLabel.font = [UIFont systemFontOfSize:14.0f];
+    [botView addSubview:botLabel];
+    [botLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(botView);
+        make.width.equalTo(botView.width).offset(-10.0f);
+        
+    }];
+    
+    
+    if (enabled) {
+        topView.backgroundColor = [UIColor HHLightOrange];
+        botView.backgroundColor = [UIColor HHOrange];
+    } else {
+        topView.backgroundColor = [UIColor HHLightBackgroudGray];
+        botView.backgroundColor = [UIColor HHLightTextGray];
+    }
+    
+    if (type == 0) {
+        topLabel.text = @"未在哈哈报名";
+    } else if (type == 1) {
+        topLabel.text = @"已在哈哈报名未考科一";
+    } else {
+        topLabel.text = @"合作驾校报名未考科一";
+    }
+    botLabel.text = [NSString stringWithFormat:@"限时价%@", [[[HHConstantsStore sharedInstance] getInsuranceWithType:type] generateMoneyString]];
+    view.tag = type;
+    if (enabled) {
+        UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(optionTapped:)];
+        [view addGestureRecognizer:tapRec];
+    }
+    return view;
+}
 
 
 
@@ -424,6 +491,17 @@ static NSString *const kInsuranceLink = @"https://m.hahaxueche.com/pei-fu-bao";
         [[HHToastManager sharedManager] showErrorToastWithText:@"保存失败, 请重试"];
     }
     
+}
+
+- (void)optionTapped:(UITapGestureRecognizer *)rec {
+    UIView *view = rec.view;
+    if (view.tag == 0) {
+        [self optionOneTapped];
+    } else if (view.tag == 1) {
+        [self optionTwoTapped];
+    } else {
+        [self optionThreeTapped];
+    }
 }
 
 - (void)optionOneTapped {
