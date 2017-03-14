@@ -32,12 +32,12 @@
     self.tryCoachButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
     [self addSubview:self.tryCoachButton];
     
-    self.purchaseCoachButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.purchaseCoachButton setTitle:@"立即购买" forState:UIControlStateNormal];
-    self.purchaseCoachButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
-    [self.purchaseCoachButton setBackgroundColor:[UIColor HHDarkOrange]];
-    [self.purchaseCoachButton addTarget:self action:@selector(purchaseCoachButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:self.purchaseCoachButton];
+    self.prepayButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.prepayButton setTitle:@"预付100得300" forState:UIControlStateNormal];
+    self.prepayButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    [self.prepayButton setBackgroundColor:[UIColor HHDarkOrange]];
+    [self.prepayButton addTarget:self action:@selector(prepayButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.prepayButton];
     
     
     self.topLine = [[UIView alloc] init];
@@ -57,7 +57,7 @@
         make.height.equalTo(self.height);
     }];
     
-    [self.purchaseCoachButton makeConstraints:^(MASConstraintMaker *make) {
+    [self.prepayButton makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.tryCoachButton.right);
         make.top.equalTo(self.top);
         make.width.equalTo(self.width).multipliedBy(0.5f);
@@ -81,9 +81,9 @@
     }
 }
 
-- (void)purchaseCoachButtonTapped {
-    if (self.purchaseCoachAction) {
-        self.purchaseCoachAction();
+- (void)prepayButtonTapped {
+    if (self.prepayAction) {
+        self.prepayAction();
     }
 }
 

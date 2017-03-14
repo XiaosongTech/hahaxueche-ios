@@ -99,4 +99,36 @@
     }
 }
 
+
+- (NSNumber *)getPriceProductType:(CoachProductType)type {
+    switch (type) {
+        case CoachProductTypeStandard: {
+            return self.price;
+        }
+            
+        case CoachProductTypeVIP: {
+            return self.VIPPrice;
+        }
+            
+        case CoachProductTypeC2Standard: {
+            return self.c2Price;
+        }
+            
+        case CoachProductTypeC2VIP: {
+            return self.c2VIPPrice;
+        }
+            
+        case CoachProductTypeC1Wuyou: {
+            return @([self.price floatValue] + [[[HHConstantsStore sharedInstance] getInsuranceWithType:0] floatValue]);
+        }
+            
+        case CoachProductTypeC2Wuyou: {
+            return @([self.c2Price floatValue] + [[[HHConstantsStore sharedInstance] getInsuranceWithType:0] floatValue]);
+        }
+            
+        default:
+            return self.price;
+    }
+}
+
 @end

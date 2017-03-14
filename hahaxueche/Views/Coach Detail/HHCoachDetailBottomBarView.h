@@ -13,12 +13,12 @@ typedef void (^HHCoachDetailBottomBarActionBlock)();
 @interface HHCoachDetailBottomBarView : UIView
 
 @property (nonatomic, strong) UIButton *tryCoachButton;
-@property (nonatomic, strong) UIButton *purchaseCoachButton;
+@property (nonatomic, strong) UIButton *prepayButton;
 
 @property (nonatomic, strong) UIView *topLine;
 
 @property (nonatomic, strong) HHCoachDetailBottomBarActionBlock tryCoachAction;
-@property (nonatomic, strong) HHCoachDetailBottomBarActionBlock purchaseCoachAction;
+@property (nonatomic, strong) HHCoachDetailBottomBarActionBlock prepayAction;
 
 
 @end

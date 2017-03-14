@@ -16,9 +16,10 @@
 #import "HHPaymentService.h"
 #import "HHToastManager.h"
 #import "HHLoadingViewUtility.h"
-#import "HHInsuranceReceiptViewController.h"
+#import "HHGenericReceiptViewController.h"
 #import "HHStudentService.h"
 #import "HHStudentStore.h"
+#import "HHConstantsStore.h"
 
 @interface HHPurchaseInsuranceViewController ()
 
@@ -72,10 +73,15 @@
         make.height.mas_equalTo(50.0f);
     }];
     
-    
+    NSNumber *price;
+    if ([[HHStudentStore sharedInstance].currentStudent isPurchased]) {
+        price = [[HHConstantsStore sharedInstance] getInsuranceWithType:1];
+    } else {
+        price = [[HHConstantsStore sharedInstance] getInsuranceWithType:2];
+    }
     self.totalPriceLabel = [[UILabel alloc] init];
     self.totalPriceLabel.font = [UIFont systemFontOfSize:18.0f];
-    self.totalPriceLabel.text = [NSString stringWithFormat:@"总价: %@", [@(14900) generateMoneyString]];
+    self.totalPriceLabel.text = [NSString stringWithFormat:@"总价: %@", [price generateMoneyString]];
     self.totalPriceLabel.textColor = [UIColor HHOrange];
     [self.totalPriceContainerView addSubview:self.totalPriceLabel];
     [self.totalPriceLabel makeConstraints:^(MASConstraintMaker *make) {
@@ -161,7 +167,7 @@
             [HHStudentStore sharedInstance].currentStudent = student;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"studentUpdated" object:nil];
             
-            HHInsuranceReceiptViewController *vc = [[HHInsuranceReceiptViewController alloc] init];
+            HHGenericReceiptViewController *vc = [[HHGenericReceiptViewController alloc] initWithType:ReceiptTypeInsurance];
             [self.navigationController setViewControllers:@[vc]];
             
         } else {

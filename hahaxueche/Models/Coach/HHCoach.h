@@ -8,6 +8,7 @@
 
 #import <Mantle/Mantle.h>
 #import "HHField.h"
+#import "HHPaymentService.h"
 
 @interface HHCoach : MTLModel <MTLJSONSerializing>
 
@@ -54,5 +55,8 @@
 - (NSString *)skillLevelString;
 
 - (HHField *)getCoachField;
+
+
+- (NSNumber *)getPriceProductType:(CoachProductType)type;
 
 @end

@@ -154,7 +154,8 @@ static NSString *const kPartnerCoachoCellID = @"kPartnerCoachoCellID";
             HHMyCoachCourseInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kCourseInfoCellID forIndexPath:indexPath];
             [cell setupCellWithStudent:[HHStudentStore sharedInstance].currentStudent];
             cell.feeDetailView.actionBlock = ^() {
-                HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:weakSelf.coach];
+                HHPurchasedService *ps = [[HHStudentStore sharedInstance].currentStudent.purchasedServiceArray firstObject];
+                HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:weakSelf.coach productType:[ps.productType integerValue]];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             };
             return cell;
@@ -260,7 +261,7 @@ static NSString *const kPartnerCoachoCellID = @"kPartnerCoachoCellID";
 - (CGRect)getDescriptionTextSizeWithText:(NSString *)text {
     CGRect rect = [text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.bounds)-40.0f, CGFLOAT_MAX)
                                      options:NSStringDrawingUsesLineFragmentOrigin| NSStringDrawingUsesFontLeading
-                                  attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f]}
+                                  attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}
                                      context:nil];
     return rect;
 }
