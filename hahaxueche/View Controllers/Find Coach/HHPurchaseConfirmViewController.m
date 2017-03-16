@@ -345,11 +345,7 @@
         return;
     }
     
-    if (self.selectedInsurance) {
-        [self showInsuranceWarningAlert];
-    } else {
-        [self makeChargeCall];
-    }
+    [self makeChargeCall];
     
 }
 
@@ -382,21 +378,10 @@
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
             [HHStudentStore sharedInstance].currentStudent = student;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"coachPurchased" object:nil];
-            
-            ReceiptViewType type;
-            if (student.insuranceOrder.paidAt) {
-                type = ReceiptViewTypePeifubao;
-            } else {
-                type = ReceiptViewTypeContract;
-            }
-            HHReceiptViewController *vc = [[HHReceiptViewController alloc] initWithCoach:weakSelf.coach type:type];
-            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-            [self presentViewController:navVC animated:YES completion:^{
-                [weakSelf.navigationController popViewControllerAnimated:NO];
-            }];
+            [weakSelf showInsuranceWarningAlert];
             
         } else {
-            [self fetchStudentAfterPurchase];
+            [weakSelf fetchStudentAfterPurchase];
         }
         
     }];
@@ -533,16 +518,25 @@
 
 
 - (void)showInsuranceWarningAlert {
+    __weak HHPurchaseConfirmViewController *weakSelf = self;
      UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"无忧班购买提示" message:@"为了让您学车无忧，完成后续理赔等各项事宜，请购买无忧班后必须在预约第一次科目一考试的前一个工作日24点前，完成身份信息上传，否则无法获得理赔。" preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self makeChargeCall];
+        ReceiptViewType type;
+        if ([HHStudentStore sharedInstance].currentStudent.insuranceOrder.paidAt) {
+            type = ReceiptViewTypePeifubao;
+        } else {
+            type = ReceiptViewTypeContract;
+        }
+        HHReceiptViewController *vc = [[HHReceiptViewController alloc] initWithCoach:weakSelf.coach type:type];
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+        [weakSelf presentViewController:navVC animated:YES completion:^{
+            [weakSelf.navigationController popViewControllerAnimated:NO];
+        }];
+
     }];
     
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-    
     [alertController addAction:confirmAction];
-    [alertController addAction:cancelAction];
     
     [self presentViewController:alertController animated:YES completion:nil];
 }
