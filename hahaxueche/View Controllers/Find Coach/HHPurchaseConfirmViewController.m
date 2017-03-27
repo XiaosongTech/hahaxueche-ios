@@ -27,6 +27,7 @@
 #import "HHSpecialVouchersView.h"
 #import "HHInsuranceSelectionView.h"
 #import "HHPaymentMethodsView.h"
+#import "HHIntroViewController.h"
 
 
 @interface HHPurchaseConfirmViewController ()
@@ -340,6 +341,11 @@
 
 
 - (void)payCoach {
+    
+    if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
+        [self showLoginSignupAlertView];
+        return;
+    }
     if ([[HHStudentStore sharedInstance].currentStudent isPurchased]) {
         [[HHToastManager sharedManager] showErrorToastWithText:@"您已经有购买的教练，无需再次购买教练！"];
         return;
@@ -347,6 +353,23 @@
     
     [self makeChargeCall];
     
+}
+
+- (void)showLoginSignupAlertView {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请先登陆或者注册" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"现在就去" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+        [self presentViewController:navVC animated:YES completion:nil];
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"再看看" style:UIAlertActionStyleDefault handler:nil];
+    
+    [alertController addAction:confirmAction];
+    [alertController addAction:cancelAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)makeChargeCall {
