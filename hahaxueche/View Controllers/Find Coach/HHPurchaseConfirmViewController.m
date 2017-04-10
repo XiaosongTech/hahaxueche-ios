@@ -542,26 +542,31 @@
 
 - (void)showInsuranceWarningAlert {
     __weak HHPurchaseConfirmViewController *weakSelf = self;
-     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"无忧班购买提示" message:@"为了让您学车无忧，完成后续理赔等各项事宜，请购买无忧班后必须在预约第一次科目一考试的前一个工作日24点前，完成身份信息上传，否则无法获得理赔。" preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        ReceiptViewType type;
-        if ([HHStudentStore sharedInstance].currentStudent.insuranceOrder.paidAt) {
-            type = ReceiptViewTypePeifubao;
-        } else {
-            type = ReceiptViewTypeContract;
-        }
-        HHReceiptViewController *vc = [[HHReceiptViewController alloc] initWithCoach:weakSelf.coach type:type];
+    HHPurchasedService *ps = [[HHStudentStore sharedInstance].currentStudent.purchasedServiceArray firstObject];
+    if ([self.coach.isCheyouWuyou boolValue] || [ps.productType integerValue] == CoachProductTypeC1Wuyou || [ps.productType integerValue] == CoachProductTypeC2Wuyou) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"无忧班购买提示" message:@"为了让您学车无忧，完成后续理赔等各项事宜，请购买无忧班后必须在预约第一次科目一考试的前一个工作日24点前，完成身份信息上传，否则无法获得理赔。" preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            HHReceiptViewController *vc = [[HHReceiptViewController alloc] initWithCoach:weakSelf.coach type:ReceiptViewTypePeifubao];
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+            [weakSelf presentViewController:navVC animated:YES completion:^{
+                [weakSelf.navigationController popViewControllerAnimated:NO];
+            }];
+            
+        }];
+        
+        [alertController addAction:confirmAction];
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+    } else {
+        HHReceiptViewController *vc = [[HHReceiptViewController alloc] initWithCoach:weakSelf.coach type:ReceiptViewTypeContract];
         UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
         [weakSelf presentViewController:navVC animated:YES completion:^{
             [weakSelf.navigationController popViewControllerAnimated:NO];
         }];
 
-    }];
-    
-    [alertController addAction:confirmAction];
-    
-    [self presentViewController:alertController animated:YES completion:nil];
+        
+    }
 }
 
 

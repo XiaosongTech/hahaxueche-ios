@@ -790,6 +790,7 @@
 		6DD5684F1D6948E000B9B319 /* OpenShare+Weixin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD568481D6948E000B9B319 /* OpenShare+Weixin.m */; };
 		6DD568541D6B3B4C00B9B319 /* HHGifRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD568531D6B3B4B00B9B319 /* HHGifRefreshHeader.m */; };
 		6DD568561D6E83AA00B9B319 /* loading_car.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6DD568551D6E83AA00B9B319 /* loading_car.gif */; };
+		6DD5F6D11E8E3FFB00C01473 /* HHPersistentDataUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5F6D01E8E3FFB00C01473 /* HHPersistentDataUtility.m */; };
 		6DD73F4D1E0A26CD00B356BF /* HHAddressBookUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD73F4C1E0A26CD00B356BF /* HHAddressBookUtility.m */; };
 		6DD73F501E0A355200B356BF /* HHGuardCardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD73F4F1E0A355200B356BF /* HHGuardCardTableViewCell.m */; };
 		6DD73F561E0A39BF00B356BF /* HHGuardCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD73F551E0A39BF00B356BF /* HHGuardCardViewController.m */; };
@@ -2044,6 +2045,8 @@
 		6DD568521D6B3B4B00B9B319 /* HHGifRefreshHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHGifRefreshHeader.h; sourceTree = "<group>"; };
 		6DD568531D6B3B4B00B9B319 /* HHGifRefreshHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHGifRefreshHeader.m; sourceTree = "<group>"; };
 		6DD568551D6E83AA00B9B319 /* loading_car.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading_car.gif; sourceTree = "<group>"; };
+		6DD5F6CF1E8E3FFB00C01473 /* HHPersistentDataUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPersistentDataUtility.h; sourceTree = "<group>"; };
+		6DD5F6D01E8E3FFB00C01473 /* HHPersistentDataUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPersistentDataUtility.m; sourceTree = "<group>"; };
 		6DD73F4B1E0A26CD00B356BF /* HHAddressBookUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHAddressBookUtility.h; sourceTree = "<group>"; };
 		6DD73F4C1E0A26CD00B356BF /* HHAddressBookUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHAddressBookUtility.m; sourceTree = "<group>"; };
 		6DD73F4E1E0A355200B356BF /* HHGuardCardTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHGuardCardTableViewCell.h; sourceTree = "<group>"; };
@@ -2807,6 +2810,8 @@
 				6DED8F1D1E0539D20041F974 /* HHURLUtility.m */,
 				6DD73F4B1E0A26CD00B356BF /* HHAddressBookUtility.h */,
 				6DD73F4C1E0A26CD00B356BF /* HHAddressBookUtility.m */,
+				6DD5F6CF1E8E3FFB00C01473 /* HHPersistentDataUtility.h */,
+				6DD5F6D01E8E3FFB00C01473 /* HHPersistentDataUtility.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -4987,6 +4992,7 @@
 				6DD1AADC1D49C65F001D50FC /* HHNetworkUtility.m in Sources */,
 				5C36D3891C42F95800443545 /* HHKeychainStore.m in Sources */,
 				6DE24BC21D59D4720078A21E /* HHTestView.m in Sources */,
+				6DD5F6D11E8E3FFB00C01473 /* HHPersistentDataUtility.m in Sources */,
 				5C5451D21B52BE1D0025D19F /* UIImage+HHImage.m in Sources */,
 				6D40236F1DB6301E00C16DF4 /* HHPersonalCoachFilters.m in Sources */,
 				6D63F8481DD45FAC00DB1ADC /* HHVoucher.m in Sources */,
