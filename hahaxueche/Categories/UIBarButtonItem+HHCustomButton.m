@@ -35,4 +35,18 @@
     return [[UIBarButtonItem alloc] initWithCustomView:button];
 }
 
++ (UIBarButtonItem *)buttonItemWithAttrTitle:(NSAttributedString *)attrTitle action:(SEL)action target:(id)target isLeft:(BOOL)isLeft {
+    UIButton *button = [[UIButton alloc] init];
+    [button setAttributedTitle:attrTitle forState:UIControlStateNormal];
+    button.backgroundColor = [UIColor clearColor];
+    [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+    [button sizeToFit];
+    if (isLeft) {
+        [button setContentEdgeInsets:UIEdgeInsetsMake(0, -8.0f, 0, 8.0f)];
+    } else {
+        [button setContentEdgeInsets:UIEdgeInsetsMake(0, 8.0f, 0, -8.0f)];
+    }
+    return [[UIBarButtonItem alloc] initWithCustomView:button];
+}
+
 @end

@@ -14,5 +14,7 @@
 
 + (UIBarButtonItem *)buttonItemWithTitle:(NSString *)title titleColor:(UIColor *)titleColor action:(SEL)action target:(id)target isLeft:(BOOL)isLeft;
 
++ (UIBarButtonItem *)buttonItemWithAttrTitle:(NSAttributedString *)attrTitle action:(SEL)action target:(id)target isLeft:(BOOL)isLeft;
+
 
 @end

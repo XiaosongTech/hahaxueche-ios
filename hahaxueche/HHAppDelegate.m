@@ -67,10 +67,9 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [self.window setRootViewController:launchVC];
     
     
-    HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
-    __block UINavigationController *introNavVC = [[UINavigationController alloc] initWithRootViewController:introVC];
-    
-    self.finalRootVC = introNavVC;
+    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+    self.finalRootVC = rootVC;
+    [[HHStudentStore sharedInstance] createGuestStudent];
     
     [[HHNetworkUtility sharedManager] monitorNetwork];
     
@@ -109,7 +108,9 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                             }
                         }];
                     } else {
-                        self.window.rootViewController = self.finalRootVC;
+                        HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+                        UINavigationController *introNavVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+                        self.window.rootViewController = introNavVC;
                         [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                     }
                 }];
