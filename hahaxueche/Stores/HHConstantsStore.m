@@ -11,6 +11,7 @@
 #import "APIPaths.h"
 #import "HHStudentStore.h"
 #import "HHPersistentDataUtility.h"
+#import "HHDrivingSchool.h"
 
 static NSString *const kSavedConstants = @"kSavedConstant";
 
@@ -101,9 +102,6 @@ static NSString *const kSavedConstants = @"kSavedConstant";
     return [HHConstantsStore sharedInstance].constants.loginBanners;
 }
 
-- (NSArray *)getHomePageBanners {
-    return [HHConstantsStore sharedInstance].constants.homePageBanners;
-}
 
 - (HHCity *)getCityWithId:(NSNumber *)cityId {
     NSArray *cities = [HHConstantsStore sharedInstance].constants.cities;
@@ -165,6 +163,27 @@ static NSString *const kSavedConstants = @"kSavedConstant";
         price = self.constants.insurancePrices[@"pay_without_coach_price"];
     }
     return price;
+}
+
+- (void)getDrivingSchoolsWithCityId:(NSNumber *)cityId completion:(HHSchoolsCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPICities, [cityId stringValue]]];
+    [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            NSMutableArray *array = [NSMutableArray array];
+            NSArray *schoolsArray = response[@"driving_schools"];
+            for (NSDictionary *schoolDic in schoolsArray) {
+                HHDrivingSchool *school = [MTLJSONAdapter modelOfClass:[HHDrivingSchool class] fromJSONDictionary:schoolDic error:nil];
+                if (school) {
+                    [array addObject:school];
+                }
+            }
+            self.drivingSchools = array;
+            if (completion) {
+                completion(array);
+            }
+        }
+    }];
+
 }
 
 @end

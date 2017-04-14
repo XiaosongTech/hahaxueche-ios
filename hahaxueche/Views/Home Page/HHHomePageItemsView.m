@@ -18,7 +18,7 @@
         for (int i = 0; i < 4; i++) {
             UIView *view;
             if (i == 0) {
-                view = [self buildItmeViewWithImage:[UIImage imageNamed:@"ic_searchmap"] title:@"地图查找"];
+                view = [self buildItmeViewWithImage:[UIImage imageNamed:@"ic_mapsearch"] title:@"地图查找"];
                 
             } else if (i == 1) {
                 view = [self buildItmeViewWithImage:[UIImage imageNamed:@"ic_schoolsale"] title:@"驾校团购"];
@@ -62,7 +62,7 @@
     [view addSubview:label];
     [label makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view.centerX);
-        make.bottom.equalTo(view.bottom).offset(-5.0f);
+        make.bottom.equalTo(view.bottom).offset(-10.0f);
     }];
     
     return view;

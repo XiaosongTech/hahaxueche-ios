@@ -43,6 +43,7 @@
 @property (nonatomic, copy) NSString *stageTwoPassRate;
 @property (nonatomic, copy) NSString *averagePassDays;
 @property (nonatomic, copy) NSNumber *hasDeposit;
+@property (nonatomic, copy) NSNumber *distance;
 //cooperationType: A, B, C
 @property (nonatomic, copy) NSString *cooperationType;
 @property (nonatomic, copy) NSNumber *isCheyouWuyou;

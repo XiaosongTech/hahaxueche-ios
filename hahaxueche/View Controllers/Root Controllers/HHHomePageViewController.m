@@ -17,8 +17,6 @@
 #import <KLCPopup/KLCPopup.h>
 #import "HHCoachService.h"
 #import "HHLoadingViewUtility.h"
-#import "HHToastManager.h"
-#import "INTULocationManager.h"
 #import "HHFindCoachViewController.h"
 #import "HHCoachDetailViewController.h"
 #import "HHWebViewController.h"
@@ -45,17 +43,18 @@
 #import "HHInsuranceViewController.h"
 #import "HHHomePageItemsView.h"
 #import "UIBarButtonItem+HHCustomButton.h"
+#import "HHFieldsMapViewController.h"
+#import "HHCarouselView.h"
+#import "INTULocationManager.h"
+#import "HHSearchViewController.h"
+#import "HHDrivingSchool.h"
+#import "HHCoach.h"
 
-
-static NSString *const kCoachLink = @"https://m.hahaxueche.com/jiaolian";
-static NSString *const kDrivingSchoolLink = @"https://m.hahaxueche.com/jiaxiao";
-static NSString *const kAdvisorLink = @"https://m.hahaxueche.com/xue-che-bao";
-static NSString *const kGroupPurchaseLink = @"https://m.hahaxueche.com/share/tuan?promo_code=456134";
-
-static NSString *const kStepsLink = @"https://m.hahaxueche.com/xue-che-liu-cheng";
-static NSString *const kPlatformLink = @"https://m.hahaxueche.com/xue-che-bao?promo_code=772272";
 
 static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
+
+static NSString *const kDrivingSchoolPage = @"https://m.hahaxueche.com/jiaxiao";
+static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxueche.com/jiaxiao";
 
 @interface HHHomePageViewController ()
 
@@ -63,13 +62,17 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
 @property (nonatomic, strong) FLAnimatedImageView *findJiaxiaoView;
 @property (nonatomic, strong) HHCitySelectView *citySelectView;
 @property (nonatomic, strong) KLCPopup *popup;
-@property (nonatomic, strong) CLLocation *userLocation;
 @property (nonatomic, strong) UIScrollView *scrollView;
 
 @property (nonatomic, strong) UIView *topContainerView;
 @property (nonatomic, strong) HHHomePageItemsView *itemsView;
 
 @property (nonatomic, strong) UIImageView *searchImage;
+@property (nonatomic, strong) NSArray *drivingSchools;
+@property (nonatomic, strong) NSArray *coaches;
+
+@property (nonatomic, strong) HHCarouselView *drivingSchoolsView;
+@property (nonatomic, strong) HHCarouselView *coachesView;
 
 @property (nonatomic) BOOL popupVoucherShowed;
 
@@ -77,20 +80,63 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
 
 @implementation HHHomePageViewController
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    [self initSubviews];
     self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
-    
     [[HHAddressBookUtility sharedManager] uploadContacts];
     
     if([[HHStudentStore sharedInstance].currentStudent isPurchased]) {
         [CloudPushSDK bindTag:1 withTags:@[@"purchased"] withAlias:nil withCallback:nil];
 
     }
+    
+    if ([[HHConstantsStore sharedInstance].drivingSchools count] > 0) {
+        self.drivingSchools = [HHConstantsStore sharedInstance].drivingSchools;
+        [self initSubviews];
+    } else {
+        [[HHLoadingViewUtility sharedInstance] showLoadingView];
+        [[HHConstantsStore sharedInstance] getDrivingSchoolsWithCityId:[HHStudentStore sharedInstance].currentStudent.cityId completion:^(NSArray *schools) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+            self.drivingSchools = schools;
+            [self initSubviews];
+        }];
+    }
+    
+    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyBlock timeout:2.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
+        if (status == INTULocationStatusSuccess) {
+            [HHStudentStore sharedInstance].currentLocation = currentLocation;
+        
+        } else if (status == INTULocationStatusTimedOut) {
+            [HHStudentStore sharedInstance].currentLocation = currentLocation;
+            
+        } else if (status == INTULocationStatusError) {
+                [HHStudentStore sharedInstance].currentLocation = nil;
+        } else {
+            [HHStudentStore sharedInstance].currentLocation = nil;
+        }
+        
+        NSArray *locationArray;
+        if ([HHStudentStore sharedInstance].currentLocation) {
+            NSNumber *lat = @([HHStudentStore sharedInstance].currentLocation.coordinate.latitude);
+            NSNumber *lon = @([HHStudentStore sharedInstance].currentLocation.coordinate.longitude);
+            locationArray = @[lat, lon];
+        }
+        [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].currentStudent.cityId filters:nil sortOption:SortOptionReviewCount userLocation:locationArray completion:^(HHCoaches *coaches, NSError *error) {
+            if (!error) {
+                self.coaches = coaches.coaches;
+                [self.coachesView updateData:self.coaches type:CarouselTypeCoach];
+
+            }
+        }];
+    }];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -122,29 +168,6 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
         
     }
    
-//    NSArray *cities = [[HHConstantsStore sharedInstance] getSupporteCities];
-//    if (cities.count > 0) {
-//        // Guest Student
-//        if (![HHStudentStore sharedInstance].currentStudent.cityId) {
-//            CGFloat height = MAX(300.0f, CGRectGetHeight(weakSelf.view.bounds)/2.0f);
-//            weakSelf.citySelectView = [[HHCitySelectView alloc] initWithCities:cities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:nil];
-//            weakSelf.citySelectView.completion = ^(HHCity *selectedCity) {
-//                if (selectedCity) {
-//                    [HHStudentStore sharedInstance].currentStudent.cityId = selectedCity.cityId;
-//                } else {
-//                    [HHStudentStore sharedInstance].currentStudent.cityId = @(0);
-//                }
-//                [HHPopupUtility dismissPopup:weakSelf.popup];
-//            };
-//            
-//            weakSelf.popup = [HHPopupUtility createPopupWithContentView:weakSelf.citySelectView];
-//            [weakSelf.popup show];
-//        } else {
-//            
-//        }
-//    } else {
-//        [HHStudentStore sharedInstance].currentStudent.cityId = @(0);
-//    }
     
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_viewed attributes:nil];
     
@@ -152,8 +175,11 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
 }
 
 - (void)initSubviews {
-    
+    __weak HHHomePageViewController *weakSelf = self;
     self.searchImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sousuokuang"]];
+    self.searchImage.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchTapped)];
+    [self.searchImage addGestureRecognizer:tap];
     self.searchImage.contentMode = UIViewContentModeScaleAspectFit;
     self.navigationItem.titleView = self.searchImage;
     
@@ -162,7 +188,6 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
     HHCity *city = [[HHConstantsStore sharedInstance] getCityWithId:[HHStudentStore sharedInstance].currentStudent.cityId];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem  buttonItemWithAttrTitle:[self generateAttrStringWithText:city.cityName image:[UIImage imageNamed:@"Triangle"] type:1] action:@selector(cityTapped) target:self isLeft:YES];
     
-    __weak HHHomePageViewController *weakSelf = self;
     
     self.scrollView = [[UIScrollView  alloc] init];
     self.scrollView.backgroundColor = [UIColor HHBackgroundGary];
@@ -175,20 +200,53 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
     self.topContainerView.backgroundColor = [UIColor whiteColor];
     [self.scrollView addSubview:self.topContainerView];
     
-    self.findCoachView = [self buildGifViewWithPath:@"findCoach"];
+    self.findCoachView = [self buildGifViewWithPath:@"bt_choosecoach"];
     [self.topContainerView addSubview:self.findCoachView];
     UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(findCoachViewTapped)];
     [self.findCoachView addGestureRecognizer:tapRec];
     
     
-    self.findJiaxiaoView = [self buildGifViewWithPath:@"findJiaxiao"];
+    self.findJiaxiaoView = [self buildGifViewWithPath:@"bt_chooseschool"];
     [self.topContainerView addSubview:self.findJiaxiaoView];
     UITapGestureRecognizer *tapRec2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(findJiaxiaoViewTapped)];
     [self.findJiaxiaoView addGestureRecognizer:tapRec2];
     
     self.itemsView = [[HHHomePageItemsView alloc] init];
     [self.topContainerView addSubview:self.itemsView];
+
     
+    self.drivingSchoolsView = [[HHCarouselView alloc] initWithType:CarouselTypeDrivingSchool data:self.drivingSchools];
+    self.drivingSchoolsView.buttonAction = ^() {
+        NSString *url;
+        #ifdef DEBUG
+            url = kDrivingSchoolPageStaging;
+        #else
+            url = kDrivingSchoolPage;
+        #endif
+        [weakSelf openWebPage:[NSURL URLWithString:url]];
+    };
+    self.drivingSchoolsView.itemAction = ^(NSInteger index) {
+        HHDrivingSchool *school = weakSelf.drivingSchools[index];
+        NSString *url;
+        #ifdef DEBUG
+            url = kDrivingSchoolPageStaging;
+        #else
+            url = kDrivingSchoolPage;
+        #endif
+        [weakSelf openWebPage:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", url, school.schoolId]]];
+    };
+    [self.scrollView addSubview:self.drivingSchoolsView];
+    
+    self.coachesView = [[HHCarouselView alloc] initWithType:CarouselTypeCoach data:nil];
+    self.coachesView.buttonAction = ^() {
+        weakSelf.tabBarController.selectedIndex = TabBarItemCoach;
+    };
+    self.coachesView.itemAction = ^(NSInteger index) {
+        HHCoach *coach = weakSelf.coaches[index];
+        HHCoachDetailViewController *vc = [[HHCoachDetailViewController alloc] initWithCoach:coach];
+        [weakSelf.navigationController pushViewController:vc animated:YES];
+    };
+    [self.scrollView addSubview:self.coachesView];
     
     
     [self makeConstraints];
@@ -201,7 +259,7 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
         make.top.equalTo(self.scrollView.top);
         make.left.equalTo(self.scrollView.left);
         make.width.equalTo(self.scrollView.width);
-        make.height.mas_equalTo(150.0f);
+        make.height.mas_equalTo(170.0f);
     }];
 
     [self.findJiaxiaoView makeConstraints:^(MASConstraintMaker *make) {
@@ -225,12 +283,28 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
         make.bottom.equalTo(self.topContainerView.bottom);
     }];
     
+    
+    [self.drivingSchoolsView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.top.equalTo(self.topContainerView.bottom).offset(10.0f);
+        make.height.mas_equalTo(140.0f);
+    }];
+    
+    [self.coachesView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.scrollView.left);
+        make.width.equalTo(self.scrollView.width);
+        make.top.equalTo(self.drivingSchoolsView.bottom).offset(10.0f);
+        make.height.mas_equalTo(160.0f);
+    }];
+    
     [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.top);
         make.width.equalTo(self.view.width);
         make.left.equalTo(self.view.left);
         make.height.equalTo(self.view.height).offset(-1 * CGRectGetHeight(self.tabBarController.tabBar.bounds));
     }];
+    
 //
 //    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.adviserView
 //                                                                attribute:NSLayoutAttributeBottom
@@ -258,13 +332,76 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
 
 #pragma mark - Button Actions 
 
-- (void)findCoachViewTapped {
+- (void)cityTapped {
+    __weak HHHomePageViewController *weakSelf = self;
+    NSArray *cities = [[HHConstantsStore sharedInstance] getSupporteCities];
+    CGFloat height = MAX(300.0f, CGRectGetHeight(self.view.bounds)/2.0f);
+    
+    HHCitySelectView *view = [[HHCitySelectView alloc] initWithCities:cities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:[[HHConstantsStore sharedInstance] getAuthedUserCity]];
+    view.completion = ^(HHCity *selectedCity) {
+        if (selectedCity) {
+            [weakSelf cityChangedWithCity:selectedCity];
+        }
+        [HHPopupUtility dismissPopup:weakSelf.popup];
+    };
+    
+    self.popup = [HHPopupUtility createPopupWithContentView:view];
+    [HHPopupUtility showPopup:self.popup];
+}
+
+- (void)navMapTapped {
     
 }
 
-- (void)findJiaxiaoViewTapped {
-    
+- (void)searchTapped {
+    HHSearchViewController *vc = [[HHSearchViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:navVC animated:NO completion:nil];
 }
+
+- (void)findCoachViewTapped {
+    self.tabBarController.selectedIndex = TabBarItemCoach;
+}
+
+- (void)findJiaxiaoViewTapped {
+    NSString *url;
+    #ifdef DEBUG
+        url = kDrivingSchoolPageStaging;
+    #else
+        url = kDrivingSchoolPage;
+    #endif
+    [self openWebPage:[NSURL URLWithString:url]];
+}
+
+- (void)cityChangedWithCity:(HHCity *)city {
+    [HHStudentStore sharedInstance].currentStudent.cityId = city.cityId;
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem  buttonItemWithAttrTitle:[self generateAttrStringWithText:city.cityName image:[UIImage imageNamed:@"Triangle"] type:1] action:@selector(cityTapped) target:self isLeft:YES];
+    [[HHConstantsStore sharedInstance] getDrivingSchoolsWithCityId:[HHStudentStore sharedInstance].currentStudent.cityId completion:^(NSArray *schools) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        self.drivingSchools = schools;
+        [self.drivingSchoolsView updateData:self.drivingSchools type:CarouselTypeDrivingSchool];
+    }];
+    
+
+    NSArray *locationArray;
+    if ([HHStudentStore sharedInstance].currentLocation) {
+        NSNumber *lat = @([HHStudentStore sharedInstance].currentLocation.coordinate.latitude);
+        NSNumber *lon = @([HHStudentStore sharedInstance].currentLocation.coordinate.longitude);
+        locationArray = @[lat, lon];
+    }
+    [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].currentStudent.cityId filters:nil sortOption:SortOptionReviewCount userLocation:locationArray completion:^(HHCoaches *coaches, NSError *error) {
+        if (!error) {
+            self.coaches = coaches.coaches;
+            [self.coachesView updateData:self.coaches type:CarouselTypeCoach];
+            
+        }
+    }];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"cityChanged" object:nil];
+}
+
+
 
 - (void)openWebPage:(NSURL *)url {
     HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:url];

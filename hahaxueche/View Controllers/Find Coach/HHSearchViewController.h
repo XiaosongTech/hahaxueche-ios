@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HHSearchCoachViewController : UIViewController
+@interface HHSearchViewController : UIViewController
 
 @end

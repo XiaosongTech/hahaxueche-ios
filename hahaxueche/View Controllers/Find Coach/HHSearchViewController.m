@@ -6,7 +6,7 @@
 //  Copyright © 2016 Zixiao Wang. All rights reserved.
 //
 
-#import "HHSearchCoachViewController.h"
+#import "HHSearchViewController.h"
 #import "UIColor+HHColor.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "Masonry.h"
@@ -25,7 +25,7 @@ static NSString *const kCellId = @"kCoachListCellId";
 static CGFloat const kCellHeightNormal = 100.0f;
 static CGFloat const kCellHeightExpanded = 305.0f;
 
-@interface HHSearchCoachViewController () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@interface HHSearchViewController () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UISearchBar *searchBar;
@@ -35,7 +35,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 
 @end
 
-@implementation HHSearchCoachViewController
+@implementation HHSearchViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -86,11 +86,11 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     HHCoachListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
-    __weak HHSearchCoachViewController *weakSelf = self;
+    __weak HHSearchViewController *weakSelf = self;
     __weak HHCoachListViewCell *weakCell = cell;
     
     HHCoach *coach = self.coaches[indexPath.row];
-    [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId] userLocation:[HHStudentStore sharedInstance].currentLocation mapShowed:[weakSelf.expandedCellIndexPath containsObject:indexPath]];
+    [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId] mapShowed:[weakSelf.expandedCellIndexPath containsObject:indexPath]];
     
     if ([self.expandedCellIndexPath containsObject:indexPath]) {
         cell.mapView.hidden = NO;
@@ -188,7 +188,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     if(self.searchHistoryListView) {
         [self.searchHistoryListView removeFromSuperview];
     }
-    __weak HHSearchCoachViewController *weakSelf = self;
+    __weak HHSearchViewController *weakSelf = self;
     self.searchHistoryListView = [[HHSearchHistoryListView alloc] initWithHistory:keywords];
     self.searchHistoryListView.keywordBlock = ^(NSString *keyword) {
         weakSelf.searchBar.text = keyword;

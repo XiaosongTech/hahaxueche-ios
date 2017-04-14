@@ -96,11 +96,11 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.trainingYearLabel.text = [NSString stringWithFormat:@"%@年教龄", [self.coach.experienceYear stringValue]];
     self.starRatingView.value = [self.coach.averageRating floatValue];
     
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[self.field cityAndDistrict] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[self.field city] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
     
     
-    if ([HHStudentStore sharedInstance].currentLocation) {
-        [attributedString appendAttributedString:[self generateDistanceStringWithField:self.field userLocation:[HHStudentStore sharedInstance].currentLocation]];
+    if ([self.coach.distance doubleValue] > 0) {
+        [attributedString appendAttributedString:[self generateDistanceWithCoach:self.coach]];
         [self.mapButton setAttributedTitle:attributedString forState:UIControlStateNormal];
     } else {
         [self.mapButton setAttributedTitle:attributedString forState:UIControlStateNormal];
@@ -193,14 +193,8 @@ static CGFloat const kAvatarRadius = 30.0f;
 }
 
 
-- (NSMutableAttributedString *)generateDistanceStringWithField:(HHField *)field userLocation:(CLLocation *)location {
-    //1.将两个经纬度点转成投影点
-    MKMapPoint point1 = MKMapPointForCoordinate(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
-    MKMapPoint point2 = MKMapPointForCoordinate(CLLocationCoordinate2DMake([field.latitude doubleValue], [field.longitude doubleValue]));
-    //2.计算距离
-    CLLocationDistance distance = MKMetersBetweenMapPoints(point1,point2);
-    NSNumber *disNumber = @(distance/1000.0f);
-    if ([disNumber doubleValue] > 50.0f) {
+- (NSMutableAttributedString *)generateDistanceWithCoach:(HHCoach *)coach {
+    if ([self.coach.distance doubleValue] > 50.0f) {
         NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:@"  距您" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
         
         NSMutableAttributedString *attString2 = [[NSMutableAttributedString alloc] initWithString:@"50+" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHOrange]}];
@@ -213,7 +207,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     } else {
         NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:@"  距您" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
         
-        NSMutableAttributedString *attString2 = [[NSMutableAttributedString alloc] initWithString:[[HHFormatUtility floatFormatter] stringFromNumber:disNumber] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHOrange]}];
+        NSMutableAttributedString *attString2 = [[NSMutableAttributedString alloc] initWithString:[[HHFormatUtility floatFormatter] stringFromNumber:self.coach.distance] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHOrange]}];
         
         NSMutableAttributedString *attString3 = [[NSMutableAttributedString alloc] initWithString:@"km" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
         [attString appendAttributedString:attString2];

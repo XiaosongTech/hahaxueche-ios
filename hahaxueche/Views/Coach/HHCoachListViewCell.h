@@ -39,7 +39,7 @@ typedef void (^HHMapButtonActionBlock)();
 
 @property (nonatomic, strong) HHMapButtonActionBlock mapButtonBlock;
 
-- (void)setupCellWithCoach:(HHCoach *)coach field:(HHField *)field userLocation:(CLLocation *)location mapShowed:(BOOL)mapShowed;
+- (void)setupCellWithCoach:(HHCoach *)coach field:(HHField *)field mapShowed:(BOOL)mapShowed;
 
 
 @end

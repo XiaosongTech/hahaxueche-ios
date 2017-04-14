@@ -30,7 +30,7 @@
 #import "HHPopupUtility.h"
 #import <KLCPopup/KLCPopup.h>
 #import "HHCoachDetailViewController.h"
-#import "HHSearchCoachViewController.h"
+#import "HHSearchViewController.h"
 #import "HHGifRefreshHeader.h"
 #import "UIScrollView+EmptyDataSet.h"
 #import "SwipeView.h"
@@ -92,7 +92,6 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 @property (nonatomic, strong) HHGifRefreshHeader *refreshHeader2;
 @property (nonatomic, strong) MJRefreshAutoNormalFooter *loadMoreFooter2;
 
-@property (nonatomic, strong) NSMutableArray *selectedFields;
 @property (nonatomic, strong) NSMutableArray *expandedCellIndexPath;
 
 @property (nonatomic, strong) NSMutableArray *coaches;
@@ -114,6 +113,10 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 @implementation HHFindCoachViewController
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"寻找教练";
@@ -124,7 +127,6 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"icon_search"] action:@selector(jumpToSearchVC) target:self];
     
-    self.selectedFields = [NSMutableArray array];
     self.expandedCellIndexPath = [NSMutableArray array];
     [self initSubviews];
     
@@ -154,6 +156,8 @@ static CGFloat const kCellHeightExpanded = 325.0f;
         
     }];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cityChanged) name:@"cityChanged" object:nil];
+    
 
 }
 
@@ -179,10 +183,14 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     if (showLoading) {
         [[HHLoadingViewUtility sharedInstance] showLoadingView];
     }
-    NSNumber *lat = @(weakSelf.userLocation.coordinate.latitude);
-    NSNumber *lon = @(weakSelf.userLocation.coordinate.longitude);
-    NSArray *locationArray = @[lat, lon];
-    [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].currentStudent.cityId filters:weakSelf.coachFilters sortOption:weakSelf.currentSortOption fields:weakSelf.selectedFields userLocation:locationArray completion:^(HHCoaches *coaches, NSError *error) {
+    NSArray *locationArray;
+    if ([HHStudentStore sharedInstance].currentLocation) {
+        NSNumber *lat = @([HHStudentStore sharedInstance].currentLocation.coordinate.latitude);
+        NSNumber *lon = @([HHStudentStore sharedInstance].currentLocation.coordinate.longitude);
+        locationArray = @[lat, lon];
+        
+    }
+    [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].currentStudent.cityId filters:weakSelf.coachFilters sortOption:weakSelf.currentSortOption userLocation:locationArray completion:^(HHCoaches *coaches, NSError *error) {
         if (!error) {
             weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
             weakSelf.coachesObject = coaches;
@@ -354,7 +362,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
         __weak HHCoachListViewCell *weakCell = cell;
         
         HHCoach *coach = self.coaches[indexPath.row];
-        [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId] userLocation:self.userLocation mapShowed:[weakSelf.expandedCellIndexPath containsObject:indexPath]];
+        [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId] mapShowed:[weakSelf.expandedCellIndexPath containsObject:indexPath]];
         
         if ([self.expandedCellIndexPath containsObject:indexPath]) {
             cell.mapView.hidden = NO;
@@ -474,31 +482,31 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 - (void)jumpToFieldsMapView {
     __weak HHFindCoachViewController *weakSelf = self;
-    if (self.userLocation) {
-        __weak HHFindCoachViewController *weakSelf = self;
-        HHFieldsMapViewController *mapVC = [[HHFieldsMapViewController alloc] initWithUserLocation:self.userLocation selectedFields:self.selectedFields];
-        mapVC.conformBlock = ^(NSMutableArray *selectedFields) {
-            weakSelf.selectedFields = selectedFields;
-            [weakSelf refreshCoachList:YES completion:nil];
-        };
-        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:mapVC];
-        [self presentViewController:navVC animated:YES completion:nil];
-    } else {
-        [[HHLoadingViewUtility sharedInstance] showLoadingView];
-        [self getUserLocationWithCompletion:^() {
-            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-            if (weakSelf.userLocation) {
-                HHFieldsMapViewController *mapVC = [[HHFieldsMapViewController alloc] initWithUserLocation:weakSelf.userLocation selectedFields:weakSelf.selectedFields];
-                mapVC.conformBlock = ^(NSMutableArray *selectedFields) {
-                    weakSelf.selectedFields = selectedFields;
-                    [weakSelf refreshCoachList:YES completion:nil];
-
-                };
-                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:mapVC];
-                [weakSelf presentViewController:navVC animated:YES completion:nil];
-            }
-        }];
-    }
+//    if (self.userLocation) {
+//        __weak HHFindCoachViewController *weakSelf = self;
+//        HHFieldsMapViewController *mapVC = [[HHFieldsMapViewController alloc] initWithUserLocation:self.userLocation selectedFields:self.selectedFields];
+//        mapVC.conformBlock = ^(NSMutableArray *selectedFields) {
+//            weakSelf.selectedFields = selectedFields;
+//            [weakSelf refreshCoachList:YES completion:nil];
+//        };
+//        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:mapVC];
+//        [self presentViewController:navVC animated:YES completion:nil];
+//    } else {
+//        [[HHLoadingViewUtility sharedInstance] showLoadingView];
+//        [self getUserLocationWithCompletion:^() {
+//            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+//            if (weakSelf.userLocation) {
+//                HHFieldsMapViewController *mapVC = [[HHFieldsMapViewController alloc] initWithUserLocation:weakSelf.userLocation selectedFields:weakSelf.selectedFields];
+//                mapVC.conformBlock = ^(NSMutableArray *selectedFields) {
+//                    weakSelf.selectedFields = selectedFields;
+//                    [weakSelf refreshCoachList:YES completion:nil];
+//
+//                };
+//                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:mapVC];
+//                [weakSelf presentViewController:navVC animated:YES completion:nil];
+//            }
+//        }];
+//    }
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_field_icon_tapped attributes:nil];
 }
 
@@ -516,7 +524,9 @@ static CGFloat const kCellHeightExpanded = 325.0f;
             
         } else if (status == INTULocationStatusError) {
             self.userLocation = nil;
+            [HHStudentStore sharedInstance].currentLocation = nil;
         } else {
+            [HHStudentStore sharedInstance].currentLocation = nil;
             HHAskLocationPermissionViewController *vc = [[HHAskLocationPermissionViewController alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
@@ -559,7 +569,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 }
 
 - (void)jumpToSearchVC {
-    HHSearchCoachViewController *vc = [[HHSearchCoachViewController alloc] init];
+    HHSearchViewController *vc = [[HHSearchViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:navVC animated:NO completion:nil];
@@ -889,6 +899,12 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?promo_code=840157"]];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)cityChanged {
+    [self setupDefaultSortAndFilter];
+    [self refreshCoachList:NO completion:nil];
+    [self refreshPersonalCoachList:NO completion:nil];
 }
 
 

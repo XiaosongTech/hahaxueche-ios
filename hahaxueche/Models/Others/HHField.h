@@ -19,7 +19,7 @@
 @property(nonatomic, copy) NSNumber *cityId;
 
 - (NSString *)fullAddress;
-- (NSString *)cityAndDistrict;
+- (NSString *)city;
 
 
 @end

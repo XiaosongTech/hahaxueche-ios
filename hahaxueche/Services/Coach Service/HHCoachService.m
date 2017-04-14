@@ -26,17 +26,14 @@
 }
 
 
-- (void)fetchCoachListWithCityId:(NSNumber *)cityId filters:(HHCoachFilters *)filters sortOption:(SortOption)sortOption fields:(NSArray *)selectedFields userLocation:(NSArray *)userLocation completion:(HHCoachListCompletion)completion {
+- (void)fetchCoachListWithCityId:(NSNumber *)cityId filters:(HHCoachFilters *)filters sortOption:(SortOption)sortOption userLocation:(NSArray *)userLocation completion:(HHCoachListCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICoaches];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     param[@"golden_coach_only"] = filters.onlyGoldenCoach;
     param[@"vip_only"] = filters.onlyVIPCoach;
     param[@"city_id"] = cityId;
     param[@"sort_by"] = @(sortOption);
-    
-    if ([selectedFields count]) {
-        param[@"training_field_ids"] = selectedFields;
-    }
+
 
     if (userLocation) {
         param[@"user_location"] = userLocation;

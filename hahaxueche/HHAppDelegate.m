@@ -66,6 +66,7 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     HHLaunchImageViewController *launchVC = [[HHLaunchImageViewController alloc] init];
     [self.window setRootViewController:launchVC];
     
+    [[HHConstantsStore sharedInstance] getDrivingSchoolsWithCityId:[HHStudentStore sharedInstance].currentStudent.cityId completion:nil];
     
     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
     self.finalRootVC = rootVC;

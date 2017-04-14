@@ -176,7 +176,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     [self.mapView addAnnotation:pointAnnotation];
 }
 
-- (void)setupCellWithCoach:(HHCoach *)coach field:(HHField *)field userLocation:(CLLocation *)location mapShowed:(BOOL)mapShowed {
+- (void)setupCellWithCoach:(HHCoach *)coach field:(HHField *)field mapShowed:(BOOL)mapShowed {
     self.field = field;
     self.ratingLabel.text = [NSString stringWithFormat:@"%.1f (%@)",[coach.averageRating floatValue], [coach.reviewCount stringValue]];;
     [self.avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl] placeholderImage:[UIImage imageNamed:@"ic_coach_ava"]];
@@ -186,12 +186,12 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.starRatingView.value = [coach.averageRating floatValue];
     
     NSMutableAttributedString *attributedString;
-    if ([field cityAndDistrict]) {
-        attributedString = [[NSMutableAttributedString alloc] initWithString:[field cityAndDistrict] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+    if ([field city]) {
+        attributedString = [[NSMutableAttributedString alloc] initWithString:field.district attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
     }
     
-    if (location) {
-        [attributedString appendAttributedString:[self generateDistanceStringWithField:field userLocation:location]];
+    if ([coach.distance floatValue] > 0) {
+        [attributedString appendAttributedString:[self generateDistanceWithCoach:coach]];
         [self.mapButton setAttributedTitle:attributedString forState:UIControlStateNormal];
     } else {
         [self.mapButton setAttributedTitle:attributedString forState:UIControlStateNormal];
@@ -278,14 +278,9 @@ static CGFloat const kAvatarRadius = 30.0f;
     }
 }
 
-- (NSMutableAttributedString *)generateDistanceStringWithField:(HHField *)field userLocation:(CLLocation *)location {
-    //1.将两个经纬度点转成投影点
-    MKMapPoint point1 = MKMapPointForCoordinate(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
-    MKMapPoint point2 = MKMapPointForCoordinate(CLLocationCoordinate2DMake([field.latitude doubleValue], [field.longitude doubleValue]));
-    //2.计算距离
-    CLLocationDistance distance = MKMetersBetweenMapPoints(point1,point2);
-    NSNumber *disNumber = @(distance/1000.0f);
-    if ([disNumber doubleValue] > 50.0f) {
+- (NSMutableAttributedString *)generateDistanceWithCoach:(HHCoach *)coach {
+   
+    if ([coach.distance doubleValue] > 50.0f) {
         NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:@"  距您" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
         
         NSMutableAttributedString *attString2 = [[NSMutableAttributedString alloc] initWithString:@"50+" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHOrange]}];
@@ -298,7 +293,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     } else {
         NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:@"  距您" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
         
-        NSMutableAttributedString *attString2 = [[NSMutableAttributedString alloc] initWithString:[[HHFormatUtility floatFormatter] stringFromNumber:disNumber] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHOrange]}];
+        NSMutableAttributedString *attString2 = [[NSMutableAttributedString alloc] initWithString:[[HHFormatUtility floatFormatter] stringFromNumber:coach.distance] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHOrange]}];
         
         NSMutableAttributedString *attString3 = [[NSMutableAttributedString alloc] initWithString:@"km" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
         [attString appendAttributedString:attString2];
