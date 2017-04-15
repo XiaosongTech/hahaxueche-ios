@@ -72,6 +72,14 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     self.finalRootVC = rootVC;
     [[HHStudentStore sharedInstance] createGuestStudent];
     
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *cityId = [defaults objectForKey:@"userSelectedCity"];
+    if (cityId) {
+        [HHStudentStore sharedInstance].selectedCityId = cityId;
+    } else {
+        [HHStudentStore sharedInstance].selectedCityId = @(0);
+    }
+    
     [[HHNetworkUtility sharedManager] monitorNetwork];
     
     [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {

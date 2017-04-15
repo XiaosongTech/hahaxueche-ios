@@ -15,6 +15,7 @@
 
 @property (nonatomic, strong) HHStudent *currentStudent;
 @property (nonatomic, strong) CLLocation *currentLocation;
+@property (nonatomic, strong) NSNumber *selectedCityId;
 
 + (instancetype)sharedInstance;
 

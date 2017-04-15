@@ -70,7 +70,9 @@
 
 - (void)itemTapped:(UITapGestureRecognizer *)rec {
     UIView *view = rec.view;
-    
+    if (self.itemAction) {
+        self.itemAction(view.tag);
+    }
 }
 
 @end

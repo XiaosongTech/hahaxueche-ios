@@ -39,7 +39,7 @@
         param[@"user_location"] = userLocation;
     }
     
-    HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
+    HHCity *city = [[HHConstantsStore sharedInstance] getCityWithId:cityId];
     if (![filters.price isEqual:[city.priceRanges lastObject]]) {
         param[@"price"] = filters.price;
     }

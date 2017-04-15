@@ -190,7 +190,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
         locationArray = @[lat, lon];
         
     }
-    [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].currentStudent.cityId filters:weakSelf.coachFilters sortOption:weakSelf.currentSortOption userLocation:locationArray completion:^(HHCoaches *coaches, NSError *error) {
+    [[HHCoachService sharedInstance] fetchCoachListWithCityId:self.userCity.cityId filters:weakSelf.coachFilters sortOption:weakSelf.currentSortOption userLocation:locationArray completion:^(HHCoaches *coaches, NSError *error) {
         if (!error) {
             weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
             weakSelf.coachesObject = coaches;
@@ -298,7 +298,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 }
 
 - (void)setupDefaultSortAndFilter {
-    self.userCity = [[HHConstantsStore sharedInstance] getAuthedUserCity];
+    self.userCity = [[HHConstantsStore sharedInstance] getCityWithId:[HHStudentStore sharedInstance].selectedCityId];
     NSNumber *defaultDistance = self.userCity.distanceRanges[self.userCity.distanceRanges.count - 1];
     NSNumber *defaultPrice = [self.userCity.priceRanges lastObject];
     HHCoachFilters *defaultFilters = [[HHCoachFilters alloc] init];

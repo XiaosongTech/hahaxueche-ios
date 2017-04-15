@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^TopItemCompletion)(NSInteger index);
+
 @interface HHHomePageItemsView : UIView
+
+@property (nonatomic, strong)TopItemCompletion itemAction;
 
 @end

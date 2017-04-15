@@ -43,7 +43,7 @@
         UITabBarItem *findCoachItem = [[UITabBarItem alloc] init];
         findCoachItem.image = [[UIImage imageNamed:@"ic_bottombar_list_normal_btn"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         findCoachItem.selectedImage = [[UIImage imageNamed:@"ic_bottombar_list_hold_btn"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        findCoachItem.title = @"寻找教练";
+        findCoachItem.title = @"驾校教练";
         findCoachNavVC.tabBarItem = findCoachItem;
         
         
