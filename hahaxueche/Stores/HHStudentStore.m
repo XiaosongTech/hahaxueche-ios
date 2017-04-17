@@ -21,6 +21,15 @@
     return sharedInstance;
 }
 
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.fieldCoachesDic = [NSMutableDictionary dictionary];
+    }
+    return self;
+}
+
 - (void)createGuestStudent {
     if (self.currentStudent) {
         return;

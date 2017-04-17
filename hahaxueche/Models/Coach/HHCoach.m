@@ -132,4 +132,8 @@
     }
 }
 
+- (HHDrivingSchool *)getCoachDrivingSchool {
+    return [[HHConstantsStore sharedInstance] getDrivingSchoolWithName:self.drivingSchool];
+}
+
 @end

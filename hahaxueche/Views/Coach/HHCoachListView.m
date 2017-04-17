@@ -51,7 +51,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.starRatingView.value = 5.0;
     [self addSubview:self.starRatingView];
     
-    self.ratingLabel = [self createLabelWithFont:[UIFont systemFontOfSize:14.0f] textColor:[UIColor HHOrange]];
+    self.ratingLabel = [[UILabel alloc] init];
     [self addSubview:self.ratingLabel];
     
     self.mapButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -84,13 +84,13 @@ static CGFloat const kAvatarRadius = 30.0f;
     
     if (self.coach.drivingSchool && ![self.coach.drivingSchool isEqualToString:@""]) {
         self.jiaxiaoView = [[HHCoachTagView alloc] init];
-        [self.jiaxiaoView setDotColor:[UIColor HHOrange] title:self.coach.drivingSchool];
+        [self.jiaxiaoView setupWithDrivingSchool:[self.coach getCoachDrivingSchool]];
         [self addSubview:self.jiaxiaoView];
         
     }
     [self makeConstraints];
     
-    self.ratingLabel.text = [NSString stringWithFormat:@"%.1f (%@)",[self.coach.averageRating floatValue], [self.coach.reviewCount stringValue]];;
+    self.ratingLabel.attributedText = [self generateRatingText];
     [self.avatarView sd_setImageWithURL:[NSURL URLWithString:self.coach.avatarUrl] placeholderImage:[UIImage imageNamed:@"ic_coach_ava"]];
     self.nameLabel.text = self.coach.name;
     self.trainingYearLabel.text = [NSString stringWithFormat:@"%@年教龄", [self.coach.experienceYear stringValue]];
@@ -215,6 +215,14 @@ static CGFloat const kAvatarRadius = 30.0f;
         return attString;
     }
     
+}
+
+- (NSMutableAttributedString *)generateRatingText {
+    NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.1f",[self.coach.averageRating floatValue]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSForegroundColorAttributeName:[UIColor HHOrange]}];
+    
+    NSMutableAttributedString *attString2 = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" (%@)", [self.coach.reviewCount stringValue]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSForegroundColorAttributeName:[UIColor HHLightestTextGray]}];
+    [attString appendAttributedString:attString2];
+    return attString;
 }
 
 

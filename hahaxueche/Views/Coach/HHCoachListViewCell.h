@@ -14,8 +14,10 @@
 #import "HHCoachTagView.h"
 #import "HHPriceView.h"
 #import "HHCoachBadgeView.h"
+#import "HHDrivingSchool.h"
 
 typedef void (^HHMapButtonActionBlock)();
+typedef void (^HHDrivingSchoolBlock)(HHDrivingSchool *school);
 
 @interface HHCoachListViewCell : UITableViewCell <MKMapViewDelegate>
 
@@ -38,6 +40,7 @@ typedef void (^HHMapButtonActionBlock)();
 @property (nonatomic, strong) HHField *field;
 
 @property (nonatomic, strong) HHMapButtonActionBlock mapButtonBlock;
+@property (nonatomic, strong) HHDrivingSchoolBlock drivingSchoolBlock;
 
 - (void)setupCellWithCoach:(HHCoach *)coach field:(HHField *)field mapShowed:(BOOL)mapShowed;
 

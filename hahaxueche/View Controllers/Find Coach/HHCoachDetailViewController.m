@@ -232,6 +232,12 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
             cell.followBlock = ^() {
                 [weakSelf followUnfollowCoach];
             };
+            
+            cell.drivingSchoolBlock = ^(HHDrivingSchool *school) {
+                HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/jiaxiao/%@", [school.schoolId stringValue]]]];
+                webVC.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:webVC animated:YES];
+            };
             [cell setupCellWithCoach:self.coach followed:weakSelf.followed];
             return cell;
         }

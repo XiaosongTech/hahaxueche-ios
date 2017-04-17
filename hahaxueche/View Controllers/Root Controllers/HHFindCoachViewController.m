@@ -190,7 +190,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
         locationArray = @[lat, lon];
         
     }
-    [[HHCoachService sharedInstance] fetchCoachListWithCityId:self.userCity.cityId filters:weakSelf.coachFilters sortOption:weakSelf.currentSortOption userLocation:locationArray completion:^(HHCoaches *coaches, NSError *error) {
+    [[HHCoachService sharedInstance] fetchCoachListWithCityId:self.userCity.cityId filters:weakSelf.coachFilters sortOption:weakSelf.currentSortOption userLocation:locationArray fields:nil completion:^(HHCoaches *coaches, NSError *error) {
         if (!error) {
             weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
             weakSelf.coachesObject = coaches;
@@ -380,6 +380,12 @@ static CGFloat const kCellHeightExpanded = 325.0f;
                 [weakSelf.expandedCellIndexPath addObject:indexPath];
             }
             [weakSelf.tableView reloadData];
+        };
+        
+        cell.drivingSchoolBlock = ^(HHDrivingSchool *school) {
+            HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/jiaxiao/%@", [school.schoolId stringValue]]]];
+            webVC.hidesBottomBarWhenPushed = YES;
+            [weakSelf.navigationController pushViewController:webVC animated:YES];
         };
         
         return cell;

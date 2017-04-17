@@ -15,11 +15,14 @@
     return @{
              @"fieldId": @"id",
              @"name": @"name",
-             @"district": @"section",
+             @"district": @"zone",
              @"address": @"street",
              @"longitude": @"lng",
              @"latitude":@"lat",
              @"cityId":@"city_id",
+             @"displayAddress":@"display_address",
+             @"coachCount":@"coach_count",
+             @"consultPhone":@"consult_phone",
              };
 }
 

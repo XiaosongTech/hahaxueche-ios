@@ -28,6 +28,7 @@ static CGFloat const kAvatarRadius = 30.0f;
 }
 
 - (void)initSubviews {
+    __weak HHCoachListViewCell *weakSelf = self;
     self.avatarView = [[UIImageView alloc] init];
     self.avatarView.contentMode = UIViewContentModeScaleAspectFill;
     self.avatarView.layer.cornerRadius = kAvatarRadius;
@@ -46,7 +47,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.starRatingView.value = 5.0;
     [self.contentView addSubview:self.starRatingView];
     
-    self.ratingLabel = [self createLabelWithFont:[UIFont systemFontOfSize:14.0f] textColor:[UIColor HHOrange]];
+    self.ratingLabel = [[UILabel alloc] init];
     [self.contentView addSubview:self.ratingLabel];
     
     self.mapButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -87,6 +88,11 @@ static CGFloat const kAvatarRadius = 30.0f;
     [self.contentView addSubview:self.likeCountLabel];
     
     self.jiaxiaoView = [[HHCoachTagView alloc] init];
+    self.jiaxiaoView.tapAction = ^(HHDrivingSchool *school) {
+        if (weakSelf.drivingSchoolBlock) {
+            weakSelf.drivingSchoolBlock(school);
+        }
+    };
     [self.contentView addSubview:self.jiaxiaoView];
     
     [self makeConstraints];
@@ -178,7 +184,7 @@ static CGFloat const kAvatarRadius = 30.0f;
 
 - (void)setupCellWithCoach:(HHCoach *)coach field:(HHField *)field mapShowed:(BOOL)mapShowed {
     self.field = field;
-    self.ratingLabel.text = [NSString stringWithFormat:@"%.1f (%@)",[coach.averageRating floatValue], [coach.reviewCount stringValue]];;
+    self.ratingLabel.attributedText = [self generateRatingTextWithCoach:coach];
     [self.avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl] placeholderImage:[UIImage imageNamed:@"ic_coach_ava"]];
     self.nameLabel.text = coach.name;
     self.trainingYearLabel.text = [NSString stringWithFormat:@"%@年教龄", [coach.experienceYear stringValue]];
@@ -200,7 +206,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.likeCountLabel.text = [coach.likeCount stringValue];
     
     if (coach.drivingSchool && ![coach.drivingSchool isEqualToString:@""]) {
-        [self.jiaxiaoView setDotColor:[UIColor HHOrange] title:coach.drivingSchool];
+        [self.jiaxiaoView setupWithDrivingSchool:[coach getCoachDrivingSchool]];
         self.jiaxiaoView.hidden = NO;
     } else {
         self.jiaxiaoView.hidden = YES;
@@ -301,6 +307,14 @@ static CGFloat const kAvatarRadius = 30.0f;
         return attString;
     }
 
+}
+
+- (NSMutableAttributedString *)generateRatingTextWithCoach:(HHCoach *)coach {
+    NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.1f",[coach.averageRating floatValue]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSForegroundColorAttributeName:[UIColor HHOrange]}];
+    
+    NSMutableAttributedString *attString2 = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" (%@)", [coach.reviewCount stringValue]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSForegroundColorAttributeName:[UIColor HHLightestTextGray]}];
+    [attString appendAttributedString:attString2];
+    return attString;
 }
 
 

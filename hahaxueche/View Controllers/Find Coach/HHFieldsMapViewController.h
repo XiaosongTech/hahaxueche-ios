@@ -13,18 +13,12 @@
 #import "HHField.h"
 
 
-typedef void (^HHFieldsConfirmBlock)(NSMutableArray *selectedFields);
 
 @interface HHFieldsMapViewController : UIViewController <MKMapViewDelegate>
 
 @property (nonatomic, strong) MKMapView *mapView;
-@property (nonatomic, strong) UIView *explanationView;
-@property (nonatomic, strong) UILabel *explanationLabel;
-@property (nonatomic, strong) HHButton *bottomButton;
-@property (nonatomic, strong) HHFieldsConfirmBlock conformBlock;
-
 @property (nonatomic, strong) CLLocation *userLocation;
 
-- (instancetype)initWithUserLocation:(CLLocation *)userLocation selectedFields:(NSMutableArray *)selectedFields;
+- (instancetype)initWithFields:(NSArray *)fields selectedField:(HHField *)selectedField;
 
 @end

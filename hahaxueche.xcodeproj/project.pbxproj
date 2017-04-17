@@ -498,6 +498,13 @@
 		6D4886C31CD881E800E28BB3 /* ic_cash_havenot.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4886C01CD881E800E28BB3 /* ic_cash_havenot.png */; };
 		6D4886C41CD881E800E28BB3 /* ic_cash_havenot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4886C11CD881E800E28BB3 /* ic_cash_havenot@2x.png */; };
 		6D4886C51CD881E800E28BB3 /* ic_cash_havenot@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4886C21CD881E800E28BB3 /* ic_cash_havenot@3x.png */; };
+		6D4A6C4D1EA47A860087C86E /* HHMapCoachCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4A6C4C1EA47A860087C86E /* HHMapCoachCardView.m */; };
+		6D4A6C511EA4804A0087C86E /* arrow_map_school.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4A6C4E1EA4804A0087C86E /* arrow_map_school.png */; };
+		6D4A6C521EA4804A0087C86E /* arrow_map_school@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4A6C4F1EA4804A0087C86E /* arrow_map_school@2x.png */; };
+		6D4A6C531EA4804A0087C86E /* arrow_map_school@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4A6C501EA4804A0087C86E /* arrow_map_school@3x.png */; };
+		6D4A6C571EA4B79A0087C86E /* arrow_map_pricedetails.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4A6C541EA4B79A0087C86E /* arrow_map_pricedetails.png */; };
+		6D4A6C581EA4B79A0087C86E /* arrow_map_pricedetails@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4A6C551EA4B79A0087C86E /* arrow_map_pricedetails@2x.png */; };
+		6D4A6C591EA4B79A0087C86E /* arrow_map_pricedetails@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D4A6C561EA4B79A0087C86E /* arrow_map_pricedetails@3x.png */; };
 		6D4CCAEB1D3DD2C100AD896F /* HHCoupon.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CCAEA1D3DD2C100AD896F /* HHCoupon.m */; };
 		6D4CCAEE1D3E070400AD896F /* HHActivateCouponView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CCAED1D3E070400AD896F /* HHActivateCouponView.m */; };
 		6D4CCAF11D3E160500AD896F /* HHAddPromoCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CCAF01D3E160500AD896F /* HHAddPromoCodeView.m */; };
@@ -919,6 +926,7 @@
 		6DDD4B061DF80D3B002C168F /* one.json in Resources */ = {isa = PBXBuildFile; fileRef = 6DDD4B041DF80D3B002C168F /* one.json */; };
 		6DDD4B0F1DF92656002C168F /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD4B0E1DF92656002C168F /* NotificationService.m */; };
 		6DDD4B131DF92656002C168F /* notification-service-extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6DDD4B0B1DF92656002C168F /* notification-service-extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		6DDD71ED1EA4F3FB00934502 /* HHPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD71EC1EA4F3FB00934502 /* HHPointAnnotation.m */; };
 		6DDF25F11CBF789F00C92C5C /* HHNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDF25F01CBF789F00C92C5C /* HHNotification.m */; };
 		6DE046321DE5610900B80343 /* HHMyContractTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE046311DE5610900B80343 /* HHMyContractTableViewCell.m */; };
 		6DE046351DE58B7700B80343 /* HHUploadIDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE046341DE58B7700B80343 /* HHUploadIDViewController.m */; };
@@ -1729,6 +1737,14 @@
 		6D4886C01CD881E800E28BB3 /* ic_cash_havenot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_cash_havenot.png; sourceTree = "<group>"; };
 		6D4886C11CD881E800E28BB3 /* ic_cash_havenot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_cash_havenot@2x.png"; sourceTree = "<group>"; };
 		6D4886C21CD881E800E28BB3 /* ic_cash_havenot@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_cash_havenot@3x.png"; sourceTree = "<group>"; };
+		6D4A6C4B1EA47A860087C86E /* HHMapCoachCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMapCoachCardView.h; sourceTree = "<group>"; };
+		6D4A6C4C1EA47A860087C86E /* HHMapCoachCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHMapCoachCardView.m; sourceTree = "<group>"; };
+		6D4A6C4E1EA4804A0087C86E /* arrow_map_school.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_map_school.png; sourceTree = "<group>"; };
+		6D4A6C4F1EA4804A0087C86E /* arrow_map_school@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_map_school@2x.png"; sourceTree = "<group>"; };
+		6D4A6C501EA4804A0087C86E /* arrow_map_school@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_map_school@3x.png"; sourceTree = "<group>"; };
+		6D4A6C541EA4B79A0087C86E /* arrow_map_pricedetails.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_map_pricedetails.png; sourceTree = "<group>"; };
+		6D4A6C551EA4B79A0087C86E /* arrow_map_pricedetails@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_map_pricedetails@2x.png"; sourceTree = "<group>"; };
+		6D4A6C561EA4B79A0087C86E /* arrow_map_pricedetails@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_map_pricedetails@3x.png"; sourceTree = "<group>"; };
 		6D4CCAE91D3DD2C100AD896F /* HHCoupon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCoupon.h; sourceTree = "<group>"; };
 		6D4CCAEA1D3DD2C100AD896F /* HHCoupon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCoupon.m; sourceTree = "<group>"; };
 		6D4CCAEC1D3E070400AD896F /* HHActivateCouponView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHActivateCouponView.h; sourceTree = "<group>"; };
@@ -2243,6 +2259,8 @@
 		6DDD4B0E1DF92656002C168F /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
 		6DDD4B101DF92656002C168F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6DDD4B181DF926D8002C168F /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		6DDD71EB1EA4F3FB00934502 /* HHPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPointAnnotation.h; sourceTree = "<group>"; };
+		6DDD71EC1EA4F3FB00934502 /* HHPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPointAnnotation.m; sourceTree = "<group>"; };
 		6DDF25EF1CBF789F00C92C5C /* HHNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHNotification.h; sourceTree = "<group>"; };
 		6DDF25F01CBF789F00C92C5C /* HHNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHNotification.m; sourceTree = "<group>"; };
 		6DE046301DE5610900B80343 /* HHMyContractTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHMyContractTableViewCell.h; sourceTree = "<group>"; };
@@ -2771,6 +2789,10 @@
 				6D1485661E6126FC00B7E0FA /* HHShareReferralView.m */,
 				6D1485A61E61C9A200B7E0FA /* HHPaymentMethodsView.h */,
 				6D1485A71E61C9A200B7E0FA /* HHPaymentMethodsView.m */,
+				6D4A6C4B1EA47A860087C86E /* HHMapCoachCardView.h */,
+				6D4A6C4C1EA47A860087C86E /* HHMapCoachCardView.m */,
+				6DDD71EB1EA4F3FB00934502 /* HHPointAnnotation.h */,
+				6DDD71EC1EA4F3FB00934502 /* HHPointAnnotation.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -3280,6 +3302,12 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6D4A6C541EA4B79A0087C86E /* arrow_map_pricedetails.png */,
+				6D4A6C551EA4B79A0087C86E /* arrow_map_pricedetails@2x.png */,
+				6D4A6C561EA4B79A0087C86E /* arrow_map_pricedetails@3x.png */,
+				6D4A6C4E1EA4804A0087C86E /* arrow_map_school.png */,
+				6D4A6C4F1EA4804A0087C86E /* arrow_map_school@2x.png */,
+				6D4A6C501EA4804A0087C86E /* arrow_map_school@3x.png */,
 				6DA217931EA1DD1D00A2449D /* ic_peifubaby.png */,
 				6DA217941EA1DD1D00A2449D /* ic_peifubaby@2x.png */,
 				6DA217951EA1DD1D00A2449D /* ic_peifubaby@3x.png */,
@@ -4286,6 +4314,7 @@
 					5CC3B5FA1B48268A00D10DFB = {
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = HYWSND54RJ;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplePay = {
 								enabled = 0;
@@ -4349,9 +4378,11 @@
 				6DD73F8C1E0D3EC700B356BF /* ic_jinpaijiaolian2@3x.png in Resources */,
 				5C36D4341C4C39A000443545 /* pic_local@3x.png in Resources */,
 				5C36D37C1C42D9F800443545 /* ic_bottombar_list_hold_btn@2x.png in Resources */,
+				6D4A6C511EA4804A0087C86E /* arrow_map_school.png in Resources */,
 				140EC5EF1C6D542700DA634D /* ic_coachmsg_charge@2x.png in Resources */,
 				6D98E9B41D7A8F4100A324B2 /* ic_pop_xiaoha@3x.png in Resources */,
 				6DF934D01D91312400018BE9 /* xiaohaclub.png in Resources */,
+				6D4A6C521EA4804A0087C86E /* arrow_map_school@2x.png in Resources */,
 				140EC6121C6D732D00DA634D /* ic_coachmsg_more_arrow.png in Resources */,
 				6DE56FE81D00791A00E33BDB /* ic_pull_down@1x.png in Resources */,
 				5C36D3B91C474FF600443545 /* ic_screen_hold_btn@3x.png in Resources */,
@@ -4700,6 +4731,7 @@
 				6D5222891D3F9BF000E92075 /* ic_ask_call@2x.png in Resources */,
 				6D8908111DFE7DB300756FDC /* ic_cheliangbaoxian.png in Resources */,
 				6D44B6B11D0D213B00E2F455 /* input@3x.png in Resources */,
+				6D4A6C571EA4B79A0087C86E /* arrow_map_pricedetails.png in Resources */,
 				6D7D0C621D5ED69D0002FC56 /* ic_wrong@3x.png in Resources */,
 				6D3C83A41DAD036F004BD28B /* ic_c2.png in Resources */,
 				6D3C83A21DAD036F004BD28B /* ic_c1@2x.png in Resources */,
@@ -4754,6 +4786,7 @@
 				6D3C83B11DAD039A004BD28B /* ic_vip@2x.png in Resources */,
 				6D98E9A41D7A7AF200A324B2 /* ic_coachmsg_sharecoach_qq@2x.png in Resources */,
 				6DD94DBF1DEED6A100BB3357 /* ic_phone.png in Resources */,
+				6D4A6C591EA4B79A0087C86E /* arrow_map_pricedetails@3x.png in Resources */,
 				6DF64E601EA07CFB00A56D75 /* ic_schoolsale@3x.png in Resources */,
 				6D63F8641DD57BB800DB1ADC /* ic_unused.png in Resources */,
 				141FA0F11C6925C900113B1A /* ic_homepage_knowmore_arrow.png in Resources */,
@@ -4912,6 +4945,7 @@
 				5C36D36F1C42D9F800443545 /* ic_bottombar_date_hold_btn@1x.png in Resources */,
 				5C36D37A1C42D9F800443545 /* ic_bottombar_haha_normal_btn@3x.png in Resources */,
 				140EC6061C6D68D000DA634D /* ic_coachmsg_coachlevel.png in Resources */,
+				6D4A6C581EA4B79A0087C86E /* arrow_map_pricedetails@2x.png in Resources */,
 				6D89081C1DFE7DB300756FDC /* ic_jiaolianrenzheng@3x.png in Resources */,
 				6D89082B1DFE956100756FDC /* pic_120_big@3x.png in Resources */,
 				6DF934ED1D91367C00018BE9 /* exercise@3x.png in Resources */,
@@ -5011,6 +5045,7 @@
 				6D95A4541DC1DBC6003CB78D /* ic_headline.png in Resources */,
 				6DBAC5B31D12E4080040BDA7 /* ic_list_best_small.png in Resources */,
 				6DDD4B011DF7FABA002C168F /* ic_cheap@2x.png in Resources */,
+				6D4A6C531EA4804A0087C86E /* arrow_map_school@3x.png in Resources */,
 				140EC62D1C6E3CFC00DA634D /* ic_coachmsg_attention_hold.png in Resources */,
 				6D82BD6C1CCF980D00D4109A /* ic_cashout_chack_btn@2x.png in Resources */,
 				6DF64E5F1EA07CFB00A56D75 /* ic_schoolsale@2x.png in Resources */,
@@ -5242,6 +5277,7 @@
 				6DB7B5961DBF419500D91166 /* HHCityOtherFee.m in Sources */,
 				5C36D42B1C4C2F4100443545 /* HHFieldsMapViewController.m in Sources */,
 				6DF53B651D46109F00CA0F6B /* HHEvent.m in Sources */,
+				6D4A6C4D1EA47A860087C86E /* HHMapCoachCardView.m in Sources */,
 				5CDE14461C36E5FE0004778C /* HHIntroViewController.m in Sources */,
 				5C6D8C991C3F4D2A0055CB31 /* HHAPIClient.m in Sources */,
 				6DD568351D66E56F00B9B319 /* HHReferreeCell.m in Sources */,
@@ -5377,6 +5413,7 @@
 				6D44E4781E00E24700BC753F /* HHQRCodeUtility.m in Sources */,
 				6DB1481C1D50BFAB009E3F1E /* HHCardInfoInputView.m in Sources */,
 				6D98E9841D796D7100A324B2 /* HHReceiptViewController.m in Sources */,
+				6DDD71ED1EA4F3FB00934502 /* HHPointAnnotation.m in Sources */,
 				6DD1970C1DD99ADA0015ABF6 /* HHSelectVoucherViewController.m in Sources */,
 				5C2D1A4A1C51EAA80056E0D0 /* HHStudentService.m in Sources */,
 				6DD5684B1D6948E000B9B319 /* OpenShare+Alipay.m in Sources */,
@@ -5493,8 +5530,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Wuhan Xiaosong Tech Co., Ltd. (HYWSND54RJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wuhan Xiaosong Tech Co., Ltd. (HYWSND54RJ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Can Zhang (N9G4ZJA58V)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Can Zhang (N9G4ZJA58V)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
@@ -5519,7 +5556,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "4ab1f95a-32fc-483f-8955-1500400b87e8";
+				PROVISIONING_PROFILE = "ef023998-0678-4611-bde7-ebc4b3c01052";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -5541,8 +5578,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Wuhan Xiaosong Tech Co., Ltd. (HYWSND54RJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wuhan Xiaosong Tech Co., Ltd. (HYWSND54RJ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Can Zhang (N9G4ZJA58V)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Can Zhang (N9G4ZJA58V)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
@@ -5561,7 +5598,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "4ab1f95a-32fc-483f-8955-1500400b87e8";
+				PROVISIONING_PROFILE = "ef023998-0678-4611-bde7-ebc4b3c01052";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -5574,7 +5611,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = hahaxueche/hahaxueche.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Can Zhang (N9G4ZJA58V)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = HYWSND54RJ;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5631,6 +5668,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -5641,7 +5679,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = hahaxueche/hahaxueche.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Can Zhang (N9G4ZJA58V)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = HYWSND54RJ;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5698,6 +5736,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -5742,7 +5781,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Can Zhang (N9G4ZJA58V)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = HYWSND54RJ;
@@ -5755,6 +5794,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "ren.xiaosong.hahaxueche.notification-service-extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -5767,7 +5808,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Can Zhang (N9G4ZJA58V)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = HYWSND54RJ;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/Headers/Public/GTSDK";
@@ -5777,6 +5818,8 @@
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/GTSDK";
 				PRODUCT_BUNDLE_IDENTIFIER = "ren.xiaosong.hahaxueche.notification-service-extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

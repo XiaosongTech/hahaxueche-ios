@@ -78,6 +78,8 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
 @property (nonatomic, strong) HHHomePageGuideView *guideView;
 @property (nonatomic, strong) HHHomePageGuardView *guardView;
 
+@property (nonatomic, strong) NSArray *fields;
+
 @property (nonatomic) BOOL popupVoucherShowed;
 
 @end
@@ -132,14 +134,19 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
             NSNumber *lon = @([HHStudentStore sharedInstance].currentLocation.coordinate.longitude);
             locationArray = @[lat, lon];
         }
-        [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].selectedCityId filters:nil sortOption:SortOptionReviewCount userLocation:locationArray completion:^(HHCoaches *coaches, NSError *error) {
-            if (!error) {
-                self.coaches = coaches.coaches;
-                [self.coachesView updateData:self.coaches type:CarouselTypeCoach];
-
-            }
+        
+        [[HHConstantsStore sharedInstance] getFieldsWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(NSArray *schools) {
+            [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].selectedCityId filters:nil sortOption:SortOptionReviewCount userLocation:locationArray fields:nil completion:^(HHCoaches *coaches, NSError *error) {
+                if (!error) {
+                    self.coaches = coaches.coaches;
+                    [self.coachesView updateData:self.coaches type:CarouselTypeCoach];
+                    
+                }
+            }];
         }];
+        
     }];
+    
     
 }
 
@@ -219,7 +226,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
     self.itemsView.itemAction = ^(NSInteger index) {
         switch (index) {
             case 0: {
-                //map
+                [weakSelf showMapView];
             } break;
                 
             case 1: {
@@ -433,7 +440,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
 }
 
 - (void)navMapTapped {
-    
+    [self showMapView];
 }
 
 - (void)searchTapped {
@@ -473,7 +480,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
         NSNumber *lon = @([HHStudentStore sharedInstance].currentLocation.coordinate.longitude);
         locationArray = @[lat, lon];
     }
-    [[HHCoachService sharedInstance] fetchCoachListWithCityId:city.cityId filters:nil sortOption:SortOptionReviewCount userLocation:locationArray completion:^(HHCoaches *coaches, NSError *error) {
+    [[HHCoachService sharedInstance] fetchCoachListWithCityId:city.cityId filters:nil sortOption:SortOptionReviewCount userLocation:locationArray fields:nil completion:^(HHCoaches *coaches, NSError *error) {
         if (!error) {
             self.coaches = coaches.coaches;
             [self.coachesView updateData:self.coaches type:CarouselTypeCoach];
@@ -560,6 +567,16 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
         return attributedString;
     }
     
+}
+
+- (void)showMapView {
+    [[HHConstantsStore sharedInstance] getFieldsWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(NSArray *fields) {
+        if (fields.count > 0) {
+            HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:fields selectedField:nil];
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+            [self presentViewController:navVC animated:YES completion:nil];
+        }
+    }];
 }
 
 
