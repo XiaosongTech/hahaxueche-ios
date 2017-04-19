@@ -17,7 +17,8 @@
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
-        self.frame = CGRectMake(0, 0, 240.0f, 50.0f);
+        self.frame = CGRectMake(0, 0, 250.0f, 70.0f);
+        self.field = field;
 
         
         self.imgView = [[UIImageView alloc] init];
@@ -55,6 +56,7 @@
         
         self.sendButton = [[HHGradientButton alloc] initWithType:0];
         [self.sendButton setTitle:@"发送定位" forState:UIControlStateNormal];
+        [self.sendButton addTarget:self action:@selector(sendTapped) forControlEvents:UIControlEventTouchUpInside];
         self.sendButton.titleLabel.font = [UIFont systemFontOfSize:10.0f];
         self.sendButton.layer.masksToBounds = YES;
         self.sendButton.layer.cornerRadius = 5.0f;
@@ -72,6 +74,12 @@
 
     }
     return self;
+}
+
+- (void)sendTapped {
+    if (self.sendAction) {
+        self.sendAction(self.field);
+    }
 }
 
 @end

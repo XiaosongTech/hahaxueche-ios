@@ -430,7 +430,7 @@
     }];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:@"购¥149赔付宝" forState:UIControlStateNormal];
+    [button setTitle:@"如何购买赔付宝" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     button.backgroundColor = [UIColor HHOrange];
     button.layer.cornerRadius = 5.0f;

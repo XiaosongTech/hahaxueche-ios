@@ -51,6 +51,8 @@
 #import "HHCoach.h"
 #import "HHHomePageGuideView.h"
 #import "HHHomePageGuardView.h"
+#import "HHAskLocationPermissionViewController.h"
+#import <Appirater.h>
 
 
 static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
@@ -96,7 +98,6 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
-    [[HHAddressBookUtility sharedManager] uploadContacts];
     
     if([[HHStudentStore sharedInstance].currentStudent isPurchased]) {
         [CloudPushSDK bindTag:1 withTags:@[@"purchased"] withAlias:nil withCallback:nil];
@@ -145,6 +146,8 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
             }];
         }];
         
+        [[HHAddressBookUtility sharedManager] uploadContacts];
+        
     }];
     
     
@@ -178,7 +181,17 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
         }];
         
     }
-   
+#ifdef DEBUG
+    [Appirater setDebug:YES];
+#endif
+    //Appirater
+    [Appirater setAppId:@"1011236187"];
+    [Appirater setDaysUntilPrompt:2];
+    [Appirater setUsesUntilPrompt:0];
+    [Appirater setSignificantEventsUntilPrompt:-1];
+    [Appirater setTimeBeforeReminding:2];
+    [Appirater setDebug:NO];
+    [Appirater appLaunched:YES];
     
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_viewed attributes:nil];
     
@@ -440,7 +453,29 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
 }
 
 - (void)navMapTapped {
-    [self showMapView];
+    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyBlock timeout:2.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
+        if (status == INTULocationStatusSuccess) {
+            [HHStudentStore sharedInstance].currentLocation = currentLocation;
+            
+        } else if (status == INTULocationStatusTimedOut) {
+            [HHStudentStore sharedInstance].currentLocation = currentLocation;
+            
+        } else if (status == INTULocationStatusError) {
+            [HHStudentStore sharedInstance].currentLocation = nil;
+        } else {
+            [HHStudentStore sharedInstance].currentLocation = nil;
+        }
+        
+        if (![HHStudentStore sharedInstance].currentLocation) {
+            HHAskLocationPermissionViewController *vc = [[HHAskLocationPermissionViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        } else {
+            [self showMapView];
+        }
+    }];
+    
+    
 }
 
 - (void)searchTapped {

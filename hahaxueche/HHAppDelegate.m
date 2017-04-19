@@ -24,7 +24,6 @@
 #import <Pingpp/Pingpp.h>
 #import "HHStudentService.h"
 #import "HHToastManager.h"
-#import <Appirater.h>
 #import "HHCoachDetailViewController.h"
 #import "HHLoadingViewUtility.h"
 #import "QYSDK.h"
@@ -91,7 +90,7 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                         [[HHStudentService sharedInstance] fetchStudentWithId:savedStudent.studentId completion:^(HHStudent *student, NSError *error) {
                             if (!error) {
                                 if (!student) {
-                                    self.window.rootViewController = self.finalRootVC;
+                                    [launchVC setupRootVC:self.finalRootVC];
                                     [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                                     return ;
                                 }
@@ -101,35 +100,36 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                                     HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
                                     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
                                     self.finalRootVC = navVC;
-                                    self.window.rootViewController = self.finalRootVC;
+                                    [launchVC setupRootVC:self.finalRootVC];
                                     [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                             
                                 } else {
                                     // Get the saved student object, we lead user to rootVC
                                     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
                                     self.finalRootVC = rootVC;
-                                    self.window.rootViewController = self.finalRootVC;
+                                    [launchVC setupRootVC:self.finalRootVC];
                                     [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                                 }
                             } else {
-                                self.window.rootViewController = self.finalRootVC;
+                                [launchVC setupRootVC:self.finalRootVC];
                                 [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                             }
                         }];
                     } else {
                         HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
                         UINavigationController *introNavVC = [[UINavigationController alloc] initWithRootViewController:introVC];
-                        self.window.rootViewController = introNavVC;
+                        
+                        [launchVC setupRootVC:introNavVC];
                         [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                     }
                 }];
                 
             } else {
-                self.window.rootViewController = self.finalRootVC;
+                [launchVC setupRootVC:self.finalRootVC];
                 [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
             }
         } else {
-            self.window.rootViewController = self.finalRootVC;
+            [launchVC setupRootVC:self.finalRootVC];
             [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
         }
        
@@ -270,18 +270,9 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
 - (void)setupAllThirdPartyServices {
     
-    //Appirater
-    [Appirater setAppId:@"1011236187"];
-    [Appirater setDaysUntilPrompt:2];
-    [Appirater setUsesUntilPrompt:0];
-    [Appirater setSignificantEventsUntilPrompt:-1];
-    [Appirater setTimeBeforeReminding:2];
-    [Appirater setDebug:NO];
-    [Appirater appLaunched:YES];
     
 #ifdef DEBUG
     [Pingpp setDebugMode:YES];
-    [Appirater setDebug:YES];
 #endif
     
     //Umeng

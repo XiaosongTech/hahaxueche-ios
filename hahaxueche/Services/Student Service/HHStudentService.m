@@ -569,4 +569,15 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     }];
 }
 
+- (void)getPhoneNumber:(NSString *)number completion:(HHStudentGenericCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPINumberCollect];
+    [APIClient postWithParameters:@{@"phone":number, @"promo_code":@"921434"} completion:^(NSDictionary *response, NSError *error) {
+        if(completion) {
+            completion(error);
+        }
+        
+    }];
+
+}
+
 @end

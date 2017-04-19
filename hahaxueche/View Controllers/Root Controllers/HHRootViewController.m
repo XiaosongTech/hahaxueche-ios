@@ -75,6 +75,7 @@
         NSArray *viewControllers = @[homePageNavVC, findCoachNavVC, clubNavVC, myPageNavVC];
         self.viewControllers = viewControllers;
         self.selectedIndex = index;
+    
         
     }
     return self;

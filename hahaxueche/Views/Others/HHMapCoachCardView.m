@@ -117,7 +117,7 @@
         self.drivingSchoolView = [[HHCoachTagView alloc] init];
         self.drivingSchoolView.tapAction = ^(HHDrivingSchool *school) {
             if (weakSelf.schoolBlock) {
-                weakSelf.schoolBlock(self.coach);
+                weakSelf.schoolBlock([weakSelf.coach getCoachDrivingSchool]);
             }
         };
         [self.drivingSchoolView setupWithDrivingSchool:[coach getCoachDrivingSchool]];

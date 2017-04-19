@@ -19,6 +19,11 @@
 #import "HHCoachDetailViewController.h"
 #import "HHAnnotationView.h"
 #import "HHCalloutView.h"
+#import "HHSupportUtility.h"
+#import "HHGenericPhoneView.h"
+#import "HHStudentService.h"
+#import "HHToastManager.h"
+
 
 
 @interface HHFieldsMapViewController () <UIScrollViewDelegate>
@@ -29,6 +34,7 @@
 @property (nonatomic, strong) NSArray *coaches;
 @property (nonatomic, strong) UILabel *indexLabel;
 @property (nonatomic, strong) NSMutableArray *cardViews;
+@property (nonatomic, strong) KLCPopup *popup;
 
 
 @end
@@ -67,7 +73,8 @@
         [self getFieldCoach];
     }
     
-    
+    MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(self.userLocation.coordinate, 15000, 15000);
+    [self.mapView setRegion:mapRegion animated:YES];
 }
 
 - (void)getFieldCoach {
@@ -142,9 +149,6 @@
         [self.mapView addAnnotation:pointAnnotation];
         
     }
-    
-    MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(self.userLocation.coordinate, 15000, 15000);
-    [self.mapView setRegion:mapRegion animated:YES];
 }
 
 
@@ -171,52 +175,69 @@
 
 #pragma mark - MapView Delegate Methods 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+    __weak HHFieldsMapViewController *weakSelf = self;
     if ([annotation isKindOfClass:[MKUserLocation class]]) {
         return nil;
     } else {
-        static NSString *reuseIndetifier = @"annotationReuseIndetifier";
-        HHAnnotationView *annotationView = (HHAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIndetifier];
+        
+        HHPointAnnotation *anno = (HHPointAnnotation *)annotation;
+        
+        UIImageView *pinView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_map_local_choseoff"]];
+        HHCalloutView *calloutView = [[HHCalloutView alloc] initWithField:anno.field];
+        calloutView.sendAction = ^(HHField *field) {
+            HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"轻松定位训练场" placeHolder:@"输入手机号, 立即接收详细地址" buttonTitle:@"发我定位"];
+            [view.inputField becomeFirstResponder];
+            view.inputField.keyboardType = UIKeyboardTypePhonePad;
+            view.buttonAction = ^(NSString *number) {
+                [[HHStudentService sharedInstance] getPhoneNumber:number completion:^(NSError *error) {
+                    if (error) {
+                        [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试!"];
+                    } else {
+                        [HHPopupUtility dismissPopup:weakSelf.popup];
+                    }
+                }];
+            };
+            weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+            [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+        };
+        
+        HHAnnotationView *annotationView = (HHAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([HHAnnotationView class])];
         if (!annotationView) {
-            annotationView = [[HHAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIndetifier];
+            annotationView = [[HHAnnotationView alloc] initWithAnnotation:annotation
+                                                          reuseIdentifier:NSStringFromClass([DXAnnotationView class])
+                                                                  pinView:pinView
+                                                              calloutView:calloutView
+                                                                 selected:[anno.field.fieldId isEqualToString:self.selectedField.fieldId]];
         }
-        annotationView.canShowCallout = YES;
+        
+        annotationView.pinCompletion = ^(HHField *field) {
+            for (id<MKAnnotation> annotation in mapView.annotations){
+                HHAnnotationView *aView = (HHAnnotationView *)[mapView viewForAnnotation: annotation];
+                if (aView){
+                    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+                        continue;
+                    }
+                    HHPointAnnotation *annotation = (HHPointAnnotation *)aView.annotation;
+                    if (![annotation.field.fieldId isEqualToString:field.fieldId]) {
+                        aView.pinView.image = [UIImage imageNamed:@"ic_map_local_choseoff"];
+                        [aView hideCalloutView];
+                    } else {
+                        [weakSelf.mapView bringSubviewToFront:aView];
+                    }
+                }
+            }
+
+            if (![weakSelf.selectedField.fieldId isEqualToString:field.fieldId]) {
+                weakSelf.selectedField = field;
+                [weakSelf getFieldCoach];
+            }
+            
+        };
         return annotationView;
 
     }
 }
 
-
-- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(HHAnnotationView *)view {
-    for (id<MKAnnotation> annotation in mapView.annotations){
-        HHAnnotationView *aView = (HHAnnotationView *)[mapView viewForAnnotation: annotation];
-        if (aView){
-            aView.image = [UIImage imageNamed:@"ic_map_local_choseoff"];
-        }
-    }
-    view.image = [UIImage imageNamed:@"ic_map_local_choseon"];
-    HHPointAnnotation *annotation = view.annotation;
-    self.selectedField = annotation.field;
-    [self getFieldCoach];
-}
-
-
-
-- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
-    for (MKAnnotationView *view in views) {
-        if ([view.annotation isKindOfClass:[MKUserLocation class]]) {
-            continue;
-        }
-        HHPointAnnotation *annotation = view.annotation;
-        HHField *field = annotation.field;
-
-        if ([field.fieldId isEqualToString:self.selectedField.fieldId]) {
-            self.selectedField = field;
-            view.image = [UIImage imageNamed:@"ic_map_local_choseon"];
-        } else {
-            view.image = [UIImage imageNamed:@"ic_map_local_choseoff"];
-        }
-    }
-}
 
 - (void)updateView {
     __weak HHFieldsMapViewController *weakSelf = self;
@@ -246,7 +267,20 @@
         [self.cardViews addObject:view];
         
         view.checkFieldBlock = ^(HHCoach *coach) {
-            //show popup
+            HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"看过训练场才放心" placeHolder:@"输入手机号, 教练立即带你看场地" buttonTitle:@"预约看场地"];
+            [view.inputField becomeFirstResponder];
+            view.inputField.keyboardType = UIKeyboardTypePhonePad;
+            view.buttonAction = ^(NSString *number) {
+                [[HHStudentService sharedInstance] getPhoneNumber:number completion:^(NSError *error) {
+                    if (error) {
+                        [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试!"];
+                    } else {
+                        [HHPopupUtility dismissPopup:weakSelf.popup];
+                    }
+                }];
+            };
+            weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+            [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
         };
         
         view.supportBlock = ^(HHCoach *coach) {
@@ -293,5 +327,6 @@
     NSInteger page = (scrollView.contentOffset.x - 30.0f)/(CGRectGetWidth(self.scrollView.frame)-60.0f);
     self.indexLabel.attributedText = [self generateStringWithCurrentIndex:page+1];
 }
+
 
 @end

@@ -14,43 +14,48 @@
 
 @implementation HHAnnotationView
 
-
-- (UIView *)leftCalloutAccessoryView {
-    HHPointAnnotation *annotation = self.annotation;
-    HHCalloutView *view = [[HHCalloutView alloc] initWithField:annotation.field];
-    self.calloutView = view;
-    return view;
-}
-
-- (UIView *)rightCalloutAccessoryView {
-    return [[UIView alloc] initWithFrame:CGRectZero];
-}
-
-- (UIView*)hitTest:(CGPoint)point withEvent:(UIEvent*)event
-{
-    UIView* hitView = [super hitTest:point withEvent:event];
-    if (hitView != nil)
-    {
-        [self.superview bringSubviewToFront:self];
-    }
-    return hitView;
-}
-
-- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent*)event
-{
-    CGRect rect = self.bounds;
-    BOOL isInside = CGRectContainsPoint(rect, point);
-    if(!isInside)
-    {
-        for (UIView *view in self.subviews)
-        {
-            isInside = CGRectContainsPoint(view.frame, point);
-            if(isInside)
-                break;
+- (instancetype)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier pinView:(UIView *)pinView calloutView:(UIView *)calloutView selected:(BOOL)selected {
+    DXAnnotationSettings *setting = [DXAnnotationSettings defaultSettings];
+    setting.calloutBorderColor = [UIColor HHOrange];
+    setting.calloutBorderWidth = 1.0f;
+    
+    
+    
+    self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier pinView:pinView calloutView:calloutView settings:setting];
+    if (self) {
+        self.pinView = (UIImageView *)pinView;
+        self.pinView.userInteractionEnabled = YES;
+        
+        self.calloutView = (HHCalloutView *)calloutView;
+        self.calloutView.userInteractionEnabled = YES;
+        
+        UITapGestureRecognizer *rec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pinTapped)];
+        [self.pinView addGestureRecognizer:rec];
+        
+        UITapGestureRecognizer *rec2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(calloutTapped)];
+        [self.calloutView addGestureRecognizer:rec2];
+        
+        if (selected) {
+            [self pinTapped];
         }
     }
-    return isInside;
+    return self;
 }
+
+- (void)pinTapped {
+    HHPointAnnotation *annotation = (HHPointAnnotation *)self.annotation;
+    self.pinView.image = [UIImage imageNamed:@"ic_map_local_choseon"];
+    if (self.pinCompletion) {
+        self.pinCompletion(annotation.field);
+    }
+    
+}
+
+- (void)calloutTapped {
+    [self hideCalloutView];
+}
+
+
 
 
 @end
