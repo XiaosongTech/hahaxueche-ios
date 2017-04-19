@@ -119,7 +119,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"寻找教练";
+    self.title = @"驾校教练";
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupDefaultSortAndFilter];
     

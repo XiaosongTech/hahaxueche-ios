@@ -40,6 +40,7 @@
 #import "HHGuardCardViewController.h"
 #import "HHClubPostDetailViewController.h"
 #import "HHInsuranceViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define kAliPushAppKey          @"23260416"
 #define kAliPushAppSecret       @"996121506d96c60827a917c2ca26ab14"
@@ -253,17 +254,13 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
 - (void)setAppearance {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    [[UINavigationBar appearance] setBackgroundColor:[UIColor HHOrange]];
-    [[UINavigationBar appearance] setBarTintColor:[UIColor HHOrange]];
-    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+   
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     if ([UIDevice currentDevice].systemVersion.floatValue >= 8.0) {
         [[UINavigationBar appearance] setTranslucent:NO];
     }
     
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage new]
-                                      forBarPosition:UIBarPositionAny
-                                          barMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"bg_topnav"] forBarMetrics:UIBarMetricsDefault];
     
     [[UINavigationBar appearance] setShadowImage:[UIImage new]];
 }
@@ -488,6 +485,17 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 - (void)jumpToVC:(UIViewController *)viewController completion:(HHAppDelegateCompletion)completion {
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:viewController];
     [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:completion];
+}
+
+- (UIImage *)imageFromLayer:(CALayer *)layer {
+    UIGraphicsBeginImageContext([layer frame].size);
+    
+    [layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return outputImage;
 }
 
 

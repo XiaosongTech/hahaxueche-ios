@@ -24,7 +24,10 @@
             self.gradientLayer.startPoint = CGPointMake(0, 1);
             self.gradientLayer.endPoint = CGPointMake(1, 0);
         } else {
-            
+            self.gradientLayer = [CAGradientLayer layer];
+            self.gradientLayer.colors = @[(id)[UIColor colorWithRed:0.99 green:0.60 blue:0.15 alpha:1.00].CGColor, (id)[UIColor colorWithRed:0.99 green:0.38 blue:0.13 alpha:1.00].CGColor];
+            self.gradientLayer.startPoint = CGPointMake(0, 1);
+            self.gradientLayer.endPoint = CGPointMake(1, 0);
         }
        
         [self.layer insertSublayer:self.gradientLayer atIndex:0];

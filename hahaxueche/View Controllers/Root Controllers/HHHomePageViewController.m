@@ -193,6 +193,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
     [Appirater setDebug:NO];
     [Appirater appLaunched:YES];
     
+    
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_viewed attributes:nil];
     
     

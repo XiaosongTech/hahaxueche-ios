@@ -150,11 +150,7 @@ static CGFloat const avatarRadius = 30.0f;
         };
         [self.jiaxiaoView makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.nameLabel.centerY);
-            UIView * leftView = self.nameLabel;
-            if (self.badgeView) {
-                leftView = self.badgeView;
-            }
-            make.left.equalTo(leftView.right).offset(5.0f);
+            make.right.equalTo(self.contentView.right).offset(-15.0f);
             make.width.equalTo(self.jiaxiaoView.label.width).offset(20.0f);
             make.height.mas_equalTo(16.0f);
         }];

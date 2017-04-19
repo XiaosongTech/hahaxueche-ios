@@ -13,6 +13,7 @@
 
 typedef void (^HHCoachPriceAction)(NSInteger type);
 typedef void (^HHCoachPurchaseAction)(CoachProductType type);
+typedef void (^HHCoachDepositAction)();
 
 
 @interface HHCoachPriceTableViewCell : UITableViewCell
@@ -36,6 +37,7 @@ typedef void (^HHCoachPurchaseAction)(CoachProductType type);
 @property (nonatomic, strong) HHCoachPriceAction selectedBlock;
 @property (nonatomic, strong) HHCoachPurchaseAction purchaseBlock;
 @property (nonatomic, strong) HHCoachPurchaseAction priceDetailBlock;
+@property (nonatomic, strong) HHCoachDepositAction depositBlock;
 
 - (void)setupCellWithCoach:(HHCoach *)coach selectedType:(NSInteger)type;
 

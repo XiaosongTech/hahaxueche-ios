@@ -47,6 +47,7 @@
         self.inputField.tintColor = [UIColor HHOrange];
         self.inputField.leftView = paddingView;
         self.inputField.leftViewMode = UITextFieldViewModeAlways;
+        self.inputField.keyboardType = UIKeyboardTypePhonePad;
         [self addSubview:self.inputField];
         [self.inputField makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.centerX);
@@ -67,6 +68,8 @@
             make.width.equalTo(self.width).offset(-60.0f);
             make.height.mas_equalTo(45.0f);
         }];
+        
+        [self.inputField becomeFirstResponder];
     }
     return self;
 }

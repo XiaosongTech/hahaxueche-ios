@@ -18,12 +18,14 @@
 @property (nonatomic, strong) UILabel *subTitleLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
 @property (nonatomic, strong) UIButton *purchaseButton;
+@property (nonatomic, strong) UIButton *depositButton;
 @property (nonatomic, strong) UIImageView *arrowView;
 @property (nonatomic, strong) UIView *topLine;
 
 @property (nonatomic) CoachProductType type;
 
 @property (nonatomic, strong) HHCoachPurchaseAction purchaseBlock;
+@property (nonatomic, strong) HHCoachDepositAction depositBlock;
 
 - (instancetype)initWithClassType:(CoachProductType)type coach:(HHCoach *)coach;
 

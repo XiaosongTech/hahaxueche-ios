@@ -46,6 +46,9 @@
 #import "HHGuardViewController.h"
 #import "HHCoachPriceTableViewCell.h"
 #import "HHPrepayViewController.h"
+#import "HHSupportUtility.h"
+#import "HHGenericPhoneView.h"
+#import "HHSocialMediaShareUtility.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -184,18 +187,30 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
     
     __weak HHCoachDetailViewController *weakSelf = self;    
     self.bottomBar.tryCoachAction = ^(){
-        [weakSelf tryCoachForFree];
+        HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"看过训练场才放心" placeHolder:@"输入手机号, 教练立即带你看训练场" buttonTitle:@"预约看场地"];
+        view.buttonAction = ^(NSString *number) {
+            [[HHStudentService sharedInstance] getPhoneNumber:number completion:^(NSError *error) {
+                if (error) {
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
+                } else {
+                    [HHPopupUtility dismissPopup:weakSelf.popup];
+                }
+            }];
+        };
+        weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+        [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
     };
     
-    self.bottomBar.prepayAction = ^(){
-        if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
-            [weakSelf showLoginSignupAlertView];
-        } else {
-            //jump to prepay confirm VC
-            HHPrepayViewController *vc = [[HHPrepayViewController alloc] init];
-            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-            [weakSelf presentViewController:navVC animated:YES completion:nil];
-        }
+    self.bottomBar.supportAction = ^(){
+       [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
+    };
+    
+    self.bottomBar.smsAction = ^{
+       [[HHSocialMediaShareUtility sharedInstance] showSMS:[NSString stringWithFormat:@"%@教练, 我在哈哈学车看到您的招生信息, 我想详细了解一下.", weakSelf.coach.name] attachment:nil];
+    };
+    
+    self.bottomBar.callAction = ^{
+        [[HHSupportUtility sharedManager] callSupportWithNumber:weakSelf.coach.consultPhone];
     };
     
     [[HHCoachService sharedInstance] checkFollowedCoach:self.coach.userId completion:^(BOOL followed) {
@@ -275,6 +290,10 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
                 HHPurchaseConfirmViewController *vc = [[HHPurchaseConfirmViewController alloc] initWithCoach:weakSelf.coach selectedType:type];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
 
+            };
+            
+            cell.depositBlock = ^{
+                [weakSelf deposit];
             };
             
             cell.priceDetailBlock = ^(CoachProductType type) {
@@ -604,6 +623,11 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
         [HHPopupUtility dismissPopup:self.popup];
     };
     [HHPopupUtility showPopup:self.popup];
+}
+
+- (void)deposit {
+    HHPrepayViewController *vc = [[HHPrepayViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

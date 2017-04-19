@@ -20,6 +20,8 @@
 #import "HHStudentService.h"
 #import "HHStudentStore.h"
 #import "HHConstantsStore.h"
+#import "HHStudentStore.h"
+#import "HHIntroViewController.h"
 
 @interface HHPrepayViewController ()
 
@@ -139,6 +141,10 @@
 }
 
 - (void)prepay {
+    if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
+        [self showLoginSignupAlertView];
+        return;
+    }
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
     [[HHPaymentService sharedInstance] prepayWithType:3 paymentMethod:self.paymentMethodsView.selectedMethod inController:self completion:^(BOOL succeed) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
@@ -170,6 +176,23 @@
         }
         
     }];
+}
+
+- (void)showLoginSignupAlertView {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请先登陆或者注册" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"现在就去" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+        [self presentViewController:navVC animated:YES completion:nil];
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"再看看" style:UIAlertActionStyleDefault handler:nil];
+    
+    [alertController addAction:confirmAction];
+    [alertController addAction:cancelAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 

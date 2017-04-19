@@ -21,7 +21,7 @@
 
 + (KLCPopup *)createPopupWithContentView:(UIView *)contentView {
     
-    return [HHPopupUtility createPopupWithContentView:contentView showType:KLCPopupShowTypeGrowIn dismissType:KLCPopupDismissTypeGrowOut];
+    return [HHPopupUtility createPopupWithContentView:contentView showType:KLCPopupShowTypeSlideInFromTop dismissType:KLCPopupDismissTypeSlideOutToTop];
 }
 
 + (void)dismissPopup:(KLCPopup *)popup {

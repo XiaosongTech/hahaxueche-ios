@@ -186,8 +186,6 @@
         HHCalloutView *calloutView = [[HHCalloutView alloc] initWithField:anno.field];
         calloutView.sendAction = ^(HHField *field) {
             HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"轻松定位训练场" placeHolder:@"输入手机号, 立即接收详细地址" buttonTitle:@"发我定位"];
-            [view.inputField becomeFirstResponder];
-            view.inputField.keyboardType = UIKeyboardTypePhonePad;
             view.buttonAction = ^(NSString *number) {
                 [[HHStudentService sharedInstance] getPhoneNumber:number completion:^(NSError *error) {
                     if (error) {
@@ -268,8 +266,6 @@
         
         view.checkFieldBlock = ^(HHCoach *coach) {
             HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"看过训练场才放心" placeHolder:@"输入手机号, 教练立即带你看场地" buttonTitle:@"预约看场地"];
-            [view.inputField becomeFirstResponder];
-            view.inputField.keyboardType = UIKeyboardTypePhonePad;
             view.buttonAction = ^(NSString *number) {
                 [[HHStudentService sharedInstance] getPhoneNumber:number completion:^(NSError *error) {
                     if (error) {
