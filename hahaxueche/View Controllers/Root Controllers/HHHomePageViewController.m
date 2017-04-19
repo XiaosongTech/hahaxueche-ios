@@ -136,7 +136,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
         }
         
         [[HHConstantsStore sharedInstance] getFieldsWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(NSArray *schools) {
-            [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].selectedCityId filters:nil sortOption:SortOptionReviewCount userLocation:locationArray fields:nil completion:^(HHCoaches *coaches, NSError *error) {
+            [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].selectedCityId filters:nil sortOption:SortOptionReviewCount userLocation:locationArray fields:nil perPage:nil completion:^(HHCoaches *coaches, NSError *error) {
                 if (!error) {
                     self.coaches = coaches.coaches;
                     [self.coachesView updateData:self.coaches type:CarouselTypeCoach];
@@ -480,7 +480,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
         NSNumber *lon = @([HHStudentStore sharedInstance].currentLocation.coordinate.longitude);
         locationArray = @[lat, lon];
     }
-    [[HHCoachService sharedInstance] fetchCoachListWithCityId:city.cityId filters:nil sortOption:SortOptionReviewCount userLocation:locationArray fields:nil completion:^(HHCoaches *coaches, NSError *error) {
+    [[HHCoachService sharedInstance] fetchCoachListWithCityId:city.cityId filters:nil sortOption:SortOptionReviewCount userLocation:locationArray fields:nil perPage:nil completion:^(HHCoaches *coaches, NSError *error) {
         if (!error) {
             self.coaches = coaches.coaches;
             [self.coachesView updateData:self.coaches type:CarouselTypeCoach];

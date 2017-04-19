@@ -18,6 +18,9 @@
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
+        self.coach = coach;
+        
+        __weak HHMapCoachCardView *weakSelf = self;
         
         UIView *topView = [[UIView alloc] init];
         [self addSubview:topView];
@@ -71,7 +74,7 @@
         [topView addSubview:self.starRatingView];
         [self.starRatingView makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.nameLabel.left);
-            make.top.equalTo(self.nameLabel.bottom).offset(3.0f);
+            make.top.equalTo(self.nameLabel.bottom);
             make.height.mas_equalTo(20.0f);
             make.width.mas_equalTo(80.0f);
         }];
@@ -95,7 +98,7 @@
         [topView addSubview:self.priceTitleLabel];
         [self.priceTitleLabel makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.nameLabel.left);
-            make.top.equalTo(self.avatarView.bottom).offset(-5.0f);
+            make.bottom.equalTo(self.avatarView.bottom).offset(-2.0f);
             make.height.mas_equalTo(15.0f);
             make.width.mas_equalTo(25.0f);
         }];
@@ -112,6 +115,11 @@
 
         
         self.drivingSchoolView = [[HHCoachTagView alloc] init];
+        self.drivingSchoolView.tapAction = ^(HHDrivingSchool *school) {
+            if (weakSelf.schoolBlock) {
+                weakSelf.schoolBlock(self.coach);
+            }
+        };
         [self.drivingSchoolView setupWithDrivingSchool:[coach getCoachDrivingSchool]];
         [topView addSubview:self.drivingSchoolView];
         [self.drivingSchoolView makeConstraints:^(MASConstraintMaker *make) {
@@ -128,6 +136,60 @@
             make.right.equalTo(self.drivingSchoolView.right);
             make.centerY.equalTo(self.priceTitleLabel.centerY);
         }];
+        
+        
+        self.checkFieldButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.checkFieldButton setTitle:@"看看训练场" forState:UIControlStateNormal];
+        [self.checkFieldButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
+        self.checkFieldButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+        self.checkFieldButton.layer.masksToBounds = YES;
+        self.checkFieldButton.layer.borderColor = [UIColor HHLightLineGray].CGColor;
+        self.checkFieldButton.layer.borderWidth = 1.0f/[UIScreen mainScreen].scale;
+        [botView addSubview:self.checkFieldButton];
+        [self.checkFieldButton makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(botView.left);
+            make.width.equalTo(botView.width).multipliedBy(1.0f/3.0f);
+            make.height.equalTo(botView.height);
+            make.top.equalTo(botView.top);
+        }];
+        
+        [self.checkFieldButton addTarget:self action:@selector(checkFieldTapped) forControlEvents:UIControlEventTouchUpInside];
+        
+        self.onlineSupportButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.onlineSupportButton setTitle:@"在线客服" forState:UIControlStateNormal];
+        [self.onlineSupportButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
+        self.onlineSupportButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+        self.onlineSupportButton.layer.masksToBounds = YES;
+        self.onlineSupportButton.layer.borderColor = [UIColor HHLightLineGray].CGColor;
+        self.onlineSupportButton.layer.borderWidth = 1.0f/[UIScreen mainScreen].scale;
+        [botView addSubview:self.onlineSupportButton];
+        [self.onlineSupportButton makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.checkFieldButton.right);
+            make.width.equalTo(botView.width).multipliedBy(1.0f/3.0f);
+            make.height.equalTo(botView.height);
+            make.top.equalTo(botView.top);
+        }];
+        [self.onlineSupportButton addTarget:self action:@selector(onlineSupportTapped) forControlEvents:UIControlEventTouchUpInside];
+        
+        self.callButton = [[HHGradientButton alloc] initWithType:0];
+        [self.callButton setAttributedTitle:[self generateCallButtonText] forState:UIControlStateNormal];
+        self.callButton.layer.masksToBounds = YES;
+        self.callButton.layer.borderColor = [UIColor HHLightLineGray].CGColor;
+        self.callButton.layer.borderWidth = 1.0f/[UIScreen mainScreen].scale;
+        
+        [botView addSubview:self.callButton];
+        [self.callButton makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.onlineSupportButton.right);
+            make.width.equalTo(botView.width).multipliedBy(1.0f/3.0f);
+            make.height.equalTo(botView.height);
+            make.top.equalTo(botView.top);
+        }];
+        [self.callButton addTarget:self action:@selector(callTapped) forControlEvents:UIControlEventTouchUpInside];
+        
+        UITapGestureRecognizer *rec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(coachTapped)];
+        topView.userInteractionEnabled = YES;
+        [topView addGestureRecognizer:rec];
+        
         
     }
     return self;
@@ -157,5 +219,51 @@
     [attributedString appendAttributedString:attrStringWithImage];
     return attributedString;
 }
+
+
+- (NSMutableAttributedString *)generateCallButtonText {
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.alignment = NSTextAlignmentNatural;
+    
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"联系教练" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSForegroundColorAttributeName:[UIColor whiteColor], NSParagraphStyleAttributeName:paragraphStyle}];
+    
+    NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+    textAttachment.image = [UIImage imageNamed:@"ic_map_phone"];
+    textAttachment.bounds = CGRectMake(-2.0f, -3.0f, textAttachment.image.size.width, textAttachment.image.size.height);
+    
+    NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+    
+    [attributedString insertAttributedString:attrStringWithImage atIndex:0];
+    return attributedString;
+}
+
+
+- (void)checkFieldTapped {
+    if (self.checkFieldBlock) {
+        self.checkFieldBlock(self.coach);
+    }
+}
+
+- (void)onlineSupportTapped {
+    if (self.supportBlock) {
+        self.supportBlock(self.coach);
+    }
+}
+
+- (void)callTapped {
+    if (self.callBlock) {
+        self.callBlock(self.coach);
+    }
+}
+
+- (void)coachTapped {
+    if (self.coachBlock) {
+        self.coachBlock(self.coach);
+    }
+}
+
+
+
+
 
 @end

@@ -14,6 +14,11 @@
 #import "HHCoachService.h"
 #import "HHMapCoachCardView.h"
 #import "HHPointAnnotation.h"
+#import "HHSupportUtility.h"
+#import "HHWebViewController.h"
+#import "HHCoachDetailViewController.h"
+#import "HHAnnotationView.h"
+#import "HHCalloutView.h"
 
 
 @interface HHFieldsMapViewController () <UIScrollViewDelegate>
@@ -24,6 +29,8 @@
 @property (nonatomic, strong) NSArray *coaches;
 @property (nonatomic, strong) UILabel *indexLabel;
 @property (nonatomic, strong) NSMutableArray *cardViews;
+
+
 @end
 
 @implementation HHFieldsMapViewController
@@ -68,7 +75,7 @@
         self.coaches = [HHStudentStore sharedInstance].fieldCoachesDic[self.selectedField.fieldId];
         [self updateView];
     } else {
-        [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].selectedCityId filters:nil sortOption:0 userLocation:nil fields:@[self.selectedField.fieldId] completion:^(HHCoaches *coaches, NSError *error) {
+        [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].selectedCityId filters:nil sortOption:0 userLocation:nil fields:@[self.selectedField.fieldId] perPage:@(100) completion:^(HHCoaches *coaches, NSError *error) {
             if (!error) {
                 self.coaches = coaches.coaches;
                 [HHStudentStore sharedInstance].fieldCoachesDic[self.selectedField.fieldId] = coaches.coaches;
@@ -131,8 +138,7 @@
     for (HHField *field in self.fields) {
         HHPointAnnotation *pointAnnotation = [[HHPointAnnotation alloc] initWithField:field];
         pointAnnotation.coordinate = CLLocationCoordinate2DMake([field.latitude doubleValue], [field.longitude doubleValue]);
-        pointAnnotation.title = field.name;
-        pointAnnotation.subtitle = field.address;
+        pointAnnotation.title = @" ";
         [self.mapView addAnnotation:pointAnnotation];
         
     }
@@ -169,12 +175,10 @@
         return nil;
     } else {
         static NSString *reuseIndetifier = @"annotationReuseIndetifier";
-        MKAnnotationView *annotationView = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIndetifier];
+        HHAnnotationView *annotationView = (HHAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIndetifier];
         if (!annotationView) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
-                                                          reuseIdentifier:reuseIndetifier];
+            annotationView = [[HHAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIndetifier];
         }
-
         annotationView.canShowCallout = YES;
         return annotationView;
 
@@ -182,9 +186,9 @@
 }
 
 
-- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(HHAnnotationView *)view {
     for (id<MKAnnotation> annotation in mapView.annotations){
-        MKAnnotationView *aView = [mapView viewForAnnotation: annotation];
+        HHAnnotationView *aView = (HHAnnotationView *)[mapView viewForAnnotation: annotation];
         if (aView){
             aView.image = [UIImage imageNamed:@"ic_map_local_choseoff"];
         }
@@ -193,8 +197,9 @@
     HHPointAnnotation *annotation = view.annotation;
     self.selectedField = annotation.field;
     [self getFieldCoach];
-    
 }
+
+
 
 - (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
     for (MKAnnotationView *view in views) {
@@ -214,6 +219,7 @@
 }
 
 - (void)updateView {
+    __weak HHFieldsMapViewController *weakSelf = self;
     self.indexLabel.attributedText = [self generateStringWithCurrentIndex:1];
     for (HHMapCoachCardView *view in self.cardViews) {
         [view removeFromSuperview];
@@ -238,6 +244,30 @@
         }];
         preView = view;
         [self.cardViews addObject:view];
+        
+        view.checkFieldBlock = ^(HHCoach *coach) {
+            //show popup
+        };
+        
+        view.supportBlock = ^(HHCoach *coach) {
+            [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
+        };
+        
+        view.callBlock = ^(HHCoach *coach) {
+            [[HHSupportUtility sharedManager] callSupportWithNumber:coach.consultPhone];
+        };
+        
+        view.schoolBlock = ^(HHDrivingSchool *school) {
+            HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/jiaxiao/%@", [school.schoolId stringValue]]]];
+            webVC.hidesBottomBarWhenPushed = YES;
+            [weakSelf.navigationController pushViewController:webVC animated:YES];
+        };
+        
+        view.coachBlock = ^(HHCoach *coach) {
+            HHCoachDetailViewController *vc = [[HHCoachDetailViewController alloc] initWithCoach:coach];
+            vc.hidesBottomBarWhenPushed = YES;
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        };
     }
     
     if (preView) {
@@ -255,7 +285,12 @@
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    NSInteger page = (scrollView.contentOffset.x + (0.5f * CGRectGetWidth(self.scrollView.bounds))) / CGRectGetWidth(self.scrollView.bounds);
+    NSInteger page = (scrollView.contentOffset.x - 30.0f)/(CGRectGetWidth(self.scrollView.frame)-60.0f);
+    self.indexLabel.attributedText = [self generateStringWithCurrentIndex:page+1];
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    NSInteger page = (scrollView.contentOffset.x - 30.0f)/(CGRectGetWidth(self.scrollView.frame)-60.0f);
     self.indexLabel.attributedText = [self generateStringWithCurrentIndex:page+1];
 }
 

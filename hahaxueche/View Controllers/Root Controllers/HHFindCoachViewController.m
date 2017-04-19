@@ -190,7 +190,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
         locationArray = @[lat, lon];
         
     }
-    [[HHCoachService sharedInstance] fetchCoachListWithCityId:self.userCity.cityId filters:weakSelf.coachFilters sortOption:weakSelf.currentSortOption userLocation:locationArray fields:nil completion:^(HHCoaches *coaches, NSError *error) {
+    [[HHCoachService sharedInstance] fetchCoachListWithCityId:self.userCity.cityId filters:weakSelf.coachFilters sortOption:weakSelf.currentSortOption userLocation:locationArray fields:nil perPage:nil completion:^(HHCoaches *coaches, NSError *error) {
         if (!error) {
             weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
             weakSelf.coachesObject = coaches;

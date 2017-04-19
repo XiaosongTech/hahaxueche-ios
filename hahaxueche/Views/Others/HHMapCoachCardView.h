@@ -11,6 +11,11 @@
 #import "HHCoachBadgeView.h"
 #import "HHCoachTagView.h"
 #import "HHStarRatingView.h"
+#import "HHGradientButton.h"
+
+
+typedef void (^HHMapViewCoachCompletion)(HHCoach *coach);
+typedef void (^HHMapViewDrivingSchoolCompletion)(HHDrivingSchool *school);
 
 @interface HHMapCoachCardView : UIView
 
@@ -27,8 +32,17 @@
 @property (nonatomic, strong) UILabel *priceLabel;
 @property (nonatomic, strong) UILabel *moreLabel;
 
-@property (nonatomic, strong) UIButton *callButton;
+@property (nonatomic, strong) HHGradientButton *callButton;
 @property (nonatomic, strong) UIButton *onlineSupportButton;
 @property (nonatomic, strong) UIButton *checkFieldButton;
+
+@property (nonatomic, strong) HHCoach *coach;
+
+
+@property (nonatomic, strong) HHMapViewCoachCompletion checkFieldBlock;
+@property (nonatomic, strong) HHMapViewCoachCompletion supportBlock;
+@property (nonatomic, strong) HHMapViewCoachCompletion callBlock;
+@property (nonatomic, strong) HHMapViewCoachCompletion coachBlock;
+@property (nonatomic, strong) HHMapViewDrivingSchoolCompletion schoolBlock;
 
 @end
