@@ -241,6 +241,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
         switch (index) {
             case 0: {
                 [weakSelf showMapView];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_map_view_tapped attributes:nil];
             } break;
                 
             case 1: {
@@ -273,6 +274,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
             url = kDrivingSchoolPage;
         #endif
         [weakSelf openWebPage:[NSURL URLWithString:url]];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_hot_school_more_tapped attributes:nil];
     };
     self.drivingSchoolsView.itemAction = ^(NSInteger index) {
         HHDrivingSchool *school = weakSelf.drivingSchools[index];
@@ -283,18 +285,21 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
             url = kDrivingSchoolPage;
         #endif
         [weakSelf openWebPage:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", url, school.schoolId]]];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_hot_school_tapped attributes:@{@"index":@(index)}];
     };
     [self.scrollView addSubview:self.drivingSchoolsView];
     
     self.coachesView = [[HHCarouselView alloc] initWithType:CarouselTypeCoach data:nil];
     self.coachesView.buttonAction = ^() {
         weakSelf.tabBarController.selectedIndex = TabBarItemCoach;
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_hot_coach_more_tapped attributes:nil];
     };
     self.coachesView.itemAction = ^(NSInteger index) {
         HHCoach *coach = weakSelf.coaches[index];
         HHCoachDetailViewController *vc = [[HHCoachDetailViewController alloc] initWithCoach:coach];
         vc.hidesBottomBarWhenPushed = YES;
         [weakSelf.navigationController pushViewController:vc animated:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_hot_coach_tapped attributes:@{@"index":@(index)}];
     };
     [self.scrollView addSubview:self.coachesView];
     
@@ -303,12 +308,14 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
         switch (index) {
             case 0: {
                 [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/bao-ming-xu-zhi"]];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_new_policy_tapped attributes:nil];
             } break;
             case 1: {
                 [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/xue-che-liu-cheng"]];
             } break;
             case 2: {
                 [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/bao-ming-xu-zhi"]];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_application_notice_tapped attributes:nil];
             } break;
             case 3: {
                 [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/jiaxiao"]];
@@ -325,12 +332,15 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
         switch (index) {
             case 0: {
                 [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/xue-che-bao"]];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_assurance_tapped attributes:nil];
             } break;
             case 1: {
                 [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/pei-fu-bao"]];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_compensate_tapped attributes:nil];
             } break;
             case 2: {
                 [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/fen-qi-bao"]];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_installment_tapped attributes:nil];
             } break;
                 
             default:
@@ -452,6 +462,8 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
     
     self.popup = [HHPopupUtility createPopupWithContentView:view];
     [HHPopupUtility showPopup:self.popup];
+    
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_navigation_city_tapped attributes:nil];
 }
 
 - (void)navMapTapped {
@@ -475,6 +487,8 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
         } else {
             [self showMapView];
         }
+        
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_navigation_map_tapped attributes:nil];
     }];
     
     
@@ -485,10 +499,12 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
     vc.hidesBottomBarWhenPushed = YES;
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:navVC animated:NO completion:nil];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_navigation_map_tapped attributes:nil];
 }
 
 - (void)findCoachViewTapped {
     self.tabBarController.selectedIndex = TabBarItemCoach;
+     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_navigation_search_tapped attributes:nil];
 }
 
 - (void)findJiaxiaoViewTapped {
@@ -499,6 +515,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
         url = kDrivingSchoolPage;
     #endif
     [self openWebPage:[NSURL URLWithString:url]];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_select_school_tapped attributes:nil];
 }
 
 - (void)cityChangedWithCity:(HHCity *)city {
@@ -529,6 +546,8 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:city.cityId forKey:@"userSelectedCity"];
+    
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_navigation_city_selected attributes:nil];
 
 }
 

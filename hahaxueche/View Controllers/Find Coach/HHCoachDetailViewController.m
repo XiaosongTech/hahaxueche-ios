@@ -195,22 +195,27 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
                 } else {
                     [HHPopupUtility dismissPopup:weakSelf.popup];
                 }
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_free_trial_confirmed attributes:@{@"coach_id":weakSelf.coach.coachId}];
             }];
         };
         weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
         [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_free_trial_tapped attributes:@{@"coach_id":weakSelf.coach.coachId}];
     };
     
     self.bottomBar.supportAction = ^(){
        [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_online_support_tapped attributes:nil];
     };
     
     self.bottomBar.smsAction = ^{
        [[HHSocialMediaShareUtility sharedInstance] showSMS:[NSString stringWithFormat:@"%@教练, 我在哈哈学车看到您的招生信息, 我想详细了解一下.", weakSelf.coach.name] attachment:nil inVC:weakSelf];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_text_tapped attributes:nil];
     };
     
     self.bottomBar.callAction = ^{
         [[HHSupportUtility sharedManager] callSupportWithNumber:weakSelf.coach.consultPhone];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_phone_support_tapped attributes:nil];
     };
     
     [[HHCoachService sharedInstance] checkFollowedCoach:self.coach.userId completion:^(BOOL followed) {
@@ -289,6 +294,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
             cell.purchaseBlock = ^(CoachProductType type) {
                 HHPurchaseConfirmViewController *vc = [[HHPurchaseConfirmViewController alloc] initWithCoach:weakSelf.coach selectedType:type];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_purchase_tapped attributes:nil];
 
             };
             
@@ -299,6 +305,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
             cell.priceDetailBlock = ^(CoachProductType type) {
                 HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:weakSelf.coach productType:type];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_price_detail_tapped attributes:nil];
             };
             [cell setupCellWithCoach:self.coach selectedType:self.selecteLicenseType];
             return cell;
@@ -335,6 +342,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
                 HHCoachDetailViewController *detailVC = [[HHCoachDetailViewController alloc] initWithCoachId:coach.coachId];
                 detailVC.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:detailVC animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_co_coach_tapped attributes:nil];
             };
             return cell;
         }
@@ -547,12 +555,6 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
     
 }
 
-- (void)tryCoachForFree {
-    NSString *urlString = [[HHFreeTrialUtility sharedManager] buildFreeTrialURLStringWithCoachId:self.coach.coachId];
-    [self openWebPage:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_free_trial_tapped attributes:@{@"coach_id":self.coach.coachId}];
-}
-
 - (void)shareCoach {
     __weak HHCoachDetailViewController *weakSelf = self;
     HHShareView *shareView = [[HHShareView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 0)];
@@ -628,6 +630,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
 - (void)deposit {
     HHPrepayViewController *vc = [[HHPrepayViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_deposit_tapped attributes:nil];
 }
 
 @end

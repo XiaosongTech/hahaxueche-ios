@@ -23,6 +23,7 @@
 #import "HHGradientButton.h"
 #import "HHPrepayViewController.h"
 #import "HHIntroViewController.h"
+#import "HHEventTrackingManager.h"
 
 
 @interface HHCoachPriceDetailViewController () <TTTAttributedLabelDelegate>
@@ -579,12 +580,14 @@
 - (void)purchaseButtonTapped {
     HHPurchaseConfirmViewController *vc = [[HHPurchaseConfirmViewController alloc] initWithCoach:self.coach selectedType:self.type];
     [self.navigationController pushViewController:vc animated:YES];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:price_detail_page_purchase_tapped attributes:nil];
 }
 
 - (void)depositButtonTapped {
     HHPrepayViewController *vc = [[HHPrepayViewController alloc] init];
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:navVC animated:YES completion:nil];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:price_detail_page_deposit_tapped attributes:nil];
 }
 
 

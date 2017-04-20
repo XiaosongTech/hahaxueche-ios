@@ -22,6 +22,7 @@
 #import "HHConstantsStore.h"
 #import "HHStudentStore.h"
 #import "HHIntroViewController.h"
+#import "HHEventTrackingManager.h"
 
 @interface HHPrepayViewController ()
 
@@ -44,6 +45,11 @@
     self.view.backgroundColor = [UIColor HHBackgroundGary];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
     [self initSubviews];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:deposit_confirm_page_viewed attributes:nil];
 }
 
 - (void)initSubviews {
@@ -150,13 +156,15 @@
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (succeed) {
             [self fetchStudentAfterPurchase];
-            
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:deposit_confirm_page_purchased attributes:nil];
         } else {
             [[HHToastManager sharedManager] showErrorToastWithText:@"支付失败或您取消了支付, 请重试"];
             
         }
 
     }];
+    
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:deposit_confirm_page_button_tapped attributes:nil];
 }
 
 - (void)fetchStudentAfterPurchase {

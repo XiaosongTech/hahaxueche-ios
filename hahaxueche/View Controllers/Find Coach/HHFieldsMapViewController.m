@@ -23,6 +23,7 @@
 #import "HHGenericPhoneView.h"
 #import "HHStudentService.h"
 #import "HHToastManager.h"
+#import "HHEventTrackingManager.h"
 
 
 @interface HHFieldsMapViewController () <UIScrollViewDelegate>
@@ -200,11 +201,13 @@
                         [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试!"];
                     } else {
                         [HHPopupUtility dismissPopup:weakSelf.popup];
+                        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_locate_confirmed attributes:nil];
                     }
                 }];
             };
             weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
             [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_locate_tapped attributes:nil];
         };
         
         HHAnnotationView *annotationView = (HHAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([HHAnnotationView class])];
@@ -280,31 +283,37 @@
                         [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试!"];
                     } else {
                         [HHPopupUtility dismissPopup:weakSelf.popup];
+                        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_site_confirmed attributes:nil];
                     }
                 }];
             };
             weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
             [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+           [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_site_tapped attributes:nil];
         };
         
         view.supportBlock = ^(HHCoach *coach) {
             [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_online_support_tapped attributes:nil];
         };
         
         view.callBlock = ^(HHCoach *coach) {
             [[HHSupportUtility sharedManager] callSupportWithNumber:coach.consultPhone];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_contact_coach_tapped attributes:nil];
         };
         
         view.schoolBlock = ^(HHDrivingSchool *school) {
             HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/jiaxiao/%@", [school.schoolId stringValue]]]];
             webVC.hidesBottomBarWhenPushed = YES;
             [weakSelf.navigationController pushViewController:webVC animated:YES];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_school_tapped attributes:nil];
         };
         
         view.coachBlock = ^(HHCoach *coach) {
             HHCoachDetailViewController *vc = [[HHCoachDetailViewController alloc] initWithCoach:coach];
             vc.hidesBottomBarWhenPushed = YES;
             [weakSelf.navigationController pushViewController:vc animated:YES];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_coach_tapped attributes:nil];
         };
     }
     
