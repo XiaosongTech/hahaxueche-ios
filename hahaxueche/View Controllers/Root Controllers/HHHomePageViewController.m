@@ -527,19 +527,22 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
         [self.drivingSchoolsView updateData:self.drivingSchools type:CarouselTypeDrivingSchool];
     }];
     
-
+    
     NSArray *locationArray;
     if ([HHStudentStore sharedInstance].currentLocation) {
         NSNumber *lat = @([HHStudentStore sharedInstance].currentLocation.coordinate.latitude);
         NSNumber *lon = @([HHStudentStore sharedInstance].currentLocation.coordinate.longitude);
         locationArray = @[lat, lon];
     }
-    [[HHCoachService sharedInstance] fetchCoachListWithCityId:city.cityId filters:nil sortOption:SortOptionReviewCount userLocation:locationArray fields:nil perPage:nil completion:^(HHCoaches *coaches, NSError *error) {
-        if (!error) {
-            self.coaches = coaches.coaches;
-            [self.coachesView updateData:self.coaches type:CarouselTypeCoach];
-            
-        }
+    
+    [[HHConstantsStore sharedInstance] getFieldsWithCityId:city.cityId completion:^(NSArray *schools) {
+        [[HHCoachService sharedInstance] fetchCoachListWithCityId:city.cityId filters:nil sortOption:SortOptionDistance userLocation:locationArray fields:nil perPage:nil completion:^(HHCoaches *coaches, NSError *error) {
+            if (!error) {
+                self.coaches = coaches.coaches;
+                [self.coachesView updateData:self.coaches type:CarouselTypeCoach];
+                
+            }
+        }];
     }];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"cityChanged" object:nil];

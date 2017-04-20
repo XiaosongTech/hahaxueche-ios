@@ -186,12 +186,6 @@ static NSString *const kSavedConstants = @"kSavedConstant";
 }
 
 - (void)getFieldsWithCityId:(NSNumber *)cityId completion:(HHSchoolsCompletion)completion {
-    if ([self.fields count] > 0) {
-        if (completion) {
-            completion(self.fields);
-        }
-        return;
-    }
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIFields];
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
     [APIClient getWithParameters:@{@"city_id":cityId} completion:^(NSDictionary *response, NSError *error) {
