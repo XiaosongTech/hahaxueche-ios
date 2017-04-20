@@ -42,6 +42,7 @@
 @implementation HHFieldsMapViewController
 
 - (void)dealloc {
+    self.mapView.mapType = MKMapTypeHybrid;
     self.mapView.delegate = nil;
     [self.mapView removeFromSuperview];
     self.mapView = nil;
@@ -342,14 +343,6 @@
 }
 
 
-
--(void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    self.mapView.mapType = MKMapTypeHybrid;
-    self.mapView.delegate = nil;
-    [self.mapView removeFromSuperview];
-    self.mapView = nil;
-}
 
 
 

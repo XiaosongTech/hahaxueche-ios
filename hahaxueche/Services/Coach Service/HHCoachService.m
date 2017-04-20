@@ -254,6 +254,7 @@
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICoaches];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     param[@"keyword"] = keyword;
+    param[@"city_id"] = [HHStudentStore sharedInstance].selectedCityId;
     if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
         param[@"student_id"] = [HHStudentStore sharedInstance].currentStudent.studentId;
     }
