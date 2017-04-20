@@ -37,7 +37,6 @@
         
         if (selected) {
             [self pinTapped];
-            [self showCalloutView];
         }
     }
     return self;
@@ -46,6 +45,7 @@
 - (void)pinTapped {
     HHPointAnnotation *annotation = (HHPointAnnotation *)self.annotation;
     self.pinView.image = [UIImage imageNamed:@"ic_map_local_choseon"];
+    [self showCalloutView];
     if (self.pinCompletion) {
         self.pinCompletion(annotation.field);
     }

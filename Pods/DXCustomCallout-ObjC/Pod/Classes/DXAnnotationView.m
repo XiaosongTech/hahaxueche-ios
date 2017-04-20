@@ -80,24 +80,6 @@
     self.calloutView.layer.borderColor = self.settings.calloutBorderColor.CGColor;
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    if (_hasCalloutView) {
-        UITouch *touch = [touches anyObject];
-        // toggle visibility
-        if (touch.view == self.pinView) {
-            if (self.calloutView.isHidden) {
-                [self showCalloutView];
-            } else {
-                [self hideCalloutView];
-            }
-        } else if (touch.view == self.calloutView) {
-            [self showCalloutView];
-        } else {
-            [self hideCalloutView];
-        }
-    }
-}
-
 - (void)hideCalloutView {
     if (_hasCalloutView) {
         if (!self.calloutView.isHidden) {

@@ -220,6 +220,7 @@
                                                                  selected:[anno.field.fieldId isEqualToString:self.selectedField.fieldId]];
         }
         
+        annotationView.enabled = NO;
         annotationView.pinCompletion = ^(HHField *field) {
             for (id<MKAnnotation> annotation in mapView.annotations){
                 HHAnnotationView *aView = (HHAnnotationView *)[mapView viewForAnnotation: annotation];
