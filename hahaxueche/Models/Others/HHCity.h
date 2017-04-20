@@ -20,6 +20,7 @@
 @property (nonatomic, copy) NSString *referalBanner;
 @property (nonatomic, copy) NSNumber *referrerBonus;
 @property (nonatomic, copy) NSNumber *refereeBonus;
+@property (nonatomic, copy) NSArray *drivingSchools;
 
 
 

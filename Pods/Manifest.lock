@@ -23,6 +23,7 @@ PODS:
   - BEMCheckBox (1.2.1)
   - CRToast (0.0.9)
   - DateTools (1.7.0)
+  - DXCustomCallout-ObjC (0.2.0)
   - DZNEmptyDataSet (1.8.1)
   - FLAnimatedImage (1.0.12)
   - Harpy (3.4.8)
@@ -75,6 +76,7 @@ DEPENDENCIES:
   - BEMCheckBox
   - CRToast
   - DateTools
+  - DXCustomCallout-ObjC (~> 0.2)
   - DZNEmptyDataSet
   - FLAnimatedImage (~> 1.0)
   - Harpy
@@ -113,6 +115,7 @@ SPEC CHECKSUMS:
   BEMCheckBox: 264b8b72aa92adbfefa265cc58a0cdb86b207b9f
   CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
+  DXCustomCallout-ObjC: fb223603ee148365de51c2d69bb10443943ff89b
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Harpy: 7253bc78a0c3e239e8e4bd21b63403c7cf0be9c9
@@ -139,6 +142,6 @@ SPEC CHECKSUMS:
   UITextView+Placeholder: 77680995fcdd07c3f52ec92fe1150874a2ac89ff
   UMengAnalytics-NO-IDFA: f1b08b540eba6ebad044a574cae6d988cf40cfda
 
-PODFILE CHECKSUM: fa04bf4c0454dd9ca1b8f91487ea42880658eb2f
+PODFILE CHECKSUM: 9a329c7a8051ab5b59591691aee807447217d0af
 
 COCOAPODS: 1.0.0

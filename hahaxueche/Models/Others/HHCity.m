@@ -10,6 +10,7 @@
 #import "HHCityFixedFee.h"
 #import "HHCityOtherFee.h"
 #import "HHBonus.h"
+#import "HHDrivingSchool.h"
 
 @implementation HHCity
 

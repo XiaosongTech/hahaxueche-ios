@@ -15,40 +15,69 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.backgroundColor = [UIColor HHLightBackgroudGray];
+        self.backgroundColor = [UIColor whiteColor];
         self.layer.masksToBounds = YES;
         self.layer.cornerRadius = 8.0f;
-        self.layer.borderWidth = 1.0f/[UIScreen mainScreen].scale;
-        self.layer.borderColor = [UIColor HHLightLineGray].CGColor;
+        self.layer.borderWidth = 2.0f/[UIScreen mainScreen].scale;
+        self.layer.borderColor = [UIColor HHOrange].CGColor;
         
         self.dot = [[UIView alloc] init];
         self.dot.layer.masksToBounds = YES;
-        self.dot.layer.cornerRadius = 2.5f;
+        self.dot.layer.cornerRadius = 2.0f;
+        self.dot.backgroundColor = [UIColor HHOrange];
         [self addSubview:self.dot];
         
         [self.dot makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.left).offset(5.0f);
             make.centerY.equalTo(self.centerY);
-            make.width.mas_equalTo(5.0f);
-            make.height.mas_equalTo(5.0f);
+            make.width.mas_equalTo(4.0f);
+            make.height.mas_equalTo(4.0f);
         }];
         
         self.label = [[UILabel alloc] init];
-        self.label.textColor = [UIColor HHLightTextGray];
-        self.label.font = [UIFont systemFontOfSize:10.0f];
         [self addSubview:self.label];
         [self.label makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.dot.right).offset(4.0f);
             make.centerY.equalTo(self.centerY);
         }];
+        self.userInteractionEnabled = YES;
+        UITapGestureRecognizer *rec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped)];
+        [self addGestureRecognizer:rec];
         
     }
     return self;
 }
 
-- (void)setDotColor:(UIColor *)dotColor title:(NSString *)title {
-    self.dot.backgroundColor = dotColor;
-    self.label.text = title;
+- (void)setupWithDrivingSchool:(HHDrivingSchool *)school {
+    self.label.attributedText = [self generateAttrString:school.schoolName];
+    self.school = school;
+}
+
+- (NSMutableAttributedString *)generateAttrString:(NSString *)title {
+    if (!title) {
+        return nil;
+    }
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+    
+    NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+    textAttachment.image = [UIImage imageNamed:@"arrow_map_school"];
+    textAttachment.bounds = CGRectMake(2.0f, -1.5f, textAttachment.image.size.width, textAttachment.image.size.height);
+    
+    NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+    
+    [attributedString appendAttributedString:attrStringWithImage];
+    return attributedString;
+    
+
+}
+
+- (void)viewTapped {
+    if (self.tapAction) {
+        self.tapAction(self.school);
+    }
 }
 
 @end

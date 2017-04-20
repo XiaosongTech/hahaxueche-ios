@@ -15,11 +15,15 @@
     return @{
              @"fieldId": @"id",
              @"name": @"name",
-             @"district": @"section",
+             @"district": @"zone",
              @"address": @"street",
              @"longitude": @"lng",
              @"latitude":@"lat",
              @"cityId":@"city_id",
+             @"displayAddress":@"display_address",
+             @"coachCount":@"coach_count",
+             @"consultPhone":@"consult_phone",
+             @"img":@"image",
              };
 }
 
@@ -44,9 +48,8 @@
     return string;
 }
 
-- (NSString *)cityAndDistrict {
-    NSString *string = [NSString stringWithFormat:@"%@%@",[[[HHConstantsStore sharedInstance] getCityWithId:self.cityId] cityName] , self.district];
-    return string;
+- (NSString *)city {
+    return [[[HHConstantsStore sharedInstance] getCityWithId:self.cityId] cityName];
 }
 
 @end

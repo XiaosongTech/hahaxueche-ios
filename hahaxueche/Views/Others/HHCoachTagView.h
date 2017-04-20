@@ -7,13 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HHDrivingSchool.h"
+
+typedef void (^HHDrivingSchoolCompletion)(HHDrivingSchool *school);
 
 @interface HHCoachTagView : UIView
 
 @property (nonatomic, strong) UIView *dot;
 @property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong) HHDrivingSchool *school;
+@property (nonatomic, strong) HHDrivingSchoolCompletion tapAction;
 
 
-- (void)setDotColor:(UIColor *)dotColor title:(NSString *)title;
+- (void)setupWithDrivingSchool:(HHDrivingSchool *)school;
 
 @end

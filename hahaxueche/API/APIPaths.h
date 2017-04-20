@@ -77,5 +77,8 @@
 #define kAPIConstantsPath @"constants"
 #define kAPIMarketingChannelPath @"marketing_information"
 #define kAPIAddressBook @"address_books"
+#define kAPICities @"cities/%@"
+#define kAPIFields @"fields"
+#define kAPINumberCollect @"user_identities"
 
 #endif /* APIPaths_h */

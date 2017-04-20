@@ -11,30 +11,52 @@
 #import "Masonry.h"
 #import "HHConstantsStore.h"
 #import "HHStudentStore.h"
+#import "HHCoachService.h"
+#import "HHMapCoachCardView.h"
+#import "HHPointAnnotation.h"
+#import "HHSupportUtility.h"
+#import "HHWebViewController.h"
+#import "HHCoachDetailViewController.h"
+#import "HHAnnotationView.h"
+#import "HHCalloutView.h"
+#import "HHSupportUtility.h"
+#import "HHGenericPhoneView.h"
+#import "HHStudentService.h"
+#import "HHToastManager.h"
+#import "HHEventTrackingManager.h"
 
-static NSString *const kExplanationCopy = @"图标可多选，请选择地图上的图标，选中后点击下方“查看训练场教练”，可以查看已选训练场教练列表";
 
-@interface HHFieldsMapViewController ()
+@interface HHFieldsMapViewController () <UIScrollViewDelegate>
 
-@property (nonatomic, strong) NSMutableArray *selectedFields;
-@property (nonatomic, strong) NSMutableArray *selectedFieldsIndex;
-@property (nonatomic, strong) NSArray *allFields;
-@property (nonatomic, strong) NSMutableArray *annotationViews;
+@property (nonatomic, strong) HHField *selectedField;
+@property (nonatomic, strong) NSArray *fields;
+@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) NSArray *coaches;
+@property (nonatomic, strong) UILabel *indexLabel;
+@property (nonatomic, strong) NSMutableArray *cardViews;
+@property (nonatomic, strong) KLCPopup *popup;
+
 
 @end
 
 @implementation HHFieldsMapViewController
 
 - (void)dealloc {
+    self.mapView.mapType = MKMapTypeHybrid;
     self.mapView.delegate = nil;
+    [self.mapView removeFromSuperview];
+    self.mapView = nil;
 }
 
-- (instancetype)initWithUserLocation:(CLLocation *)userLocation selectedFields:(NSMutableArray *)selectedFields {
+
+
+- (instancetype)initWithFields:(NSArray *)fields selectedField:(HHField *)selectedField {
     self = [super init];
     if (self) {
-        self.userLocation = userLocation;
-        self.selectedFields = selectedFields;
-        self.annotationViews = [NSMutableArray array];
+        self.userLocation = [HHStudentStore sharedInstance].currentLocation;
+        self.selectedField = selectedField;
+        self.fields = fields;
+        self.cardViews = [NSMutableArray array];
 
     }
     return self;
@@ -43,39 +65,59 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"训练场地图";
+    self.title = @"训练场/驾校教练";
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
-
-    HHStudent *currentStudent = [[HHStudentStore sharedInstance] currentStudent];
-    self.allFields = [[HHConstantsStore sharedInstance] getAllFieldsForCity:currentStudent.cityId];
     
     [self initSubviews];
+    if (self.selectedField)  {
+        [self getFieldCoach];
+        
+        CLLocationCoordinate2D fieldLocationCoordinate = CLLocationCoordinate2DMake([self.selectedField.latitude doubleValue], [self.selectedField.longitude doubleValue]);
+        MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(fieldLocationCoordinate, 15000, 15000);
+        [self.mapView setRegion:mapRegion animated:YES];
+    } else {
+        MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(self.userLocation.coordinate, 15000, 15000);
+        [self.mapView setRegion:mapRegion animated:YES];
+    }
+    
+   
+}
+
+- (void)getFieldCoach {
+    if ([HHStudentStore sharedInstance].fieldCoachesDic[self.selectedField.fieldId]) {
+        self.coaches = [HHStudentStore sharedInstance].fieldCoachesDic[self.selectedField.fieldId];
+        [self updateView];
+    } else {
+        [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].selectedCityId filters:nil sortOption:0 userLocation:nil fields:@[self.selectedField.fieldId] perPage:@(100) completion:^(HHCoaches *coaches, NSError *error) {
+            if (!error) {
+                self.coaches = coaches.coaches;
+                [HHStudentStore sharedInstance].fieldCoachesDic[self.selectedField.fieldId] = coaches.coaches;
+                [self updateView];
+            }
+        }];
+    }
+
+
+    
 }
 
 - (void)initSubviews {
-    self.mapView = [[MKMapView alloc] initWithFrame:CGRectZero];
+    self.mapView = [[MKMapView alloc] init];
     self.mapView.delegate = self;
     self.mapView.showsUserLocation = YES;
     [self.view addSubview:self.mapView];
     
-    self.explanationView = [[UIView alloc] init];
-    self.explanationView.backgroundColor = [UIColor colorWithRed:1 green:0.99 blue:0.99 alpha:1.0f];
-    [self.view addSubview:self.explanationView];
+    self.scrollView = [[UIScrollView alloc] init];
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    self.scrollView.showsHorizontalScrollIndicator = NO;
+    self.scrollView.delegate = self;
+    self.scrollView.backgroundColor = [UIColor clearColor];
+    [self.view bringSubviewToFront:self.scrollView];
+    [self.view addSubview:self.scrollView];
     
-    self.explanationLabel = [[UILabel alloc] init];
-    self.explanationLabel.numberOfLines = 0;
-    self.explanationLabel.attributedText = [self generateString];
-    [self.explanationLabel sizeToFit];
-    [self.explanationView addSubview:self.explanationLabel];
-    
-    self.bottomButton = [[HHButton alloc] init];
-    NSString *buttonTitle = [NSString stringWithFormat:@"查看训练场教练（已选%ld个）", self.selectedFields.count];
-    [self.bottomButton setTitle:buttonTitle forState:UIControlStateNormal];
-    [self.bottomButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.bottomButton addTarget:self action:@selector(confirmSelectedFields) forControlEvents:UIControlEventTouchUpInside];
-    self.bottomButton.titleLabel.font = [UIFont systemFontOfSize:16.0f];
-    [self.bottomButton setBackgroundColor:[UIColor HHOrange]];
-    [self.view addSubview:self.bottomButton];
+    self.indexLabel = [[UILabel alloc] init];
+    [self.view bringSubviewToFront:self.indexLabel];
+    [self.view addSubview:self.indexLabel];
     
     [self makeConstraints];
 }
@@ -85,26 +127,20 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
         make.top.equalTo(self.view.top);
         make.left.equalTo(self.view.left);
         make.width.equalTo(self.view.width);
-        make.height.equalTo(self.view.height).offset(-100.0f);
+        make.height.equalTo(self.view.height);
     }];
     
-    [self.explanationView makeConstraints:^(MASConstraintMaker *make) {
+    [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.bottom);
         make.left.equalTo(self.view.left);
-        make.top.equalTo(self.mapView.bottom);
         make.width.equalTo(self.view.width);
-        make.height.mas_equalTo(50.0f);
+        make.height.mas_equalTo(140.0f);
     }];
+
     
-    [self.explanationLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.explanationView);
-        make.width.equalTo(self.explanationView).offset(-60.0f);
-    }];
-    
-    [self.bottomButton makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view.left);
-        make.top.equalTo(self.explanationView.bottom);
-        make.width.equalTo(self.view.width);
-        make.height.mas_equalTo(50.0f);
+    [self.indexLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.view.right).offset(-20.0f);
+        make.bottom.equalTo(self.scrollView.top).offset(-5.0f);
     }];
     
 }
@@ -112,102 +148,203 @@ static NSString *const kExplanationCopy = @"图标可多选，请选择地图上
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    for (HHField *field in self.allFields) {
-        MKPointAnnotation *pointAnnotation = [[MKPointAnnotation alloc] init];
+    for (HHField *field in self.fields) {
+        HHPointAnnotation *pointAnnotation = [[HHPointAnnotation alloc] initWithField:field];
         pointAnnotation.coordinate = CLLocationCoordinate2DMake([field.latitude doubleValue], [field.longitude doubleValue]);
-        pointAnnotation.title = field.name;
-        pointAnnotation.subtitle = field.address;
-        [self.annotationViews addObject:pointAnnotation];
+        pointAnnotation.title = @" ";
         [self.mapView addAnnotation:pointAnnotation];
         
     }
-    
-    MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(self.userLocation.coordinate, 15000, 15000);
-    [self.mapView setRegion:mapRegion animated:YES];
 }
 
 
 #pragma mark - Button Actions
 
 - (void)dismissVC {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)annotationViewTapped:(UITapGestureRecognizer *)recognizer {
-    MKAnnotationView *annotationView = (MKAnnotationView *)recognizer.view;
-    NSInteger index = [self.annotationViews indexOfObject:annotationView.annotation];
-    HHField *field = self.allFields[index];
-    if ([self.selectedFields containsObject:field.fieldId]) {
-        annotationView.image = [UIImage imageNamed:@"ic_map_local_choseoff"];
-        [self.selectedFields removeObject:field.fieldId];
+    if ([[self.navigationController.viewControllers firstObject] isEqual:self]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
     } else {
-        annotationView.image = [UIImage imageNamed:@"ic_map_local_choseon"];
-        [self.selectedFields addObject:field.fieldId];
+        [self.navigationController popViewControllerAnimated:YES];
     }
-    
-    //popup the callout
-    [self.mapView selectAnnotation:annotationView.annotation animated:YES];
-    NSString *buttonTitle = [NSString stringWithFormat:@"查看训练场教练（已选%ld个）", self.selectedFields.count];
-    [self.bottomButton setTitle:buttonTitle forState:UIControlStateNormal];
 }
 
-- (void)confirmSelectedFields {
-    [self dismissVC];
-    if (self.conformBlock) {
-        self.conformBlock(self.selectedFields);
-    }
-}
 
 #pragma mark - Others
 
-- (NSMutableAttributedString *)generateString {
+- (NSMutableAttributedString *)generateStringWithCurrentIndex:(NSInteger)currentIndex {
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];;
     paragraphStyle.alignment = NSTextAlignmentCenter;
     
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:kExplanationCopy attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
-    NSRange range1 = [kExplanationCopy rangeOfString:@"图标可多选"];
-    NSRange range2 = [kExplanationCopy rangeOfString:@"“查看训练场教练”"];
-    [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor HHOrange] range:range1];
-    [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor HHOrange] range:range2];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", currentIndex] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10.0f], NSForegroundColorAttributeName:[UIColor HHOrange], NSParagraphStyleAttributeName:paragraphStyle}];
+    NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"/%ld", self.coaches.count] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+
+    [attrString appendAttributedString:attrString2];
     
     return attrString;
 }
 
 #pragma mark - MapView Delegate Methods 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+    __weak HHFieldsMapViewController *weakSelf = self;
     if ([annotation isKindOfClass:[MKUserLocation class]]) {
         return nil;
     } else {
-        static NSString *reuseIndetifier = @"annotationReuseIndetifier";
-        MKAnnotationView *annotationView = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIndetifier];
+        
+        HHPointAnnotation *anno = (HHPointAnnotation *)annotation;
+        
+        UIImageView *pinView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_map_local_choseoff"]];
+        HHCalloutView *calloutView = [[HHCalloutView alloc] initWithField:anno.field];
+        calloutView.sendAction = ^(HHField *field) {
+            HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"轻松定位训练场" placeHolder:@"输入手机号, 立即接收详细地址" buttonTitle:@"发我定位"];
+            view.buttonAction = ^(NSString *number) {
+                [[HHStudentService sharedInstance] getPhoneNumber:number completion:^(NSError *error) {
+                    if (error) {
+                        [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试!"];
+                    } else {
+                        [HHPopupUtility dismissPopup:weakSelf.popup];
+                        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_locate_confirmed attributes:nil];
+                    }
+                }];
+            };
+            weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+            [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_locate_tapped attributes:nil];
+        };
+        
+        HHAnnotationView *annotationView = (HHAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([HHAnnotationView class])];
         if (!annotationView) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
-                                                          reuseIdentifier:reuseIndetifier];
+            annotationView = [[HHAnnotationView alloc] initWithAnnotation:annotation
+                                                          reuseIdentifier:NSStringFromClass([HHAnnotationView class])
+                                                                  pinView:pinView
+                                                              calloutView:calloutView
+                                                                 selected:[anno.field.fieldId isEqualToString:self.selectedField.fieldId]];
         }
-       
-        annotationView.canShowCallout = YES;
+        
+        annotationView.pinCompletion = ^(HHField *field) {
+            for (id<MKAnnotation> annotation in mapView.annotations){
+                HHAnnotationView *aView = (HHAnnotationView *)[mapView viewForAnnotation: annotation];
+                if (aView){
+                    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+                        continue;
+                    }
+                    HHPointAnnotation *annotation = (HHPointAnnotation *)aView.annotation;
+                    if (![annotation.field.fieldId isEqualToString:field.fieldId]) {
+                        aView.pinView.image = [UIImage imageNamed:@"ic_map_local_choseoff"];
+                        [aView hideCalloutView];
+                    } else {
+                        [weakSelf.mapView bringSubviewToFront:aView];
+                    }
+                }
+            }
+
+            if (![weakSelf.selectedField.fieldId isEqualToString:field.fieldId]) {
+                weakSelf.selectedField = field;
+                [weakSelf getFieldCoach];
+            }
+            
+        };
         return annotationView;
 
     }
 }
 
-- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
-    for (MKAnnotationView *view in views) {
-        if ([view.annotation isKindOfClass:[MKUserLocation class]]) {
-            continue;
-        }
-        
-        NSInteger index = [self.annotationViews indexOfObject:view.annotation];
-        HHField *field = self.allFields[index];
 
-        if ([self.selectedFields containsObject:field.fieldId]) {
-            view.image = [UIImage imageNamed:@"ic_map_local_choseon"];
-        } else {
-            view.image = [UIImage imageNamed:@"ic_map_local_choseoff"];
-        }
-        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(annotationViewTapped:)];
-        [view addGestureRecognizer:tapRecognizer];
+- (void)updateView {
+    __weak HHFieldsMapViewController *weakSelf = self;
+    self.indexLabel.attributedText = [self generateStringWithCurrentIndex:1];
+    for (HHMapCoachCardView *view in self.cardViews) {
+        [view removeFromSuperview];
     }
+    [self.cardViews removeAllObjects];
+    
+    HHMapCoachCardView *preView;
+    for (int i = 0; i < self.coaches.count; i++) {
+        HHCoach *coach = self.coaches[i];
+        HHMapCoachCardView *view = [[HHMapCoachCardView alloc] initWithCoach:coach];
+        [self.scrollView addSubview:view];
+        [view makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.scrollView.top);
+            if (!preView) {
+                make.left.equalTo(self.scrollView.left).offset(30.0f);
+            } else {
+                make.left.equalTo(preView.right).offset(10.0f);
+            }
+            make.width.equalTo(self.scrollView.width).offset(-60.0f);
+            make.height.mas_equalTo(140.0f);
+            
+        }];
+        preView = view;
+        [self.cardViews addObject:view];
+        
+        view.checkFieldBlock = ^(HHCoach *coach) {
+            HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"看过训练场才放心" placeHolder:@"输入手机号, 教练立即带你看场地" buttonTitle:@"预约看场地"];
+            view.buttonAction = ^(NSString *number) {
+                [[HHStudentService sharedInstance] getPhoneNumber:number completion:^(NSError *error) {
+                    if (error) {
+                        [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试!"];
+                    } else {
+                        [HHPopupUtility dismissPopup:weakSelf.popup];
+                        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_site_confirmed attributes:nil];
+                    }
+                }];
+            };
+            weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+            [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+           [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_site_tapped attributes:nil];
+        };
+        
+        view.supportBlock = ^(HHCoach *coach) {
+            [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_online_support_tapped attributes:nil];
+        };
+        
+        view.callBlock = ^(HHCoach *coach) {
+            [[HHSupportUtility sharedManager] callSupportWithNumber:coach.consultPhone];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_contact_coach_tapped attributes:nil];
+        };
+        
+        view.schoolBlock = ^(HHDrivingSchool *school) {
+            HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/jiaxiao/%@", [school.schoolId stringValue]]]];
+            webVC.hidesBottomBarWhenPushed = YES;
+            [weakSelf.navigationController pushViewController:webVC animated:YES];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_school_tapped attributes:nil];
+        };
+        
+        view.coachBlock = ^(HHCoach *coach) {
+            HHCoachDetailViewController *vc = [[HHCoachDetailViewController alloc] initWithCoach:coach];
+            vc.hidesBottomBarWhenPushed = YES;
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_coach_tapped attributes:nil];
+        };
+    }
+    
+    if (preView) {
+        [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:preView
+                                                                    attribute:NSLayoutAttributeRight
+                                                                    relatedBy:NSLayoutRelationEqual
+                                                                       toItem:self.scrollView
+                                                                    attribute:NSLayoutAttributeRight
+                                                                   multiplier:1.0
+                                                                     constant:-30.0f]];
+    }
+    
+    self.scrollView.contentOffset = CGPointMake(0, 0);
+    
 }
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    NSInteger page = (scrollView.contentOffset.x - 30.0f)/(CGRectGetWidth(self.scrollView.frame)-60.0f);
+    self.indexLabel.attributedText = [self generateStringWithCurrentIndex:page+1];
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    NSInteger page = (scrollView.contentOffset.x - 30.0f)/(CGRectGetWidth(self.scrollView.frame)-60.0f);
+    self.indexLabel.attributedText = [self generateStringWithCurrentIndex:page+1];
+}
+
+
+
+
+
 
 @end

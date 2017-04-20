@@ -2,97 +2,77 @@
 //  HHHomePageItemsView.m
 //  hahaxueche
 //
-//  Created by Zixiao Wang on 28/11/2016.
-//  Copyright © 2016 Zixiao Wang. All rights reserved.
+//  Created by Zixiao Wang on 12/04/2017.
+//  Copyright © 2017 Zixiao Wang. All rights reserved.
 //
 
 #import "HHHomePageItemsView.h"
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
-#import "HHHomePageTapView.h"
 
 @implementation HHHomePageItemsView
 
 - (instancetype)init {
     self = [super init];
     if (self) {
-        
-        __weak HHHomePageItemsView *weakSelf = self;
-        for (int i = 0; i < ItemTypeCount; i++) {
-            HHHomePageTapView *tapView = nil;
-            
-            switch (i) {
-                case ItemTypeGroupPurchase: {
-                    tapView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_salewarn"] title:@"限时团购"];
-                    [self addSubview:tapView];
-                } break;
-                    
-                case ItemTypeOnlineTest: {
-                    tapView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_test"] title:@"在线题库"];
-                    [self addSubview:tapView];
-                    
-                } break;
-                    
-                    
-                case ItemTypePeifu: {
-                    tapView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_peifubaby"] title:@"赔付宝"];
-                    [self addSubview:tapView];
-                    
-                } break;
-                    
-                case ItemTypePlatformGuard: {
-                    tapView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_safeguard"] title:@"平台保障"];
-                    [self addSubview:tapView];
-                    
-                } break;
-                    
-                case ItemTypeProcess: {
-                    tapView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_flow"] title:@"学车流程"];
-                    [self addSubview:tapView];
-                    
-                } break;
-                    
-                case ItemTypeReferFriends: {
-                    tapView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_recommendation"] title:@"推荐好友"];
-                    [self addSubview:tapView];
-                    
-                } break;
-                    
-                case ItemTypeOnlineSupport: {
-                    tapView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_customerservice"] title:@"在线客服"];
-                    [self addSubview:tapView];
-                    
-                } break;
-                    
-                case ItemTypeCallSupport: {
-                    tapView = [[HHHomePageTapView alloc] initWithImage:[UIImage imageNamed:@"ic_phone"] title:@"电话咨询"];
-                    [self addSubview:tapView];
-                    
-                } break;
-                    
+        for (int i = 0; i < 4; i++) {
+            UIView *view;
+            if (i == 0) {
+                view = [self buildItmeViewWithImage:[UIImage imageNamed:@"ic_mapsearch"] title:@"地图查找"];
                 
-                    
-                default:
-                    break;
+            } else if (i == 1) {
+                view = [self buildItmeViewWithImage:[UIImage imageNamed:@"ic_schoolsale"] title:@"驾校团购"];
+                
+            } else if (i == 2) {
+                view = [self buildItmeViewWithImage:[UIImage imageNamed:@"ic_questionbank"] title:@"在线题库"];
+                
+            } else {
+                view = [self buildItmeViewWithImage:[UIImage imageNamed:@"ic_customerservice"] title:@"在线客服"];
+                
             }
-            
-            tapView.actionBlock = ^() {
-                if (weakSelf.itemBlock) {
-                    weakSelf.itemBlock(i);
-                }
-            };
-            [tapView makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.top).offset((i/4) * 80.0f);
-                make.centerX.equalTo(self.centerX).multipliedBy(((i%4) * 2 + 1)/4.0f);
-                make.width.equalTo(self.width).multipliedBy(1.0f/4.0f);
-                make.height.equalTo(self.height).multipliedBy(0.5f);
+            view.tag = i;
+            [self addSubview:view];
+            UITapGestureRecognizer *rec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(itemTapped:)];
+            [view addGestureRecognizer:rec];
+            [view makeConstraints:^(MASConstraintMaker *make) {
+                make.centerX.equalTo(self.centerX).multipliedBy((1+2*i) * 0.25f);
+                make.top.equalTo(self.top);
+                make.width.equalTo(self.width).multipliedBy(0.25f);
+                make.height.equalTo(self.height);
             }];
-            
         }
         
     }
     return self;
+}
+
+- (UIView *)buildItmeViewWithImage:(UIImage *)image title:(NSString *)title {
+    UIView *view = [[UIView alloc] init];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    [view addSubview:imageView];
+    [imageView makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.centerX);
+        make.top.equalTo(view.top).offset(15.0f);
+    }];
     
+    UILabel *label = [[UILabel alloc] init];
+    label.text = title;
+    label.textColor = [UIColor HHLightTextGray];
+    label.font = [UIFont systemFontOfSize:12.0f];
+    [view addSubview:label];
+    [label makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.centerX);
+        make.bottom.equalTo(view.bottom).offset(-10.0f);
+    }];
+    
+    return view;
+}
+
+- (void)itemTapped:(UITapGestureRecognizer *)rec {
+    UIView *view = rec.view;
+    if (self.itemAction) {
+        self.itemAction(view.tag);
+    }
 }
 
 @end

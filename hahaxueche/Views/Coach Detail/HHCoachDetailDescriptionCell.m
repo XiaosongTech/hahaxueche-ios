@@ -110,6 +110,7 @@ static CGFloat const avatarRadius = 30.0f;
 }
 
 - (void)setupCellWithCoach:(HHCoach *)coach followed:(BOOL)followed {
+    __weak HHCoachDetailDescriptionCell *weakSelf = self;
     self.nameLabel.text = coach.name;
     [self.nameLabel sizeToFit];
     
@@ -141,14 +142,15 @@ static CGFloat const avatarRadius = 30.0f;
         [self.jiaxiaoView removeFromSuperview];
         self.jiaxiaoView = [[HHCoachTagView alloc] init];
         [self.contentView addSubview:self.jiaxiaoView];
-        [self.jiaxiaoView setDotColor:[UIColor HHOrange] title:coach.drivingSchool];
+        [self.jiaxiaoView setupWithDrivingSchool:[coach getCoachDrivingSchool]];
+        self.jiaxiaoView.tapAction = ^(HHDrivingSchool *school) {
+            if (weakSelf.drivingSchoolBlock) {
+                weakSelf.drivingSchoolBlock(school);
+            }
+        };
         [self.jiaxiaoView makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.nameLabel.centerY);
-            UIView * leftView = self.nameLabel;
-            if (self.badgeView) {
-                leftView = self.badgeView;
-            }
-            make.left.equalTo(leftView.right).offset(5.0f);
+            make.right.equalTo(self.contentView.right).offset(-15.0f);
             make.width.equalTo(self.jiaxiaoView.label.width).offset(20.0f);
             make.height.mas_equalTo(16.0f);
         }];

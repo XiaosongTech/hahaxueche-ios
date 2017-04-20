@@ -8,11 +8,12 @@
 
 #import "HHLaunchImageViewController.h"
 #import "Masonry.h"
+#import "FLAnimatedImage.h"
+
 
 @interface HHLaunchImageViewController ()
 
-@property (nonatomic, strong) UIImageView *imageView;
-@property (nonatomic, strong) UIActivityIndicatorView *indicatorView;
+@property (nonatomic, strong) FLAnimatedImageView *imageView;
 
 @end
 
@@ -21,14 +22,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.imageView = [[UIImageView alloc] init];
-    self.imageView.image = [UIImage imageNamed:@"launch"];
+    self.imageView = [[FLAnimatedImageView alloc] init];
+    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    NSString *imgString = [[NSBundle mainBundle] pathForResource:@"launchImage" ofType:@"gif"];
+    NSData *imgData = [NSData dataWithContentsOfFile:imgString];
+    self.imageView.animationDuration = 2.5f;
+    self.imageView.animatedImage = [FLAnimatedImage animatedImageWithGIFData:imgData];
+    self.imageView.animationRepeatCount = 1;
     [self.view addSubview:self.imageView];
-    
-    self.indicatorView = [[UIActivityIndicatorView alloc] init];
-    self.indicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-    [self.imageView addSubview:self.indicatorView];
-    [self.indicatorView startAnimating];
     
     [self makeConstraints];
 }
@@ -39,12 +40,17 @@
         make.width.equalTo(self.view.width);
         make.height.equalTo(self.view.height);
     }];
-    
-    [self.indicatorView makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.imageView);
-        make.width.mas_equalTo(50.0f);
-        make.height.mas_equalTo(50.0f);
-    }];
+}
+
+- (void)setupRootVC:(UIViewController *)vc {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //Here your non-main thread.
+        [NSThread sleepForTimeInterval:2.5f];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //Here you returns to main thread.
+            [UIApplication sharedApplication].keyWindow.rootViewController = vc;
+        });
+    });
 }
 
 @end

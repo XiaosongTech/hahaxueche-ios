@@ -93,5 +93,7 @@ typedef void (^HHUserTokenCompletion)(BOOL valid);
 - (void)isTokenValid:(NSString *)cellPhone completion:(HHUserTokenCompletion)completion;
 
 
+- (void)deleteSavedUser;
+
 
 @end

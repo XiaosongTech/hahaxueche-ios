@@ -19,7 +19,6 @@
 #import "Masonry.h"
 #import "HHCoachService.h"
 #import "HHLoadingViewUtility.h"
-#import "HHSingleFieldMapViewController.h"
 #import "HHConstantsStore.h"
 #import "HHPopupUtility.h"
 #import "HHImageGalleryViewController.h"
@@ -32,6 +31,7 @@
 #import "HHStudentStore.h"
 #import "HHMyCoachPeerCoachesTableViewCell.h"
 #import "HHCoachDetailViewController.h"
+#import "HHFieldsMapViewController.h"
 
 static NSString *const kDescriptionCellID = @"kDescriptionCellID";
 static NSString *const kBasicInfoCellID = @"kBasicInfoCellID";
@@ -144,7 +144,7 @@ static NSString *const kPartnerCoachoCellID = @"kPartnerCoachoCellID";
             };
             
             cell.addressView.actionBlock = ^() {
-                HHSingleFieldMapViewController *vc = [[HHSingleFieldMapViewController alloc] initWithField:[weakSelf.coach getCoachField]];
+                HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:@[[weakSelf.coach getCoachField]] selectedField:[weakSelf.coach getCoachField]];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             };
             return cell;

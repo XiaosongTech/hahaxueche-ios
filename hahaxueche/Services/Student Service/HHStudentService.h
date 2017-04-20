@@ -290,6 +290,13 @@ typedef void (^HHMarketingChannelCompletion)(NSString *code);
  */
 - (void)insureWithcompletion:(HHStudentCompletion)completion;
 
+/**
+ Get phone number
+ @param number The phone number
+ @param completion The completion block to execute on completion
+ */
+- (void)getPhoneNumber:(NSString *)number completion:(HHStudentGenericCompletion)completion;
+
 
 
 @end

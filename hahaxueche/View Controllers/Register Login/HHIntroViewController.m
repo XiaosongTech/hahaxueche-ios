@@ -20,6 +20,7 @@
 #import "HHConstantsStore.h"
 #import "HHBanner.h"
 #import "HHLoadingViewUtility.h"
+#import "HHUserAuthService.h"
 
 
 static CGFloat const kButtonHeight = 40.0f;
@@ -180,6 +181,7 @@ static CGFloat const kButtonWidth = 235.0f;
 
 - (void)enterAsGuest {
     [[HHStudentStore sharedInstance] createGuestStudent];
+    [[HHUserAuthService sharedInstance] deleteSavedUser];
     [self presentViewController:self.rootVC animated:YES completion:nil];
 }
 
