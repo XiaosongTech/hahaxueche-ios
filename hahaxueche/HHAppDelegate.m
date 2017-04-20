@@ -24,7 +24,6 @@
 #import <Pingpp/Pingpp.h>
 #import "HHStudentService.h"
 #import "HHToastManager.h"
-#import <Appirater.h>
 #import "HHCoachDetailViewController.h"
 #import "HHLoadingViewUtility.h"
 #import "QYSDK.h"
@@ -41,6 +40,7 @@
 #import "HHGuardCardViewController.h"
 #import "HHClubPostDetailViewController.h"
 #import "HHInsuranceViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define kAliPushAppKey          @"23260416"
 #define kAliPushAppSecret       @"996121506d96c60827a917c2ca26ab14"
@@ -66,11 +66,19 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     HHLaunchImageViewController *launchVC = [[HHLaunchImageViewController alloc] init];
     [self.window setRootViewController:launchVC];
     
+    [[HHConstantsStore sharedInstance] getDrivingSchoolsWithCityId:[HHStudentStore sharedInstance].currentStudent.cityId completion:nil];
     
-    HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
-    __block UINavigationController *introNavVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+    self.finalRootVC = rootVC;
+    [[HHStudentStore sharedInstance] createGuestStudent];
     
-    self.finalRootVC = introNavVC;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *cityId = [defaults objectForKey:@"userSelectedCity"];
+    if (cityId) {
+        [HHStudentStore sharedInstance].selectedCityId = cityId;
+    } else {
+        [HHStudentStore sharedInstance].selectedCityId = @(0);
+    }
     
     [[HHNetworkUtility sharedManager] monitorNetwork];
     
@@ -83,7 +91,7 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                         [[HHStudentService sharedInstance] fetchStudentWithId:savedStudent.studentId completion:^(HHStudent *student, NSError *error) {
                             if (!error) {
                                 if (!student) {
-                                    self.window.rootViewController = self.finalRootVC;
+                                    [launchVC setupRootVC:self.finalRootVC];
                                     [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                                     return ;
                                 }
@@ -93,33 +101,36 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                                     HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
                                     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
                                     self.finalRootVC = navVC;
-                                    self.window.rootViewController = self.finalRootVC;
+                                    [launchVC setupRootVC:self.finalRootVC];
                                     [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                             
                                 } else {
                                     // Get the saved student object, we lead user to rootVC
                                     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
                                     self.finalRootVC = rootVC;
-                                    self.window.rootViewController = self.finalRootVC;
+                                    [launchVC setupRootVC:self.finalRootVC];
                                     [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                                 }
                             } else {
-                                self.window.rootViewController = self.finalRootVC;
+                                [launchVC setupRootVC:self.finalRootVC];
                                 [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                             }
                         }];
                     } else {
-                        self.window.rootViewController = self.finalRootVC;
+                        HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+                        UINavigationController *introNavVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+                        
+                        [launchVC setupRootVC:introNavVC];
                         [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                     }
                 }];
                 
             } else {
-                self.window.rootViewController = self.finalRootVC;
+                [launchVC setupRootVC:self.finalRootVC];
                 [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
             }
         } else {
-            self.window.rootViewController = self.finalRootVC;
+            [launchVC setupRootVC:self.finalRootVC];
             [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
         }
        
@@ -243,35 +254,22 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
 - (void)setAppearance {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    [[UINavigationBar appearance] setBackgroundColor:[UIColor HHOrange]];
-    [[UINavigationBar appearance] setBarTintColor:[UIColor HHOrange]];
-    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+   
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     if ([UIDevice currentDevice].systemVersion.floatValue >= 8.0) {
         [[UINavigationBar appearance] setTranslucent:NO];
     }
     
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage new]
-                                      forBarPosition:UIBarPositionAny
-                                          barMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"bg_topnav"] forBarMetrics:UIBarMetricsDefault];
     
     [[UINavigationBar appearance] setShadowImage:[UIImage new]];
 }
 
 - (void)setupAllThirdPartyServices {
     
-    //Appirater
-    [Appirater setAppId:@"1011236187"];
-    [Appirater setDaysUntilPrompt:2];
-    [Appirater setUsesUntilPrompt:0];
-    [Appirater setSignificantEventsUntilPrompt:-1];
-    [Appirater setTimeBeforeReminding:2];
-    [Appirater setDebug:NO];
-    [Appirater appLaunched:YES];
     
 #ifdef DEBUG
     [Pingpp setDebugMode:YES];
-    [Appirater setDebug:YES];
 #endif
     
     //Umeng
@@ -487,6 +485,17 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 - (void)jumpToVC:(UIViewController *)viewController completion:(HHAppDelegateCompletion)completion {
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:viewController];
     [[HHAppDelegate topMostController] presentViewController:navVC animated:YES completion:completion];
+}
+
+- (UIImage *)imageFromLayer:(CALayer *)layer {
+    UIGraphicsBeginImageContext([layer frame].size);
+    
+    [layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return outputImage;
 }
 
 

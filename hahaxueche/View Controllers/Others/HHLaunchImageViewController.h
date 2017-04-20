@@ -10,4 +10,6 @@
 
 @interface HHLaunchImageViewController : UIViewController
 
+- (void)setupRootVC:(UIViewController *)vc;
+
 @end

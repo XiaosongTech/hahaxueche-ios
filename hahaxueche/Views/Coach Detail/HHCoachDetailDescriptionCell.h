@@ -11,9 +11,11 @@
 #import "HHPersonalCoach.h"
 #import "HHCoachTagView.h"
 #import "HHCoachBadgeView.h"
+#import "HHDrivingSchool.h"
 
 typedef void (^HHLikeCoachBlock)(UIButton *likeButton, UILabel *likeCountLabel);
 typedef void (^HHFollowCoachBlock)();
+typedef void (^HHCoachDrivingSchoolBlock)(HHDrivingSchool *);
 
 @interface HHCoachDetailDescriptionCell : UITableViewCell
 
@@ -30,6 +32,7 @@ typedef void (^HHFollowCoachBlock)();
 
 @property (nonatomic, strong) HHLikeCoachBlock likeBlock;
 @property (nonatomic, strong) HHFollowCoachBlock followBlock;
+@property (nonatomic, strong) HHCoachDrivingSchoolBlock drivingSchoolBlock;
 
 - (void)setupCellWithCoach:(HHCoach *)coach followed:(BOOL)followed;
 - (void)setupCellWithCoach:(HHPersonalCoach *)coach;

@@ -32,6 +32,7 @@ typedef void (^ShareResultCompletion) (BOOL succceed);
 - (void)shareTestScoreWithType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion;
 
 - (void)shareWebPage:(NSURL *)url title:(NSString *)title shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion;
+- (void)showSMS:(NSString *)body attachment:(NSData *)attachment inVC:(UIViewController *)inVC;
 
 
 - (NSString *)getChannelNameWithType:(SocialMedia)type;

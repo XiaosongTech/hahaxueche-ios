@@ -26,7 +26,7 @@
 }
 
 
-- (void)fetchCoachListWithCityId:(NSNumber *)cityId filters:(HHCoachFilters *)filters sortOption:(SortOption)sortOption fields:(NSArray *)selectedFields userLocation:(NSArray *)userLocation completion:(HHCoachListCompletion)completion {
+- (void)fetchCoachListWithCityId:(NSNumber *)cityId filters:(HHCoachFilters *)filters sortOption:(SortOption)sortOption userLocation:(NSArray *)userLocation fields:(NSArray *)fields perPage:(NSNumber *)perPage completion:(HHCoachListCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICoaches];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     param[@"golden_coach_only"] = filters.onlyGoldenCoach;
@@ -34,15 +34,23 @@
     param[@"city_id"] = cityId;
     param[@"sort_by"] = @(sortOption);
     
-    if ([selectedFields count]) {
-        param[@"training_field_ids"] = selectedFields;
+    if ([perPage integerValue]> 0) {
+        param[@"per_page"] = perPage;
+    } else {
+        param[@"per_page"] = @(20);
     }
+    
+
+    if ([fields count] > 0) {
+        param[@"training_field_ids"] = fields;
+    }
+
 
     if (userLocation) {
         param[@"user_location"] = userLocation;
     }
     
-    HHCity *city = [[HHConstantsStore sharedInstance] getAuthedUserCity];
+    HHCity *city = [[HHConstantsStore sharedInstance] getCityWithId:cityId];
     if (![filters.price isEqual:[city.priceRanges lastObject]]) {
         param[@"price"] = filters.price;
     }
@@ -246,6 +254,7 @@
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICoaches];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     param[@"keyword"] = keyword;
+    param[@"city_id"] = [HHStudentStore sharedInstance].selectedCityId;
     if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
         param[@"student_id"] = [HHStudentStore sharedInstance].currentStudent.studentId;
     }

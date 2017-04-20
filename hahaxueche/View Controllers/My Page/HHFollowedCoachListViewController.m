@@ -111,7 +111,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     __weak HHCoachListViewCell *weakCell = cell;
     
     HHCoach *coach = self.coaches[indexPath.row];
-    [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId] userLocation:[HHStudentStore sharedInstance].currentLocation mapShowed:[weakSelf.expandedCellIndexPath containsObject:indexPath]];
+    [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId] mapShowed:[weakSelf.expandedCellIndexPath containsObject:indexPath]];
     
     if ([self.expandedCellIndexPath containsObject:indexPath]) {
         cell.mapView.hidden = NO;

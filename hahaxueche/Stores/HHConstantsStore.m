@@ -10,6 +10,8 @@
 #import "HHAPIClient.h"
 #import "APIPaths.h"
 #import "HHStudentStore.h"
+#import "HHPersistentDataUtility.h"
+#import "HHLoadingViewUtility.h"
 
 static NSString *const kSavedConstants = @"kSavedConstant";
 
@@ -35,12 +37,7 @@ static NSString *const kSavedConstants = @"kSavedConstant";
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIConstantsPath];
     [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
-            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:response];
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-            NSString *documentsDirectory = [paths objectAtIndex:0];
-            NSString *filePath = [documentsDirectory stringByAppendingPathComponent:kSavedConstants];
-            [data writeToFile:filePath atomically:YES];
-            
+            [[HHPersistentDataUtility sharedManager] saveDataWithDic:response key:kSavedConstants];
             HHConstants *constants = [MTLJSONAdapter modelOfClass:[HHConstants class] fromJSONDictionary:response error:nil];
             [HHConstantsStore sharedInstance].constants = constants;
             
@@ -48,13 +45,7 @@ static NSString *const kSavedConstants = @"kSavedConstant";
                 completion([HHConstantsStore sharedInstance].constants);
             }
         } else {
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-            NSString *documentsDirectory = [paths objectAtIndex:0];
-            NSString *filePath = [documentsDirectory stringByAppendingPathComponent:kSavedConstants];
-            
-            NSData *data = [NSData dataWithContentsOfFile:filePath];
-            NSDictionary *constantDic = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-            HHConstants *constants = [MTLJSONAdapter modelOfClass:[HHConstants class] fromJSONDictionary:constantDic error:nil];
+            HHConstants *constants = [MTLJSONAdapter modelOfClass:[HHConstants class] fromJSONDictionary:[[HHPersistentDataUtility sharedManager] getDataWithKey:kSavedConstants] error:nil];
             [HHConstantsStore sharedInstance].constants = constants;
             if (completion) {
                 completion([HHConstantsStore sharedInstance].constants);
@@ -81,9 +72,8 @@ static NSString *const kSavedConstants = @"kSavedConstant";
 }
 
 - (HHField *)getFieldWithId:(NSString *)fieldId {
-    NSArray *fields = [HHConstantsStore sharedInstance].constants.fields;
-    if ([fields count]) {
-        for (HHField *field in fields) {
+    if ([self.fields count]) {
+        for (HHField *field in self.fields) {
             if ([field.fieldId isEqualToString:fieldId]) {
                 return field;
             }
@@ -111,9 +101,6 @@ static NSString *const kSavedConstants = @"kSavedConstant";
     return [HHConstantsStore sharedInstance].constants.loginBanners;
 }
 
-- (NSArray *)getHomePageBanners {
-    return [HHConstantsStore sharedInstance].constants.homePageBanners;
-}
 
 - (HHCity *)getCityWithId:(NSNumber *)cityId {
     NSArray *cities = [HHConstantsStore sharedInstance].constants.cities;
@@ -175,6 +162,65 @@ static NSString *const kSavedConstants = @"kSavedConstant";
         price = self.constants.insurancePrices[@"pay_without_coach_price"];
     }
     return price;
+}
+
+- (void)getDrivingSchoolsWithCityId:(NSNumber *)cityId completion:(HHSchoolsCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPICities, [cityId stringValue]]];
+    [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            NSMutableArray *array = [NSMutableArray array];
+            NSArray *schoolsArray = response[@"driving_schools"];
+            for (NSDictionary *schoolDic in schoolsArray) {
+                HHDrivingSchool *school = [MTLJSONAdapter modelOfClass:[HHDrivingSchool class] fromJSONDictionary:schoolDic error:nil];
+                if (school) {
+                    [array addObject:school];
+                }
+            }
+            self.drivingSchools = array;
+            if (completion) {
+                completion(array);
+            }
+        }
+    }];
+
+}
+
+- (void)getFieldsWithCityId:(NSNumber *)cityId completion:(HHSchoolsCompletion)completion {
+    if ([self.fields count] > 0) {
+        if (completion) {
+            completion(self.fields);
+        }
+        return;
+    }
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIFields];
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    [APIClient getWithParameters:@{@"city_id":cityId} completion:^(NSDictionary *response, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (!error) {
+            NSMutableArray *array = [NSMutableArray array];
+            NSArray *fieldsArray = response[@"data"];
+            for (NSDictionary *fieldDic in fieldsArray) {
+                HHDrivingSchool *field = [MTLJSONAdapter modelOfClass:[HHField class] fromJSONDictionary:fieldDic error:nil];
+                if (field) {
+                    [array addObject:field];
+                }
+            }
+            self.fields = array;
+            if (completion) {
+                completion(array);
+            }
+        }
+    }];
+    
+}
+
+- (HHDrivingSchool *)getDrivingSchoolWithName:(NSString *)schoolName {
+    for (HHDrivingSchool *school in self.drivingSchools) {
+        if ([school.schoolName isEqualToString:schoolName]) {
+            return school;
+        }
+    }
+    return nil;
 }
 
 @end

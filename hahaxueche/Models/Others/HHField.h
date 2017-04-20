@@ -17,9 +17,13 @@
 @property(nonatomic, copy) NSNumber *longitude;
 @property(nonatomic, copy) NSNumber *latitude;
 @property(nonatomic, copy) NSNumber *cityId;
+@property(nonatomic, copy) NSString *displayAddress;
+@property(nonatomic, copy) NSString *img;
+@property(nonatomic, copy) NSNumber *coachCount;
+@property(nonatomic, copy) NSString *consultPhone;
 
 - (NSString *)fullAddress;
-- (NSString *)cityAndDistrict;
+- (NSString *)city;
 
 
 @end

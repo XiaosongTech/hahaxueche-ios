@@ -15,5 +15,6 @@
 
 - (QYSessionViewController *)buildOnlineSupportVCInNavVC:(UINavigationController *)navVC;
 - (void)callSupport;
+- (void)callSupportWithNumber:(NSString *)number;
 
 @end

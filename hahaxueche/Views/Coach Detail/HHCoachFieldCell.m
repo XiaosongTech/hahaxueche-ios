@@ -87,7 +87,7 @@
 }
 
 - (void)setupCellWithField:(HHField *)field {
-    self.fieldLabel.text = [field fullAddress];
+    self.fieldLabel.text = field.displayAddress;
 }
 
 - (NSAttributedString *)generateAttrStringWithText:(NSString *)text image:(UIImage *)image {

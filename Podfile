@@ -38,6 +38,7 @@ target "hahaxueche" do
     pod 'UITextView+Placeholder', '~> 1.2'
     pod 'DZNEmptyDataSet'
     pod 'APAddressBook'
+    pod 'DXCustomCallout-ObjC', '~> 0.2'
 
 end
 

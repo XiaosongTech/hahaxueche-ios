@@ -15,6 +15,8 @@
 
 @property (nonatomic, strong) HHStudent *currentStudent;
 @property (nonatomic, strong) CLLocation *currentLocation;
+@property (nonatomic, strong) NSNumber *selectedCityId;
+@property (nonatomic, strong) NSMutableDictionary *fieldCoachesDic;
 
 + (instancetype)sharedInstance;
 

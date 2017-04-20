@@ -165,6 +165,12 @@
             self.purchaseBlock(type);
         }
     };
+    
+    view.depositBlock = ^{
+        if (self.depositBlock) {
+            self.depositBlock();
+        }
+    };
     [containerView addSubview:view];
     [view makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(containerView.top).offset(index * 85.0f);

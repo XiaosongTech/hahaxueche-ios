@@ -20,6 +20,9 @@
 #import "HHStudentService.h"
 #import "HHStudentStore.h"
 #import "HHConstantsStore.h"
+#import "HHStudentStore.h"
+#import "HHIntroViewController.h"
+#import "HHEventTrackingManager.h"
 
 @interface HHPrepayViewController ()
 
@@ -42,6 +45,11 @@
     self.view.backgroundColor = [UIColor HHBackgroundGary];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
     [self initSubviews];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:deposit_confirm_page_viewed attributes:nil];
 }
 
 - (void)initSubviews {
@@ -139,18 +147,24 @@
 }
 
 - (void)prepay {
+    if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
+        [self showLoginSignupAlertView];
+        return;
+    }
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
     [[HHPaymentService sharedInstance] prepayWithType:3 paymentMethod:self.paymentMethodsView.selectedMethod inController:self completion:^(BOOL succeed) {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (succeed) {
             [self fetchStudentAfterPurchase];
-            
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:deposit_confirm_page_purchased attributes:nil];
         } else {
             [[HHToastManager sharedManager] showErrorToastWithText:@"支付失败或您取消了支付, 请重试"];
             
         }
 
     }];
+    
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:deposit_confirm_page_button_tapped attributes:nil];
 }
 
 - (void)fetchStudentAfterPurchase {
@@ -170,6 +184,23 @@
         }
         
     }];
+}
+
+- (void)showLoginSignupAlertView {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请先登陆或者注册" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"现在就去" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+        [self presentViewController:navVC animated:YES completion:nil];
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"再看看" style:UIAlertActionStyleDefault handler:nil];
+    
+    [alertController addAction:confirmAction];
+    [alertController addAction:cancelAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 

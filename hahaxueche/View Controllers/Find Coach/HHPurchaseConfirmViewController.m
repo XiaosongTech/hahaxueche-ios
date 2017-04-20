@@ -382,12 +382,14 @@
     [[HHPaymentService sharedInstance] payWithCoachId:self.coach.coachId studentId:[HHStudentStore sharedInstance].currentStudent.studentId paymentMethod:self.paymentMethodsView.selectedMethod productType:self.selectedProduct voucherId:voucherId needInsurance:self.selectedInsurance inController:self completion:^(BOOL succeed) {
         if (succeed) {
             [self fetchStudentAfterPurchase];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:purchase_confirm_page_purchased attributes:@{@"coach_id":self.coach.coachId}];
         } else {
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
             [[HHToastManager sharedManager] showErrorToastWithText:@"抱歉，支付失败或者您取消了支付。请重试！"];
         }
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:purchase_confirm_page_purchase_button_tapped attributes:@{@"coach_id":self.coach.coachId}];
     }];
+    
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:purchase_confirm_page_purchase_button_tapped attributes:@{@"coach_id":self.coach.coachId}];
 }
 
 
@@ -542,26 +544,31 @@
 
 - (void)showInsuranceWarningAlert {
     __weak HHPurchaseConfirmViewController *weakSelf = self;
-     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"无忧班购买提示" message:@"为了让您学车无忧，完成后续理赔等各项事宜，请购买无忧班后必须在预约第一次科目一考试的前一个工作日24点前，完成身份信息上传，否则无法获得理赔。" preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        ReceiptViewType type;
-        if ([HHStudentStore sharedInstance].currentStudent.insuranceOrder.paidAt) {
-            type = ReceiptViewTypePeifubao;
-        } else {
-            type = ReceiptViewTypeContract;
-        }
-        HHReceiptViewController *vc = [[HHReceiptViewController alloc] initWithCoach:weakSelf.coach type:type];
+    HHPurchasedService *ps = [[HHStudentStore sharedInstance].currentStudent.purchasedServiceArray firstObject];
+    if ([self.coach.isCheyouWuyou boolValue] || [ps.productType integerValue] == CoachProductTypeC1Wuyou || [ps.productType integerValue] == CoachProductTypeC2Wuyou) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"无忧班购买提示" message:@"为了让您学车无忧，完成后续理赔等各项事宜，请购买无忧班后必须在预约第一次科目一考试的前一个工作日24点前，完成身份信息上传，否则无法获得理赔。" preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            HHReceiptViewController *vc = [[HHReceiptViewController alloc] initWithCoach:weakSelf.coach type:ReceiptViewTypePeifubao];
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+            [weakSelf presentViewController:navVC animated:YES completion:^{
+                [weakSelf.navigationController popViewControllerAnimated:NO];
+            }];
+            
+        }];
+        
+        [alertController addAction:confirmAction];
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+    } else {
+        HHReceiptViewController *vc = [[HHReceiptViewController alloc] initWithCoach:weakSelf.coach type:ReceiptViewTypeContract];
         UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
         [weakSelf presentViewController:navVC animated:YES completion:^{
             [weakSelf.navigationController popViewControllerAnimated:NO];
         }];
 
-    }];
-    
-    [alertController addAction:confirmAction];
-    
-    [self presentViewController:alertController animated:YES completion:nil];
+        
+    }
 }
 
 

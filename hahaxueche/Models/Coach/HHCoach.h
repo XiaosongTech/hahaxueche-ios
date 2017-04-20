@@ -9,6 +9,7 @@
 #import <Mantle/Mantle.h>
 #import "HHField.h"
 #import "HHPaymentService.h"
+#import "HHDrivingSchool.h"
 
 @interface HHCoach : MTLModel <MTLJSONSerializing>
 
@@ -43,9 +44,11 @@
 @property (nonatomic, copy) NSString *stageTwoPassRate;
 @property (nonatomic, copy) NSString *averagePassDays;
 @property (nonatomic, copy) NSNumber *hasDeposit;
+@property (nonatomic, copy) NSNumber *distance;
 //cooperationType: A, B, C
 @property (nonatomic, copy) NSString *cooperationType;
 @property (nonatomic, copy) NSNumber *isCheyouWuyou;
+@property (nonatomic, copy) NSString *consultPhone;
 
 // 0 = 优秀教练; 1 = 金牌教练
 - (BOOL)isGoldenCoach;
@@ -55,6 +58,7 @@
 - (NSString *)skillLevelString;
 
 - (HHField *)getCoachField;
+- (HHDrivingSchool *)getCoachDrivingSchool;
 
 
 - (NSNumber *)getPriceProductType:(CoachProductType)type;

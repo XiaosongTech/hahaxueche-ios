@@ -73,6 +73,13 @@ static NSString *const kSupportNumber = @"4000016006";
     }
 }
 
+- (void)callSupportWithNumber:(NSString *)number {
+    NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",number]];
+    if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
+        [[UIApplication sharedApplication] openURL:phoneUrl];
+    }
+}
+
 
 
 @end

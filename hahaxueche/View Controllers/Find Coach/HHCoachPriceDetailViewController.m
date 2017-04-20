@@ -20,6 +20,10 @@
 #import "HHOtherFeeItemView.h"
 #import "HHPurchaseConfirmViewController.h"
 #import "HHStudentStore.h"
+#import "HHGradientButton.h"
+#import "HHPrepayViewController.h"
+#import "HHIntroViewController.h"
+#import "HHEventTrackingManager.h"
 
 
 @interface HHCoachPriceDetailViewController () <TTTAttributedLabelDelegate>
@@ -36,7 +40,8 @@
 
 @property (nonatomic, strong) UIView *lastView;
 
-@property (nonatomic, strong) UIButton *purchaseButton;
+@property (nonatomic, strong) HHGradientButton *purchaseButton;
+@property (nonatomic, strong) HHGradientButton *depositButton;
 
 
 @end
@@ -78,20 +83,34 @@
     }];
     
     if (![[HHStudentStore sharedInstance].currentStudent isPurchased]) {
-        self.purchaseButton = [UIButton buttonWithType:UIButtonTypeCustom];
+
+        self.depositButton = [[HHGradientButton alloc] initWithType:1];
+        [self.depositButton setTitle:@"预付100的300" forState:UIControlStateNormal];
+        [self.depositButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        self.depositButton.backgroundColor = [UIColor HHDarkOrange];
+        self.depositButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+        [self.depositButton addTarget:self action:@selector(depositButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview: self.depositButton];
+        [self.depositButton makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.view.left);
+            make.top.equalTo(self.scrollView.bottom);
+            make.width.equalTo(self.view.width).multipliedBy(0.5f);
+            make.height.mas_equalTo(50.0f);
+        }];
+        
+        self.purchaseButton = [[HHGradientButton alloc] initWithType:0];
         [self.purchaseButton setTitle:@"立即购买" forState:UIControlStateNormal];
         [self.purchaseButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         self.purchaseButton.backgroundColor = [UIColor HHDarkOrange];
-        self.purchaseButton.titleLabel.font = [UIFont systemFontOfSize:18.0f];
+        self.purchaseButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
         [self.purchaseButton addTarget:self action:@selector(purchaseButtonTapped) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview: self.purchaseButton];
         [self.purchaseButton makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.view.left);
+            make.left.equalTo(self.depositButton.right);
             make.top.equalTo(self.scrollView.bottom);
-            make.width.equalTo(self.view.width);
+            make.width.equalTo(self.view.width).multipliedBy(0.5f);
             make.height.mas_equalTo(50.0f);
         }];
-        self.lastView = self.purchaseButton;
     }
     
     self.serviceTitleLabel = [[UILabel alloc] init];
@@ -561,6 +580,15 @@
 - (void)purchaseButtonTapped {
     HHPurchaseConfirmViewController *vc = [[HHPurchaseConfirmViewController alloc] initWithCoach:self.coach selectedType:self.type];
     [self.navigationController pushViewController:vc animated:YES];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:price_detail_page_purchase_tapped attributes:nil];
 }
+
+- (void)depositButtonTapped {
+    HHPrepayViewController *vc = [[HHPrepayViewController alloc] init];
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:navVC animated:YES completion:nil];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:price_detail_page_deposit_tapped attributes:nil];
+}
+
 
 @end

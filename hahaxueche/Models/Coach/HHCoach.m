@@ -46,6 +46,8 @@
              @"hasDeposit":@"has_cash_pledge",
              @"cooperationType":@"cooperation_type",
              @"isCheyouWuyou":@"coach_group.group_type",
+             @"distance":@"distance",
+             @"consultPhone":@"consult_phone",
              };
 }
 
@@ -129,6 +131,10 @@
         default:
             return self.price;
     }
+}
+
+- (HHDrivingSchool *)getCoachDrivingSchool {
+    return [[HHConstantsStore sharedInstance] getDrivingSchoolWithName:self.drivingSchool];
 }
 
 @end

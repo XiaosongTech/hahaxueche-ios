@@ -38,7 +38,7 @@ typedef void (^HHPersonalCoachCompletion)(HHPersonalCoach *coach, NSError *error
  
  @param completion The completion block to execute on completion
  */
-- (void)fetchCoachListWithCityId:(NSNumber *)cityId filters:(HHCoachFilters *)filters sortOption:(SortOption)sortOption fields:(NSArray *)selectedFields userLocation:(NSArray *)userLocation completion:(HHCoachListCompletion)completion;
+- (void)fetchCoachListWithCityId:(NSNumber *)cityId filters:(HHCoachFilters *)filters sortOption:(SortOption)sortOption userLocation:(NSArray *)userLocation fields:(NSArray *)fields perPage:(NSNumber *)perPage completion:(HHCoachListCompletion)completion;
 
 /**
  Fetch Next Page Coach List

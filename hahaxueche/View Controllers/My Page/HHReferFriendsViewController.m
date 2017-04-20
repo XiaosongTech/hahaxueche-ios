@@ -47,6 +47,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 @property (nonatomic, strong) TTTAttributedLabel *labelTwo;
 @property (nonatomic, strong) UILabel *labelThree;
 @property (nonatomic, strong) UIButton *shareButton;
+@property (nonatomic, strong) UIButton *shareButton2;
 @property (nonatomic, strong) KLCPopup *popup;
 @property (nonatomic, strong) NSNumber *referrerBonus;
 @property (nonatomic, strong) NSNumber *refereeBonus;
@@ -102,6 +103,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     [self.scrollView addSubview:self.couponTwo];
     
     self.labelOne = [self buildLabelWithText:[NSString stringWithFormat:@"分享哈哈学车, 好友可得%@元\n新人专享代金券", [self.refereeBonus generateMoneyString]] font:[UIFont systemFontOfSize:13.0f] color:[UIColor HHBrown]];
+    self.labelOne.textAlignment = NSTextAlignmentCenter;
     [self.scrollView addSubview:self.labelOne];
     
     self.labelTwo = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
@@ -114,6 +116,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     
     
     self.labelThree = [self buildLabelWithText:[NSString stringWithFormat:@"点击分享, 各得%@元", [self.referrerBonus generateMoneyString]] font:[UIFont systemFontOfSize:15.0f] color:[UIColor HHBrown]];
+    self.labelThree.textAlignment = NSTextAlignmentCenter;
     [self.scrollView addSubview:self.labelThree];
     
     
@@ -127,35 +130,46 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
 }
 
 - (void)initSubviewsForNormalUser {
-    self.topImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"newshareforaward"]];
+    self.topImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"banenr"]];
     [self.scrollView addSubview:self.topImageView];
     
-    self.timeLabel = [[UILabel alloc] init];
-    self.timeLabel.textColor = [UIColor HHBrown];
-    self.timeLabel.font = [UIFont systemFontOfSize:13.0f];
-    self.timeLabel.textAlignment = NSTextAlignmentCenter;
-    self.timeLabel.numberOfLines = 0;
-    self.timeLabel.text = @"哈哈学车百万大补贴\n2017.2.23-3.31";
-    [self.scrollView addSubview:self.timeLabel];
+    self.couponOne = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_quan1"]];
+    [self.scrollView addSubview:self.couponOne];
     
-    self.midImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"secretgift"]];
-    [self.scrollView addSubview:self.midImageView];
+    self.couponTwo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_quan2"]];
+    [self.scrollView addSubview:self.couponTwo];
     
-    self.label = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
-    self.label.textAlignment = NSTextAlignmentCenter;
-    self.label.activeLinkAttributes = @{(NSString *)kCTForegroundColorAttributeName:[UIColor HHConfirmRed]};
-    self.label.attributedText = [self builAttrString];
-    self.label.numberOfLines = 0;
-    self.label.delegate = self;
-    [self.scrollView addSubview:self.label];
+    self.labelOne = [self buildLabelWithText:@"分享哈哈学车推荐有奖链接给好友报名, 立即兑换奖品. 奖品全面升级. 每月更新. 具体以当月哈哈学车App微信公众号为准. " font:[UIFont systemFontOfSize:12.0f] color:[UIColor HHLightTextGray]];
+    [self.scrollView addSubview:self.labelOne];
+    
+    
+    self.labelThree = [self buildLabelWithText:@"分享给好友领取价值200元的新人专享学车券, 哈哈学车平台免费赠送120元科目一四挂科险." font:[UIFont systemFontOfSize:12.0f] color:[UIColor HHLightTextGray]];
+    [self.scrollView addSubview:self.labelThree];
     
     self.shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.shareButton setTitle:@"点击分享 好礼多多" forState:UIControlStateNormal];
+    self.shareButton.layer.masksToBounds = YES;
+    self.shareButton.layer.cornerRadius = 5.0f;
     [self.shareButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.shareButton.backgroundColor = [UIColor HHPink];
     [self.shareButton addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
     self.shareButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
     [self.scrollView addSubview:self.shareButton];
+    
+    self.midImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"rhyqhy"]];
+    self.midImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.scrollView addSubview:self.midImageView];
+    
+    
+    self.shareButton2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.shareButton2 setTitle:@"点击分享 好礼多多" forState:UIControlStateNormal];
+    self.shareButton2.layer.masksToBounds = YES;
+    self.shareButton2.layer.cornerRadius = 5.0f;
+    [self.shareButton2 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.shareButton2.backgroundColor = [UIColor HHPink];
+    [self.shareButton2 addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
+    self.shareButton2.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    [self.scrollView addSubview:self.shareButton2];
 }
 
 - (UILabel *)buildLabelWithText:(NSString *)text font:(UIFont *)font color:(UIColor *)color {
@@ -163,7 +177,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     label.font = font;
     label.textColor = color;
     label.text = text;
-    label.textAlignment = NSTextAlignmentCenter;
+    label.textAlignment = NSTextAlignmentLeft;
     label.numberOfLines = 0;
     return label;
 }
@@ -207,27 +221,57 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
             make.left.equalTo(self.scrollView.left);
         }];
         
-        [self.midImageView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.topImageView.bottom).offset(40.0f);
+        [self.couponOne makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.topImageView.bottom).offset(20.0f);
+            make.centerX.equalTo(self.scrollView.centerX);
+            make.width.equalTo(self.scrollView.width).offset(-80.0f);
+        }];
+        
+        [self.labelOne makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.couponOne.bottom).offset(10.0f);
+            make.width.equalTo(self.scrollView.width).offset(-80.0f);
             make.centerX.equalTo(self.scrollView.centerX);
         }];
         
-        [self.timeLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self.topImageView);
+        [self.couponTwo makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.labelOne.bottom).offset(20.0f);
+            make.centerX.equalTo(self.scrollView.centerX);
+            make.width.equalTo(self.scrollView.width).offset(-80.0f);
         }];
         
-        [self.label makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.midImageView.bottom).offset(30.0f);
-            make.width.equalTo(self.scrollView.width);
+        [self.labelThree makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.couponTwo.bottom).offset(10.0f);
             make.centerX.equalTo(self.scrollView.centerX);
+            make.width.equalTo(self.scrollView.width).offset(-80.0f);
         }];
         
         [self.shareButton makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.label.bottom).offset(30.0f);
+            make.top.equalTo(self.labelThree.bottom).offset(30.0f);
             make.width.mas_equalTo(180.0f);
             make.height.mas_equalTo(40.0f);
             make.centerX.equalTo(self.scrollView.centerX);
         }];
+        
+        [self.midImageView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.shareButton.bottom).offset(20.0f);
+            make.centerX.equalTo(self.scrollView.centerX);
+            make.width.equalTo(self.scrollView.width).offset(-20.0f);
+        }];
+        
+        [self.shareButton2 makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.midImageView.bottom).offset(20.0f);
+            make.width.mas_equalTo(180.0f);
+            make.height.mas_equalTo(40.0f);
+            make.centerX.equalTo(self.scrollView.centerX);
+        }];
+        
+        [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.shareButton2
+                                                                    attribute:NSLayoutAttributeBottom
+                                                                    relatedBy:NSLayoutRelationEqual
+                                                                       toItem:self.scrollView
+                                                                    attribute:NSLayoutAttributeBottom
+                                                                   multiplier:1.0
+                                                                     constant:-40.0f]];
         
     } else {
         [self.imageView makeConstraints:^(MASConstraintMaker *make) {
@@ -270,18 +314,20 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
             make.height.mas_equalTo(40.0f);
             make.centerX.equalTo(self.scrollView.centerX);
         }];
+        
+        [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.shareButton
+                                                                    attribute:NSLayoutAttributeBottom
+                                                                    relatedBy:NSLayoutRelationEqual
+                                                                       toItem:self.scrollView
+                                                                    attribute:NSLayoutAttributeBottom
+                                                                   multiplier:1.0
+                                                                     constant:-20.0f]];
 
     }
     
     
     
-    [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:self.shareButton
-                                                                attribute:NSLayoutAttributeBottom
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:self.scrollView
-                                                                attribute:NSLayoutAttributeBottom
-                                                               multiplier:1.0
-                                                                 constant:-20.0f]];
+    
    
     
 }
