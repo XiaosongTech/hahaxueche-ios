@@ -20,7 +20,7 @@
 #import "HHPopupUtility.h"
 #import "HHShareView.h"
 #import "HHSocialMediaShareUtility.h"
-#import "HHSingleFieldMapViewController.h"
+#import "HHFieldsMapViewController.h"
 #import "HHConstantsStore.h"
 #import "HHStudentService.h"
 #import "HHStudentStore.h"
@@ -206,7 +206,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
     };
     
     self.bottomBar.smsAction = ^{
-       [[HHSocialMediaShareUtility sharedInstance] showSMS:[NSString stringWithFormat:@"%@教练, 我在哈哈学车看到您的招生信息, 我想详细了解一下.", weakSelf.coach.name] attachment:nil];
+       [[HHSocialMediaShareUtility sharedInstance] showSMS:[NSString stringWithFormat:@"%@教练, 我在哈哈学车看到您的招生信息, 我想详细了解一下.", weakSelf.coach.name] attachment:nil inVC:weakSelf];
     };
     
     self.bottomBar.callAction = ^{
@@ -307,7 +307,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
         case CoachCellField: {
             HHCoachFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:kFiledCellID forIndexPath:indexPath];
             cell.fieldBlock = ^() {
-                HHSingleFieldMapViewController *vc = [[HHSingleFieldMapViewController alloc] initWithField:[weakSelf.coach getCoachField]];
+                HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:@[[weakSelf.coach getCoachField]] selectedField:[weakSelf.coach getCoachField]];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_field_tapped attributes:@{@"coach_id":weakSelf.coach.coachId}];
 

@@ -137,7 +137,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
         }
         
         [[HHConstantsStore sharedInstance] getFieldsWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(NSArray *schools) {
-            [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].selectedCityId filters:nil sortOption:SortOptionReviewCount userLocation:locationArray fields:nil perPage:nil completion:^(HHCoaches *coaches, NSError *error) {
+            [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].selectedCityId filters:nil sortOption:SortOptionDistance userLocation:locationArray fields:nil perPage:nil completion:^(HHCoaches *coaches, NSError *error) {
                 if (!error) {
                     self.coaches = coaches.coaches;
                     [self.coachesView updateData:self.coaches type:CarouselTypeCoach];
@@ -208,7 +208,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
     self.searchImage.contentMode = UIViewContentModeScaleAspectFit;
     self.navigationItem.titleView = self.searchImage;
     
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem  buttonItemWithAttrTitle:[self generateAttrStringWithText:@"地图" image:[UIImage imageNamed:@"ic_map"] type:0] action:@selector(navMapTapped) target:self isLeft:NO];
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem  buttonItemWithImage:[UIImage imageNamed:@"ic_map_firstscreen"] action:@selector(navMapTapped) target:self];
     
     HHCity *city = [[HHConstantsStore sharedInstance] getCityWithId:[HHStudentStore sharedInstance].selectedCityId];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem  buttonItemWithAttrTitle:[self generateAttrStringWithText:city.cityName image:[UIImage imageNamed:@"Triangle"] type:1] action:@selector(cityTapped) target:self isLeft:YES];
@@ -293,6 +293,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
     self.coachesView.itemAction = ^(NSInteger index) {
         HHCoach *coach = weakSelf.coaches[index];
         HHCoachDetailViewController *vc = [[HHCoachDetailViewController alloc] initWithCoach:coach];
+        vc.hidesBottomBarWhenPushed = YES;
         [weakSelf.navigationController pushViewController:vc animated:YES];
     };
     [self.scrollView addSubview:self.coachesView];
@@ -577,14 +578,14 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
 
 - (NSAttributedString *)generateAttrStringWithText:(NSString *)text image:(UIImage *)image type:(NSInteger)type {
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.alignment = NSTextAlignmentNatural;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
     
     if (type == 0) {
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"   %@", text] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSForegroundColorAttributeName:[UIColor whiteColor], NSParagraphStyleAttributeName:paragraphStyle}];
         
         NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
         textAttachment.image = image;
-        textAttachment.bounds = CGRectMake(5, -2.0f, textAttachment.image.size.width, textAttachment.image.size.height);
+        textAttachment.bounds = CGRectMake(5, 0, textAttachment.image.size.width, textAttachment.image.size.height);
         
         NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
         

@@ -55,7 +55,7 @@
         self.nameLabel = [[UILabel alloc] init];
         self.nameLabel.text = coach.name;
         self.nameLabel.textColor = [UIColor HHTextDarkGray];
-        self.nameLabel.font = [UIFont systemFontOfSize:18.0f];
+        self.nameLabel.font = [UIFont systemFontOfSize:16.0f];
         [topView addSubview:self.nameLabel];
         [self.nameLabel makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.avatarView.right).offset(10.0f);

@@ -54,6 +54,9 @@
 }
 
 - (NSMutableAttributedString *)generateAttrString:(NSString *)title {
+    if (!title) {
+        return nil;
+    }
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentCenter;
     

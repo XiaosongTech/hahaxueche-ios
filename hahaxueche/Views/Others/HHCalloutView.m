@@ -34,7 +34,7 @@
         self.titleLabel = [[UILabel alloc] init];
         self.titleLabel.textColor = [UIColor HHTextDarkGray];
         self.titleLabel.numberOfLines = 1;
-        self.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+        self.titleLabel.font = [UIFont systemFontOfSize:18.0f];
         [self addSubview:self.titleLabel];
         [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.imgView.right).offset(5.0f);

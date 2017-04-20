@@ -25,7 +25,6 @@
 #import "HHToastManager.h"
 
 
-
 @interface HHFieldsMapViewController () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) HHField *selectedField;
@@ -42,7 +41,6 @@
 @implementation HHFieldsMapViewController
 
 - (void)dealloc {
-    self.mapView.showsUserLocation = NO;
     self.mapView.delegate = nil;
     [self.mapView removeFromSuperview];
     self.mapView = nil;
@@ -71,10 +69,16 @@
     [self initSubviews];
     if (self.selectedField)  {
         [self getFieldCoach];
+        
+        CLLocationCoordinate2D fieldLocationCoordinate = CLLocationCoordinate2DMake([self.selectedField.latitude doubleValue], [self.selectedField.longitude doubleValue]);
+        MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(fieldLocationCoordinate, 15000, 15000);
+        [self.mapView setRegion:mapRegion animated:YES];
+    } else {
+        MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(self.userLocation.coordinate, 15000, 15000);
+        [self.mapView setRegion:mapRegion animated:YES];
     }
     
-    MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(self.userLocation.coordinate, 15000, 15000);
-    [self.mapView setRegion:mapRegion animated:YES];
+   
 }
 
 - (void)getFieldCoach {
@@ -96,7 +100,7 @@
 }
 
 - (void)initSubviews {
-    self.mapView = [[MKMapView alloc] initWithFrame:CGRectZero];
+    self.mapView = [[MKMapView alloc] init];
     self.mapView.delegate = self;
     self.mapView.showsUserLocation = YES;
     [self.view addSubview:self.mapView];
@@ -155,7 +159,11 @@
 #pragma mark - Button Actions
 
 - (void)dismissVC {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if ([[self.navigationController.viewControllers firstObject] isEqual:self]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 
@@ -202,7 +210,7 @@
         HHAnnotationView *annotationView = (HHAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([HHAnnotationView class])];
         if (!annotationView) {
             annotationView = [[HHAnnotationView alloc] initWithAnnotation:annotation
-                                                          reuseIdentifier:NSStringFromClass([DXAnnotationView class])
+                                                          reuseIdentifier:NSStringFromClass([HHAnnotationView class])
                                                                   pinView:pinView
                                                               calloutView:calloutView
                                                                  selected:[anno.field.fieldId isEqualToString:self.selectedField.fieldId]];
@@ -323,6 +331,18 @@
     NSInteger page = (scrollView.contentOffset.x - 30.0f)/(CGRectGetWidth(self.scrollView.frame)-60.0f);
     self.indexLabel.attributedText = [self generateStringWithCurrentIndex:page+1];
 }
+
+
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    self.mapView.mapType = MKMapTypeHybrid;
+    self.mapView.delegate = nil;
+    [self.mapView removeFromSuperview];
+    self.mapView = nil;
+}
+
+
 
 
 @end

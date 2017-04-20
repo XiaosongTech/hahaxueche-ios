@@ -37,6 +37,7 @@
         
         if (selected) {
             [self pinTapped];
+            [self showCalloutView];
         }
     }
     return self;

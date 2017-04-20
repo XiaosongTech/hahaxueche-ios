@@ -123,7 +123,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupDefaultSortAndFilter];
     
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_maplist_btn"] action:@selector(jumpToFieldsMapView) target:self];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem  buttonItemWithImage:[UIImage imageNamed:@"ic_map_firstscreen"] action:@selector(jumpToFieldsMapView) target:self];
     
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"icon_search"] action:@selector(jumpToSearchVC) target:self];
     
@@ -488,31 +488,19 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 - (void)jumpToFieldsMapView {
     __weak HHFindCoachViewController *weakSelf = self;
-//    if (self.userLocation) {
-//        __weak HHFindCoachViewController *weakSelf = self;
-//        HHFieldsMapViewController *mapVC = [[HHFieldsMapViewController alloc] initWithUserLocation:self.userLocation selectedFields:self.selectedFields];
-//        mapVC.conformBlock = ^(NSMutableArray *selectedFields) {
-//            weakSelf.selectedFields = selectedFields;
-//            [weakSelf refreshCoachList:YES completion:nil];
-//        };
-//        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:mapVC];
-//        [self presentViewController:navVC animated:YES completion:nil];
-//    } else {
-//        [[HHLoadingViewUtility sharedInstance] showLoadingView];
-//        [self getUserLocationWithCompletion:^() {
-//            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-//            if (weakSelf.userLocation) {
-//                HHFieldsMapViewController *mapVC = [[HHFieldsMapViewController alloc] initWithUserLocation:weakSelf.userLocation selectedFields:weakSelf.selectedFields];
-//                mapVC.conformBlock = ^(NSMutableArray *selectedFields) {
-//                    weakSelf.selectedFields = selectedFields;
-//                    [weakSelf refreshCoachList:YES completion:nil];
-//
-//                };
-//                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:mapVC];
-//                [weakSelf presentViewController:navVC animated:YES completion:nil];
-//            }
-//        }];
-//    }
+    [self getUserLocationWithCompletion:^() {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (weakSelf.userLocation) {
+            [[HHConstantsStore sharedInstance] getFieldsWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(NSArray *fields) {
+                if (fields.count > 0) {
+                    HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:fields selectedField:nil];
+                    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+                    [self presentViewController:navVC animated:YES completion:nil];
+                }
+            }];
+        }
+    }];
+
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_field_icon_tapped attributes:nil];
 }
 

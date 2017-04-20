@@ -23,6 +23,7 @@
              @"displayAddress":@"display_address",
              @"coachCount":@"coach_count",
              @"consultPhone":@"consult_phone",
+             @"img":@"image",
              };
 }
 

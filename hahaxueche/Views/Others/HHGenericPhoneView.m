@@ -18,7 +18,7 @@
 - (instancetype)initWithTitle:(NSString *)title placeHolder:(NSString *)placeHolder buttonTitle:(NSString *)buttonTitle {
     self = [super init];
     if (self) {
-        self.frame = CGRectMake(0, 0, 270.0f, 170.0f);
+        self.frame = CGRectMake(0, 0, 290.0f, 170.0f);
         self.backgroundColor = [UIColor whiteColor];
         
         

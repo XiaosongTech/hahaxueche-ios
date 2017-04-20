@@ -103,6 +103,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     [self.scrollView addSubview:self.couponTwo];
     
     self.labelOne = [self buildLabelWithText:[NSString stringWithFormat:@"分享哈哈学车, 好友可得%@元\n新人专享代金券", [self.refereeBonus generateMoneyString]] font:[UIFont systemFontOfSize:13.0f] color:[UIColor HHBrown]];
+    self.labelOne.textAlignment = NSTextAlignmentCenter;
     [self.scrollView addSubview:self.labelOne];
     
     self.labelTwo = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
@@ -115,6 +116,7 @@ static NSString *const kLawString = @"＊在法律允许的范围内，哈哈学
     
     
     self.labelThree = [self buildLabelWithText:[NSString stringWithFormat:@"点击分享, 各得%@元", [self.referrerBonus generateMoneyString]] font:[UIFont systemFontOfSize:15.0f] color:[UIColor HHBrown]];
+    self.labelThree.textAlignment = NSTextAlignmentCenter;
     [self.scrollView addSubview:self.labelThree];
     
     
