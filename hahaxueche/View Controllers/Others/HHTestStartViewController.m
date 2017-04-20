@@ -190,7 +190,7 @@
     
     self.insuranceCardView.buttonActionBlock = ^() {
         if (![[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
-            HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/share/bao-guo-ka?promo_code=328170"]];
+            HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/share/gua-ke-xian?promo_code=328170"]];
             [weakSelf.navigationController pushViewController:webVC animated:YES];
         } else {
             if (weakSelf.validScores.count > 0) {

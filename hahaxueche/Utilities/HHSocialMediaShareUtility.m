@@ -24,8 +24,8 @@
 #import <SDWebImageManager.h>
 
 
-static NSString *const kStagingShareCoachBaseURL = @"https://staging-api.hahaxueche.net/share/coaches/%@";
-static NSString *const kProdShareCoachBaseURL = @"https://api.hahaxueche.net/share/coaches/%@";
+static NSString *const kStagingShareCoachBaseURL = @"https://staging-www.hahaxueche.com/jiaolian/%@";
+static NSString *const kProdShareCoachBaseURL = @"https://www.hahaxueche.com/jiaolian/%@";
 
 static NSString *const kStagingSharePersonalCoachBaseURL = @"https://staging-api.hahaxueche.net/share/training_partners/%@";
 static NSString *const kProdSharePersonalCoachBaseURL = @"https://api.hahaxueche.net/share/training_partners/%@";
