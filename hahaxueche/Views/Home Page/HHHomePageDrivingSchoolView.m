@@ -42,7 +42,7 @@
         nameLabel.numberOfLines = 1;
         nameLabel.adjustsFontSizeToFitWidth = YES;
         nameLabel.minimumScaleFactor = 0.5;
-        nameLabel.font = [UIFont systemFontOfSize:15.0f];
+        nameLabel.font = [UIFont systemFontOfSize:14.0f];
         [self addSubview:nameLabel];
         [nameLabel makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(avatarView.bottom);

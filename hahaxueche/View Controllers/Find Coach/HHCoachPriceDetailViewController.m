@@ -85,7 +85,7 @@
     if (![[HHStudentStore sharedInstance].currentStudent isPurchased]) {
 
         self.depositButton = [[HHGradientButton alloc] initWithType:1];
-        [self.depositButton setTitle:@"预付100的300" forState:UIControlStateNormal];
+        [self.depositButton setTitle:@"预付100得300" forState:UIControlStateNormal];
         [self.depositButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         self.depositButton.backgroundColor = [UIColor HHDarkOrange];
         self.depositButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
