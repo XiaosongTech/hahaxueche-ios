@@ -153,7 +153,7 @@ static NSString *const kSupportQQ = @"3319762526";
             } break;
                 
             case SocialMediaMessage:
-                [self showSMS:message.title attachment:nil inVC:self.containerVC];
+                [self showSMS:message.title receiver:nil attachment:nil inVC:self.containerVC];
                 break;
                 
             default:
@@ -229,7 +229,7 @@ static NSString *const kSupportQQ = @"3319762526";
             } break;
                 
             case SocialMediaMessage: {
-                [self showSMS:[NSString stringWithFormat:@"%@%@", post.title, shortURL] attachment:nil inVC:self.containerVC];
+                [self showSMS:[NSString stringWithFormat:@"%@%@", post.title, shortURL] receiver:nil attachment:nil inVC:self.containerVC];
             } break;
                 
             default:
@@ -419,7 +419,7 @@ static NSString *const kSupportQQ = @"3319762526";
                 } break;
                     
                 case SocialMediaMessage: {
-                    [self showSMS:[NSString stringWithFormat:@"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你科一挂科险. 比心❤️ %@", shortURL] attachment:nil inVC:self.containerVC];
+                    [self showSMS:[NSString stringWithFormat:@"Hi, 知道你想学车, 送你200元代金券, 怕你考不过, 再送你科一挂科险. 比心❤️ %@", shortURL] receiver:nil attachment:nil inVC:self.containerVC];
                 }
                 default:
                     break;
@@ -483,7 +483,7 @@ static NSString *const kSupportQQ = @"3319762526";
                 } break;
                     
                 case SocialMediaMessage: {
-                    [self showSMS:message.title attachment:nil inVC:self.containerVC];
+                    [self showSMS:message.title receiver:nil attachment:nil inVC:self.containerVC];
                 } break;
                     
                 default:
@@ -636,7 +636,7 @@ static NSString *const kSupportQQ = @"3319762526";
                 } break;
                     
                 case SocialMediaMessage: {
-                    [self showSMS:@"" attachment:UIImagePNGRepresentation(image) inVC:self.containerVC];
+                    [self showSMS:@"" receiver:nil attachment:UIImagePNGRepresentation(image) inVC:self.containerVC];
                 } break;
                     
                 default:
@@ -647,7 +647,7 @@ static NSString *const kSupportQQ = @"3319762526";
 }
 
 
-- (void)showSMS:(NSString *)body attachment:(NSData *)attachment inVC:(UIViewController *)inVC {
+- (void)showSMS:(NSString *)body receiver:(NSArray *)receiver attachment:(NSData *)attachment inVC:(UIViewController *)inVC {
     self.containerVC = inVC;
     
     if(![MFMessageComposeViewController canSendText]) {
@@ -658,7 +658,7 @@ static NSString *const kSupportQQ = @"3319762526";
     
     MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
     messageController.messageComposeDelegate = self;
-    [messageController setRecipients:nil];
+    [messageController setRecipients:receiver];
     [messageController setBody:body];
     if (attachment) {
         [messageController addAttachmentData:attachment typeIdentifier:@"public.data" filename:@"哈哈学车.png"];
@@ -799,7 +799,7 @@ static NSString *const kSupportQQ = @"3319762526";
         } break;
             
         case SocialMediaMessage: {
-            [self showSMS:[NSString stringWithFormat:@"%@%@", msg.title, shortURL] attachment:nil inVC:self.containerVC];
+            [self showSMS:[NSString stringWithFormat:@"%@%@", msg.title, shortURL] receiver:nil attachment:nil inVC:self.containerVC];
         } break;
             
         default:

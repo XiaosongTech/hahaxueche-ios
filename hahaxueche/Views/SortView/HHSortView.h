@@ -12,10 +12,9 @@
 typedef NS_ENUM(NSInteger, SortOption) {
     SortOptionSmartSort,
     SortOptionDistance,
-    SortOptionReview,
+    SortOptionReviewCount,
     SortOptionPrice,
     SortOptionPopularity,
-    SortOptionReviewCount,
     SortOptionCount,
 };
 

@@ -30,8 +30,25 @@
         [avatarView makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.top);
             make.width.equalTo(self.width);
-            make.height.equalTo(self.height).multipliedBy(2.0f/3.0f);
+            make.height.mas_equalTo(70.0f);
             make.left.equalTo(self.left);
+        }];
+        
+        UILabel *nameLabel = [[UILabel alloc] init];
+        nameLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.7f];
+        nameLabel.textAlignment = NSTextAlignmentCenter;
+        nameLabel.text = school.schoolName;
+        nameLabel.textColor = [UIColor whiteColor];
+        nameLabel.numberOfLines = 1;
+        nameLabel.adjustsFontSizeToFitWidth = YES;
+        nameLabel.minimumScaleFactor = 0.5;
+        nameLabel.font = [UIFont systemFontOfSize:14.0f];
+        [self addSubview:nameLabel];
+        [nameLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(avatarView.bottom);
+            make.width.equalTo(avatarView.width);
+            make.height.mas_equalTo(20.0f);
+            make.left.equalTo(avatarView.left);
         }];
         
         UILabel *priceLabel = [[UILabel alloc] init];
@@ -39,9 +56,9 @@
         priceLabel.attributedText = [self generateAttrStringWithPrice:school.lowestPrice];
         [self addSubview:priceLabel];
         [priceLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(avatarView.bottom);
+            make.top.equalTo(nameLabel.bottom);
             make.width.equalTo(self.width);
-            make.height.equalTo(self.height).multipliedBy(1.0f/3.0f);
+            make.bottom.equalTo(self.bottom);
             make.left.equalTo(self.left);
         }];
     }

@@ -209,7 +209,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
     };
     
     self.bottomBar.smsAction = ^{
-       [[HHSocialMediaShareUtility sharedInstance] showSMS:[NSString stringWithFormat:@"%@教练, 我在哈哈学车看到您的招生信息, 我想详细了解一下.", weakSelf.coach.name] attachment:nil inVC:weakSelf];
+       [[HHSocialMediaShareUtility sharedInstance] showSMS:[NSString stringWithFormat:@"%@教练, 我在哈哈学车看到您的招生信息, 我想详细了解一下.", weakSelf.coach.name] receiver:@[weakSelf.coach.consultPhone] attachment:nil inVC:weakSelf];
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_text_tapped attributes:nil];
     };
     

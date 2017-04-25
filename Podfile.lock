@@ -25,10 +25,10 @@ PODS:
   - DateTools (1.7.0)
   - DXCustomCallout-ObjC (0.2.0)
   - DZNEmptyDataSet (1.8.1)
-  - FLAnimatedImage (1.0.12)
   - Harpy (3.4.8)
   - HCSStarRatingView (1.4.5)
   - HMSegmentedControl (1.5.2)
+  - iCarousel (1.8.3)
   - INTULocationManager (4.2.0)
   - KLCPopup (1.0)
   - libPhoneNumber-iOS (0.9.1)
@@ -78,10 +78,10 @@ DEPENDENCIES:
   - DateTools
   - DXCustomCallout-ObjC (~> 0.2)
   - DZNEmptyDataSet
-  - FLAnimatedImage (~> 1.0)
   - Harpy
   - HCSStarRatingView (~> 1.4)
   - HMSegmentedControl (~> 1.5)
+  - iCarousel (~> 1.8)
   - INTULocationManager (~> 4.2)
   - KLCPopup
   - libPhoneNumber-iOS (~> 0.9.1)
@@ -117,10 +117,10 @@ SPEC CHECKSUMS:
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   DXCustomCallout-ObjC: fb223603ee148365de51c2d69bb10443943ff89b
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
-  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Harpy: 7253bc78a0c3e239e8e4bd21b63403c7cf0be9c9
   HCSStarRatingView: bff3f89314d3b5013ce826ea11897d3129ff6b8c
   HMSegmentedControl: 83b9686022d2176fb6457d2bdb61e5d6393fed7d
+  iCarousel: d782f635afac190c49bb8ee455882284cff8b85f
   INTULocationManager: 73f8254b3d05c897c56bb13c190e5b7c648c0998
   KLCPopup: 76c5a19227977f1e53d85236f9ef42257c168d98
   libPhoneNumber-iOS: 81ad1e6bfcf46e668636333269afbfe60399a55b
@@ -142,6 +142,6 @@ SPEC CHECKSUMS:
   UITextView+Placeholder: 77680995fcdd07c3f52ec92fe1150874a2ac89ff
   UMengAnalytics-NO-IDFA: f1b08b540eba6ebad044a574cae6d988cf40cfda
 
-PODFILE CHECKSUM: 9a329c7a8051ab5b59591691aee807447217d0af
+PODFILE CHECKSUM: b59a2415e60674b8072bca03aa0d86b010da04eb
 
 COCOAPODS: 1.0.0

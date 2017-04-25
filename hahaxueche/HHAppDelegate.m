@@ -25,7 +25,6 @@
 #import "HHStudentService.h"
 #import "HHToastManager.h"
 #import "HHCoachDetailViewController.h"
-#import "HHLoadingViewUtility.h"
 #import "QYSDK.h"
 #import "HHNetworkUtility.h"
 #import "HHCoachDetailViewController.h"

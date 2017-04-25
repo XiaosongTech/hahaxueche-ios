@@ -103,20 +103,20 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
         [CloudPushSDK bindTag:1 withTags:@[@"purchased"] withAlias:nil withCallback:nil];
 
     }
+    [self initSubviews];
     
     if ([[HHConstantsStore sharedInstance].drivingSchools count] > 0) {
         self.drivingSchools = [HHConstantsStore sharedInstance].drivingSchools;
-        [self initSubviews];
+        [self.drivingSchoolsView updateData:self.drivingSchools type:CarouselTypeDrivingSchool];
+        
     } else {
-        [[HHLoadingViewUtility sharedInstance] showLoadingView];
         [[HHConstantsStore sharedInstance] getDrivingSchoolsWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(NSArray *schools) {
-            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
             self.drivingSchools = schools;
-            [self initSubviews];
+            [self.drivingSchoolsView updateData:self.drivingSchools type:CarouselTypeDrivingSchool];
         }];
     }
     
-    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyBlock timeout:2.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
+    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyNeighborhood timeout:2.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
         if (status == INTULocationStatusSuccess) {
             [HHStudentStore sharedInstance].currentLocation = currentLocation;
         
@@ -245,7 +245,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
             } break;
                 
             case 1: {
-                [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/share/tuan"]];
+                [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/tuan?promo_code=456134"]];
             } break;
                 
             case 2: {
@@ -389,7 +389,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
         make.left.equalTo(self.scrollView.left);
         make.width.equalTo(self.scrollView.width);
         make.top.equalTo(self.topContainerView.bottom).offset(10.0f);
-        make.height.mas_equalTo(140.0f);
+        make.height.mas_equalTo(160.0f);
     }];
     
     [self.coachesView makeConstraints:^(MASConstraintMaker *make) {
@@ -467,7 +467,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
 }
 
 - (void)navMapTapped {
-    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyBlock timeout:2.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
+    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyNeighborhood timeout:2.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
         if (status == INTULocationStatusSuccess) {
             [HHStudentStore sharedInstance].currentLocation = currentLocation;
             
@@ -520,9 +520,9 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
 
 - (void)cityChangedWithCity:(HHCity *)city {
     [HHStudentStore sharedInstance].selectedCityId = city.cityId;
+    [HHConstantsStore sharedInstance].fields = nil;
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem  buttonItemWithAttrTitle:[self generateAttrStringWithText:city.cityName image:[UIImage imageNamed:@"Triangle"] type:1] action:@selector(cityTapped) target:self isLeft:YES];
     [[HHConstantsStore sharedInstance] getDrivingSchoolsWithCityId:city.cityId completion:^(NSArray *schools) {
-        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         self.drivingSchools = schools;
         [self.drivingSchoolsView updateData:self.drivingSchools type:CarouselTypeDrivingSchool];
     }];
