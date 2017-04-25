@@ -389,7 +389,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
         make.left.equalTo(self.scrollView.left);
         make.width.equalTo(self.scrollView.width);
         make.top.equalTo(self.topContainerView.bottom).offset(10.0f);
-        make.height.mas_equalTo(140.0f);
+        make.height.mas_equalTo(160.0f);
     }];
     
     [self.coachesView makeConstraints:^(MASConstraintMaker *make) {
