@@ -19,6 +19,7 @@
 #import "HHStudentStore.h"
 #import "HHSearchHistoryListView.h"
 #import "UIScrollView+EmptyDataSet.h"
+#import "HHWebViewController.h"
 
 static NSString *const kCellId = @"kCoachListCellId";
 
@@ -108,6 +109,12 @@ static CGFloat const kCellHeightExpanded = 305.0f;
             [weakSelf.expandedCellIndexPath addObject:indexPath];
         }
         [weakSelf.tableView reloadData];
+    };
+    
+    cell.drivingSchoolBlock = ^(HHDrivingSchool *school) {
+        HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/jiaxiao/%@", [school.schoolId stringValue]]]];
+        webVC.hidesBottomBarWhenPushed = YES;
+        [weakSelf.navigationController pushViewController:webVC animated:YES];
     };
     
     

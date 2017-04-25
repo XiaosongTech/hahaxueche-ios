@@ -243,79 +243,19 @@
             make.width.equalTo(self.view.width);
             make.height.mas_equalTo(140.0f);
         }];
+        
+        self.indexLabel = [[UILabel alloc] init];
+        [self.view addSubview:self.indexLabel];
+        [self.indexLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.carousel.top).offset(-5.0f);
+            make.right.equalTo(self.view.right).offset(-30.0f);
+        }];
     
     }
     
     [self.carousel reloadData];
-//    if (!self.scrollView)  {
-//        self.scrollView = [[UIScrollView alloc] init];
-//        self.scrollView.showsVerticalScrollIndicator = NO;
-//        self.scrollView.showsHorizontalScrollIndicator = NO;
-//        self.scrollView.delegate = self;
-//        self.scrollView.backgroundColor = [UIColor clearColor];
-//        [self.view bringSubviewToFront:self.scrollView];
-//        [self.view addSubview:self.scrollView];
-//        
-//        self.indexLabel = [[UILabel alloc] init];
-//        [self.view bringSubviewToFront:self.indexLabel];
-//        [self.view addSubview:self.indexLabel];
-//        
-//        
-//
-//        
-//        [self.indexLabel makeConstraints:^(MASConstraintMaker *make) {
-//            make.right.equalTo(self.view.right).offset(-20.0f);
-//            make.bottom.equalTo(self.scrollView.top).offset(-5.0f);
-//        }];
-//    }
-//    __weak HHFieldsMapViewController *weakSelf = self;
-//    self.indexLabel.attributedText = [self generateStringWithCurrentIndex:1];
-//    for (HHMapCoachCardView *view in self.cardViews) {
-//        [view removeFromSuperview];
-//    }
-//    [self.cardViews removeAllObjects];
-//    
-//    HHMapCoachCardView *preView;
-//    for (int i = 0; i < self.coaches.count; i++) {
-//        [self.scrollView addSubview:view];
-//        [view makeConstraints:^(MASConstraintMaker *make) {
-//            make.top.equalTo(self.scrollView.top);
-//            if (!preView) {
-//                make.left.equalTo(self.scrollView.left).offset(30.0f);
-//            } else {
-//                make.left.equalTo(preView.right).offset(10.0f);
-//            }
-//            make.width.equalTo(self.scrollView.width).offset(-60.0f);
-//            make.height.mas_equalTo(140.0f);
-//            
-//        }];
-//        preView = view;
-//        [self.cardViews addObject:view];
-//        
-//
-//    if (preView) {
-//        [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:preView
-//                                                                    attribute:NSLayoutAttributeRight
-//                                                                    relatedBy:NSLayoutRelationEqual
-//                                                                       toItem:self.scrollView
-//                                                                    attribute:NSLayoutAttributeRight
-//                                                                   multiplier:1.0
-//                                                                     constant:-30.0f]];
-//    }
-//    
-//    self.scrollView.contentOffset = CGPointMake(0, 0);
-    
+    self.indexLabel.attributedText = [self generateStringWithCurrentIndex:1];
 }
-//
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-//    NSInteger page = (scrollView.contentOffset.x - 30.0f)/(CGRectGetWidth(self.scrollView.frame)-60.0f);
-//    self.indexLabel.attributedText = [self generateStringWithCurrentIndex:page+1];
-//}
-//
-//- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-//    NSInteger page = (scrollView.contentOffset.x - 30.0f)/(CGRectGetWidth(self.scrollView.frame)-60.0f);
-//    self.indexLabel.attributedText = [self generateStringWithCurrentIndex:page+1];
-//}
 
 
 #pragma mark iCarousel methods
@@ -369,13 +309,14 @@
         [weakSelf.navigationController pushViewController:vc animated:YES];
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_coach_tapped attributes:nil];
     };
-
+    
+    
     return coachView;
 }
 
-//- (CGFloat)carouselItemWidth:(iCarousel *)carousel {
-//    return CGRectGetWidth(self.view.frame)-60.0f;
-//}
+- (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel {
+    self.indexLabel.attributedText = [self generateStringWithCurrentIndex:carousel.currentItemIndex + 1];
+}
 
 - (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value {
     if (option == iCarouselOptionSpacing) {
