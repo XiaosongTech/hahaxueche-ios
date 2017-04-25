@@ -39,15 +39,6 @@
                     }
                 } break;
                     
-                case SortOptionReview: {
-                    item = [[HHSortOptionView alloc] initWithTilte:@"评价最好" image:[UIImage imageNamed:@"ic_sort_nice_normal_btn"] highlightImage:[UIImage imageNamed:@"ic_sort_nice_hold_btn"]];
-                    if (self.currentSortOption == SortOptionReview) {
-                        [item setupView:YES];
-                    } else {
-                        [item setupView:NO];
-                    }
-                    
-                } break;
                     
                 case SortOptionPrice: {
                     item = [[HHSortOptionView alloc] initWithTilte:@"价格最低" image:[UIImage imageNamed:@"ic_sort_price_normal_btn"] highlightImage:[UIImage imageNamed:@"ic_sort_price_hold_btn"]];
@@ -68,6 +59,15 @@
                     }
                     
                 } break;
+                    
+                case SortOptionReviewCount: {
+                    item = [[HHSortOptionView alloc] initWithTilte:@"评价最多" image:[UIImage imageNamed:@"ic_sort_nice_normal_btn"] highlightImage:[UIImage imageNamed:@"ic_sort_nice_hold_btn"]];
+                    if (self.currentSortOption == SortOptionReviewCount) {
+                        [item setupView:YES];
+                    } else {
+                        [item setupView:NO];
+                    }
+                }
                     
                 default:
                     break;
@@ -119,8 +119,8 @@
         case SortOptionDistance:
             return @"距离最近";
             
-        case SortOptionReview:
-            return @"评价最好";
+        case SortOptionReviewCount:
+            return @"评价最多";
             
         case SortOptionPrice:
             return @"价格最低";

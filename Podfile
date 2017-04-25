@@ -34,11 +34,11 @@ target "hahaxueche" do
     pod 'QIYU_iOS_SDK', '~> 3.4'
     pod 'HMSegmentedControl', '~> 1.5'
     pod 'SwipeView', '~> 1.3'
-    pod 'FLAnimatedImage', '~> 1.0'
     pod 'UITextView+Placeholder', '~> 1.2'
     pod 'DZNEmptyDataSet'
     pod 'APAddressBook'
     pod 'DXCustomCallout-ObjC', '~> 0.2'
+    pod 'iCarousel', '~> 1.8'
 
 end
 

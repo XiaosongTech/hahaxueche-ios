@@ -24,13 +24,14 @@
 #import "HHStudentService.h"
 #import "HHToastManager.h"
 #import "HHEventTrackingManager.h"
+#import "iCarousel.h"
 
 
-@interface HHFieldsMapViewController () <UIScrollViewDelegate>
+@interface HHFieldsMapViewController () <UIScrollViewDelegate, iCarouselDelegate, iCarouselDataSource>
 
 @property (nonatomic, strong) HHField *selectedField;
 @property (nonatomic, strong) NSArray *fields;
-@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) iCarousel *carousel;
 @property (nonatomic, strong) NSArray *coaches;
 @property (nonatomic, strong) UILabel *indexLabel;
 @property (nonatomic, strong) NSMutableArray *cardViews;
@@ -46,6 +47,8 @@
     self.mapView.delegate = nil;
     [self.mapView removeFromSuperview];
     self.mapView = nil;
+    self.carousel.delegate = nil;
+    self.carousel.dataSource = nil;
 }
 
 
@@ -226,125 +229,160 @@
 
 
 - (void)updateView {
-    if (!self.scrollView)  {
-        self.scrollView = [[UIScrollView alloc] init];
-        self.scrollView.showsVerticalScrollIndicator = NO;
-        self.scrollView.showsHorizontalScrollIndicator = NO;
-        self.scrollView.delegate = self;
-        self.scrollView.backgroundColor = [UIColor clearColor];
-        [self.view bringSubviewToFront:self.scrollView];
-        [self.view addSubview:self.scrollView];
+    
+    if (!self.carousel) {
+        self.carousel = [[iCarousel alloc] init];
+        self.carousel.delegate = self;
+        self.carousel.dataSource = self;
+        self.carousel.bounces = NO;
+        [self.view addSubview:self.carousel];
         
-        self.indexLabel = [[UILabel alloc] init];
-        [self.view bringSubviewToFront:self.indexLabel];
-        [self.view addSubview:self.indexLabel];
-        
-        
-        [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
+        [self.carousel makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.view.bottom);
             make.left.equalTo(self.view.left);
             make.width.equalTo(self.view.width);
             make.height.mas_equalTo(140.0f);
         }];
-        
-        
-        [self.indexLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self.view.right).offset(-20.0f);
-            make.bottom.equalTo(self.scrollView.top).offset(-5.0f);
-        }];
+    
     }
+    
+    [self.carousel reloadData];
+//    if (!self.scrollView)  {
+//        self.scrollView = [[UIScrollView alloc] init];
+//        self.scrollView.showsVerticalScrollIndicator = NO;
+//        self.scrollView.showsHorizontalScrollIndicator = NO;
+//        self.scrollView.delegate = self;
+//        self.scrollView.backgroundColor = [UIColor clearColor];
+//        [self.view bringSubviewToFront:self.scrollView];
+//        [self.view addSubview:self.scrollView];
+//        
+//        self.indexLabel = [[UILabel alloc] init];
+//        [self.view bringSubviewToFront:self.indexLabel];
+//        [self.view addSubview:self.indexLabel];
+//        
+//        
+//
+//        
+//        [self.indexLabel makeConstraints:^(MASConstraintMaker *make) {
+//            make.right.equalTo(self.view.right).offset(-20.0f);
+//            make.bottom.equalTo(self.scrollView.top).offset(-5.0f);
+//        }];
+//    }
+//    __weak HHFieldsMapViewController *weakSelf = self;
+//    self.indexLabel.attributedText = [self generateStringWithCurrentIndex:1];
+//    for (HHMapCoachCardView *view in self.cardViews) {
+//        [view removeFromSuperview];
+//    }
+//    [self.cardViews removeAllObjects];
+//    
+//    HHMapCoachCardView *preView;
+//    for (int i = 0; i < self.coaches.count; i++) {
+//        [self.scrollView addSubview:view];
+//        [view makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(self.scrollView.top);
+//            if (!preView) {
+//                make.left.equalTo(self.scrollView.left).offset(30.0f);
+//            } else {
+//                make.left.equalTo(preView.right).offset(10.0f);
+//            }
+//            make.width.equalTo(self.scrollView.width).offset(-60.0f);
+//            make.height.mas_equalTo(140.0f);
+//            
+//        }];
+//        preView = view;
+//        [self.cardViews addObject:view];
+//        
+//
+//    if (preView) {
+//        [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:preView
+//                                                                    attribute:NSLayoutAttributeRight
+//                                                                    relatedBy:NSLayoutRelationEqual
+//                                                                       toItem:self.scrollView
+//                                                                    attribute:NSLayoutAttributeRight
+//                                                                   multiplier:1.0
+//                                                                     constant:-30.0f]];
+//    }
+//    
+//    self.scrollView.contentOffset = CGPointMake(0, 0);
+    
+}
+//
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+//    NSInteger page = (scrollView.contentOffset.x - 30.0f)/(CGRectGetWidth(self.scrollView.frame)-60.0f);
+//    self.indexLabel.attributedText = [self generateStringWithCurrentIndex:page+1];
+//}
+//
+//- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+//    NSInteger page = (scrollView.contentOffset.x - 30.0f)/(CGRectGetWidth(self.scrollView.frame)-60.0f);
+//    self.indexLabel.attributedText = [self generateStringWithCurrentIndex:page+1];
+//}
+
+
+#pragma mark iCarousel methods
+
+- (NSInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
+    return self.coaches.count;
+}
+
+- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view {
     __weak HHFieldsMapViewController *weakSelf = self;
-    self.indexLabel.attributedText = [self generateStringWithCurrentIndex:1];
-    for (HHMapCoachCardView *view in self.cardViews) {
-        [view removeFromSuperview];
-    }
-    [self.cardViews removeAllObjects];
+    HHCoach *coach = self.coaches[index];
+    HHMapCoachCardView *coachView = [[HHMapCoachCardView alloc] initWithCoach:coach];
+    coachView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame)-60.0f, 140.0f);
+    coachView.checkFieldBlock = ^(HHCoach *coach) {
+        HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"看过训练场才放心" placeHolder:@"输入手机号, 教练立即带你看场地" buttonTitle:@"预约看场地"];
+        view.buttonAction = ^(NSString *number) {
+            [[HHStudentService sharedInstance] getPhoneNumber:number completion:^(NSError *error) {
+                if (error) {
+                    [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试!"];
+                } else {
+                    [HHPopupUtility dismissPopup:weakSelf.popup];
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_site_confirmed attributes:nil];
+                }
+            }];
+        };
+        weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+        [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_site_tapped attributes:nil];
+    };
     
-    HHMapCoachCardView *preView;
-    for (int i = 0; i < self.coaches.count; i++) {
-        HHCoach *coach = self.coaches[i];
-        HHMapCoachCardView *view = [[HHMapCoachCardView alloc] initWithCoach:coach];
-        [self.scrollView addSubview:view];
-        [view makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.scrollView.top);
-            if (!preView) {
-                make.left.equalTo(self.scrollView.left).offset(30.0f);
-            } else {
-                make.left.equalTo(preView.right).offset(10.0f);
-            }
-            make.width.equalTo(self.scrollView.width).offset(-60.0f);
-            make.height.mas_equalTo(140.0f);
-            
-        }];
-        preView = view;
-        [self.cardViews addObject:view];
-        
-        view.checkFieldBlock = ^(HHCoach *coach) {
-            HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"看过训练场才放心" placeHolder:@"输入手机号, 教练立即带你看场地" buttonTitle:@"预约看场地"];
-            view.buttonAction = ^(NSString *number) {
-                [[HHStudentService sharedInstance] getPhoneNumber:number completion:^(NSError *error) {
-                    if (error) {
-                        [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试!"];
-                    } else {
-                        [HHPopupUtility dismissPopup:weakSelf.popup];
-                        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_site_confirmed attributes:nil];
-                    }
-                }];
-            };
-            weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
-            [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
-           [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_site_tapped attributes:nil];
-        };
-        
-        view.supportBlock = ^(HHCoach *coach) {
-            [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
-            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_online_support_tapped attributes:nil];
-        };
-        
-        view.callBlock = ^(HHCoach *coach) {
-            [[HHSupportUtility sharedManager] callSupportWithNumber:coach.consultPhone];
-            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_contact_coach_tapped attributes:nil];
-        };
-        
-        view.schoolBlock = ^(HHDrivingSchool *school) {
-            HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/jiaxiao/%@", [school.schoolId stringValue]]]];
-            webVC.hidesBottomBarWhenPushed = YES;
-            [weakSelf.navigationController pushViewController:webVC animated:YES];
-            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_school_tapped attributes:nil];
-        };
-        
-        view.coachBlock = ^(HHCoach *coach) {
-            HHCoachDetailViewController *vc = [[HHCoachDetailViewController alloc] initWithCoach:coach];
-            vc.hidesBottomBarWhenPushed = YES;
-            [weakSelf.navigationController pushViewController:vc animated:YES];
-            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_coach_tapped attributes:nil];
-        };
-    }
+    coachView.supportBlock = ^(HHCoach *coach) {
+        [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_online_support_tapped attributes:nil];
+    };
     
-    if (preView) {
-        [self.scrollView addConstraint:[NSLayoutConstraint constraintWithItem:preView
-                                                                    attribute:NSLayoutAttributeRight
-                                                                    relatedBy:NSLayoutRelationEqual
-                                                                       toItem:self.scrollView
-                                                                    attribute:NSLayoutAttributeRight
-                                                                   multiplier:1.0
-                                                                     constant:-30.0f]];
-    }
+    coachView.callBlock = ^(HHCoach *coach) {
+        [[HHSupportUtility sharedManager] callSupportWithNumber:coach.consultPhone];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_contact_coach_tapped attributes:nil];
+    };
     
-    self.scrollView.contentOffset = CGPointMake(0, 0);
+    coachView.schoolBlock = ^(HHDrivingSchool *school) {
+        HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/jiaxiao/%@", [school.schoolId stringValue]]]];
+        webVC.hidesBottomBarWhenPushed = YES;
+        [weakSelf.navigationController pushViewController:webVC animated:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_school_tapped attributes:nil];
+    };
     
+    coachView.coachBlock = ^(HHCoach *coach) {
+        HHCoachDetailViewController *vc = [[HHCoachDetailViewController alloc] initWithCoach:coach];
+        vc.hidesBottomBarWhenPushed = YES;
+        [weakSelf.navigationController pushViewController:vc animated:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_coach_tapped attributes:nil];
+    };
+
+    return coachView;
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    NSInteger page = (scrollView.contentOffset.x - 30.0f)/(CGRectGetWidth(self.scrollView.frame)-60.0f);
-    self.indexLabel.attributedText = [self generateStringWithCurrentIndex:page+1];
-}
+//- (CGFloat)carouselItemWidth:(iCarousel *)carousel {
+//    return CGRectGetWidth(self.view.frame)-60.0f;
+//}
 
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-    NSInteger page = (scrollView.contentOffset.x - 30.0f)/(CGRectGetWidth(self.scrollView.frame)-60.0f);
-    self.indexLabel.attributedText = [self generateStringWithCurrentIndex:page+1];
+- (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value {
+    if (option == iCarouselOptionSpacing) {
+        return value * 1.04;
+    }
+    return value;
 }
-
 
 
 
