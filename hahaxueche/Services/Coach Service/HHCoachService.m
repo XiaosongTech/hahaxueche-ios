@@ -32,7 +32,13 @@
     param[@"golden_coach_only"] = filters.onlyGoldenCoach;
     param[@"vip_only"] = filters.onlyVIPCoach;
     param[@"city_id"] = cityId;
-    param[@"sort_by"] = @(sortOption);
+    
+    if (sortOption == SortOptionReviewCount) {
+        param[@"sort_by"] = @(5);
+    } else {
+        param[@"sort_by"] = @(sortOption);
+    }
+    
     
     if ([perPage integerValue]> 0) {
         param[@"per_page"] = perPage;

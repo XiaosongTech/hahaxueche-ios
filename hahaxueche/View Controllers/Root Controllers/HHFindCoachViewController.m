@@ -507,7 +507,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 
 - (void)getUserLocationWithCompletion:(HHUserLocationCompletionBlock)completion {
-    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyBlock timeout:2.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
+    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyNeighborhood timeout:2.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
         if (status == INTULocationStatusSuccess) {
             self.userLocation = currentLocation;
             [HHStudentStore sharedInstance].currentLocation = currentLocation;
@@ -809,7 +809,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 - (void)segValueChanged {
     [self.swipeView scrollToPage:self.segControl.selectedSegmentIndex duration:0.3f];
     if (self.segControl.selectedSegmentIndex == CoachTypeDrivingSchoolCoach) {
-        self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_maplist_btn"] action:@selector(jumpToFieldsMapView) target:self];
+        self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_map_firstscreen"] action:@selector(jumpToFieldsMapView) target:self];
         self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"icon_search"] action:@selector(jumpToSearchVC) target:self];
         [self.tableView reloadData];
     } else {

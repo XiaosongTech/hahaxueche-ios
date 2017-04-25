@@ -42,6 +42,8 @@ static const NSInteger count = 8;
             make.top.equalTo(titleView.bottom);
             make.bottom.equalTo(self.bottom).offset(-10.0f);
         }];
+        
+        [self updateData:data type:type];
 
     }
     return self;
@@ -110,13 +112,12 @@ static const NSInteger count = 8;
 }
 
 - (UIScrollView *)buildScrollViewWithType:(CarouselType)type data:(NSArray *)data {
+    
     UIScrollView *scrollView = [[UIScrollView alloc] init];
     scrollView.scrollEnabled = YES;
     scrollView.backgroundColor = [UIColor whiteColor];
     scrollView.showsVerticalScrollIndicator = NO;
     scrollView.showsHorizontalScrollIndicator = NO;
-    [self buildItemViewInView:scrollView data:data type:type];
-    
     return scrollView;
 }
 
@@ -136,58 +137,90 @@ static const NSInteger count = 8;
 
 - (void)buildItemViewInView:(UIScrollView *)scrollView data:(NSArray *)data type:(CarouselType)type {
     __block int i = 0;
-    if (type == CarouselTypeDrivingSchool) {
-        for (HHDrivingSchool *school in data) {
-            if (i >= count ) {
-                break;
-            }
-            HHHomePageDrivingSchoolView *view = [[HHHomePageDrivingSchoolView alloc] initWithDrivingSchool:school];
-            view.tag = i;
-            [scrollView addSubview:view];
-            [view makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(scrollView.left).offset(10.0f + 85.0f*i);
-                make.height.equalTo(scrollView.height);
-                make.width.mas_equalTo(75.0f);
-                make.top.equalTo(scrollView.top);
+    if (data.count <= 0) {
+        if (self.activityIndicator) {
+            [self.activityIndicator startAnimating];
+            self.loadingLabel.hidden = NO;
+        } else {
+            self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [self.scrollView addSubview:self.activityIndicator];
+            [self.activityIndicator makeConstraints:^(MASConstraintMaker *make) {
+                make.center.equalTo(self.scrollView);
             }];
-            [self.schoolViewsArray addObject:view];
+            [self.activityIndicator startAnimating];
             
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(itemTapped:)];
-            [view addGestureRecognizer:tap];
-            i++;
-        }
-        NSInteger sizeX = count * 85.0f + 10.0f;
-        if (data.count < 8) {
-            sizeX = data.count * 85.0f + 10.0f;
-        }
-        scrollView.contentSize = CGSizeMake(sizeX, 90.0f);
-    } else {
-        for (HHCoach *coach in data) {
-            if (i >= count ) {
-                break;
-            }
-            HHHomePageCoachView *view = [[HHHomePageCoachView alloc] initWithCoach:coach];
-            view.tag = i;
-            [scrollView addSubview:view];
-            [view makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(scrollView.left).offset(10.0f + 85.0f*i);
-                make.height.equalTo(scrollView.height);
-                make.width.mas_equalTo(75.0f);
-                make.top.equalTo(scrollView.top);
+            self.loadingLabel = [[UILabel alloc] init];
+            self.loadingLabel.text = @"定位中";
+            self.loadingLabel.textColor = [UIColor HHLightTextGray];
+            self.loadingLabel.font = [UIFont systemFontOfSize:12.0f];
+            [self.scrollView addSubview:self.loadingLabel];
+            [self.loadingLabel makeConstraints:^(MASConstraintMaker *make) {
+                make.centerX.equalTo(self.scrollView.centerX);
+                make.top.equalTo(self.activityIndicator.bottom).offset(5.0f);
+                
             }];
-            [self.coachViewsArray addObject:view];
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(itemTapped:)];
-            [view addGestureRecognizer:tap];
-            i++;
+            
         }
         
-        NSInteger sizeX = count * 85.0f + 10.0f;
-        if (data.count < 8) {
-            sizeX = data.count * 85.0f + 10.0f;
+    } else {
+        [self.activityIndicator removeFromSuperview];
+        self.activityIndicator = nil;
+        self.loadingLabel.hidden = YES;
+        
+        if (type == CarouselTypeDrivingSchool) {
+            for (HHDrivingSchool *school in data) {
+                if (i >= count ) {
+                    break;
+                }
+                HHHomePageDrivingSchoolView *view = [[HHHomePageDrivingSchoolView alloc] initWithDrivingSchool:school];
+                view.tag = i;
+                [scrollView addSubview:view];
+                [view makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.equalTo(scrollView.left).offset(10.0f + 85.0f*i);
+                    make.height.equalTo(scrollView.height);
+                    make.width.mas_equalTo(75.0f);
+                    make.top.equalTo(scrollView.top);
+                }];
+                [self.schoolViewsArray addObject:view];
+                
+                UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(itemTapped:)];
+                [view addGestureRecognizer:tap];
+                i++;
+            }
+            NSInteger sizeX = count * 85.0f + 10.0f;
+            if (data.count < 8) {
+                sizeX = data.count * 85.0f + 10.0f;
+            }
+            scrollView.contentSize = CGSizeMake(sizeX, 90.0f);
+        } else {
+            for (HHCoach *coach in data) {
+                if (i >= count ) {
+                    break;
+                }
+                HHHomePageCoachView *view = [[HHHomePageCoachView alloc] initWithCoach:coach];
+                view.tag = i;
+                [scrollView addSubview:view];
+                [view makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.equalTo(scrollView.left).offset(10.0f + 85.0f*i);
+                    make.height.equalTo(scrollView.height);
+                    make.width.mas_equalTo(75.0f);
+                    make.top.equalTo(scrollView.top);
+                }];
+                [self.coachViewsArray addObject:view];
+                UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(itemTapped:)];
+                [view addGestureRecognizer:tap];
+                i++;
+            }
+            
+            NSInteger sizeX = count * 85.0f + 10.0f;
+            if (data.count < 8) {
+                sizeX = data.count * 85.0f + 10.0f;
+            }
+            scrollView.contentSize = CGSizeMake(sizeX, 90.0f);
         }
-        scrollView.contentSize = CGSizeMake(sizeX, 90.0f);
-    }
 
+    }
+    
 }
 
 - (void)moreButtonTapped {
