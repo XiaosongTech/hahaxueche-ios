@@ -107,18 +107,6 @@
     self.mapView.showsUserLocation = YES;
     [self.view addSubview:self.mapView];
     
-    self.scrollView = [[UIScrollView alloc] init];
-    self.scrollView.showsVerticalScrollIndicator = NO;
-    self.scrollView.showsHorizontalScrollIndicator = NO;
-    self.scrollView.delegate = self;
-    self.scrollView.backgroundColor = [UIColor clearColor];
-    [self.view bringSubviewToFront:self.scrollView];
-    [self.view addSubview:self.scrollView];
-    
-    self.indexLabel = [[UILabel alloc] init];
-    [self.view bringSubviewToFront:self.indexLabel];
-    [self.view addSubview:self.indexLabel];
-    
     [self makeConstraints];
 }
 
@@ -128,19 +116,6 @@
         make.left.equalTo(self.view.left);
         make.width.equalTo(self.view.width);
         make.height.equalTo(self.view.height);
-    }];
-    
-    [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view.bottom);
-        make.left.equalTo(self.view.left);
-        make.width.equalTo(self.view.width);
-        make.height.mas_equalTo(140.0f);
-    }];
-
-    
-    [self.indexLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.view.right).offset(-20.0f);
-        make.bottom.equalTo(self.scrollView.top).offset(-5.0f);
     }];
     
 }
@@ -251,6 +226,33 @@
 
 
 - (void)updateView {
+    if (!self.scrollView)  {
+        self.scrollView = [[UIScrollView alloc] init];
+        self.scrollView.showsVerticalScrollIndicator = NO;
+        self.scrollView.showsHorizontalScrollIndicator = NO;
+        self.scrollView.delegate = self;
+        self.scrollView.backgroundColor = [UIColor clearColor];
+        [self.view bringSubviewToFront:self.scrollView];
+        [self.view addSubview:self.scrollView];
+        
+        self.indexLabel = [[UILabel alloc] init];
+        [self.view bringSubviewToFront:self.indexLabel];
+        [self.view addSubview:self.indexLabel];
+        
+        
+        [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view.bottom);
+            make.left.equalTo(self.view.left);
+            make.width.equalTo(self.view.width);
+            make.height.mas_equalTo(140.0f);
+        }];
+        
+        
+        [self.indexLabel makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.view.right).offset(-20.0f);
+            make.bottom.equalTo(self.scrollView.top).offset(-5.0f);
+        }];
+    }
     __weak HHFieldsMapViewController *weakSelf = self;
     self.indexLabel.attributedText = [self generateStringWithCurrentIndex:1];
     for (HHMapCoachCardView *view in self.cardViews) {
