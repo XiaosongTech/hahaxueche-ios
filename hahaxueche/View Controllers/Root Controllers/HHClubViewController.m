@@ -24,7 +24,7 @@
 #import <pop/POP.h>
 #import "HHReferFriendsViewController.h"
 
-static NSString *const kGroupPurchaseLink = @"https://m.hahaxueche.com/share/tuan?promo_code=456134";
+static NSString *const kGroupPurchaseLink = @"https://m.hahaxueche.com/tuan?promo_code=456134";
 static NSString *const kCellID = @"kCellId";
 
 @interface HHClubViewController () <UITableViewDelegate, UITableViewDataSource, SwipeViewDataSource, SwipeViewDelegate>
