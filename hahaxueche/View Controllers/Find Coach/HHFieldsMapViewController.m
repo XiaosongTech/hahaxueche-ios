@@ -43,12 +43,28 @@
 @implementation HHFieldsMapViewController
 
 - (void)dealloc {
-    self.mapView.mapType = MKMapTypeHybrid;
-    self.mapView.delegate = nil;
+    switch (self.mapView.mapType) {
+        case MKMapTypeHybrid: {
+            self.mapView.mapType = MKMapTypeStandard;
+        }break;
+            
+        case MKMapTypeStandard: {
+            self.mapView.mapType = MKMapTypeHybrid;
+        } break;
+            
+        default:
+            break;
+    }
+    self.mapView.mapType = MKMapTypeStandard;
+    self.mapView.showsUserLocation = NO;
+    [self.mapView.layer removeAllAnimations];
+    [self.mapView removeAnnotations:_mapView.annotations];
+    [self.mapView removeOverlays:_mapView.overlays];
     [self.mapView removeFromSuperview];
+    self.mapView.delegate = nil;
     self.mapView = nil;
-    self.carousel.delegate = nil;
-    self.carousel.dataSource = nil;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
@@ -83,6 +99,10 @@
         [self.mapView setRegion:mapRegion animated:YES];
     }
     
+    [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidReceiveMemoryWarningNotification object:[UIApplication sharedApplication] queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        self.mapView.mapType = MKMapTypeHybrid;
+        self.mapView.mapType = MKMapTypeStandard;
+    }];
    
 }
 
@@ -324,9 +344,6 @@
     }
     return value;
 }
-
-
-
 
 
 @end
