@@ -11,6 +11,8 @@
 #import "Masonry.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "NSNumber+HHNumber.h"
+#import "FLAnimatedImage.h"
+#import "FLAnimatedImageView.h"
 
 @implementation HHHomePageDrivingSchoolView
 
@@ -23,45 +25,61 @@
         self.layer.borderColor = [UIColor HHLightLineGray].CGColor;
         self.layer.borderWidth = 1.0f/[UIScreen mainScreen].scale;
         
-        UIImageView * avatarView = [[UIImageView alloc] init];
-        avatarView.contentMode = UIViewContentModeScaleAspectFit;
-        [avatarView sd_setImageWithURL:[NSURL URLWithString:school.avatar]];
-        [self addSubview:avatarView];
-        [avatarView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.top);
-            make.width.equalTo(self.width);
-            make.height.mas_equalTo(70.0f);
-            make.left.equalTo(self.left);
-        }];
+        if (school) {
+            UIImageView * avatarView = [[UIImageView alloc] init];
+            avatarView.contentMode = UIViewContentModeScaleAspectFit;
+            [avatarView sd_setImageWithURL:[NSURL URLWithString:school.avatar]];
+            [self addSubview:avatarView];
+            [avatarView makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(self.top);
+                make.width.equalTo(self.width);
+                make.height.mas_equalTo(70.0f);
+                make.left.equalTo(self.left);
+            }];
+            
+            UILabel *nameLabel = [[UILabel alloc] init];
+            nameLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.7f];
+            nameLabel.textAlignment = NSTextAlignmentCenter;
+            nameLabel.text = school.schoolName;
+            nameLabel.textColor = [UIColor whiteColor];
+            nameLabel.numberOfLines = 1;
+            nameLabel.adjustsFontSizeToFitWidth = YES;
+            nameLabel.minimumScaleFactor = 0.5;
+            nameLabel.font = [UIFont systemFontOfSize:14.0f];
+            [self addSubview:nameLabel];
+            [nameLabel makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(avatarView.bottom);
+                make.width.equalTo(avatarView.width);
+                make.height.mas_equalTo(20.0f);
+                make.left.equalTo(avatarView.left);
+            }];
+            
+            UILabel *priceLabel = [[UILabel alloc] init];
+            priceLabel.textAlignment = NSTextAlignmentCenter;
+            priceLabel.attributedText = [self generateAttrStringWithPrice:school.lowestPrice];
+            [self addSubview:priceLabel];
+            [priceLabel makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(nameLabel.bottom);
+                make.width.equalTo(self.width);
+                make.bottom.equalTo(self.bottom);
+                make.left.equalTo(self.left);
+            }];
+
+        } else {
+            FLAnimatedImageView *imageView = [[FLAnimatedImageView alloc] init];
+            imageView.contentMode = UIViewContentModeScaleAspectFit;
+            NSString *imgString = [[NSBundle mainBundle] pathForResource:@"coachcardloading" ofType:@"gif"];
+            NSData *imgData = [NSData dataWithContentsOfFile:imgString];
+            imageView.animatedImage = [FLAnimatedImage animatedImageWithGIFData:imgData];
+            [self addSubview:imageView];
+            [imageView makeConstraints:^(MASConstraintMaker *make) {
+                make.center.equalTo(self);
+                make.width.equalTo(self.width).offset(-10.0f);
+                make.height.equalTo(self.height).offset(-10.0f);
+            }];
+        }
         
-        UILabel *nameLabel = [[UILabel alloc] init];
-        nameLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.7f];
-        nameLabel.textAlignment = NSTextAlignmentCenter;
-        nameLabel.text = school.schoolName;
-        nameLabel.textColor = [UIColor whiteColor];
-        nameLabel.numberOfLines = 1;
-        nameLabel.adjustsFontSizeToFitWidth = YES;
-        nameLabel.minimumScaleFactor = 0.5;
-        nameLabel.font = [UIFont systemFontOfSize:14.0f];
-        [self addSubview:nameLabel];
-        [nameLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(avatarView.bottom);
-            make.width.equalTo(avatarView.width);
-            make.height.mas_equalTo(20.0f);
-            make.left.equalTo(avatarView.left);
-        }];
-        
-        UILabel *priceLabel = [[UILabel alloc] init];
-        priceLabel.textAlignment = NSTextAlignmentCenter;
-        priceLabel.attributedText = [self generateAttrStringWithPrice:school.lowestPrice];
-        [self addSubview:priceLabel];
-        [priceLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(nameLabel.bottom);
-            make.width.equalTo(self.width);
-            make.bottom.equalTo(self.bottom);
-            make.left.equalTo(self.left);
-        }];
-    }
+            }
     return self;
 }
 

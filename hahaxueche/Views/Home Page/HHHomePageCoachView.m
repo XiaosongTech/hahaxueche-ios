@@ -13,6 +13,8 @@
 #import "NSNumber+HHNumber.h"
 #import "HHConstantsStore.h"
 #import "HHFormatUtility.h"
+#import "FLAnimatedImage.h"
+#import "FLAnimatedImageView.h"
 
 @implementation HHHomePageCoachView
 
@@ -25,52 +27,65 @@
         self.layer.borderColor = [UIColor HHLightLineGray].CGColor;
         self.layer.borderWidth = 1.0f/[UIScreen mainScreen].scale;
         
-        UIImageView * avatarView = [[UIImageView alloc] init];
-        avatarView.contentMode = UIViewContentModeScaleAspectFill;
-        [avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl]];
-        [self addSubview:avatarView];
-        [avatarView makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self.centerX);
-            make.width.equalTo(self.width).offset(-10.0f);
-            make.height.equalTo(self.height).multipliedBy(3.0f/5.0f);
-            make.top.equalTo(self.top).offset(5.0f);
-        }];
-        
-        UILabel *nameLabel = [[UILabel alloc] init];
-        nameLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.7f];
-        nameLabel.textAlignment = NSTextAlignmentCenter;
-        nameLabel.text = coach.name;
-        nameLabel.textColor = [UIColor whiteColor];
-        nameLabel.font = [UIFont systemFontOfSize:14.0f];
-        [self addSubview:nameLabel];
-        [nameLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(avatarView.bottom);
-            make.width.equalTo(avatarView.width);
-            make.height.mas_equalTo(20.0f);
-            make.left.equalTo(avatarView.left);
-        }];
-        
-        UILabel *priceLabel = [[UILabel alloc] init];
-        priceLabel.textAlignment = NSTextAlignmentCenter;
-        priceLabel.text = [coach.price generateMoneyString];;
-        priceLabel.textColor = [UIColor HHOrange];
-        priceLabel.font = [UIFont systemFontOfSize:15.0f];
-        [self addSubview:priceLabel];
-        [priceLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(avatarView.bottom).offset(5.0f);
-            make.centerX.equalTo(self.centerX);
-        }];
-        
-        UILabel *distanceLabel = [[UILabel alloc] init];
-        distanceLabel.textAlignment = NSTextAlignmentCenter;
-        distanceLabel.attributedText = [self generateAttrStringWithCoach:coach];
-        [self addSubview:distanceLabel];
-        [distanceLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(priceLabel.bottom);
-            make.centerX.equalTo(self.centerX);
-        }];
+        if (coach) {
+            UIImageView * avatarView = [[UIImageView alloc] init];
+            avatarView.contentMode = UIViewContentModeScaleAspectFill;
+            [avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl]];
+            [self addSubview:avatarView];
+            [avatarView makeConstraints:^(MASConstraintMaker *make) {
+                make.centerX.equalTo(self.centerX);
+                make.width.equalTo(self.width).offset(-10.0f);
+                make.height.equalTo(self.height).multipliedBy(3.0f/5.0f);
+                make.top.equalTo(self.top).offset(5.0f);
+            }];
+            
+            UILabel *nameLabel = [[UILabel alloc] init];
+            nameLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.7f];
+            nameLabel.textAlignment = NSTextAlignmentCenter;
+            nameLabel.text = coach.name;
+            nameLabel.textColor = [UIColor whiteColor];
+            nameLabel.font = [UIFont systemFontOfSize:14.0f];
+            [self addSubview:nameLabel];
+            [nameLabel makeConstraints:^(MASConstraintMaker *make) {
+                make.bottom.equalTo(avatarView.bottom);
+                make.width.equalTo(avatarView.width);
+                make.height.mas_equalTo(20.0f);
+                make.left.equalTo(avatarView.left);
+            }];
+            
+            UILabel *priceLabel = [[UILabel alloc] init];
+            priceLabel.textAlignment = NSTextAlignmentCenter;
+            priceLabel.text = [coach.price generateMoneyString];;
+            priceLabel.textColor = [UIColor HHOrange];
+            priceLabel.font = [UIFont systemFontOfSize:15.0f];
+            [self addSubview:priceLabel];
+            [priceLabel makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(avatarView.bottom).offset(5.0f);
+                make.centerX.equalTo(self.centerX);
+            }];
+            
+            UILabel *distanceLabel = [[UILabel alloc] init];
+            distanceLabel.textAlignment = NSTextAlignmentCenter;
+            distanceLabel.attributedText = [self generateAttrStringWithCoach:coach];
+            [self addSubview:distanceLabel];
+            [distanceLabel makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(priceLabel.bottom);
+                make.centerX.equalTo(self.centerX);
+            }];
 
-        
+        } else {
+            FLAnimatedImageView *imageView = [[FLAnimatedImageView alloc] init];
+            imageView.contentMode = UIViewContentModeScaleAspectFit;
+            NSString *imgString = [[NSBundle mainBundle] pathForResource:@"coachcardloading" ofType:@"gif"];
+            NSData *imgData = [NSData dataWithContentsOfFile:imgString];
+            imageView.animatedImage = [FLAnimatedImage animatedImageWithGIFData:imgData];
+            [self addSubview:imageView];
+            [imageView makeConstraints:^(MASConstraintMaker *make) {
+                make.center.equalTo(self);
+                make.width.equalTo(self.width).offset(-10.0f);
+                make.height.equalTo(self.height).offset(-10.0f);
+            }];
+        }
         
     }
     return self;

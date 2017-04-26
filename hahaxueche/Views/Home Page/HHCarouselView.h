@@ -28,7 +28,5 @@ typedef NS_ENUM(NSInteger, CarouselType) {
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) MoreButtonCompletion buttonAction;
 @property (nonatomic, strong) ItemCompletion itemAction;
-@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
-@property (nonatomic, strong) UILabel *loadingLabel;
 
 @end
