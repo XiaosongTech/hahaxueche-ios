@@ -44,11 +44,12 @@
 #import "HHAppVersionUtility.h"
 #import <pop/POP.h>
 #import "HHWebViewController.h"
+#import "HHSupportUtility.h"
 
-typedef NS_ENUM(NSInteger, CoachType) {
-    CoachTypeDrivingSchoolCoach,
-    CoachTypePersonalCoach,
-    CoachTypeCount,
+typedef NS_ENUM(NSInteger, ListType) {
+    ListTypeDrivingSchool,
+    ListTypeCoach,
+    ListTypeCount,
 };
 
 static NSString *const kCellId = @"kCoachListCellId";
@@ -133,23 +134,22 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
     
-    self.segControl = [[UISegmentedControl alloc] initWithItems:@[@"驾校教练", @"陪练教练"]];
+    self.segControl = [[UISegmentedControl alloc] initWithItems:@[@"选驾校", @"挑教练"]];
     self.segControl.tintColor = [UIColor whiteColor];
     [self.segControl setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f]} forState:UIControlStateNormal];
     [self.segControl setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f]} forState:UIControlStateSelected];
     self.segControl.layer.borderColor = [UIColor whiteColor].CGColor;
     self.segControl.backgroundColor = [UIColor HHOrange];
     [self.segControl addTarget:self action:@selector(segValueChanged) forControlEvents:UIControlEventValueChanged];
-    self.segControl.selectedSegmentIndex = CoachTypeDrivingSchoolCoach;
+    self.segControl.selectedSegmentIndex = ListTypeDrivingSchool;
     self.navigationItem.titleView = self.segControl;
     
     __weak HHFindCoachViewController *weakSelf = self;
     [[HHLoadingViewUtility sharedInstance] showLoadingView];
     [self getUserLocationWithCompletion:^{
-        [weakSelf refreshCoachList:NO completion:^{
+        [self refreshDrivingSchoolList:NO completion:^{
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-            [self refreshPersonalCoachList:NO completion:nil];
-            //check app version
+            [weakSelf refreshCoachList:NO completion:nil];
             [[HHAppVersionUtility sharedManager] checkVersionInVC:weakSelf];
             [self buildFloatButton];
         }];
@@ -168,8 +168,8 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 - (void)buildFloatButton {
     self.floatButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.floatButton setImage:[UIImage imageNamed:@"flyingredbag"] forState:UIControlStateNormal];
-    [self.floatButton addTarget:self action:@selector(jumpToWebVC) forControlEvents:UIControlEventTouchUpInside];
+    [self.floatButton setImage:[UIImage imageNamed:@"list_popup_help"] forState:UIControlStateNormal];
+    [self.floatButton addTarget:self action:@selector(jumpToOnlineSupport) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.floatButton];
     [self.floatButton makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view.bottom).offset(-70.0f);
@@ -225,7 +225,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 }
 
 
-- (void)refreshPersonalCoachList:(BOOL)showLoading completion:(HHRefreshCoachCompletionBlock)completion {
+- (void)refreshDrivingSchoolList:(BOOL)showLoading completion:(HHRefreshCoachCompletionBlock)completion {
     __weak HHFindCoachViewController *weakSelf = self;
     if (showLoading) {
         [[HHLoadingViewUtility sharedInstance] showLoadingView];
@@ -536,12 +536,12 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 - (void)refreshData {
     __weak HHFindCoachViewController *weakSelf = self;
-    if (self.segControl.selectedSegmentIndex == CoachTypeDrivingSchoolCoach) {
+    if (self.segControl.selectedSegmentIndex == ListTypeCoach) {
         [self refreshCoachList:NO completion:^{
             [weakSelf.refreshHeader endRefreshing];
         }];
     } else {
-        [self refreshPersonalCoachList:NO completion:^{
+        [self refreshDrivingSchoolList:NO completion:^{
             [weakSelf.refreshHeader2 endRefreshing];
         }];
     }
@@ -550,7 +550,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 - (void)loadMoreData {
     __weak HHFindCoachViewController *weakSelf = self;
-    if (self.segControl.selectedSegmentIndex == CoachTypeDrivingSchoolCoach) {
+    if (self.segControl.selectedSegmentIndex == ListTypeCoach) {
         [self loadMoreCoachesWithCompletion:^{
             [weakSelf.loadMoreFooter endRefreshing];
         }];
@@ -601,7 +601,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 #pragma mark -SwipeView methods
 
 - (NSInteger)numberOfItemsInSwipeView:(SwipeView *)swipeView {
-    return CoachTypeCount;
+    return ListTypeCount;
 }
 
 - (UIView *)swipeView:(SwipeView *)swipeView viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view {
@@ -624,7 +624,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 
 - (void)initViewForSwiptView:(UIView *)view index:(NSInteger)index {
-    if (index == CoachTypeDrivingSchoolCoach) {
+    if (index == ListTypeCoach) {
         self.topButtonsView = [[UIView alloc] initWithFrame:CGRectZero];
         self.topButtonsView.backgroundColor = [UIColor whiteColor];
         [view addSubview:self.topButtonsView];
@@ -808,13 +808,9 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 - (void)segValueChanged {
     [self.swipeView scrollToPage:self.segControl.selectedSegmentIndex duration:0.3f];
-    if (self.segControl.selectedSegmentIndex == CoachTypeDrivingSchoolCoach) {
-        self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_map_firstscreen"] action:@selector(jumpToFieldsMapView) target:self];
-        self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"icon_search"] action:@selector(jumpToSearchVC) target:self];
+    if (self.segControl.selectedSegmentIndex == ListTypeCoach) {
         [self.tableView reloadData];
     } else {
-        self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_explain"] action:@selector(showPersonalCoachExplanation) target:self];
-        self.navigationItem.rightBarButtonItem = nil;
         [self.tableView2 reloadData];
     }
 }
@@ -845,7 +841,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     };
     self.filtersView2.confirmAction = ^(HHPersonalCoachFilters *filters) {
         weakSelf.coachFilters2 = filters;
-        [weakSelf refreshPersonalCoachList:YES completion:nil];
+        [weakSelf refreshDrivingSchoolList:YES completion:nil];
         [HHPopupUtility dismissPopup:weakSelf.popup];
     };
     self.popup = [HHPopupUtility createPopupWithContentView:self.filtersView2];
@@ -859,7 +855,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     self.sortView2.frame = CGRectMake(0, 0, 130.0f, 80.0f);
     self.sortView2.selectedOptionBlock = ^(PersonalCoachSortOption sortOption){
         weakSelf.currentSortOption2 = sortOption;
-        [weakSelf refreshPersonalCoachList:YES completion:nil];
+        [weakSelf refreshDrivingSchoolList:YES completion:nil];
         [weakSelf.popup dismiss:YES];
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_sort_personal_coach_tapped attributes:@{@"sort_type":[weakSelf.sortView2 getSortNameWithSortOption:sortOption]}];
     };
@@ -888,17 +884,14 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     }
 }
 
-- (void)jumpToWebVC {
-    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_flying_envelop_tapped attributes:nil];
-    HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?promo_code=840157"]];
-    vc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:vc animated:YES];
+- (void)jumpToOnlineSupport {
+    [self.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:self.navigationController] animated:YES];
 }
 
 - (void)cityChanged {
     [self setupDefaultSortAndFilter];
     [self refreshCoachList:NO completion:nil];
-    [self refreshPersonalCoachList:NO completion:nil];
+    [self refreshDrivingSchoolList:NO completion:nil];
 }
 
 
