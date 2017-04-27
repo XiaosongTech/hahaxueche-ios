@@ -58,8 +58,8 @@
     self.mapView.mapType = MKMapTypeStandard;
     self.mapView.showsUserLocation = NO;
     [self.mapView.layer removeAllAnimations];
-    [self.mapView removeAnnotations:_mapView.annotations];
-    [self.mapView removeOverlays:_mapView.overlays];
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    [self.mapView removeOverlays:self.mapView.overlays];
     [self.mapView removeFromSuperview];
     self.mapView.delegate = nil;
     self.mapView = nil;
@@ -88,17 +88,6 @@
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
     
     [self initSubviews];
-    if (self.selectedField)  {
-        [self getFieldCoach];
-        
-        CLLocationCoordinate2D fieldLocationCoordinate = CLLocationCoordinate2DMake([self.selectedField.latitude doubleValue], [self.selectedField.longitude doubleValue]);
-        MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(fieldLocationCoordinate, 15000, 15000);
-        [self.mapView setRegion:mapRegion animated:YES];
-    } else {
-        MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(self.userLocation.coordinate, 15000, 15000);
-        [self.mapView setRegion:mapRegion animated:YES];
-    }
-    
     [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidReceiveMemoryWarningNotification object:[UIApplication sharedApplication] queue:nil usingBlock:^(NSNotification * _Nonnull note) {
         self.mapView.mapType = MKMapTypeHybrid;
         self.mapView.mapType = MKMapTypeStandard;
@@ -153,6 +142,23 @@
         [self.mapView addAnnotation:pointAnnotation];
         
     }
+    
+    if (self.selectedField)  {
+        [self getFieldCoach];
+        
+        CLLocationCoordinate2D fieldLocationCoordinate = CLLocationCoordinate2DMake([self.selectedField.latitude doubleValue], [self.selectedField.longitude doubleValue]);
+        MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(fieldLocationCoordinate, 15000, 15000);
+        [self.mapView setRegion:mapRegion animated:YES];
+    } else {
+        MKMapRect zoomRect = MKMapRectNull;
+        for (id <MKAnnotation> annotation in self.mapView.annotations) {
+            MKMapPoint annotationPoint = MKMapPointForCoordinate(annotation.coordinate);
+            MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0.1, 0.1);
+            zoomRect = MKMapRectUnion(zoomRect, pointRect);
+        }
+        [self.mapView setVisibleMapRect:zoomRect animated:YES];
+    }
+    
 }
 
 
