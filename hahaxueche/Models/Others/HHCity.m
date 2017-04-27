@@ -26,6 +26,7 @@
              @"referrerBonus":@"referer_bonus",
              @"refereeBonus":@"referee_bonus",
              @"referalBanner":@"referral_banner",
+             @"zones":@"zones",
              };
 }
 

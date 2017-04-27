@@ -8,16 +8,18 @@
 
 #import <Foundation/Foundation.h>
 #import "HHCoach.h"
-#import "HHCoachFilters.h"
-#import "HHSortView.h"
+#import "HHFilters.h"
 #import "HHCoaches.h"
 #import "HHReviews.h"
 #import "HHReview.h"
-#import "HHPersonalCoaches.h"
-#import "HHPersonalCoachFilters.h"
-#import "HHPersonalCoachSortView.h"
-#import "HHPersonalCoach.h"
 
+typedef NS_ENUM(NSInteger, CoachSortOption) {
+    CoachSortOptionDefault,
+    CoachSortOptionDistance,
+    CoachSortOptionReviewCount,
+    CoachSortOptionPrice,
+    CoachSortOptionPopularity,
+};
 
 typedef void (^HHCoachListCompletion)(HHCoaches *coaches, NSError *error);
 typedef void (^HHCoachCompletion)(HHCoach *coach, NSError *error);
@@ -26,8 +28,7 @@ typedef void (^HHCoachCheckFollowedCompletion)(BOOL followed);
 typedef void (^HHCoachGenericCompletion)(NSError *error);
 typedef void (^HHCoachReviewCompletion)(HHReview *review, NSError *error);
 typedef void (^HHCoachSearchCompletion)(NSArray *coaches, NSError *error);
-typedef void (^HHPersonalCoachListCompletion)(HHPersonalCoaches *coaches, NSError *error);
-typedef void (^HHPersonalCoachCompletion)(HHPersonalCoach *coach, NSError *error);
+
 
 @interface HHCoachService : NSObject
 
@@ -38,7 +39,7 @@ typedef void (^HHPersonalCoachCompletion)(HHPersonalCoach *coach, NSError *error
  
  @param completion The completion block to execute on completion
  */
-- (void)fetchCoachListWithCityId:(NSNumber *)cityId filters:(HHCoachFilters *)filters sortOption:(SortOption)sortOption userLocation:(NSArray *)userLocation fields:(NSArray *)fields perPage:(NSNumber *)perPage completion:(HHCoachListCompletion)completion;
+- (void)fetchCoachListWithCityId:(NSNumber *)cityId filters:(HHFilters *)filters sortOption:(CoachSortOption)sortOption userLocation:(NSArray *)userLocation fields:(NSArray *)fields perPage:(NSNumber *)perPage completion:(HHCoachListCompletion)completion;
 
 /**
  Fetch Next Page Coach List
@@ -133,26 +134,5 @@ typedef void (^HHPersonalCoachCompletion)(HHPersonalCoach *coach, NSError *error
  */
 - (void)searchCoachWithKeyword:(NSString *)keyword completion:(HHCoachSearchCompletion)completion;
 
-/**
- Get personal coach list
- @param filters The filters
- @param sortOption The sort option
- @param completion The completion block to execute on completion
- */
-- (void)fetchPersoanlCoachWithFilters:(HHPersonalCoachFilters *)filters sortOption:(PersonalCoachSortOption)sortOption completion:(HHPersonalCoachListCompletion)completion;
-
-/**
- Get more personal coach
- @param url The url
- @param completion The completion block to execute on completion
- */
-- (void)getMorePersonalCoachWithURL:(NSString *)url completion:(HHPersonalCoachListCompletion) completion;
-
-/**
-Get personal coach with coach_id
-@param coachId The id of the coach
-@param completion The completion block to execute on completion
-*/
-- (void)fetchPersoanlCoachWithId:(NSString *)coachId completion:(HHPersonalCoachCompletion)completion;
 
 @end

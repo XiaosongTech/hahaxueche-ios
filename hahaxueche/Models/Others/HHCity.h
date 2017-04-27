@@ -21,7 +21,7 @@
 @property (nonatomic, copy) NSNumber *referrerBonus;
 @property (nonatomic, copy) NSNumber *refereeBonus;
 @property (nonatomic, copy) NSArray *drivingSchools;
-
+@property (nonatomic, copy) NSArray *zones;
 
 
 @end

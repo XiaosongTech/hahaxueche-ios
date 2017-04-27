@@ -23,6 +23,7 @@
              @"lowestPrice":@"lowest_price",
              @"consultCount":@"consult_count",
              @"avatar":@"avatar",
+             @"consultPhone":@"consult_phone",
              };
 }
 

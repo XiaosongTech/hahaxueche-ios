@@ -28,7 +28,6 @@
 #import "QYSDK.h"
 #import "HHNetworkUtility.h"
 #import "HHCoachDetailViewController.h"
-#import "HHPersonalCoachDetailViewController.h"
 #import <LinkedME_iOS/LinkedME.h>
 #import <CloudPushSDK/CloudPushSDK.h>
 #import <UserNotifications/UserNotifications.h>
@@ -157,13 +156,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                     HHCoachDetailViewController *coachVC = [[HHCoachDetailViewController alloc] initWithCoachId:coachId];
                     [self jumpToVC:coachVC completion:nil];
                 }
-            } else if ([HHParam[@"type"] isEqualToString: @"training_partner_detail"]) {
-                NSString *coachId = HHParam[@"training_partner_id"];
-                if (coachId) {
-                    HHPersonalCoachDetailViewController *coachVC = [[HHPersonalCoachDetailViewController alloc] initWithCoachId:coachId];
-                    [self jumpToVC:coachVC completion:nil];
-                }
-                
             } else if ([HHParam[@"type"] isEqualToString: @"article"]) {
                 NSString *articleId = HHParam[@"id"];
                 if (articleId) {

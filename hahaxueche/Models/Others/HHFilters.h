@@ -8,7 +8,7 @@
 
 #import <Mantle/Mantle.h>
 
-@interface HHCoachFilters : MTLModel <MTLJSONSerializing>
+@interface HHFilters : MTLModel <MTLJSONSerializing>
 
 @property (nonatomic, copy) NSNumber *distance;
 @property (nonatomic, copy) NSNumber *price;

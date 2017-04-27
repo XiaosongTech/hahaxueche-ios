@@ -10,12 +10,10 @@
 #import "Masonry.h"
 #import "UIColor+HHColor.h"
 #import "HHButton.h"
-#import "HHSliderView.h"
 #import "KLCPopup.h"
 #import "HHPopupUtility.h"
 #import "HHFiltersView.h"
-#import "HHCoachFilters.h"
-#import "HHSortView.h"
+#import "HHFilters.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "INTULocationManager.h"
 #import "HHAskLocationPermissionViewController.h"
@@ -36,11 +34,6 @@
 #import "SwipeView.h"
 #import "HHPersonalCoachTableViewCell.h"
 #import "HHGenericOneButtonPopupView.h"
-#import "HHPersonalCoachFilters.h"
-#import "HHPersonalCoachFiltersView.h"
-#import "HHPersonalCoachSortView.h"
-#import "HHPersonalCoachDetailViewController.h"
-#import "HHPersonalCoaches.h"
 #import "HHAppVersionUtility.h"
 #import <pop/POP.h>
 #import "HHWebViewController.h"
@@ -60,31 +53,12 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 @interface HHFindCoachViewController () <UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate,SwipeViewDataSource, SwipeViewDelegate>
 
-@property (nonatomic, strong) UIView *topButtonsView;
-@property (nonatomic, strong) UIView *verticalLine;
-@property (nonatomic, strong) UIView *horizontalLine;
-
-@property (nonatomic, strong) HHButton *filterButton;
-@property (nonatomic, strong) HHButton *sortButton;
-
-
-@property (nonatomic, strong) UIView *topButtonsView2;
-@property (nonatomic, strong) UIView *verticalLine2;
-@property (nonatomic, strong) UIView *horizontalLine2;
-
-@property (nonatomic, strong) HHButton *filterButton2;
-@property (nonatomic, strong) HHButton *sortButton2;
 
 @property (nonatomic, strong) KLCPopup *popup;
-@property (nonatomic, strong) HHFiltersView *filtersView;
-@property (nonatomic, strong) HHPersonalCoachFiltersView *filtersView2;
-@property (nonatomic, strong) HHCoachFilters *coachFilters;
-@property (nonatomic, strong) HHPersonalCoachFilters *coachFilters2;
 
-@property (nonatomic, strong) HHSortView *sortView;
-@property (nonatomic) SortOption currentSortOption;
-@property (nonatomic, strong) HHPersonalCoachSortView *sortView2;
-@property (nonatomic) PersonalCoachSortOption currentSortOption2;
+@property (nonatomic, strong) HHFiltersView *filtersView;
+@property (nonatomic, strong) HHFilters *coachFilters;
+@property (nonatomic, strong) HHFilters *schoolFilters;
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UITableView *tableView2;
@@ -96,13 +70,12 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 @property (nonatomic, strong) NSMutableArray *expandedCellIndexPath;
 
 @property (nonatomic, strong) NSMutableArray *coaches;
-@property (nonatomic, strong) NSMutableArray *personalCoaches;
+@property (nonatomic, strong) NSMutableArray *schools;
 
 @property (nonatomic, strong) HHCity *userCity;
 @property (nonatomic, strong) CLLocation *userLocation;
 
 @property (nonatomic, strong) HHCoaches *coachesObject;
-@property (nonatomic, strong) HHPersonalCoaches *personalCoachesObject;
 
 @property (nonatomic, strong) SwipeView *swipeView;
 @property (nonatomic, strong) UISegmentedControl *segControl;
@@ -145,7 +118,6 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     self.navigationItem.titleView = self.segControl;
     
     __weak HHFindCoachViewController *weakSelf = self;
-    [[HHLoadingViewUtility sharedInstance] showLoadingView];
     [self getUserLocationWithCompletion:^{
         [self refreshDrivingSchoolList:NO completion:^{
             [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
@@ -190,23 +162,23 @@ static CGFloat const kCellHeightExpanded = 325.0f;
         locationArray = @[lat, lon];
         
     }
-    [[HHCoachService sharedInstance] fetchCoachListWithCityId:self.userCity.cityId filters:weakSelf.coachFilters sortOption:weakSelf.currentSortOption userLocation:locationArray fields:nil perPage:nil completion:^(HHCoaches *coaches, NSError *error) {
-        if (!error) {
-            weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
-            weakSelf.coachesObject = coaches;
-            [weakSelf.tableView reloadData];
-        } else {
-            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
-        }
-        if (completion) {
-            completion();
-        }
-        if (showLoading) {
-            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-        }
-        
-        
-    }];
+//    [[HHCoachService sharedInstance] fetchCoachListWithCityId:self.userCity.cityId filters:weakSelf.coachFilters sortOption:weakSelf.currentSortOption userLocation:locationArray fields:nil perPage:nil completion:^(HHCoaches *coaches, NSError *error) {
+//        if (!error) {
+//            weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
+//            weakSelf.coachesObject = coaches;
+//            [weakSelf.tableView reloadData];
+//        } else {
+//            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
+//        }
+//        if (completion) {
+//            completion();
+//        }
+//        if (showLoading) {
+//            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+//        }
+//        
+//        
+//    }];
 }
 
 - (void)loadMoreCoachesWithCompletion:(HHRefreshCoachCompletionBlock)completion {
@@ -226,60 +198,33 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 
 - (void)refreshDrivingSchoolList:(BOOL)showLoading completion:(HHRefreshCoachCompletionBlock)completion {
-    __weak HHFindCoachViewController *weakSelf = self;
-    if (showLoading) {
-        [[HHLoadingViewUtility sharedInstance] showLoadingView];
-    }
-   
-    [[HHCoachService sharedInstance] fetchPersoanlCoachWithFilters:self.coachFilters2 sortOption:self.currentSortOption2 completion:^(HHPersonalCoaches *coaches, NSError *error) {
-        if (!error) {
-            weakSelf.personalCoaches = [NSMutableArray arrayWithArray:coaches.coaches];
-            weakSelf.personalCoachesObject = coaches;
-            [weakSelf.tableView2 reloadData];
-        } else {
-            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
-        }
-        if (completion) {
-            completion();
-        }
-        if (showLoading) {
-            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-        }
-    }];
+//    __weak HHFindCoachViewController *weakSelf = self;
+//    if (showLoading) {
+//        [[HHLoadingViewUtility sharedInstance] showLoadingView];
+//    }
+//   
+//    [[HHCoachService sharedInstance] fetchPersoanlCoachWithFilters:self.coachFilters2 sortOption:self.currentSortOption2 completion:^(HHPersonalCoaches *coaches, NSError *error) {
+//        if (!error) {
+//            weakSelf.personalCoaches = [NSMutableArray arrayWithArray:coaches.coaches];
+//            weakSelf.personalCoachesObject = coaches;
+//            [weakSelf.tableView2 reloadData];
+//        } else {
+//            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
+//        }
+//        if (completion) {
+//            completion();
+//        }
+//        if (showLoading) {
+//            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+//        }
+//    }];
 }
 
 - (void)loadMorePersonalCoachesWithCompletion:(HHRefreshCoachCompletionBlock)completion {
-    [[HHCoachService sharedInstance] getMorePersonalCoachWithURL:self.personalCoachesObject.nextPage completion:^(HHPersonalCoaches *coaches, NSError *error) {
-        if (completion) {
-            completion();
-        }
-        if (!error) {
-            [self.personalCoaches addObjectsFromArray:coaches.coaches];
-            self.personalCoachesObject = coaches;
-            [self.tableView2 reloadData];
-        }
-
-    }];
-
-}
-
-- (void)setPersonalCoachesObject:(HHPersonalCoaches *)personalCoachesObject {
-    _personalCoachesObject = personalCoachesObject;
-    if (!personalCoachesObject.nextPage) {
-        if ([self.personalCoaches count]) {
-            [self.loadMoreFooter2 setHidden:NO];
-            
-        } else {
-            [self.loadMoreFooter2 setHidden:YES];
-        }
-        [self.loadMoreFooter2 setState:MJRefreshStateNoMoreData];
-    } else {
-        [self.loadMoreFooter2 setHidden:NO];
-        [self.loadMoreFooter2 setState:MJRefreshStateIdle];
-    }
-
     
+
 }
+
 
 - (void)setCoachesObject:(HHCoaches *)coachesObject {
     _coachesObject = coachesObject;
@@ -298,43 +243,53 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 }
 
 - (void)setupDefaultSortAndFilter {
-    self.userCity = [[HHConstantsStore sharedInstance] getCityWithId:[HHStudentStore sharedInstance].selectedCityId];
-    NSNumber *defaultDistance = self.userCity.distanceRanges[self.userCity.distanceRanges.count - 1];
-    NSNumber *defaultPrice = [self.userCity.priceRanges lastObject];
-    HHCoachFilters *defaultFilters = [[HHCoachFilters alloc] init];
-    defaultFilters.price = defaultPrice;
-    defaultFilters.distance = defaultDistance;
-    defaultFilters.onlyGoldenCoach = @(0);
-    defaultFilters.onlyVIPCoach = @(0);
-    defaultFilters.licenseType = @(3);
-    defaultFilters.onlyVIPCoach = @(0);
-    self.coachFilters = defaultFilters;
-    
-    self.currentSortOption = SortOptionSmartSort;
-    
-    
-    HHPersonalCoachFilters *defaultFilters2 = [[HHPersonalCoachFilters alloc] init];
-    defaultFilters2.priceLimit = @(200000);
-    defaultFilters2.licenseType = nil;
-    
-    self.coachFilters2 = defaultFilters2;
-    
-    self.currentSortOption2 = PersonalCoachSortOptionPrice;
+//    self.userCity = [[HHConstantsStore sharedInstance] getCityWithId:[HHStudentStore sharedInstance].selectedCityId];
+//    NSNumber *defaultDistance = self.userCity.distanceRanges[self.userCity.distanceRanges.count - 1];
+//    NSNumber *defaultPrice = [self.userCity.priceRanges lastObject];
+//    HHFilters *defaultFilters = [[HHFilters alloc] init];
+//    defaultFilters.price = defaultPrice;
+//    defaultFilters.distance = defaultDistance;
+//    defaultFilters.onlyGoldenCoach = @(0);
+//    defaultFilters.onlyVIPCoach = @(0);
+//    defaultFilters.licenseType = @(3);
+//    defaultFilters.onlyVIPCoach = @(0);
+//    self.coachFilters = defaultFilters;
+//    
+//    self.currentSortOption = SortOptionSmartSort;
+//    
+//    
+//    HHPersonalCoachFilters *defaultFilters2 = [[HHPersonalCoachFilters alloc] init];
+//    defaultFilters2.priceLimit = @(200000);
+//    defaultFilters2.licenseType = nil;
+//    
+//    self.coachFilters2 = defaultFilters2;
+//    
+//    self.currentSortOption2 = PersonalCoachSortOptionPrice;
     
     
 }
 
 - (void)initSubviews {
+    self.filtersView = [[HHFiltersView alloc] initWithFilter:nil];
+    [self.view addSubview:self.filtersView];
+    [self.filtersView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.top);
+        make.left.equalTo(self.view.left);
+        make.width.equalTo(self.view.width);
+        make.height.mas_equalTo(40.0f);
+
+    }];
+    
     self.swipeView = [[SwipeView alloc] init];
     self.swipeView.pagingEnabled = YES;
     self.swipeView.dataSource = self;
     self.swipeView.delegate = self;
     [self.view addSubview:self.swipeView];
     [self.swipeView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.top);
+        make.top.equalTo(self.filtersView.bottom);
         make.left.equalTo(self.view.left);
         make.width.equalTo(self.view.width);
-        make.height.equalTo(self.view.height);
+        make.bottom.equalTo(self.view.bottom);
     }];
     
 }
@@ -391,9 +346,9 @@ static CGFloat const kCellHeightExpanded = 325.0f;
         return cell;
 
     } else {
-        HHPersonalCoachTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kPersonalCoachCellId forIndexPath:indexPath];
-        [cell setupCellWithCoach:self.personalCoaches[indexPath.row]];
-        return cell;
+//        HHPersonalCoachTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kPersonalCoachCellId forIndexPath:indexPath];
+//        [cell setupCellWithCoach:self.personalCoaches[indexPath.row]];
+        return nil;
     }
 }
 
@@ -401,7 +356,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     if ([tableView isEqual:self.tableView]) {
         return self.coaches.count;
     } else {
-        return self.personalCoaches.count;
+        return self.schools.count;
     }
     
 }
@@ -435,15 +390,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
         [self.navigationController pushViewController:coachDetailVC animated:YES];
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_coach_tapped attributes:@{@"coach_id":selectedCoach.coachId}];
     } else {
-        HHCoach *selectedCoach = self.personalCoaches[indexPath.row];
-        HHPersonalCoachDetailViewController *vc = [[HHPersonalCoachDetailViewController alloc] initWithCoach:self.personalCoaches[indexPath.row]];
-        vc.coachUpdateBlock = ^(HHPersonalCoach *coach) {
-            [weakSelf.personalCoaches replaceObjectAtIndex:indexPath.row withObject:coach];
-            [weakSelf.tableView2 reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-        };
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
-         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_personal_coach_tapped attributes:@{@"coach_id":selectedCoach.coachId}];
+        
     }
     
 }
@@ -453,34 +400,34 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 #pragma mark - Button Actions 
 
 - (void)filterTapped {
-    __weak HHFindCoachViewController *weakSelf = self;
-    self.filtersView = [[HHFiltersView alloc] initWithFilters:[self.coachFilters copy] frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 440.0f) city:self.userCity];
-    self.filtersView.confirmBlock = ^(HHCoachFilters *filters){
-        weakSelf.coachFilters = filters;
-        [weakSelf refreshCoachList:YES completion:nil];
-        [weakSelf.popup dismiss:YES];
-    };
-    self.filtersView.cancelBlock = ^(){
-        [weakSelf.popup dismiss:YES];
-    };
-    self.popup = [HHPopupUtility createPopupWithContentView:self.filtersView];
-    [HHPopupUtility showPopup:self.popup];
-    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_filter_tapped_tapped attributes:nil];
+//    __weak HHFindCoachViewController *weakSelf = self;
+//    self.filtersView = [[HHFiltersView alloc] initWithFilters:[self.coachFilters copy] frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 440.0f) city:self.userCity];
+//    self.filtersView.confirmBlock = ^(HHFilters *filters){
+//        weakSelf.coachFilters = filters;
+//        [weakSelf refreshCoachList:YES completion:nil];
+//        [weakSelf.popup dismiss:YES];
+//    };
+//    self.filtersView.cancelBlock = ^(){
+//        [weakSelf.popup dismiss:YES];
+//    };
+//    self.popup = [HHPopupUtility createPopupWithContentView:self.filtersView];
+//    [HHPopupUtility showPopup:self.popup];
+//    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_filter_tapped_tapped attributes:nil];
 }
 
 - (void)sortTapped {
-    __weak HHFindCoachViewController *weakSelf = self;
-    self.sortView = [[HHSortView alloc] initWithDefaultSortOption:self.currentSortOption];
-    self.sortView.frame = CGRectMake(0, 0, 130.0f, 200.0f);
-    self.sortView.selectedOptionBlock = ^(SortOption sortOption){
-        weakSelf.currentSortOption = sortOption;
-        [weakSelf refreshCoachList:YES completion:nil];
-        [weakSelf.popup dismiss:YES];
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_sort_tapped attributes:@{@"sort_type":[weakSelf.sortView getSortNameWithSortOption:sortOption]}];
-    };
-    self.popup = [HHPopupUtility createPopupWithContentView:self.sortView];
-    CGPoint center = CGPointMake(CGRectGetMidX(self.sortButton.frame), 150.0f);
-    [HHPopupUtility showPopup:self.popup AtCenter:center inView:self.view];
+//    __weak HHFindCoachViewController *weakSelf = self;
+//    self.sortView = [[HHSortView alloc] initWithDefaultSortOption:self.currentSortOption];
+//    self.sortView.frame = CGRectMake(0, 0, 130.0f, 200.0f);
+//    self.sortView.selectedOptionBlock = ^(SortOption sortOption){
+//        weakSelf.currentSortOption = sortOption;
+//        [weakSelf refreshCoachList:YES completion:nil];
+//        [weakSelf.popup dismiss:YES];
+//        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_sort_tapped attributes:@{@"sort_type":[weakSelf.sortView getSortNameWithSortOption:sortOption]}];
+//    };
+//    self.popup = [HHPopupUtility createPopupWithContentView:self.sortView];
+//    CGPoint center = CGPointMake(CGRectGetMidX(self.sortButton.frame), 150.0f);
+//    [HHPopupUtility showPopup:self.popup AtCenter:center inView:self.view];
     
 
 }
@@ -625,25 +572,6 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 - (void)initViewForSwiptView:(UIView *)view index:(NSInteger)index {
     if (index == ListTypeCoach) {
-        self.topButtonsView = [[UIView alloc] initWithFrame:CGRectZero];
-        self.topButtonsView.backgroundColor = [UIColor whiteColor];
-        [view addSubview:self.topButtonsView];
-        
-        self.verticalLine = [[UIView alloc] initWithFrame:CGRectZero];
-        self.verticalLine.backgroundColor = [UIColor HHLightLineGray];
-        [self.topButtonsView addSubview:self.verticalLine];
-        
-        self.horizontalLine = [[UIView alloc] initWithFrame:CGRectZero];
-        self.horizontalLine.backgroundColor = [UIColor HHLightLineGray];
-        [self.topButtonsView addSubview:self.horizontalLine];
-        
-        self.filterButton = [self createTopButtonWithTitle:@"筛选" image:[UIImage imageNamed:@"ic_screen_normal_btn"]];
-        [self.filterButton addTarget:self action:@selector(filterTapped) forControlEvents:UIControlEventTouchUpInside];
-        [self.topButtonsView addSubview:self.filterButton];
-        
-        self.sortButton = [self createTopButtonWithTitle:@"排序" image:[UIImage imageNamed:@"ic_sort_normal_btn"]];
-        [self.sortButton addTarget:self action:@selector(sortTapped) forControlEvents:UIControlEventTouchUpInside];
-        [self.topButtonsView addSubview:self.sortButton];
         
         self.tableView = [[UITableView alloc] init];
         self.tableView.delegate = self;
@@ -673,66 +601,14 @@ static CGFloat const kCellHeightExpanded = 325.0f;
         
         [view addSubview:self.tableView];
         
-        [self.topButtonsView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(view);
-            make.width.equalTo(view.width);
-            make.height.mas_equalTo(40.0f);
-            make.left.equalTo(view.left);
-        }];
-        
-        [self.verticalLine makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self.topButtonsView);
-            make.width.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-            make.height.mas_equalTo(20.0f);
-        }];
-        
-        [self.horizontalLine makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.topButtonsView.bottom);
-            make.left.equalTo(self.topButtonsView.left);
-            make.width.equalTo(self.topButtonsView.width);
-            make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-        }];
-        
-        [self.filterButton makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.topButtonsView.left);
-            make.width.equalTo(self.topButtonsView.width).multipliedBy(0.5f);
-            make.height.equalTo(self.topButtonsView);
-            make.top.equalTo(self.topButtonsView.top);
-        }];
-        
-        [self.sortButton makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.verticalLine.left);
-            make.width.equalTo(self.topButtonsView.width).multipliedBy(0.5f);
-            make.height.equalTo(self.topButtonsView);
-            make.top.equalTo(self.topButtonsView.top);
-        }];
         
         [self.tableView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.horizontalLine.bottom);
+            make.top.equalTo(view.top);
             make.left.equalTo(view.left);
             make.bottom.equalTo(view.bottom).offset(-1 * CGRectGetHeight(self.tabBarController.tabBar.frame));
             make.width.equalTo(view.width);
         }];
     } else {
-        self.topButtonsView2 = [[UIView alloc] initWithFrame:CGRectZero];
-        self.topButtonsView2.backgroundColor = [UIColor whiteColor];
-        [view addSubview:self.topButtonsView2];
-        
-        self.verticalLine2 = [[UIView alloc] initWithFrame:CGRectZero];
-        self.verticalLine2.backgroundColor = [UIColor HHLightLineGray];
-        [self.topButtonsView2 addSubview:self.verticalLine2];
-        
-        self.horizontalLine2 = [[UIView alloc] initWithFrame:CGRectZero];
-        self.horizontalLine2.backgroundColor = [UIColor HHLightLineGray];
-        [self.topButtonsView2 addSubview:self.horizontalLine2];
-        
-        self.filterButton2 = [self createTopButtonWithTitle:@"筛选" image:[UIImage imageNamed:@"ic_screen_normal_btn"]];
-        [self.filterButton2 addTarget:self action:@selector(filterTapped2) forControlEvents:UIControlEventTouchUpInside];
-        [self.topButtonsView2 addSubview:self.filterButton2];
-        
-        self.sortButton2 = [self createTopButtonWithTitle:@"排序" image:[UIImage imageNamed:@"ic_sort_normal_btn"]];
-        [self.sortButton2 addTarget:self action:@selector(sortTapped2) forControlEvents:UIControlEventTouchUpInside];
-        [self.topButtonsView2 addSubview:self.sortButton2];
         
         self.tableView2 = [[UITableView alloc] init];
         self.tableView2.delegate = self;
@@ -749,8 +625,8 @@ static CGFloat const kCellHeightExpanded = 325.0f;
         self.tableView2.mj_header = self.refreshHeader2;
         
         self.loadMoreFooter2 = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-        [self.loadMoreFooter2 setTitle:@"加载更多教练" forState:MJRefreshStateIdle];
-        [self.loadMoreFooter2 setTitle:@"一大波教练接近中~~~" forState:MJRefreshStateRefreshing];
+        [self.loadMoreFooter2 setTitle:@"加载更多驾校" forState:MJRefreshStateIdle];
+        [self.loadMoreFooter2 setTitle:@"一大波驾校接近中~~~" forState:MJRefreshStateRefreshing];
         [self.loadMoreFooter2 setTitle:@"已经到底啦~再往上选选吧！" forState:MJRefreshStateNoMoreData];
         [self.loadMoreFooter2 setHidden:YES];
         self.loadMoreFooter2.automaticallyRefresh = NO;
@@ -762,42 +638,9 @@ static CGFloat const kCellHeightExpanded = 325.0f;
         
         [view addSubview:self.tableView2];
         
-        [self.topButtonsView2 makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(view);
-            make.width.equalTo(view.width);
-            make.height.mas_equalTo(40.0f);
-            make.left.equalTo(view.left);
-        }];
-        
-        [self.verticalLine2 makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self.topButtonsView2);
-            make.width.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-            make.height.mas_equalTo(20.0f);
-        }];
-        
-        [self.horizontalLine2 makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.topButtonsView2.bottom);
-            make.left.equalTo(self.topButtonsView2.left);
-            make.width.equalTo(self.topButtonsView2.width);
-            make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-        }];
-        
-        [self.filterButton2 makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.topButtonsView2.left);
-            make.width.equalTo(self.topButtonsView2.width).multipliedBy(0.5f);
-            make.height.equalTo(self.topButtonsView2);
-            make.top.equalTo(self.topButtonsView2.top);
-        }];
-        
-        [self.sortButton2 makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.verticalLine2.left);
-            make.width.equalTo(self.topButtonsView2.width).multipliedBy(0.5f);
-            make.height.equalTo(self.topButtonsView2);
-            make.top.equalTo(self.topButtonsView2.top);
-        }];
         
         [self.tableView2 makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.horizontalLine2.bottom);
+            make.top.equalTo(view.top);
             make.left.equalTo(view.left);
             make.bottom.equalTo(view.bottom).offset(-1 * CGRectGetHeight(self.tabBarController.tabBar.frame));
             make.width.equalTo(view.width);
@@ -834,34 +677,34 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 }
 
 - (void)filterTapped2 {
-    __weak HHFindCoachViewController *weakSelf = self;
-    self.filtersView2 = [[HHPersonalCoachFiltersView alloc] initWithFilters:self.coachFilters2 frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 210.0f)];
-    self.filtersView2.cancelAction = ^() {
-        [HHPopupUtility dismissPopup:weakSelf.popup];
-    };
-    self.filtersView2.confirmAction = ^(HHPersonalCoachFilters *filters) {
-        weakSelf.coachFilters2 = filters;
-        [weakSelf refreshDrivingSchoolList:YES completion:nil];
-        [HHPopupUtility dismissPopup:weakSelf.popup];
-    };
-    self.popup = [HHPopupUtility createPopupWithContentView:self.filtersView2];
-    [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
-    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_filter_personal_coach_tapped attributes:nil];
+//    __weak HHFindCoachViewController *weakSelf = self;
+//    self.filtersView2 = [[HHPersonalCoachFiltersView alloc] initWithFilters:self.coachFilters2 frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 210.0f)];
+//    self.filtersView2.cancelAction = ^() {
+//        [HHPopupUtility dismissPopup:weakSelf.popup];
+//    };
+//    self.filtersView2.confirmAction = ^(HHPersonalCoachFilters *filters) {
+//        weakSelf.coachFilters2 = filters;
+//        [weakSelf refreshDrivingSchoolList:YES completion:nil];
+//        [HHPopupUtility dismissPopup:weakSelf.popup];
+//    };
+//    self.popup = [HHPopupUtility createPopupWithContentView:self.filtersView2];
+//    [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+//    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_filter_personal_coach_tapped attributes:nil];
 }
 
 - (void)sortTapped2 {
-    __weak HHFindCoachViewController *weakSelf = self;
-    self.sortView2 = [[HHPersonalCoachSortView alloc] initWithDefaultSortOption:self.currentSortOption2];
-    self.sortView2.frame = CGRectMake(0, 0, 130.0f, 80.0f);
-    self.sortView2.selectedOptionBlock = ^(PersonalCoachSortOption sortOption){
-        weakSelf.currentSortOption2 = sortOption;
-        [weakSelf refreshDrivingSchoolList:YES completion:nil];
-        [weakSelf.popup dismiss:YES];
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_sort_personal_coach_tapped attributes:@{@"sort_type":[weakSelf.sortView2 getSortNameWithSortOption:sortOption]}];
-    };
-    self.popup = [HHPopupUtility createPopupWithContentView:self.sortView2];
-    CGPoint center = CGPointMake(CGRectGetMidX(self.sortButton2.frame), 90.0f);
-    [HHPopupUtility showPopup:self.popup AtCenter:center inView:self.view];
+//    __weak HHFindCoachViewController *weakSelf = self;
+//    self.sortView2 = [[HHPersonalCoachSortView alloc] initWithDefaultSortOption:self.currentSortOption2];
+//    self.sortView2.frame = CGRectMake(0, 0, 130.0f, 80.0f);
+//    self.sortView2.selectedOptionBlock = ^(PersonalCoachSortOption sortOption){
+//        weakSelf.currentSortOption2 = sortOption;
+//        [weakSelf refreshDrivingSchoolList:YES completion:nil];
+//        [weakSelf.popup dismiss:YES];
+//        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_sort_personal_coach_tapped attributes:@{@"sort_type":[weakSelf.sortView2 getSortNameWithSortOption:sortOption]}];
+//    };
+//    self.popup = [HHPopupUtility createPopupWithContentView:self.sortView2];
+//    CGPoint center = CGPointMake(CGRectGetMidX(self.sortButton2.frame), 90.0f);
+//    [HHPopupUtility showPopup:self.popup AtCenter:center inView:self.view];
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {

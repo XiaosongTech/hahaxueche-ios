@@ -21,5 +21,6 @@
 @property (nonatomic, strong) NSNumber *lowestPrice;
 @property (nonatomic, strong) NSNumber *consultCount;
 @property (nonatomic, strong) NSString *avatar;
+@property (nonatomic, strong) NSString *consultPhone;
 
 @end

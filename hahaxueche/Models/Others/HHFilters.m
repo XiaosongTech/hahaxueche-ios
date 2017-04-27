@@ -6,9 +6,9 @@
 //  Copyright © 2016 Zixiao Wang. All rights reserved.
 //
 
-#import "HHCoachFilters.h"
+#import "HHFilters.h"
 
-@implementation HHCoachFilters
+@implementation HHFilters
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
@@ -21,7 +21,7 @@
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    HHCoachFilters *newObject = [[HHCoachFilters alloc] init];
+    HHFilters *newObject = [[HHFilters alloc] init];
     newObject.price = self.price;
     newObject.distance = self.distance;
     newObject.onlyGoldenCoach = self.onlyGoldenCoach;

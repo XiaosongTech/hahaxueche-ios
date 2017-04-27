@@ -26,19 +26,19 @@
 }
 
 
-- (void)fetchCoachListWithCityId:(NSNumber *)cityId filters:(HHCoachFilters *)filters sortOption:(SortOption)sortOption userLocation:(NSArray *)userLocation fields:(NSArray *)fields perPage:(NSNumber *)perPage completion:(HHCoachListCompletion)completion {
+- (void)fetchCoachListWithCityId:(NSNumber *)cityId filters:(HHFilters *)filters sortOption:(CoachSortOption)sortOption userLocation:(NSArray *)userLocation fields:(NSArray *)fields perPage:(NSNumber *)perPage completion:(HHCoachListCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICoaches];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     param[@"golden_coach_only"] = filters.onlyGoldenCoach;
     param[@"vip_only"] = filters.onlyVIPCoach;
     param[@"city_id"] = cityId;
     
-    if (sortOption == SortOptionReviewCount) {
-        param[@"sort_by"] = @(5);
-    } else {
-        param[@"sort_by"] = @(sortOption);
-    }
-    
+//    if (sortOption == SortOptionReviewCount) {
+//        param[@"sort_by"] = @(5);
+//    } else {
+//        param[@"sort_by"] = @(sortOption);
+//    }
+//    
     
     if ([perPage integerValue]> 0) {
         param[@"per_page"] = perPage;
@@ -282,66 +282,5 @@
     }];
 }
 
-- (void)fetchPersoanlCoachWithFilters:(HHPersonalCoachFilters *)filters sortOption:(PersonalCoachSortOption)sortOption completion:(HHPersonalCoachListCompletion)completion {
-    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIPersonalCoaches];
-    
-    NSMutableDictionary *param = [NSMutableDictionary dictionary];
-    param[@"license_type"] = filters.licenseType;
-    param[@"price_limit"] = filters.priceLimit;
-    param[@"city_id"] = [HHStudentStore sharedInstance].currentStudent.cityId;
-    param[@"order_by"] = @(sortOption);
-    
-    if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
-        param[@"student_id"] = [HHStudentStore sharedInstance].currentStudent.studentId;
-    }
-
-    [APIClient getWithParameters:param completion:^(NSDictionary *response, NSError *error) {
-        if(!error) {
-            HHPersonalCoaches *coaches = [MTLJSONAdapter modelOfClass:[HHPersonalCoaches class] fromJSONDictionary:response error:nil];
-            if (completion) {
-                completion (coaches, nil);
-            }
-        } else {
-            if (completion) {
-                completion (nil, error);
-            }
-        }
-    }];
-
-}
-- (void)getMorePersonalCoachWithURL:(NSString *)url completion:(HHPersonalCoachListCompletion)completion {
-    HHAPIClient *APIClient = [HHAPIClient apiClient];
-    [APIClient getWithURL:url completion:^(NSDictionary *response, NSError *error) {
-        if(!error) {
-            HHPersonalCoaches *coaches = [MTLJSONAdapter modelOfClass:[HHPersonalCoaches class] fromJSONDictionary:response error:nil];
-            if (completion) {
-                completion (coaches, nil);
-            }
-        } else {
-            if (completion) {
-                completion (nil, error);
-            }
-        }
-
-    }];
-
-}
-
-- (void)fetchPersoanlCoachWithId:(NSString *)coachId completion:(HHPersonalCoachCompletion)completion {
-    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIPersonalCoach, coachId]];
-    [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
-        if(!error) {
-            HHPersonalCoach *coach = [MTLJSONAdapter modelOfClass:[HHPersonalCoach class] fromJSONDictionary:response error:nil];
-            if (completion) {
-                completion (coach, nil);
-            }
-        } else {
-            if (completion) {
-                completion (nil, error);
-            }
-        }
-
-    }];
-}
 
 @end
