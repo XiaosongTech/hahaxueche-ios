@@ -9,6 +9,7 @@
 #import "HHLaunchImageViewController.h"
 #import "Masonry.h"
 #import "FLAnimatedImage.h"
+#import "HHRootViewController.h"
 
 
 @interface HHLaunchImageViewController ()
@@ -43,10 +44,16 @@
     }];
 }
 
-- (void)setupRootVC:(UIViewController *)vc {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [UIApplication sharedApplication].keyWindow.rootViewController = vc;
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.5f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        if (!self.desVC) {
+            HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+            self.desVC = rootVC;
+        }
+        [UIApplication sharedApplication].keyWindow.rootViewController = self.desVC;
     });
 }
+
 
 @end

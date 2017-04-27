@@ -10,6 +10,6 @@
 
 @interface HHLaunchImageViewController : UIViewController
 
-- (void)setupRootVC:(UIViewController *)vc;
+@property (nonatomic, strong) UIViewController *desVC;
 
 @end
