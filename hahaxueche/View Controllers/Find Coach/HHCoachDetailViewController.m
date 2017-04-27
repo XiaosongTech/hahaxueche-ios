@@ -189,13 +189,14 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
     self.bottomBar.tryCoachAction = ^(){
         HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"看过训练场才放心" placeHolder:@"输入手机号, 教练立即带你看训练场" buttonTitle:@"预约看场地"];
         view.buttonAction = ^(NSString *number) {
-            [[HHStudentService sharedInstance] getPhoneNumber:number completion:^(NSError *error) {
+            [[HHStudentService sharedInstance] getPhoneNumber:number coachId:weakSelf.coach.coachId schoolId:[weakSelf.coach getCoachDrivingSchool].schoolId fieldId:[weakSelf.coach getCoachField].fieldId eventType:nil eventData:nil completion:^(NSError *error) {
                 if (error) {
                     [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
                 } else {
                     [HHPopupUtility dismissPopup:weakSelf.popup];
                 }
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_free_trial_confirmed attributes:@{@"coach_id":weakSelf.coach.coachId}];
+
             }];
         };
         weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];

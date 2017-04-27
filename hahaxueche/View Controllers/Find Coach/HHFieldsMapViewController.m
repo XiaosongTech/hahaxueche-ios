@@ -201,7 +201,8 @@
         calloutView.sendAction = ^(HHField *field) {
             HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"轻松定位训练场" placeHolder:@"输入手机号, 立即接收详细地址" buttonTitle:@"发我定位"];
             view.buttonAction = ^(NSString *number) {
-                [[HHStudentService sharedInstance] getPhoneNumber:number completion:^(NSError *error) {
+                NSString *link = [NSString stringWithFormat:@"https://m.hahaxueche.com/ditu?field_id=%@", field.fieldId];
+                [[HHStudentService sharedInstance] getPhoneNumber:number coachId:nil schoolId:nil fieldId:field.fieldId eventType:@(1) eventData:@{@"field_id":field.fieldId, @"link":link} completion:^(NSError *error) {
                     if (error) {
                         [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试!"];
                     } else {
@@ -298,13 +299,14 @@
     coachView.checkFieldBlock = ^(HHCoach *coach) {
         HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"看过训练场才放心" placeHolder:@"输入手机号, 教练立即带你看场地" buttonTitle:@"预约看场地"];
         view.buttonAction = ^(NSString *number) {
-            [[HHStudentService sharedInstance] getPhoneNumber:number completion:^(NSError *error) {
+            [[HHStudentService sharedInstance] getPhoneNumber:number coachId:coach.coachId schoolId:[coach getCoachDrivingSchool].schoolId fieldId:[coach getCoachField].fieldId eventType:nil eventData:nil completion:^(NSError *error) {
                 if (error) {
                     [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试!"];
                 } else {
                     [HHPopupUtility dismissPopup:weakSelf.popup];
                     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_site_confirmed attributes:nil];
                 }
+
             }];
         };
         weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
