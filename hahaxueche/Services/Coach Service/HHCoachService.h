@@ -19,6 +19,16 @@ typedef NS_ENUM(NSInteger, CoachSortOption) {
     CoachSortOptionReviewCount,
     CoachSortOptionPrice,
     CoachSortOptionPopularity,
+    CoachSortOptionCount,
+};
+
+typedef NS_ENUM(NSInteger, SchoolSortOption) {
+    SchoolSortOptionDefault,
+    SchoolSortOptionDistance,
+    SchoolSortOptionReviewCount,
+    SchoolSortOptionPrice,
+    SchoolSortOptionPopularity,
+    SchoolSortOptionCount,
 };
 
 typedef void (^HHCoachListCompletion)(HHCoaches *coaches, NSError *error);

@@ -83,6 +83,9 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 @property (nonatomic, strong) UIButton *floatButton;
 
+@property (nonatomic) CoachSortOption coachSortOption;
+@property (nonatomic) SchoolSortOption schoolSortOption;
+
 @end
 
 @implementation HHFindCoachViewController
@@ -243,29 +246,20 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 }
 
 - (void)setupDefaultSortAndFilter {
-//    self.userCity = [[HHConstantsStore sharedInstance] getCityWithId:[HHStudentStore sharedInstance].selectedCityId];
-//    NSNumber *defaultDistance = self.userCity.distanceRanges[self.userCity.distanceRanges.count - 1];
-//    NSNumber *defaultPrice = [self.userCity.priceRanges lastObject];
-//    HHFilters *defaultFilters = [[HHFilters alloc] init];
-//    defaultFilters.price = defaultPrice;
-//    defaultFilters.distance = defaultDistance;
-//    defaultFilters.onlyGoldenCoach = @(0);
-//    defaultFilters.onlyVIPCoach = @(0);
-//    defaultFilters.licenseType = @(3);
-//    defaultFilters.onlyVIPCoach = @(0);
-//    self.coachFilters = defaultFilters;
-//    
-//    self.currentSortOption = SortOptionSmartSort;
-//    
-//    
-//    HHPersonalCoachFilters *defaultFilters2 = [[HHPersonalCoachFilters alloc] init];
-//    defaultFilters2.priceLimit = @(200000);
-//    defaultFilters2.licenseType = nil;
-//    
-//    self.coachFilters2 = defaultFilters2;
-//    
-//    self.currentSortOption2 = PersonalCoachSortOptionPrice;
+    self.userCity = [[HHConstantsStore sharedInstance] getCityWithId:[HHStudentStore sharedInstance].selectedCityId];
+    self.coachFilters = [[HHFilters alloc] init];
+    self.coachFilters.distance = self.userCity.distanceRanges[self.userCity.distanceRanges.count - 1];
+    self.coachFilters.zone = nil;
+//    self.coachFilters.priceStart =
+//    self.coachFilters.priceEnd =
+    self.coachSortOption = CoachSortOptionPrice;
     
+    self.schoolFilters = [[HHFilters alloc] init];
+    self.schoolFilters.distance = self.userCity.distanceRanges[self.userCity.distanceRanges.count - 1];
+    self.schoolFilters.zone = nil;
+//    self.coachFilters.priceStart =
+//    self.coachFilters.priceEnd =
+    self.schoolSortOption = SchoolSortOptionDefault;
     
 }
 

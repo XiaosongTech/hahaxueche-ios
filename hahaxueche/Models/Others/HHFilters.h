@@ -1,21 +1,21 @@
 //
-//  HHCoachFilters.h
+//  HHFilters.h
 //  hahaxueche
 //
-//  Created by Zixiao Wang on 1/14/16.
-//  Copyright © 2016 Zixiao Wang. All rights reserved.
+//  Created by Zixiao Wang on 27/04/2017.
+//  Copyright © 2017 Zixiao Wang. All rights reserved.
 //
 
-#import <Mantle/Mantle.h>
+#import <Foundation/Foundation.h>
 
-@interface HHFilters : MTLModel <MTLJSONSerializing>
+@interface HHFilters : NSObject <NSCopying>
 
 @property (nonatomic, copy) NSNumber *distance;
-@property (nonatomic, copy) NSNumber *price;
+@property (nonatomic, copy) NSString *zone;
+@property (nonatomic, copy) NSNumber *priceStart;
+@property (nonatomic, copy) NSNumber *priceEnd;
 
 // 1: C1, 2: C2, 3: C1 and C2
 @property (nonatomic, copy) NSNumber *licenseType;
-@property (nonatomic, copy) NSNumber *onlyGoldenCoach;
-@property (nonatomic, copy) NSNumber *onlyVIPCoach;
 
 @end

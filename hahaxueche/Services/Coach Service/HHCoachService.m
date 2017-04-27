@@ -29,8 +29,6 @@
 - (void)fetchCoachListWithCityId:(NSNumber *)cityId filters:(HHFilters *)filters sortOption:(CoachSortOption)sortOption userLocation:(NSArray *)userLocation fields:(NSArray *)fields perPage:(NSNumber *)perPage completion:(HHCoachListCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICoaches];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
-    param[@"golden_coach_only"] = filters.onlyGoldenCoach;
-    param[@"vip_only"] = filters.onlyVIPCoach;
     param[@"city_id"] = cityId;
     
 //    if (sortOption == SortOptionReviewCount) {
@@ -57,9 +55,9 @@
     }
     
     HHCity *city = [[HHConstantsStore sharedInstance] getCityWithId:cityId];
-    if (![filters.price isEqual:[city.priceRanges lastObject]]) {
-        param[@"price"] = filters.price;
-    }
+//    if (![filters.price isEqual:[city.priceRanges lastObject]]) {
+//        param[@"price"] = filters.price;
+//    }
     if (![filters.distance isEqual:[city.distanceRanges lastObject]]) {
         param[@"distance"] = filters.distance;
     }
