@@ -44,13 +44,8 @@
 }
 
 - (void)setupRootVC:(UIViewController *)vc {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        //Here your non-main thread.
-        [NSThread sleepForTimeInterval:2.0f];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //Here you returns to main thread.
-            [UIApplication sharedApplication].keyWindow.rootViewController = vc;
-        });
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [UIApplication sharedApplication].keyWindow.rootViewController = vc;
     });
 }
 

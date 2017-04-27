@@ -51,7 +51,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
 
 @interface HHAppDelegate () <UIApplicationDelegate, UNUserNotificationCenterDelegate>
 
-@property (nonatomic, strong) __block UIViewController *finalRootVC;
 @property (nonatomic, strong) UNUserNotificationCenter *notificationCenter;
 @property (nonatomic, strong) NSDictionary *notificationUserInfo;
 
@@ -68,7 +67,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [[HHConstantsStore sharedInstance] getDrivingSchoolsWithCityId:[HHStudentStore sharedInstance].currentStudent.cityId completion:nil];
     
     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-    self.finalRootVC = rootVC;
     [[HHStudentStore sharedInstance] createGuestStudent];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -90,28 +88,25 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                         [[HHStudentService sharedInstance] fetchStudentWithId:savedStudent.studentId completion:^(HHStudent *student, NSError *error) {
                             if (!error) {
                                 if (!student) {
-                                    [launchVC setupRootVC:self.finalRootVC];
+                                    [launchVC setupRootVC:rootVC];
                                     [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
-                                    return ;
-                                }
-                                [HHStudentStore sharedInstance].currentStudent = student;
-                                if (!student.name || !student.cityId) {
-                                    // Student created, but not set up yet
-                                    HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
-                                    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
-                                    self.finalRootVC = navVC;
-                                    [launchVC setupRootVC:self.finalRootVC];
-                                    [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
-                            
                                 } else {
-                                    // Get the saved student object, we lead user to rootVC
-                                    HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-                                    self.finalRootVC = rootVC;
-                                    [launchVC setupRootVC:self.finalRootVC];
-                                    [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
+                                    [HHStudentStore sharedInstance].currentStudent = student;
+                                    if (!student.name || !student.cityId) {
+                                        // Student created, but not set up yet
+                                        HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
+                                        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
+                                        [launchVC setupRootVC:navVC];
+                                        [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
+                                        
+                                    } else {
+                                        [launchVC setupRootVC:rootVC];
+                                        [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
+                                    }
+                                    
                                 }
                             } else {
-                                [launchVC setupRootVC:self.finalRootVC];
+                                [launchVC setupRootVC:rootVC];
                                 [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                             }
                         }];
@@ -125,11 +120,11 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
                 }];
                 
             } else {
-                [launchVC setupRootVC:self.finalRootVC];
+                [launchVC setupRootVC:rootVC];
                 [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
             }
         } else {
-            [launchVC setupRootVC:self.finalRootVC];
+            [launchVC setupRootVC:rootVC];
             [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
         }
        
