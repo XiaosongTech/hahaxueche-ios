@@ -14,20 +14,21 @@
 #import "HHDrivingSchool.h"
 
 typedef void (^HHConstantsCompletion)(HHConstants *constants);
-typedef void (^HHSchoolsCompletion)(NSArray *schools);
+typedef void (^HHCityCompletion)(HHCity *city);
+typedef void (^HHFieldsCompletion)(NSArray *data);
 
 @interface HHConstantsStore : NSObject
 
 @property (nonatomic, strong) HHConstants *constants;
-@property (nonatomic, strong) NSArray *drivingSchools;
+@property (nonatomic, strong) NSMutableDictionary *cities;
 @property (nonatomic, strong) NSArray *fields;
 
 + (instancetype)sharedInstance;
 - (void)getConstantsWithCompletion:(HHConstantsCompletion)completion;
-- (void)getDrivingSchoolsWithCityId:(NSNumber *)cityId completion:(HHSchoolsCompletion)completion;
-- (void)getFieldsWithCityId:(NSNumber *)cityId completion:(HHSchoolsCompletion)completion;
+- (void)getCityWithCityId:(NSNumber *)cityId completion:(HHCityCompletion)completion;
+- (void)getFieldsWithCityId:(NSNumber *)cityId completion:(HHFieldsCompletion)completion;
 
-- (NSArray *)getAllFieldsForCity:(NSNumber *)cityId;
+- (NSArray *)getDrivingSchools;
 - (NSArray *)getSupporteCities;
 - (HHField *)getFieldWithId:(NSString *)fieldId;
 - (HHCity *)getAuthedUserCity;

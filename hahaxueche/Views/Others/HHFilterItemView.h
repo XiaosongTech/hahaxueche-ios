@@ -12,4 +12,8 @@
 
 - (instancetype)initWithTitle:(NSString *)title rightLine:(BOOL)rightLine;
 
+@property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong) UIImageView *imgView;
+@property (nonatomic) BOOL hightlighted;
+
 @end

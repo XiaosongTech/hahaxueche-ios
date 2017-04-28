@@ -18,7 +18,6 @@ typedef NS_ENUM(NSInteger, CoachSortOption) {
     CoachSortOptionDistance,
     CoachSortOptionReviewCount,
     CoachSortOptionPrice,
-    CoachSortOptionPopularity,
     CoachSortOptionCount,
 };
 
@@ -27,7 +26,6 @@ typedef NS_ENUM(NSInteger, SchoolSortOption) {
     SchoolSortOptionDistance,
     SchoolSortOptionReviewCount,
     SchoolSortOptionPrice,
-    SchoolSortOptionPopularity,
     SchoolSortOptionCount,
 };
 

@@ -17,6 +17,7 @@
     if (self) {
         self.filters = filters;
         self.backgroundColor = [UIColor whiteColor];
+        self.itemArray = [NSMutableArray array];
         
         for (int i = 0; i < 4; i++) {
             HHFilterItemView *item;
@@ -31,15 +32,30 @@
             }
             item.tag = i;
             [self addSubview:item];
+            [self.itemArray addObject:item];
             [item makeConstraints:^(MASConstraintMaker *make) {
                 make.centerX.equalTo(self.centerX).multipliedBy((i*2 + 1)/4.0f);
                 make.width.equalTo(self.width).multipliedBy(1.0f/4.0f);
                 make.height.equalTo(self.height);
                 make.top.equalTo(self.top);
             }];
+            
+            UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(itemTapped:)];
+            [item addGestureRecognizer:tapRec];
         }
     }
     return self;
+}
+
+- (void)itemTapped:(UITapGestureRecognizer *)rec {
+    for (HHFilterItemView *item in self.itemArray) {
+        item.imgView.image = [UIImage imageNamed:@"list_arrow_gray"];
+    }
+    
+    HHFilterItemView *view = (HHFilterItemView *)rec.view;
+    if (self.itemBlock) {
+        self.itemBlock(view);
+    }
 }
 
 @end

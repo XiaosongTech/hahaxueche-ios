@@ -15,23 +15,28 @@
 - (instancetype)initWithTitle:(NSString *)title rightLine:(BOOL)rightLine {
     self = [super init];
     if (self) {
-        UILabel *label = [[UILabel alloc] init];
-        label.text = title;
-        label.textColor = [UIColor HHLightTextGray];
-        label.font = [UIFont systemFontOfSize:14.0f];
-        [self addSubview:label];
         
-        [label makeConstraints:^(MASConstraintMaker *make) {
+        self.imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"list_arrow_gray"]];
+        [self addSubview:self.imgView];
+        [self.imgView makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.centerY);
-            make.right.equalTo(self.centerX);
+            make.right.equalTo(self.right).offset(-15.0f);
         }];
         
-        UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@""]];
-        [self addSubview:imgView];
-        [imgView makeConstraints:^(MASConstraintMaker *make) {
+        self.label = [[UILabel alloc] init];
+        self.label.text = title;
+        self.label.textColor = [UIColor HHLightTextGray];
+        self.label.font = [UIFont systemFontOfSize:14.0f];
+        self.label.textAlignment = NSTextAlignmentLeft;
+        self.label.numberOfLines = 1;
+        [self addSubview:self.label];
+        
+        [self.label makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.centerY);
-            make.left.equalTo(label.right).offset(5.0f);
+            make.left.equalTo(self.left).offset(20.0f);
+            make.right.lessThanOrEqualTo(self.imgView.left);
         }];
+        
         
         if (rightLine) {
             UIView *line = [[UIView alloc] init];
@@ -56,15 +61,10 @@
         }];
         
         self.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped)];
-        [self addGestureRecognizer:tapRec];
         
     }
     return self;
 }
 
-- (void)tapped {
-    
-}
 
 @end

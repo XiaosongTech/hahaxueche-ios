@@ -22,6 +22,15 @@ static NSString *const kSavedConstants = @"kSavedConstant";
 
 @implementation HHConstantsStore
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.cities = [NSMutableDictionary dictionary];
+    }
+    return self;
+}
+
+
 + (instancetype)sharedInstance {
     static HHConstantsStore *sharedInstance = nil;
     static dispatch_once_t predicate = 0;
@@ -55,14 +64,6 @@ static NSString *const kSavedConstants = @"kSavedConstant";
 
 }
 
-- (NSArray *)getAllFieldsForCity:(NSNumber *)cityId {
-    NSArray *fields = [HHConstantsStore sharedInstance].constants.fields;
-    if ([fields count]) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"cityId == %ld", [cityId integerValue]];
-        return [fields filteredArrayUsingPredicate:predicate];
-    }
-    return nil;
-}
 
 - (NSArray *)getSupporteCities {
     if ([HHConstantsStore sharedInstance].constants.cities.count > 0) {
@@ -103,16 +104,7 @@ static NSString *const kSavedConstants = @"kSavedConstant";
 
 
 - (HHCity *)getCityWithId:(NSNumber *)cityId {
-    NSArray *cities = [HHConstantsStore sharedInstance].constants.cities;
-    if ([cities count]) {
-        for (HHCity *city in cities) {
-            if ([city.cityId integerValue] == [cityId integerValue]) {
-                return city;
-            }
-        }
-        
-    }
-    return nil;
+    return self.cities[cityId];
 }
 
 - (NSArray *)getNotifications {
@@ -164,28 +156,21 @@ static NSString *const kSavedConstants = @"kSavedConstant";
     return price;
 }
 
-- (void)getDrivingSchoolsWithCityId:(NSNumber *)cityId completion:(HHSchoolsCompletion)completion {
+- (void)getCityWithCityId:(NSNumber *)cityId completion:(HHCityCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPICities, [cityId stringValue]]];
     [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
-            NSMutableArray *array = [NSMutableArray array];
-            NSArray *schoolsArray = response[@"driving_schools"];
-            for (NSDictionary *schoolDic in schoolsArray) {
-                HHDrivingSchool *school = [MTLJSONAdapter modelOfClass:[HHDrivingSchool class] fromJSONDictionary:schoolDic error:nil];
-                if (school) {
-                    [array addObject:school];
-                }
-            }
-            self.drivingSchools = array;
+            HHCity *city = [MTLJSONAdapter modelOfClass:[HHCity class] fromJSONDictionary:response error:nil];
+            self.cities[city.cityId] = city;
             if (completion) {
-                completion(array);
+                completion(city);
             }
         }
     }];
 
 }
 
-- (void)getFieldsWithCityId:(NSNumber *)cityId completion:(HHSchoolsCompletion)completion {
+- (void)getFieldsWithCityId:(NSNumber *)cityId completion:(HHFieldsCompletion)completion {
     if (self.fields.count > 0) {
         if (completion) {
             completion(self.fields);
@@ -212,12 +197,18 @@ static NSString *const kSavedConstants = @"kSavedConstant";
 }
 
 - (HHDrivingSchool *)getDrivingSchoolWithName:(NSString *)schoolName {
-    for (HHDrivingSchool *school in self.drivingSchools) {
+    HHCity *city = self.cities[[HHStudentStore sharedInstance].selectedCityId];
+    for (HHDrivingSchool *school in city.drivingSchools) {
         if ([school.schoolName isEqualToString:schoolName]) {
             return school;
         }
     }
     return nil;
+}
+
+- (NSArray *)getDrivingSchools {
+    HHCity *city = self.cities[[HHStudentStore sharedInstance].selectedCityId];
+    return city.drivingSchools;
 }
 
 @end

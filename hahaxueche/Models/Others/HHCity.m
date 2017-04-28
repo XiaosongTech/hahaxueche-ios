@@ -27,6 +27,7 @@
              @"refereeBonus":@"referee_bonus",
              @"referalBanner":@"referral_banner",
              @"zones":@"zones",
+             @"drivingSchools": @"driving_schools",
              };
 }
 
@@ -38,6 +39,11 @@
 + (NSValueTransformer *)cityOtherFeesJSONTransformer {
     return [MTLJSONAdapter arrayTransformerWithModelClass:[HHCityOtherFee class]];
 }
+
++ (NSValueTransformer *)drivingSchoolsJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[HHDrivingSchool class]];
+}
+
 
 
 

@@ -38,6 +38,7 @@
 #import <pop/POP.h>
 #import "HHWebViewController.h"
 #import "HHSupportUtility.h"
+#import "HHDropDownView.h"
 
 typedef NS_ENUM(NSInteger, ListType) {
     ListTypeDrivingSchool,
@@ -82,9 +83,13 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 @property (nonatomic, strong) HHGenericOneButtonPopupView *personalCoachExplanationView;
 
 @property (nonatomic, strong) UIButton *floatButton;
+@property (nonatomic, strong) HHDropDownView *dropDownView;
+@property (nonatomic, strong) UIView *bgView;
 
 @property (nonatomic) CoachSortOption coachSortOption;
 @property (nonatomic) SchoolSortOption schoolSortOption;
+
+@property (nonatomic) NSInteger filterIndex;
 
 @end
 
@@ -264,7 +269,44 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 }
 
 - (void)initSubviews {
+    __weak HHFindCoachViewController *weakSelf = self;
     self.filtersView = [[HHFiltersView alloc] initWithFilter:nil];
+    self.filtersView.itemBlock = ^(HHFilterItemView *itemView) {
+        NSInteger index = itemView.tag;
+        NSMutableArray *data = [NSMutableArray array];
+        if (weakSelf.segControl.selectedSegmentIndex == ListTypeDrivingSchool) {
+            
+        } else {
+            
+        }
+        
+        if (index == 0) {
+            NSMutableArray *disArray = [NSMutableArray array];
+            for (NSNumber *num in weakSelf.userCity.distanceRanges) {
+                [disArray addObject:[NSString stringWithFormat:@"%@km", [num stringValue]]];
+            }
+            [disArray addObject:@"全城"];
+            NSDictionary *distance = @{@"附近":disArray};
+            [data addObject:distance];
+            [data addObjectsFromArray:weakSelf.userCity.zones];
+            
+        } else if (index == 1) {
+            for (NSArray *rangeArray in weakSelf.userCity.priceRanges) {
+                NSString *title = [NSString stringWithFormat:@"%@-%@元", [rangeArray firstObject], rangeArray[1]];
+                [data addObject:title];
+            }
+        } else if (index == 2) {
+            [data addObject:@"C1手动挡"];
+            [data addObject:@"C2自动挡"];
+        } else {
+            [data addObject:@"综合排序"];
+            [data addObject:@"距离最近"];
+            [data addObject:@"评价最多"];
+            [data addObject:@"价格最低"];
+        }
+        
+        [weakSelf showDropDownWithData:data itemView:itemView];
+    };
     [self.view addSubview:self.filtersView];
     [self.filtersView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.top);
@@ -732,5 +774,63 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 }
 
 
+- (void)showDropDownWithData:(NSArray *)data itemView:(HHFilterItemView *)itemView {
+    NSInteger columnCount = 1;
+    NSInteger index = itemView.tag;
+    if (index == 0) {
+        columnCount = 2;
+    }
+    
+    if (!self.bgView) {
+        self.bgView = [[UIView alloc] init];
+        self.bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3f];
+        [self.view addSubview:self.bgView];
+        [self.bgView makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(self.view);
+            make.width.equalTo(self.view.width);
+            make.height.equalTo(self.view.height);
+        }];
+        UITapGestureRecognizer *rec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissDropDownView)];
+        [self.bgView addGestureRecognizer:rec];
+    }
+    
+    
+    if (self.dropDownView) {
+        [self dismissDropDownView];
+        if (index == self.filterIndex) {
+            return;
+        }
+    }
+    
+    
+    CGFloat height = data.count * 40.0f;
+    if (height > 8 * 40.0f) {
+        height = 40.0f * 8;
+    }
+    self.dropDownView = [[HHDropDownView alloc] initWithColumnCount:columnCount data:data selectedIndexes:@[@(0), @(1)]];
+    self.dropDownView.frame = CGRectMake(0, -1.0f * height + CGRectGetMaxY(self.filtersView.frame), CGRectGetWidth(self.view.frame), height);
+    [self.view addSubview:self.dropDownView];
+    [self.view bringSubviewToFront:self.filtersView];
+    
+    POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPViewFrame];
+    anim.toValue = [NSValue valueWithCGRect:CGRectMake(0, CGRectGetMaxY(self.filtersView.frame), CGRectGetWidth(self.view.frame), height)];
+    anim.springBounciness = 0;
+    [self.dropDownView pop_addAnimation:anim forKey:@"move"];
+    self.bgView.hidden = NO;
+    itemView.imgView.image = [UIImage imageNamed:@"list_arrow_orange"];
+    
+    self.filterIndex = index;
+}
+
+
+- (void)dismissDropDownView {
+    [self.dropDownView removeFromSuperview];
+    self.dropDownView = nil;
+    self.bgView.hidden = YES;
+    
+    for (HHFilterItemView *view in self.filtersView.itemArray) {
+        view.imgView.image = [UIImage imageNamed:@"list_arrow_gray"];
+    }
+}
 
 @end

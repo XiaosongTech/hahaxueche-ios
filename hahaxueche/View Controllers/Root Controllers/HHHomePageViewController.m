@@ -105,14 +105,17 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
     }
     [self initSubviews];
     
-    if ([[HHConstantsStore sharedInstance].drivingSchools count] > 0) {
-        self.drivingSchools = [HHConstantsStore sharedInstance].drivingSchools;
+    if ([[HHConstantsStore sharedInstance] getDrivingSchools].count > 0) {
+        self.drivingSchools = [[HHConstantsStore sharedInstance] getDrivingSchools];
         [self.drivingSchoolsView updateData:self.drivingSchools type:CarouselTypeDrivingSchool];
         
     } else {
-        [[HHConstantsStore sharedInstance] getDrivingSchoolsWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(NSArray *schools) {
-            self.drivingSchools = schools;
-            [self.drivingSchoolsView updateData:self.drivingSchools type:CarouselTypeDrivingSchool];
+        [[HHConstantsStore sharedInstance] getCityWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(HHCity *city) {
+            if (city) {
+                self.drivingSchools = city.drivingSchools;
+                [self.drivingSchoolsView updateData:self.drivingSchools type:CarouselTypeDrivingSchool];
+            }
+
         }];
     }
     
@@ -522,8 +525,8 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
     [HHStudentStore sharedInstance].selectedCityId = city.cityId;
     [HHConstantsStore sharedInstance].fields = nil;
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem  buttonItemWithAttrTitle:[self generateAttrStringWithText:city.cityName image:[UIImage imageNamed:@"Triangle"] type:1] action:@selector(cityTapped) target:self isLeft:YES];
-    [[HHConstantsStore sharedInstance] getDrivingSchoolsWithCityId:city.cityId completion:^(NSArray *schools) {
-        self.drivingSchools = schools;
+    [[HHConstantsStore sharedInstance] getCityWithCityId:city.cityId completion:^(HHCity *city) {
+        self.drivingSchools = city.drivingSchools;
         [self.drivingSchoolsView updateData:self.drivingSchools type:CarouselTypeDrivingSchool];
     }];
     
