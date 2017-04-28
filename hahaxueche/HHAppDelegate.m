@@ -68,7 +68,6 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     
     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
     [[HHStudentStore sharedInstance] createGuestStudent];
-    launchVC.desVC = rootVC;
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *cityId = [defaults objectForKey:@"userSelectedCity"];
