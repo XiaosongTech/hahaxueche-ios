@@ -65,6 +65,7 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
     [self.window setRootViewController:launchVC];
     
     HHRootViewController *rootVC = [[HHRootViewController alloc] init];
+    launchVC.desVC = rootVC;
     [[HHStudentStore sharedInstance] createGuestStudent];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
