@@ -12,7 +12,6 @@
 #import "HHButton.h"
 #import "KLCPopup.h"
 #import "HHPopupUtility.h"
-#import "HHFiltersView.h"
 #import "HHFilters.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "INTULocationManager.h"
@@ -38,7 +37,7 @@
 #import <pop/POP.h>
 #import "HHWebViewController.h"
 #import "HHSupportUtility.h"
-#import "HHDropDownView.h"
+#import "DOPDropDownMenu.h"
 
 typedef NS_ENUM(NSInteger, ListType) {
     ListTypeDrivingSchool,
@@ -52,12 +51,13 @@ static NSString *const kFindCoachGuideKey = @"kFindCoachGuideKey";
 static CGFloat const kCellHeightNormal = 100.0f;
 static CGFloat const kCellHeightExpanded = 325.0f;
 
-@interface HHFindCoachViewController () <UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate,SwipeViewDataSource, SwipeViewDelegate>
+@interface HHFindCoachViewController () <UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate,SwipeViewDataSource, SwipeViewDelegate, DOPDropDownMenuDataSource,DOPDropDownMenuDelegate>
 
 
 @property (nonatomic, strong) KLCPopup *popup;
 
-@property (nonatomic, strong) HHFiltersView *filtersView;
+@property (nonatomic, strong) DOPDropDownMenu *coachFilterMenu;
+@property (nonatomic, strong) DOPDropDownMenu *schoolFilterMenu;
 @property (nonatomic, strong) HHFilters *coachFilters;
 @property (nonatomic, strong) HHFilters *schoolFilters;
 
@@ -83,13 +83,17 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 @property (nonatomic, strong) HHGenericOneButtonPopupView *personalCoachExplanationView;
 
 @property (nonatomic, strong) UIButton *floatButton;
-@property (nonatomic, strong) HHDropDownView *dropDownView;
-@property (nonatomic, strong) UIView *bgView;
 
 @property (nonatomic) CoachSortOption coachSortOption;
 @property (nonatomic) SchoolSortOption schoolSortOption;
 
 @property (nonatomic) NSInteger filterIndex;
+
+@property (nonatomic, strong) NSMutableArray *areas;
+@property (nonatomic, strong) NSMutableArray *distances;
+@property (nonatomic, strong) NSMutableArray *priceRanges;
+@property (nonatomic, strong) NSMutableArray *licenseTypes;
+@property (nonatomic, strong) NSMutableArray *sortOptions;
 
 @end
 
@@ -103,14 +107,13 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     [super viewDidLoad];
     self.title = @"驾校教练";
     self.view.backgroundColor = [UIColor whiteColor];
-    [self setupDefaultSortAndFilter];
+    self.expandedCellIndexPath = [NSMutableArray array];
+    [self initSubviews];
     
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem  buttonItemWithImage:[UIImage imageNamed:@"ic_map_firstscreen"] action:@selector(jumpToFieldsMapView) target:self];
     
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"icon_search"] action:@selector(jumpToSearchVC) target:self];
     
-    self.expandedCellIndexPath = [NSMutableArray array];
-    [self initSubviews];
     
     self.navigationController.interactivePopGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
@@ -253,68 +256,95 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 - (void)setupDefaultSortAndFilter {
     self.userCity = [[HHConstantsStore sharedInstance] getCityWithId:[HHStudentStore sharedInstance].selectedCityId];
     self.coachFilters = [[HHFilters alloc] init];
-    self.coachFilters.distance = self.userCity.distanceRanges[self.userCity.distanceRanges.count - 1];
+    self.coachFilters.distance = nil;
     self.coachFilters.zone = nil;
-//    self.coachFilters.priceStart =
-//    self.coachFilters.priceEnd =
+    self.coachFilters.priceStart = nil;
+    self.coachFilters.priceEnd = nil;
+    self.coachFilters.licenseType = @(3);
     self.coachSortOption = CoachSortOptionPrice;
     
     self.schoolFilters = [[HHFilters alloc] init];
-    self.schoolFilters.distance = self.userCity.distanceRanges[self.userCity.distanceRanges.count - 1];
+    self.schoolFilters.distance = nil;
     self.schoolFilters.zone = nil;
-//    self.coachFilters.priceStart =
-//    self.coachFilters.priceEnd =
+    self.schoolFilters.priceStart = nil;
+    self.schoolFilters.priceEnd = nil;
+    self.schoolFilters.licenseType = @(3);
     self.schoolSortOption = SchoolSortOptionDefault;
+    
+    self.areas = [NSMutableArray arrayWithObject:@"附近"];
+    [self.areas addObjectsFromArray:self.userCity.zones];
+    
+    self.distances = [NSMutableArray array];
+    for (NSNumber *num in self.userCity.distanceRanges) {
+        [self.distances addObject:[NSString stringWithFormat:@"%@km", [num stringValue]]];
+    }
+    [self.distances addObject:@"全城"];
+    
+    self.priceRanges = [NSMutableArray array];
+    for (NSArray *rangeArray in self.userCity.priceRanges) {
+        NSString *title = [NSString stringWithFormat:@"%@-%@元", [rangeArray firstObject], rangeArray[1]];
+        [self.priceRanges addObject:title];
+    }
+    [self.priceRanges addObject:[NSString stringWithFormat:@"%@元以上", [self.userCity.priceRanges lastObject][1]]];
+    [self.priceRanges insertObject:@"不限" atIndex:0];
+
+    self.licenseTypes = [NSMutableArray arrayWithArray:@[@"不限", @"C1手动挡", @"C2自动挡"]];
+    
+    self.sortOptions = [NSMutableArray arrayWithArray:@[@"综合排序", @"距离最近", @"评价最多", @"价格最低"]];
+    
+    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:self.distances.count-1]];
+    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:0 item:-1]];
+    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:2 row:0 item:-1]];
+    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:3 row:self.sortOptions.count-1 item:-1]];
+    [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:self.distances.count-1]];
+    [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:0 item:-1]];
+    [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:2 row:0 item:-1]];
+    [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:3 row:0 item:-1]];
     
 }
 
 - (void)initSubviews {
     __weak HHFindCoachViewController *weakSelf = self;
-    self.filtersView = [[HHFiltersView alloc] initWithFilter:nil];
-    self.filtersView.itemBlock = ^(HHFilterItemView *itemView) {
-        NSInteger index = itemView.tag;
-        NSMutableArray *data = [NSMutableArray array];
-        if (weakSelf.segControl.selectedSegmentIndex == ListTypeDrivingSchool) {
-            
-        } else {
-            
-        }
-        
-        if (index == 0) {
-            NSMutableArray *disArray = [NSMutableArray array];
-            for (NSNumber *num in weakSelf.userCity.distanceRanges) {
-                [disArray addObject:[NSString stringWithFormat:@"%@km", [num stringValue]]];
-            }
-            [disArray addObject:@"全城"];
-            NSDictionary *distance = @{@"附近":disArray};
-            [data addObject:distance];
-            [data addObjectsFromArray:weakSelf.userCity.zones];
-            
-        } else if (index == 1) {
-            for (NSArray *rangeArray in weakSelf.userCity.priceRanges) {
-                NSString *title = [NSString stringWithFormat:@"%@-%@元", [rangeArray firstObject], rangeArray[1]];
-                [data addObject:title];
-            }
-        } else if (index == 2) {
-            [data addObject:@"C1手动挡"];
-            [data addObject:@"C2自动挡"];
-        } else {
-            [data addObject:@"综合排序"];
-            [data addObject:@"距离最近"];
-            [data addObject:@"评价最多"];
-            [data addObject:@"价格最低"];
-        }
-        
-        [weakSelf showDropDownWithData:data itemView:itemView];
-    };
-    [self.view addSubview:self.filtersView];
-    [self.filtersView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.top);
-        make.left.equalTo(self.view.left);
-        make.width.equalTo(self.view.width);
-        make.height.mas_equalTo(40.0f);
-
-    }];
+//    self.filtersView = [[HHFiltersView alloc] initWithFilter:nil];
+//    self.filtersView.itemBlock = ^(HHFilterItemView *itemView) {
+//        NSInteger index = itemView.tag;
+//        NSMutableArray *data = [NSMutableArray array];
+//        if (index == 0) {
+//            NSMutableArray *disArray = [NSMutableArray array];
+//            for (NSNumber *num in weakSelf.userCity.distanceRanges) {
+//                [disArray addObject:[NSString stringWithFormat:@"%@km", [num stringValue]]];
+//            }
+//            [disArray addObject:@"全城"];
+//            NSDictionary *distance = @{@"附近":disArray};
+//            [data addObject:distance];
+//            [data addObjectsFromArray:weakSelf.userCity.zones];
+//            
+//        } else if (index == 1) {
+//            for (NSArray *rangeArray in weakSelf.userCity.priceRanges) {
+//                NSString *title = [NSString stringWithFormat:@"%@-%@元", [rangeArray firstObject], rangeArray[1]];
+//                [data addObject:title];
+//            }
+//        } else if (index == 2) {
+//            [data addObject:@"不限"];
+//            [data addObject:@"C1手动挡"];
+//            [data addObject:@"C2自动挡"];
+//        } else {
+//            [data addObject:@"综合排序"];
+//            [data addObject:@"距离最近"];
+//            [data addObject:@"评价最多"];
+//            [data addObject:@"价格最低"];
+//        }
+//        
+//        [weakSelf showDropDownWithData:data itemView:itemView];
+//    };
+//    [self.view addSubview:self.filtersView];
+//    [self.filtersView makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.view.top);
+//        make.left.equalTo(self.view.left);
+//        make.width.equalTo(self.view.width);
+//        make.height.mas_equalTo(40.0f);
+//
+//    }];
     
     self.swipeView = [[SwipeView alloc] init];
     self.swipeView.pagingEnabled = YES;
@@ -322,7 +352,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     self.swipeView.delegate = self;
     [self.view addSubview:self.swipeView];
     [self.swipeView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.filtersView.bottom);
+        make.top.equalTo(self.view.top);
         make.left.equalTo(self.view.left);
         make.width.equalTo(self.view.width);
         make.bottom.equalTo(self.view.bottom);
@@ -433,40 +463,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 
 
-#pragma mark - Button Actions 
-
-- (void)filterTapped {
-//    __weak HHFindCoachViewController *weakSelf = self;
-//    self.filtersView = [[HHFiltersView alloc] initWithFilters:[self.coachFilters copy] frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 440.0f) city:self.userCity];
-//    self.filtersView.confirmBlock = ^(HHFilters *filters){
-//        weakSelf.coachFilters = filters;
-//        [weakSelf refreshCoachList:YES completion:nil];
-//        [weakSelf.popup dismiss:YES];
-//    };
-//    self.filtersView.cancelBlock = ^(){
-//        [weakSelf.popup dismiss:YES];
-//    };
-//    self.popup = [HHPopupUtility createPopupWithContentView:self.filtersView];
-//    [HHPopupUtility showPopup:self.popup];
-//    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_filter_tapped_tapped attributes:nil];
-}
-
-- (void)sortTapped {
-//    __weak HHFindCoachViewController *weakSelf = self;
-//    self.sortView = [[HHSortView alloc] initWithDefaultSortOption:self.currentSortOption];
-//    self.sortView.frame = CGRectMake(0, 0, 130.0f, 200.0f);
-//    self.sortView.selectedOptionBlock = ^(SortOption sortOption){
-//        weakSelf.currentSortOption = sortOption;
-//        [weakSelf refreshCoachList:YES completion:nil];
-//        [weakSelf.popup dismiss:YES];
-//        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_sort_tapped attributes:@{@"sort_type":[weakSelf.sortView getSortNameWithSortOption:sortOption]}];
-//    };
-//    self.popup = [HHPopupUtility createPopupWithContentView:self.sortView];
-//    CGPoint center = CGPointMake(CGRectGetMidX(self.sortButton.frame), 150.0f);
-//    [HHPopupUtility showPopup:self.popup AtCenter:center inView:self.view];
-    
-
-}
+#pragma mark - Button Actions
 
 
 - (void)jumpToFieldsMapView {
@@ -608,6 +605,23 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 - (void)initViewForSwiptView:(UIView *)view index:(NSInteger)index {
     if (index == ListTypeCoach) {
+        self.coachFilterMenu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
+        self.coachFilterMenu.delegate = self;
+        self.coachFilterMenu.dataSource = self;
+        self.coachFilterMenu.textColor = [UIColor HHLightTextGray];
+        self.coachFilterMenu.tintColor = [UIColor HHOrange];
+        self.coachFilterMenu.textSelectedColor = [UIColor HHOrange];
+        self.coachFilterMenu.indicatorColor = [UIColor HHLightestTextGray];
+        [view addSubview:self.coachFilterMenu];
+        
+        
+        self.coachFilterMenu.finishedBlock=^(DOPIndexPath *indexPath){
+            if (indexPath.item >= 0) {
+                NSLog(@"收起:点击了 %ld - %ld - %ld 项目",indexPath.column,indexPath.row,indexPath.item);
+            }else {
+                NSLog(@"收起:点击了 %ld - %ld 项目",indexPath.column,indexPath.row);
+            }
+        };
         
         self.tableView = [[UITableView alloc] init];
         self.tableView.delegate = self;
@@ -639,12 +653,29 @@ static CGFloat const kCellHeightExpanded = 325.0f;
         
         
         [self.tableView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(view.top);
+            make.top.equalTo(self.coachFilterMenu.bottom);
             make.left.equalTo(view.left);
             make.bottom.equalTo(view.bottom).offset(-1 * CGRectGetHeight(self.tabBarController.tabBar.frame));
             make.width.equalTo(view.width);
         }];
     } else {
+        
+        self.schoolFilterMenu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
+        self.schoolFilterMenu.delegate = self;
+        self.schoolFilterMenu.dataSource = self;
+        self.schoolFilterMenu.textColor = [UIColor HHLightTextGray];
+        self.schoolFilterMenu.tintColor = [UIColor HHOrange];
+        self.schoolFilterMenu.textSelectedColor = [UIColor HHOrange];
+        self.schoolFilterMenu.indicatorColor = [UIColor HHLightestTextGray];
+        [view addSubview:self.schoolFilterMenu];
+        
+        self.schoolFilterMenu.finishedBlock=^(DOPIndexPath *indexPath){
+            if (indexPath.item >= 0) {
+                NSLog(@"收起:点击了 %ld - %ld - %ld 项目",indexPath.column,indexPath.row,indexPath.item);
+            }else {
+                NSLog(@"收起:点击了 %ld - %ld 项目",indexPath.column,indexPath.row);
+            }
+        };
         
         self.tableView2 = [[UITableView alloc] init];
         self.tableView2.delegate = self;
@@ -676,12 +707,14 @@ static CGFloat const kCellHeightExpanded = 325.0f;
         
         
         [self.tableView2 makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(view.top);
+            make.top.equalTo(self.schoolFilterMenu.bottom);
             make.left.equalTo(view.left);
             make.bottom.equalTo(view.bottom).offset(-1 * CGRectGetHeight(self.tabBarController.tabBar.frame));
             make.width.equalTo(view.width);
         }];
+        
     }
+    [self setupDefaultSortAndFilter];
     
 }
 
@@ -692,55 +725,6 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     } else {
         [self.tableView2 reloadData];
     }
-}
-
-- (void)showPersonalCoachExplanation {
-    __weak HHFindCoachViewController *weakSelf = self;
-    
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.alignment = NSTextAlignmentLeft;
-    paragraphStyle.lineSpacing = 3.0f;
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"面向初学拿到驾照或有驾照数年未驾过车的客户,提供的陪练服务,包括驾驶技术的提升,驾驶经验的传授,安全应变能力的强化:以及在考驾照中所学不到的交通繁忙道路的实际行驶,使学员在短时间内历练出高超的驾车技术,从而达到安全行车的目的。" attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:16.0f], NSParagraphStyleAttributeName:paragraphStyle}];
-    self.personalCoachExplanationView = [[HHGenericOneButtonPopupView alloc] initWithTitle:@"什么是陪练教练?" info:string];
-    self.personalCoachExplanationView.cancelBlock = ^() {
-        [HHPopupUtility dismissPopup:weakSelf.popup];
-    };
-    self.popup = [HHPopupUtility createPopupWithContentView:self.personalCoachExplanationView];
-    [HHPopupUtility showPopup:self.popup];
-    
-    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_what_is_personal_coach_tapped attributes:nil];
-
-}
-
-- (void)filterTapped2 {
-//    __weak HHFindCoachViewController *weakSelf = self;
-//    self.filtersView2 = [[HHPersonalCoachFiltersView alloc] initWithFilters:self.coachFilters2 frame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds)-20.0f, 210.0f)];
-//    self.filtersView2.cancelAction = ^() {
-//        [HHPopupUtility dismissPopup:weakSelf.popup];
-//    };
-//    self.filtersView2.confirmAction = ^(HHPersonalCoachFilters *filters) {
-//        weakSelf.coachFilters2 = filters;
-//        [weakSelf refreshDrivingSchoolList:YES completion:nil];
-//        [HHPopupUtility dismissPopup:weakSelf.popup];
-//    };
-//    self.popup = [HHPopupUtility createPopupWithContentView:self.filtersView2];
-//    [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
-//    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_filter_personal_coach_tapped attributes:nil];
-}
-
-- (void)sortTapped2 {
-//    __weak HHFindCoachViewController *weakSelf = self;
-//    self.sortView2 = [[HHPersonalCoachSortView alloc] initWithDefaultSortOption:self.currentSortOption2];
-//    self.sortView2.frame = CGRectMake(0, 0, 130.0f, 80.0f);
-//    self.sortView2.selectedOptionBlock = ^(PersonalCoachSortOption sortOption){
-//        weakSelf.currentSortOption2 = sortOption;
-//        [weakSelf refreshDrivingSchoolList:YES completion:nil];
-//        [weakSelf.popup dismiss:YES];
-//        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_sort_personal_coach_tapped attributes:@{@"sort_type":[weakSelf.sortView2 getSortNameWithSortOption:sortOption]}];
-//    };
-//    self.popup = [HHPopupUtility createPopupWithContentView:self.sortView2];
-//    CGPoint center = CGPointMake(CGRectGetMidX(self.sortButton2.frame), 90.0f);
-//    [HHPopupUtility showPopup:self.popup AtCenter:center inView:self.view];
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -774,63 +758,71 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 }
 
 
-- (void)showDropDownWithData:(NSArray *)data itemView:(HHFilterItemView *)itemView {
-    NSInteger columnCount = 1;
-    NSInteger index = itemView.tag;
-    if (index == 0) {
-        columnCount = 2;
+#pragma -mark DropDown Delegate & Datasource Methods
+
+- (NSInteger)numberOfColumnsInMenu:(DOPDropDownMenu *)menu {
+    return 4;
+}
+
+- (NSInteger)menu:(DOPDropDownMenu *)menu numberOfRowsInColumn:(NSInteger)column {
+    if (column == 0) {
+        return self.areas.count;
+        
+    } else if (column == 1) {
+        return self.priceRanges.count;
+        
+    } else if (column == 2) {
+        return self.licenseTypes.count;
+        
+    } else {
+        return self.sortOptions.count;
     }
-    
-    if (!self.bgView) {
-        self.bgView = [[UIView alloc] init];
-        self.bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3f];
-        [self.view addSubview:self.bgView];
-        [self.bgView makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self.view);
-            make.width.equalTo(self.view.width);
-            make.height.equalTo(self.view.height);
-        }];
-        UITapGestureRecognizer *rec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissDropDownView)];
-        [self.bgView addGestureRecognizer:rec];
+}
+
+- (NSString *)menu:(DOPDropDownMenu *)menu titleForRowAtIndexPath:(DOPIndexPath *)indexPath {
+    if (indexPath.column == 0) {
+        return self.areas[indexPath.row];
+        
+    } else if (indexPath.column == 1) {
+        return self.priceRanges[indexPath.row];
+        
+    } else if (indexPath.column == 2) {
+        return self.licenseTypes[indexPath.row];
+        
+    } else {
+        return self.sortOptions[indexPath.row];
     }
-    
-    
-    if (self.dropDownView) {
-        [self dismissDropDownView];
-        if (index == self.filterIndex) {
-            return;
+}
+
+- (NSInteger)menu:(DOPDropDownMenu *)menu numberOfItemsInRow:(NSInteger)row column:(NSInteger)column
+{
+    if (column == 0) {
+        if (row == 0) {
+            return self.distances.count;
         }
     }
-    
-    
-    CGFloat height = data.count * 40.0f;
-    if (height > 8 * 40.0f) {
-        height = 40.0f * 8;
+    return 0;
+}
+
+- (NSString *)menu:(DOPDropDownMenu *)menu titleForItemsInRowAtIndexPath:(DOPIndexPath *)indexPath
+{
+    if (indexPath.column == 0) {
+        if (indexPath.row == 0) {
+            return self.distances[indexPath.item];
+        }
     }
-    self.dropDownView = [[HHDropDownView alloc] initWithColumnCount:columnCount data:data selectedIndexes:@[@(0), @(1)]];
-    self.dropDownView.frame = CGRectMake(0, -1.0f * height + CGRectGetMaxY(self.filtersView.frame), CGRectGetWidth(self.view.frame), height);
-    [self.view addSubview:self.dropDownView];
-    [self.view bringSubviewToFront:self.filtersView];
-    
-    POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPViewFrame];
-    anim.toValue = [NSValue valueWithCGRect:CGRectMake(0, CGRectGetMaxY(self.filtersView.frame), CGRectGetWidth(self.view.frame), height)];
-    anim.springBounciness = 0;
-    [self.dropDownView pop_addAnimation:anim forKey:@"move"];
-    self.bgView.hidden = NO;
-    itemView.imgView.image = [UIImage imageNamed:@"list_arrow_orange"];
-    
-    self.filterIndex = index;
+    return nil;
+}
+
+- (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
+{
+    if (indexPath.item >= 0) {
+        NSLog(@"点击了 %ld - %ld - %ld 项目",indexPath.column,indexPath.row,indexPath.item);
+    }else {
+        NSLog(@"点击了 %ld - %ld 项目",indexPath.column,indexPath.row);
+    }
 }
 
 
-- (void)dismissDropDownView {
-    [self.dropDownView removeFromSuperview];
-    self.dropDownView = nil;
-    self.bgView.hidden = YES;
-    
-    for (HHFilterItemView *view in self.filtersView.itemArray) {
-        view.imgView.image = [UIImage imageNamed:@"list_arrow_gray"];
-    }
-}
 
 @end
