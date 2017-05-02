@@ -84,17 +84,20 @@
 }
 
 - (NSAttributedString *)generateAttrStringWithPrice:(NSNumber *)price {
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.alignment = NSTextAlignmentCenter;
-    
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[price generateMoneyString] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSForegroundColorAttributeName:[UIColor HHOrange], NSParagraphStyleAttributeName:paragraphStyle}];
-    
-    NSMutableAttributedString *attributedString2 = [[NSMutableAttributedString alloc] initWithString:@"起" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10.0f], NSForegroundColorAttributeName:[UIColor HHLightestTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+    if (price) {
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.alignment = NSTextAlignmentCenter;
+        
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[price generateMoneyString] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f], NSForegroundColorAttributeName:[UIColor HHOrange], NSParagraphStyleAttributeName:paragraphStyle}];
+        
+        NSMutableAttributedString *attributedString2 = [[NSMutableAttributedString alloc] initWithString:@"起" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10.0f], NSForegroundColorAttributeName:[UIColor HHLightestTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+        
+        [attributedString appendAttributedString:attributedString2];
+        return attributedString;
+    } else {
+        return nil;
+    }
 
-    [attributedString appendAttributedString:attributedString2];
-    return attributedString;
-    
-    
 }
 
 @end

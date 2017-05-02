@@ -26,6 +26,10 @@
     self.imageView = [[FLAnimatedImageView alloc] init];
     self.imageView.loopCompletionBlock = ^(NSUInteger loopCountRemaining) {
         [weakSelf.imageView stopAnimating];
+        if (!weakSelf.desVC) {
+            weakSelf.desVC = [[HHRootViewController alloc] init];
+        }
+        
         [UIApplication sharedApplication].keyWindow.rootViewController = weakSelf.desVC;
     };
     self.imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -33,7 +37,7 @@
     NSData *imgData = [NSData dataWithContentsOfFile:imgString];
     self.imageView.animatedImage = [FLAnimatedImage animatedImageWithGIFData:imgData];
     [self.view addSubview:self.imageView];
-    
+
     [self makeConstraints];
 }
 
@@ -44,6 +48,7 @@
         make.height.equalTo(self.view.height);
     }];
 }
+
 
 
 

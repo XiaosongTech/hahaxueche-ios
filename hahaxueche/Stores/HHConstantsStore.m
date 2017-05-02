@@ -165,6 +165,11 @@ static NSString *const kSavedConstants = @"kSavedConstant";
 }
 
 - (void)getDrivingSchoolsWithCityId:(NSNumber *)cityId completion:(HHSchoolsCompletion)completion {
+    if (self.drivingSchools.count > 0) {
+        if (completion) {
+            completion(self.drivingSchools);
+        }
+    }
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPICities, [cityId stringValue]]];
     [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
