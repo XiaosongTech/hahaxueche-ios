@@ -12,6 +12,8 @@
 #import "HHCoaches.h"
 #import "HHReviews.h"
 #import "HHReview.h"
+#import "HHDrivingSchools.h"
+#import "HHDrivingSchool.h"
 
 typedef NS_ENUM(NSInteger, CoachSortOption) {
     CoachSortOptionDefault,
@@ -30,6 +32,7 @@ typedef NS_ENUM(NSInteger, SchoolSortOption) {
 };
 
 typedef void (^HHCoachListCompletion)(HHCoaches *coaches, NSError *error);
+typedef void (^HHSchoolListCompletion)(HHDrivingSchools *schools, NSError *error);
 typedef void (^HHCoachCompletion)(HHCoach *coach, NSError *error);
 typedef void (^HHCoachReviewListCompletion)(HHReviews *reviews, NSError *error);
 typedef void (^HHCoachCheckFollowedCompletion)(BOOL followed);
@@ -141,6 +144,15 @@ typedef void (^HHCoachSearchCompletion)(NSArray *coaches, NSError *error);
  @param completion The completion block to execute on completion
  */
 - (void)searchCoachWithKeyword:(NSString *)keyword completion:(HHCoachSearchCompletion)completion;
+
+/**
+ Fetch Driving School
+ @param completion The completion block to execute on completion
+ */
+- (void)fetchDrivingSchoolListWithCityId:(NSNumber *)cityId filters:(HHFilters *)filters sortOption:(SchoolSortOption)sortOption userLocation:(NSArray *)userLocation perPage:(NSNumber *)perPage completion:(HHSchoolListCompletion)completion;
+
+
+- (void)fetchNextPageDrivingSchoolListWithURL:(NSString *)URL completion:(HHSchoolListCompletion)completion;
 
 
 @end

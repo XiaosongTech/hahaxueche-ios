@@ -49,6 +49,7 @@
 @property (nonatomic, copy) NSString *cooperationType;
 @property (nonatomic, copy) NSNumber *isCheyouWuyou;
 @property (nonatomic, copy) NSString *consultPhone;
+@property (nonatomic, copy) NSNumber *consultCount;
 
 // 0 = 优秀教练; 1 = 金牌教练
 - (BOOL)isGoldenCoach;

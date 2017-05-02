@@ -31,7 +31,7 @@
 #import "HHGifRefreshHeader.h"
 #import "UIScrollView+EmptyDataSet.h"
 #import "SwipeView.h"
-#import "HHPersonalCoachTableViewCell.h"
+#import "HHDrivingSchoolListViewCell.h"
 #import "HHGenericOneButtonPopupView.h"
 #import "HHAppVersionUtility.h"
 #import <pop/POP.h>
@@ -46,10 +46,10 @@ typedef NS_ENUM(NSInteger, ListType) {
 };
 
 static NSString *const kCellId = @"kCoachListCellId";
-static NSString *const kPersonalCoachCellId = @"kPersonalCoachCellId";
+static NSString *const kDrivingSchoolCellId = @"kDrivingSchoolCellId";
 static NSString *const kFindCoachGuideKey = @"kFindCoachGuideKey";
 static CGFloat const kCellHeightNormal = 100.0f;
-static CGFloat const kCellHeightExpanded = 325.0f;
+static CGFloat const kCellHeightExpanded = 305.0f;
 
 @interface HHFindCoachViewController () <UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate,SwipeViewDataSource, SwipeViewDelegate, DOPDropDownMenuDataSource,DOPDropDownMenuDelegate>
 
@@ -68,8 +68,6 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 @property (nonatomic, strong) HHGifRefreshHeader *refreshHeader2;
 @property (nonatomic, strong) MJRefreshAutoNormalFooter *loadMoreFooter2;
 
-@property (nonatomic, strong) NSMutableArray *expandedCellIndexPath;
-
 @property (nonatomic, strong) NSMutableArray *coaches;
 @property (nonatomic, strong) NSMutableArray *schools;
 
@@ -77,6 +75,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 @property (nonatomic, strong) CLLocation *userLocation;
 
 @property (nonatomic, strong) HHCoaches *coachesObject;
+@property (nonatomic, strong) HHDrivingSchools *schoolsObject;
 
 @property (nonatomic, strong) SwipeView *swipeView;
 @property (nonatomic, strong) UISegmentedControl *segControl;
@@ -107,7 +106,6 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     [super viewDidLoad];
     self.title = @"驾校教练";
     self.view.backgroundColor = [UIColor whiteColor];
-    self.expandedCellIndexPath = [NSMutableArray array];
     [self initSubviews];
     
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem  buttonItemWithImage:[UIImage imageNamed:@"ic_map_firstscreen"] action:@selector(jumpToFieldsMapView) target:self];
@@ -129,15 +127,15 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     self.navigationItem.titleView = self.segControl;
     
     __weak HHFindCoachViewController *weakSelf = self;
+    [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
     [self getUserLocationWithCompletion:^{
-        [self refreshDrivingSchoolList:NO completion:^{
-            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-            [weakSelf refreshCoachList:NO completion:nil];
-            [[HHAppVersionUtility sharedManager] checkVersionInVC:weakSelf];
-            [self buildFloatButton];
-        }];
-        
+        [weakSelf setupDefaultSortAndFilterForSchool];
+        [weakSelf refreshDrivingSchoolList:YES completion:nil];
+        [weakSelf buildFloatButton];
+        [weakSelf refreshCoachList:NO completion:nil];
+        [[HHAppVersionUtility sharedManager] checkVersionInVC:weakSelf];
     }];
+    
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cityChanged) name:@"cityChanged" object:nil];
     
@@ -161,7 +159,6 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 }
 
 - (void)refreshCoachList:(BOOL)showLoading completion:(HHRefreshCoachCompletionBlock)completion {
-    [self.expandedCellIndexPath removeAllObjects];
     __weak HHFindCoachViewController *weakSelf = self;
     if (showLoading) {
         [[HHLoadingViewUtility sharedInstance] showLoadingView];
@@ -173,23 +170,23 @@ static CGFloat const kCellHeightExpanded = 325.0f;
         locationArray = @[lat, lon];
         
     }
-//    [[HHCoachService sharedInstance] fetchCoachListWithCityId:self.userCity.cityId filters:weakSelf.coachFilters sortOption:weakSelf.currentSortOption userLocation:locationArray fields:nil perPage:nil completion:^(HHCoaches *coaches, NSError *error) {
-//        if (!error) {
-//            weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
-//            weakSelf.coachesObject = coaches;
-//            [weakSelf.tableView reloadData];
-//        } else {
-//            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
-//        }
-//        if (completion) {
-//            completion();
-//        }
-//        if (showLoading) {
-//            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-//        }
-//        
-//        
-//    }];
+    [[HHCoachService sharedInstance] fetchCoachListWithCityId:self.userCity.cityId filters:self.coachFilters sortOption:self.coachSortOption userLocation:locationArray fields:nil perPage:nil completion:^(HHCoaches *coaches, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (!error) {
+            weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
+            weakSelf.coachesObject = coaches;
+            [weakSelf.tableView2 reloadData];
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
+        }
+        if (completion) {
+            completion();
+        }
+        if (showLoading) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        }
+        
+    }];
 }
 
 - (void)loadMoreCoachesWithCompletion:(HHRefreshCoachCompletionBlock)completion {
@@ -200,46 +197,60 @@ static CGFloat const kCellHeightExpanded = 325.0f;
        if (!error) {
            [self.coaches addObjectsFromArray:coaches.coaches];
            self.coachesObject = coaches;
-           [self.tableView reloadData];
+           [self.tableView2 reloadData];
        }
        
-
    }];
 }
 
 
 - (void)refreshDrivingSchoolList:(BOOL)showLoading completion:(HHRefreshCoachCompletionBlock)completion {
-//    __weak HHFindCoachViewController *weakSelf = self;
-//    if (showLoading) {
-//        [[HHLoadingViewUtility sharedInstance] showLoadingView];
-//    }
-//   
-//    [[HHCoachService sharedInstance] fetchPersoanlCoachWithFilters:self.coachFilters2 sortOption:self.currentSortOption2 completion:^(HHPersonalCoaches *coaches, NSError *error) {
-//        if (!error) {
-//            weakSelf.personalCoaches = [NSMutableArray arrayWithArray:coaches.coaches];
-//            weakSelf.personalCoachesObject = coaches;
-//            [weakSelf.tableView2 reloadData];
-//        } else {
-//            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
-//        }
-//        if (completion) {
-//            completion();
-//        }
-//        if (showLoading) {
-//            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-//        }
-//    }];
+        __weak HHFindCoachViewController *weakSelf = self;
+    if (showLoading) {
+        [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    }
+    NSArray *locationArray;
+    if ([HHStudentStore sharedInstance].currentLocation) {
+        NSNumber *lat = @([HHStudentStore sharedInstance].currentLocation.coordinate.latitude);
+        NSNumber *lon = @([HHStudentStore sharedInstance].currentLocation.coordinate.longitude);
+        locationArray = @[lat, lon];
+        
+    }
+    [[HHCoachService sharedInstance] fetchDrivingSchoolListWithCityId:self.userCity.cityId filters:self.schoolFilters sortOption:self.schoolSortOption userLocation:locationArray perPage:@(20) completion:^(HHDrivingSchools *schools, NSError *error) {
+        if (!error) {
+            weakSelf.schools = [NSMutableArray arrayWithArray:schools.schools];
+            weakSelf.schoolsObject = schools;
+            [weakSelf.tableView reloadData];
+        } else {
+            [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
+        }
+        if (completion) {
+            completion();
+        }
+        if (showLoading) {
+            [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        }
+    }];
 }
 
-- (void)loadMorePersonalCoachesWithCompletion:(HHRefreshCoachCompletionBlock)completion {
-    
+- (void)loadMoreSchoolsWithCompletion:(HHRefreshCoachCompletionBlock)completion {
+    [[HHCoachService sharedInstance] fetchNextPageDrivingSchoolListWithURL:self.schoolsObject.nextPage completion:^(HHDrivingSchools *schools, NSError *error) {
+        if (completion) {
+            completion();
+        }
+        if (!error) {
+            [self.schools addObjectsFromArray:schools.schools];
+            self.schoolsObject = schools;
+            [self.tableView reloadData];
+        }
+        
+    }];
 
 }
 
-
-- (void)setCoachesObject:(HHCoaches *)coachesObject {
-    _coachesObject = coachesObject;
-    if (!coachesObject.nextPage) {
+- (void)setSchoolsObject:(HHDrivingSchools *)schoolsObject {
+    _schoolsObject = schoolsObject;
+    if (!schoolsObject.nextPage) {
         if ([self.coaches count]) {
             [self.loadMoreFooter setHidden:NO];
             
@@ -253,22 +264,32 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     }
 }
 
-- (void)setupDefaultSortAndFilter {
+
+- (void)setCoachesObject:(HHCoaches *)coachesObject {
+    _coachesObject = coachesObject;
+    if (!coachesObject.nextPage) {
+        if ([self.coaches count]) {
+            [self.loadMoreFooter2 setHidden:NO];
+            
+        } else {
+            [self.loadMoreFooter2 setHidden:YES];
+        }
+        [self.loadMoreFooter2 setState:MJRefreshStateNoMoreData];
+    } else {
+        [self.loadMoreFooter2 setHidden:NO];
+        [self.loadMoreFooter2 setState:MJRefreshStateIdle];
+    }
+}
+
+- (void)setupDefaultSortAndFilterForSchool{
     self.userCity = [[HHConstantsStore sharedInstance] getCityWithId:[HHStudentStore sharedInstance].selectedCityId];
-    self.coachFilters = [[HHFilters alloc] init];
-    self.coachFilters.distance = nil;
-    self.coachFilters.zone = nil;
-    self.coachFilters.priceStart = nil;
-    self.coachFilters.priceEnd = nil;
-    self.coachFilters.licenseType = @(3);
-    self.coachSortOption = CoachSortOptionPrice;
     
     self.schoolFilters = [[HHFilters alloc] init];
     self.schoolFilters.distance = nil;
     self.schoolFilters.zone = nil;
     self.schoolFilters.priceStart = nil;
     self.schoolFilters.priceEnd = nil;
-    self.schoolFilters.licenseType = @(3);
+    self.schoolFilters.licenseType = nil;
     self.schoolSortOption = SchoolSortOptionDefault;
     
     self.areas = [NSMutableArray arrayWithObject:@"附近"];
@@ -292,10 +313,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     
     self.sortOptions = [NSMutableArray arrayWithArray:@[@"综合排序", @"距离最近", @"评价最多", @"价格最低"]];
     
-    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:self.distances.count-1]];
-    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:0 item:-1]];
-    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:2 row:0 item:-1]];
-    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:3 row:self.sortOptions.count-1 item:-1]];
+    
     [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:self.distances.count-1]];
     [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:0 item:-1]];
     [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:2 row:0 item:-1]];
@@ -303,49 +321,23 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     
 }
 
-- (void)initSubviews {
-    __weak HHFindCoachViewController *weakSelf = self;
-//    self.filtersView = [[HHFiltersView alloc] initWithFilter:nil];
-//    self.filtersView.itemBlock = ^(HHFilterItemView *itemView) {
-//        NSInteger index = itemView.tag;
-//        NSMutableArray *data = [NSMutableArray array];
-//        if (index == 0) {
-//            NSMutableArray *disArray = [NSMutableArray array];
-//            for (NSNumber *num in weakSelf.userCity.distanceRanges) {
-//                [disArray addObject:[NSString stringWithFormat:@"%@km", [num stringValue]]];
-//            }
-//            [disArray addObject:@"全城"];
-//            NSDictionary *distance = @{@"附近":disArray};
-//            [data addObject:distance];
-//            [data addObjectsFromArray:weakSelf.userCity.zones];
-//            
-//        } else if (index == 1) {
-//            for (NSArray *rangeArray in weakSelf.userCity.priceRanges) {
-//                NSString *title = [NSString stringWithFormat:@"%@-%@元", [rangeArray firstObject], rangeArray[1]];
-//                [data addObject:title];
-//            }
-//        } else if (index == 2) {
-//            [data addObject:@"不限"];
-//            [data addObject:@"C1手动挡"];
-//            [data addObject:@"C2自动挡"];
-//        } else {
-//            [data addObject:@"综合排序"];
-//            [data addObject:@"距离最近"];
-//            [data addObject:@"评价最多"];
-//            [data addObject:@"价格最低"];
-//        }
-//        
-//        [weakSelf showDropDownWithData:data itemView:itemView];
-//    };
-//    [self.view addSubview:self.filtersView];
-//    [self.filtersView makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.view.top);
-//        make.left.equalTo(self.view.left);
-//        make.width.equalTo(self.view.width);
-//        make.height.mas_equalTo(40.0f);
-//
-//    }];
+- (void)setupDefaultSortAndFilterForCoach {
+    self.coachFilters = [[HHFilters alloc] init];
+    self.coachFilters.distance = nil;
+    self.coachFilters.zone = nil;
+    self.coachFilters.priceStart = nil;
+    self.coachFilters.priceEnd = nil;
+    self.coachFilters.licenseType = nil;
+    self.coachSortOption = CoachSortOptionPrice;
     
+    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:self.distances.count-1]];
+    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:0 item:-1]];
+    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:2 row:0 item:-1]];
+    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:3 row:self.sortOptions.count-1 item:-1]];
+}
+
+
+- (void)initSubviews {
     self.swipeView = [[SwipeView alloc] init];
     self.swipeView.pagingEnabled = YES;
     self.swipeView.dataSource = self;
@@ -378,30 +370,12 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     __weak HHFindCoachViewController *weakSelf = self;
     
-    if ([tableView isEqual:self.tableView]) {
+    if ([tableView isEqual:self.tableView2]) {
         HHCoachListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
-        __weak HHCoachListViewCell *weakCell = cell;
         
         HHCoach *coach = self.coaches[indexPath.row];
-        [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId] mapShowed:[weakSelf.expandedCellIndexPath containsObject:indexPath]];
+        [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId]];
         
-        if ([self.expandedCellIndexPath containsObject:indexPath]) {
-            cell.mapView.hidden = NO;
-        } else {
-            cell.mapView.hidden = YES;
-        }
-        
-        cell.mapButtonBlock = ^(){
-            if ([weakSelf.expandedCellIndexPath containsObject:indexPath]) {
-                [weakSelf.expandedCellIndexPath removeObject:indexPath];
-                weakCell.mapView.hidden = YES;
-                
-            } else {
-                weakCell.mapView.hidden = NO;
-                [weakSelf.expandedCellIndexPath addObject:indexPath];
-            }
-            [weakSelf.tableView reloadData];
-        };
         
         cell.drivingSchoolBlock = ^(HHDrivingSchool *school) {
             HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/jiaxiao/%@", [school.schoolId stringValue]]]];
@@ -412,14 +386,14 @@ static CGFloat const kCellHeightExpanded = 325.0f;
         return cell;
 
     } else {
-//        HHPersonalCoachTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kPersonalCoachCellId forIndexPath:indexPath];
-//        [cell setupCellWithCoach:self.personalCoaches[indexPath.row]];
-        return nil;
+        HHDrivingSchoolListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDrivingSchoolCellId forIndexPath:indexPath];
+        [cell setupCellWithSchool:self.schools[indexPath.row]];
+        return cell;
     }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([tableView isEqual:self.tableView]) {
+    if ([tableView isEqual:self.tableView2]) {
         return self.coaches.count;
     } else {
         return self.schools.count;
@@ -428,24 +402,12 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat height = 0;
-    if ([tableView isEqual:self.tableView]) {
-        if ([self.expandedCellIndexPath containsObject:indexPath]) {
-            height = kCellHeightExpanded + 40.0f;
-            
-        } else {
-            height = kCellHeightNormal + 40.0f;
-        }
-        return height;
-    } else {
-        return kCellHeightNormal;
-    }
-   
+    return kCellHeightNormal + 40.0f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     __weak HHFindCoachViewController *weakSelf = self;
-    if ([tableView isEqual:self.tableView]) {
+    if ([tableView isEqual:self.tableView2]) {
         HHCoach *selectedCoach = self.coaches[indexPath.row];
         HHCoachDetailViewController *coachDetailVC = [[HHCoachDetailViewController alloc] initWithCoach:self.coaches[indexPath.row]];
         coachDetailVC.coachUpdateBlock = ^(HHCoach *coach) {
@@ -518,11 +480,11 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     __weak HHFindCoachViewController *weakSelf = self;
     if (self.segControl.selectedSegmentIndex == ListTypeCoach) {
         [self refreshCoachList:NO completion:^{
-            [weakSelf.refreshHeader endRefreshing];
+            [weakSelf.refreshHeader2 endRefreshing];
         }];
     } else {
         [self refreshDrivingSchoolList:NO completion:^{
-            [weakSelf.refreshHeader2 endRefreshing];
+            [weakSelf.refreshHeader endRefreshing];
         }];
     }
     
@@ -532,11 +494,11 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     __weak HHFindCoachViewController *weakSelf = self;
     if (self.segControl.selectedSegmentIndex == ListTypeCoach) {
         [self loadMoreCoachesWithCompletion:^{
-            [weakSelf.loadMoreFooter endRefreshing];
+            [weakSelf.loadMoreFooter2 endRefreshing];
         }];
     } else {
-        [self loadMorePersonalCoachesWithCompletion:^{
-            [weakSelf.loadMoreFooter2 endRefreshing];
+        [self loadMoreSchoolsWithCompletion:^{
+            [weakSelf.loadMoreFooter endRefreshing];
         }];
     }
     
@@ -552,10 +514,10 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 #pragma mark - DZNEmptyDataSetSource Methods
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
-    if ([scrollView isEqual:self.tableView]) {
-        return [[NSMutableAttributedString alloc] initWithString:@"啥？！没有匹配到教练啊/(ㄒoㄒ)/~~点击左上角筛选按钮，并调节距离等因素来寻找更多教练吧!" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+    if ([scrollView isEqual:self.tableView2]) {
+        return [[NSMutableAttributedString alloc] initWithString:@"啥？！没有匹配到教练啊/(ㄒoㄒ)/~~点击页面上方筛选选项，并调节距离等因素来寻找更多教练吧!" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
     } else {
-        return [[NSMutableAttributedString alloc] initWithString:@"该城市还没开通哟~敬请期待！" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+        return [[NSMutableAttributedString alloc] initWithString:@"啥？！没有匹配到驾校啊/(ㄒoㄒ)/~~点击页面上方筛选选项，并调节距离等因素来寻找更多驾校吧!" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
     }
     
 }
@@ -604,6 +566,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 
 
 - (void)initViewForSwiptView:(UIView *)view index:(NSInteger)index {
+    __weak HHFindCoachViewController *weakSelf = self;
     if (index == ListTypeCoach) {
         self.coachFilterMenu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
         self.coachFilterMenu.delegate = self;
@@ -616,48 +579,78 @@ static CGFloat const kCellHeightExpanded = 325.0f;
         
         
         self.coachFilterMenu.finishedBlock=^(DOPIndexPath *indexPath){
-            if (indexPath.item >= 0) {
-                NSLog(@"收起:点击了 %ld - %ld - %ld 项目",indexPath.column,indexPath.row,indexPath.item);
-            }else {
-                NSLog(@"收起:点击了 %ld - %ld 项目",indexPath.column,indexPath.row);
+            if (indexPath.column == 0) {
+                if (indexPath.row == 0) {
+                    if (indexPath.item >= weakSelf.userCity.distanceRanges.count) {
+                        weakSelf.coachFilters.distance = nil;
+                    } else {
+                        weakSelf.coachFilters.distance = weakSelf.userCity.distanceRanges[indexPath.item];
+                    }
+                } else {
+                    weakSelf.coachFilters.zone = weakSelf.userCity.zones[indexPath.row -1];
+                }
+            } else if (indexPath.column == 1) {
+                if (indexPath.row == 0) {
+                    weakSelf.coachFilters.priceStart = nil;
+                    weakSelf.coachFilters.priceEnd = nil;
+                } else if (indexPath.row == weakSelf.userCity.priceRanges.count + 1) {
+                    weakSelf.coachFilters.priceStart = weakSelf.userCity.priceRanges[indexPath.row-2][1];
+                    weakSelf.coachFilters.priceEnd = nil;
+                    
+                } else {
+                    weakSelf.coachFilters.priceStart = weakSelf.userCity.priceRanges[indexPath.row-1][0];
+                    weakSelf.coachFilters.priceEnd = weakSelf.userCity.priceRanges[indexPath.row-1][1];
+                }
+                
+            } else if (indexPath.column == 2) {
+                if (indexPath.row == 0) {
+                    weakSelf.coachFilters.licenseType = nil;
+                } else {
+                    weakSelf.coachFilters.licenseType = @(indexPath.row);
+                }
+            } else {
+                weakSelf.coachSortOption = indexPath.row;
             }
+            [weakSelf refreshCoachList:YES completion:nil];
+
         };
         
-        self.tableView = [[UITableView alloc] init];
-        self.tableView.delegate = self;
-        self.tableView.dataSource = self;
-        self.tableView.emptyDataSetSource = self;
-        self.tableView.emptyDataSetDelegate = self;
-        self.tableView.showsVerticalScrollIndicator = NO;
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        self.tableView2 = [[UITableView alloc] init];
+        self.tableView2.delegate = self;
+        self.tableView2.dataSource = self;
+        self.tableView2.emptyDataSetSource = self;
+        self.tableView2.emptyDataSetDelegate = self;
+        self.tableView2.showsVerticalScrollIndicator = NO;
+        self.tableView2.separatorStyle = UITableViewCellSeparatorStyleNone;
         
-        self.refreshHeader = [HHGifRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
+        self.refreshHeader2 = [HHGifRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
         NSString *imgString = [[NSBundle mainBundle] pathForResource:@"loading_car" ofType:@"gif"];
         NSData *imgData = [NSData dataWithContentsOfFile:imgString];
-        self.refreshHeader.imgView.animatedImage = [FLAnimatedImage animatedImageWithGIFData:imgData];
-        self.tableView.mj_header = self.refreshHeader;
+        self.refreshHeader2.imgView.animatedImage = [FLAnimatedImage animatedImageWithGIFData:imgData];
+        self.tableView2.mj_header = self.refreshHeader2;
         
-        self.loadMoreFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-        [self.loadMoreFooter setTitle:@"加载更多教练" forState:MJRefreshStateIdle];
-        [self.loadMoreFooter setTitle:@"一大波教练接近中~~~" forState:MJRefreshStateRefreshing];
-        [self.loadMoreFooter setTitle:@"已经到底啦~再往上选选吧！" forState:MJRefreshStateNoMoreData];
-        [self.loadMoreFooter setHidden:YES];
-        self.loadMoreFooter.automaticallyRefresh = NO;
-        self.loadMoreFooter.stateLabel.font = [UIFont systemFontOfSize:14.0f];
-        self.loadMoreFooter.stateLabel.textColor = [UIColor HHLightTextGray];
-        self.tableView.mj_footer = self.loadMoreFooter;
+        self.loadMoreFooter2 = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+        [self.loadMoreFooter2 setTitle:@"加载更多教练" forState:MJRefreshStateIdle];
+        [self.loadMoreFooter2 setTitle:@"一大波教练接近中~~~" forState:MJRefreshStateRefreshing];
+        [self.loadMoreFooter2 setTitle:@"已经到底啦~再往上选选吧！" forState:MJRefreshStateNoMoreData];
+        [self.loadMoreFooter2 setHidden:YES];
+        self.loadMoreFooter2.automaticallyRefresh = NO;
+        self.loadMoreFooter2.stateLabel.font = [UIFont systemFontOfSize:14.0f];
+        self.loadMoreFooter2.stateLabel.textColor = [UIColor HHLightTextGray];
+        self.tableView2.mj_footer = self.loadMoreFooter2;
         
-        [self.tableView registerClass:[HHCoachListViewCell class] forCellReuseIdentifier:kCellId];
+        [self.tableView2 registerClass:[HHCoachListViewCell class] forCellReuseIdentifier:kCellId];
         
-        [view addSubview:self.tableView];
+        [view addSubview:self.tableView2];
         
         
-        [self.tableView makeConstraints:^(MASConstraintMaker *make) {
+        [self.tableView2 makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.coachFilterMenu.bottom);
             make.left.equalTo(view.left);
             make.bottom.equalTo(view.bottom).offset(-1 * CGRectGetHeight(self.tabBarController.tabBar.frame));
             make.width.equalTo(view.width);
         }];
+        [self setupDefaultSortAndFilterForCoach];
     } else {
         
         self.schoolFilterMenu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
@@ -677,53 +670,52 @@ static CGFloat const kCellHeightExpanded = 325.0f;
             }
         };
         
-        self.tableView2 = [[UITableView alloc] init];
-        self.tableView2.delegate = self;
-        self.tableView2.dataSource = self;
-        self.tableView2.emptyDataSetSource = self;
-        self.tableView2.emptyDataSetDelegate = self;
-        self.tableView2.separatorStyle = UITableViewCellSeparatorStyleNone;
-        self.tableView2.showsVerticalScrollIndicator = NO;
+        self.tableView = [[UITableView alloc] init];
+        self.tableView.delegate = self;
+        self.tableView.dataSource = self;
+        self.tableView.emptyDataSetSource = self;
+        self.tableView.emptyDataSetDelegate = self;
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        self.tableView.showsVerticalScrollIndicator = NO;
         
-        self.refreshHeader2 = [HHGifRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
+        self.refreshHeader = [HHGifRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
         NSString *imgString = [[NSBundle mainBundle] pathForResource:@"loading_car" ofType:@"gif"];
         NSData *imgData = [NSData dataWithContentsOfFile:imgString];
-        self.refreshHeader2.imgView.animatedImage = [FLAnimatedImage animatedImageWithGIFData:imgData];
-        self.tableView2.mj_header = self.refreshHeader2;
+        self.refreshHeader.imgView.animatedImage = [FLAnimatedImage animatedImageWithGIFData:imgData];
+        self.tableView.mj_header = self.refreshHeader;
         
-        self.loadMoreFooter2 = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-        [self.loadMoreFooter2 setTitle:@"加载更多驾校" forState:MJRefreshStateIdle];
-        [self.loadMoreFooter2 setTitle:@"一大波驾校接近中~~~" forState:MJRefreshStateRefreshing];
-        [self.loadMoreFooter2 setTitle:@"已经到底啦~再往上选选吧！" forState:MJRefreshStateNoMoreData];
-        [self.loadMoreFooter2 setHidden:YES];
-        self.loadMoreFooter2.automaticallyRefresh = NO;
-        self.loadMoreFooter2.stateLabel.font = [UIFont systemFontOfSize:14.0f];
-        self.loadMoreFooter2.stateLabel.textColor = [UIColor HHLightTextGray];
-        self.tableView2.mj_footer = self.loadMoreFooter2;
+        self.loadMoreFooter = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+        [self.loadMoreFooter setTitle:@"加载更多驾校" forState:MJRefreshStateIdle];
+        [self.loadMoreFooter setTitle:@"一大波驾校接近中~~~" forState:MJRefreshStateRefreshing];
+        [self.loadMoreFooter setTitle:@"已经到底啦~再往上选选吧！" forState:MJRefreshStateNoMoreData];
+        [self.loadMoreFooter setHidden:YES];
+        self.loadMoreFooter.automaticallyRefresh = NO;
+        self.loadMoreFooter.stateLabel.font = [UIFont systemFontOfSize:14.0f];
+        self.loadMoreFooter.stateLabel.textColor = [UIColor HHLightTextGray];
+        self.tableView.mj_footer = self.loadMoreFooter;
         
-        [self.tableView2 registerClass:[HHPersonalCoachTableViewCell class] forCellReuseIdentifier:kPersonalCoachCellId];
+        [self.tableView registerClass:[HHDrivingSchoolListViewCell class] forCellReuseIdentifier:kDrivingSchoolCellId];
         
-        [view addSubview:self.tableView2];
+        [view addSubview:self.tableView];
         
         
-        [self.tableView2 makeConstraints:^(MASConstraintMaker *make) {
+        [self.tableView makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.schoolFilterMenu.bottom);
             make.left.equalTo(view.left);
             make.bottom.equalTo(view.bottom).offset(-1 * CGRectGetHeight(self.tabBarController.tabBar.frame));
             make.width.equalTo(view.width);
         }];
-        
+        [self setupDefaultSortAndFilterForSchool];
     }
-    [self setupDefaultSortAndFilter];
     
 }
 
 - (void)segValueChanged {
     [self.swipeView scrollToPage:self.segControl.selectedSegmentIndex duration:0.3f];
     if (self.segControl.selectedSegmentIndex == ListTypeCoach) {
-        [self.tableView reloadData];
-    } else {
         [self.tableView2 reloadData];
+    } else {
+        [self.tableView reloadData];
     }
 }
 
@@ -752,7 +744,9 @@ static CGFloat const kCellHeightExpanded = 325.0f;
 }
 
 - (void)cityChanged {
-    [self setupDefaultSortAndFilter];
+    self.userCity = [[HHConstantsStore sharedInstance] getCityWithId:[HHStudentStore sharedInstance].selectedCityId];
+    [self setupDefaultSortAndFilterForCoach];
+    [self setupDefaultSortAndFilterForSchool];
     [self refreshCoachList:NO completion:nil];
     [self refreshDrivingSchoolList:NO completion:nil];
 }
@@ -794,8 +788,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     }
 }
 
-- (NSInteger)menu:(DOPDropDownMenu *)menu numberOfItemsInRow:(NSInteger)row column:(NSInteger)column
-{
+- (NSInteger)menu:(DOPDropDownMenu *)menu numberOfItemsInRow:(NSInteger)row column:(NSInteger)column {
     if (column == 0) {
         if (row == 0) {
             return self.distances.count;
@@ -804,8 +797,7 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     return 0;
 }
 
-- (NSString *)menu:(DOPDropDownMenu *)menu titleForItemsInRowAtIndexPath:(DOPIndexPath *)indexPath
-{
+- (NSString *)menu:(DOPDropDownMenu *)menu titleForItemsInRowAtIndexPath:(DOPIndexPath *)indexPath {
     if (indexPath.column == 0) {
         if (indexPath.row == 0) {
             return self.distances[indexPath.item];
@@ -814,15 +806,8 @@ static CGFloat const kCellHeightExpanded = 325.0f;
     return nil;
 }
 
-- (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath
-{
-    if (indexPath.item >= 0) {
-        NSLog(@"点击了 %ld - %ld - %ld 项目",indexPath.column,indexPath.row,indexPath.item);
-    }else {
-        NSLog(@"点击了 %ld - %ld 项目",indexPath.column,indexPath.row);
-    }
+- (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath {
+    
 }
-
-
 
 @end

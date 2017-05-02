@@ -663,9 +663,6 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:_cellStyle reuseIdentifier:identifier];
         //cell.separatorInset = UIEdgeInsetsZero;
-        DOPBackgroundCellView *bg = [[DOPBackgroundCellView alloc]init];
-        bg.backgroundColor = [UIColor whiteColor];
-        cell.selectedBackgroundView = bg;
         cell.textLabel.highlightedTextColor = _textSelectedColor;
         cell.textLabel.textColor = _textColor;
         cell.textLabel.font = [UIFont systemFontOfSize:_fontSize];
@@ -676,6 +673,15 @@
     }
     //NSAssert(_dataSource != nil, @"menu's datasource shouldn't be nil");
     if (tableView == _leftTableView) {
+        if (self.currentSelectedMenudIndex != 0) {
+            DOPBackgroundCellView *bg = [[DOPBackgroundCellView alloc] init];
+            bg.backgroundColor = [UIColor whiteColor];
+            cell.selectedBackgroundView = bg;
+        } else {
+            UIView *bg = [[UIView alloc] init];
+            bg.backgroundColor = [UIColor whiteColor];
+            cell.selectedBackgroundView = bg;
+        }
         if (_dataSourceFlags.titleForRowAtIndexPath) {
             cell.textLabel.text = [_dataSource menu:self titleForRowAtIndexPath:[DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:indexPath.row]];
             if (_dataSourceFlags.imageNameForRowAtIndexPath) {
@@ -720,6 +726,9 @@
         
         
     } else {
+        DOPBackgroundCellView *bg = [[DOPBackgroundCellView alloc] init];
+        bg.backgroundColor = [UIColor whiteColor];
+        cell.selectedBackgroundView = bg;
         if (_dataSourceFlags.titleForItemsInRowAtIndexPath) {
             NSInteger currentSelectedMenudRow = [_currentSelectRowArray[_currentSelectedMenudIndex] integerValue];
             cell.textLabel.text = [_dataSource menu:self titleForItemsInRowAtIndexPath:[DOPIndexPath indexPathWithCol:_currentSelectedMenudIndex row:currentSelectedMenudRow item:indexPath.row]];

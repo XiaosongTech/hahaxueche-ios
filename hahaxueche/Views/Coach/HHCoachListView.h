@@ -18,13 +18,10 @@
 @property (nonatomic, strong) UIImageView *avatarView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) HHCoachBadgeView *badgeView;
-@property (nonatomic, strong) UILabel *trainingYearLabel;
 @property (nonatomic, strong) UIView *bottomLine;
 @property (nonatomic, strong) HHStarRatingView *starRatingView;
 @property (nonatomic, strong) UILabel *ratingLabel;
-@property (nonatomic, strong) UIButton *mapButton;
-@property (nonatomic, strong) UIButton *likeButton;
-@property (nonatomic, strong) UILabel *likeCountLabel;
+@property (nonatomic, strong) UILabel *fieldLabel;
 @property (nonatomic, strong) HHCoachTagView *jiaxiaoView;
 
 @property (nonatomic, strong) HHField *field;

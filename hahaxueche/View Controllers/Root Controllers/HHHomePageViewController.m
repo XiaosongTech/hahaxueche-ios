@@ -526,6 +526,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
     [HHConstantsStore sharedInstance].fields = nil;
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem  buttonItemWithAttrTitle:[self generateAttrStringWithText:city.cityName image:[UIImage imageNamed:@"Triangle"] type:1] action:@selector(cityTapped) target:self isLeft:YES];
     [[HHConstantsStore sharedInstance] getCityWithCityId:city.cityId completion:^(HHCity *city) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"cityChanged" object:nil];
         self.drivingSchools = city.drivingSchools;
         [self.drivingSchoolsView updateData:self.drivingSchools type:CarouselTypeDrivingSchool];
     }];
@@ -538,7 +539,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
         locationArray = @[lat, lon];
     }
     
-    [[HHConstantsStore sharedInstance] getFieldsWithCityId:city.cityId completion:^(NSArray *schools) {
+    [[HHConstantsStore sharedInstance] getFieldsWithCityId:city.cityId completion:^(NSArray *fields) {
         [[HHCoachService sharedInstance] fetchCoachListWithCityId:city.cityId filters:nil sortOption:CoachSortOptionDistance userLocation:locationArray fields:nil perPage:nil completion:^(HHCoaches *coaches, NSError *error) {
             if (!error) {
                 self.coaches = coaches.coaches;
@@ -547,8 +548,6 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
             }
         }];
     }];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"cityChanged" object:nil];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:city.cityId forKey:@"userSelectedCity"];

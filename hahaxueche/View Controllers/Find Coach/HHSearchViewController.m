@@ -31,7 +31,6 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) NSMutableArray *coaches;
-@property (nonatomic, strong) NSMutableArray *expandedCellIndexPath;
 @property (nonatomic, strong) HHSearchHistoryListView *searchHistoryListView;
 
 @end
@@ -42,7 +41,6 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    self.expandedCellIndexPath = [NSMutableArray array];
     
     self.searchBar = [[UISearchBar alloc] init];
     self.searchBar.tintColor = [UIColor HHOrange];
@@ -88,28 +86,9 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     
     HHCoachListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
     __weak HHSearchViewController *weakSelf = self;
-    __weak HHCoachListViewCell *weakCell = cell;
     
     HHCoach *coach = self.coaches[indexPath.row];
-    [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId] mapShowed:[weakSelf.expandedCellIndexPath containsObject:indexPath]];
-    
-    if ([self.expandedCellIndexPath containsObject:indexPath]) {
-        cell.mapView.hidden = NO;
-    } else {
-        cell.mapView.hidden = YES;
-    }
-    
-    cell.mapButtonBlock = ^(){
-        if ([weakSelf.expandedCellIndexPath containsObject:indexPath]) {
-            [weakSelf.expandedCellIndexPath removeObject:indexPath];
-            weakCell.mapView.hidden = YES;
-            
-        } else {
-            weakCell.mapView.hidden = NO;
-            [weakSelf.expandedCellIndexPath addObject:indexPath];
-        }
-        [weakSelf.tableView reloadData];
-    };
+    [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId]];
     
     cell.drivingSchoolBlock = ^(HHDrivingSchool *school) {
         HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/jiaxiao/%@", [school.schoolId stringValue]]]];
@@ -127,20 +106,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat height = 0;
-    if ([tableView isEqual:self.tableView]) {
-        if ([self.expandedCellIndexPath containsObject:indexPath]) {
-            height = kCellHeightExpanded + 40.0f;
-            
-        } else {
-            height = kCellHeightNormal + 40.0f;
-        }
-        return height;
-    } else {
-        return kCellHeightNormal;
-    }
-
-    
+    return kCellHeightNormal + 40.0f;;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
