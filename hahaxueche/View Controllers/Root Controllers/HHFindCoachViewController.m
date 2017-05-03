@@ -30,7 +30,6 @@
 #import "HHSearchViewController.h"
 #import "HHGifRefreshHeader.h"
 #import "UIScrollView+EmptyDataSet.h"
-#import "SwipeView.h"
 #import "HHDrivingSchoolListViewCell.h"
 #import "HHGenericOneButtonPopupView.h"
 #import "HHAppVersionUtility.h"
@@ -38,18 +37,15 @@
 #import "HHWebViewController.h"
 #import "HHSupportUtility.h"
 #import "DOPDropDownMenu.h"
+#import "HHHotSchoolsTableViewCell.h"
 
-typedef NS_ENUM(NSInteger, ListType) {
-    ListTypeDrivingSchool,
-    ListTypeCoach,
-    ListTypeCount,
-};
 
 static NSString *const kCellId = @"kCoachListCellId";
 static NSString *const kDrivingSchoolCellId = @"kDrivingSchoolCellId";
+static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
 static NSString *const kFindCoachGuideKey = @"kFindCoachGuideKey";
 static CGFloat const kCellHeightNormal = 100.0f;
-static CGFloat const kCellHeightExpanded = 305.0f;
+static NSInteger const kHotSchoolIndex = 4;
 
 @interface HHFindCoachViewController () <UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate,SwipeViewDataSource, SwipeViewDelegate, DOPDropDownMenuDataSource,DOPDropDownMenuDelegate>
 
@@ -77,7 +73,6 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 @property (nonatomic, strong) HHCoaches *coachesObject;
 @property (nonatomic, strong) HHDrivingSchools *schoolsObject;
 
-@property (nonatomic, strong) SwipeView *swipeView;
 @property (nonatomic, strong) UISegmentedControl *segControl;
 @property (nonatomic, strong) HHGenericOneButtonPopupView *personalCoachExplanationView;
 
@@ -174,6 +169,11 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
         if (!error) {
             weakSelf.coaches = [NSMutableArray arrayWithArray:coaches.coaches];
+            if (weakSelf.coaches.count > kHotSchoolIndex) {
+                [weakSelf.coaches insertObject:kHotSchoolCellId atIndex:kHotSchoolIndex];
+            } else {
+                [weakSelf.coaches addObject:kHotSchoolCellId];
+            }
             weakSelf.coachesObject = coaches;
             [weakSelf.tableView2 reloadData];
         } else {
@@ -220,6 +220,11 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         if (!error) {
             weakSelf.schools = [NSMutableArray arrayWithArray:schools.schools];
             weakSelf.schoolsObject = schools;
+            if (weakSelf.schools.count > kHotSchoolIndex) {
+                [weakSelf.schools insertObject:kHotSchoolCellId atIndex:kHotSchoolIndex];
+            } else {
+                [weakSelf.schools addObject:kHotSchoolCellId];
+            }
             [weakSelf.tableView reloadData];
         } else {
             [[HHToastManager sharedManager] showErrorToastWithText:@"出错了, 请重试!"];
@@ -371,8 +376,14 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     __weak HHFindCoachViewController *weakSelf = self;
     
     if ([tableView isEqual:self.tableView2]) {
+        if (indexPath.row == kHotSchoolIndex || indexPath.row == self.coaches.count-1) {
+            if ([self.coaches[indexPath.row] isKindOfClass:[NSString class]]) {
+                HHHotSchoolsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kHotSchoolCellId forIndexPath:indexPath];
+                return cell;
+            }
+            
+        }
         HHCoachListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
-        
         HHCoach *coach = self.coaches[indexPath.row];
         [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId]];
         
@@ -386,8 +397,20 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         return cell;
 
     } else {
+        if (indexPath.row == kHotSchoolIndex || indexPath.row == self.schools.count-1) {
+            if ([self.schools[indexPath.row] isKindOfClass:[NSString class]]) {
+                HHHotSchoolsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kHotSchoolCellId forIndexPath:indexPath];
+                return cell;
+            }
+            
+        }
         HHDrivingSchoolListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDrivingSchoolCellId forIndexPath:indexPath];
         [cell setupCellWithSchool:self.schools[indexPath.row]];
+        cell.grouponBlock = ^{
+            HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/tuan?promo_code=456134"]];
+            webVC.hidesBottomBarWhenPushed = YES;
+            [weakSelf.navigationController pushViewController:webVC animated:YES];
+        };
         return cell;
     }
 }
@@ -402,12 +425,27 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return kCellHeightNormal + 40.0f;
+    if ([tableView isEqual:self.tableView]) {
+        if ([self.schools[indexPath.row] isKindOfClass:[NSString class]]) {
+            return 170.0f;
+        } else {
+            return kCellHeightNormal + 40.0f;
+        }
+    } else {
+        if ([self.coaches[indexPath.row] isKindOfClass:[NSString class]]) {
+            return 170.0f;
+        } else {
+            return kCellHeightNormal + 40.0f;
+        }
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     __weak HHFindCoachViewController *weakSelf = self;
     if ([tableView isEqual:self.tableView2]) {
+        if ([self.coaches[indexPath.row] isKindOfClass:[NSString class]]) {
+            return;
+        }
         HHCoach *selectedCoach = self.coaches[indexPath.row];
         HHCoachDetailViewController *coachDetailVC = [[HHCoachDetailViewController alloc] initWithCoach:self.coaches[indexPath.row]];
         coachDetailVC.coachUpdateBlock = ^(HHCoach *coach) {
@@ -418,7 +456,9 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         [self.navigationController pushViewController:coachDetailVC animated:YES];
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_coach_tapped attributes:@{@"coach_id":selectedCoach.coachId}];
     } else {
-        
+        if ([self.schools[indexPath.row] isKindOfClass:[NSString class]]) {
+            return;
+        }
     }
     
 }
@@ -640,6 +680,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         self.tableView2.mj_footer = self.loadMoreFooter2;
         
         [self.tableView2 registerClass:[HHCoachListViewCell class] forCellReuseIdentifier:kCellId];
+        [self.tableView2 registerClass:[HHHotSchoolsTableViewCell class] forCellReuseIdentifier:kHotSchoolCellId];
         
         [view addSubview:self.tableView2];
         
@@ -663,11 +704,39 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         [view addSubview:self.schoolFilterMenu];
         
         self.schoolFilterMenu.finishedBlock=^(DOPIndexPath *indexPath){
-            if (indexPath.item >= 0) {
-                NSLog(@"收起:点击了 %ld - %ld - %ld 项目",indexPath.column,indexPath.row,indexPath.item);
-            }else {
-                NSLog(@"收起:点击了 %ld - %ld 项目",indexPath.column,indexPath.row);
+            if (indexPath.column == 0) {
+                if (indexPath.row == 0) {
+                    if (indexPath.item >= weakSelf.userCity.distanceRanges.count) {
+                        weakSelf.schoolFilters.distance = nil;
+                    } else {
+                        weakSelf.schoolFilters.distance = weakSelf.userCity.distanceRanges[indexPath.item];
+                    }
+                } else {
+                    weakSelf.schoolFilters.zone = weakSelf.userCity.zones[indexPath.row -1];
+                }
+            } else if (indexPath.column == 1) {
+                if (indexPath.row == 0) {
+                    weakSelf.schoolFilters.priceStart = nil;
+                    weakSelf.schoolFilters.priceEnd = nil;
+                } else if (indexPath.row == weakSelf.userCity.priceRanges.count + 1) {
+                    weakSelf.schoolFilters.priceStart = weakSelf.userCity.priceRanges[indexPath.row-2][1];
+                    weakSelf.schoolFilters.priceEnd = nil;
+                    
+                } else {
+                    weakSelf.schoolFilters.priceStart = weakSelf.userCity.priceRanges[indexPath.row-1][0];
+                    weakSelf.schoolFilters.priceEnd = weakSelf.userCity.priceRanges[indexPath.row-1][1];
+                }
+                
+            } else if (indexPath.column == 2) {
+                if (indexPath.row == 0) {
+                    weakSelf.schoolFilters.licenseType = nil;
+                } else {
+                    weakSelf.schoolFilters.licenseType = @(indexPath.row);
+                }
+            } else {
+                weakSelf.schoolSortOption = indexPath.row;
             }
+            [weakSelf refreshDrivingSchoolList:YES completion:nil];
         };
         
         self.tableView = [[UITableView alloc] init];
@@ -695,6 +764,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
         self.tableView.mj_footer = self.loadMoreFooter;
         
         [self.tableView registerClass:[HHDrivingSchoolListViewCell class] forCellReuseIdentifier:kDrivingSchoolCellId];
+        [self.tableView registerClass:[HHHotSchoolsTableViewCell class] forCellReuseIdentifier:kHotSchoolCellId];
         
         [view addSubview:self.tableView];
         

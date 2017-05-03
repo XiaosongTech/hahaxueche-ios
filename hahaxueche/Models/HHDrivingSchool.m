@@ -24,6 +24,8 @@
              @"consultCount":@"consult_count",
              @"avatar":@"avatar",
              @"consultPhone":@"consult_phone",
+             @"zones":@"zones",
+             @"distance":@"distance",
              };
 }
 

@@ -57,9 +57,6 @@
 
 static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
 
-static NSString *const kDrivingSchoolPage = @"https://m.hahaxueche.com/jiaxiao";
-static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxueche.com/jiaxiao";
-
 @interface HHHomePageViewController ()
 
 @property (nonatomic, strong) FLAnimatedImageView *findCoachView;
@@ -270,31 +267,19 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
     
     self.drivingSchoolsView = [[HHCarouselView alloc] initWithType:CarouselTypeDrivingSchool data:self.drivingSchools];
     self.drivingSchoolsView.buttonAction = ^() {
-        NSString *url;
-        #ifdef DEBUG
-            url = kDrivingSchoolPageStaging;
-        #else
-            url = kDrivingSchoolPage;
-        #endif
-        [weakSelf openWebPage:[NSURL URLWithString:url]];
+        [weakSelf jumpToCoachDrivingSchoolVCWithIndex:ListTypeDrivingSchool];
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_hot_school_more_tapped attributes:nil];
     };
     self.drivingSchoolsView.itemAction = ^(NSInteger index) {
         HHDrivingSchool *school = weakSelf.drivingSchools[index];
-        NSString *url;
-        #ifdef DEBUG
-            url = kDrivingSchoolPageStaging;
-        #else
-            url = kDrivingSchoolPage;
-        #endif
-        [weakSelf openWebPage:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", url, school.schoolId]]];
+        //jump to school detail page
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_hot_school_tapped attributes:@{@"index":@(index)}];
     };
     [self.scrollView addSubview:self.drivingSchoolsView];
     
     self.coachesView = [[HHCarouselView alloc] initWithType:CarouselTypeCoach data:nil];
     self.coachesView.buttonAction = ^() {
-        weakSelf.tabBarController.selectedIndex = TabBarItemCoach;
+        [weakSelf jumpToCoachDrivingSchoolVCWithIndex:ListTypeCoach];
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_hot_coach_more_tapped attributes:nil];
     };
     self.coachesView.itemAction = ^(NSInteger index) {
@@ -506,18 +491,12 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
 }
 
 - (void)findCoachViewTapped {
-    self.tabBarController.selectedIndex = TabBarItemCoach;
-     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_navigation_search_tapped attributes:nil];
+    [self jumpToCoachDrivingSchoolVCWithIndex:ListTypeCoach];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_navigation_search_tapped attributes:nil];
 }
 
 - (void)findJiaxiaoViewTapped {
-    NSString *url;
-    #ifdef DEBUG
-        url = kDrivingSchoolPageStaging;
-    #else
-        url = kDrivingSchoolPage;
-    #endif
-    [self openWebPage:[NSURL URLWithString:url]];
+    [self jumpToCoachDrivingSchoolVCWithIndex:ListTypeDrivingSchool];
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_select_school_tapped attributes:nil];
 }
 
@@ -638,6 +617,14 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
             [self presentViewController:navVC animated:YES completion:nil];
         }
     }];
+}
+
+- (void)jumpToCoachDrivingSchoolVCWithIndex:(NSInteger)index {
+    self.tabBarController.selectedIndex = TabBarItemCoach;
+    UINavigationController *navVC = self.tabBarController.viewControllers[TabBarItemCoach];
+    HHFindCoachViewController *vc = [navVC.viewControllers firstObject];
+    [vc.swipeView scrollToPage:index duration:0.3f];
+
 }
 
 

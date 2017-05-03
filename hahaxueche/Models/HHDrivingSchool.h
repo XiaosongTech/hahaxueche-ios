@@ -22,5 +22,8 @@
 @property (nonatomic, strong) NSNumber *consultCount;
 @property (nonatomic, strong) NSString *avatar;
 @property (nonatomic, strong) NSString *consultPhone;
+@property (nonatomic, strong) NSArray *zones;
+@property (nonatomic, strong) NSNumber *distance;
+@property (nonatomic, strong) NSString *nearestFieldZone;
 
 @end

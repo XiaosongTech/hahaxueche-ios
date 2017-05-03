@@ -14,7 +14,6 @@
 #import "NSNumber+HHNumber.h"
 #import <UIImageView+WebCache.h>
 #import "HHSupportUtility.h"
-#import "NSNumber+HHNumber.h"
 
 static CGFloat const kAvatarRadius = 30.0f;
 
@@ -37,7 +36,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.avatarView.layer.masksToBounds = YES;
     [self.contentView addSubview:self.avatarView];
     
-    self.nameLabel = [self createLabelWithFont:[UIFont systemFontOfSize:20.0f] textColor:[UIColor colorWithRed:0.43 green:0.43 blue:0.43 alpha:1]];
+    self.nameLabel = [self createLabelWithFont:[UIFont systemFontOfSize:20.0f] textColor:[UIColor HHTextDarkGray]];
     [self.nameLabel sizeToFit];
     [self.contentView addSubview:self.nameLabel];
     
@@ -116,7 +115,7 @@ static CGFloat const kAvatarRadius = 30.0f;
     
     [self.bottomLine makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.contentView.bottom);
-        make.left.equalTo(self.avatarView.left);
+        make.left.equalTo(self.contentView.left);
         make.right.equalTo(self.contentView.right);
         make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
     }];

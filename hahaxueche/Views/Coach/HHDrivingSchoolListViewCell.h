@@ -14,6 +14,7 @@
 #import "HHCoachTagView.h"
 #import "HHGradientButton.h"
 
+typedef void (^HHDrivingSchoolGrouponCompletion)();
 
 @interface HHDrivingSchoolListViewCell : UITableViewCell
 
@@ -29,9 +30,16 @@
 @property (nonatomic, strong) UILabel *consultNumLabel;
 
 @property (nonatomic, strong) UIView *fieldContainerView;
+@property (nonatomic, strong) UIView *fieldContainerLine;
+@property (nonatomic, strong) UILabel *fieldLeftLabel;
+@property (nonatomic, strong) UILabel *fieldRightLabel;
 
 @property (nonatomic, strong) UILabel *priceTitleLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
-@property (nonatomic, strong) UIImage *priceArror;
+@property (nonatomic, strong) UIImageView *priceArrow;
+@property (nonatomic, strong) UIView *grouponView;
+@property (nonatomic, strong) HHDrivingSchoolGrouponCompletion grouponBlock;
+
+@property (nonatomic, strong) HHDrivingSchool *school;
 
 @end
