@@ -291,7 +291,7 @@
     
                 return [[NSMutableAttributedString alloc] initWithAttributedString:[NSAttributedString attributedStringWithAttachment:textAttachment]];
             }
-            NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:school.nearestFieldZone attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHOrange]}];
+            NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@ ", school.nearestFieldZone] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
             
             NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
             textAttachment.image = [UIImage imageNamed:@"ic_list_local_btn"];
@@ -342,21 +342,12 @@
         make.centerY.equalTo(view.centerY);
     }];
     
-    UITapGestureRecognizer *rec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(grouponViewTapped)];
-    [view addGestureRecognizer:rec];
-    
     
     return view;
 }
 
 - (void)callSchool {
     [[HHSupportUtility sharedManager] callSupportWithNumber:self.school.consultPhone];
-}
-
-- (void)grouponViewTapped {
-    if (self.grouponBlock) {
-        self.grouponBlock();
-    }
 }
 
 @end

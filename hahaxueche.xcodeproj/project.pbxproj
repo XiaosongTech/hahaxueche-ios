@@ -553,6 +553,13 @@
 		6D6763B31EB9D75E005ECBFB /* schoollist_ic_tuan@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D6763B01EB9D75E005ECBFB /* schoollist_ic_tuan@2x.png */; };
 		6D6763B41EB9D75E005ECBFB /* schoollist_ic_tuan@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D6763B11EB9D75E005ECBFB /* schoollist_ic_tuan@3x.png */; };
 		6D6763B71EB9ED5B005ECBFB /* HHHotSchoolsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6763B61EB9ED5B005ECBFB /* HHHotSchoolsTableViewCell.m */; };
+		6D6763BB1EBAF64D005ECBFB /* ic_hot.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D6763B81EBAF64D005ECBFB /* ic_hot.png */; };
+		6D6763BC1EBAF64D005ECBFB /* ic_hot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D6763B91EBAF64D005ECBFB /* ic_hot@2x.png */; };
+		6D6763BD1EBAF64D005ECBFB /* ic_hot@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D6763BA1EBAF64D005ECBFB /* ic_hot@3x.png */; };
+		6D6763C01EBB0C07005ECBFB /* HHDrivingSchoolDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6763BF1EBB0C07005ECBFB /* HHDrivingSchoolDetailViewController.m */; };
+		6D6763C41EBB2A33005ECBFB /* HHSchoolBasicInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6763C31EBB2A33005ECBFB /* HHSchoolBasicInfoTableViewCell.m */; };
+		6D6763C61EBB3795005ECBFB /* markdown_bell.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6D6763C51EBB3795005ECBFB /* markdown_bell.gif */; };
+		6D6763C91EBB41A6005ECBFB /* HHSchoolGenericView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6763C81EBB41A6005ECBFB /* HHSchoolGenericView.m */; };
 		6D69D20B1E52DB3600CEA991 /* pic_shareforaward.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D69D2081E52DB3600CEA991 /* pic_shareforaward.png */; };
 		6D69D20C1E52DB3600CEA991 /* pic_shareforaward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D69D2091E52DB3600CEA991 /* pic_shareforaward@2x.png */; };
 		6D69D20D1E52DB3600CEA991 /* pic_shareforaward@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D69D20A1E52DB3600CEA991 /* pic_shareforaward@3x.png */; };
@@ -1849,6 +1856,16 @@
 		6D6763B11EB9D75E005ECBFB /* schoollist_ic_tuan@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "schoollist_ic_tuan@3x.png"; sourceTree = "<group>"; };
 		6D6763B51EB9ED5B005ECBFB /* HHHotSchoolsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHHotSchoolsTableViewCell.h; sourceTree = "<group>"; };
 		6D6763B61EB9ED5B005ECBFB /* HHHotSchoolsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHHotSchoolsTableViewCell.m; sourceTree = "<group>"; };
+		6D6763B81EBAF64D005ECBFB /* ic_hot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_hot.png; sourceTree = "<group>"; };
+		6D6763B91EBAF64D005ECBFB /* ic_hot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_hot@2x.png"; sourceTree = "<group>"; };
+		6D6763BA1EBAF64D005ECBFB /* ic_hot@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_hot@3x.png"; sourceTree = "<group>"; };
+		6D6763BE1EBB0C07005ECBFB /* HHDrivingSchoolDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHDrivingSchoolDetailViewController.h; sourceTree = "<group>"; };
+		6D6763BF1EBB0C07005ECBFB /* HHDrivingSchoolDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHDrivingSchoolDetailViewController.m; sourceTree = "<group>"; };
+		6D6763C21EBB2A33005ECBFB /* HHSchoolBasicInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSchoolBasicInfoTableViewCell.h; sourceTree = "<group>"; };
+		6D6763C31EBB2A33005ECBFB /* HHSchoolBasicInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSchoolBasicInfoTableViewCell.m; sourceTree = "<group>"; };
+		6D6763C51EBB3795005ECBFB /* markdown_bell.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = markdown_bell.gif; sourceTree = "<group>"; };
+		6D6763C71EBB41A6005ECBFB /* HHSchoolGenericView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSchoolGenericView.h; sourceTree = "<group>"; };
+		6D6763C81EBB41A6005ECBFB /* HHSchoolGenericView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSchoolGenericView.m; sourceTree = "<group>"; };
 		6D69D2081E52DB3600CEA991 /* pic_shareforaward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic_shareforaward.png; sourceTree = "<group>"; };
 		6D69D2091E52DB3600CEA991 /* pic_shareforaward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_shareforaward@2x.png"; sourceTree = "<group>"; };
 		6D69D20A1E52DB3600CEA991 /* pic_shareforaward@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_shareforaward@3x.png"; sourceTree = "<group>"; };
@@ -3164,6 +3181,8 @@
 				6D4151DB1CF321AB004A7EE8 /* HHSearchViewController.m */,
 				6DD73F691E0D2E5100B356BF /* HHGuardViewController.h */,
 				6DD73F6A1E0D2E5100B356BF /* HHGuardViewController.m */,
+				6D6763BE1EBB0C07005ECBFB /* HHDrivingSchoolDetailViewController.h */,
+				6D6763BF1EBB0C07005ECBFB /* HHDrivingSchoolDetailViewController.m */,
 			);
 			path = "Find Coach";
 			sourceTree = "<group>";
@@ -3304,6 +3323,7 @@
 		5CDE143B1C32F89C0004778C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6D6763C11EBB2A00005ECBFB /* School Detail */,
 				6D22C65B1DCAD1F0003249E0 /* Club */,
 				5C36D4411C4DA50E00443545 /* Coach */,
 				141FA0FB1C6BAF4300113B1A /* Coach Detail */,
@@ -3373,6 +3393,10 @@
 		5CDE14641C37717A0004778C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6D6763C51EBB3795005ECBFB /* markdown_bell.gif */,
+				6D6763B81EBAF64D005ECBFB /* ic_hot.png */,
+				6D6763B91EBAF64D005ECBFB /* ic_hot@2x.png */,
+				6D6763BA1EBAF64D005ECBFB /* ic_hot@3x.png */,
 				6D6763AF1EB9D75E005ECBFB /* schoollist_ic_tuan.png */,
 				6D6763B01EB9D75E005ECBFB /* schoollist_ic_tuan@2x.png */,
 				6D6763B11EB9D75E005ECBFB /* schoollist_ic_tuan@3x.png */,
@@ -4220,6 +4244,17 @@
 			name = DropDownMenu;
 			sourceTree = "<group>";
 		};
+		6D6763C11EBB2A00005ECBFB /* School Detail */ = {
+			isa = PBXGroup;
+			children = (
+				6D6763C21EBB2A33005ECBFB /* HHSchoolBasicInfoTableViewCell.h */,
+				6D6763C31EBB2A33005ECBFB /* HHSchoolBasicInfoTableViewCell.m */,
+				6D6763C71EBB41A6005ECBFB /* HHSchoolGenericView.h */,
+				6D6763C81EBB41A6005ECBFB /* HHSchoolGenericView.m */,
+			);
+			name = "School Detail";
+			sourceTree = "<group>";
+		};
 		6D766F0A1EAF4F1B00268595 /* FLAnimatedImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -4813,6 +4848,7 @@
 				6DD94D911DEE889300BB3357 /* ic_hahapass5@3x.png in Resources */,
 				6DF64E301E9E3C3B00A56D75 /* Triangle@2x.png in Resources */,
 				6D54D4281D938ECC00EBBD98 /* icon_share@2x.png in Resources */,
+				6D6763BD1EBAF64D005ECBFB /* ic_hot@3x.png in Resources */,
 				6DE046441DE5A0B800B80343 /* idcard_b@3x.png in Resources */,
 				6D330D3E1D7FC230003F6FC6 /* xiaoha.png in Resources */,
 				6DD94D551DEE872F00BB3357 /* ic_loading@3x.png in Resources */,
@@ -5064,6 +5100,7 @@
 				6D63F85E1DD57BB800DB1ADC /* gray_voucher.png in Resources */,
 				6DEB247B1DFA51B700A86739 /* ic_pingtaibaozhang@2x.png in Resources */,
 				6DE24BE01D5B44A10078A21E /* ic_question_random@3x.png in Resources */,
+				6D6763BC1EBAF64D005ECBFB /* ic_hot@2x.png in Resources */,
 				6D4023691DB614AB00C16DF4 /* ic_explain@3x.png in Resources */,
 				6D98E99D1D7A7AF200A324B2 /* ic_coachmsg_sharecoach_friendgroup.png in Resources */,
 				6DEB247A1DFA51B700A86739 /* ic_pingtaibaozhang.png in Resources */,
@@ -5091,6 +5128,7 @@
 				140EC61D1C6D76DC00DA634D /* ic_coachmsg_partner@3x.png in Resources */,
 				6D82BD461CCF4A1200D4109A /* ic_line@3x.png in Resources */,
 				6DD94D8F1DEE889300BB3357 /* ic_hahapass5.png in Resources */,
+				6D6763BB1EBAF64D005ECBFB /* ic_hot.png in Resources */,
 				6DB7B5931DBF24A600D91166 /* priceandclass.png in Resources */,
 				6D330D2E1D7FC230003F6FC6 /* arrow@3x.png in Resources */,
 				6D46DCD21D892E18001F962B /* ic_homepage_haha@2x.png in Resources */,
@@ -5159,6 +5197,7 @@
 				140EC62E1C6E3CFC00DA634D /* ic_coachmsg_attention_hold@2x.png in Resources */,
 				141F7BF41C617EB2003278C6 /* ic_list_local_btn@2x.png in Resources */,
 				6D96AE381D20F980003C1E84 /* ic_sort_nice_normal_btn@3x.png in Resources */,
+				6D6763C61EBB3795005ECBFB /* markdown_bell.gif in Resources */,
 				6DD568271D65D62800B9B319 /* ic_arrow_more.png in Resources */,
 				6DF64E471EA07CBD00A56D75 /* bt_choosecoach.gif in Resources */,
 				5C36D4101C496ECD00443545 /* ic_sort_local_hold_btn@1x.png in Resources */,
@@ -5475,6 +5514,7 @@
 				5C6D8C991C3F4D2A0055CB31 /* HHAPIClient.m in Sources */,
 				6DD568351D66E56F00B9B319 /* HHReferreeCell.m in Sources */,
 				141FA1011C6BB0CE00113B1A /* UIImage+ImageEffects.m in Sources */,
+				6D6763C91EBB41A6005ECBFB /* HHSchoolGenericView.m in Sources */,
 				6D7D0C7D1D6331600002FC56 /* HHTestResultViewController.m in Sources */,
 				5C36D4441C4DA54000443545 /* HHCoachListViewCell.m in Sources */,
 				6DE56FCC1CFFF15A00E33BDB /* HHPersonalCoachPriceCell.m in Sources */,
@@ -5510,11 +5550,13 @@
 				5C6D8C9D1C40125D0055CB31 /* HHUserAuthService.m in Sources */,
 				6D4CCAF11D3E160500AD896F /* HHAddPromoCodeView.m in Sources */,
 				6DF934CC1D91278F00018BE9 /* HHClubItemView.m in Sources */,
+				6D6763C01EBB0C07005ECBFB /* HHDrivingSchoolDetailViewController.m in Sources */,
 				140EC5FC1C6D64C400DA634D /* HHCoachDetailSectionTwoCell.m in Sources */,
 				6DDAE6DB1CB8E6B300CE461A /* HHCoachSchedule.m in Sources */,
 				5CDE14761C3778BD0004778C /* HHToastManager.m in Sources */,
 				6D54D42F1D93AFF100EBBD98 /* HHClubPostCommentsViewController.m in Sources */,
 				1405CC5C1C74E4330030B114 /* HHCityFixedFee.m in Sources */,
+				6D6763C41EBB2A33005ECBFB /* HHSchoolBasicInfoTableViewCell.m in Sources */,
 				6DF64E351E9F24F300A56D75 /* HHDrivingSchool.m in Sources */,
 				1405CC741C762CE80030B114 /* HHMyPageUserInfoCell.m in Sources */,
 				6DE046351DE58B7700B80343 /* HHUploadIDViewController.m in Sources */,

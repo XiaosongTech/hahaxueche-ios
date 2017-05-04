@@ -26,6 +26,7 @@
              @"consultPhone":@"consult_phone",
              @"zones":@"zones",
              @"distance":@"distance",
+             @"nearestFieldZone":@"closest_zone"
              };
 }
 

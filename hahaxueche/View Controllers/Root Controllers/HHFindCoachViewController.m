@@ -38,6 +38,7 @@
 #import "HHSupportUtility.h"
 #import "DOPDropDownMenu.h"
 #import "HHHotSchoolsTableViewCell.h"
+#import "HHDrivingSchoolDetailViewController.h"
 
 
 static NSString *const kCellId = @"kCoachListCellId";
@@ -406,11 +407,6 @@ static NSInteger const kHotSchoolIndex = 4;
         }
         HHDrivingSchoolListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDrivingSchoolCellId forIndexPath:indexPath];
         [cell setupCellWithSchool:self.schools[indexPath.row]];
-        cell.grouponBlock = ^{
-            HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/tuan?promo_code=456134"]];
-            webVC.hidesBottomBarWhenPushed = YES;
-            [weakSelf.navigationController pushViewController:webVC animated:YES];
-        };
         return cell;
     }
 }
@@ -427,13 +423,13 @@ static NSInteger const kHotSchoolIndex = 4;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([tableView isEqual:self.tableView]) {
         if ([self.schools[indexPath.row] isKindOfClass:[NSString class]]) {
-            return 170.0f;
+            return 140.0f;
         } else {
             return kCellHeightNormal + 40.0f;
         }
     } else {
         if ([self.coaches[indexPath.row] isKindOfClass:[NSString class]]) {
-            return 170.0f;
+            return 140.0f;
         } else {
             return kCellHeightNormal + 40.0f;
         }
@@ -459,6 +455,10 @@ static NSInteger const kHotSchoolIndex = 4;
         if ([self.schools[indexPath.row] isKindOfClass:[NSString class]]) {
             return;
         }
+        HHDrivingSchool *school = self.schools[indexPath.row];
+        HHDrivingSchoolDetailViewController *vc = [[HHDrivingSchoolDetailViewController alloc] initWithSchool:school];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
     }
     
 }

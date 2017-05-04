@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UIView *botContainerView;
 
 @property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIImageView *hotView;;
 @property (nonatomic, strong) UIView *line;
 
 @end

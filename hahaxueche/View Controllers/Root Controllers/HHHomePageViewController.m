@@ -53,6 +53,7 @@
 #import "HHHomePageGuardView.h"
 #import "HHAskLocationPermissionViewController.h"
 #import <Appirater.h>
+#import "HHDrivingSchoolDetailViewController.h"
 
 
 static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
@@ -272,7 +273,9 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
     };
     self.drivingSchoolsView.itemAction = ^(NSInteger index) {
         HHDrivingSchool *school = weakSelf.drivingSchools[index];
-        //jump to school detail page
+        HHDrivingSchoolDetailViewController *vc = [[HHDrivingSchoolDetailViewController alloc] initWithSchool:school];
+        vc.hidesBottomBarWhenPushed = YES;
+        [weakSelf.navigationController pushViewController:vc animated:YES];
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_hot_school_tapped attributes:@{@"index":@(index)}];
     };
     [self.scrollView addSubview:self.drivingSchoolsView];
