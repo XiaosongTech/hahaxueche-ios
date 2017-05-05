@@ -380,6 +380,12 @@ static NSInteger const kHotSchoolIndex = 4;
         if (indexPath.row == kHotSchoolIndex || indexPath.row == self.coaches.count-1) {
             if ([self.coaches[indexPath.row] isKindOfClass:[NSString class]]) {
                 HHHotSchoolsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kHotSchoolCellId forIndexPath:indexPath];
+                cell.schoolBlock = ^(NSInteger index) {
+                    HHDrivingSchool *school = [[HHConstantsStore sharedInstance] getDrivingSchools][index];
+                    HHDrivingSchoolDetailViewController *vc = [[HHDrivingSchoolDetailViewController alloc] initWithSchool:school];
+                    vc.hidesBottomBarWhenPushed = YES;
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
+                };
                 return cell;
             }
             
@@ -401,6 +407,13 @@ static NSInteger const kHotSchoolIndex = 4;
         if (indexPath.row == kHotSchoolIndex || indexPath.row == self.schools.count-1) {
             if ([self.schools[indexPath.row] isKindOfClass:[NSString class]]) {
                 HHHotSchoolsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kHotSchoolCellId forIndexPath:indexPath];
+                cell.schoolBlock = ^(NSInteger index) {
+                    HHDrivingSchool *school = [[HHConstantsStore sharedInstance] getDrivingSchools][index];
+                    HHDrivingSchoolDetailViewController *vc = [[HHDrivingSchoolDetailViewController alloc] initWithSchool:school];
+                    vc.hidesBottomBarWhenPushed = YES;
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
+                };
+
                 return cell;
             }
             

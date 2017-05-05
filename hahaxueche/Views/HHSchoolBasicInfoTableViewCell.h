@@ -12,6 +12,8 @@
 #import "HHDrivingSchool.h"
 #import "HHSchoolGenericView.h"
 
+typedef void (^HHDesBlock)(BOOL expand);
+
 @interface HHSchoolBasicInfoTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) UILabel *nameLabel;
@@ -35,7 +37,11 @@
 @property (nonatomic, strong) HHSchoolGenericView *passRateView;
 @property (nonatomic, strong) HHSchoolGenericView *satisView;
 @property (nonatomic, strong) HHSchoolGenericView *coachCountView;
+@property (nonatomic, strong) UILabel *desLabel;
+@property (nonatomic, strong) UILabel *desTitleLabel;
 
-- (void)setupCellWithSchool:(HHDrivingSchool *)school expanded:(BOOL)expanded;
+@property (nonatomic, strong) HHDesBlock showMoreLessBlock;
+
+- (void)setupCellWithSchool:(HHDrivingSchool *)school;
 
 @end

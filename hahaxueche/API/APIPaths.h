@@ -66,6 +66,7 @@
 
 #pragma mark Driving School
 #define kAPIDrivingSchools @"driving_schools"
+#define kAPIDrivingSchool @"driving_schools/%@/detail"
 
 #pragma mark ClubPost
 

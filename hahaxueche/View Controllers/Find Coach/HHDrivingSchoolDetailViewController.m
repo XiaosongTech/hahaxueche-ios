@@ -24,6 +24,8 @@
 #import "HHSupportUtility.h"
 #import "HHImageGalleryViewController.h"
 #import "HHSchoolBasicInfoTableViewCell.h"
+#import "HHCoachService.h"
+#import "HHLoadingViewUtility.h"
 
 typedef NS_ENUM(NSInteger, SchoolCell) {
     SchoolCellBasic,
@@ -46,6 +48,7 @@ static NSString *const kBasicCellID = @"kBasicCellID";
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) SDCycleScrollView *schoolImagesView;
 @property (nonatomic, strong) HHCoachDetailBottomBarView *bottomBar;
+@property (nonatomic) BOOL desExpanded;
 
 @end
 
@@ -62,13 +65,22 @@ static NSString *const kBasicCellID = @"kBasicCellID";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"驾校详情";
+    self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(popupVC) target:self];
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"icon_share"] action:@selector(shareSchool) target:self];
-    [self initSubviews];
+    
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
+    [[HHCoachService sharedInstance] fetchDrivingSchoolWithId:self.school.schoolId completion:^(HHDrivingSchool *school, NSError *error) {
+        [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+        if (!error) {
+            self.school = school;
+            [self initSubviews];
+        }
+    }];
 }
 
 - (void)initSubviews {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)-50.0f - CGRectGetHeight([UIApplication sharedApplication].statusBarFrame) - CGRectGetHeight(self.navigationController.navigationBar.bounds))];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)-50.0f)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -146,13 +158,24 @@ static NSString *const kBasicCellID = @"kBasicCellID";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    __weak HHDrivingSchoolDetailViewController *weakSelf = self;
     HHSchoolBasicInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kBasicCellID forIndexPath:indexPath];
-    [cell setupCellWithSchool:self.school expanded:NO];
+    [cell setupCellWithSchool:self.school];
+    cell.showMoreLessBlock = ^(BOOL expand) {
+        weakSelf.desExpanded = expand;
+        [weakSelf.tableView reloadData];
+    };
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == SchoolCellBasic) {
+        if (self.desExpanded) {
+            return 500.0f;
+        } else {
+            return 280.0f;
+        }
+    }
     return 280.0f;
     
 }

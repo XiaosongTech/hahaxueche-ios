@@ -99,6 +99,8 @@
         schoolButton.titleLabel.minimumScaleFactor = 0.5f;
         schoolButton.titleLabel.adjustsFontSizeToFitWidth = YES;
         [self.botContainerView addSubview:schoolButton];
+        
+        [schoolButton addTarget:self action:@selector(schoolTapped:) forControlEvents:UIControlEventTouchUpInside];
         [schoolButton makeConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(20.0f);
             make.width.mas_equalTo(70.0f);
@@ -112,6 +114,12 @@
             make.centerX.equalTo(self.botContainerView.centerX).multipliedBy((1 + 2 * indexX)/4.0f);
             
         }];
+    }
+}
+
+- (void)schoolTapped:(UIButton *)button {
+    if (self.schoolBlock) {
+        self.schoolBlock(button.tag);
     }
 }
 

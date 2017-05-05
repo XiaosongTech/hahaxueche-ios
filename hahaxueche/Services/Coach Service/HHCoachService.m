@@ -290,11 +290,23 @@
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     param[@"city_id"] = cityId;
     
-//    if (sortOption == CoachSortOptionReviewCount) {
-//        param[@"sort_by"] = @(5);
-//    } else {
-//        param[@"sort_by"] = @(sortOption);
-//    }
+    if (sortOption == CoachSortOptionDefault) {
+        param[@"sort_by"] = nil;
+        param[@"order"] = @"asc";
+    } else if (sortOption == CoachSortOptionDistance) {
+        param[@"sort_by"] = @"distance";
+        param[@"order"] = @"asc";
+    } else if (sortOption == CoachSortOptionReviewCount) {
+        param[@"sort_by"] = @"review_count";
+        param[@"order"] = @"desc";
+    } else if (sortOption == CoachSortOptionPrice) {
+        param[@"sort_by"] = @"price";
+        param[@"order"] = @"asc";
+    } else {
+        param[@"sort_by"] = nil;
+        param[@"order"] = @"asc";
+    }
+    
     
     
     if ([perPage integerValue]> 0) {
@@ -345,6 +357,22 @@
             HHDrivingSchools *schools = [MTLJSONAdapter modelOfClass:[HHDrivingSchools class] fromJSONDictionary:response error:nil];
             if (completion) {
                 completion (schools, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
+- (void)fetchDrivingSchoolWithId:(NSNumber *)schoolId completion:(HHSchoolCompletion)completion {
+     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIDrivingSchool, [schoolId stringValue]]];
+    [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHDrivingSchool *school = [MTLJSONAdapter modelOfClass:[HHDrivingSchool class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(school, nil);
             }
         } else {
             if (completion) {

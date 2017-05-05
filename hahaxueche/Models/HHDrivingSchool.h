@@ -25,5 +25,7 @@
 @property (nonatomic, strong) NSArray *zones;
 @property (nonatomic, strong) NSNumber *distance;
 @property (nonatomic, strong) NSString *nearestFieldZone;
+@property (nonatomic, strong) NSArray *fields;
+@property (nonatomic, copy) NSString *bio;
 
 @end

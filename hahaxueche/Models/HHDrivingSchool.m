@@ -7,6 +7,7 @@
 //
 
 #import "HHDrivingSchool.h"
+#import "HHField.h"
 
 @implementation HHDrivingSchool
 
@@ -26,8 +27,16 @@
              @"consultPhone":@"consult_phone",
              @"zones":@"zones",
              @"distance":@"distance",
-             @"nearestFieldZone":@"closest_zone"
+             @"nearestFieldZone":@"closest_zone",
+             @"fields":@"fields",
+             @"bio":@"bio",
              };
 }
+
++ (NSValueTransformer *)fieldsJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[HHField class]];
+}
+
+
 
 @end

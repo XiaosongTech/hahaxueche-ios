@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^HHSchoolTappeBlock)(NSInteger index);
+
 @interface HHHotSchoolsTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) UIView *titleContainerView;
@@ -16,5 +18,7 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIImageView *hotView;;
 @property (nonatomic, strong) UIView *line;
+
+@property (nonatomic, strong) HHSchoolTappeBlock schoolBlock;
 
 @end

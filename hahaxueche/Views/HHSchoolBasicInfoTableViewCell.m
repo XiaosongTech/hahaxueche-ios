@@ -81,6 +81,17 @@
     self.coachCountView = [[HHSchoolGenericView alloc] init];
     [self.forthSecView addSubview:self.coachCountView];
     
+    self.desTitleLabel = [[UILabel alloc] init];
+    self.desTitleLabel.textColor = [UIColor HHTextDarkGray];
+    self.desTitleLabel.text = @"驾校简介";
+    self.desTitleLabel.font = [UIFont systemFontOfSize:16.0f];
+    [self.fifthSecView addSubview:self.desTitleLabel];
+    
+    
+    [self.fifthSecView addSubview:self.desLabel];
+    
+    
+    
     [self makeConstraints];
 }
 
@@ -178,6 +189,17 @@
         make.height.equalTo(self.forthSecView.height);
         make.top.equalTo(self.forthSecView.top);
     }];
+    
+    [self.desTitleLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.fifthSecView.left).offset(15.0f);
+        make.top.equalTo(self.fifthSecView.top).offset(10.0f);
+    }];
+    
+    [self.desLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.desTitleLabel.left);
+        make.width.equalTo(self.fifthSecView.width).offset(-30.0f);
+        make.top.equalTo(self.desTitleLabel.bottom).offset(10.0f);
+    }];
 }
 
 - (UIView *)buildSecViewWithBotLine:(BOOL)showBotLine {
@@ -198,7 +220,7 @@
     return view;
 }
 
-- (void)setupCellWithSchool:(HHDrivingSchool *)school expanded:(BOOL)expanded {
+- (void)setupCellWithSchool:(HHDrivingSchool *)school {
     self.school = school;
     self.nameLabel.text = school.schoolName;
     self.consultNumLabel.attributedText = [self generateConsultNumString];
@@ -208,6 +230,9 @@
     [self.passRateView setupViewWithLeftText:@"通过率:" rightText:school.passRate];
     [self.satisView setupViewWithLeftText:@"满意度:" rightText:@"100%"];
     [self.coachCountView setupViewWithLeftText:@"教练人数:" rightText:[school.coachCount stringValue]];
+    
+    self.desLabel.attributedText = [self buildDesString];
+
 }
 
 - (NSMutableAttributedString *)generateConsultNumString {
@@ -238,6 +263,70 @@
     [string appendAttributedString:string2];
     [string appendAttributedString:string3];
     return string;
+}
+
+- (NSMutableAttributedString *)buildDesString {
+    NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
+    paraStyle.alignment = NSTextAlignmentNatural;
+    paraStyle.lineSpacing = 7.0;
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:self.school.bio attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSParagraphStyleAttributeName:paraStyle}];
+    
+    return attrString;
+}
+
+//- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+//    if ([url.absoluteString isEqualToString:@"showMore"]) {
+//        if (self.desLabel.numberOfLines == 2) {
+//            self.desLabel.numberOfLines = 0;
+////            self.desLabel.attributedText = [self buildDesString];
+////            self.desLabel.attributedTruncationToken = [self buildTrunAttrStingWithExpand:YES];
+////            
+////            [self.fifthSecView remakeConstraints:^(MASConstraintMaker *make) {
+////                make.top.equalTo(self.forthSecView.bottom);
+////                make.left.equalTo(self.contentView.left);
+////                make.right.equalTo(self.contentView.right);
+////                CGRect rect = [self.desLabel.attributedText boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.desLabel.bounds), CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
+////                make.height.mas_equalTo(180.0f + CGRectGetHeight(rect) + 50.0f);
+////            }];
+////            
+////            [self.desLabel remakeConstraints:^(MASConstraintMaker *make) {
+////                make.left.equalTo(self.desTitleLabel.left);
+////                make.width.equalTo(self.fifthSecView.width).offset(-30.0f);
+////                make.top.equalTo(self.desTitleLabel.bottom).offset(10.0f);
+////
+////            }];
+//            if (self.showMoreLessBlock) {
+//                self.showMoreLessBlock(YES);
+//            }
+//        } else {
+//            self.desLabel.numberOfLines = 2;
+//            self.desLabel.attributedText = [self buildDesString];
+//            self.desLabel.attributedTruncationToken = [self buildTrunAttrStingWithExpand:NO];
+//            if (self.showMoreLessBlock) {
+//                self.showMoreLessBlock(NO);
+//            }
+//        }
+//    };
+//}
+
+- (NSMutableAttributedString *)buildTrunAttrStingWithExpand:(BOOL)expanded {
+    if (expanded) {
+        NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:@"..." attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSLinkAttributeName:[NSURL URLWithString:@"showMore"]}];
+        
+        NSMutableAttributedString *attrString3 = [[NSMutableAttributedString alloc] initWithString:@"收起" attributes:@{NSForegroundColorAttributeName:[UIColor HHLinkBlue], NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSLinkAttributeName:[NSURL URLWithString:@"showMore"]}];
+        
+        [attrString2 appendAttributedString:attrString3];
+        return attrString2;
+        
+    } else {
+        NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:@"..." attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSLinkAttributeName:[NSURL URLWithString:@"showMore"]}];
+        
+        NSMutableAttributedString *attrString3 = [[NSMutableAttributedString alloc] initWithString:@"更多" attributes:@{NSForegroundColorAttributeName:[UIColor HHLinkBlue], NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSLinkAttributeName:[NSURL URLWithString:@"showMore"]}];
+        
+        [attrString2 appendAttributedString:attrString3];
+        return attrString2;
+    }
 }
 
 

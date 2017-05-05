@@ -34,6 +34,7 @@ typedef NS_ENUM(NSInteger, SchoolSortOption) {
 typedef void (^HHCoachListCompletion)(HHCoaches *coaches, NSError *error);
 typedef void (^HHSchoolListCompletion)(HHDrivingSchools *schools, NSError *error);
 typedef void (^HHCoachCompletion)(HHCoach *coach, NSError *error);
+typedef void (^HHSchoolCompletion)(HHDrivingSchool *school, NSError *error);
 typedef void (^HHCoachReviewListCompletion)(HHReviews *reviews, NSError *error);
 typedef void (^HHCoachCheckFollowedCompletion)(BOOL followed);
 typedef void (^HHCoachGenericCompletion)(NSError *error);
@@ -153,6 +154,9 @@ typedef void (^HHCoachSearchCompletion)(NSArray *coaches, NSError *error);
 
 
 - (void)fetchNextPageDrivingSchoolListWithURL:(NSString *)URL completion:(HHSchoolListCompletion)completion;
+
+
+- (void)fetchDrivingSchoolWithId:(NSNumber *)schoolId completion:(HHSchoolCompletion)completion;
 
 
 @end
