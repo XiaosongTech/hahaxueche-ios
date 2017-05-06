@@ -30,6 +30,7 @@
              @"nearestFieldZone":@"closest_zone",
              @"fields":@"fields",
              @"bio":@"bio",
+             @"lowestVIPPrice":@"lowest_vip_price",
              };
 }
 

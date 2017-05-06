@@ -26,6 +26,10 @@
 #import "HHSchoolBasicInfoTableViewCell.h"
 #import "HHCoachService.h"
 #import "HHLoadingViewUtility.h"
+#import "HHFieldsMapViewController.h"
+#import "HHGenericPhoneView.h"
+#import "HHSchoolPriceTableViewCell.h"
+#import "HHCoachPriceDetailViewController.h"
 
 typedef NS_ENUM(NSInteger, SchoolCell) {
     SchoolCellBasic,
@@ -39,6 +43,7 @@ typedef NS_ENUM(NSInteger, SchoolCell) {
 };
 
 static NSString *const kBasicCellID = @"kBasicCellID";
+static NSString *const kPriceCellID = @"kPriceCellID";
 
 
 @interface HHDrivingSchoolDetailViewController () <UITableViewDelegate, UITableViewDataSource, SDCycleScrollViewDelegate, UIScrollViewDelegate>
@@ -102,6 +107,7 @@ static NSString *const kBasicCellID = @"kBasicCellID";
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
     [self.tableView registerClass:[HHSchoolBasicInfoTableViewCell class] forCellReuseIdentifier:kBasicCellID];
+    [self.tableView registerClass:[HHSchoolPriceTableViewCell class] forCellReuseIdentifier:kPriceCellID];
     
     self.bottomBar = [[HHCoachDetailBottomBarView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.tableView.bounds), CGRectGetWidth(self.view.bounds), 50.0f)];
     [self.view addSubview:self.bottomBar];
@@ -154,26 +160,95 @@ static NSString *const kBasicCellID = @"kBasicCellID";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     __weak HHDrivingSchoolDetailViewController *weakSelf = self;
-    HHSchoolBasicInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kBasicCellID forIndexPath:indexPath];
-    [cell setupCellWithSchool:self.school];
-    cell.showMoreLessBlock = ^(BOOL expand) {
-        weakSelf.desExpanded = expand;
-        [weakSelf.tableView reloadData];
-    };
-    return cell;
+    
+    switch (indexPath.row) {
+        case SchoolCellBasic: {
+            HHSchoolBasicInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kBasicCellID forIndexPath:indexPath];
+            [cell setupCellWithSchool:self.school];
+            cell.showMoreLessBlock = ^() {
+                weakSelf.desExpanded = YES;
+                [weakSelf.tableView reloadData];
+            };
+            
+            cell.fieldBlock = ^() {
+                HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:[HHConstantsStore sharedInstance].fields selectedField:nil highlightedFields:weakSelf.school.fields];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
+            
+            cell.priceNotifBlock = ^(){
+                HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"我们将为您保密个人信息!" placeHolder:@"填写手机号, 立即订阅降价通知" buttonTitle:@"立即订阅"];
+                view.buttonAction = ^(NSString *number) {
+                    [[HHStudentService sharedInstance] getPhoneNumber:number coachId:nil schoolId:weakSelf.school.schoolId fieldId:nil eventType:nil eventData:nil completion:^(NSError *error) {
+                        if (error) {
+                            [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
+                        } else {
+                            [HHPopupUtility dismissPopup:weakSelf.popup];
+                        }
+                    }];
+                };
+                weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+            };
+            return cell;
+        } break;
+            
+        case SchoolCellPrice: {
+            HHSchoolPriceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kPriceCellID forIndexPath:indexPath];
+            cell.priceBlock = ^(NSInteger index) {
+                HHCoach *coach = [[HHCoach alloc] init];
+                CoachProductType type;
+                if (index == 0) {
+                    coach.price = weakSelf.school.lowestPrice;
+                    type = CoachProductTypeStandard;
+                } else if (index == 1) {
+                    if (weakSelf.school.lowestVIPPrice.floatValue > 0) {
+                        coach.VIPPrice = weakSelf.school.lowestVIPPrice;
+                        type = CoachProductTypeVIP;
+                    } else {
+                        coach.price = weakSelf.school.lowestPrice;
+                        type = CoachProductTypeC1Wuyou;
+                    }
+                    
+                } else {
+                    coach.price = weakSelf.school.lowestPrice;
+                    type = CoachProductTypeC1Wuyou;
+                }
+                HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:coach productType:type];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
+            [cell setupCellWithSchool:self.school];
+            return cell;
+        }
+            
+        default:
+            break;
+    }
+    return nil;
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == SchoolCellBasic) {
         if (self.desExpanded) {
-            return 500.0f;
+            NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
+            paraStyle.alignment = NSTextAlignmentNatural;
+            paraStyle.lineSpacing = 7.0;
+            
+            CGRect rect = [self.school.bio boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.bounds)-30.0f, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin| NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paraStyle} context:nil];
+            return (CGRectGetHeight(rect) + 180.0f + 30.0f);
         } else {
-            return 280.0f;
+            return 260.0f;
+        }
+    } else if (indexPath.row == SchoolCellPrice) {
+        if ([self.school.lowestVIPPrice floatValue] > 0) {
+            return 60.0f + 3 * 70.0f;
+        } else {
+            return 60.0f + 2 * 70.0f;
         }
     }
     return 280.0f;

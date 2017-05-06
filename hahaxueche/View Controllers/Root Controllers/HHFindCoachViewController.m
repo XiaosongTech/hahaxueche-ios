@@ -488,7 +488,7 @@ static NSInteger const kHotSchoolIndex = 4;
         if (weakSelf.userLocation) {
             [[HHConstantsStore sharedInstance] getFieldsWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(NSArray *fields) {
                 if (fields.count > 0) {
-                    HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:fields selectedField:nil];
+                    HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:fields selectedField:nil highlightedFields:nil];
                     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
                     [self presentViewController:navVC animated:YES completion:nil];
                 }

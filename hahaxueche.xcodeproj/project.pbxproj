@@ -560,6 +560,7 @@
 		6D6763C41EBB2A33005ECBFB /* HHSchoolBasicInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6763C31EBB2A33005ECBFB /* HHSchoolBasicInfoTableViewCell.m */; };
 		6D6763C61EBB3795005ECBFB /* markdown_bell.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6D6763C51EBB3795005ECBFB /* markdown_bell.gif */; };
 		6D6763C91EBB41A6005ECBFB /* HHSchoolGenericView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6763C81EBB41A6005ECBFB /* HHSchoolGenericView.m */; };
+		6D6763CC1EBC71BD005ECBFB /* HHSchoolPriceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6763CB1EBC71BD005ECBFB /* HHSchoolPriceTableViewCell.m */; };
 		6D69D20B1E52DB3600CEA991 /* pic_shareforaward.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D69D2081E52DB3600CEA991 /* pic_shareforaward.png */; };
 		6D69D20C1E52DB3600CEA991 /* pic_shareforaward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D69D2091E52DB3600CEA991 /* pic_shareforaward@2x.png */; };
 		6D69D20D1E52DB3600CEA991 /* pic_shareforaward@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D69D20A1E52DB3600CEA991 /* pic_shareforaward@3x.png */; };
@@ -1008,7 +1009,6 @@
 		6DE56FC71CFF1D7A00E33BDB /* ic_VIP_listing@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE56FC41CFF1D7A00E33BDB /* ic_VIP_listing@1x.png */; };
 		6DE56FC81CFF1D7A00E33BDB /* ic_VIP_listing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE56FC51CFF1D7A00E33BDB /* ic_VIP_listing@2x.png */; };
 		6DE56FC91CFF1D7A00E33BDB /* ic_VIP_listing@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE56FC61CFF1D7A00E33BDB /* ic_VIP_listing@3x.png */; };
-		6DE56FCC1CFFF15A00E33BDB /* HHPersonalCoachPriceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE56FCB1CFFF15A00E33BDB /* HHPersonalCoachPriceCell.m */; };
 		6DE56FCF1CFFF2A200E33BDB /* HHPriceItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE56FCE1CFFF2A200E33BDB /* HHPriceItemView.m */; };
 		6DE56FD31D00142800E33BDB /* ic_chaozhi@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE56FD01D00142800E33BDB /* ic_chaozhi@1x.png */; };
 		6DE56FD41D00142800E33BDB /* ic_chaozhi@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DE56FD11D00142800E33BDB /* ic_chaozhi@2x.png */; };
@@ -1866,6 +1866,8 @@
 		6D6763C51EBB3795005ECBFB /* markdown_bell.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = markdown_bell.gif; sourceTree = "<group>"; };
 		6D6763C71EBB41A6005ECBFB /* HHSchoolGenericView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSchoolGenericView.h; sourceTree = "<group>"; };
 		6D6763C81EBB41A6005ECBFB /* HHSchoolGenericView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSchoolGenericView.m; sourceTree = "<group>"; };
+		6D6763CA1EBC71BD005ECBFB /* HHSchoolPriceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHSchoolPriceTableViewCell.h; sourceTree = "<group>"; };
+		6D6763CB1EBC71BD005ECBFB /* HHSchoolPriceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHSchoolPriceTableViewCell.m; sourceTree = "<group>"; };
 		6D69D2081E52DB3600CEA991 /* pic_shareforaward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic_shareforaward.png; sourceTree = "<group>"; };
 		6D69D2091E52DB3600CEA991 /* pic_shareforaward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_shareforaward@2x.png"; sourceTree = "<group>"; };
 		6D69D20A1E52DB3600CEA991 /* pic_shareforaward@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pic_shareforaward@3x.png"; sourceTree = "<group>"; };
@@ -2409,8 +2411,6 @@
 		6DE56FC41CFF1D7A00E33BDB /* ic_VIP_listing@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_VIP_listing@1x.png"; sourceTree = "<group>"; };
 		6DE56FC51CFF1D7A00E33BDB /* ic_VIP_listing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_VIP_listing@2x.png"; sourceTree = "<group>"; };
 		6DE56FC61CFF1D7A00E33BDB /* ic_VIP_listing@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_VIP_listing@3x.png"; sourceTree = "<group>"; };
-		6DE56FCA1CFFF15A00E33BDB /* HHPersonalCoachPriceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPersonalCoachPriceCell.h; sourceTree = "<group>"; };
-		6DE56FCB1CFFF15A00E33BDB /* HHPersonalCoachPriceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPersonalCoachPriceCell.m; sourceTree = "<group>"; };
 		6DE56FCD1CFFF2A200E33BDB /* HHPriceItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPriceItemView.h; sourceTree = "<group>"; };
 		6DE56FCE1CFFF2A200E33BDB /* HHPriceItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPriceItemView.m; sourceTree = "<group>"; };
 		6DE56FD01D00142800E33BDB /* ic_chaozhi@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_chaozhi@1x.png"; sourceTree = "<group>"; };
@@ -2820,8 +2820,6 @@
 				141FA1121C6BF88400113B1A /* HHCoachDetailSingleInfoView.m */,
 				6DE56FDF1D00394C00E33BDB /* HHCoachFieldCell.h */,
 				6DE56FE01D00394C00E33BDB /* HHCoachFieldCell.m */,
-				6DE56FCA1CFFF15A00E33BDB /* HHPersonalCoachPriceCell.h */,
-				6DE56FCB1CFFF15A00E33BDB /* HHPersonalCoachPriceCell.m */,
 				140EC6421C6E9A6100DA634D /* HHCoachReviewView.h */,
 				140EC6431C6E9A6100DA634D /* HHCoachReviewView.m */,
 				6DE56FDC1D00297100E33BDB /* HHCoachServiceTypeCell.h */,
@@ -4251,6 +4249,8 @@
 				6D6763C31EBB2A33005ECBFB /* HHSchoolBasicInfoTableViewCell.m */,
 				6D6763C71EBB41A6005ECBFB /* HHSchoolGenericView.h */,
 				6D6763C81EBB41A6005ECBFB /* HHSchoolGenericView.m */,
+				6D6763CA1EBC71BD005ECBFB /* HHSchoolPriceTableViewCell.h */,
+				6D6763CB1EBC71BD005ECBFB /* HHSchoolPriceTableViewCell.m */,
 			);
 			name = "School Detail";
 			sourceTree = "<group>";
@@ -5517,7 +5517,6 @@
 				6D6763C91EBB41A6005ECBFB /* HHSchoolGenericView.m in Sources */,
 				6D7D0C7D1D6331600002FC56 /* HHTestResultViewController.m in Sources */,
 				5C36D4441C4DA54000443545 /* HHCoachListViewCell.m in Sources */,
-				6DE56FCC1CFFF15A00E33BDB /* HHPersonalCoachPriceCell.m in Sources */,
 				6D4151F41CF724EF004A7EE8 /* HHCoachListView.m in Sources */,
 				6D95A4491DC0C926003CB78D /* HHMyCoachPeerCoachesTableViewCell.m in Sources */,
 				6D8311F71E70E30D003A2FEA /* HHCoachPriceInfoView.m in Sources */,
@@ -5659,6 +5658,7 @@
 				140EC6381C6E694500DA634D /* HHCoachDetailCommentsCell.m in Sources */,
 				141FA0E11C66CB1100113B1A /* HHHomePageTapView.m in Sources */,
 				1405CC7D1C7637B60030B114 /* HHMyPageUserInfoView.m in Sources */,
+				6D6763CC1EBC71BD005ECBFB /* HHSchoolPriceTableViewCell.m in Sources */,
 				6D0FB0A11D9257F10045C421 /* HHClubPost.m in Sources */,
 				1405CC891C765FD60030B114 /* HHMyPageSupportCell.m in Sources */,
 				1405CC971C7693E40030B114 /* HHMyCoachBasicInfoCell.m in Sources */,

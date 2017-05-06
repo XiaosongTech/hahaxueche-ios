@@ -315,7 +315,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
         case CoachCellField: {
             HHCoachFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:kFiledCellID forIndexPath:indexPath];
             cell.fieldBlock = ^() {
-                HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:[HHConstantsStore sharedInstance].fields selectedField:[weakSelf.coach getCoachField]];
+                HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:[HHConstantsStore sharedInstance].fields selectedField:[weakSelf.coach getCoachField] highlightedFields:@[[weakSelf.coach getCoachField]]];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_field_tapped attributes:@{@"coach_id":weakSelf.coach.coachId}];
 

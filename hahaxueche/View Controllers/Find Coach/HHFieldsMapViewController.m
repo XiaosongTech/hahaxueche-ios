@@ -30,6 +30,7 @@
 @interface HHFieldsMapViewController () <UIScrollViewDelegate, iCarouselDelegate, iCarouselDataSource>
 
 @property (nonatomic, strong) HHField *selectedField;
+@property (nonatomic, strong) NSArray *highlightedFields;
 @property (nonatomic, strong) NSArray *fields;
 @property (nonatomic, strong) iCarousel *carousel;
 @property (nonatomic, strong) NSArray *coaches;
@@ -69,13 +70,14 @@
 
 
 
-- (instancetype)initWithFields:(NSArray *)fields selectedField:(HHField *)selectedField {
+- (instancetype)initWithFields:(NSArray *)fields selectedField:(HHField *)selectedField highlightedFields:(NSArray *)highlightedFields {
     self = [super init];
     if (self) {
         self.userLocation = [HHStudentStore sharedInstance].currentLocation;
         self.selectedField = selectedField;
         self.fields = fields;
         self.cardViews = [NSMutableArray array];
+        self.highlightedFields = highlightedFields;
 
     }
     return self;
@@ -196,7 +198,11 @@
         
         HHPointAnnotation *anno = (HHPointAnnotation *)annotation;
         
-        UIImageView *pinView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_map_local_choseoff"]];
+        UIImage *img = [UIImage imageNamed:@"ic_map_local_choseoff"];
+        if ([self shouldHighlight:anno.field]) {
+            img = [UIImage imageNamed:@"ic_map_local_choseon"];
+        }
+        UIImageView *pinView = [[UIImageView alloc] initWithImage:img];
         HHCalloutView *calloutView = [[HHCalloutView alloc] initWithField:anno.field];
         calloutView.sendAction = ^(HHField *field) {
             HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"轻松定位训练场" placeHolder:@"输入手机号, 立即接收详细地址" buttonTitle:@"发我定位"];
@@ -235,7 +241,11 @@
                     }
                     HHPointAnnotation *annotation = (HHPointAnnotation *)aView.annotation;
                     if (![annotation.field.fieldId isEqualToString:field.fieldId]) {
-                        aView.pinView.image = [UIImage imageNamed:@"ic_map_local_choseoff"];
+                        UIImage *img = [UIImage imageNamed:@"ic_map_local_choseoff"];
+                        if ([self shouldHighlight:annotation.field]) {
+                            img = [UIImage imageNamed:@"ic_map_local_choseon"];
+                        }
+                        aView.pinView.image = img;
                         [aView hideCalloutView];
                     } else {
                         [weakSelf.mapView bringSubviewToFront:aView];
@@ -351,6 +361,15 @@
         return value * 1.04;
     }
     return value;
+}
+
+-(BOOL)shouldHighlight:(HHField *)field {
+    for (HHField * highlightField in self.highlightedFields) {
+        if ([highlightField.fieldId isEqualToString:field.fieldId]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 

@@ -33,6 +33,9 @@
     self.thirdSecView = [self buildSecViewWithBotLine:YES];
     [self.contentView addSubview:self.thirdSecView];
     
+    UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showFieldsMap)];
+    [self.thirdSecView addGestureRecognizer:tapRec];
+    
     self.forthSecView = [self buildSecViewWithBotLine:YES];
     [self.contentView addSubview:self.forthSecView];
     
@@ -54,7 +57,10 @@
     self.priceNotiLabel.textColor = [UIColor redColor];
     self.priceNotiLabel.font = [UIFont systemFontOfSize:12.0f];
     self.priceNotiLabel.text = @"降价通知我";
+    self.priceNotiLabel.userInteractionEnabled = YES;
     [self.secSecView addSubview:self.priceNotiLabel];
+    UITapGestureRecognizer *tapRec2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showGetNumView)];
+    [self.priceNotiLabel addGestureRecognizer:tapRec2];
     
     self.bellView = [[FLAnimatedImageView alloc] init];
     self.bellView.contentMode = UIViewContentModeScaleAspectFit;
@@ -87,9 +93,11 @@
     self.desTitleLabel.font = [UIFont systemFontOfSize:16.0f];
     [self.fifthSecView addSubview:self.desTitleLabel];
     
-    
+    self.desLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+    self.desLabel.delegate = self;
+    self.desLabel.numberOfLines = 2;
+    self.desLabel.attributedTruncationToken = [self buildTrunAttrSting];
     [self.fifthSecView addSubview:self.desLabel];
-    
     
     
     [self makeConstraints];
@@ -128,7 +136,7 @@
         make.top.equalTo(self.forthSecView.bottom);
         make.left.equalTo(self.contentView.left);
         make.right.equalTo(self.contentView.right);
-        make.height.mas_equalTo(100.0f);
+        make.height.mas_equalTo(80.0f);
     }];
     
     [self.nameLabel makeConstraints:^(MASConstraintMaker *make) {
@@ -154,8 +162,8 @@
     [self.bellView makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.priceNotiLabel.left).offset(-5.0f);
         make.centerY.equalTo(self.secSecView.centerY);
-        make.height.mas_equalTo(30.0f);
-        make.width.mas_equalTo(30.0f);
+        make.height.mas_equalTo(20.0f);
+        make.width.mas_equalTo(20.0f);
     }];
     
     [self.fieldLabel makeConstraints:^(MASConstraintMaker *make) {
@@ -230,7 +238,6 @@
     [self.passRateView setupViewWithLeftText:@"通过率:" rightText:school.passRate];
     [self.satisView setupViewWithLeftText:@"满意度:" rightText:@"100%"];
     [self.coachCountView setupViewWithLeftText:@"教练人数:" rightText:[school.coachCount stringValue]];
-    
     self.desLabel.attributedText = [self buildDesString];
 
 }
@@ -275,57 +282,53 @@
     return attrString;
 }
 
-//- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
-//    if ([url.absoluteString isEqualToString:@"showMore"]) {
-//        if (self.desLabel.numberOfLines == 2) {
-//            self.desLabel.numberOfLines = 0;
-////            self.desLabel.attributedText = [self buildDesString];
-////            self.desLabel.attributedTruncationToken = [self buildTrunAttrStingWithExpand:YES];
-////            
-////            [self.fifthSecView remakeConstraints:^(MASConstraintMaker *make) {
-////                make.top.equalTo(self.forthSecView.bottom);
-////                make.left.equalTo(self.contentView.left);
-////                make.right.equalTo(self.contentView.right);
-////                CGRect rect = [self.desLabel.attributedText boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.desLabel.bounds), CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
-////                make.height.mas_equalTo(180.0f + CGRectGetHeight(rect) + 50.0f);
-////            }];
-////            
-////            [self.desLabel remakeConstraints:^(MASConstraintMaker *make) {
-////                make.left.equalTo(self.desTitleLabel.left);
-////                make.width.equalTo(self.fifthSecView.width).offset(-30.0f);
-////                make.top.equalTo(self.desTitleLabel.bottom).offset(10.0f);
-////
-////            }];
-//            if (self.showMoreLessBlock) {
-//                self.showMoreLessBlock(YES);
-//            }
-//        } else {
-//            self.desLabel.numberOfLines = 2;
-//            self.desLabel.attributedText = [self buildDesString];
-//            self.desLabel.attributedTruncationToken = [self buildTrunAttrStingWithExpand:NO];
-//            if (self.showMoreLessBlock) {
-//                self.showMoreLessBlock(NO);
-//            }
-//        }
-//    };
-//}
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+    if ([url.absoluteString isEqualToString:@"showMore"]) {
+        [self. desLabel removeFromSuperview];
+        self.desLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+        self.desLabel.numberOfLines = 0;
+        self.desLabel.delegate = self;
+        self.desLabel.attributedText = [self buildDesString];
+        [self.fifthSecView addSubview:self.desLabel];
+        
+        [self.fifthSecView remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.forthSecView.bottom);
+            make.left.equalTo(self.contentView.left);
+            make.right.equalTo(self.contentView.right);
+            CGRect rect = [self.desLabel.attributedText boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.desLabel.bounds)-30.0f, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
+            make.height.mas_equalTo(180.0f + CGRectGetHeight(rect) + 40.0f);
+        }];
+        
+        [self.desLabel remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.desTitleLabel.left);
+            make.width.equalTo(self.fifthSecView.width).offset(-30.0f);
+            make.top.equalTo(self.desTitleLabel.bottom).offset(10.0f);
+            
+        }];
+        if (self.showMoreLessBlock) {
+            self.showMoreLessBlock();
+        }
+    };
+}
 
-- (NSMutableAttributedString *)buildTrunAttrStingWithExpand:(BOOL)expanded {
-    if (expanded) {
-        NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:@"..." attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSLinkAttributeName:[NSURL URLWithString:@"showMore"]}];
-        
-        NSMutableAttributedString *attrString3 = [[NSMutableAttributedString alloc] initWithString:@"收起" attributes:@{NSForegroundColorAttributeName:[UIColor HHLinkBlue], NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSLinkAttributeName:[NSURL URLWithString:@"showMore"]}];
-        
-        [attrString2 appendAttributedString:attrString3];
-        return attrString2;
-        
-    } else {
-        NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:@"..." attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSLinkAttributeName:[NSURL URLWithString:@"showMore"]}];
-        
-        NSMutableAttributedString *attrString3 = [[NSMutableAttributedString alloc] initWithString:@"更多" attributes:@{NSForegroundColorAttributeName:[UIColor HHLinkBlue], NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSLinkAttributeName:[NSURL URLWithString:@"showMore"]}];
-        
-        [attrString2 appendAttributedString:attrString3];
-        return attrString2;
+- (NSMutableAttributedString *)buildTrunAttrSting {
+    NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:@"..." attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSLinkAttributeName:[NSURL URLWithString:@"showMore"]}];
+    
+    NSMutableAttributedString *attrString3 = [[NSMutableAttributedString alloc] initWithString:@"更多" attributes:@{NSForegroundColorAttributeName:[UIColor HHLinkBlue], NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSLinkAttributeName:[NSURL URLWithString:@"showMore"]}];
+    
+    [attrString2 appendAttributedString:attrString3];
+    return attrString2;
+}
+
+- (void)showFieldsMap {
+    if (self.fieldBlock) {
+        self.fieldBlock();
+    }
+}
+
+- (void)showGetNumView {
+    if (self.priceNotifBlock) {
+        self.priceNotifBlock();
     }
 }
 

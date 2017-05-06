@@ -11,10 +11,11 @@
 #import "FLAnimatedImageView.h"
 #import "HHDrivingSchool.h"
 #import "HHSchoolGenericView.h"
+#import <TTTAttributedLabel/TTTAttributedLabel.h>
 
-typedef void (^HHDesBlock)(BOOL expand);
+typedef void (^HHSchoolBasicBlock)();
 
-@interface HHSchoolBasicInfoTableViewCell : UITableViewCell
+@interface HHSchoolBasicInfoTableViewCell : UITableViewCell <TTTAttributedLabelDelegate>
 
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *consultNumLabel;
@@ -37,10 +38,12 @@ typedef void (^HHDesBlock)(BOOL expand);
 @property (nonatomic, strong) HHSchoolGenericView *passRateView;
 @property (nonatomic, strong) HHSchoolGenericView *satisView;
 @property (nonatomic, strong) HHSchoolGenericView *coachCountView;
-@property (nonatomic, strong) UILabel *desLabel;
+@property (nonatomic, strong) TTTAttributedLabel *desLabel;
 @property (nonatomic, strong) UILabel *desTitleLabel;
 
-@property (nonatomic, strong) HHDesBlock showMoreLessBlock;
+@property (nonatomic, strong) HHSchoolBasicBlock showMoreLessBlock;
+@property (nonatomic, strong) HHSchoolBasicBlock fieldBlock;
+@property (nonatomic, strong) HHSchoolBasicBlock priceNotifBlock;
 
 - (void)setupCellWithSchool:(HHDrivingSchool *)school;
 
