@@ -108,7 +108,6 @@ static const NSInteger count = 8;
     [attributedString appendAttributedString:attrStringWithImage];
     return attributedString;
 
-    
 }
 
 - (UIScrollView *)buildScrollViewWithType:(CarouselType)type data:(NSArray *)data {

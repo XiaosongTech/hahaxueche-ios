@@ -94,6 +94,8 @@
     [self.fifthSecView addSubview:self.desTitleLabel];
     
     self.desLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+    self.desLabel.linkAttributes = @{NSForegroundColorAttributeName:[UIColor HHLightestTextGray]};
+    self.desLabel.activeLinkAttributes = @{NSForegroundColorAttributeName:[UIColor HHLightestTextGray]};
     self.desLabel.delegate = self;
     self.desLabel.numberOfLines = 2;
     self.desLabel.attributedTruncationToken = [self buildTrunAttrSting];

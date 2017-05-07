@@ -30,6 +30,8 @@
 #import "HHGenericPhoneView.h"
 #import "HHSchoolPriceTableViewCell.h"
 #import "HHCoachPriceDetailViewController.h"
+#import "HHSchoolGrouponTableViewCell.h"
+#import "HHSchoolFieldTableViewCell.h"
 
 typedef NS_ENUM(NSInteger, SchoolCell) {
     SchoolCellBasic,
@@ -44,7 +46,8 @@ typedef NS_ENUM(NSInteger, SchoolCell) {
 
 static NSString *const kBasicCellID = @"kBasicCellID";
 static NSString *const kPriceCellID = @"kPriceCellID";
-
+static NSString *const kGrouponCellID = @"kGrouponCellID";
+static NSString *const kFieldCellId = @"kFieldCellId";
 
 @interface HHDrivingSchoolDetailViewController () <UITableViewDelegate, UITableViewDataSource, SDCycleScrollViewDelegate, UIScrollViewDelegate>
 
@@ -108,6 +111,8 @@ static NSString *const kPriceCellID = @"kPriceCellID";
     
     [self.tableView registerClass:[HHSchoolBasicInfoTableViewCell class] forCellReuseIdentifier:kBasicCellID];
     [self.tableView registerClass:[HHSchoolPriceTableViewCell class] forCellReuseIdentifier:kPriceCellID];
+    [self.tableView registerClass:[HHSchoolGrouponTableViewCell class] forCellReuseIdentifier:kGrouponCellID];
+    [self.tableView registerClass:[HHSchoolFieldTableViewCell class] forCellReuseIdentifier:kFieldCellId];
     
     self.bottomBar = [[HHCoachDetailBottomBarView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.tableView.bounds), CGRectGetWidth(self.view.bounds), 50.0f)];
     [self.view addSubview:self.bottomBar];
@@ -160,7 +165,7 @@ static NSString *const kPriceCellID = @"kPriceCellID";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -195,7 +200,7 @@ static NSString *const kPriceCellID = @"kPriceCellID";
                 [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
             };
             return cell;
-        } break;
+        } 
             
         case SchoolCellPrice: {
             HHSchoolPriceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kPriceCellID forIndexPath:indexPath];
@@ -219,6 +224,20 @@ static NSString *const kPriceCellID = @"kPriceCellID";
                     type = CoachProductTypeC1Wuyou;
                 }
                 HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:coach productType:type];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
+            [cell setupCellWithSchool:self.school];
+            return cell;
+        }
+          
+        case SchoolCellGroupon: {
+            HHSchoolGrouponTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kGrouponCellID forIndexPath:indexPath];
+            return cell;
+        }
+        case SchoolCellField: {
+            HHSchoolFieldTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFieldCellId forIndexPath:indexPath];
+            cell.fieldBlock = ^(HHField *field) {
+                HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:[HHConstantsStore sharedInstance].fields selectedField:field highlightedFields:weakSelf.school.fields];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             };
             [cell setupCellWithSchool:self.school];
@@ -250,6 +269,14 @@ static NSString *const kPriceCellID = @"kPriceCellID";
         } else {
             return 60.0f + 2 * 70.0f;
         }
+    } else if (indexPath.row == SchoolCellGroupon) {
+        return 80.0f;
+    } else if (indexPath.row == SchoolCellField) {
+        NSInteger count = self.school.fields.count;
+        if (count >= 3) {
+            count = 3;
+        }
+        return 110.0f + count * 100.0f;
     }
     return 280.0f;
     
