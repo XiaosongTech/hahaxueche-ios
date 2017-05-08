@@ -16,6 +16,7 @@ typedef void (^HHSchoolPriceBlock)(NSInteger index);
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIView *topLine;
 @property (nonatomic, strong) UIView *mainView;
+@property (nonatomic, strong) NSMutableArray *viewArray;
 
 @property (nonatomic, strong) HHSchoolPriceBlock priceBlock;
 

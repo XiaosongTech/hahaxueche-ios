@@ -31,6 +31,7 @@
              @"fields":@"fields",
              @"bio":@"bio",
              @"lowestVIPPrice":@"lowest_vip_price",
+             @"grouponCount":@"groupon_count",
              };
 }
 

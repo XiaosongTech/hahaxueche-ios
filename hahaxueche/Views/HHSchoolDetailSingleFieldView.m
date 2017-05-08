@@ -49,7 +49,7 @@
         }];
         
         self.checkFieldButton = [[HHGradientButton alloc] initWithType:0];
-        [self.checkFieldButton setTitle:@"去现场看看" forState:UIControlStateNormal];
+        [self.checkFieldButton setAttributedTitle:[self generateButtonString] forState:UIControlStateNormal];
         [self.checkFieldButton addTarget:self action:@selector(checkButtonTapped) forControlEvents:UIControlEventTouchUpInside];
         self.checkFieldButton.titleLabel.font = [UIFont systemFontOfSize:12.0f];
         self.checkFieldButton.layer.masksToBounds = YES;
@@ -89,8 +89,24 @@
     return attrString;
 }
 
-- (void)checkButtonTapped {
+
+- (NSMutableAttributedString *)generateButtonString {
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@"去现场看看" attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}];
     
+    NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+    textAttachment.image = [UIImage imageNamed:@"schoollist_ic_arrow"];
+    textAttachment.bounds = CGRectMake(0, 0, textAttachment.image.size.width, textAttachment.image.size.height);
+    
+    NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+    [attrString appendAttributedString:attrStringWithImage];
+    return attrString;
+}
+
+
+- (void)checkButtonTapped {
+    if (self.checkFieldBlock) {
+        self.checkFieldBlock(self.field);
+    }
 }
 
 @end

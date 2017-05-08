@@ -19,6 +19,7 @@
     if (self) {
         self.contentView.backgroundColor = [UIColor HHLightBackgroudGray];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.viewArray = [NSMutableArray array];
         [self initSubviews];
     }
     return self;
@@ -62,7 +63,11 @@
 }
 
 - (void)setupCellWithSchool:(HHDrivingSchool *)school {
+    if (self.viewArray.count > 0) {
+        return;
+    }
     UIView *view1 = [self buildSinglePriceViewWithTitle:@"超值班" subTitle:@"四人一车, 高性价比" price:school.lowestPrice tag:0 showLine:YES];
+    [self.viewArray addObject:view1];
     [self.contentView addSubview:view1];
     [view1 makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(self.contentView.width);
@@ -80,6 +85,7 @@
             make.height.mas_equalTo(70.0f);
             make.left.equalTo(self.contentView.left);
         }];
+        [self.viewArray addObject:view2];
         
         UIView *view3 = [self buildSinglePriceViewWithTitle:@"无忧班" subTitle:@"包补考费, 不过包赔" price:@([school.lowestPrice floatValue] + 20000) tag:2 showLine:NO];
         [self.contentView addSubview:view3];
@@ -89,6 +95,8 @@
             make.height.mas_equalTo(70.0f);
             make.left.equalTo(self.contentView.left);
         }];
+        
+        [self.viewArray addObject:view3];
     } else {
         UIView *view2 = [self buildSinglePriceViewWithTitle:@"无忧班" subTitle:@"包补考费, 不过包赔" price:@([school.lowestPrice floatValue] + 20000) tag:1 showLine:NO];
         [self.contentView addSubview:view2];
@@ -98,6 +106,7 @@
             make.height.mas_equalTo(70.0f);
             make.left.equalTo(self.contentView.left);
         }];
+        [self.viewArray addObject:view2];
     }
 }
 

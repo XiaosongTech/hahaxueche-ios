@@ -75,4 +75,17 @@
     }];
 }
 
+- (void)setupCellWithSchool:(HHDrivingSchool *)school {
+    self.subTitleLabel.attributedText = [self generateCountStringWithSchool:school];
+}
+
+- (NSMutableAttributedString *)generateCountStringWithSchool:(HHDrivingSchool *)school {
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[school.grouponCount stringValue] attributes:@{NSForegroundColorAttributeName:[UIColor HHOrange], NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}];
+    
+    NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:@"人已参与" attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}];
+    
+    [attrString appendAttributedString:attrString2];
+    return attrString;
+}
+
 @end

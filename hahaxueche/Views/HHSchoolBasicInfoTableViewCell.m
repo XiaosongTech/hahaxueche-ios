@@ -246,8 +246,8 @@
 
 - (NSMutableAttributedString *)generateConsultNumString {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"已有" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHTextDarkGray]}];
-    NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@人", [self.school.consultCount stringValue]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHOrange]}];
-    NSMutableAttributedString *string3 = [[NSMutableAttributedString alloc] initWithString:@"咨询" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHTextDarkGray]}];
+    NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:[self.school.consultCount stringValue] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHOrange]}];
+    NSMutableAttributedString *string3 = [[NSMutableAttributedString alloc] initWithString:@"人咨询" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHTextDarkGray]}];
     
     [string appendAttributedString:string2];
     [string appendAttributedString:string3];

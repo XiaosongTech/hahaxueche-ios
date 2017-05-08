@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HHDrivingSchool.h"
 
 @interface HHSchoolGrouponTableViewCell : UITableViewCell
 
@@ -15,5 +16,7 @@
 @property (nonatomic, strong) UIImageView *arrowView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *subTitleLabel;
+
+- (void)setupCellWithSchool:(HHDrivingSchool *)school;
 
 @end

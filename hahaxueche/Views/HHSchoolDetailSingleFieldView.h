@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HHField.h"
+#import "HHSchoolFieldTableViewCell.h"
 #import "HHGradientButton.h"
 
 
@@ -19,6 +20,7 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *subTitleLabel;
 @property (nonatomic, strong) HHGradientButton *checkFieldButton;
+@property (nonatomic, strong) HHFieldBlock checkFieldBlock;
 
 @property (nonatomic, strong) HHField *field;
 

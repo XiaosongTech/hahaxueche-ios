@@ -28,5 +28,6 @@
 @property (nonatomic, strong) NSString *nearestFieldZone;
 @property (nonatomic, strong) NSArray *fields;
 @property (nonatomic, copy) NSString *bio;
+@property (nonatomic, strong) NSNumber *grouponCount;
 
 @end

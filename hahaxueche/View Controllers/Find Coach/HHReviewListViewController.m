@@ -33,6 +33,7 @@ static NSString *kCellID = @"kCellId";
 @property (nonatomic, strong) HHReviews *reviewsObject;
 @property (nonatomic, strong) NSMutableArray *reviews;
 @property (nonatomic, strong) HHCoach *coach;
+@property (nonatomic, strong) HHDrivingSchool *school;
 
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 @property (nonatomic, strong) MJRefreshAutoNormalFooter *loadMoreFooter;
@@ -45,6 +46,16 @@ static NSString *kCellID = @"kCellId";
     self = [super init];
     if (self) {
         self.coach = coach;
+        self.reviews = [NSMutableArray arrayWithArray:reviews.reviews];
+        self.reviewsObject = reviews;
+    }
+    return self;
+}
+
+- (instancetype)initWithReviews:(HHReviews *)reviews school:(HHDrivingSchool *)school {
+    self = [super init];
+    if (self) {
+        self.school = school;
         self.reviews = [NSMutableArray arrayWithArray:reviews.reviews];
         self.reviewsObject = reviews;
     }
@@ -66,18 +77,33 @@ static NSString *kCellID = @"kCellId";
     
     self.reviewNumberLabel = [[UILabel alloc] init];
     self.reviewNumberLabel.textColor = [UIColor HHOrange];
-    self.reviewNumberLabel.text = [NSString stringWithFormat:@"学员评价（%@）", [self.coach.reviewCount stringValue]];
+    
+    NSString *count;
+    if (self.coach) {
+        count = [self.coach.reviewCount stringValue];
+    } else {
+         count = [self.school.reviewCount stringValue];
+    }
+    self.reviewNumberLabel.text = [NSString stringWithFormat:@"学员评价（%@）", count];
     self.reviewNumberLabel.font = [UIFont systemFontOfSize:16.0f];
     [self.topContainerView addSubview:self.reviewNumberLabel];
     
     self.ratingLabel = [[UILabel alloc] init];
     self.ratingLabel.textColor = [UIColor HHOrange];
-    self.ratingLabel.text = [NSString stringWithFormat:@"%.1f分",[self.coach.averageRating floatValue]];;
+    
+    float rating;
+    if (self.coach) {
+        rating = [self.coach.averageRating floatValue];
+    } else {
+        rating = [self.school.rating floatValue];
+    }
+    self.ratingLabel.text = [NSString stringWithFormat:@"%.1f分",rating];
     self.ratingLabel.font = [UIFont systemFontOfSize:13.0f];
     [self.topContainerView addSubview:self.ratingLabel];
     
     self.starRatingView = [[HHStarRatingView alloc] initWithInteraction:NO];
-    self.starRatingView.value = [self.coach.averageRating floatValue];
+    
+    self.starRatingView.value = rating;
     [self.topContainerView addSubview:self.starRatingView];
     
     self.tableView = [[UITableView alloc] init];
@@ -236,32 +262,60 @@ static NSString *kCellID = @"kCellId";
         [[HHLoadingViewUtility sharedInstance] showLoadingView];
     }
     
-    [[HHCoachService sharedInstance] fetchReviewsWithUserId:self.coach.userId completion:^(HHReviews *reviews, NSError *error) {
-        if (completion) {
-            completion();
-        }
-        if (!error) {
-            weakSelf.reviews = [NSMutableArray arrayWithArray:reviews.reviews];
-            weakSelf.reviewsObject = reviews;
-            [weakSelf.tableView reloadData];
-        }
-    }];
+    if (self.coach) {
+        [[HHCoachService sharedInstance] fetchReviewsWithUserId:self.coach.userId completion:^(HHReviews *reviews, NSError *error) {
+            if (completion) {
+                completion();
+            }
+            if (!error) {
+                weakSelf.reviews = [NSMutableArray arrayWithArray:reviews.reviews];
+                weakSelf.reviewsObject = reviews;
+                [weakSelf.tableView reloadData];
+            }
+        }];
+    } else {
+        [[HHCoachService sharedInstance] fetchDrivingSchoolReviewsWithId:self.school.schoolId completion:^(HHReviews *reviews, NSError *error) {
+            if (completion) {
+                completion();
+            }
+            if (!error) {
+                weakSelf.reviews = [NSMutableArray arrayWithArray:reviews.reviews];
+                weakSelf.reviewsObject = reviews;
+                [weakSelf.tableView reloadData];
+            }
+        }];
+    }
+    
     
 }
 
 - (void)loadMoreCoachesWithCompletion:(HHRefreshCoachCompletionBlock)completion {
     __weak HHReviewListViewController *weakSelf = self;
-    [[HHCoachService sharedInstance] fetchNextPageReviewsWithURL:self.reviewsObject.nextPage completion:^(HHReviews *reviews, NSError *error) {
-        if (completion) {
-            completion();
-        }
-        if (!error) {
-            [weakSelf.reviews addObjectsFromArray:reviews.reviews];
-            weakSelf.reviewsObject = reviews;
-            [weakSelf.tableView reloadData];
-        }
-
-    }];
+    if (self.coach) {
+        [[HHCoachService sharedInstance] fetchNextPageReviewsWithURL:self.reviewsObject.nextPage completion:^(HHReviews *reviews, NSError *error) {
+            if (completion) {
+                completion();
+            }
+            if (!error) {
+                [weakSelf.reviews addObjectsFromArray:reviews.reviews];
+                weakSelf.reviewsObject = reviews;
+                [weakSelf.tableView reloadData];
+            }
+            
+        }];
+    } else {
+        [[HHCoachService sharedInstance] fetchNextPageDrivingSchoolReviewsWithURL:self.reviewsObject.nextPage completion:^(HHReviews *reviews, NSError *error) {
+            if (completion) {
+                completion();
+            }
+            if (!error) {
+                [weakSelf.reviews addObjectsFromArray:reviews.reviews];
+                weakSelf.reviewsObject = reviews;
+                [weakSelf.tableView reloadData];
+            }
+        }];
+    }
+    
 }
 
 - (void)setReviewsObject:(HHReviews *)reviewsObject {

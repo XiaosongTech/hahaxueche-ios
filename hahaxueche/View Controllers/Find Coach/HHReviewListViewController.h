@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "HHReviews.h"
 #import "HHCoach.h"
+#import "HHDrivingSchool.h"
 
 @interface HHReviewListViewController : UIViewController
 
 - (instancetype)initWithReviews:(HHReviews *)reviews coach:(HHCoach *)coach;
+- (instancetype)initWithReviews:(HHReviews *)reviews school:(HHDrivingSchool *)school;
 
 @end

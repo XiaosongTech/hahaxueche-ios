@@ -32,6 +32,11 @@
 #import "HHCoachPriceDetailViewController.h"
 #import "HHSchoolGrouponTableViewCell.h"
 #import "HHSchoolFieldTableViewCell.h"
+#import "HHWebViewController.h"
+#import "HHSchoolReviewTableViewCell.h"
+#import "HHReviewListViewController.h"
+#import "HHGetNumberTableViewCell.h"
+#import "HHHotSchoolsTableViewCell.h"
 
 typedef NS_ENUM(NSInteger, SchoolCell) {
     SchoolCellBasic,
@@ -48,6 +53,9 @@ static NSString *const kBasicCellID = @"kBasicCellID";
 static NSString *const kPriceCellID = @"kPriceCellID";
 static NSString *const kGrouponCellID = @"kGrouponCellID";
 static NSString *const kFieldCellId = @"kFieldCellId";
+static NSString *const kReviewCellId = @"kReviewCellId";
+static NSString *const kGetNumCellId = @"kGetNumCellId";
+static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
 
 @interface HHDrivingSchoolDetailViewController () <UITableViewDelegate, UITableViewDataSource, SDCycleScrollViewDelegate, UIScrollViewDelegate>
 
@@ -57,6 +65,8 @@ static NSString *const kFieldCellId = @"kFieldCellId";
 @property (nonatomic, strong) SDCycleScrollView *schoolImagesView;
 @property (nonatomic, strong) HHCoachDetailBottomBarView *bottomBar;
 @property (nonatomic) BOOL desExpanded;
+
+@property (nonatomic, strong) HHReviews *reviewsObject;
 
 @end
 
@@ -83,6 +93,13 @@ static NSString *const kFieldCellId = @"kFieldCellId";
         if (!error) {
             self.school = school;
             [self initSubviews];
+        }
+    }];
+    
+    [[HHCoachService sharedInstance] fetchDrivingSchoolReviewsWithId:self.school.schoolId completion:^(HHReviews *reviews, NSError *error) {
+        if (!error) {
+            self.reviewsObject = reviews;
+            [self.tableView reloadData];
         }
     }];
 }
@@ -113,6 +130,9 @@ static NSString *const kFieldCellId = @"kFieldCellId";
     [self.tableView registerClass:[HHSchoolPriceTableViewCell class] forCellReuseIdentifier:kPriceCellID];
     [self.tableView registerClass:[HHSchoolGrouponTableViewCell class] forCellReuseIdentifier:kGrouponCellID];
     [self.tableView registerClass:[HHSchoolFieldTableViewCell class] forCellReuseIdentifier:kFieldCellId];
+    [self.tableView registerClass:[HHSchoolReviewTableViewCell class] forCellReuseIdentifier:kReviewCellId];
+    [self.tableView registerClass:[HHGetNumberTableViewCell class] forCellReuseIdentifier:kGetNumCellId];
+    [self.tableView registerClass:[HHHotSchoolsTableViewCell class] forCellReuseIdentifier:kHotSchoolCellId];
     
     self.bottomBar = [[HHCoachDetailBottomBarView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.tableView.bounds), CGRectGetWidth(self.view.bounds), 50.0f)];
     [self.view addSubview:self.bottomBar];
@@ -132,6 +152,7 @@ static NSString *const kFieldCellId = @"kFieldCellId";
             }];
         };
         weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+        [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
     };
     
     self.bottomBar.supportAction = ^(){
@@ -165,7 +186,7 @@ static NSString *const kFieldCellId = @"kFieldCellId";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return SchoolCellCount;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -232,6 +253,7 @@ static NSString *const kFieldCellId = @"kFieldCellId";
           
         case SchoolCellGroupon: {
             HHSchoolGrouponTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kGrouponCellID forIndexPath:indexPath];
+            [cell setupCellWithSchool:self.school];
             return cell;
         }
         case SchoolCellField: {
@@ -240,7 +262,58 @@ static NSString *const kFieldCellId = @"kFieldCellId";
                 HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:[HHConstantsStore sharedInstance].fields selectedField:field highlightedFields:weakSelf.school.fields];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             };
+            cell.checkFieldBlock = ^(HHField *field) {
+                HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"看过训练场才放心" placeHolder:@"输入手机号, 教练立即带你看训练场" buttonTitle:@"预约看场地"];
+                view.buttonAction = ^(NSString *number) {
+                    [[HHStudentService sharedInstance] getPhoneNumber:number coachId:nil schoolId:weakSelf.school.schoolId fieldId:field.fieldId eventType:nil eventData:nil completion:^(NSError *error) {
+                        if (error) {
+                            [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
+                        } else {
+                            [HHPopupUtility dismissPopup:weakSelf.popup];
+                        }
+                        
+                    }];
+                };
+                weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+            };
             [cell setupCellWithSchool:self.school];
+            return cell;
+        }
+            
+        case SchoolCellReview: {
+            HHSchoolReviewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kReviewCellId forIndexPath:indexPath];
+            cell.reviewsBlock = ^{
+                HHReviewListViewController *vc = [[HHReviewListViewController alloc] initWithReviews:weakSelf.reviewsObject school:weakSelf.school];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
+            [cell setupCellWithSchool:self.school reviews:self.reviewsObject];
+            return cell;
+        }
+            
+        case SchoolCellGetNumber: {
+            HHGetNumberTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kGetNumCellId forIndexPath:indexPath];
+            cell.confirmBlock = ^(NSString *phoneNum) {
+                [[HHStudentService sharedInstance] getPhoneNumber:phoneNum coachId:nil schoolId:weakSelf.school.schoolId fieldId:nil eventType:nil eventData:nil completion:^(NSError *error) {
+                    if (error) {
+                        [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
+                    } else {
+                        [HHPopupUtility dismissPopup:weakSelf.popup];
+                        [[HHToastManager sharedManager] showSuccessToastWithText:@"提交成功! 工作人员会马上联系您!"];
+                    }
+                    
+                }];
+            };
+            return cell;
+        }
+        case SchoolCellHotSchool: {
+            HHHotSchoolsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kHotSchoolCellId forIndexPath:indexPath];
+            cell.schoolBlock = ^(NSInteger index) {
+                HHDrivingSchool *school = [[HHConstantsStore sharedInstance] getDrivingSchools][index];
+                HHDrivingSchoolDetailViewController *vc = [[HHDrivingSchoolDetailViewController alloc] initWithSchool:school];
+                vc.hidesBottomBarWhenPushed = YES;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            };
             return cell;
         }
             
@@ -249,6 +322,13 @@ static NSString *const kFieldCellId = @"kFieldCellId";
     }
     return nil;
     
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == SchoolCellGroupon) {
+        HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/tuan?promo_code=456134"]];
+        [self.navigationController pushViewController:webVC animated:YES];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -271,14 +351,19 @@ static NSString *const kFieldCellId = @"kFieldCellId";
         }
     } else if (indexPath.row == SchoolCellGroupon) {
         return 80.0f;
+        
     } else if (indexPath.row == SchoolCellField) {
-        NSInteger count = self.school.fields.count;
-        if (count >= 3) {
-            count = 3;
-        }
+        NSInteger count = MIN(self.school.fields.count, 3);
         return 110.0f + count * 100.0f;
+        
+    } else if (indexPath.row == SchoolCellReview) {
+        NSInteger count = MIN(self.reviewsObject.reviews.count, 3);
+        return 110.0f + count * 90.0f;
+    } else if (indexPath.row == SchoolCellGetNumber) {
+        return 115.0f;
+    } else {
+        return 140.0f;
     }
-    return 280.0f;
     
 }
 

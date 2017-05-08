@@ -367,12 +367,44 @@
 }
 
 - (void)fetchDrivingSchoolWithId:(NSNumber *)schoolId completion:(HHSchoolCompletion)completion {
-     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIDrivingSchool, [schoolId stringValue]]];
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIDrivingSchool, [schoolId stringValue]]];
     [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             HHDrivingSchool *school = [MTLJSONAdapter modelOfClass:[HHDrivingSchool class] fromJSONDictionary:response error:nil];
             if (completion) {
                 completion(school, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
+- (void)fetchDrivingSchoolReviewsWithId:(NSNumber *)schoolId completion:(HHCoachReviewListCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIDrivingSchoolReviews, [schoolId stringValue]]];
+    [APIClient getWithParameters:@{@"per_page":@(20)} completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHReviews *reviews = [MTLJSONAdapter modelOfClass:[HHReviews class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(reviews, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
+- (void)fetchNextPageDrivingSchoolReviewsWithURL:(NSString *)URL completion:(HHCoachReviewListCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClient];
+    [APIClient getWithURL:URL completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHReviews *reviews = [MTLJSONAdapter modelOfClass:[HHReviews class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(reviews, nil);
             }
         } else {
             if (completion) {

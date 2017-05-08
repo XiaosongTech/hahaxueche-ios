@@ -71,6 +71,9 @@
 }
 
 - (void)setupCellWithSchool:(HHDrivingSchool *)school {
+    if (self.school) {
+        return;
+    }
     self.school = school;
     NSInteger count = school.fields.count;
     if (count >= 3) {
@@ -79,6 +82,11 @@
     for (int i = 0 ; i < count; i++) {
         HHField *field = school.fields[i];
         HHSchoolDetailSingleFieldView *view = [[HHSchoolDetailSingleFieldView alloc] initWithField:field];
+        view.checkFieldBlock = ^(HHField *field) {
+            if (self.checkFieldBlock) {
+                self.checkFieldBlock(field);
+            }
+        };
         view.tag = i;
         [self.mainView addSubview:view];
         [view makeConstraints:^(MASConstraintMaker *make) {

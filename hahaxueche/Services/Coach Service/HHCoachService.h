@@ -158,5 +158,9 @@ typedef void (^HHCoachSearchCompletion)(NSArray *coaches, NSError *error);
 
 - (void)fetchDrivingSchoolWithId:(NSNumber *)schoolId completion:(HHSchoolCompletion)completion;
 
+- (void)fetchDrivingSchoolReviewsWithId:(NSNumber *)schoolId completion:(HHCoachReviewListCompletion)completion;
+
+- (void)fetchNextPageDrivingSchoolReviewsWithURL:(NSString *)URL completion:(HHCoachReviewListCompletion)completion;
+
 
 @end
