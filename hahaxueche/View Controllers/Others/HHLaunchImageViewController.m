@@ -26,13 +26,18 @@
     self.imageView = [[FLAnimatedImageView alloc] init];
     self.imageView.loopCompletionBlock = ^(NSUInteger loopCountRemaining) {
         [weakSelf.imageView stopAnimating];
+        if (!weakSelf.desVC) {
+            weakSelf.desVC = [[HHRootViewController alloc] init];
+        }
+        
+        [UIApplication sharedApplication].keyWindow.rootViewController = weakSelf.desVC;
     };
     self.imageView.contentMode = UIViewContentModeScaleAspectFit;
     NSString *imgString = [[NSBundle mainBundle] pathForResource:@"launchImage" ofType:@"gif"];
     NSData *imgData = [NSData dataWithContentsOfFile:imgString];
     self.imageView.animatedImage = [FLAnimatedImage animatedImageWithGIFData:imgData];
     [self.view addSubview:self.imageView];
-    
+
     [self makeConstraints];
 }
 
@@ -44,27 +49,7 @@
     }];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 4.0f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        if (!self.desVC) {
-            HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-            self.desVC = rootVC;
-        }
-        [UIApplication sharedApplication].keyWindow.rootViewController = self.desVC;
-    });
-}
 
-- (void)setDesVC:(UIViewController *)desVC {
-    _desVC = desVC;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        if (!self.desVC) {
-            HHRootViewController *rootVC = [[HHRootViewController alloc] init];
-            self.desVC = rootVC;
-        }
-        [UIApplication sharedApplication].keyWindow.rootViewController = self.desVC;
-    });
-}
 
 
 @end

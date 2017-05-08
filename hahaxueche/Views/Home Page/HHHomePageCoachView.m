@@ -111,16 +111,21 @@
         return attributedString;
     } else {
         HHField *field = [[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId];
-        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:field.district attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10.0f], NSForegroundColorAttributeName:[UIColor HHLightestTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+        if (field.district) {
+            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:field.district attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10.0f], NSForegroundColorAttributeName:[UIColor HHLightestTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+            
+            NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+            textAttachment.image = [UIImage imageNamed:@"ic_list_local_btn"];
+            textAttachment.bounds = CGRectMake(-2.0f, -2.0f, textAttachment.image.size.width, textAttachment.image.size.height);
+            
+            NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+            
+            [attributedString insertAttributedString:attrStringWithImage atIndex:0];
+            return attributedString;
+        } else {
+            return nil;
+        }
         
-        NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
-        textAttachment.image = [UIImage imageNamed:@"ic_list_local_btn"];
-        textAttachment.bounds = CGRectMake(-2.0f, -2.0f, textAttachment.image.size.width, textAttachment.image.size.height);
-        
-        NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
-        
-        [attributedString insertAttributedString:attrStringWithImage atIndex:0];
-        return attributedString;
         
     }
     
