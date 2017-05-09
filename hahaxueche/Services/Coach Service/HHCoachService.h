@@ -40,6 +40,7 @@ typedef void (^HHCoachCheckFollowedCompletion)(BOOL followed);
 typedef void (^HHCoachGenericCompletion)(NSError *error);
 typedef void (^HHCoachReviewCompletion)(HHReview *review, NSError *error);
 typedef void (^HHCoachSearchCompletion)(NSArray *coaches, NSError *error);
+typedef void (^HHSchoolSearchCompletion)(NSArray *schools, NSError *error);
 
 
 @interface HHCoachService : NSObject
@@ -161,6 +162,8 @@ typedef void (^HHCoachSearchCompletion)(NSArray *coaches, NSError *error);
 - (void)fetchDrivingSchoolReviewsWithId:(NSNumber *)schoolId completion:(HHCoachReviewListCompletion)completion;
 
 - (void)fetchNextPageDrivingSchoolReviewsWithURL:(NSString *)URL completion:(HHCoachReviewListCompletion)completion;
+
+- (void)searchSchoolWithKeyword:(NSString *)keyword completion:(HHSchoolSearchCompletion)completion;
 
 
 @end

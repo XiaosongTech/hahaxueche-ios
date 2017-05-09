@@ -43,8 +43,8 @@ typedef NS_ENUM(NSInteger, SchoolCell) {
     SchoolCellPrice,
     SchoolCellGroupon,
     SchoolCellField,
-    SchoolCellReview,
     SchoolCellGetNumber,
+    SchoolCellReview,
     SchoolCellHotSchool,
     SchoolCellCount,
 };
@@ -300,9 +300,13 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
                     } else {
                         [HHPopupUtility dismissPopup:weakSelf.popup];
                         [[HHToastManager sharedManager] showSuccessToastWithText:@"提交成功! 工作人员会马上联系您!"];
+                        [self.view endEditing:YES];
                     }
                     
                 }];
+            };
+            cell.scrollBlock = ^{
+                [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:SchoolCellGetNumber inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
             };
             return cell;
         }

@@ -37,7 +37,16 @@
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 35)];
     self.textField.leftView = paddingView;
     self.textField.leftViewMode = UITextFieldViewModeAlways;
+    
+    MMNumberKeyboard *keyboard = [[MMNumberKeyboard alloc] initWithFrame:CGRectZero];
+    keyboard.allowsDecimalPoint = NO;
+    keyboard.returnKeyTitle = @"完成";
+    keyboard.delegate = self;
+    self.textField.inputView = keyboard;
+    
+    
     self.textField.tintColor = [UIColor HHOrange];
+    self.textField.delegate = self;
     self.textField.layer.borderColor = [UIColor HHLightLineGray].CGColor;
     self.textField.layer.masksToBounds = YES;
     self.textField.font = [UIFont systemFontOfSize:12.0f];
@@ -95,6 +104,17 @@
     if (self.confirmBlock) {
         self.confirmBlock(self.textField.text);
     }
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (self.scrollBlock) {
+        self.scrollBlock();
+    }
+}
+
+- (BOOL)numberKeyboardShouldReturn:(MMNumberKeyboard *)numberKeyboard {
+    [self confirmTapped];
+    return NO;
 }
 
 

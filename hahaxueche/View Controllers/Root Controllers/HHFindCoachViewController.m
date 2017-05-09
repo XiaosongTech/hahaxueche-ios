@@ -396,9 +396,9 @@ static NSInteger const kHotSchoolIndex = 4;
         
         
         cell.drivingSchoolBlock = ^(HHDrivingSchool *school) {
-            HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/jiaxiao/%@", [school.schoolId stringValue]]]];
-            webVC.hidesBottomBarWhenPushed = YES;
-            [weakSelf.navigationController pushViewController:webVC animated:YES];
+            HHDrivingSchoolDetailViewController *vc = [[HHDrivingSchoolDetailViewController alloc] initWithSchool:school];
+            vc.hidesBottomBarWhenPushed = YES;
+            [weakSelf.navigationController pushViewController:vc animated:YES];
         };
         
         return cell;
@@ -558,7 +558,7 @@ static NSInteger const kHotSchoolIndex = 4;
 }
 
 - (void)jumpToSearchVC {
-    HHSearchViewController *vc = [[HHSearchViewController alloc] init];
+    HHSearchViewController *vc = [[HHSearchViewController alloc] initWithType:self.segControl.selectedSegmentIndex];
     vc.hidesBottomBarWhenPushed = YES;
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:navVC animated:NO completion:nil];

@@ -298,7 +298,7 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
     self.guideView.itemAction = ^(NSInteger index) {
         switch (index) {
             case 0: {
-                [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/bao-ming-xu-zhi"]];
+                [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/share/jia-kao-xin-zheng"]];
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_new_policy_tapped attributes:nil];
             } break;
             case 1: {
@@ -309,7 +309,8 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_application_notice_tapped attributes:nil];
             } break;
             case 3: {
-                [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/jiaxiao"]];
+                [weakSelf jumpToCoachDrivingSchoolVCWithIndex:ListTypeDrivingSchool];
+                
             } break;
                 
             default:

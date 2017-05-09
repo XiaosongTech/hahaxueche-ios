@@ -414,5 +414,25 @@
     }];
 }
 
+- (void)searchSchoolWithKeyword:(NSString *)keyword completion:(HHSchoolSearchCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIDrivingSchools];
+    [APIClient getWithParameters:@{@"name":keyword, @"city_id":[HHStudentStore sharedInstance].selectedCityId, @"per_page":@(50)} completion:^(NSDictionary *response, NSError *error) {
+        if(!error) {
+            NSMutableArray *coaches = [NSMutableArray array];
+            for (NSDictionary *schoolDic in response[@"data"]) {
+                HHDrivingSchool *school = [MTLJSONAdapter modelOfClass:[HHDrivingSchool class] fromJSONDictionary:schoolDic error:nil];
+                [coaches addObject:school];
+            }
+            if (completion) {
+                completion(coaches, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
 
 @end

@@ -8,15 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "HHGradientButton.h"
+#import <MMNumberKeyboard/MMNumberKeyboard.h>
 
 typedef void (^HHGetNumBlock)(NSString *phoneNum);
+typedef void (^HHScrollToTopBlock)();
 
-@interface HHGetNumberTableViewCell : UITableViewCell
+@interface HHGetNumberTableViewCell : UITableViewCell <UITextFieldDelegate, MMNumberKeyboardDelegate>
 
 @property (nonatomic, strong) UIView *mainView;
 @property (nonatomic, strong) UIImageView *imgView;
 @property (nonatomic, strong) UITextField *textField;
 @property (nonatomic, strong) HHGradientButton *confirmButton;
 @property (nonatomic, strong) HHGetNumBlock confirmBlock;
+@property (nonatomic, strong) HHScrollToTopBlock scrollBlock;
 
 @end
