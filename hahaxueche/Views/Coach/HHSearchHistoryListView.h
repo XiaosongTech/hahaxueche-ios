@@ -9,13 +9,16 @@
 #import <UIKit/UIKit.h>
 
 typedef void (^HHKeywordTappedBlock)(NSString *keyword);
+typedef void (^HHKeywordRemoveBlock)();
 
 @interface HHSearchHistoryListView : UIView
 
 @property (nonatomic, strong) NSArray *searchHistory;
 @property (nonatomic, strong) NSMutableArray *views;
 @property (nonatomic, strong) HHKeywordTappedBlock keywordBlock;
+@property (nonatomic, strong) HHKeywordRemoveBlock keywordRemoveBlock;
 @property (nonatomic, strong) UIButton *clearButton;
+@property (nonatomic, strong) UIScrollView *scrollView;
 
 - (instancetype)initWithHistory:(NSArray *)searchHistory;
 

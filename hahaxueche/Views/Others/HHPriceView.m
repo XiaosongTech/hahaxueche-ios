@@ -46,7 +46,7 @@
         
         self.priceLabel = [[UILabel alloc] init];
         self.priceLabel.text = [price generateMoneyString];
-        self.priceLabel.font = [UIFont systemFontOfSize:15.0f];
+        self.priceLabel.font = [UIFont boldSystemFontOfSize:18.0f];
         self.priceLabel.textColor = [UIColor HHOrange];
         [self addSubview:self.priceLabel];
         

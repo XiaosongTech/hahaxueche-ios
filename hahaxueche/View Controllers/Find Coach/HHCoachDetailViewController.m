@@ -158,7 +158,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
     
-    self.coachImagesView = [[SDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) * 4.0f/5.0f)];
+    self.coachImagesView = [[SDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetWidth(self.view.bounds) * 3.0f/5.0f)];
     self.coachImagesView.delegate = self;
     self.coachImagesView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
     self.coachImagesView.imageURLStringsGroup = self.coach.images;
@@ -189,13 +189,14 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
     self.bottomBar.tryCoachAction = ^(){
         HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"看过训练场才放心" placeHolder:@"输入手机号, 教练立即带你看训练场" buttonTitle:@"预约看场地"];
         view.buttonAction = ^(NSString *number) {
-            [[HHStudentService sharedInstance] getPhoneNumber:number completion:^(NSError *error) {
+            [[HHStudentService sharedInstance] getPhoneNumber:number coachId:weakSelf.coach.coachId schoolId:[weakSelf.coach getCoachDrivingSchool].schoolId fieldId:[weakSelf.coach getCoachField].fieldId eventType:nil eventData:nil completion:^(NSError *error) {
                 if (error) {
                     [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
                 } else {
                     [HHPopupUtility dismissPopup:weakSelf.popup];
                 }
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_free_trial_confirmed attributes:@{@"coach_id":weakSelf.coach.coachId}];
+
             }];
         };
         weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
@@ -314,7 +315,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
         case CoachCellField: {
             HHCoachFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:kFiledCellID forIndexPath:indexPath];
             cell.fieldBlock = ^() {
-                HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:[HHConstantsStore sharedInstance].fields selectedField:[weakSelf.coach getCoachField]];
+                HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:[HHConstantsStore sharedInstance].fields selectedField:[weakSelf.coach getCoachField] highlightedFields:@[[weakSelf.coach getCoachField]]];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_field_tapped attributes:@{@"coach_id":weakSelf.coach.coachId}];
 

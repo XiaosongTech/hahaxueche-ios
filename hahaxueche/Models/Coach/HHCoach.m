@@ -48,6 +48,7 @@
              @"isCheyouWuyou":@"coach_group.group_type",
              @"distance":@"distance",
              @"consultPhone":@"consult_phone",
+             @"consultCount":@"consult_count",
              };
 }
 

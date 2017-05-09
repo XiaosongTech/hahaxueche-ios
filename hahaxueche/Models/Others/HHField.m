@@ -16,7 +16,7 @@
              @"fieldId": @"id",
              @"name": @"name",
              @"district": @"zone",
-             @"address": @"street",
+             @"address": @"address",
              @"longitude": @"lng",
              @"latitude":@"lat",
              @"cityId":@"city_id",

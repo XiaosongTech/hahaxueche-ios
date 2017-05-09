@@ -434,9 +434,9 @@ typedef NS_ENUM(NSInteger, MyPageCellSectionTwo) {
                 HHMyPageHelpCell *cell = [tableView dequeueReusableCellWithIdentifier:kHelpCell];
                 
                 cell.faqView.actionBlock = ^() {
-                    HHLongImageViewController *faq = [[HHLongImageViewController alloc] initWithImage:[UIImage imageNamed:@"faq.png"]];
-                    faq.hidesBottomBarWhenPushed = YES;
-                    [weakSelf.navigationController pushViewController:faq animated:YES];
+                    HHWebViewController *wevVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/xue-che-liu-cheng"]];
+                    wevVC.hidesBottomBarWhenPushed = YES;
+                    [weakSelf.navigationController pushViewController:wevVC animated:YES];
                     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:my_page_FAQ_tapped attributes:nil];
                 };
                 

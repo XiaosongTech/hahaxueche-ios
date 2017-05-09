@@ -295,7 +295,7 @@ typedef void (^HHMarketingChannelCompletion)(NSString *code);
  @param number The phone number
  @param completion The completion block to execute on completion
  */
-- (void)getPhoneNumber:(NSString *)number completion:(HHStudentGenericCompletion)completion;
+- (void)getPhoneNumber:(NSString *)number coachId:(NSString *)coachId schoolId:(NSNumber *)schoolId fieldId:(NSString *)fieldId eventType:(NSNumber *)eventType eventData:(NSDictionary *)eventData completion:(HHStudentGenericCompletion)completion;
 
 
 

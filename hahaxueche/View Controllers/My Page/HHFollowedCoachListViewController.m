@@ -33,7 +33,6 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) MJRefreshNormalHeader *refreshHeader;
 @property (nonatomic, strong) MJRefreshAutoNormalFooter *loadMoreFooter;
-@property (nonatomic, strong) NSMutableArray *expandedCellIndexPath;
 
 @property (nonatomic, strong) NSMutableArray *coaches;
 @property (nonatomic, strong) HHCity *userCity;
@@ -51,7 +50,6 @@ static CGFloat const kCellHeightExpanded = 305.0f;
     [super viewDidLoad];
     self.title = @"我关注的教练";
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(popupVC) target:self];
-    self.expandedCellIndexPath = [NSMutableArray array];
     [self initSubviews];
     [self refreshCoachListWithCompletion:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeCoach:) name:@"kUnfollowCoach" object:nil];
@@ -107,30 +105,9 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HHCoachListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
-    __weak HHFollowedCoachListViewController *weakSelf = self;
-    __weak HHCoachListViewCell *weakCell = cell;
-    
+
     HHCoach *coach = self.coaches[indexPath.row];
-    [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId] mapShowed:[weakSelf.expandedCellIndexPath containsObject:indexPath]];
-    
-    if ([self.expandedCellIndexPath containsObject:indexPath]) {
-        cell.mapView.hidden = NO;
-    } else {
-        cell.mapView.hidden = YES;
-    }
-    
-    cell.mapButtonBlock = ^(){
-        if ([weakSelf.expandedCellIndexPath containsObject:indexPath]) {
-            [weakSelf.expandedCellIndexPath removeObject:indexPath];
-            weakCell.mapView.hidden = YES;
-            
-        } else {
-            weakCell.mapView.hidden = NO;
-            [weakSelf.expandedCellIndexPath addObject:indexPath];
-        }
-        [weakSelf.tableView reloadData];
-    };
-    
+    [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId]];
     
     return cell;
 }
@@ -140,18 +117,7 @@ static CGFloat const kCellHeightExpanded = 305.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat height = 0;
-    if ([tableView isEqual:self.tableView]) {
-        if ([self.expandedCellIndexPath containsObject:indexPath]) {
-            height = kCellHeightExpanded + 40.0f;
-            
-        } else {
-            height = kCellHeightNormal + 40.0f;
-        }
-        return height;
-    } else {
-        return kCellHeightNormal;
-    }
+    return kCellHeightNormal + 40.0f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -53,12 +53,10 @@
 #import "HHHomePageGuardView.h"
 #import "HHAskLocationPermissionViewController.h"
 #import <Appirater.h>
+#import "HHDrivingSchoolDetailViewController.h"
 
 
 static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
-
-static NSString *const kDrivingSchoolPage = @"https://m.hahaxueche.com/jiaxiao";
-static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxueche.com/jiaxiao";
 
 @interface HHHomePageViewController ()
 
@@ -101,13 +99,23 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
     
     if([[HHStudentStore sharedInstance].currentStudent isPurchased]) {
         [CloudPushSDK bindTag:1 withTags:@[@"purchased"] withAlias:nil withCallback:nil];
+
     }
-    
     [self initSubviews];
-    [[HHConstantsStore sharedInstance] getDrivingSchoolsWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(NSArray *schools) {
-        self.drivingSchools = schools;
+    
+    if ([[HHConstantsStore sharedInstance] getDrivingSchools].count > 0) {
+        self.drivingSchools = [[HHConstantsStore sharedInstance] getDrivingSchools];
         [self.drivingSchoolsView updateData:self.drivingSchools type:CarouselTypeDrivingSchool];
-    }];
+        
+    } else {
+        [[HHConstantsStore sharedInstance] getCityWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(HHCity *city) {
+            if (city) {
+                self.drivingSchools = city.drivingSchools;
+                [self.drivingSchoolsView updateData:self.drivingSchools type:CarouselTypeDrivingSchool];
+            }
+
+        }];
+    }
     
     [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyNeighborhood timeout:2.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
         if (status == INTULocationStatusSuccess) {
@@ -130,7 +138,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
         }
         
         [[HHConstantsStore sharedInstance] getFieldsWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(NSArray *schools) {
-            [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].selectedCityId filters:nil sortOption:SortOptionDistance userLocation:locationArray fields:nil perPage:nil completion:^(HHCoaches *coaches, NSError *error) {
+            [[HHCoachService sharedInstance] fetchCoachListWithCityId:[HHStudentStore sharedInstance].selectedCityId filters:nil sortOption:CoachSortOptionDistance userLocation:locationArray fields:nil perPage:nil completion:^(HHCoaches *coaches, NSError *error) {
                 if (!error) {
                     self.coaches = coaches.coaches;
                     [self.coachesView updateData:self.coaches type:CarouselTypeCoach];
@@ -260,40 +268,24 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
     
     self.drivingSchoolsView = [[HHCarouselView alloc] initWithType:CarouselTypeDrivingSchool data:self.drivingSchools];
     self.drivingSchoolsView.buttonAction = ^() {
-        NSString *url;
-        #ifdef DEBUG
-            url = kDrivingSchoolPageStaging;
-        #else
-            url = kDrivingSchoolPage;
-        #endif
-        [weakSelf openWebPage:[NSURL URLWithString:url]];
+        [weakSelf jumpToCoachDrivingSchoolVCWithIndex:ListTypeDrivingSchool];
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_hot_school_more_tapped attributes:nil];
     };
     self.drivingSchoolsView.itemAction = ^(NSInteger index) {
-        if (weakSelf.drivingSchools.count <= index) {
-            return ;
-        }
         HHDrivingSchool *school = weakSelf.drivingSchools[index];
-        NSString *url;
-        #ifdef DEBUG
-            url = kDrivingSchoolPageStaging;
-        #else
-            url = kDrivingSchoolPage;
-        #endif
-        [weakSelf openWebPage:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", url, school.schoolId]]];
+        HHDrivingSchoolDetailViewController *vc = [[HHDrivingSchoolDetailViewController alloc] initWithSchool:school];
+        vc.hidesBottomBarWhenPushed = YES;
+        [weakSelf.navigationController pushViewController:vc animated:YES];
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_hot_school_tapped attributes:@{@"index":@(index)}];
     };
     [self.scrollView addSubview:self.drivingSchoolsView];
     
-    self.coachesView = [[HHCarouselView alloc] initWithType:CarouselTypeCoach data:self.coaches];
+    self.coachesView = [[HHCarouselView alloc] initWithType:CarouselTypeCoach data:nil];
     self.coachesView.buttonAction = ^() {
-        weakSelf.tabBarController.selectedIndex = TabBarItemCoach;
+        [weakSelf jumpToCoachDrivingSchoolVCWithIndex:ListTypeCoach];
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_hot_coach_more_tapped attributes:nil];
     };
     self.coachesView.itemAction = ^(NSInteger index) {
-        if (weakSelf.coaches.count <= index) {
-            return ;
-        }
         HHCoach *coach = weakSelf.coaches[index];
         HHCoachDetailViewController *vc = [[HHCoachDetailViewController alloc] initWithCoach:coach];
         vc.hidesBottomBarWhenPushed = YES;
@@ -306,7 +298,7 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
     self.guideView.itemAction = ^(NSInteger index) {
         switch (index) {
             case 0: {
-                [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/bao-ming-xu-zhi"]];
+                [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/share/jia-kao-xin-zheng"]];
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_new_policy_tapped attributes:nil];
             } break;
             case 1: {
@@ -317,7 +309,8 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_application_notice_tapped attributes:nil];
             } break;
             case 3: {
-                [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/jiaxiao"]];
+                [weakSelf jumpToCoachDrivingSchoolVCWithIndex:ListTypeDrivingSchool];
+                
             } break;
                 
             default:
@@ -502,28 +495,22 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
 }
 
 - (void)findCoachViewTapped {
-    self.tabBarController.selectedIndex = TabBarItemCoach;
-     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_navigation_search_tapped attributes:nil];
+    [self jumpToCoachDrivingSchoolVCWithIndex:ListTypeCoach];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_navigation_search_tapped attributes:nil];
 }
 
 - (void)findJiaxiaoViewTapped {
-    NSString *url;
-    #ifdef DEBUG
-        url = kDrivingSchoolPageStaging;
-    #else
-        url = kDrivingSchoolPage;
-    #endif
-    [self openWebPage:[NSURL URLWithString:url]];
+    [self jumpToCoachDrivingSchoolVCWithIndex:ListTypeDrivingSchool];
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_select_school_tapped attributes:nil];
 }
 
 - (void)cityChangedWithCity:(HHCity *)city {
     [HHStudentStore sharedInstance].selectedCityId = city.cityId;
     [HHConstantsStore sharedInstance].fields = nil;
-    [HHConstantsStore sharedInstance].drivingSchools = nil;
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem  buttonItemWithAttrTitle:[self generateAttrStringWithText:city.cityName image:[UIImage imageNamed:@"Triangle"] type:1] action:@selector(cityTapped) target:self isLeft:YES];
-    [[HHConstantsStore sharedInstance] getDrivingSchoolsWithCityId:city.cityId completion:^(NSArray *schools) {
-        self.drivingSchools = schools;
+    [[HHConstantsStore sharedInstance] getCityWithCityId:city.cityId completion:^(HHCity *city) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"cityChanged" object:nil];
+        self.drivingSchools = city.drivingSchools;
         [self.drivingSchoolsView updateData:self.drivingSchools type:CarouselTypeDrivingSchool];
     }];
     
@@ -535,8 +522,8 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
         locationArray = @[lat, lon];
     }
     
-    [[HHConstantsStore sharedInstance] getFieldsWithCityId:city.cityId completion:^(NSArray *schools) {
-        [[HHCoachService sharedInstance] fetchCoachListWithCityId:city.cityId filters:nil sortOption:SortOptionDistance userLocation:locationArray fields:nil perPage:nil completion:^(HHCoaches *coaches, NSError *error) {
+    [[HHConstantsStore sharedInstance] getFieldsWithCityId:city.cityId completion:^(NSArray *fields) {
+        [[HHCoachService sharedInstance] fetchCoachListWithCityId:city.cityId filters:nil sortOption:CoachSortOptionDistance userLocation:locationArray fields:nil perPage:nil completion:^(HHCoaches *coaches, NSError *error) {
             if (!error) {
                 self.coaches = coaches.coaches;
                 [self.coachesView updateData:self.coaches type:CarouselTypeCoach];
@@ -544,8 +531,6 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
             }
         }];
     }];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"cityChanged" object:nil];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:city.cityId forKey:@"userSelectedCity"];
@@ -599,9 +584,6 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
 }
 
 - (NSAttributedString *)generateAttrStringWithText:(NSString *)text image:(UIImage *)image type:(NSInteger)type {
-    if (!text || !image) {
-        return nil;
-    }
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentCenter;
     
@@ -634,11 +616,19 @@ static NSString *const kDrivingSchoolPageStaging = @"https://staging-m.hahaxuech
 - (void)showMapView {
     [[HHConstantsStore sharedInstance] getFieldsWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(NSArray *fields) {
         if (fields.count > 0) {
-            HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:fields selectedField:nil];
+            HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:fields selectedField:nil highlightedFields:nil];
             UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
             [self presentViewController:navVC animated:YES completion:nil];
         }
     }];
+}
+
+- (void)jumpToCoachDrivingSchoolVCWithIndex:(NSInteger)index {
+    self.tabBarController.selectedIndex = TabBarItemCoach;
+    UINavigationController *navVC = self.tabBarController.viewControllers[TabBarItemCoach];
+    HHFindCoachViewController *vc = [navVC.viewControllers firstObject];
+    [vc.swipeView scrollToPage:index duration:0.3f];
+
 }
 
 
