@@ -196,8 +196,8 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
         case SchoolCellBasic: {
             HHSchoolBasicInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kBasicCellID forIndexPath:indexPath];
             [cell setupCellWithSchool:self.school];
-            cell.showMoreLessBlock = ^() {
-                weakSelf.desExpanded = YES;
+            cell.showMoreLessBlock = ^(BOOL expand) {
+                weakSelf.desExpanded = expand;
                 [weakSelf.tableView reloadData];
             };
             
@@ -343,9 +343,9 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
             paraStyle.lineSpacing = 7.0;
             
             CGRect rect = [self.school.bio boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.bounds)-30.0f, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin| NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paraStyle} context:nil];
-            return (CGRectGetHeight(rect) + 180.0f + 30.0f);
+            return (CGRectGetHeight(rect) + 180.0f + 60.0f);
         } else {
-            return 260.0f;
+            return 280.0f;
         }
     } else if (indexPath.row == SchoolCellPrice) {
         if ([self.school.lowestVIPPrice floatValue] > 0) {

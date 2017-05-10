@@ -93,13 +93,16 @@
     self.desTitleLabel.font = [UIFont systemFontOfSize:16.0f];
     [self.fifthSecView addSubview:self.desTitleLabel];
     
-    self.desLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
-    self.desLabel.linkAttributes = @{NSForegroundColorAttributeName:[UIColor HHLightestTextGray]};
-    self.desLabel.activeLinkAttributes = @{NSForegroundColorAttributeName:[UIColor HHLightestTextGray]};
-    self.desLabel.delegate = self;
+    self.desLabel = [[UILabel alloc] init];
     self.desLabel.numberOfLines = 2;
-    self.desLabel.attributedTruncationToken = [self buildTrunAttrSting];
     [self.fifthSecView addSubview:self.desLabel];
+    
+    self.showMoreLessButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.showMoreLessButton setTitle:@"更多" forState:UIControlStateNormal];
+    [self.showMoreLessButton setTitleColor:[UIColor HHLinkBlue] forState:UIControlStateNormal];
+    self.showMoreLessButton.titleLabel.font = [UIFont systemFontOfSize:12.0f];
+    [self.showMoreLessButton addTarget:self action:@selector(showMoreLessButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.fifthSecView addSubview:self.showMoreLessButton];
     
     
     [self makeConstraints];
@@ -138,7 +141,7 @@
         make.top.equalTo(self.forthSecView.bottom);
         make.left.equalTo(self.contentView.left);
         make.right.equalTo(self.contentView.right);
-        make.height.mas_equalTo(80.0f);
+        make.height.mas_equalTo(100.0f);
     }];
     
     [self.nameLabel makeConstraints:^(MASConstraintMaker *make) {
@@ -209,6 +212,12 @@
         make.left.equalTo(self.desTitleLabel.left);
         make.width.equalTo(self.fifthSecView.width).offset(-30.0f);
         make.top.equalTo(self.desTitleLabel.bottom).offset(10.0f);
+        make.bottom.equalTo(self.fifthSecView.bottom).offset(-20.0f);
+    }];
+    
+    [self.showMoreLessButton makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.desLabel.right);
+        make.bottom.equalTo(self.fifthSecView.bottom);
     }];
 }
 
@@ -241,6 +250,16 @@
     [self.satisView setupViewWithLeftText:@"满意度:" rightText:@"100%"];
     [self.coachCountView setupViewWithLeftText:@"教练人数:" rightText:[school.coachCount stringValue]];
     self.desLabel.attributedText = [self buildDesString];
+    if ([self isTruncated]) {
+        self.showMoreLessButton.hidden = NO;
+        if (self.expanded) {
+            [self.showMoreLessButton setTitle:@"收起" forState:UIControlStateNormal];
+        } else {
+            [self.showMoreLessButton setTitle:@"更多" forState:UIControlStateNormal];
+        }
+    } else {
+        self.showMoreLessButton.hidden = YES;
+    }
 
 }
 
@@ -284,42 +303,35 @@
     return attrString;
 }
 
-- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
-    if ([url.absoluteString isEqualToString:@"showMore"]) {
-        [self. desLabel removeFromSuperview];
-        self.desLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
-        self.desLabel.numberOfLines = 0;
-        self.desLabel.delegate = self;
-        self.desLabel.attributedText = [self buildDesString];
-        [self.fifthSecView addSubview:self.desLabel];
-        
+- (void)showMoreLessButtonTapped {
+    self.expanded = !self.expanded;
+    if (self.expanded) {
         [self.fifthSecView remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.forthSecView.bottom);
             make.left.equalTo(self.contentView.left);
             make.right.equalTo(self.contentView.right);
-            CGRect rect = [self.desLabel.attributedText boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.desLabel.bounds)-30.0f, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
-            make.height.mas_equalTo(180.0f + CGRectGetHeight(rect) + 40.0f);
+            CGRect rect = [self.desLabel.attributedText boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.bounds)-30.0f, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
+            make.height.mas_equalTo(CGRectGetHeight(rect) + 60.0f);
         }];
         
-        [self.desLabel remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.desTitleLabel.left);
-            make.width.equalTo(self.fifthSecView.width).offset(-30.0f);
-            make.top.equalTo(self.desTitleLabel.bottom).offset(10.0f);
-            
+        self.desLabel.numberOfLines = 0;
+        self.desLabel.attributedText = [self buildDesString];
+    } else {
+        [self.fifthSecView remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.forthSecView.bottom);
+            make.left.equalTo(self.contentView.left);
+            make.right.equalTo(self.contentView.right);
+            make.height.mas_equalTo(100.0f);
         }];
-        if (self.showMoreLessBlock) {
-            self.showMoreLessBlock();
-        }
-    };
-}
+        
+        self.desLabel.numberOfLines = 2;
+        self.desLabel.attributedText = [self buildDesString];
+    }
+   
+    if (self.showMoreLessBlock) {
+        self.showMoreLessBlock(self.expanded);
+    }
 
-- (NSMutableAttributedString *)buildTrunAttrSting {
-    NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:@"..." attributes:@{NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSLinkAttributeName:[NSURL URLWithString:@"showMore"]}];
-    
-    NSMutableAttributedString *attrString3 = [[NSMutableAttributedString alloc] initWithString:@"更多" attributes:@{NSForegroundColorAttributeName:[UIColor HHLinkBlue], NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSLinkAttributeName:[NSURL URLWithString:@"showMore"]}];
-    
-    [attrString2 appendAttributedString:attrString3];
-    return attrString2;
 }
 
 - (void)showFieldsMap {
@@ -332,6 +344,15 @@
     if (self.priceNotifBlock) {
         self.priceNotifBlock();
     }
+}
+
+- (BOOL)isTruncated{
+    CGRect textRect = [[self buildDesString] boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-30.0f, CGFLOAT_MAX) options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading) context:nil];
+    
+    if (CGRectGetHeight(textRect) > 22.0f) {
+        return YES;
+    }
+    return NO;
 }
 
 
