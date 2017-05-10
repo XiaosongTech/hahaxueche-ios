@@ -75,14 +75,14 @@
         make.top.equalTo(self.view.top);
         make.left.equalTo(self.view.left);
         make.width.equalTo(self.view.width);
-        if (![[HHStudentStore sharedInstance].currentStudent isPurchased]) {
+        if (![[HHStudentStore sharedInstance].currentStudent isPurchased] && self.coach.coachId) {
             make.height.equalTo(self.view.height).offset(-50.0f);
         } else {
             make.height.equalTo(self.view.height);
         }
     }];
     
-    if (![[HHStudentStore sharedInstance].currentStudent isPurchased]) {
+    if (![[HHStudentStore sharedInstance].currentStudent isPurchased] && self.coach.coachId) {
 
         self.depositButton = [[HHGradientButton alloc] initWithType:1];
         [self.depositButton setTitle:@"预付100得300" forState:UIControlStateNormal];

@@ -569,9 +569,38 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     }];
 }
 
-- (void)getPhoneNumber:(NSString *)number completion:(HHStudentGenericCompletion)completion {
+- (void)getPhoneNumber:(NSString *)number coachId:(NSString *)coachId schoolId:(NSNumber *)schoolId fieldId:(NSString *)fieldId eventType:(NSNumber *)eventType eventData:(NSDictionary *)eventData completion:(HHStudentGenericCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPINumberCollect];
-    [APIClient postWithParameters:@{@"phone":number, @"promo_code":@"921434"} completion:^(NSDictionary *response, NSError *error) {
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    param[@"phone"] = number;
+    param[@"promo_code"] = @"921434";
+    param[@"city_id"] = [HHStudentStore sharedInstance].selectedCityId;
+    
+    
+    if (coachId) {
+        param[@"coach_id"] = coachId;
+    }
+    
+    if (schoolId) {
+        param[@"driving_school_id"] = schoolId;
+    }
+    
+    if (fieldId) {
+        param[@"field_id"] = fieldId;
+    }
+    
+    if (eventType) {
+        param[@"event_type"] = eventType;
+        param[@"event_data"] = eventData;
+    }
+    
+    if ([HHStudentStore sharedInstance].currentLocation) {
+        param[@"lng"] = @([HHStudentStore sharedInstance].currentLocation.coordinate.longitude);
+        param[@"lat"] = @([HHStudentStore sharedInstance].currentLocation.coordinate.latitude);
+    }
+    
+    [APIClient postWithParameters:param completion:^(NSDictionary *response, NSError *error) {
         if(completion) {
             completion(error);
         }

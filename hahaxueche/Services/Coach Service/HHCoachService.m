@@ -26,14 +26,12 @@
 }
 
 
-- (void)fetchCoachListWithCityId:(NSNumber *)cityId filters:(HHCoachFilters *)filters sortOption:(SortOption)sortOption userLocation:(NSArray *)userLocation fields:(NSArray *)fields perPage:(NSNumber *)perPage completion:(HHCoachListCompletion)completion {
+- (void)fetchCoachListWithCityId:(NSNumber *)cityId filters:(HHFilters *)filters sortOption:(CoachSortOption)sortOption userLocation:(NSArray *)userLocation fields:(NSArray *)fields perPage:(NSNumber *)perPage completion:(HHCoachListCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPICoaches];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
-    param[@"golden_coach_only"] = filters.onlyGoldenCoach;
-    param[@"vip_only"] = filters.onlyVIPCoach;
     param[@"city_id"] = cityId;
     
-    if (sortOption == SortOptionReviewCount) {
+    if (sortOption == CoachSortOptionReviewCount) {
         param[@"sort_by"] = @(5);
     } else {
         param[@"sort_by"] = @(sortOption);
@@ -55,15 +53,20 @@
     if (userLocation) {
         param[@"user_location"] = userLocation;
     }
+    if (filters.priceStart) {
+        param[@"price_from"] = filters.priceStart;
+    }
     
-    HHCity *city = [[HHConstantsStore sharedInstance] getCityWithId:cityId];
-    if (![filters.price isEqual:[city.priceRanges lastObject]]) {
-        param[@"price"] = filters.price;
+    if (filters.priceEnd) {
+        param[@"price_to"] = filters.priceEnd;
     }
-    if (![filters.distance isEqual:[city.distanceRanges lastObject]]) {
+    
+    if (filters.distance) {
         param[@"distance"] = filters.distance;
+    } else {
+        param[@"zone"] = filters.zone;
     }
-    if ([filters.licenseType integerValue] != 3) {
+    if ([filters.licenseType integerValue] != 0) {
         param[@"license_type"] = filters.licenseType;
     }
     
@@ -282,24 +285,62 @@
     }];
 }
 
-- (void)fetchPersoanlCoachWithFilters:(HHPersonalCoachFilters *)filters sortOption:(PersonalCoachSortOption)sortOption completion:(HHPersonalCoachListCompletion)completion {
-    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIPersonalCoaches];
-    
+- (void)fetchDrivingSchoolListWithCityId:(NSNumber *)cityId filters:(HHFilters *)filters sortOption:(SchoolSortOption)sortOption userLocation:(NSArray *)userLocation perPage:(NSNumber *)perPage completion:(HHSchoolListCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIDrivingSchools];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
-    param[@"license_type"] = filters.licenseType;
-    param[@"price_limit"] = filters.priceLimit;
-    param[@"city_id"] = [HHStudentStore sharedInstance].currentStudent.cityId;
-    param[@"order_by"] = @(sortOption);
+    param[@"city_id"] = cityId;
     
-    if ([[HHStudentStore sharedInstance].currentStudent isLoggedIn]) {
-        param[@"student_id"] = [HHStudentStore sharedInstance].currentStudent.studentId;
+    if (sortOption == CoachSortOptionDefault) {
+        param[@"sort_by"] = nil;
+        param[@"order"] = @"asc";
+    } else if (sortOption == CoachSortOptionDistance) {
+        param[@"sort_by"] = @"distance";
+        param[@"order"] = @"asc";
+    } else if (sortOption == CoachSortOptionReviewCount) {
+        param[@"sort_by"] = @"review_count";
+        param[@"order"] = @"desc";
+    } else if (sortOption == CoachSortOptionPrice) {
+        param[@"sort_by"] = @"price";
+        param[@"order"] = @"asc";
+    } else {
+        param[@"sort_by"] = nil;
+        param[@"order"] = @"asc";
     }
-
+    
+    
+    
+    if ([perPage integerValue]> 0) {
+        param[@"per_page"] = perPage;
+    } else {
+        param[@"per_page"] = @(20);
+    }
+    
+    
+    if (userLocation) {
+        param[@"user_location"] = userLocation;
+    }
+    if (filters.priceStart) {
+        param[@"price_from"] = filters.priceStart;
+    }
+    
+    if (filters.priceEnd) {
+        param[@"price_to"] = filters.priceEnd;
+    }
+    
+    if (filters.distance) {
+        param[@"distance"] = filters.distance;
+    } else {
+        param[@"zone"] = filters.zone;
+    }
+    if (filters.licenseType) {
+        param[@"license_type"] = filters.licenseType;
+    } 
+    
     [APIClient getWithParameters:param completion:^(NSDictionary *response, NSError *error) {
-        if(!error) {
-            HHPersonalCoaches *coaches = [MTLJSONAdapter modelOfClass:[HHPersonalCoaches class] fromJSONDictionary:response error:nil];
+        if (!error) {
+            HHDrivingSchools *schools = [MTLJSONAdapter modelOfClass:[HHDrivingSchools class] fromJSONDictionary:response error:nil];
             if (completion) {
-                completion (coaches, nil);
+                completion (schools, nil);
             }
         } else {
             if (completion) {
@@ -307,41 +348,91 @@
             }
         }
     }];
-
 }
-- (void)getMorePersonalCoachWithURL:(NSString *)url completion:(HHPersonalCoachListCompletion)completion {
+
+- (void)fetchNextPageDrivingSchoolListWithURL:(NSString *)URL completion:(HHSchoolListCompletion)completion {
     HHAPIClient *APIClient = [HHAPIClient apiClient];
-    [APIClient getWithURL:url completion:^(NSDictionary *response, NSError *error) {
-        if(!error) {
-            HHPersonalCoaches *coaches = [MTLJSONAdapter modelOfClass:[HHPersonalCoaches class] fromJSONDictionary:response error:nil];
+    [APIClient getWithURL:URL completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHDrivingSchools *schools = [MTLJSONAdapter modelOfClass:[HHDrivingSchools class] fromJSONDictionary:response error:nil];
             if (completion) {
-                completion (coaches, nil);
+                completion (schools, nil);
             }
         } else {
             if (completion) {
-                completion (nil, error);
+                completion(nil, error);
             }
         }
-
     }];
-
 }
 
-- (void)fetchPersoanlCoachWithId:(NSString *)coachId completion:(HHPersonalCoachCompletion)completion {
-    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIPersonalCoach, coachId]];
+- (void)fetchDrivingSchoolWithId:(NSNumber *)schoolId completion:(HHSchoolCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIDrivingSchool, [schoolId stringValue]]];
     [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
-        if(!error) {
-            HHPersonalCoach *coach = [MTLJSONAdapter modelOfClass:[HHPersonalCoach class] fromJSONDictionary:response error:nil];
+        if (!error) {
+            HHDrivingSchool *school = [MTLJSONAdapter modelOfClass:[HHDrivingSchool class] fromJSONDictionary:response error:nil];
             if (completion) {
-                completion (coach, nil);
+                completion(school, nil);
             }
         } else {
             if (completion) {
-                completion (nil, error);
+                completion(nil, error);
             }
         }
-
     }];
 }
+
+- (void)fetchDrivingSchoolReviewsWithId:(NSNumber *)schoolId completion:(HHCoachReviewListCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPIDrivingSchoolReviews, [schoolId stringValue]]];
+    [APIClient getWithParameters:@{@"per_page":@(20)} completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHReviews *reviews = [MTLJSONAdapter modelOfClass:[HHReviews class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(reviews, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
+- (void)fetchNextPageDrivingSchoolReviewsWithURL:(NSString *)URL completion:(HHCoachReviewListCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClient];
+    [APIClient getWithURL:URL completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            HHReviews *reviews = [MTLJSONAdapter modelOfClass:[HHReviews class] fromJSONDictionary:response error:nil];
+            if (completion) {
+                completion(reviews, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
+- (void)searchSchoolWithKeyword:(NSString *)keyword completion:(HHSchoolSearchCompletion)completion {
+    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIDrivingSchools];
+    [APIClient getWithParameters:@{@"name":keyword, @"city_id":[HHStudentStore sharedInstance].selectedCityId, @"per_page":@(50)} completion:^(NSDictionary *response, NSError *error) {
+        if(!error) {
+            NSMutableArray *coaches = [NSMutableArray array];
+            for (NSDictionary *schoolDic in response[@"data"]) {
+                HHDrivingSchool *school = [MTLJSONAdapter modelOfClass:[HHDrivingSchool class] fromJSONDictionary:schoolDic error:nil];
+                [coaches addObject:school];
+            }
+            if (completion) {
+                completion(coaches, nil);
+            }
+        } else {
+            if (completion) {
+                completion(nil, error);
+            }
+        }
+    }];
+}
+
 
 @end

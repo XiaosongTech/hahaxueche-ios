@@ -43,10 +43,6 @@ static CGFloat const kAvatarRadius = 30.0f;
     [self.nameLabel sizeToFit];
     [self addSubview:self.nameLabel];
     
-    self.trainingYearLabel = [self createLabelWithFont:[UIFont systemFontOfSize:16.0f] textColor:[UIColor HHLightTextGray]];
-    [self.trainingYearLabel sizeToFit];
-    [self addSubview:self.trainingYearLabel];
-    
     self.starRatingView = [[HHStarRatingView alloc] initWithInteraction:NO];
     self.starRatingView.value = 5.0;
     [self addSubview:self.starRatingView];
@@ -54,27 +50,8 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.ratingLabel = [[UILabel alloc] init];
     [self addSubview:self.ratingLabel];
     
-    self.mapButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    CGFloat insetAmount = 5.0f;
-    self.mapButton.imageEdgeInsets = UIEdgeInsetsMake(0, -insetAmount, 0, insetAmount);
-    self.mapButton.titleEdgeInsets = UIEdgeInsetsMake(0, insetAmount, 0, -insetAmount);
-    self.mapButton.contentEdgeInsets = UIEdgeInsetsMake(0, insetAmount, 0, insetAmount);
-    [self.mapButton setImage:[UIImage imageNamed:@"ic_list_local_btn"] forState:UIControlStateNormal];
-    [self.mapButton setTitleColor:[UIColor HHLightTextGray] forState:UIControlStateNormal];
-    self.mapButton.titleLabel.font = [UIFont systemFontOfSize:12.0f];
-    [self.mapButton sizeToFit];
-    [self addSubview:self.mapButton];
-    self.mapButton.adjustsImageWhenHighlighted = NO;
-    
-    self.likeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.likeButton setImage:[UIImage imageNamed:@"ic_list_best_small"] forState:UIControlStateNormal];
-    self.likeButton.adjustsImageWhenHighlighted = NO;
-    [self addSubview:self.likeButton];
-    
-    self.likeCountLabel = [[UILabel alloc] init];
-    self.likeCountLabel.textColor = [UIColor HHOrange];
-    self.likeCountLabel.font = [UIFont systemFontOfSize:13.0f];
-    [self addSubview:self.likeCountLabel];
+    self.fieldLabel = [[UILabel alloc] init];
+    [self addSubview:self.fieldLabel];
     
     if ([self.coach isGoldenCoach] || [self.coach.hasDeposit boolValue]) {
         self.badgeView = [[HHCoachBadgeView alloc] initWithCoach:self.coach];
@@ -93,26 +70,16 @@ static CGFloat const kAvatarRadius = 30.0f;
     self.ratingLabel.attributedText = [self generateRatingText];
     [self.avatarView sd_setImageWithURL:[NSURL URLWithString:self.coach.avatarUrl] placeholderImage:[UIImage imageNamed:@"ic_coach_ava"]];
     self.nameLabel.text = self.coach.name;
-    self.trainingYearLabel.text = [NSString stringWithFormat:@"%@年教龄", [self.coach.experienceYear stringValue]];
     self.starRatingView.value = [self.coach.averageRating floatValue];
     
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[self.field city] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
     
-    
-    if ([self.coach.distance doubleValue] > 0) {
-        [attributedString appendAttributedString:[self generateDistanceWithCoach:self.coach]];
-        [self.mapButton setAttributedTitle:attributedString forState:UIControlStateNormal];
-    } else {
-        [self.mapButton setAttributedTitle:attributedString forState:UIControlStateNormal];
-    }
-    
-    self.likeCountLabel.text = [self.coach.likeCount stringValue];
+    self.fieldLabel.attributedText = [self generateDistanceWithCoach:self.coach];
     
 }
 
 - (void)makeConstraints {
     [self.avatarView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.top).offset(10.0f);
+        make.centerY.equalTo(self.centerY);
         make.left.equalTo(self.left).offset(15.0f);
         make.width.mas_equalTo(kAvatarRadius * 2.0f);
         make.height.mas_equalTo(kAvatarRadius * 2.0f);
@@ -135,26 +102,11 @@ static CGFloat const kAvatarRadius = 30.0f;
         make.centerY.equalTo(self.starRatingView.centerY);
     }];
     
-    [self.mapButton makeConstraints:^(MASConstraintMaker *make) {
+    [self.fieldLabel makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.nameLabel.left).offset(3.0f);
         make.top.equalTo(self.starRatingView.bottom).offset(5.0f);
     }];
-    
-    [self.trainingYearLabel remakeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.right).offset(-15.0f);
-        make.centerY.equalTo(self.nameLabel.centerY);
-    }];
 
-    
-    [self.likeCountLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.mapButton.centerY).offset(2.0f);
-        make.right.equalTo(self.right).offset(-20.0f);
-    }];
-    
-    [self.likeButton makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.mapButton.centerY);
-        make.right.equalTo(self.likeCountLabel.left).offset(-3.0f);
-    }];
     
     if (self.badgeView) {
         [self.badgeView makeConstraints:^(MASConstraintMaker *make) {
@@ -174,8 +126,8 @@ static CGFloat const kAvatarRadius = 30.0f;
     
     if (self.jiaxiaoView) {
         [self.jiaxiaoView makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self.avatarView.centerX);
-            make.top.equalTo(self.avatarView.bottom).offset(5.0f);
+            make.right.equalTo(self.right).offset(-15.0f);
+            make.centerY.equalTo(self.nameLabel.centerY);
             make.width.equalTo(self.jiaxiaoView.label.width).offset(20.0f);
             make.height.mas_equalTo(16.0f);
         }];
@@ -194,26 +146,42 @@ static CGFloat const kAvatarRadius = 30.0f;
 
 
 - (NSMutableAttributedString *)generateDistanceWithCoach:(HHCoach *)coach {
-    if ([self.coach.distance doubleValue] > 50.0f) {
-        NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:@"  距您" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
-        
-        NSMutableAttributedString *attString2 = [[NSMutableAttributedString alloc] initWithString:@"50+" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHOrange]}];
-        
-        NSMutableAttributedString *attString3 = [[NSMutableAttributedString alloc] initWithString:@"km" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
-        
-        [attString appendAttributedString:attString2];
-        [attString appendAttributedString:attString3];
-        return attString;
-    } else {
-        NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:@"  距您" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
-        
-        NSMutableAttributedString *attString2 = [[NSMutableAttributedString alloc] initWithString:[[HHFormatUtility floatFormatter] stringFromNumber:self.coach.distance] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHOrange]}];
-        
-        NSMutableAttributedString *attString3 = [[NSMutableAttributedString alloc] initWithString:@"km" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
-        [attString appendAttributedString:attString2];
-        [attString appendAttributedString:attString3];
-        return attString;
+    HHField *field = [coach getCoachField];
+    if (!field.district || !field.name) {
+        return nil;
     }
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineBreakMode = NSLineBreakByTruncatingMiddle;
+    NSMutableAttributedString *baseString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ | %@", field.district, field.name] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray], NSParagraphStyleAttributeName:paragraphStyle}];
+    
+    
+    if ([coach.distance doubleValue] > 50.0f) {
+        NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:@"  距您" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+        
+        NSMutableAttributedString *attString2 = [[NSMutableAttributedString alloc] initWithString:@"50+" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.0f], NSForegroundColorAttributeName:[UIColor HHOrange]}];
+        
+        NSMutableAttributedString *attString3 = [[NSMutableAttributedString alloc] initWithString:@"km" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+        [baseString appendAttributedString:attString];
+        [baseString appendAttributedString:attString2];
+        [baseString appendAttributedString:attString3];
+    } else if ([coach.distance doubleValue] <= 50.0f && [coach.distance doubleValue] > 0) {
+        NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:@"  距您" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+        
+        NSMutableAttributedString *attString2 = [[NSMutableAttributedString alloc] initWithString:[[HHFormatUtility floatFormatter] stringFromNumber:coach.distance] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.0f], NSForegroundColorAttributeName:[UIColor HHOrange]}];
+        
+        NSMutableAttributedString *attString3 = [[NSMutableAttributedString alloc] initWithString:@"km" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
+        [baseString appendAttributedString:attString];
+        [baseString appendAttributedString:attString2];
+        [baseString appendAttributedString:attString3];
+    }
+    NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+    textAttachment.image = [UIImage imageNamed:@"ic_list_local_btn"];
+    textAttachment.bounds = CGRectMake(-2, -2, textAttachment.image.size.width, textAttachment.image.size.height);
+    
+    NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+    [baseString insertAttributedString:attrStringWithImage atIndex:0];
+    
+    return baseString;
     
 }
 

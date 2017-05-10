@@ -144,7 +144,7 @@ static NSString *const kPartnerCoachoCellID = @"kPartnerCoachoCellID";
             };
             
             cell.addressView.actionBlock = ^() {
-                HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:@[[weakSelf.coach getCoachField]] selectedField:[weakSelf.coach getCoachField]];
+                HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:@[[weakSelf.coach getCoachField]] selectedField:[weakSelf.coach getCoachField] highlightedFields:@[[weakSelf.coach getCoachField]]];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             };
             return cell;

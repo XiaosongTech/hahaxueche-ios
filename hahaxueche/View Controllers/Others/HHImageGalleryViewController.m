@@ -67,6 +67,9 @@
 
 - (void)addImageViews {
     for (int i = 0; i < self.imageURLs.count; i++) {
+        if (!self.imageURLs[i] || ![self.imageURLs[i] isKindOfClass:[NSString class]]) {
+            continue;
+        }
         HHImageView *imageView = [[HHImageView alloc] initWithURL:[NSURL URLWithString:self.imageURLs[i]]];
         [self.scrollView addSubview:imageView];
         [imageView makeConstraints:^(MASConstraintMaker *make) {

@@ -14,6 +14,7 @@
 #import "HHShareView.h"
 #import "HHClubPost.h"
 #import "HHTestScore.h"
+#import "HHDrivingSchool.h"
 
 
 typedef void (^MessageCompletion) (OSMessage *message);
@@ -25,8 +26,10 @@ typedef void (^ShareResultCompletion) (BOOL succceed);
 + (instancetype)sharedInstance;
 
 
-- (void)sharePersonalCoach:(HHPersonalCoach *)coach shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion;
+- (void)shareSchool:(HHDrivingSchool *)school shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion;
+
 - (void)shareCoach:(HHCoach *)coach shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion;
+
 - (void)shareMyReferPageWithShareType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion;
 - (void)sharePost:(HHClubPost *)post shareType:(SocialMedia)shareType inVC:(UIViewController *)inVC;
 - (void)shareTestScoreWithType:(SocialMedia)shareType inVC:(UIViewController *)inVC resultCompletion:(ShareResultCompletion)resultCompletion;

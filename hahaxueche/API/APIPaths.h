@@ -64,6 +64,11 @@
 #define kAPIPersonalCoaches @"training_partners"
 #define kAPIPersonalCoach @"training_partners/%@"
 
+#pragma mark Driving School
+#define kAPIDrivingSchools @"driving_schools"
+#define kAPIDrivingSchool @"driving_schools/%@"
+#define kAPIDrivingSchoolReviews @"driving_schools/%@/reviews"
+
 #pragma mark ClubPost
 
 #define kAPIClubPosts @"articles"

@@ -19,7 +19,15 @@
 @property (nonatomic, copy) NSString *passRate;
 @property (nonatomic, strong) NSArray *images;
 @property (nonatomic, strong) NSNumber *lowestPrice;
+@property (nonatomic, strong) NSNumber *lowestVIPPrice;
 @property (nonatomic, strong) NSNumber *consultCount;
 @property (nonatomic, strong) NSString *avatar;
+@property (nonatomic, strong) NSString *consultPhone;
+@property (nonatomic, strong) NSArray *zones;
+@property (nonatomic, strong) NSNumber *distance;
+@property (nonatomic, strong) NSString *nearestFieldZone;
+@property (nonatomic, strong) NSArray *fields;
+@property (nonatomic, copy) NSString *bio;
+@property (nonatomic, strong) NSNumber *grouponCount;
 
 @end

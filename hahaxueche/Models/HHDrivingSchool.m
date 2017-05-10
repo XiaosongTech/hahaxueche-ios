@@ -7,6 +7,7 @@
 //
 
 #import "HHDrivingSchool.h"
+#import "HHField.h"
 
 @implementation HHDrivingSchool
 
@@ -23,7 +24,21 @@
              @"lowestPrice":@"lowest_price",
              @"consultCount":@"consult_count",
              @"avatar":@"avatar",
+             @"consultPhone":@"consult_phone",
+             @"zones":@"zones",
+             @"distance":@"distance",
+             @"nearestFieldZone":@"closest_zone",
+             @"fields":@"fields",
+             @"bio":@"bio",
+             @"lowestVIPPrice":@"lowest_vip_price",
+             @"grouponCount":@"groupon_count",
              };
 }
+
++ (NSValueTransformer *)fieldsJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[HHField class]];
+}
+
+
 
 @end

@@ -10,4 +10,6 @@
 
 @interface HHSearchViewController : UIViewController
 
+- (instancetype)initWithType:(NSInteger)type;
+
 @end
