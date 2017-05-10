@@ -632,39 +632,78 @@ static NSInteger const kHotSchoolIndex = 4;
         
         
         self.coachFilterMenu.finishedBlock=^(DOPIndexPath *indexPath){
+            BOOL shoudRefresh = NO;
             if (indexPath.column == 0) {
                 if (indexPath.row == 0) {
                     if (indexPath.item >= weakSelf.userCity.distanceRanges.count) {
-                        weakSelf.coachFilters.distance = nil;
+                        if (weakSelf.coachFilters.distance) {
+                            weakSelf.coachFilters.distance = nil;
+                            shoudRefresh = YES;
+                        }
+                        
                     } else {
-                        weakSelf.coachFilters.distance = weakSelf.userCity.distanceRanges[indexPath.item];
+                        if ([weakSelf.coachFilters.distance floatValue] != [weakSelf.userCity.distanceRanges[indexPath.item] floatValue]) {
+                            weakSelf.coachFilters.distance = weakSelf.userCity.distanceRanges[indexPath.item];
+                            shoudRefresh = YES;
+                        }
+                        
                     }
                 } else {
-                    weakSelf.coachFilters.zone = weakSelf.userCity.zones[indexPath.row -1];
+                    if (![weakSelf.coachFilters.zone isEqualToString:weakSelf.userCity.zones[indexPath.row -1]]) {
+                        weakSelf.coachFilters.zone = weakSelf.userCity.zones[indexPath.row -1];
+                        shoudRefresh = YES;
+                    }
+                    
                 }
             } else if (indexPath.column == 1) {
                 if (indexPath.row == 0) {
-                    weakSelf.coachFilters.priceStart = nil;
-                    weakSelf.coachFilters.priceEnd = nil;
+                    if (weakSelf.coachFilters.priceStart || weakSelf.coachFilters.priceEnd) {
+                        weakSelf.coachFilters.priceStart = nil;
+                        weakSelf.coachFilters.priceEnd = nil;
+                        shoudRefresh = YES;
+                    }
+                    
                 } else if (indexPath.row == weakSelf.userCity.priceRanges.count + 1) {
-                    weakSelf.coachFilters.priceStart = weakSelf.userCity.priceRanges[indexPath.row-2][1];
-                    weakSelf.coachFilters.priceEnd = nil;
+                    if ([weakSelf.coachFilters.priceStart floatValue] != [weakSelf.userCity.priceRanges[indexPath.row-2][1] floatValue] || weakSelf.coachFilters.priceEnd) {
+                        weakSelf.coachFilters.priceStart = weakSelf.userCity.priceRanges[indexPath.row-2][1];
+                        weakSelf.coachFilters.priceEnd = nil;
+                        shoudRefresh = YES;
+                    }
+                    
                     
                 } else {
-                    weakSelf.coachFilters.priceStart = weakSelf.userCity.priceRanges[indexPath.row-1][0];
-                    weakSelf.coachFilters.priceEnd = weakSelf.userCity.priceRanges[indexPath.row-1][1];
+                    if ([weakSelf.coachFilters.priceStart floatValue] != [weakSelf.userCity.priceRanges[indexPath.row-1][0] floatValue] || [weakSelf.coachFilters.priceEnd floatValue] != [weakSelf.userCity.priceRanges[indexPath.row-1][1] floatValue]) {
+                        weakSelf.coachFilters.priceStart = weakSelf.userCity.priceRanges[indexPath.row-1][0];
+                        weakSelf.coachFilters.priceEnd = weakSelf.userCity.priceRanges[indexPath.row-1][1];
+                        shoudRefresh = YES;
+                    }
+                    
                 }
                 
             } else if (indexPath.column == 2) {
                 if (indexPath.row == 0) {
-                    weakSelf.coachFilters.licenseType = nil;
+                    if (weakSelf.coachFilters.licenseType) {
+                        weakSelf.coachFilters.licenseType = nil;
+                        shoudRefresh = YES;
+                    }
+                    
                 } else {
-                    weakSelf.coachFilters.licenseType = @(indexPath.row);
+                    if ([weakSelf.coachFilters.licenseType integerValue] != [@(indexPath.row) integerValue]) {
+                        weakSelf.coachFilters.licenseType = @(indexPath.row);
+                        shoudRefresh = YES;
+                    }
+                    
                 }
             } else {
-                weakSelf.coachSortOption = indexPath.row;
+                if (weakSelf.coachSortOption != indexPath.row) {
+                    weakSelf.coachSortOption = indexPath.row;
+                    shoudRefresh = YES;
+                }
+                
             }
-            [weakSelf refreshCoachList:YES completion:nil];
+            if (shoudRefresh) {
+                [weakSelf refreshCoachList:YES completion:nil];
+            }
 
         };
         
@@ -717,39 +756,79 @@ static NSInteger const kHotSchoolIndex = 4;
         [view addSubview:self.schoolFilterMenu];
         
         self.schoolFilterMenu.finishedBlock=^(DOPIndexPath *indexPath){
+            BOOL shoudRefresh = NO;
             if (indexPath.column == 0) {
                 if (indexPath.row == 0) {
                     if (indexPath.item >= weakSelf.userCity.distanceRanges.count) {
-                        weakSelf.schoolFilters.distance = nil;
+                        if (weakSelf.schoolFilters.distance) {
+                            weakSelf.schoolFilters.distance = nil;
+                            shoudRefresh = YES;
+                        }
+                        
                     } else {
-                        weakSelf.schoolFilters.distance = weakSelf.userCity.distanceRanges[indexPath.item];
+                        if ([weakSelf.schoolFilters.distance floatValue] != [weakSelf.userCity.distanceRanges[indexPath.item] floatValue]) {
+                            weakSelf.schoolFilters.distance = weakSelf.userCity.distanceRanges[indexPath.item];
+                            shoudRefresh = YES;
+                        }
+                        
                     }
                 } else {
-                    weakSelf.schoolFilters.zone = weakSelf.userCity.zones[indexPath.row -1];
+                    if (![weakSelf.schoolFilters.zone isEqualToString:weakSelf.userCity.zones[indexPath.row -1]]) {
+                        weakSelf.schoolFilters.zone = weakSelf.userCity.zones[indexPath.row -1];
+                        shoudRefresh = YES;
+                    }
+                    
                 }
             } else if (indexPath.column == 1) {
                 if (indexPath.row == 0) {
-                    weakSelf.schoolFilters.priceStart = nil;
-                    weakSelf.schoolFilters.priceEnd = nil;
+                    if (weakSelf.schoolFilters.priceStart || weakSelf.schoolFilters.priceEnd) {
+                        weakSelf.schoolFilters.priceStart = nil;
+                        weakSelf.schoolFilters.priceEnd = nil;
+                        shoudRefresh = YES;
+                    }
+                    
                 } else if (indexPath.row == weakSelf.userCity.priceRanges.count + 1) {
-                    weakSelf.schoolFilters.priceStart = weakSelf.userCity.priceRanges[indexPath.row-2][1];
-                    weakSelf.schoolFilters.priceEnd = nil;
+                    if ([weakSelf.schoolFilters.priceStart floatValue] != [weakSelf.userCity.priceRanges[indexPath.row-2][1] floatValue] || weakSelf.schoolFilters.priceEnd) {
+                        weakSelf.schoolFilters.priceStart = weakSelf.userCity.priceRanges[indexPath.row-2][1];
+                        weakSelf.schoolFilters.priceEnd = nil;
+                        shoudRefresh = YES;
+                    }
+                    
                     
                 } else {
-                    weakSelf.schoolFilters.priceStart = weakSelf.userCity.priceRanges[indexPath.row-1][0];
-                    weakSelf.schoolFilters.priceEnd = weakSelf.userCity.priceRanges[indexPath.row-1][1];
+                    if ([weakSelf.schoolFilters.priceStart floatValue] != [weakSelf.userCity.priceRanges[indexPath.row-1][0] floatValue] || [weakSelf.schoolFilters.priceEnd floatValue] != [weakSelf.userCity.priceRanges[indexPath.row-1][1] floatValue]) {
+                        weakSelf.schoolFilters.priceStart = weakSelf.userCity.priceRanges[indexPath.row-1][0];
+                        weakSelf.schoolFilters.priceEnd = weakSelf.userCity.priceRanges[indexPath.row-1][1];
+                        shoudRefresh = YES;
+                    }
+                    
                 }
                 
             } else if (indexPath.column == 2) {
                 if (indexPath.row == 0) {
-                    weakSelf.schoolFilters.licenseType = nil;
+                    if (weakSelf.schoolFilters.licenseType) {
+                        weakSelf.schoolFilters.licenseType = nil;
+                        shoudRefresh = YES;
+                    }
+                    
                 } else {
-                    weakSelf.schoolFilters.licenseType = @(indexPath.row);
+                    if ([weakSelf.schoolFilters.licenseType integerValue] != [@(indexPath.row) integerValue]) {
+                        weakSelf.schoolFilters.licenseType = @(indexPath.row);
+                        shoudRefresh = YES;
+                    }
+                    
                 }
             } else {
-                weakSelf.schoolSortOption = indexPath.row;
+                if (weakSelf.schoolSortOption != indexPath.row) {
+                    weakSelf.schoolSortOption = indexPath.row;
+                    shoudRefresh = YES;
+                }
+                
             }
-            [weakSelf refreshDrivingSchoolList:YES completion:nil];
+            if (shoudRefresh) {
+                 [weakSelf refreshDrivingSchoolList:YES completion:nil];
+            }
+           
         };
         
         self.tableView = [[UITableView alloc] init];
@@ -890,7 +969,7 @@ static NSInteger const kHotSchoolIndex = 4;
 }
 
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath {
-    
+    return;
 }
 
 @end
