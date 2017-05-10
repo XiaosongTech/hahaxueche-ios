@@ -37,6 +37,7 @@
 #import "HHReviewListViewController.h"
 #import "HHGetNumberTableViewCell.h"
 #import "HHHotSchoolsTableViewCell.h"
+#import "HHEventTrackingManager.h"
 
 typedef NS_ENUM(NSInteger, SchoolCell) {
     SchoolCellBasic,
@@ -147,24 +148,29 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
                     [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
                 } else {
                     [HHPopupUtility dismissPopup:weakSelf.popup];
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_bot_free_trial_confirmed attributes:nil];
                 }
                 
             }];
         };
         weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
         [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_bot_free_trial_tapped attributes:nil];
     };
     
     self.bottomBar.supportAction = ^(){
         [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_bot_online_support_tapped attributes:nil];
     };
     
     self.bottomBar.smsAction = ^{
         [[HHSocialMediaShareUtility sharedInstance] showSMS:[NSString stringWithFormat:@"%@, 我在哈哈学车看到您的招生信息, 我想详细了解一下.", weakSelf.school.schoolName] receiver:@[weakSelf.school.consultPhone] attachment:nil inVC:weakSelf];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_bot_SMS_tapped attributes:nil];
     };
     
     self.bottomBar.callAction = ^{
         [[HHSupportUtility sharedManager] callSupportWithNumber:weakSelf.school.consultPhone];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_bot_call_school_tapped attributes:nil];
     };
 
 }
@@ -204,6 +210,7 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
             cell.fieldBlock = ^() {
                 HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:[HHConstantsStore sharedInstance].fields selectedField:nil highlightedFields:weakSelf.school.fields];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_check_fields_tapped attributes:nil];
             };
             
             cell.priceNotifBlock = ^(){
@@ -214,11 +221,13 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
                             [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
                         } else {
                             [HHPopupUtility dismissPopup:weakSelf.popup];
+                            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_price_notification_confirmed attributes:nil];
                         }
                     }];
                 };
                 weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
                 [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_price_notification_tapped attributes:nil];
             };
             return cell;
         } 
@@ -246,6 +255,7 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
                 }
                 HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:coach productType:type];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_price_detail_tapped attributes:nil];
             };
             [cell setupCellWithSchool:self.school];
             return cell;
@@ -270,12 +280,15 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
                             [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
                         } else {
                             [HHPopupUtility dismissPopup:weakSelf.popup];
+                            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_see_field_confirmed attributes:nil];
                         }
                         
                     }];
                 };
                 weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
                 [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_see_field_tapped attributes:nil];
+
             };
             [cell setupCellWithSchool:self.school];
             return cell;
@@ -286,6 +299,7 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
             cell.reviewsBlock = ^{
                 HHReviewListViewController *vc = [[HHReviewListViewController alloc] initWithReviews:weakSelf.reviewsObject school:weakSelf.school];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_more_review_tapped attributes:nil];
             };
             [cell setupCellWithSchool:self.school reviews:self.reviewsObject];
             return cell;
@@ -301,6 +315,7 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
                         [HHPopupUtility dismissPopup:weakSelf.popup];
                         [[HHToastManager sharedManager] showSuccessToastWithText:@"提交成功! 工作人员会马上联系您!"];
                         [self.view endEditing:YES];
+                        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_get_groupon_confirmed attributes:nil];
                     }
                     
                 }];
@@ -317,6 +332,7 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
                 HHDrivingSchoolDetailViewController *vc = [[HHDrivingSchoolDetailViewController alloc] initWithSchool:school];
                 vc.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_hot_school_tapped attributes:@{@"index":@(index)}];
             };
             return cell;
         }
@@ -332,6 +348,7 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
     if (indexPath.row == SchoolCellGroupon) {
         HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/tuan?promo_code=456134"]];
         [self.navigationController pushViewController:webVC animated:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_groupon_web_tapped attributes:nil];
     }
 }
 

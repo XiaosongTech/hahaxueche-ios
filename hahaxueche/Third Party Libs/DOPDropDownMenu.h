@@ -109,6 +109,7 @@
 
 // 当有二级列表item时，点击row 是否调用点击代理方法
 @property (nonatomic, assign) BOOL isClickHaveItemValid;
+@property (nonatomic, assign) BOOL isBackGroudTap;
 
 @property (nonatomic, getter=isRemainMenuTitle) BOOL remainMenuTitle; // 切换条件时是否更改menu title
 @property (nonatomic, strong) NSMutableArray  *currentSelectRowArray; // 恢复默认选项用

@@ -152,6 +152,7 @@
     if (self.fieldBlock) {
         self.fieldBlock(nil);
     }
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_more_fields_tapped attributes:nil];
 }
 
 -(void)fieldTapped:(UITapGestureRecognizer *)tapRec {
@@ -159,6 +160,7 @@
     if (self.fieldBlock) {
         self.fieldBlock(field);
     }
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_single_field_tapped attributes:nil];
 }
 
 @end

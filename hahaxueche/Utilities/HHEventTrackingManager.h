@@ -47,6 +47,11 @@
 #define find_coach_page_coach_tapped @"find_coach_page_coach_tapped"
 #define find_coach_page_personal_coach_tapped @"find_coach_page_personal_coach_tapped"
 #define find_coach_page_viewed @"find_coach_page_viewed"
+#define find_coach_find_for_me_tapped @"find_coach_find_for_me_tapped"
+#define find_coach_call_coach_tapped @"find_coach_call_coach_tapped"
+#define find_coach_driving_school_tapped @"find_coach_driving_school_tapped"
+#define find_coach_filter_tapped @"find_coach_filter_tapped"
+#define find_coach_hot_school_tapped @"find_coach_hot_school_tapped"
 
 
 #define coach_detail_page_price_detail_tapped @"coach_detail_page_price_detail_tapped"
@@ -174,6 +179,38 @@
 #define map_view_page_contact_coach_dailed @"map_view_page_contact_coach_dailed"
 #define map_view_page_check_school_tapped @"map_view_page_check_school_tapped"
 #define map_view_page_check_coach_tapped @"map_view_page_check_coach_tapped"
+
+
+#define find_school_call_school_tapped @"find_school_call_school_tapped"
+#define find_school_filter_tapped @"find_school_filter_tapped"
+#define find_school_school_tapped @"find_school_school_tapped"
+#define find_school_hot_school_tapped @"find_school_hot_school_tapped"
+
+
+#define school_detail_price_notification_tapped @"school_detail_price_notification_tapped"
+#define school_detail_price_notification_confirmed @"school_detail_price_notification_confirmed"
+#define school_detail_check_fields_tapped @"school_detail_check_fields_tapped"
+#define school_detail_price_detail_tapped @"school_detail_price_detail_tapped"
+#define school_detail_groupon_web_tapped @"school_detail_groupon_web_tapped"
+#define school_detail_more_fields_tapped @"school_detail_more_fields_tapped"
+#define school_detail_single_field_tapped @"school_detail_single_field_tapped"
+#define school_detail_see_field_tapped @"school_detail_see_field_tapped"
+#define school_detail_get_groupon_confirmed @"school_detail_get_groupon_confirmed"
+#define school_detail_more_review_tapped @"school_detail_more_review_tapped"
+#define school_detail_hot_school_tapped @"school_detail_hot_school_tapped"
+#define school_detail_bot_free_trial_tapped @"school_detail_bot_free_trial_tapped"
+#define school_detail_bot_free_trial_confirmed @"school_detail_bot_free_trial_confirmed"
+#define school_detail_bot_online_support_tapped @"school_detail_bot_online_support_tapped"
+#define school_detail_bot_SMS_tapped @"school_detail_bot_SMS_tapped"
+#define school_detail_bot_call_school_tapped @"school_detail_bot_call_school_tapped"
+#define school_detail_see_field_confirmed @"school_detail_see_field_confirmed"
+
+
+#define search_page_hot_school_tapped @"search_page_hot_school_tapped"
+#define search_page_call_school_tapped @"search_page_call_school_tapped"
+#define search_page_school_tapped @"search_page_school_tapped"
+#define search_page_call_coach_tapped @"search_page_call_coach_tapped"
+#define search_page_coach_tapped @"search_page_coach_tapped"
 
 
 @interface HHEventTrackingManager : NSObject

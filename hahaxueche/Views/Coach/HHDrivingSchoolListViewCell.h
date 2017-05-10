@@ -14,6 +14,8 @@
 #import "HHCoachTagView.h"
 #import "HHGradientButton.h"
 
+typedef void (^HHSchooCallBlock)();
+
 @interface HHDrivingSchoolListViewCell : UITableViewCell
 
 - (void)setupCellWithSchool:(HHDrivingSchool *)school;
@@ -38,5 +40,7 @@
 @property (nonatomic, strong) UIView *grouponView;
 
 @property (nonatomic, strong) HHDrivingSchool *school;
+
+@property (nonatomic, strong) HHSchooCallBlock callBlock;
 
 @end

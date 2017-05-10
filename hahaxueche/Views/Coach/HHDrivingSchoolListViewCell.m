@@ -347,7 +347,9 @@
 }
 
 - (void)callSchool {
-    [[HHSupportUtility sharedManager] callSupportWithNumber:self.school.consultPhone];
+    if (self.callBlock) {
+        self.callBlock();
+    }
 }
 
 @end

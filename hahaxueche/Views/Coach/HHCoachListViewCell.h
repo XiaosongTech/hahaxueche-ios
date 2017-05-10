@@ -41,6 +41,7 @@ typedef void (^HHDrivingSchoolBlock)(HHDrivingSchool *school);
 @property (nonatomic, strong) HHCoach *coach;
 
 @property (nonatomic, strong) HHMapButtonActionBlock mapButtonBlock;
+@property (nonatomic, strong) HHMapButtonActionBlock callBlock;
 @property (nonatomic, strong) HHDrivingSchoolBlock drivingSchoolBlock;
 
 - (void)setupCellWithCoach:(HHCoach *)coach field:(HHField *)field;

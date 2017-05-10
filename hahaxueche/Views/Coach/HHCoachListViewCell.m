@@ -13,7 +13,6 @@
 #import "HHFormatUtility.h"
 #import "NSNumber+HHNumber.h"
 #import <UIImageView+WebCache.h>
-#import "HHSupportUtility.h"
 
 static CGFloat const kAvatarRadius = 30.0f;
 
@@ -310,7 +309,9 @@ static CGFloat const kAvatarRadius = 30.0f;
 }
 
 - (void)callCoach {
-    [[HHSupportUtility sharedManager] callSupportWithNumber:self.coach.consultPhone];
+    if (self.callBlock) {
+        self.callBlock();
+    }
 }
 
 

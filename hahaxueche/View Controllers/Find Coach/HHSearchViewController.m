@@ -24,6 +24,8 @@
 #import "HHHotSchoolsView.h"
 #import "HHDrivingSchoolListViewCell.h"
 #import "HHDrivingSchoolDetailViewController.h"
+#import "HHEventTrackingManager.h"
+#import "HHSupportUtility.h"
 
 static NSString *const kCoachCellId = @"kCoachCellId";
 static NSString *const kSchoolCellId = @"kSchoolCellId";
@@ -140,6 +142,7 @@ static CGFloat const kCellHeightNormal = 100.0f;
     self.hotSchoolsView.schoolBlock = ^(HHDrivingSchool *school) {
         HHDrivingSchoolDetailViewController *vc = [[HHDrivingSchoolDetailViewController alloc] initWithSchool:school];
         [weakSelf.navigationController pushViewController:vc animated:YES];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:search_page_hot_school_tapped attributes:@{@"index":@([[[HHConstantsStore sharedInstance] getDrivingSchools] indexOfObject:school])}];
     };
     [self.view addSubview:self.hotSchoolsView];
     [self.hotSchoolsView makeConstraints:^(MASConstraintMaker *make) {
@@ -172,7 +175,12 @@ static CGFloat const kCellHeightNormal = 100.0f;
     __weak HHSearchViewController *weakSelf = self;
     if (self.currentType == 0) {
         HHDrivingSchoolListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSchoolCellId forIndexPath:indexPath];
-        [cell setupCellWithSchool:self.schools[indexPath.row]];
+        HHDrivingSchool *school = self.schools[indexPath.row];
+        cell.callBlock = ^{
+            [[HHSupportUtility sharedManager] callSupportWithNumber:school.consultPhone];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:search_page_call_school_tapped attributes:nil];
+        };
+        [cell setupCellWithSchool:school];
         return cell;
         
     } else {
@@ -180,7 +188,10 @@ static CGFloat const kCellHeightNormal = 100.0f;
         
         HHCoach *coach = self.coaches[indexPath.row];
         [cell setupCellWithCoach:coach field:[[HHConstantsStore sharedInstance] getFieldWithId:coach.fieldId]];
-        
+        cell.callBlock = ^{
+            [[HHSupportUtility sharedManager] callSupportWithNumber:coach.consultPhone];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:search_page_call_coach_tapped attributes:nil];
+        };
         cell.drivingSchoolBlock = ^(HHDrivingSchool *school) {
             HHDrivingSchoolDetailViewController *vc =  [[HHDrivingSchoolDetailViewController alloc] initWithSchool:[coach getCoachDrivingSchool]];
             [weakSelf.navigationController pushViewController:vc animated:YES];
@@ -208,13 +219,17 @@ static CGFloat const kCellHeightNormal = 100.0f;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.currentType == 0) {
         if ([self.schools count]) {
-            HHDrivingSchoolDetailViewController *vc =  [[HHDrivingSchoolDetailViewController alloc] initWithSchool:self.schools[indexPath.row]];
+            HHDrivingSchool *school = self.schools[indexPath.row];
+            HHDrivingSchoolDetailViewController *vc =  [[HHDrivingSchoolDetailViewController alloc] initWithSchool:school];
             [self.navigationController pushViewController:vc animated:YES];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:search_page_school_tapped attributes:@{@"school_id":school.schoolId}];
         }
     } else {
         if ([self.coaches count]) {
-            HHCoachDetailViewController *coachDetailVC = [[HHCoachDetailViewController alloc] initWithCoach:self.coaches[indexPath.row]];
+            HHCoach *coach = self.coaches[indexPath.row];
+            HHCoachDetailViewController *coachDetailVC = [[HHCoachDetailViewController alloc] initWithCoach:coach];
             [self.navigationController pushViewController:coachDetailVC animated:YES];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:search_page_coach_tapped attributes:@{@"coach_id":coach.coachId}];
         }
     }
 }
