@@ -22,8 +22,5 @@
 @property(nonatomic, copy) NSNumber *coachCount;
 @property(nonatomic, copy) NSString *consultPhone;
 
-- (NSString *)fullAddress;
-- (NSString *)city;
-
 
 @end

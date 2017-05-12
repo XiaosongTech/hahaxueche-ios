@@ -74,60 +74,65 @@ static NSString *const kMapServiceKey = @"b1f6d0a0e2470c6a1145bf90e1cdebe4";
         [HHStudentStore sharedInstance].selectedCityId = @(0);
     }
     
-    [[HHConstantsStore sharedInstance] getCityWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:nil];
-    
     [[HHNetworkUtility sharedManager] monitorNetwork];
     
-    [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
-        if (constants) {
-            if ([[HHUserAuthService sharedInstance] getSavedUser] && [HHKeychainStore getSavedAccessToken]) {
-                HHStudent *savedStudent = [[[HHUserAuthService sharedInstance] getSavedUser] student];
-                [[HHUserAuthService sharedInstance] isTokenValid:savedStudent.cellPhone completion:^(BOOL valid) {
-                    if (valid) {
-                        [[HHStudentService sharedInstance] fetchStudentWithId:savedStudent.studentId completion:^(HHStudent *student, NSError *error) {
-                            if (!error) {
-                                if (!student) {
-                                    launchVC.desVC = rootVC;
-                                    [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
-                                } else {
-                                    [HHStudentStore sharedInstance].currentStudent = student;
-                                    if (!student.name || !student.cityId) {
-                                        // Student created, but not set up yet
-                                        HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
-                                        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
-                                        launchVC.desVC = navVC;
-                                        [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
-                                        
+    [[HHConstantsStore sharedInstance] getCityWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(HHCity *city) {
+        if (city) {
+            [[HHConstantsStore sharedInstance] getConstantsWithCompletion:^(HHConstants *constants) {
+                if (constants) {
+                    if ([[HHUserAuthService sharedInstance] getSavedUser] && [HHKeychainStore getSavedAccessToken]) {
+                        HHStudent *savedStudent = [[[HHUserAuthService sharedInstance] getSavedUser] student];
+                        [[HHUserAuthService sharedInstance] isTokenValid:savedStudent.cellPhone completion:^(BOOL valid) {
+                            if (valid) {
+                                [[HHStudentService sharedInstance] fetchStudentWithId:savedStudent.studentId completion:^(HHStudent *student, NSError *error) {
+                                    if (!error) {
+                                        if (!student) {
+                                            launchVC.desVC = rootVC;
+                                            [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
+                                        } else {
+                                            [HHStudentStore sharedInstance].currentStudent = student;
+                                            if (!student.name || !student.cityId) {
+                                                // Student created, but not set up yet
+                                                HHAccountSetupViewController *accountVC = [[HHAccountSetupViewController alloc] initWithStudentId:student.studentId];
+                                                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:accountVC];
+                                                launchVC.desVC = navVC;
+                                                [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
+                                                
+                                            } else {
+                                                launchVC.desVC = rootVC;
+                                                [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
+                                            }
+                                            
+                                        }
                                     } else {
                                         launchVC.desVC = rootVC;
                                         [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                                     }
-                                    
-                                }
+                                }];
                             } else {
-                                launchVC.desVC = rootVC;
+                                HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
+                                UINavigationController *introNavVC = [[UINavigationController alloc] initWithRootViewController:introVC];
+                                
+                                launchVC.desVC = introNavVC;
                                 [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                             }
                         }];
-                    } else {
-                        HHIntroViewController *introVC = [[HHIntroViewController alloc] init];
-                        UINavigationController *introNavVC = [[UINavigationController alloc] initWithRootViewController:introVC];
                         
-                        launchVC.desVC = introNavVC;
+                    } else {
+                        launchVC.desVC = rootVC;
                         [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
                     }
-                }];
+                } else {
+                    launchVC.desVC = rootVC;
+                    [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
+                }
                 
-            } else {
-                launchVC.desVC = rootVC;
-                [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
-            }
-        } else {
-            launchVC.desVC = rootVC;
-            [self handleLinkedMeLinkWithLaunchOptions:launchOptions];
+            }];
         }
-       
+        
     }];
+    
+    
     [self.window makeKeyAndVisible];
     [self setWindow:self.window];
     [self setupAllThirdPartyServices];

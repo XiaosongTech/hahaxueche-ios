@@ -102,7 +102,6 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
 
     }
     [self initSubviews];
-    
     if ([[HHConstantsStore sharedInstance] getDrivingSchools].count > 0) {
         self.drivingSchools = [[HHConstantsStore sharedInstance] getDrivingSchools];
         [self.drivingSchoolsView updateData:self.drivingSchools type:CarouselTypeDrivingSchool];
@@ -211,8 +210,9 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
     
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem  buttonItemWithImage:[UIImage imageNamed:@"ic_map_firstscreen"] action:@selector(navMapTapped) target:self];
     
-    HHCity *city = [[HHConstantsStore sharedInstance] getCityWithId:[HHStudentStore sharedInstance].selectedCityId];
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem  buttonItemWithAttrTitle:[self generateAttrStringWithText:city.cityName image:[UIImage imageNamed:@"Triangle"] type:1] action:@selector(cityTapped) target:self isLeft:YES];
+    [[HHConstantsStore sharedInstance] getCityWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(HHCity *city) {
+        self.navigationItem.leftBarButtonItem = [UIBarButtonItem  buttonItemWithAttrTitle:[self generateAttrStringWithText:city.cityName image:[UIImage imageNamed:@"Triangle"] type:1] action:@selector(cityTapped) target:self isLeft:YES];
+    }];
     
     
     self.scrollView = [[UIScrollView  alloc] init];
@@ -444,18 +444,21 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
     NSArray *cities = [[HHConstantsStore sharedInstance] getSupporteCities];
     CGFloat height = MAX(300.0f, CGRectGetHeight(self.view.bounds)/2.0f);
     
-    HHCitySelectView *view = [[HHCitySelectView alloc] initWithCities:cities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:[[HHConstantsStore sharedInstance] getCityWithId:[HHStudentStore sharedInstance].selectedCityId]];
-    view.completion = ^(HHCity *selectedCity) {
-        if (selectedCity) {
-            [weakSelf cityChangedWithCity:selectedCity];
-        }
-        [HHPopupUtility dismissPopup:weakSelf.popup];
-    };
+    [[HHConstantsStore sharedInstance] getCityWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(HHCity *city) {
+        HHCitySelectView *view = [[HHCitySelectView alloc] initWithCities:cities frame:CGRectMake(0, 0, 300.0f, height) selectedCity:city];
+        view.completion = ^(HHCity *selectedCity) {
+            if (selectedCity) {
+                [weakSelf cityChangedWithCity:selectedCity];
+            }
+            [HHPopupUtility dismissPopup:weakSelf.popup];
+        };
+        
+        self.popup = [HHPopupUtility createPopupWithContentView:view];
+        [HHPopupUtility showPopup:self.popup];
+        
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_navigation_city_tapped attributes:nil];
+    }];
     
-    self.popup = [HHPopupUtility createPopupWithContentView:view];
-    [HHPopupUtility showPopup:self.popup];
-    
-    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_navigation_city_tapped attributes:nil];
 }
 
 - (void)navMapTapped {
@@ -584,6 +587,9 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
 }
 
 - (NSAttributedString *)generateAttrStringWithText:(NSString *)text image:(UIImage *)image type:(NSInteger)type {
+    if (!text || !image) {
+        return nil;
+    }
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.alignment = NSTextAlignmentCenter;
     

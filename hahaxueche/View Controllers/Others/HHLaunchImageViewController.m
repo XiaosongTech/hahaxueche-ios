@@ -15,6 +15,7 @@
 @interface HHLaunchImageViewController ()
 
 @property (nonatomic, strong) FLAnimatedImageView *imageView;
+@property (nonatomic, strong) UIImageView *defaultImgView;
 
 @end
 
@@ -22,14 +23,33 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if (self.desVC) {
+        [self buildGifView];
+    } else {
+        self.defaultImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"defaultLaunchImg"]];
+        self.defaultImgView.contentMode = UIViewContentModeScaleAspectFit;
+        [self.view addSubview:self.defaultImgView];
+        [self.defaultImgView makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(self.view);
+            make.width.equalTo(self.view.width);
+            make.height.equalTo(self.view.height);
+        }];
+    }
+   
+}
+
+
+- (void)setDesVC:(UIViewController *)desVC {
+    _desVC = desVC;
+    self.defaultImgView.hidden = YES;
+    [self buildGifView];
+}
+
+- (void)buildGifView {
     __weak HHLaunchImageViewController *weakSelf = self;
     self.imageView = [[FLAnimatedImageView alloc] init];
     self.imageView.loopCompletionBlock = ^(NSUInteger loopCountRemaining) {
         [weakSelf.imageView stopAnimating];
-        if (!weakSelf.desVC) {
-            weakSelf.desVC = [[HHRootViewController alloc] init];
-        }
-        
         [UIApplication sharedApplication].keyWindow.rootViewController = weakSelf.desVC;
     };
     self.imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -37,11 +57,7 @@
     NSData *imgData = [NSData dataWithContentsOfFile:imgString];
     self.imageView.animatedImage = [FLAnimatedImage animatedImageWithGIFData:imgData];
     [self.view addSubview:self.imageView];
-
-    [self makeConstraints];
-}
-
-- (void)makeConstraints {
+    
     [self.imageView makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.view);
         make.width.equalTo(self.view.width);

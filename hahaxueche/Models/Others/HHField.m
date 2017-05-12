@@ -43,13 +43,6 @@
     }
 }
 
-- (NSString *)fullAddress {
-    NSString *string = [NSString stringWithFormat:@"%@%@%@", [[[HHConstantsStore sharedInstance] getCityWithId:self.cityId] cityName], self.district, self.address];
-    return string;
-}
 
-- (NSString *)city {
-    return [[[HHConstantsStore sharedInstance] getCityWithId:self.cityId] cityName];
-}
 
 @end

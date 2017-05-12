@@ -289,42 +289,45 @@ static NSInteger const kHotSchoolIndex = 4;
 }
 
 - (void)setupDefaultSortAndFilterForSchool{
-    self.userCity = [[HHConstantsStore sharedInstance] getCityWithId:[HHStudentStore sharedInstance].selectedCityId];
     
-    self.schoolFilters = [[HHFilters alloc] init];
-    self.schoolFilters.distance = nil;
-    self.schoolFilters.zone = nil;
-    self.schoolFilters.priceStart = nil;
-    self.schoolFilters.priceEnd = nil;
-    self.schoolFilters.licenseType = nil;
-    self.schoolSortOption = SchoolSortOptionDefault;
-    
-    self.areas = [NSMutableArray arrayWithObject:@"附近"];
-    [self.areas addObjectsFromArray:self.userCity.zones];
-    
-    self.distances = [NSMutableArray array];
-    for (NSNumber *num in self.userCity.distanceRanges) {
-        [self.distances addObject:[NSString stringWithFormat:@"%@km", [num stringValue]]];
-    }
-    [self.distances addObject:@"全城"];
-    
-    self.priceRanges = [NSMutableArray array];
-    for (NSArray *rangeArray in self.userCity.priceRanges) {
-        NSString *title = [NSString stringWithFormat:@"%@-%@元", [rangeArray firstObject], rangeArray[1]];
-        [self.priceRanges addObject:title];
-    }
-    [self.priceRanges addObject:[NSString stringWithFormat:@"%@元以上", [self.userCity.priceRanges lastObject][1]]];
-    [self.priceRanges insertObject:@"不限" atIndex:0];
-
-    self.licenseTypes = [NSMutableArray arrayWithArray:@[@"不限", @"C1手动挡", @"C2自动挡"]];
-    
-    self.sortOptions = [NSMutableArray arrayWithArray:@[@"综合排序", @"距离最近", @"评价最多", @"价格最低"]];
-    
-    
-    [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:self.distances.count-1]];
-    [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:0 item:-1]];
-    [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:2 row:0 item:-1]];
-    [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:3 row:0 item:-1]];
+    [[HHConstantsStore sharedInstance] getCityWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(HHCity *city) {
+        self.userCity = city;
+        
+        self.schoolFilters = [[HHFilters alloc] init];
+        self.schoolFilters.distance = nil;
+        self.schoolFilters.zone = nil;
+        self.schoolFilters.priceStart = nil;
+        self.schoolFilters.priceEnd = nil;
+        self.schoolFilters.licenseType = nil;
+        self.schoolSortOption = SchoolSortOptionDefault;
+        
+        self.areas = [NSMutableArray arrayWithObject:@"附近"];
+        [self.areas addObjectsFromArray:self.userCity.zones];
+        
+        self.distances = [NSMutableArray array];
+        for (NSNumber *num in self.userCity.distanceRanges) {
+            [self.distances addObject:[NSString stringWithFormat:@"%@km", [num stringValue]]];
+        }
+        [self.distances addObject:@"全城"];
+        
+        self.priceRanges = [NSMutableArray array];
+        for (NSArray *rangeArray in self.userCity.priceRanges) {
+            NSString *title = [NSString stringWithFormat:@"%@-%@元", [rangeArray firstObject], rangeArray[1]];
+            [self.priceRanges addObject:title];
+        }
+        [self.priceRanges addObject:[NSString stringWithFormat:@"%@元以上", [self.userCity.priceRanges lastObject][1]]];
+        [self.priceRanges insertObject:@"不限" atIndex:0];
+        
+        self.licenseTypes = [NSMutableArray arrayWithArray:@[@"不限", @"C1手动挡", @"C2自动挡"]];
+        
+        self.sortOptions = [NSMutableArray arrayWithArray:@[@"综合排序", @"距离最近", @"评价最多", @"价格最低"]];
+        
+        
+        [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:self.distances.count-1]];
+        [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:0 item:-1]];
+        [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:2 row:0 item:-1]];
+        [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:3 row:0 item:-1]];
+    }];
     
 }
 
@@ -868,11 +871,13 @@ static NSInteger const kHotSchoolIndex = 4;
 }
 
 - (void)cityChanged {
-    self.userCity = [[HHConstantsStore sharedInstance] getCityWithId:[HHStudentStore sharedInstance].selectedCityId];
-    [self setupDefaultSortAndFilterForCoach];
-    [self setupDefaultSortAndFilterForSchool];
-    [self refreshCoachList:NO completion:nil];
-    [self refreshDrivingSchoolList:NO completion:nil];
+    [[HHConstantsStore sharedInstance] getCityWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(HHCity *city) {
+        self.userCity = city;
+        [self setupDefaultSortAndFilterForCoach];
+        [self setupDefaultSortAndFilterForSchool];
+        [self refreshCoachList:NO completion:nil];
+        [self refreshDrivingSchoolList:NO completion:nil];
+    }];
 }
 
 
