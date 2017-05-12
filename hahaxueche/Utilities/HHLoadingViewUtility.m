@@ -34,7 +34,7 @@
 }
 
 - (void)showLoadingView {
-    [self showLoadingViewWithText:@"选驾校, 挑教练"];
+    [self showLoadingViewWithText:@"选驾校 挑教练"];
 }
 
 - (void)showLoadingViewWithText:(NSString *)text {

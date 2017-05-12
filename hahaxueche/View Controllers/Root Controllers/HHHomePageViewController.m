@@ -309,7 +309,7 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_application_notice_tapped attributes:nil];
             } break;
             case 3: {
-                [weakSelf jumpToCoachDrivingSchoolVCWithIndex:ListTypeDrivingSchool];
+                [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/share/jia-xiao-pai-ming"]];
                 
             } break;
                 
