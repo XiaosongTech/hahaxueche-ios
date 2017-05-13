@@ -25,6 +25,7 @@
 #import "HHToastManager.h"
 #import "HHEventTrackingManager.h"
 #import "iCarousel.h"
+#import "HHLoadingViewUtility.h"
 
 
 @interface HHFieldsMapViewController () <UIScrollViewDelegate, iCarouselDelegate, iCarouselDataSource>
@@ -94,6 +95,8 @@
         self.mapView.mapType = MKMapTypeHybrid;
         self.mapView.mapType = MKMapTypeStandard;
     }];
+    
+    [[HHLoadingViewUtility sharedInstance] showLoadingView];
    
 }
 
@@ -370,6 +373,11 @@
         }
     }
     return NO;
+}
+
+- (void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered  {
+    [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
+    
 }
 
 

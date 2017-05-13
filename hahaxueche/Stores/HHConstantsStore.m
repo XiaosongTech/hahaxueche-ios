@@ -153,18 +153,22 @@ static NSString *const kSavedConstants = @"kSavedConstant";
 }
 
 - (void)getCityWithCityId:(NSNumber *)cityId completion:(HHCityCompletion)completion {
-    HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPICities, [cityId stringValue]]];
     if (self.cities[cityId]) {
         if (completion) {
             completion(self.cities[cityId]);
         }
     } else {
+        HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:[NSString stringWithFormat:kAPICities, [cityId stringValue]]];
         [APIClient getWithParameters:nil completion:^(NSDictionary *response, NSError *error) {
             if (!error) {
                 HHCity *city = [MTLJSONAdapter modelOfClass:[HHCity class] fromJSONDictionary:response error:nil];
                 self.cities[city.cityId] = city;
                 if (completion) {
                     completion(city);
+                }
+            } else {
+                if (completion) {
+                    completion(nil);
                 }
             }
         }];
