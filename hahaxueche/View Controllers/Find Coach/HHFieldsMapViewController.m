@@ -26,18 +26,20 @@
 #import "HHEventTrackingManager.h"
 #import "iCarousel.h"
 #import "HHLoadingViewUtility.h"
+#import "UIBarButtonItem+HHCustomButton.h"
+#import "HHSearchViewController.h"
 
 
 @interface HHFieldsMapViewController () <UIScrollViewDelegate, iCarouselDelegate, iCarouselDataSource>
 
 @property (nonatomic, strong) HHField *selectedField;
-@property (nonatomic, strong) NSArray *highlightedFields;
 @property (nonatomic, strong) NSArray *fields;
 @property (nonatomic, strong) iCarousel *carousel;
 @property (nonatomic, strong) NSArray *coaches;
 @property (nonatomic, strong) UILabel *indexLabel;
 @property (nonatomic, strong) NSMutableArray *cardViews;
 @property (nonatomic, strong) KLCPopup *popup;
+@property (nonatomic, strong) HHCity *userCity;
 
 
 @end
@@ -71,14 +73,13 @@
 
 
 
-- (instancetype)initWithFields:(NSArray *)fields selectedField:(HHField *)selectedField highlightedFields:(NSArray *)highlightedFields {
+- (instancetype)initWithFields:(NSArray *)fields selectedField:(HHField *)selectedField {
     self = [super init];
     if (self) {
         self.userLocation = [HHStudentStore sharedInstance].currentLocation;
         self.selectedField = selectedField;
         self.fields = fields;
         self.cardViews = [NSMutableArray array];
-        self.highlightedFields = highlightedFields;
 
     }
     return self;
@@ -87,16 +88,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"训练场/驾校教练";
+    self.title = @"地图找驾校";
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"icon_search"] action:@selector(jumpToSearchVC) target:self];
     
     [self initSubviews];
     [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidReceiveMemoryWarningNotification object:[UIApplication sharedApplication] queue:nil usingBlock:^(NSNotification * _Nonnull note) {
         self.mapView.mapType = MKMapTypeHybrid;
         self.mapView.mapType = MKMapTypeStandard;
     }];
-    
-    [[HHLoadingViewUtility sharedInstance] showLoadingView];
    
 }
 
@@ -113,9 +113,6 @@
             }
         }];
     }
-
-
-    
 }
 
 - (void)initSubviews {
@@ -124,22 +121,10 @@
     self.mapView.showsUserLocation = YES;
     [self.view addSubview:self.mapView];
     
+    [self addAnnotation];
     [self makeConstraints];
 }
-
-- (void)makeConstraints {
-    [self.mapView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.top);
-        make.left.equalTo(self.view.left);
-        make.width.equalTo(self.view.width);
-        make.height.equalTo(self.view.height);
-    }];
-    
-}
-
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)addAnnotation {
     for (HHField *field in self.fields) {
         HHPointAnnotation *pointAnnotation = [[HHPointAnnotation alloc] initWithField:field];
         pointAnnotation.coordinate = CLLocationCoordinate2DMake([field.latitude doubleValue], [field.longitude doubleValue]);
@@ -155,14 +140,17 @@
         MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(fieldLocationCoordinate, 15000, 15000);
         [self.mapView setRegion:mapRegion animated:YES];
     } else {
-        MKMapRect zoomRect = MKMapRectNull;
-        for (id <MKAnnotation> annotation in self.mapView.annotations) {
-            MKMapPoint annotationPoint = MKMapPointForCoordinate(annotation.coordinate);
-            MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0.1, 0.1);
-            zoomRect = MKMapRectUnion(zoomRect, pointRect);
-        }
-        [self.mapView setVisibleMapRect:zoomRect animated:YES];
+        [self.mapView showAnnotations:self.mapView.annotations animated:YES];
     }
+}
+
+- (void)makeConstraints {
+    [self.mapView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.top);
+        make.left.equalTo(self.view.left);
+        make.width.equalTo(self.view.width);
+        make.height.equalTo(self.view.height);
+    }];
     
 }
 
@@ -201,11 +189,7 @@
         
         HHPointAnnotation *anno = (HHPointAnnotation *)annotation;
         
-        UIImage *img = [UIImage imageNamed:@"ic_map_local_choseoff"];
-        if ([self shouldHighlight:anno.field]) {
-            img = [UIImage imageNamed:@"ic_map_local_choseon"];
-        }
-        UIImageView *pinView = [[UIImageView alloc] initWithImage:img];
+        UIImageView *pinView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_map_local_choseon"]];
         HHCalloutView *calloutView = [[HHCalloutView alloc] initWithField:anno.field];
         calloutView.sendAction = ^(HHField *field) {
             HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"轻松定位训练场" placeHolder:@"输入手机号, 立即接收详细地址" buttonTitle:@"发我定位"];
@@ -244,11 +228,7 @@
                     }
                     HHPointAnnotation *annotation = (HHPointAnnotation *)aView.annotation;
                     if (![annotation.field.fieldId isEqualToString:field.fieldId]) {
-                        UIImage *img = [UIImage imageNamed:@"ic_map_local_choseoff"];
-                        if ([self shouldHighlight:annotation.field]) {
-                            img = [UIImage imageNamed:@"ic_map_local_choseon"];
-                        }
-                        aView.pinView.image = img;
+                        aView.pinView.image = [UIImage imageNamed:@"ic_map_local_choseon"];
                         [aView hideCalloutView];
                     } else {
                         [weakSelf.mapView bringSubviewToFront:aView];
@@ -366,19 +346,13 @@
     return value;
 }
 
--(BOOL)shouldHighlight:(HHField *)field {
-    for (HHField * highlightField in self.highlightedFields) {
-        if ([highlightField.fieldId isEqualToString:field.fieldId]) {
-            return YES;
-        }
-    }
-    return NO;
+
+- (void)jumpToSearchVC {
+    HHSearchViewController *vc = [[HHSearchViewController alloc] initWithType:0];
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:navVC animated:YES completion:nil];
 }
 
-- (void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered  {
-    [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-    
-}
 
 
 @end
