@@ -149,12 +149,14 @@
 }
 - (void)addClusters {
     [self.mapView removeAnnotations:self.mapView.annotations];
-    self.selectedZone = nil;
     self.selectedField = nil;
     self.coaches = nil;
-    [self updateView];
-    for (NSString *key in [self groupFieldsWithBaseFields:self.filteredFields]) {
-        NSArray *fields =[self groupFieldsWithBaseFields:self.filteredFields][key];
+    [self.carousel removeFromSuperview];
+    self.carousel = nil;
+    
+    self.groupDic = [self groupFieldsWithBaseFields:self.filteredFields];
+    for (NSString *key in self.groupDic) {
+        NSArray *fields = self.groupDic[key];
         if (fields.count > 0) {
             HHField *field = [fields firstObject];
             HHPointAnnotation *pointAnnotation = [[HHPointAnnotation alloc] initWithField:field];
@@ -202,6 +204,7 @@
         self.filterMenu.textSelectedColor = [UIColor HHOrange];
         self.filterMenu.indicatorColor = [UIColor HHLightestTextGray];
         [self.view addSubview:self.filterMenu];
+        [self.filterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:self.distances.count-1]];
         
         self.filterMenu.finishedBlock=^(DOPIndexPath *indexPath){
             if (indexPath.column == 0) {
@@ -228,8 +231,15 @@
                 }
                 
             }
+            if (!weakSelf.selectedZone) {
+                weakSelf.showCluster = YES;
+            } else {
+                weakSelf.showCluster = NO;
+            }
+            [weakSelf updateMapView];
             
         };
+        
     }];
     
 }
@@ -285,7 +295,8 @@
             clusterView.countLabel.text = [NSString stringWithFormat:@"%ld", fieldsArray.count];
             clusterView.tapBlock = ^{
                 weakSelf.selectedZone = anno.field.district;
-                [weakSelf showMarkers];
+                [weakSelf.filterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:[weakSelf.areas indexOfObject:weakSelf.selectedZone]]];
+                [weakSelf updateMapView];
             };
             return clusterView;
         } else {
@@ -546,14 +557,12 @@
             groupFieldDic[field.district] = array;
         }
     }
-    self.groupDic = groupFieldDic;
     return groupFieldDic;
 }
 
 - (void)showMarkers {
     [self.mapView removeAnnotations:self.mapView.annotations];
     self.selectedField = nil;
-    self.showCluster = NO;
     self.filteredFields = [self filterArray];
     for (HHField *field in self.filteredFields) {
         HHPointAnnotation *pointAnnotation = [[HHPointAnnotation alloc] initWithField:field];
@@ -584,32 +593,36 @@
     if (!self.doneLoadingMap) {
         return;
     }
-    if (mapView.region.span.longitudeDelta > 0.25f) {
+    if (mapView.region.span.longitudeDelta > 0.32f) {
         if (!self.showCluster) {
             self.showCluster = YES;
-            [self addClusters];
+            self.selectedZone = nil;
+            [self.filterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:self.distances.count-1]];
+            [self updateMapView];
         }
     } else {
         if (self.showCluster) {
             self.showCluster = NO;
-            [self showMarkers];
+            [self updateMapView];
+            
         }
     }
+    
 }
 
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath {
     return;
 }
 
-- (void)setSelectedZone:(NSString *)selectedZone {
-    _selectedZone = selectedZone;
-    if(selectedZone) {
-        NSInteger row = [self.areas indexOfObject:self.selectedZone];
-        [self.filterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:row]];
-    } else {
-        [self.filterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0]];
-    }
+
+- (void)updateMapView {
     self.filteredFields = [self filterArray];
+    if (self.showCluster) {
+        [self addClusters];
+    } else {
+        [self showMarkers];
+    }
 }
+    
 
 @end
