@@ -19,6 +19,6 @@
 @property (nonatomic, strong) MKMapView *mapView;
 @property (nonatomic, strong) CLLocation *userLocation;
 
-- (instancetype)initWithFields:(NSArray *)fields selectedField:(HHField *)selectedField highlightedFields:(NSArray *)highlightedFields;
+- (instancetype)initWithFields:(NSArray *)fields selectedField:(HHField *)selectedField;
 
 @end

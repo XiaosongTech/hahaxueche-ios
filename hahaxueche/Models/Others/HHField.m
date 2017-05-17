@@ -24,6 +24,9 @@
              @"coachCount":@"coach_count",
              @"consultPhone":@"consult_phone",
              @"img":@"image",
+             @"drivingSchoolIds":@"driving_school_ids",
+             @"zoneCenterLng":@"zone_center_lng",
+             @"zoneCenterLat":@"zone_center_lat",
              };
 }
 

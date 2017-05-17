@@ -43,7 +43,7 @@
 #import "HHInsuranceViewController.h"
 #import "HHHomePageItemsView.h"
 #import "UIBarButtonItem+HHCustomButton.h"
-#import "HHFieldsMapViewController.h"
+#import "HHMapViewController.h"
 #import "HHCarouselView.h"
 #import "INTULocationManager.h"
 #import "HHSearchViewController.h"
@@ -622,7 +622,7 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
 - (void)showMapView {
     [[HHConstantsStore sharedInstance] getFieldsWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(NSArray *fields) {
         if (fields.count > 0) {
-            HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:fields selectedField:nil highlightedFields:nil];
+            HHMapViewController *vc = [[HHMapViewController alloc] initWithSelectedSchool:nil selectedZone:nil];
             UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
             [self presentViewController:navVC animated:YES completion:nil];
         }
