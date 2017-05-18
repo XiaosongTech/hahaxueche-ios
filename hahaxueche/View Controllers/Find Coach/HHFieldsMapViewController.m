@@ -192,21 +192,7 @@
         UIImageView *pinView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_map_local_choseon"]];
         HHCalloutView *calloutView = [[HHCalloutView alloc] initWithField:anno.field];
         calloutView.sendAction = ^(HHField *field) {
-            HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"轻松定位训练场" placeHolder:@"输入手机号, 立即接收详细地址" buttonTitle:@"发我定位"];
-            view.buttonAction = ^(NSString *number) {
-                NSString *link = [NSString stringWithFormat:@"https://m.hahaxueche.com/ditu?field_id=%@", field.fieldId];
-                [[HHStudentService sharedInstance] getPhoneNumber:number coachId:nil schoolId:nil fieldId:field.fieldId eventType:@(1) eventData:@{@"field_id":field.fieldId, @"link":link} completion:^(NSError *error) {
-                    if (error) {
-                        [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试!"];
-                    } else {
-                        [HHPopupUtility dismissPopup:weakSelf.popup];
-                        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_locate_confirmed attributes:nil];
-                    }
-                }];
-            };
-            weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
-            [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
-            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_locate_tapped attributes:nil];
+            [weakSelf sendLocationWithField:field coach:nil];
         };
         
         HHAnnotationView *annotationView = (HHAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([HHAnnotationView class])];
@@ -287,7 +273,7 @@
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view {
     __weak HHFieldsMapViewController *weakSelf = self;
     HHCoach *coach = self.coaches[index];
-    HHMapCoachCardView *coachView = [[HHMapCoachCardView alloc] initWithCoach:coach];
+    HHMapCoachCardView *coachView = [[HHMapCoachCardView alloc] initWithCoach:coach field:self.selectedField];
     coachView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame)-60.0f, 140.0f);
     coachView.checkFieldBlock = ^(HHCoach *coach) {
         HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"看过训练场才放心" placeHolder:@"输入手机号, 教练立即带你看场地" buttonTitle:@"预约看场地"];
@@ -307,21 +293,13 @@
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_site_tapped attributes:nil];
     };
     
-    coachView.supportBlock = ^(HHCoach *coach) {
-        [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_online_support_tapped attributes:nil];
+    coachView.sendLocationBlock = ^(HHCoach *coach) {
+        [weakSelf sendLocationWithField:[coach getCoachField] coach:coach];
     };
     
     coachView.callBlock = ^(HHCoach *coach) {
         [[HHSupportUtility sharedManager] callSupportWithNumber:coach.consultPhone];
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_contact_coach_tapped attributes:nil];
-    };
-    
-    coachView.schoolBlock = ^(HHDrivingSchool *school) {
-        HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/jiaxiao/%@", [school.schoolId stringValue]]]];
-        webVC.hidesBottomBarWhenPushed = YES;
-        [weakSelf.navigationController pushViewController:webVC animated:YES];
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_school_tapped attributes:nil];
     };
     
     coachView.coachBlock = ^(HHCoach *coach) {
@@ -351,6 +329,28 @@
     HHSearchViewController *vc = [[HHSearchViewController alloc] initWithType:0];
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:navVC animated:YES completion:nil];
+}
+
+- (void)sendLocationWithField:(HHField *)field coach:(HHCoach *)coach {
+    HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"轻松定位训练场" placeHolder:@"输入手机号, 立即接收详细地址" buttonTitle:@"发我定位"];
+    NSString *coachId = nil;
+    if (coach) {
+        coachId = coach.coachId;
+    }
+    view.buttonAction = ^(NSString *number) {
+        NSString *link = [NSString stringWithFormat:@"https://m.hahaxueche.com/ditu?field_id=%@", field.fieldId];
+        [[HHStudentService sharedInstance] getPhoneNumber:number coachId:coachId schoolId:nil fieldId:field.fieldId eventType:@(1) eventData:@{@"field_id":field.fieldId, @"link":link} completion:^(NSError *error) {
+            if (error) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试!"];
+            } else {
+                [HHPopupUtility dismissPopup:self.popup];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_locate_confirmed attributes:nil];
+            }
+        }];
+    };
+    self.popup = [HHPopupUtility createPopupWithContentView:view];
+    [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_locate_tapped attributes:nil];
 }
 
 

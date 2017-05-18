@@ -54,7 +54,7 @@
 @property (nonatomic, strong) NSNumber *selectedDistance;
 
 @property (nonatomic) BOOL showCluster;
-@property (nonatomic) BOOL doneLoadingMap;
+@property (nonatomic) BOOL shouldCheckRegionChange;
 
 @end
 
@@ -172,6 +172,7 @@
             break;
         }
     }
+    self.shouldCheckRegionChange = NO;
     [self.mapView showAnnotations:array animated:NO];
 
 }
@@ -205,6 +206,12 @@
         self.filterMenu.indicatorColor = [UIColor HHLightestTextGray];
         [self.view addSubview:self.filterMenu];
         [self.filterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:self.distances.count-1]];
+        if(self.selectedSchool) {
+            NSInteger row = [self.schools indexOfObject:self.selectedSchool.schoolName];
+            [self.filterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:row]];
+        } else {
+            [self.filterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:0]];
+        }
         
         self.filterMenu.finishedBlock=^(DOPIndexPath *indexPath){
             if (indexPath.column == 0) {
@@ -231,7 +238,7 @@
                 }
                 
             }
-            if (!weakSelf.selectedZone) {
+            if (!weakSelf.selectedZone && !weakSelf.selectedDistance) {
                 weakSelf.showCluster = YES;
             } else {
                 weakSelf.showCluster = NO;
@@ -295,6 +302,8 @@
             clusterView.countLabel.text = [NSString stringWithFormat:@"%ld", fieldsArray.count];
             clusterView.tapBlock = ^{
                 weakSelf.selectedZone = anno.field.district;
+                weakSelf.selectedDistance = nil;
+                weakSelf.showCluster = NO;
                 [weakSelf.filterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:[weakSelf.areas indexOfObject:weakSelf.selectedZone]]];
                 [weakSelf updateMapView];
             };
@@ -306,21 +315,7 @@
             UIImageView *pinView = [[UIImageView alloc] initWithImage:img];
             HHCalloutView *calloutView = [[HHCalloutView alloc] initWithField:anno.field];
             calloutView.sendAction = ^(HHField *field) {
-                HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"轻松定位训练场" placeHolder:@"输入手机号, 立即接收详细地址" buttonTitle:@"发我定位"];
-                view.buttonAction = ^(NSString *number) {
-                    NSString *link = [NSString stringWithFormat:@"https://m.hahaxueche.com/ditu?field_id=%@", field.fieldId];
-                    [[HHStudentService sharedInstance] getPhoneNumber:number coachId:nil schoolId:nil fieldId:field.fieldId eventType:@(1) eventData:@{@"field_id":field.fieldId, @"link":link} completion:^(NSError *error) {
-                        if (error) {
-                            [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试!"];
-                        } else {
-                            [HHPopupUtility dismissPopup:weakSelf.popup];
-                            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_locate_confirmed attributes:nil];
-                        }
-                    }];
-                };
-                weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
-                [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
-                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_locate_tapped attributes:nil];
+                [weakSelf sendLocationWithField:field coach:nil];
             };
             
             HHAnnotationView *annotationView = (HHAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([HHAnnotationView class])];
@@ -346,6 +341,9 @@
                             aView.pinView.image = [UIImage imageNamed:@"ic_map_local_choseon"];;
                             [aView hideCalloutView];
                         } else {
+                            CLLocationCoordinate2D fieldLocationCoordinate = CLLocationCoordinate2DMake([field.latitude doubleValue], [field.longitude doubleValue]);
+                            MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(fieldLocationCoordinate, 15000, 15000);
+                            [weakSelf.mapView setRegion:mapRegion animated:YES];
                             [weakSelf.mapView bringSubviewToFront:aView];
                         }
                     }
@@ -404,7 +402,7 @@
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view {
     __weak HHMapViewController *weakSelf = self;
     HHCoach *coach = self.coaches[index];
-    HHMapCoachCardView *coachView = [[HHMapCoachCardView alloc] initWithCoach:coach];
+    HHMapCoachCardView *coachView = [[HHMapCoachCardView alloc] initWithCoach:coach field:self.selectedField];
     coachView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame)-60.0f, 140.0f);
     coachView.checkFieldBlock = ^(HHCoach *coach) {
         HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"看过训练场才放心" placeHolder:@"输入手机号, 教练立即带你看场地" buttonTitle:@"预约看场地"];
@@ -424,21 +422,13 @@
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_site_tapped attributes:nil];
     };
     
-    coachView.supportBlock = ^(HHCoach *coach) {
-        [weakSelf.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:weakSelf.navigationController] animated:YES];
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_online_support_tapped attributes:nil];
+    coachView.sendLocationBlock = ^(HHCoach *coach) {
+        [weakSelf sendLocationWithField:[coach getCoachField] coach:coach];
     };
     
     coachView.callBlock = ^(HHCoach *coach) {
         [[HHSupportUtility sharedManager] callSupportWithNumber:coach.consultPhone];
         [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_contact_coach_tapped attributes:nil];
-    };
-    
-    coachView.schoolBlock = ^(HHDrivingSchool *school) {
-        HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/jiaxiao/%@", [school.schoolId stringValue]]]];
-        webVC.hidesBottomBarWhenPushed = YES;
-        [weakSelf.navigationController pushViewController:webVC animated:YES];
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_check_school_tapped attributes:nil];
     };
     
     coachView.coachBlock = ^(HHCoach *coach) {
@@ -465,7 +455,7 @@
 
 - (void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered  {
     [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-    self.doneLoadingMap = YES;
+    self.shouldCheckRegionChange = YES;
     
 }
 
@@ -540,9 +530,14 @@
         }
         return zoneArray;
     } else if (self.selectedDistance) {
-        
+        for (HHField *field in schoolArray) {
+            if ([self fieldInDistance:self.selectedDistance field:field]) {
+                [disArray addObject:field];
+            }
+        }
+
         return disArray;
-    }
+    } 
     return schoolArray;
 }
 
@@ -585,18 +580,34 @@
             }
             
         }
+        self.shouldCheckRegionChange = NO;
+        [self.mapView showAnnotations:zoneMarkers animated:YES];
+    } else if (self.selectedDistance) {
+        NSMutableArray *zoneMarkers = [NSMutableArray array];
+        for (HHPointAnnotation *view in self.mapView.annotations) {
+            if ([view isKindOfClass:[MKUserLocation class]]) {
+                continue;
+            }
+            
+            if ([view isKindOfClass:[HHPointAnnotation class]]) {
+                [zoneMarkers addObject:view];
+            }
+            
+        }
+        self.shouldCheckRegionChange = NO;
         [self.mapView showAnnotations:zoneMarkers animated:YES];
     }
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-    if (!self.doneLoadingMap) {
+    if (!self.shouldCheckRegionChange) {
         return;
     }
-    if (mapView.region.span.longitudeDelta > 0.32f) {
+    if (mapView.region.span.longitudeDelta > 0.22f) {
         if (!self.showCluster) {
             self.showCluster = YES;
             self.selectedZone = nil;
+            self.selectedDistance = nil;
             [self.filterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:self.distances.count-1]];
             [self updateMapView];
         }
@@ -623,6 +634,37 @@
         [self showMarkers];
     }
 }
-    
+
+- (BOOL)fieldInDistance:(NSNumber *)distance field:(HHField *)field {
+    CLLocation *loc1 = [[CLLocation alloc] initWithLatitude:[field.latitude floatValue] longitude:[field.longitude floatValue]];
+    CLLocationDistance dist = [loc1 distanceFromLocation:self.mapView.userLocation.location];
+    if (dist <= [distance floatValue] * 1000.0f) {
+        return YES;
+    }
+    return NO;
+}
+
+- (void)sendLocationWithField:(HHField *)field coach:(HHCoach *)coach {
+    HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"轻松定位训练场" placeHolder:@"输入手机号, 立即接收详细地址" buttonTitle:@"发我定位"];
+    NSString *coachId = nil;
+    if (coach) {
+        coachId = coach.coachId;
+    }
+    view.buttonAction = ^(NSString *number) {
+        NSString *link = [NSString stringWithFormat:@"https://m.hahaxueche.com/ditu?field_id=%@", field.fieldId];
+        [[HHStudentService sharedInstance] getPhoneNumber:number coachId:coachId schoolId:nil fieldId:field.fieldId eventType:@(1) eventData:@{@"field_id":field.fieldId, @"link":link} completion:^(NSError *error) {
+            if (error) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试!"];
+            } else {
+                [HHPopupUtility dismissPopup:self.popup];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_locate_confirmed attributes:nil];
+            }
+        }];
+    };
+    self.popup = [HHPopupUtility createPopupWithContentView:view];
+    [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_locate_tapped attributes:nil];
+}
+
 
 @end
