@@ -137,7 +137,7 @@
         [self getFieldCoach];
         
         CLLocationCoordinate2D fieldLocationCoordinate = CLLocationCoordinate2DMake([self.selectedField.latitude doubleValue], [self.selectedField.longitude doubleValue]);
-        MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(fieldLocationCoordinate, 15000, 15000);
+        MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(fieldLocationCoordinate, 1500, 1500);
         [self.mapView setRegion:mapRegion animated:YES];
     } else {
         [self.mapView showAnnotations:self.mapView.annotations animated:YES];
