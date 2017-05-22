@@ -318,14 +318,11 @@
                 [weakSelf sendLocationWithField:field coach:nil];
             };
             
-            HHAnnotationView *annotationView = (HHAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([HHAnnotationView class])];
-            if (!annotationView) {
-                annotationView = [[HHAnnotationView alloc] initWithAnnotation:annotation
-                                                              reuseIdentifier:NSStringFromClass([HHAnnotationView class])
-                                                                      pinView:pinView
-                                                                  calloutView:calloutView
-                                                                     selected:[anno.field.fieldId isEqualToString:self.selectedField.fieldId]];
-            }
+            HHAnnotationView *annotationView = [[HHAnnotationView alloc] initWithAnnotation:annotation
+                                                                           reuseIdentifier:NSStringFromClass([HHAnnotationView class])
+                                                                                   pinView:pinView
+                                                                               calloutView:calloutView
+                                                                                  selected:[anno.field.fieldId isEqualToString:self.selectedField.fieldId]];
             [annotationView hideCalloutView];
             annotationView.pinView.image = [UIImage imageNamed:@"ic_map_local_choseon"];
             annotationView.enabled = NO;
