@@ -43,7 +43,7 @@
 #import "HHInsuranceViewController.h"
 #import "HHHomePageItemsView.h"
 #import "UIBarButtonItem+HHCustomButton.h"
-#import "HHFieldsMapViewController.h"
+#import "HHMapViewController.h"
 #import "HHCarouselView.h"
 #import "INTULocationManager.h"
 #import "HHSearchViewController.h"
@@ -462,30 +462,8 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
 }
 
 - (void)navMapTapped {
-    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyNeighborhood timeout:2.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
-        if (status == INTULocationStatusSuccess) {
-            [HHStudentStore sharedInstance].currentLocation = currentLocation;
-            
-        } else if (status == INTULocationStatusTimedOut) {
-            [HHStudentStore sharedInstance].currentLocation = currentLocation;
-            
-        } else if (status == INTULocationStatusError) {
-            [HHStudentStore sharedInstance].currentLocation = nil;
-        } else {
-            [HHStudentStore sharedInstance].currentLocation = nil;
-        }
-        
-        if (![HHStudentStore sharedInstance].currentLocation) {
-            HHAskLocationPermissionViewController *vc = [[HHAskLocationPermissionViewController alloc] init];
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
-        } else {
-            [self showMapView];
-        }
-        
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_navigation_map_tapped attributes:nil];
-    }];
-    
+    [self showMapView];
+    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_navigation_map_tapped attributes:nil];
     
 }
 
@@ -620,13 +598,35 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
 }
 
 - (void)showMapView {
-    [[HHConstantsStore sharedInstance] getFieldsWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(NSArray *fields) {
-        if (fields.count > 0) {
-            HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:fields selectedField:nil highlightedFields:nil];
-            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-            [self presentViewController:navVC animated:YES completion:nil];
+    
+    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyNeighborhood timeout:2.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
+        if (status == INTULocationStatusSuccess) {
+            [HHStudentStore sharedInstance].currentLocation = currentLocation;
+            
+        } else if (status == INTULocationStatusTimedOut) {
+            [HHStudentStore sharedInstance].currentLocation = currentLocation;
+            
+        } else if (status == INTULocationStatusError) {
+            [HHStudentStore sharedInstance].currentLocation = nil;
+        } else {
+            [HHStudentStore sharedInstance].currentLocation = nil;
+        }
+        
+        if (![HHStudentStore sharedInstance].currentLocation) {
+            HHAskLocationPermissionViewController *vc = [[HHAskLocationPermissionViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        } else {
+            [[HHConstantsStore sharedInstance] getFieldsWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(NSArray *fields) {
+                if (fields.count > 0) {
+                    HHMapViewController *vc = [[HHMapViewController alloc] initWithSelectedSchool:nil selectedZone:nil];
+                    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+                    [self presentViewController:navVC animated:YES completion:nil];
+                }
+            }];
         }
     }];
+    
 }
 
 - (void)jumpToCoachDrivingSchoolVCWithIndex:(NSInteger)index {

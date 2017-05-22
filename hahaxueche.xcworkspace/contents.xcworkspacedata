@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:hahaxueche/Views/Others/wuhan.gpx">
+   </FileRef>
+   <FileRef
       location = "group:hahaxueche.xcodeproj">
    </FileRef>
    <FileRef
