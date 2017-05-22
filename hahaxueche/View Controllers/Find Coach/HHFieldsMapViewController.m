@@ -195,14 +195,11 @@
             [weakSelf sendLocationWithField:field coach:nil];
         };
         
-        HHAnnotationView *annotationView = (HHAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([HHAnnotationView class])];
-        if (!annotationView) {
-            annotationView = [[HHAnnotationView alloc] initWithAnnotation:annotation
-                                                          reuseIdentifier:NSStringFromClass([HHAnnotationView class])
-                                                                  pinView:pinView
-                                                              calloutView:calloutView
-                                                                 selected:[anno.field.fieldId isEqualToString:self.selectedField.fieldId]];
-        }
+        HHAnnotationView *annotationView = [[HHAnnotationView alloc] initWithAnnotation:annotation
+                                                                        reuseIdentifier:NSStringFromClass([HHAnnotationView class])
+                                                                                pinView:pinView
+                                                                            calloutView:calloutView
+                                                                               selected:[anno.field.fieldId isEqualToString:self.selectedField.fieldId]];
         
         annotationView.enabled = NO;
         annotationView.pinCompletion = ^(HHField *field) {
@@ -217,7 +214,11 @@
                         aView.pinView.image = [UIImage imageNamed:@"ic_map_local_choseon"];
                         [aView hideCalloutView];
                     } else {
+                        CLLocationCoordinate2D fieldLocationCoordinate = CLLocationCoordinate2DMake([field.latitude doubleValue], [field.longitude doubleValue]);
+                        MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(fieldLocationCoordinate, 15000, 15000);
+                        [weakSelf.mapView setRegion:mapRegion animated:YES];
                         [weakSelf.mapView bringSubviewToFront:aView];
+
                     }
                 }
             }
