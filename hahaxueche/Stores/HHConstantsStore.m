@@ -180,6 +180,7 @@ static NSString *const kSavedConstants = @"kSavedConstant";
         if (completion) {
             completion(self.fields);
         }
+        return;
     }
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIFields];
     [APIClient getWithParameters:@{@"city_id":cityId} completion:^(NSDictionary *response, NSError *error) {
