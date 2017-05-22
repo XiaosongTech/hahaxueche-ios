@@ -14,13 +14,11 @@
 
 @implementation HHMapCoachCardView
 
-- (instancetype)initWithCoach:(HHCoach *)coach {
+- (instancetype)initWithCoach:(HHCoach *)coach field:(HHField *)field {
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
         self.coach = coach;
-        
-        __weak HHMapCoachCardView *weakSelf = self;
         
         UIView *topView = [[UIView alloc] init];
         [self addSubview:topView];
@@ -43,7 +41,13 @@
         
         self.avatarView = [[UIImageView alloc] init];
         self.avatarView.contentMode = UIViewContentModeScaleAspectFit;
-        [self.avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl]];
+        if(field.drivingSchoolIds.count > 1) {
+            HHDrivingSchool *school = [self.coach getCoachDrivingSchool];
+            [self.avatarView sd_setImageWithURL:[NSURL URLWithString:school.avatar]];
+        } else {
+            [self.avatarView sd_setImageWithURL:[NSURL URLWithString:coach.avatarUrl]];
+        }
+        
         [topView addSubview:self.avatarView];
         [self.avatarView makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(topView.top).offset(15.0f);
@@ -59,7 +63,7 @@
         [topView addSubview:self.nameLabel];
         [self.nameLabel makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.avatarView.right).offset(10.0f);
-            make.top.equalTo(self.avatarView.top).offset(5.0f);
+            make.top.equalTo(self.avatarView.top).offset(10.0f);
         }];
         
         self.badgeView = [[HHCoachBadgeView alloc] initWithCoach:coach];
@@ -74,7 +78,7 @@
         [topView addSubview:self.starRatingView];
         [self.starRatingView makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.nameLabel.left);
-            make.top.equalTo(self.nameLabel.bottom);
+            make.bottom.equalTo(self.avatarView.bottom).offset(-5.0f);
             make.height.mas_equalTo(20.0f);
             make.width.mas_equalTo(80.0f);
         }];
@@ -86,55 +90,31 @@
             make.left.equalTo(self.starRatingView.right).offset(3.0f);
             make.centerY.equalTo(self.starRatingView.centerY);
         }];
-        
-        self.priceTitleLabel = [[UILabel alloc] init];
-        self.priceTitleLabel.textColor = [UIColor whiteColor];
-        self.priceTitleLabel.textAlignment = NSTextAlignmentCenter;
-        self.priceTitleLabel.backgroundColor = [UIColor HHOrange];
-        self.priceTitleLabel.font = [UIFont systemFontOfSize:10.0f];
-        self.priceTitleLabel.layer.masksToBounds = YES;
-        self.priceTitleLabel.text = @"超值";
-        self.priceTitleLabel.layer.cornerRadius = 5.0f;
-        [topView addSubview:self.priceTitleLabel];
-        [self.priceTitleLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.nameLabel.left);
-            make.bottom.equalTo(self.avatarView.bottom).offset(-2.0f);
-            make.height.mas_equalTo(15.0f);
-            make.width.mas_equalTo(25.0f);
-        }];
-
+    
         self.priceLabel = [[UILabel alloc] init];
         self.priceLabel.textColor = [UIColor HHOrange];
         self.priceLabel.font = [UIFont systemFontOfSize:15.0f];
         self.priceLabel.text = [coach.price generateMoneyString];
         [topView addSubview:self.priceLabel];
         [self.priceLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.priceTitleLabel.right).offset(5.0f);
-            make.centerY.equalTo(self.priceTitleLabel.centerY);
-        }];
-
-        
-        self.drivingSchoolView = [[HHCoachTagView alloc] init];
-        self.drivingSchoolView.tapAction = ^(HHDrivingSchool *school) {
-            if (weakSelf.schoolBlock) {
-                weakSelf.schoolBlock([weakSelf.coach getCoachDrivingSchool]);
-            }
-        };
-        [self.drivingSchoolView setupWithDrivingSchool:[coach getCoachDrivingSchool]];
-        [topView addSubview:self.drivingSchoolView];
-        [self.drivingSchoolView makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.avatarView.top);
             make.right.equalTo(topView.right).offset(-15.0f);
-            make.width.equalTo(self.drivingSchoolView.label.width).offset(20.0f);
-            make.height.mas_equalTo(16.0f);
+            make.centerY.equalTo(self.nameLabel.centerY);
         }];
+        
+        self.priceImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"map_ic_hui"]];
+        [topView addSubview:self.priceImageView];
+        [self.priceImageView makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.priceLabel.left).offset(-5.0f);
+            make.centerY.equalTo(self.nameLabel.centerY);
+        }];
+        
         
         self.moreLabel = [[UILabel alloc] init];
         self.moreLabel.attributedText = [self generateMoreButtonText];
         [topView addSubview:self.moreLabel];
         [self.moreLabel makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self.drivingSchoolView.right);
-            make.centerY.equalTo(self.priceTitleLabel.centerY);
+            make.right.equalTo(self.priceLabel.right);
+            make.centerY.equalTo(self.starRatingView.centerY);
         }];
         
         
@@ -155,21 +135,21 @@
         
         [self.checkFieldButton addTarget:self action:@selector(checkFieldTapped) forControlEvents:UIControlEventTouchUpInside];
         
-        self.onlineSupportButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.onlineSupportButton setTitle:@"在线客服" forState:UIControlStateNormal];
-        [self.onlineSupportButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
-        self.onlineSupportButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
-        self.onlineSupportButton.layer.masksToBounds = YES;
-        self.onlineSupportButton.layer.borderColor = [UIColor HHLightLineGray].CGColor;
-        self.onlineSupportButton.layer.borderWidth = 1.0f/[UIScreen mainScreen].scale;
-        [botView addSubview:self.onlineSupportButton];
-        [self.onlineSupportButton makeConstraints:^(MASConstraintMaker *make) {
+        self.sendLocationButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.sendLocationButton setTitle:@"发我定位" forState:UIControlStateNormal];
+        [self.sendLocationButton setTitleColor:[UIColor HHOrange] forState:UIControlStateNormal];
+        self.sendLocationButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+        self.sendLocationButton.layer.masksToBounds = YES;
+        self.sendLocationButton.layer.borderColor = [UIColor HHLightLineGray].CGColor;
+        self.sendLocationButton.layer.borderWidth = 1.0f/[UIScreen mainScreen].scale;
+        [botView addSubview:self.sendLocationButton];
+        [self.sendLocationButton makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.checkFieldButton.right);
             make.width.equalTo(botView.width).multipliedBy(1.0f/3.0f);
             make.height.equalTo(botView.height);
             make.top.equalTo(botView.top);
         }];
-        [self.onlineSupportButton addTarget:self action:@selector(onlineSupportTapped) forControlEvents:UIControlEventTouchUpInside];
+        [self.sendLocationButton addTarget:self action:@selector(sendLocationButtonTapped) forControlEvents:UIControlEventTouchUpInside];
         
         self.callButton = [[HHGradientButton alloc] initWithType:0];
         [self.callButton setAttributedTitle:[self generateCallButtonText] forState:UIControlStateNormal];
@@ -179,7 +159,7 @@
         
         [botView addSubview:self.callButton];
         [self.callButton makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.onlineSupportButton.right);
+            make.left.equalTo(self.sendLocationButton.right);
             make.width.equalTo(botView.width).multipliedBy(1.0f/3.0f);
             make.height.equalTo(botView.height);
             make.top.equalTo(botView.top);
@@ -244,9 +224,9 @@
     }
 }
 
-- (void)onlineSupportTapped {
-    if (self.supportBlock) {
-        self.supportBlock(self.coach);
+- (void)sendLocationButtonTapped {
+    if (self.sendLocationBlock) {
+        self.sendLocationBlock(self.coach);
     }
 }
 

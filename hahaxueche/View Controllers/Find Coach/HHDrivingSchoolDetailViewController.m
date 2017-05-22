@@ -15,7 +15,6 @@
 #import "HHPopupUtility.h"
 #import "HHShareView.h"
 #import "HHSocialMediaShareUtility.h"
-#import "HHFieldsMapViewController.h"
 #import "HHConstantsStore.h"
 #import "HHCoachDetailBottomBarView.h"
 #import "HHGenericPhoneView.h"
@@ -26,7 +25,7 @@
 #import "HHSchoolBasicInfoTableViewCell.h"
 #import "HHCoachService.h"
 #import "HHLoadingViewUtility.h"
-#import "HHFieldsMapViewController.h"
+#import "HHMapViewController.h"
 #import "HHGenericPhoneView.h"
 #import "HHSchoolPriceTableViewCell.h"
 #import "HHCoachPriceDetailViewController.h"
@@ -208,7 +207,7 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
             };
             
             cell.fieldBlock = ^() {
-                HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:[HHConstantsStore sharedInstance].fields selectedField:nil highlightedFields:weakSelf.school.fields];
+                HHMapViewController *vc = [[HHMapViewController alloc] initWithSelectedSchool:weakSelf.school selectedZone:nil];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_check_fields_tapped attributes:nil];
             };
@@ -269,7 +268,7 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
         case SchoolCellField: {
             HHSchoolFieldTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFieldCellId forIndexPath:indexPath];
             cell.fieldBlock = ^(HHField *field) {
-                HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:[HHConstantsStore sharedInstance].fields selectedField:field highlightedFields:weakSelf.school.fields];
+                HHMapViewController *vc = [[HHMapViewController alloc] initWithSelectedSchool:weakSelf.school selectedZone:nil];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             };
             cell.checkFieldBlock = ^(HHField *field) {

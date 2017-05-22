@@ -33,6 +33,7 @@ typedef void (^HHFieldsCompletion)(NSArray *data);
 - (HHField *)getFieldWithId:(NSString *)fieldId;
 - (HHCity *)getAuthedUserCity;
 - (HHDrivingSchool *)getDrivingSchoolWithName:(NSString *)schoolName;
+- (HHDrivingSchool *)getDrivingSchoolWithId:(NSNumber *)schoolId;
 
 
 - (NSArray *)getLoginBanners;

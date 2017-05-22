@@ -211,6 +211,16 @@ static NSString *const kSavedConstants = @"kSavedConstant";
     return nil;
 }
 
+- (HHDrivingSchool *)getDrivingSchoolWithId:(NSNumber *)schoolId {
+    HHCity *city = self.cities[[HHStudentStore sharedInstance].selectedCityId];
+    for (HHDrivingSchool *school in city.drivingSchools) {
+        if ([school.schoolId integerValue] ==  [schoolId integerValue]) {
+            return school;
+        }
+    }
+    return nil;
+}
+
 - (NSArray *)getDrivingSchools {
     HHCity *city = self.cities[[HHStudentStore sharedInstance].selectedCityId];
     return city.drivingSchools;

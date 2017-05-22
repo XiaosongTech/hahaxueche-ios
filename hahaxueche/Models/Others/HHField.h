@@ -21,6 +21,8 @@
 @property(nonatomic, copy) NSString *img;
 @property(nonatomic, copy) NSNumber *coachCount;
 @property(nonatomic, copy) NSString *consultPhone;
-
+@property(nonatomic, copy) NSArray *drivingSchoolIds;
+@property(nonatomic, copy) NSNumber *zoneCenterLng;
+@property(nonatomic, copy) NSNumber *zoneCenterLat;
 
 @end
