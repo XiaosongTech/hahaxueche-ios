@@ -500,18 +500,15 @@ static NSInteger const kHotSchoolIndex = 4;
 
 
 - (void)jumpToFieldsMapView {
-    __weak HHFindCoachViewController *weakSelf = self;
     [self getUserLocationWithCompletion:^() {
         [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
-        if (weakSelf.userLocation) {
-            [[HHConstantsStore sharedInstance] getFieldsWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(NSArray *fields) {
-                if (fields.count > 0) {
-                    HHMapViewController *vc = [[HHMapViewController alloc] initWithSelectedSchool:nil selectedZone:nil];
-                    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-                    [self presentViewController:navVC animated:YES completion:nil];
-                }
-            }];
-        }
+        [[HHConstantsStore sharedInstance] getFieldsWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(NSArray *fields) {
+            if (fields.count > 0) {
+                HHMapViewController *vc = [[HHMapViewController alloc] initWithSelectedSchool:nil selectedZone:nil];
+                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+                [self presentViewController:navVC animated:YES completion:nil];
+            }
+        }];
     }];
 
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_page_field_icon_tapped attributes:nil];
@@ -520,7 +517,7 @@ static NSInteger const kHotSchoolIndex = 4;
 
 
 - (void)getUserLocationWithCompletion:(HHUserLocationCompletionBlock)completion {
-    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyNeighborhood timeout:2.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
+    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyNeighborhood timeout:3.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
         if (status == INTULocationStatusSuccess) {
             self.userLocation = currentLocation;
             [HHStudentStore sharedInstance].currentLocation = currentLocation;

@@ -116,7 +116,7 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
         }];
     }
     
-    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyNeighborhood timeout:2.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
+    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyNeighborhood timeout:3.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
         if (status == INTULocationStatusSuccess) {
             [HHStudentStore sharedInstance].currentLocation = currentLocation;
         
@@ -124,7 +124,7 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
             [HHStudentStore sharedInstance].currentLocation = currentLocation;
             
         } else if (status == INTULocationStatusError) {
-                [HHStudentStore sharedInstance].currentLocation = nil;
+            [HHStudentStore sharedInstance].currentLocation = nil;
         } else {
             [HHStudentStore sharedInstance].currentLocation = nil;
         }
@@ -599,7 +599,7 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
 
 - (void)showMapView {
     
-    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyNeighborhood timeout:2.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
+    [[INTULocationManager sharedInstance] requestLocationWithDesiredAccuracy:INTULocationAccuracyNeighborhood timeout:3.0f delayUntilAuthorized:YES block:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
         if (status == INTULocationStatusSuccess) {
             [HHStudentStore sharedInstance].currentLocation = currentLocation;
             
@@ -610,21 +610,18 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
             [HHStudentStore sharedInstance].currentLocation = nil;
         } else {
             [HHStudentStore sharedInstance].currentLocation = nil;
-        }
-        
-        if (![HHStudentStore sharedInstance].currentLocation) {
             HHAskLocationPermissionViewController *vc = [[HHAskLocationPermissionViewController alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
-        } else {
-            [[HHConstantsStore sharedInstance] getFieldsWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(NSArray *fields) {
-                if (fields.count > 0) {
-                    HHMapViewController *vc = [[HHMapViewController alloc] initWithSelectedSchool:nil selectedZone:nil];
-                    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-                    [self presentViewController:navVC animated:YES completion:nil];
-                }
-            }];
         }
+        
+        [[HHConstantsStore sharedInstance] getFieldsWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(NSArray *fields) {
+            if (fields.count > 0) {
+                HHMapViewController *vc = [[HHMapViewController alloc] initWithSelectedSchool:nil selectedZone:nil];
+                UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+                [self presentViewController:navVC animated:YES completion:nil];
+            }
+        }];
     }];
     
 }
