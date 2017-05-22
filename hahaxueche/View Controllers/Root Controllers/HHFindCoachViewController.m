@@ -17,7 +17,7 @@
 #import "INTULocationManager.h"
 #import "HHAskLocationPermissionViewController.h"
 #import "HHLoadingViewUtility.h"
-#import "HHFieldsMapViewController.h"
+#import "HHMapViewController.h"
 #import <MJRefresh/MJRefresh.h>
 #import "HHCoachListViewCell.h"
 #import "HHConstantsStore.h"
@@ -506,7 +506,7 @@ static NSInteger const kHotSchoolIndex = 4;
         if (weakSelf.userLocation) {
             [[HHConstantsStore sharedInstance] getFieldsWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(NSArray *fields) {
                 if (fields.count > 0) {
-                    HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:fields selectedField:nil highlightedFields:nil];
+                    HHMapViewController *vc = [[HHMapViewController alloc] initWithSelectedSchool:nil selectedZone:nil];
                     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
                     [self presentViewController:navVC animated:YES completion:nil];
                 }

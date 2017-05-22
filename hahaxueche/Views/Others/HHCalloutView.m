@@ -10,6 +10,9 @@
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "HHDrivingSchool.h"
+#import "HHConstantsStore.h"
+#import "HHStudentStore.h"
 
 @implementation HHCalloutView
 
@@ -34,7 +37,7 @@
         self.titleLabel = [[UILabel alloc] init];
         self.titleLabel.textColor = [UIColor HHTextDarkGray];
         self.titleLabel.numberOfLines = 1;
-        self.titleLabel.font = [UIFont systemFontOfSize:18.0f];
+        self.titleLabel.font = [UIFont systemFontOfSize:16.0f];
         [self addSubview:self.titleLabel];
         [self.titleLabel makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.imgView.right).offset(5.0f);
@@ -44,9 +47,7 @@
         
         self.subTitleLabel = [[UILabel alloc] init];
         self.subTitleLabel.textColor = [UIColor HHLightTextGray];
-        self.subTitleLabel.numberOfLines = 1;
-        self.subTitleLabel.adjustsFontSizeToFitWidth = YES;
-        self.subTitleLabel.minimumScaleFactor = 0.5;
+        self.subTitleLabel.font = [UIFont systemFontOfSize:12.0f];
         [self addSubview:self.subTitleLabel];
         [self.subTitleLabel makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.titleLabel.left);
@@ -68,9 +69,19 @@
             make.height.mas_equalTo(20.0f);
         }];
         
-        [self.imgView sd_setImageWithURL:[NSURL URLWithString:field.img]];
-        self.titleLabel.text = field.name;
-        self.subTitleLabel.text = [NSString stringWithFormat:@"%@ (%@名教练)", field.displayAddress, [field.coachCount stringValue]];
+        if (field.drivingSchoolIds.count > 1) {
+            [self.imgView sd_setImageWithURL:[NSURL URLWithString:field.img]];
+            self.titleLabel.text = field.name;
+            self.subTitleLabel.text = field.displayAddress;
+        } else {
+            HHDrivingSchool *school = [[HHConstantsStore sharedInstance] getDrivingSchoolWithId:[field.drivingSchoolIds firstObject]];
+            [self.imgView sd_setImageWithURL:[NSURL URLWithString:school.avatar]];
+            self.titleLabel.text = school.schoolName;
+            self.subTitleLabel.text = field.displayAddress;
+        }
+        
+        
+        
 
     }
     return self;
