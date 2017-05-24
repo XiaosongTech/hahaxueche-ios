@@ -24,6 +24,7 @@
 #import "HHToastManager.h"
 #import "HHPostCommentView.h"
 #import "HHSocialMediaShareUtility.h"
+#import "HHSupportUtility.h"
 
 @interface HHClubPostDetailViewController () <WKNavigationDelegate, WKUIDelegate>
 
@@ -40,6 +41,7 @@
 @property (nonatomic, strong) NSMutableArray *userCommentViewArray;
 @property (nonatomic) CGFloat webViewHeight;
 @property (nonatomic, strong) NSString *postId;
+@property (nonatomic) BOOL shouldLoadQiyu;
 
 @end
 
@@ -465,10 +467,22 @@
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     
     if (![navigationAction.request.URL.absoluteString isEqualToString:[self.clubPost getPostUrl]]) {
-        HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:navigationAction.request.URL];
-        [self.navigationController pushViewController:vc animated:YES];
-        decisionHandler(WKNavigationActionPolicyCancel);
-    } else {
+        if([navigationAction.request.URL.host isEqualToString:@"qiyukf.com"]) {
+            if (self.shouldLoadQiyu) {
+                [self.navigationController pushViewController:[[HHSupportUtility sharedManager] buildOnlineSupportVCInNavVC:self.navigationController] animated:YES];
+                decisionHandler(WKNavigationActionPolicyCancel);
+            } else {
+                self.shouldLoadQiyu = YES;
+                decisionHandler(WKNavigationActionPolicyCancel);
+            }
+            
+        } else {
+            HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:navigationAction.request.URL];
+            [self.navigationController pushViewController:vc animated:YES];
+            decisionHandler(WKNavigationActionPolicyCancel);
+        }
+        
+    }  else {
         decisionHandler(WKNavigationActionPolicyAllow);
     }
 

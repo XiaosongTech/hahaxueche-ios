@@ -54,9 +54,9 @@
 - (NSString *)getPostUrl {
     
 #ifdef DEBUG
-    return [NSString stringWithFormat:@"https://staging-m.hahaxueche.com/articles/%@?view=raw", self.postId];
+    return [NSString stringWithFormat:@"https://staging-m.hahaxueche.com/wenzhang/%@?view=raw", self.postId];
 #else
-    return [NSString stringWithFormat:@"https://m.hahaxueche.com/articles/%@?view=raw", self.postId];
+    return [NSString stringWithFormat:@"https://m.hahaxueche.com/wenzhang/%@?view=raw", self.postId];
 #endif
     
 }
@@ -64,9 +64,9 @@
 - (NSString *)getShareUrl {
     
 #ifdef DEBUG
-    return [NSString stringWithFormat:@"https://staging-m.hahaxueche.com/articles/%@", self.postId];
+    return [NSString stringWithFormat:@"https://staging-m.hahaxueche.com/wenzhang/%@", self.postId];
 #else
-    return [NSString stringWithFormat:@"https://m.hahaxueche.com/articles/%@", self.postId];
+    return [NSString stringWithFormat:@"https://m.hahaxueche.com/wenzhang/%@", self.postId];
 #endif
 }
 
