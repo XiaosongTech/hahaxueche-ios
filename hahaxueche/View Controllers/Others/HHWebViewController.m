@@ -16,6 +16,7 @@
 #import "HHLoadingViewUtility.h"
 #import "HHRootViewController.h"
 #import "HHInsuranceViewController.h"
+#import "HHSupportUtility.h"
 
 @implementation HHWebViewController
 
@@ -159,6 +160,13 @@
     NSString *url = [navigationAction.request.URL.absoluteString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     if ([url isEqualToString:@"https://lkme.cc/RnC/weMAYR8c8"]) {
         decisionHandler(WKNavigationActionPolicyCancel);
+    } else if ([url containsString:@"tel:"]) {
+        NSArray *urlArray = [url componentsSeparatedByString:@":"];
+        if (urlArray.count > 1) {
+            [[HHSupportUtility sharedManager] callSupportWithNumber:urlArray[1]];
+            decisionHandler(WKNavigationActionPolicyCancel);
+        }
+        
     } else {
         decisionHandler(WKNavigationActionPolicyAllow);
     }

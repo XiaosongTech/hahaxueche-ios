@@ -184,7 +184,7 @@
             return ;
         }
         self.userCity = city;
-        self.schools = [NSMutableArray arrayWithObject:@"不限"];
+        self.schools = [NSMutableArray arrayWithObject:@"驾校不限"];
         for (HHDrivingSchool *school in self.userCity.drivingSchools) {
             [self.schools addObject:school.schoolName];
         }

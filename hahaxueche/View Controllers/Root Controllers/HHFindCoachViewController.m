@@ -316,12 +316,11 @@ static NSInteger const kHotSchoolIndex = 4;
             [self.priceRanges addObject:title];
         }
         [self.priceRanges addObject:[NSString stringWithFormat:@"%@元以上", [self.userCity.priceRanges lastObject][1]]];
-        [self.priceRanges insertObject:@"不限" atIndex:0];
+        [self.priceRanges insertObject:@"价格不限" atIndex:0];
         
-        self.licenseTypes = [NSMutableArray arrayWithArray:@[@"不限", @"C1手动挡", @"C2自动挡"]];
+        self.licenseTypes = [NSMutableArray arrayWithArray:@[@"类型不限", @"C1手动挡", @"C2自动挡"]];
         
         self.sortOptions = [NSMutableArray arrayWithArray:@[@"综合排序", @"距离最近", @"评价最多", @"价格最低"]];
-        
         
         [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:self.distances.count-1]];
         [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:0 item:-1]];
