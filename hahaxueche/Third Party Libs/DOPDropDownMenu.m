@@ -298,12 +298,9 @@
     _show = show;
     if (!show) {
         if (self.currentIndexPath!=nil) {
-            if (!self.isBackGroudTap) {
-                if (self.finishedBlock) {
-                    self.finishedBlock(self.currentIndexPath);
-                }
+            if (self.finishedBlock) {
+                self.finishedBlock(self.currentIndexPath);
             }
-            self.isBackGroudTap = NO;
         }
         NSLog(@"收回");
     }
@@ -487,7 +484,6 @@
 - (void)backgroundTapped:(UITapGestureRecognizer *)paramSender
 {
     [self animateIdicator:_indicators[_currentSelectedMenudIndex] background:_backGroundView tableView:_leftTableView title:_titles[_currentSelectedMenudIndex] forward:NO complecte:^{
-        self.isBackGroudTap = YES;
         self.show = NO;
     }];
 }

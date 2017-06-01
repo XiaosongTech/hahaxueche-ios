@@ -49,6 +49,7 @@
 #import "HHSupportUtility.h"
 #import "HHGenericPhoneView.h"
 #import "HHSocialMediaShareUtility.h"
+#import "HHDrivingSchoolDetailViewController.h"
 
 typedef NS_ENUM(NSInteger, CoachCell) {
     CoachCellDescription,
@@ -255,9 +256,8 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
             };
             
             cell.drivingSchoolBlock = ^(HHDrivingSchool *school) {
-                HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/jiaxiao/%@", [school.schoolId stringValue]]]];
-                webVC.hidesBottomBarWhenPushed = YES;
-                [weakSelf.navigationController pushViewController:webVC animated:YES];
+                HHDrivingSchoolDetailViewController *vc = [[HHDrivingSchoolDetailViewController alloc] initWithSchool:school];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
             };
             [cell setupCellWithCoach:self.coach followed:weakSelf.followed];
             return cell;
