@@ -322,10 +322,10 @@ static NSInteger const kHotSchoolIndex = 4;
         
         self.sortOptions = [NSMutableArray arrayWithArray:@[@"综合排序", @"距离最近", @"评价最多", @"价格最低"]];
         
-        [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:self.distances.count-1]];
-        [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:0 item:-1]];
-        [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:2 row:0 item:-1]];
-        [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:3 row:0 item:-1]];
+        [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:self.distances.count-1] triggerDelegate:NO];
+        [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:0 item:-1] triggerDelegate:NO];
+        [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:2 row:0 item:-1] triggerDelegate:NO];
+        [self.schoolFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:3 row:0 item:-1] triggerDelegate:NO];
     }];
     
 }
@@ -339,10 +339,10 @@ static NSInteger const kHotSchoolIndex = 4;
     self.coachFilters.licenseType = nil;
     self.coachSortOption = CoachSortOptionPrice;
     
-    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:self.distances.count-1]];
-    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:0 item:-1]];
-    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:2 row:0 item:-1]];
-    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:3 row:self.sortOptions.count-1 item:-1]];
+    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:self.distances.count-1] triggerDelegate:NO];
+    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:0 item:-1] triggerDelegate:NO];
+    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:2 row:0 item:-1] triggerDelegate:NO];
+    [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:3 row:self.sortOptions.count-1 item:-1] triggerDelegate:NO];
 }
 
 
@@ -633,7 +633,6 @@ static NSInteger const kHotSchoolIndex = 4;
 
 
 - (void)initViewForSwiptView:(UIView *)view index:(NSInteger)index {
-    __weak HHFindCoachViewController *weakSelf = self;
     if (index == ListTypeCoach) {
         self.coachFilterMenu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
         self.coachFilterMenu.delegate = self;
@@ -643,57 +642,6 @@ static NSInteger const kHotSchoolIndex = 4;
         self.coachFilterMenu.textSelectedColor = [UIColor HHOrange];
         self.coachFilterMenu.indicatorColor = [UIColor HHLightestTextGray];
         [view addSubview:self.coachFilterMenu];
-        
-        
-        self.coachFilterMenu.finishedBlock=^(DOPIndexPath *indexPath){
-            if (indexPath.column == 0) {
-                if (indexPath.row == 0) {
-                    if (indexPath.item >= weakSelf.userCity.distanceRanges.count) {
-                        weakSelf.coachFilters.distance = nil;
-                        weakSelf.coachFilters.zone = nil;
-
-                    } else {
-                        weakSelf.coachFilters.distance = weakSelf.userCity.distanceRanges[indexPath.item];
-                        weakSelf.coachFilters.zone = nil;
-                        
-                    }
-                } else {
-                    weakSelf.coachFilters.zone = weakSelf.userCity.zones[indexPath.row -1];
-                    weakSelf.coachFilters.distance = nil;
-                    
-                }
-            } else if (indexPath.column == 1) {
-                if (indexPath.row == 0) {
-                    weakSelf.coachFilters.priceStart = nil;
-                    weakSelf.coachFilters.priceEnd = nil;
-                    
-                } else if (indexPath.row == weakSelf.userCity.priceRanges.count + 1) {
-                    weakSelf.coachFilters.priceStart = weakSelf.userCity.priceRanges[indexPath.row-2][1];
-                    weakSelf.coachFilters.priceEnd = nil;
-                    
-                    
-                } else {
-                    weakSelf.coachFilters.priceStart = weakSelf.userCity.priceRanges[indexPath.row-1][0];
-                    weakSelf.coachFilters.priceEnd = weakSelf.userCity.priceRanges[indexPath.row-1][1];
-                    
-                }
-                
-            } else if (indexPath.column == 2) {
-                if (indexPath.row == 0) {
-                    weakSelf.coachFilters.licenseType = nil;
-                    
-                } else {
-                    weakSelf.coachFilters.licenseType = @(indexPath.row);
-        
-                }
-            } else {
-                weakSelf.coachSortOption = indexPath.row;
-                
-            }
-            [weakSelf refreshCoachList:YES completion:nil];
-            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_filter_tapped attributes:@{@"index":@(indexPath.column)}];
-
-        };
         
         self.tableView2 = [[UITableView alloc] init];
         self.tableView2.delegate = self;
@@ -742,54 +690,6 @@ static NSInteger const kHotSchoolIndex = 4;
         self.schoolFilterMenu.textSelectedColor = [UIColor HHOrange];
         self.schoolFilterMenu.indicatorColor = [UIColor HHLightestTextGray];
         [view addSubview:self.schoolFilterMenu];
-        
-        self.schoolFilterMenu.finishedBlock=^(DOPIndexPath *indexPath){
-            if (indexPath.column == 0) {
-                if (indexPath.row == 0) {
-                    if (indexPath.item >= weakSelf.userCity.distanceRanges.count) {
-                        weakSelf.schoolFilters.distance = nil;
-                        weakSelf.schoolFilters.zone = nil;
-                        
-                    } else {
-                        weakSelf.schoolFilters.distance = weakSelf.userCity.distanceRanges[indexPath.item];
-                        weakSelf.schoolFilters.zone = nil;
-                    }
-                } else {
-                    weakSelf.schoolFilters.zone = weakSelf.userCity.zones[indexPath.row -1];
-                    weakSelf.schoolFilters.distance = nil;
-                    
-                }
-            } else if (indexPath.column == 1) {
-                if (indexPath.row == 0) {
-                    weakSelf.schoolFilters.priceStart = nil;
-                    weakSelf.schoolFilters.priceEnd = nil;
-                    
-                } else if (indexPath.row == weakSelf.userCity.priceRanges.count + 1) {
-                    weakSelf.schoolFilters.priceStart = weakSelf.userCity.priceRanges[indexPath.row-2][1];
-                    weakSelf.schoolFilters.priceEnd = nil;
-                    
-                } else {
-                    weakSelf.schoolFilters.priceStart = weakSelf.userCity.priceRanges[indexPath.row-1][0];
-                    weakSelf.schoolFilters.priceEnd = weakSelf.userCity.priceRanges[indexPath.row-1][1];
-                    
-                }
-                
-            } else if (indexPath.column == 2) {
-                if (indexPath.row == 0) {
-                    weakSelf.schoolFilters.licenseType = nil;
-                    
-                } else {
-                   weakSelf.schoolFilters.licenseType = @(indexPath.row);
-                    
-                }
-            } else {
-                weakSelf.schoolSortOption = indexPath.row;
-                
-            }
-            [weakSelf refreshDrivingSchoolList:YES completion:nil];
-            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_school_filter_tapped attributes:@{@"index":@(indexPath.column)}];
-           
-        };
         
         self.tableView = [[UITableView alloc] init];
         self.tableView.delegate = self;
@@ -932,7 +832,103 @@ static NSInteger const kHotSchoolIndex = 4;
 }
 
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath {
-    return;
+    if (indexPath.column == 0 && indexPath.row == 0 && indexPath.item == -1) {
+        return;
+    }
+    if ([menu isEqual:self.schoolFilterMenu]) {
+        if (indexPath.column == 0) {
+            if (indexPath.row == 0) {
+                if (indexPath.item >= self.userCity.distanceRanges.count) {
+                    self.schoolFilters.distance = nil;
+                    self.schoolFilters.zone = nil;
+                    
+                } else {
+                    self.schoolFilters.distance = self.userCity.distanceRanges[indexPath.item];
+                    self.schoolFilters.zone = nil;
+                }
+            } else {
+                self.schoolFilters.zone = self.userCity.zones[indexPath.row -1];
+                self.schoolFilters.distance = nil;
+                
+            }
+        } else if (indexPath.column == 1) {
+            if (indexPath.row == 0) {
+                self.schoolFilters.priceStart = nil;
+                self.schoolFilters.priceEnd = nil;
+                
+            } else if (indexPath.row == self.userCity.priceRanges.count + 1) {
+                self.schoolFilters.priceStart = self.userCity.priceRanges[indexPath.row-2][1];
+                self.schoolFilters.priceEnd = nil;
+                
+            } else {
+                self.schoolFilters.priceStart = self.userCity.priceRanges[indexPath.row-1][0];
+                self.schoolFilters.priceEnd = self.userCity.priceRanges[indexPath.row-1][1];
+                
+            }
+            
+        } else if (indexPath.column == 2) {
+            if (indexPath.row == 0) {
+                self.schoolFilters.licenseType = nil;
+                
+            } else {
+                self.schoolFilters.licenseType = @(indexPath.row);
+                
+            }
+        } else {
+            self.schoolSortOption = indexPath.row;
+            
+        }
+        [self refreshDrivingSchoolList:YES completion:nil];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_school_filter_tapped attributes:@{@"index":@(indexPath.column)}];
+    } else {
+        if (indexPath.column == 0) {
+            if (indexPath.row == 0) {
+                if (indexPath.item >= self.userCity.distanceRanges.count) {
+                    self.coachFilters.distance = nil;
+                    self.coachFilters.zone = nil;
+                    
+                } else {
+                    self.coachFilters.distance = self.userCity.distanceRanges[indexPath.item];
+                    self.coachFilters.zone = nil;
+                    
+                }
+            } else {
+                self.coachFilters.zone = self.userCity.zones[indexPath.row -1];
+                self.coachFilters.distance = nil;
+                
+            }
+        } else if (indexPath.column == 1) {
+            if (indexPath.row == 0) {
+                self.coachFilters.priceStart = nil;
+                self.coachFilters.priceEnd = nil;
+                
+            } else if (indexPath.row == self.userCity.priceRanges.count + 1) {
+                self.coachFilters.priceStart = self.userCity.priceRanges[indexPath.row-2][1];
+                self.coachFilters.priceEnd = nil;
+                
+                
+            } else {
+                self.coachFilters.priceStart = self.userCity.priceRanges[indexPath.row-1][0];
+                self.coachFilters.priceEnd = self.userCity.priceRanges[indexPath.row-1][1];
+                
+            }
+            
+        } else if (indexPath.column == 2) {
+            if (indexPath.row == 0) {
+                self.coachFilters.licenseType = nil;
+                
+            } else {
+                self.coachFilters.licenseType = @(indexPath.row);
+                
+            }
+        } else {
+            self.coachSortOption = indexPath.row;
+            
+        }
+        [self refreshCoachList:YES completion:nil];
+        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:find_coach_filter_tapped attributes:@{@"index":@(indexPath.column)}];
+    }
+    
 }
 
 @end

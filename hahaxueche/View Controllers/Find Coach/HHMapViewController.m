@@ -178,7 +178,6 @@
 }
 
 - (void)initFilterMenu {
-    __weak HHMapViewController *weakSelf = self;
     [[HHConstantsStore sharedInstance] getCityWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(HHCity *city) {
         if (!city) {
             return ;
@@ -208,44 +207,10 @@
         [self.filterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:self.distances.count-1]];
         if(self.selectedSchool) {
             NSInteger row = [self.schools indexOfObject:self.selectedSchool.schoolName];
-            [self.filterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:row]];
+            [self.filterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:row] triggerDelegate:NO];
         } else {
-            [self.filterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:0]];
+            [self.filterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:1 row:0] triggerDelegate:NO];
         }
-        
-        self.filterMenu.finishedBlock=^(DOPIndexPath *indexPath){
-            if (indexPath.column == 0) {
-                if (indexPath.row == 0) {
-                    if (indexPath.item >= weakSelf.userCity.distanceRanges.count) {
-                        weakSelf.selectedZone = nil;
-                        weakSelf.selectedDistance = nil;
-                        
-                    } else {
-                        weakSelf.selectedDistance = weakSelf.userCity.distanceRanges[indexPath.item];
-                        weakSelf.selectedZone = nil;
-                        
-                    }
-                } else {
-                    weakSelf.selectedZone = weakSelf.userCity.zones[indexPath.row -1];
-                    weakSelf.selectedDistance = nil;
-                    
-                }
-            }  else {
-                if (indexPath.row > 0) {
-                    weakSelf.selectedSchool = weakSelf.userCity.drivingSchools[indexPath.row-1];
-                } else {
-                    weakSelf.selectedSchool = nil;
-                }
-                
-            }
-            if (!weakSelf.selectedZone && !weakSelf.selectedDistance) {
-                weakSelf.showCluster = YES;
-            } else {
-                weakSelf.showCluster = NO;
-            }
-            [weakSelf updateMapView];
-            
-        };
         
     }];
     
@@ -619,7 +584,39 @@
 }
 
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath {
-    return;
+    if (indexPath.column == 0 && indexPath.row == 0 && indexPath.item == -1) {
+        return;
+    }
+    if (indexPath.column == 0) {
+        if (indexPath.row == 0) {
+            if (indexPath.item >= self.userCity.distanceRanges.count) {
+                self.selectedZone = nil;
+                self.selectedDistance = nil;
+                
+            } else {
+                self.selectedDistance = self.userCity.distanceRanges[indexPath.item];
+                self.selectedZone = nil;
+                
+            }
+        } else {
+            self.selectedZone = self.userCity.zones[indexPath.row -1];
+            self.selectedDistance = nil;
+            
+        }
+    }  else {
+        if (indexPath.row > 0) {
+            self.selectedSchool = self.userCity.drivingSchools[indexPath.row-1];
+        } else {
+            self.selectedSchool = nil;
+        }
+        
+    }
+    if (!self.selectedZone && !self.selectedDistance) {
+        self.showCluster = YES;
+    } else {
+        self.showCluster = NO;
+    }
+    [self updateMapView];
 }
 
 
