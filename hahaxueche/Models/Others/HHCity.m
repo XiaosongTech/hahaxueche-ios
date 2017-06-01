@@ -28,6 +28,7 @@
              @"referalBanner":@"referral_banner",
              @"zones":@"zones",
              @"drivingSchools": @"driving_schools",
+             @"cityURLCode": @"key",
              };
 }
 

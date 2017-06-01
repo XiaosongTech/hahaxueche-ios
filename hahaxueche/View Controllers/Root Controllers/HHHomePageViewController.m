@@ -246,7 +246,10 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
             } break;
                 
             case 1: {
-                [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/tuan?promo_code=456134"]];
+                [[HHConstantsStore sharedInstance] getCityWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(HHCity *city) {
+                    [weakSelf openWebPage:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/%@/tuan?promo_code=456134", city.cityURLCode]]];
+                }];
+                
             } break;
                 
             case 2: {
@@ -298,19 +301,30 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
     self.guideView.itemAction = ^(NSInteger index) {
         switch (index) {
             case 0: {
-                [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/share/jia-kao-xin-zheng"]];
-                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_new_policy_tapped attributes:nil];
+                [[HHConstantsStore sharedInstance] getCityWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(HHCity *city) {
+                    [weakSelf openWebPage:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/%@/share/jia-kao-xin-zheng", city.cityURLCode]]];
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_new_policy_tapped attributes:nil];
+                }];
+                
             } break;
             case 1: {
-                [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/xue-che-liu-cheng"]];
+                [[HHConstantsStore sharedInstance] getCityWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(HHCity *city) {
+                    [weakSelf openWebPage:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/%@/xue-che-liu-cheng", city.cityURLCode]]];
+                }];
+                
             } break;
             case 2: {
-                [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/bao-ming-xu-zhi"]];
-                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_application_notice_tapped attributes:nil];
+                [[HHConstantsStore sharedInstance] getCityWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(HHCity *city) {
+                    [weakSelf openWebPage:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/%@/bao-ming-xu-zhi", city.cityURLCode]]];
+                    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_application_notice_tapped attributes:nil];
+                }];
+                
             } break;
             case 3: {
-                [weakSelf openWebPage:[NSURL URLWithString:@"https://m.hahaxueche.com/share/jia-xiao-pai-ming"]];
-                
+                [[HHConstantsStore sharedInstance] getCityWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(HHCity *city) {
+                    [weakSelf openWebPage:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/%@/share/jia-xiao-pai-ming", city.cityURLCode]]];
+                    
+                }];
             } break;
                 
             default:

@@ -23,8 +23,8 @@
 #import "HHWebViewController.h"
 #import <pop/POP.h>
 #import "HHReferFriendsViewController.h"
+#import "HHStudentStore.h"
 
-static NSString *const kGroupPurchaseLink = @"https://m.hahaxueche.com/tuan?promo_code=456134";
 static NSString *const kCellID = @"kCellId";
 
 @interface HHClubViewController () <UITableViewDelegate, UITableViewDataSource, SwipeViewDataSource, SwipeViewDelegate>
@@ -172,8 +172,11 @@ static NSString *const kCellID = @"kCellId";
     
     self.eventView = [[HHClubItemView alloc] initWithIcon:[UIImage imageNamed:@"clock"] title:@"限时团购" subTitle:@"学车团购底价" showRightLine:YES showBotLine:YES];
     self.eventView.actionBlock = ^() {
-        [weakSelf openWebPage:[NSURL URLWithString:kGroupPurchaseLink]];
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:club_page_group_purchase_tapped attributes:nil];
+        [[HHConstantsStore sharedInstance] getCityWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(HHCity *city) {
+            [weakSelf openWebPage:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/%@/tuan?promo_code=456134", city.cityURLCode]]];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:club_page_group_purchase_tapped attributes:nil];
+
+        }];
     };
     [self.topView addSubview:self.eventView];
     

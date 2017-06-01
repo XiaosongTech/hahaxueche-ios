@@ -7,6 +7,7 @@
 //
 
 #import "HHStudentStore.h"
+#import "HHConstantsStore.h"
 
 @implementation HHStudentStore
 

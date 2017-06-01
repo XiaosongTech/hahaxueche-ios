@@ -37,6 +37,7 @@
 #import "HHGetNumberTableViewCell.h"
 #import "HHHotSchoolsTableViewCell.h"
 #import "HHEventTrackingManager.h"
+#import "HHStudentStore.h"
 
 typedef NS_ENUM(NSInteger, SchoolCell) {
     SchoolCellBasic,
@@ -345,9 +346,11 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == SchoolCellGroupon) {
-        HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/tuan?promo_code=456134"]];
-        [self.navigationController pushViewController:webVC animated:YES];
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_groupon_web_tapped attributes:nil];
+        [[HHConstantsStore sharedInstance] getCityWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(HHCity *city) {
+            HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://m.hahaxueche.com/%@/tuan?promo_code=456134", city.cityURLCode]]];
+            [self.navigationController pushViewController:webVC animated:YES];
+            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_groupon_web_tapped attributes:nil];
+        }];
     }
 }
 
