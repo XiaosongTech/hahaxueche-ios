@@ -146,7 +146,7 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
             }];
         }];
         
-        [[HHAddressBookUtility sharedManager] uploadContacts];
+        //[[HHAddressBookUtility sharedManager] uploadContacts];
         
     }];
     
