@@ -40,6 +40,7 @@
 #import "HHHotSchoolsTableViewCell.h"
 #import "HHDrivingSchoolDetailViewController.h"
 #import "HHSupportUtility.h"
+#import "HHCityZone.h"
 
 
 static NSString *const kCellId = @"kCoachListCellId";
@@ -90,6 +91,7 @@ static NSInteger const kHotSchoolIndex = 4;
 @property (nonatomic, strong) NSMutableArray *priceRanges;
 @property (nonatomic, strong) NSMutableArray *licenseTypes;
 @property (nonatomic, strong) NSMutableArray *sortOptions;
+@property (nonatomic, strong) NSArray *zoneNames;
 
 @end
 
@@ -135,7 +137,6 @@ static NSInteger const kHotSchoolIndex = 4;
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cityChanged) name:@"cityChanged" object:nil];
-    
 
 }
 
@@ -292,6 +293,7 @@ static NSInteger const kHotSchoolIndex = 4;
     
     [[HHConstantsStore sharedInstance] getCityWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(HHCity *city) {
         self.userCity = city;
+        self.zoneNames = [self.userCity getZoneNames];
         
         self.schoolFilters = [[HHFilters alloc] init];
         self.schoolFilters.distance = nil;
@@ -302,7 +304,7 @@ static NSInteger const kHotSchoolIndex = 4;
         self.schoolSortOption = SchoolSortOptionDefault;
         
         self.areas = [NSMutableArray arrayWithObject:@"附近"];
-        [self.areas addObjectsFromArray:self.userCity.zones];
+        [self.areas addObjectsFromArray:self.zoneNames];
         
         self.distances = [NSMutableArray array];
         for (NSNumber *num in self.userCity.distanceRanges) {
@@ -817,6 +819,9 @@ static NSInteger const kHotSchoolIndex = 4;
     if (column == 0) {
         if (row == 0) {
             return self.distances.count;
+        } else {
+            HHCityZone *zone = self.userCity.zoneObjects[column];
+            return [self.userCity getZoneAreasWithName:zone.zoneName].count;
         }
     }
     return 0;
@@ -826,13 +831,16 @@ static NSInteger const kHotSchoolIndex = 4;
     if (indexPath.column == 0) {
         if (indexPath.row == 0) {
             return self.distances[indexPath.item];
+        } else {
+            HHCityZone *zone = self.userCity.zoneObjects[indexPath.row-1];
+            return [self.userCity getZoneAreasWithName:zone.zoneName][indexPath.item];
         }
     }
     return nil;
 }
 
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath {
-    if (indexPath.column == 0 && indexPath.row == 0 && indexPath.item == -1) {
+    if (indexPath.column == 0 && indexPath.item == -1) {
         return;
     }
     if ([menu isEqual:self.schoolFilterMenu]) {
@@ -847,7 +855,7 @@ static NSInteger const kHotSchoolIndex = 4;
                     self.schoolFilters.zone = nil;
                 }
             } else {
-                self.schoolFilters.zone = self.userCity.zones[indexPath.row -1];
+                self.schoolFilters.zone = self.zoneNames[indexPath.row -1];
                 self.schoolFilters.distance = nil;
                 
             }
@@ -893,7 +901,7 @@ static NSInteger const kHotSchoolIndex = 4;
                     
                 }
             } else {
-                self.coachFilters.zone = self.userCity.zones[indexPath.row -1];
+                self.coachFilters.zone = self.zoneNames[indexPath.row -1];
                 self.coachFilters.distance = nil;
                 
             }

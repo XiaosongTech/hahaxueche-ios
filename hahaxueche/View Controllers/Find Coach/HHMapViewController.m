@@ -189,7 +189,7 @@
         }
         
         self.areas = [NSMutableArray arrayWithObject:@"附近"];
-        [self.areas addObjectsFromArray:self.userCity.zones];
+        [self.areas addObjectsFromArray:[self.userCity getZoneNames]];
         
         self.distances = [NSMutableArray array];
         for (NSNumber *num in self.userCity.distanceRanges) {
@@ -599,7 +599,7 @@
                 
             }
         } else {
-            self.selectedZone = self.userCity.zones[indexPath.row -1];
+            self.selectedZone = [self.userCity getZoneNames][indexPath.row -1];
             self.selectedDistance = nil;
             
         }

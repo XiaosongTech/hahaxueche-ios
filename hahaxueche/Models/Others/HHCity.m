@@ -11,6 +11,7 @@
 #import "HHCityOtherFee.h"
 #import "HHBonus.h"
 #import "HHDrivingSchool.h"
+#import "HHCityZone.h"
 
 @implementation HHCity
 
@@ -26,7 +27,7 @@
              @"referrerBonus":@"referer_bonus",
              @"refereeBonus":@"referee_bonus",
              @"referalBanner":@"referral_banner",
-             @"zones":@"zones",
+             @"zoneObjects":@"zone_details",
              @"drivingSchools": @"driving_schools",
              };
 }
@@ -44,7 +45,33 @@
     return [MTLJSONAdapter arrayTransformerWithModelClass:[HHDrivingSchool class]];
 }
 
++ (NSValueTransformer *)zoneObjectsJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[HHCityZone class]];
+}
 
+- (NSArray *)getZoneNames {
+    if (self.zoneNames.count > 0) {
+        return self.zoneNames;
+    } else {
+        NSMutableArray *array = [NSMutableArray array];
+        for (HHCityZone *zone in self.zoneObjects) {
+            [array addObject:zone.zoneName];
+        }
+        return array;
+    }
+    
+}
+
+- (NSArray *)getZoneAreasWithName:(NSString *)zoneName {
+    for (HHCityZone *zone in self.zoneObjects) {
+        if ([zone.zoneName isEqualToString:zoneName]) {
+            NSMutableArray *array = [NSMutableArray arrayWithArray:zone.areas];
+            [array insertObject:@"不限" atIndex:0];
+            return array;
+        }
+    }
+    return nil;
+}
 
 
 @end
