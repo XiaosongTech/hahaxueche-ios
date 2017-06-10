@@ -93,6 +93,9 @@ static NSInteger const kHotSchoolIndex = 4;
 @property (nonatomic, strong) NSMutableArray *sortOptions;
 @property (nonatomic, strong) NSArray *zoneNames;
 
+@property (nonatomic, strong) NSNumber *schoolSelectedRow;
+@property (nonatomic, strong) NSNumber *coachSelectedRow;
+
 @end
 
 @implementation HHFindCoachViewController
@@ -104,6 +107,8 @@ static NSInteger const kHotSchoolIndex = 4;
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"驾校教练";
+    self.schoolSelectedRow = @(0);
+    self.coachSelectedRow = @(0);
     self.view.backgroundColor = [UIColor whiteColor];
     [self initSubviews];
     
@@ -301,6 +306,7 @@ static NSInteger const kHotSchoolIndex = 4;
         self.schoolFilters.priceStart = nil;
         self.schoolFilters.priceEnd = nil;
         self.schoolFilters.licenseType = nil;
+        self.schoolFilters.businessArea = nil;
         self.schoolSortOption = SchoolSortOptionDefault;
         
         self.areas = [NSMutableArray arrayWithObject:@"附近"];
@@ -339,6 +345,7 @@ static NSInteger const kHotSchoolIndex = 4;
     self.coachFilters.priceStart = nil;
     self.coachFilters.priceEnd = nil;
     self.coachFilters.licenseType = nil;
+    self.schoolFilters.businessArea = nil;
     self.coachSortOption = CoachSortOptionPrice;
     
     [self.coachFilterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:self.distances.count-1] triggerDelegate:NO];
@@ -635,6 +642,7 @@ static NSInteger const kHotSchoolIndex = 4;
 
 
 - (void)initViewForSwiptView:(UIView *)view index:(NSInteger)index {
+    __weak HHFindCoachViewController *weakSelf = self;
     if (index == ListTypeCoach) {
         self.coachFilterMenu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 0) andHeight:44];
         self.coachFilterMenu.delegate = self;
@@ -643,6 +651,15 @@ static NSInteger const kHotSchoolIndex = 4;
         self.coachFilterMenu.tintColor = [UIColor HHOrange];
         self.coachFilterMenu.textSelectedColor = [UIColor HHOrange];
         self.coachFilterMenu.indicatorColor = [UIColor HHLightestTextGray];
+        self.coachFilterMenu.finishedBlock = ^(DOPIndexPath *indexPath) {
+            if (indexPath.column == 0) {
+                if (indexPath.item == -1) {
+                    weakSelf.coachFilterMenu.currentSelectRowArray[0] = weakSelf.coachSelectedRow;
+                } else {
+                    weakSelf.coachSelectedRow = weakSelf.coachFilterMenu.currentSelectRowArray[0];
+                }
+            }
+        };
         [view addSubview:self.coachFilterMenu];
         
         self.tableView2 = [[UITableView alloc] init];
@@ -691,6 +708,15 @@ static NSInteger const kHotSchoolIndex = 4;
         self.schoolFilterMenu.tintColor = [UIColor HHOrange];
         self.schoolFilterMenu.textSelectedColor = [UIColor HHOrange];
         self.schoolFilterMenu.indicatorColor = [UIColor HHLightestTextGray];
+        self.schoolFilterMenu.finishedBlock = ^(DOPIndexPath *indexPath) {
+            if (indexPath.column == 0) {
+                if (indexPath.item == -1) {
+                   weakSelf.schoolFilterMenu.currentSelectRowArray[0] = weakSelf.schoolSelectedRow;
+                } else {
+                    weakSelf.schoolSelectedRow = weakSelf.schoolFilterMenu.currentSelectRowArray[0];
+                }
+            }
+        };
         [view addSubview:self.schoolFilterMenu];
         
         self.tableView = [[UITableView alloc] init];
@@ -817,6 +843,7 @@ static NSInteger const kHotSchoolIndex = 4;
 
 - (NSInteger)menu:(DOPDropDownMenu *)menu numberOfItemsInRow:(NSInteger)row column:(NSInteger)column {
     if (column == 0) {
+        menu.isClickHaveItemValid = NO;
         if (row == 0) {
             return self.distances.count;
         } else {
@@ -824,6 +851,7 @@ static NSInteger const kHotSchoolIndex = 4;
             return [self.userCity getZoneAreasWithName:zone.zoneName].count;
         }
     }
+    menu.isClickHaveItemValid = YES;
     return 0;
 }
 
@@ -840,23 +868,27 @@ static NSInteger const kHotSchoolIndex = 4;
 }
 
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath {
-    if (indexPath.column == 0 && indexPath.item == -1) {
-        return;
-    }
     if ([menu isEqual:self.schoolFilterMenu]) {
         if (indexPath.column == 0) {
             if (indexPath.row == 0) {
                 if (indexPath.item >= self.userCity.distanceRanges.count) {
                     self.schoolFilters.distance = nil;
                     self.schoolFilters.zone = nil;
+                    self.schoolFilters.businessArea = nil;
                     
                 } else {
                     self.schoolFilters.distance = self.userCity.distanceRanges[indexPath.item];
                     self.schoolFilters.zone = nil;
+                    self.schoolFilters.businessArea = nil;
                 }
             } else {
                 self.schoolFilters.zone = self.zoneNames[indexPath.row -1];
                 self.schoolFilters.distance = nil;
+                if (indexPath.item == 0) {
+                    self.schoolFilters.businessArea = nil;
+                } else {
+                    self.schoolFilters.businessArea = [self.userCity getZoneAreasWithName:self.schoolFilters.zone][indexPath.item];
+                }
                 
             }
         } else if (indexPath.column == 1) {
@@ -894,15 +926,23 @@ static NSInteger const kHotSchoolIndex = 4;
                 if (indexPath.item >= self.userCity.distanceRanges.count) {
                     self.coachFilters.distance = nil;
                     self.coachFilters.zone = nil;
+                    self.coachFilters.businessArea = nil;
                     
                 } else {
                     self.coachFilters.distance = self.userCity.distanceRanges[indexPath.item];
                     self.coachFilters.zone = nil;
+                    self.coachFilters.businessArea = nil;
                     
                 }
             } else {
                 self.coachFilters.zone = self.zoneNames[indexPath.row -1];
                 self.coachFilters.distance = nil;
+                if (indexPath.item == 0) {
+                    self.coachFilters.businessArea = nil;
+                } else {
+                    self.coachFilters.businessArea = [self.userCity getZoneAreasWithName:self.coachFilters.zone][indexPath.item];
+                }
+
                 
             }
         } else if (indexPath.column == 1) {

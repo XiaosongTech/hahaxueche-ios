@@ -807,9 +807,7 @@
 }
 
 - (BOOL )confiMenuWithSelectRow:(NSInteger)row {
-    
     _currentSelectRowArray[_currentSelectedMenudIndex] = @(row);
-    
     
     CATextLayer *title = (CATextLayer *)_titles[_currentSelectedMenudIndex];
     

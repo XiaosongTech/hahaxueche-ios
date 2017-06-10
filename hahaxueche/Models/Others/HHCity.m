@@ -66,7 +66,7 @@
     for (HHCityZone *zone in self.zoneObjects) {
         if ([zone.zoneName isEqualToString:zoneName]) {
             NSMutableArray *array = [NSMutableArray arrayWithArray:zone.areas];
-            [array addObject:@"不限"];
+            [array insertObject:[NSString stringWithFormat:@"全部%@", zoneName] atIndex:0];
             return array;
         }
     }
