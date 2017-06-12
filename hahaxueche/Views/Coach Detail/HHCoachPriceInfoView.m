@@ -15,6 +15,10 @@
 @implementation HHCoachPriceInfoView
 
 - (instancetype)initWithClassType:(CoachProductType)type coach:(HHCoach *)coach {
+    return [self initWithClassType:type coach:coach showLine:YES];
+}
+
+- (instancetype)initWithClassType:(CoachProductType)type coach:(HHCoach *)coach showLine:(BOOL)showLine{
     self = [super init];
     if (self) {
         self.type = type;
@@ -42,16 +46,16 @@
             make.left.equalTo(self.left).offset(20.0f);
         }];
         
-        self.purchaseButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.purchaseButton addTarget:self action:@selector(purchaseTapped) forControlEvents:UIControlEventTouchUpInside];
-        self.purchaseButton.backgroundColor = [UIColor HHDarkOrange];
-        self.purchaseButton.layer.masksToBounds = YES;
-        self.purchaseButton.layer.cornerRadius = 5.0f;
-        [self.purchaseButton setTitle:@"报名" forState:UIControlStateNormal];
-        [self.purchaseButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        self.purchaseButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
-        [self addSubview:self.purchaseButton];
-        [self.purchaseButton makeConstraints:^(MASConstraintMaker *make) {
+        self.callSchoolButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.callSchoolButton addTarget:self action:@selector(callTapped) forControlEvents:UIControlEventTouchUpInside];
+        self.callSchoolButton.backgroundColor = [UIColor HHDarkOrange];
+        self.callSchoolButton.layer.masksToBounds = YES;
+        self.callSchoolButton.layer.cornerRadius = 5.0f;
+        [self.callSchoolButton setTitle:@"联系驾校" forState:UIControlStateNormal];
+        [self.callSchoolButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        self.callSchoolButton.titleLabel.font = [UIFont systemFontOfSize:12.0f];
+        [self addSubview:self.callSchoolButton];
+        [self.callSchoolButton makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.subTitleLabel.centerY);
             make.right.equalTo(self.right).offset(-20.0f);
             make.width.mas_equalTo(60.0f);
@@ -59,18 +63,18 @@
         }];
         
         
-        self.depositButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.depositButton addTarget:self action:@selector(depositTapped) forControlEvents:UIControlEventTouchUpInside];
-        self.depositButton.backgroundColor = [UIColor HHOrange];
-        self.depositButton.layer.masksToBounds = YES;
-        self.depositButton.layer.cornerRadius = 5.0f;
-        [self.depositButton setTitle:@"预付100" forState:UIControlStateNormal];
-        [self.depositButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        self.depositButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
-        [self addSubview:self.depositButton];
-        [self.depositButton makeConstraints:^(MASConstraintMaker *make) {
+        self.notifPriceButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.notifPriceButton addTarget:self action:@selector(notifPriceTapped) forControlEvents:UIControlEventTouchUpInside];
+        self.notifPriceButton.backgroundColor = [UIColor HHOrange];
+        self.notifPriceButton.layer.masksToBounds = YES;
+        self.notifPriceButton.layer.cornerRadius = 5.0f;
+        [self.notifPriceButton setTitle:@"降价通知" forState:UIControlStateNormal];
+        [self.notifPriceButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        self.notifPriceButton.titleLabel.font = [UIFont systemFontOfSize:12.0f];
+        [self addSubview:self.notifPriceButton];
+        [self.notifPriceButton makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.subTitleLabel.centerY);
-            make.right.equalTo(self.purchaseButton.left).offset(-10.0f);
+            make.right.equalTo(self.callSchoolButton.left).offset(-10.0f);
             make.width.mas_equalTo(60.0f);
             make.height.mas_equalTo(25.0f);
         }];
@@ -90,15 +94,18 @@
             make.right.equalTo(self.right).offset(-20.0f);
         }];
         
-        self.topLine = [[UIView alloc] init];
-        self.topLine.backgroundColor = [UIColor HHLightLineGray];
-        [self addSubview:self.topLine];
-        [self.topLine makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.top);
-            make.left.equalTo(self.left).offset(20.0f);
-            make.right.equalTo(self.right);
-            make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-        }];
+        if (showLine) {
+            self.topLine = [[UIView alloc] init];
+            self.topLine.backgroundColor = [UIColor HHLightLineGray];
+            [self addSubview:self.topLine];
+            [self.topLine makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(self.top);
+                make.left.equalTo(self.left).offset(20.0f);
+                make.right.equalTo(self.right);
+                make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
+            }];
+        }
+        
         
         switch (type) {
             case CoachProductTypeStandard: {
@@ -151,15 +158,15 @@
     return label;
 }
 
-- (void)purchaseTapped {
-    if (self.purchaseBlock) {
-        self.purchaseBlock(self.type);
+- (void)callTapped {
+    if (self.callBlock) {
+        self.callBlock();
     }
 }
 
-- (void)depositTapped {
-    if (self.depositBlock) {
-        self.depositBlock();
+- (void)notifPriceTapped {
+    if (self.notifPriceBlock) {
+        self.notifPriceBlock();
     }
 }
 

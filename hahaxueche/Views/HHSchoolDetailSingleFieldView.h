@@ -20,7 +20,9 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *subTitleLabel;
 @property (nonatomic, strong) HHGradientButton *checkFieldButton;
+@property (nonatomic, strong) UIButton *sendAddressButton;
 @property (nonatomic, strong) HHFieldBlock checkFieldBlock;
+@property (nonatomic, strong) HHFieldBlock sendAddressBlock;
 
 @property (nonatomic, strong) HHField *field;
 

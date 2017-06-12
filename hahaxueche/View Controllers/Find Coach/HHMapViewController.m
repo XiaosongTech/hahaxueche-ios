@@ -25,7 +25,6 @@
 #import "HHToastManager.h"
 #import "HHEventTrackingManager.h"
 #import "iCarousel.h"
-#import "HHLoadingViewUtility.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHSearchViewController.h"
 #import "DOPDropDownMenu.h"
@@ -122,8 +121,6 @@
         self.mapView.mapType = MKMapTypeHybrid;
         self.mapView.mapType = MKMapTypeStandard;
     }];
-    
-    [[HHLoadingViewUtility sharedInstance] showLoadingView];
     
 }
 
@@ -431,7 +428,6 @@
 }
 
 - (void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered  {
-    [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
     self.shouldCheckRegionChange = YES;
     
 }

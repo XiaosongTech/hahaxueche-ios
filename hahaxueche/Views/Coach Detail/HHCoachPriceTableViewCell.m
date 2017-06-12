@@ -160,15 +160,16 @@
 
 - (void)buildSingleClassViewWithType:(CoachProductType)type coach:(HHCoach *)coach index:(NSInteger)index containerView:(UIView *)containerView {
     HHCoachPriceInfoView *view = [[HHCoachPriceInfoView alloc] initWithClassType:type coach:coach];
-    view.purchaseBlock = ^(CoachProductType type) {
-        if (self.purchaseBlock) {
-            self.purchaseBlock(type);
+    [view.callSchoolButton setTitle:@"联系教练" forState:UIControlStateNormal];
+    view.callBlock = ^(CoachProductType type) {
+        if (self.callBlock) {
+            self.callBlock();
         }
     };
     
-    view.depositBlock = ^{
-        if (self.depositBlock) {
-            self.depositBlock();
+    view.notifPriceBlock = ^{
+        if (self.notifPriceBlock) {
+            self.notifPriceBlock();
         }
     };
     [containerView addSubview:view];

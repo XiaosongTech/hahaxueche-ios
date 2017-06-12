@@ -41,7 +41,6 @@
 typedef NS_ENUM(NSInteger, SchoolCell) {
     SchoolCellBasic,
     SchoolCellPrice,
-    SchoolCellGroupon,
     SchoolCellField,
     SchoolCellGetNumber,
     SchoolCellReview,
@@ -235,36 +234,37 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
             HHSchoolPriceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kPriceCellID forIndexPath:indexPath];
             cell.priceBlock = ^(NSInteger index) {
                 HHCoach *coach = [[HHCoach alloc] init];
-                CoachProductType type;
-                if (index == 0) {
-                    coach.price = weakSelf.school.lowestPrice;
-                    type = CoachProductTypeStandard;
-                } else if (index == 1) {
-                    if (weakSelf.school.lowestVIPPrice.floatValue > 0) {
-                        coach.VIPPrice = weakSelf.school.lowestVIPPrice;
-                        type = CoachProductTypeVIP;
-                    } else {
-                        coach.price = weakSelf.school.lowestPrice;
-                        type = CoachProductTypeC1Wuyou;
-                    }
-                    
-                } else {
-                    coach.price = weakSelf.school.lowestPrice;
-                    type = CoachProductTypeC1Wuyou;
-                }
-                HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:coach productType:type];
+                coach.price = weakSelf.school.lowestPrice;
+                coach.consultPhone = weakSelf.school.consultPhone;
+                coach.VIPPrice = weakSelf.school.lowestVIPPrice;
+            
+                HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:coach productType:index rightButtonTitle:@"联系驾校"];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_price_detail_tapped attributes:nil];
+            };
+            cell.callBlock = ^{
+                [[HHSupportUtility sharedManager] callSupportWithNumber:weakSelf.school.consultPhone];
+            };
+            
+            cell.notifPriceBlock = ^{
+                HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"我们将为您保密个人信息!" placeHolder:@"填写手机号, 立即订阅降价通知" buttonTitle:@"立即订阅"];
+                view.buttonAction = ^(NSString *number) {
+                    [[HHStudentService sharedInstance] getPhoneNumber:number coachId:nil schoolId:weakSelf.school.schoolId fieldId:nil eventType:nil eventData:nil completion:^(NSError *error) {
+                        if (error) {
+                            [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
+                        } else {
+                            [HHPopupUtility dismissPopup:weakSelf.popup];
+                            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_price_notification_confirmed attributes:nil];
+                        }
+                    }];
+                };
+                weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
             };
             [cell setupCellWithSchool:self.school];
             return cell;
         }
           
-        case SchoolCellGroupon: {
-            HHSchoolGrouponTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kGrouponCellID forIndexPath:indexPath];
-            [cell setupCellWithSchool:self.school];
-            return cell;
-        }
         case SchoolCellField: {
             HHSchoolFieldTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFieldCellId forIndexPath:indexPath];
             cell.fieldBlock = ^(HHField *field) {
@@ -288,6 +288,23 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
                 [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_see_field_tapped attributes:nil];
 
+            };
+            
+            cell.sendAddressBlock = ^(HHField *field) {
+                HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"轻松定位训练场" placeHolder:@"输入手机号, 立即接收详细地址" buttonTitle:@"发我定位"];
+                view.buttonAction = ^(NSString *number) {
+                    NSString *link = [NSString stringWithFormat:@"https://m.hahaxueche.com/ditu?field_id=%@", field.fieldId];
+                    [[HHStudentService sharedInstance] getPhoneNumber:number coachId:nil schoolId:weakSelf.school.schoolId fieldId:field.fieldId eventType:@(1) eventData:@{@"field_id":field.fieldId, @"link":link} completion:^(NSError *error) {
+                        if (error) {
+                            [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试!"];
+                        } else {
+                            [HHPopupUtility dismissPopup:self.popup];
+                            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_locate_confirmed attributes:nil];
+                        }
+                    }];
+                };
+                self.popup = [HHPopupUtility createPopupWithContentView:view];
+                [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
             };
             [cell setupCellWithSchool:self.school];
             return cell;
@@ -343,14 +360,6 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
     
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == SchoolCellGroupon) {
-        HHWebViewController *webVC = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/tuan?promo_code=456134"]];
-        [self.navigationController pushViewController:webVC animated:YES];
-        [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_groupon_web_tapped attributes:nil];
-    }
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == SchoolCellBasic) {
         if (self.desExpanded) {
@@ -365,13 +374,10 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
         }
     } else if (indexPath.row == SchoolCellPrice) {
         if ([self.school.lowestVIPPrice floatValue] > 0) {
-            return 60.0f + 3 * 70.0f;
+            return 60.0f + 2 * 85.0f;
         } else {
-            return 60.0f + 2 * 70.0f;
+            return 60.0f + 1 * 85.0f;
         }
-    } else if (indexPath.row == SchoolCellGroupon) {
-        return 80.0f;
-        
     } else if (indexPath.row == SchoolCellField) {
         NSInteger count = MIN(self.school.fields.count, 3);
         return 110.0f + count * 100.0f;
