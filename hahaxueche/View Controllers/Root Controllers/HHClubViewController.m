@@ -490,7 +490,7 @@ static NSString *const kCellID = @"kCellId";
 
 - (void)jumpToWebVC {
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:club_page_flying_envelop_tapped attributes:nil];
-    HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/share/xin-ren-da-li-bao?promo_code=840157"]];
+    HHWebViewController *vc = [[HHWebViewController alloc] initWithURL:[NSURL URLWithString:@"https://m.hahaxueche.com/share/gua-ke-xian"]];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }

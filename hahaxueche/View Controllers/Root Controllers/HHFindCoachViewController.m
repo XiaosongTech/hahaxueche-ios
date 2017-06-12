@@ -47,7 +47,8 @@ static NSString *const kCellId = @"kCoachListCellId";
 static NSString *const kDrivingSchoolCellId = @"kDrivingSchoolCellId";
 static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
 static NSString *const kFindCoachGuideKey = @"kFindCoachGuideKey";
-static CGFloat const kCellHeightNormal = 100.0f;
+static CGFloat const kSchoolCellHeightNormal = 80.0f;
+static CGFloat const kCoachCellHeightNormal = 100.0f;
 static NSInteger const kHotSchoolIndex = 4;
 
 @interface HHFindCoachViewController () <UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate,SwipeViewDataSource, SwipeViewDelegate, DOPDropDownMenuDataSource,DOPDropDownMenuDelegate>
@@ -462,13 +463,13 @@ static NSInteger const kHotSchoolIndex = 4;
         if ([self.schools[indexPath.row] isKindOfClass:[NSString class]]) {
             return 140.0f;
         } else {
-            return kCellHeightNormal + 40.0f;
+            return kSchoolCellHeightNormal + 40.0f;
         }
     } else {
         if ([self.coaches[indexPath.row] isKindOfClass:[NSString class]]) {
             return 140.0f;
         } else {
-            return kCellHeightNormal + 40.0f;
+            return kCoachCellHeightNormal + 40.0f;
         }
     }
 }
