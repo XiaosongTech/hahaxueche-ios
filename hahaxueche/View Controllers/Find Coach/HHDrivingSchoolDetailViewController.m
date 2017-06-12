@@ -25,7 +25,7 @@
 #import "HHSchoolBasicInfoTableViewCell.h"
 #import "HHCoachService.h"
 #import "HHLoadingViewUtility.h"
-#import "HHMapViewController.h"
+#import "HHFieldsMapViewController.h"
 #import "HHGenericPhoneView.h"
 #import "HHSchoolPriceTableViewCell.h"
 #import "HHCoachPriceDetailViewController.h"
@@ -206,7 +206,7 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
             };
             
             cell.fieldBlock = ^() {
-                HHMapViewController *vc = [[HHMapViewController alloc] initWithSelectedSchool:weakSelf.school selectedZone:nil];
+                HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:self.school.fields selectedField:nil];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_check_fields_tapped attributes:nil];
             };
@@ -268,7 +268,7 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
         case SchoolCellField: {
             HHSchoolFieldTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFieldCellId forIndexPath:indexPath];
             cell.fieldBlock = ^(HHField *field) {
-                HHMapViewController *vc = [[HHMapViewController alloc] initWithSelectedSchool:weakSelf.school selectedZone:nil];
+                HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:weakSelf.school.fields selectedField:field];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
             };
             cell.checkFieldBlock = ^(HHField *field) {

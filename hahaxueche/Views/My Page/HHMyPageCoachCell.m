@@ -39,7 +39,7 @@
 
 - (void)makeConstraints {
     [self.titleView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.top);
+        make.top.equalTo(self.top).offset(15.0f);
         make.left.equalTo(self.left);
         make.width.equalTo(self.width);
         make.height.mas_equalTo(kTitleViewHeight);

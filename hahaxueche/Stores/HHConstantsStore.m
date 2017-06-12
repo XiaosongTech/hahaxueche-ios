@@ -188,7 +188,7 @@ static NSString *const kSavedConstants = @"kSavedConstant";
             NSMutableArray *array = [NSMutableArray array];
             NSArray *fieldsArray = response[@"data"];
             for (NSDictionary *fieldDic in fieldsArray) {
-                HHDrivingSchool *field = [MTLJSONAdapter modelOfClass:[HHField class] fromJSONDictionary:fieldDic error:nil];
+                HHField *field = [MTLJSONAdapter modelOfClass:[HHField class] fromJSONDictionary:fieldDic error:nil];
                 if (field) {
                     [array addObject:field];
                 }

@@ -621,7 +621,7 @@
         } else {
             self.selectedDistance = nil;
             self.selectedZone = [self.userCity getZoneNames][indexPath.row -1];
-            if (indexPath.item == 0) {
+            if (indexPath.item <= 0) {
                 self.selectedBusinessArea = nil;
             } else {
                 self.selectedBusinessArea = [self.userCity getZoneAreasWithName:self.selectedZone][indexPath.item];
