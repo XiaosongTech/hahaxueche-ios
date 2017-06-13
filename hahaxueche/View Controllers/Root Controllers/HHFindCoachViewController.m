@@ -848,7 +848,7 @@ static NSInteger const kHotSchoolIndex = 4;
         if (row == 0) {
             return self.distances.count;
         } else {
-            HHCityZone *zone = self.userCity.zoneObjects[column];
+            HHCityZone *zone = self.userCity.zoneObjects[row-1];
             return [self.userCity getZoneAreasWithName:zone.zoneName].count;
         }
     }

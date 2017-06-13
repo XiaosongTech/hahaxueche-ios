@@ -114,11 +114,6 @@
             }
         }
         
-        if ([coach.price floatValue] > 0) {
-            [self buildSingleClassViewWithType:CoachProductTypeC1Wuyou coach:coach index:count containerView:self.c1ContainerView];
-            count++;
-        }
-        
         [self.c1ContainerView makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.licenseView.bottom);
             make.left.equalTo(self.mainView.left);
@@ -144,10 +139,6 @@
             count++;
         }
         
-        if ([coach.c2Price floatValue] > 0) {
-            [self buildSingleClassViewWithType:CoachProductTypeC2Wuyou coach:coach index:count containerView:self.c2ContainerView];
-            count++;
-        }
         [self.c2ContainerView makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.licenseView.bottom);
             make.left.equalTo(self.mainView.left);

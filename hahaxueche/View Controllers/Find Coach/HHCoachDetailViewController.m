@@ -402,7 +402,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
             CGFloat height = 136.0f;
             if (self.selecteLicenseType == 1) {
                 if ([self.coach.price floatValue] > 0) {
-                    height = height + 85.0f * 2;
+                    height = height + 85.0f;
                 }
                 
                 if ([self.coach.VIPPrice floatValue] > 0) {
@@ -414,7 +414,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
                 }
             } else {
                 if ([self.coach.c2Price floatValue] > 0) {
-                    height = height + 85.0f * 2;
+                    height = height + 85.0f;
                 }
                 
                 if ([self.coach.c2VIPPrice floatValue] > 0) {

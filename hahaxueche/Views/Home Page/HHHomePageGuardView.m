@@ -85,8 +85,8 @@
     if (index == 0) {
         img = [UIImage imageNamed:@"ic_xuechebaby"];
         title = @"学车宝";
-        subTitle = @"分阶段打款";
-        subTitle2 = @"不满意不打款";
+        subTitle = @"专业学车顾问";
+        subTitle2 = @"真实驾考资讯";
     } else if (index == 1) {
         img = [UIImage imageNamed:@"ic_peifubaby"];
         title = @"赔付宝";
