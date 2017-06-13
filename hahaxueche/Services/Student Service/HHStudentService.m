@@ -331,9 +331,6 @@ static NSString *const kUserObjectKey = @"kUserObjectKey";
     }
     HHAPIClient *APIClient = [HHAPIClient apiClientWithPath:kAPIAdvisor];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
-    if ([HHStudentStore sharedInstance].currentStudent.studentId) {
-        param[@"student_id"] = [HHStudentStore sharedInstance].currentStudent.studentId;
-    }
     [APIClient getWithParameters:param completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             HHAdvisor *advisor = [MTLJSONAdapter modelOfClass:[HHAdvisor class] fromJSONDictionary:response error:nil];

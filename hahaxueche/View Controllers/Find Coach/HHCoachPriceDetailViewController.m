@@ -24,6 +24,10 @@
 #import "HHPrepayViewController.h"
 #import "HHIntroViewController.h"
 #import "HHEventTrackingManager.h"
+#import "HHGenericPhoneView.h"
+#import "HHStudentService.h"
+#import "HHToastManager.h"
+#import "HHPopupUtility.h"
 
 
 @interface HHCoachPriceDetailViewController () <TTTAttributedLabelDelegate>
@@ -40,23 +44,26 @@
 
 @property (nonatomic, strong) UIView *lastView;
 
-@property (nonatomic, strong) HHGradientButton *purchaseButton;
-@property (nonatomic, strong) HHGradientButton *depositButton;
-
+@property (nonatomic, strong) HHGradientButton *notifPriceButton;
+@property (nonatomic, strong) HHGradientButton *callButton;
+@property (nonatomic, strong) NSString *rightButtonTitle;
+@property (nonatomic, strong) KLCPopup *popup;
 
 @end
 
 
 @implementation HHCoachPriceDetailViewController
 
-- (instancetype)initWithCoach:(HHCoach *)coach productType:(CoachProductType)type {
+- (instancetype)initWithCoach:(HHCoach *)coach productType:(CoachProductType)type rightButtonTitle:(NSString *)rightButtonTitle {
     self = [super init];
     if (self) {
         self.coach = coach;
         self.type = type;
+        self.rightButtonTitle = rightButtonTitle;
     }
     return self;
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -75,43 +82,36 @@
         make.top.equalTo(self.view.top);
         make.left.equalTo(self.view.left);
         make.width.equalTo(self.view.width);
-        if (![[HHStudentStore sharedInstance].currentStudent isPurchased] && self.coach.coachId) {
-            make.height.equalTo(self.view.height).offset(-50.0f);
-        } else {
-            make.height.equalTo(self.view.height);
-        }
+        make.height.equalTo(self.view.height).offset(-50.0f);
     }];
     
-    if (![[HHStudentStore sharedInstance].currentStudent isPurchased] && self.coach.coachId) {
-
-        self.depositButton = [[HHGradientButton alloc] initWithType:1];
-        [self.depositButton setTitle:@"预付100得300" forState:UIControlStateNormal];
-        [self.depositButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        self.depositButton.backgroundColor = [UIColor HHDarkOrange];
-        self.depositButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
-        [self.depositButton addTarget:self action:@selector(depositButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview: self.depositButton];
-        [self.depositButton makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.view.left);
-            make.top.equalTo(self.scrollView.bottom);
-            make.width.equalTo(self.view.width).multipliedBy(0.5f);
-            make.height.mas_equalTo(50.0f);
-        }];
-        
-        self.purchaseButton = [[HHGradientButton alloc] initWithType:0];
-        [self.purchaseButton setTitle:@"立即购买" forState:UIControlStateNormal];
-        [self.purchaseButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        self.purchaseButton.backgroundColor = [UIColor HHDarkOrange];
-        self.purchaseButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
-        [self.purchaseButton addTarget:self action:@selector(purchaseButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview: self.purchaseButton];
-        [self.purchaseButton makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.depositButton.right);
-            make.top.equalTo(self.scrollView.bottom);
-            make.width.equalTo(self.view.width).multipliedBy(0.5f);
-            make.height.mas_equalTo(50.0f);
-        }];
-    }
+    self.notifPriceButton = [[HHGradientButton alloc] initWithType:1];
+    [self.notifPriceButton setTitle:@"降价通知" forState:UIControlStateNormal];
+    [self.notifPriceButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.notifPriceButton.backgroundColor = [UIColor HHDarkOrange];
+    self.notifPriceButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    [self.notifPriceButton addTarget:self action:@selector(notifPriceTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview: self.notifPriceButton];
+    [self.notifPriceButton makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.left);
+        make.top.equalTo(self.scrollView.bottom);
+        make.width.equalTo(self.view.width).multipliedBy(0.5f);
+        make.height.mas_equalTo(50.0f);
+    }];
+    
+    self.callButton = [[HHGradientButton alloc] initWithType:0];
+    [self.callButton setTitle:self.rightButtonTitle forState:UIControlStateNormal];
+    [self.callButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.callButton.backgroundColor = [UIColor HHDarkOrange];
+    self.callButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    [self.callButton addTarget:self action:@selector(callButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview: self.callButton];
+    [self.callButton makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.notifPriceButton.right);
+        make.top.equalTo(self.scrollView.bottom);
+        make.width.equalTo(self.view.width).multipliedBy(0.5f);
+        make.height.mas_equalTo(50.0f);
+    }];
     
     self.serviceTitleLabel = [[UILabel alloc] init];
     self.serviceTitleLabel.attributedText = [self generateAttrStringWithText:@"服务内容" image:[UIImage imageNamed:@"pricedetails_ic_service"]];
@@ -577,17 +577,25 @@
     return rect;
 }
 
-- (void)purchaseButtonTapped {
-    HHPurchaseConfirmViewController *vc = [[HHPurchaseConfirmViewController alloc] initWithCoach:self.coach selectedType:self.type];
-    [self.navigationController pushViewController:vc animated:YES];
-    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:price_detail_page_purchase_tapped attributes:nil];
+- (void)callButtonTapped {
+    [[HHSupportUtility sharedManager] callSupportWithNumber:self.coach.consultPhone];
 }
 
-- (void)depositButtonTapped {
-    HHPrepayViewController *vc = [[HHPrepayViewController alloc] init];
-    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-    [self presentViewController:navVC animated:YES completion:nil];
-    [[HHEventTrackingManager sharedManager] eventTriggeredWithId:price_detail_page_deposit_tapped attributes:nil];
+- (void)notifPriceTapped {
+    __weak HHCoachPriceDetailViewController *weakSelf = self;
+    HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"我们将为您保密个人信息!" placeHolder:@"填写手机号, 立即订阅降价通知" buttonTitle:@"立即订阅"];
+    view.buttonAction = ^(NSString *number) {
+        [[HHStudentService sharedInstance] getPhoneNumber:number coachId:weakSelf.coach.coachId schoolId:nil fieldId:nil eventType:nil eventData:nil completion:^(NSError *error) {
+            if (error) {
+                [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
+            } else {
+                [HHPopupUtility dismissPopup:weakSelf.popup];
+                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_price_notification_confirmed attributes:nil];
+            }
+        }];
+    };
+    weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+    [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
 }
 
 

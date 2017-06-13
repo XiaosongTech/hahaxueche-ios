@@ -41,6 +41,15 @@
         make.left.equalTo(self.mainView).offset(20.0f);
     }];
     
+    self.sendAddressButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.sendAddressButton setAttributedTitle:[self generateSendAddressButtonString] forState:UIControlStateNormal];
+    [self.sendAddressButton addTarget:self action:@selector(sendAddressButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.sendAddressButton];
+    [self.sendAddressButton makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.titleLabel.centerY);
+        make.right.lessThanOrEqualTo(self.contentView.right).offset(-15.0f);
+    }];
+    
     self.line = [[UIView alloc] init];
     self.line.backgroundColor = [UIColor HHLightLineGray];
     [self.mainView addSubview:self.line];
@@ -88,6 +97,7 @@
 
 - (void)setupCellWithField:(HHField *)field {
     self.fieldLabel.text = field.displayAddress;
+    self.field = field;
 }
 
 - (NSAttributedString *)generateAttrStringWithText:(NSString *)text image:(UIImage *)image {
@@ -106,9 +116,21 @@
     return attributedString;
 }
 
+- (NSMutableAttributedString *)generateSendAddressButtonString {
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@"发我定位" attributes:@{NSForegroundColorAttributeName:[UIColor HHLinkBlue], NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSUnderlineStyleAttributeName:[NSNumber numberWithInt:1]}];
+    
+    return attrString;
+}
+
 - (void)showMapView {
     if (self.fieldBlock) {
-        self.fieldBlock();
+        self.fieldBlock(self.field);
+    }
+}
+
+- (void)sendAddressButtonTapped {
+    if (self.sendAddressBlock) {
+        self.sendAddressBlock(self.field);
     }
 }
 

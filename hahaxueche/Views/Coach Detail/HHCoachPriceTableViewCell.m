@@ -114,11 +114,6 @@
             }
         }
         
-        if ([coach.price floatValue] > 0) {
-            [self buildSingleClassViewWithType:CoachProductTypeC1Wuyou coach:coach index:count containerView:self.c1ContainerView];
-            count++;
-        }
-        
         [self.c1ContainerView makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.licenseView.bottom);
             make.left.equalTo(self.mainView.left);
@@ -144,10 +139,6 @@
             count++;
         }
         
-        if ([coach.c2Price floatValue] > 0) {
-            [self buildSingleClassViewWithType:CoachProductTypeC2Wuyou coach:coach index:count containerView:self.c2ContainerView];
-            count++;
-        }
         [self.c2ContainerView makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.licenseView.bottom);
             make.left.equalTo(self.mainView.left);
@@ -160,15 +151,16 @@
 
 - (void)buildSingleClassViewWithType:(CoachProductType)type coach:(HHCoach *)coach index:(NSInteger)index containerView:(UIView *)containerView {
     HHCoachPriceInfoView *view = [[HHCoachPriceInfoView alloc] initWithClassType:type coach:coach];
-    view.purchaseBlock = ^(CoachProductType type) {
-        if (self.purchaseBlock) {
-            self.purchaseBlock(type);
+    [view.callSchoolButton setTitle:@"联系教练" forState:UIControlStateNormal];
+    view.callBlock = ^(CoachProductType type) {
+        if (self.callBlock) {
+            self.callBlock();
         }
     };
     
-    view.depositBlock = ^{
-        if (self.depositBlock) {
-            self.depositBlock();
+    view.notifPriceBlock = ^{
+        if (self.notifPriceBlock) {
+            self.notifPriceBlock();
         }
     };
     [containerView addSubview:view];

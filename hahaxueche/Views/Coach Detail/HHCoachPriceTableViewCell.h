@@ -12,8 +12,8 @@
 #import "HHPaymentService.h"
 
 typedef void (^HHCoachPriceAction)(NSInteger type);
-typedef void (^HHCoachPurchaseAction)(CoachProductType type);
-typedef void (^HHCoachDepositAction)();
+typedef void (^HHCoachClassAction)(CoachProductType type);
+typedef void (^HHCoachGenericAction)();
 
 
 @interface HHCoachPriceTableViewCell : UITableViewCell
@@ -35,9 +35,9 @@ typedef void (^HHCoachDepositAction)();
 
 @property (nonatomic, strong) HHCoachPriceAction questionMarkBlock;
 @property (nonatomic, strong) HHCoachPriceAction selectedBlock;
-@property (nonatomic, strong) HHCoachPurchaseAction purchaseBlock;
-@property (nonatomic, strong) HHCoachPurchaseAction priceDetailBlock;
-@property (nonatomic, strong) HHCoachDepositAction depositBlock;
+@property (nonatomic, strong) HHCoachGenericAction callBlock;
+@property (nonatomic, strong) HHCoachClassAction priceDetailBlock;
+@property (nonatomic, strong) HHCoachGenericAction notifPriceBlock;
 
 - (void)setupCellWithCoach:(HHCoach *)coach selectedType:(NSInteger)type;
 

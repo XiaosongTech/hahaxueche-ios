@@ -10,6 +10,8 @@
 #import "UIColor+HHColor.h"
 #import "Masonry.h"
 #import "NSNumber+HHNumber.h"
+#import "HHCoachPriceInfoView.h"
+
 
 
 @implementation HHSchoolPriceTableViewCell
@@ -66,47 +68,57 @@
     if (self.viewArray.count > 0) {
         return;
     }
-    UIView *view1 = [self buildSinglePriceViewWithTitle:@"超值班" subTitle:@"四人一车, 高性价比" price:school.lowestPrice tag:0 showLine:YES];
+    HHCoach *coach = [[HHCoach alloc] init];
+    coach.price = school.lowestPrice;
+    coach.VIPPrice = school.lowestVIPPrice;
+    
+    HHCoachPriceInfoView *view1 = [[HHCoachPriceInfoView alloc] initWithClassType:CoachProductTypeStandard coach:coach showLine:NO];
+    UITapGestureRecognizer *rec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(priceTapped:)];
+    [view1 addGestureRecognizer:rec];
+    view1.notifPriceBlock = ^{
+        if (self.notifPriceBlock) {
+            self.notifPriceBlock();
+        }
+    };
+    view1.callBlock = ^{
+        if (self.callBlock) {
+            self.callBlock();
+        }
+    };
+    
     [self.viewArray addObject:view1];
     [self.contentView addSubview:view1];
     [view1 makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(self.contentView.width);
         make.top.equalTo(self.topLine.bottom);
-        make.height.mas_equalTo(70.0f);
+        make.height.mas_equalTo(85.0f);
         make.left.equalTo(self.contentView.left);
     }];
     
     if (school.lowestVIPPrice.floatValue > 0) {
-        UIView *view2 = [self buildSinglePriceViewWithTitle:@"VIP班" subTitle:@"一人一车, 极速拿证" price:school.lowestVIPPrice tag:1 showLine:YES];
+        HHCoachPriceInfoView *view2 = [[HHCoachPriceInfoView alloc] initWithClassType:CoachProductTypeVIP coach:coach];
+        UITapGestureRecognizer *rec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(priceTapped:)];
+        [view2 addGestureRecognizer:rec];
+        view2.notifPriceBlock = ^{
+            if (self.notifPriceBlock) {
+                self.notifPriceBlock();
+            }
+        };
+        view2.callBlock = ^{
+            if (self.callBlock) {
+                self.callBlock();
+            }
+        };
         [self.contentView addSubview:view2];
         [view2 makeConstraints:^(MASConstraintMaker *make) {
             make.width.equalTo(self.contentView.width);
-            make.top.equalTo(self.topLine.bottom).offset(70.0f);
-            make.height.mas_equalTo(70.0f);
+            make.top.equalTo(self.topLine.bottom).offset(85.0f);
+            make.height.mas_equalTo(85.0f);
             make.left.equalTo(self.contentView.left);
         }];
         [self.viewArray addObject:view2];
         
-        UIView *view3 = [self buildSinglePriceViewWithTitle:@"无忧班" subTitle:@"包补考费, 不过包赔" price:@([school.lowestPrice floatValue] + 20000) tag:2 showLine:NO];
-        [self.contentView addSubview:view3];
-        [view3 makeConstraints:^(MASConstraintMaker *make) {
-            make.width.equalTo(self.contentView.width);
-            make.top.equalTo(self.topLine.bottom).offset(140.0f);
-            make.height.mas_equalTo(70.0f);
-            make.left.equalTo(self.contentView.left);
-        }];
         
-        [self.viewArray addObject:view3];
-    } else {
-        UIView *view2 = [self buildSinglePriceViewWithTitle:@"无忧班" subTitle:@"包补考费, 不过包赔" price:@([school.lowestPrice floatValue] + 20000) tag:1 showLine:NO];
-        [self.contentView addSubview:view2];
-        [view2 makeConstraints:^(MASConstraintMaker *make) {
-            make.width.equalTo(self.contentView.width);
-            make.top.equalTo(self.topLine.bottom).offset(70.0f);
-            make.height.mas_equalTo(70.0f);
-            make.left.equalTo(self.contentView.left);
-        }];
-        [self.viewArray addObject:view2];
     }
 }
 
@@ -127,70 +139,6 @@
     return attributedString;
 }
 
-- (UIView *)buildSinglePriceViewWithTitle:(NSString *)title subTitle:(NSString *)subTitle price:(NSNumber *)price tag:(NSInteger)tag showLine:(BOOL)showLine {
-    UIView *view = [[UIView alloc] init];
-    view.tag = tag;
-    UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    titleLabel.layer.masksToBounds = YES;
-    titleLabel.layer.cornerRadius = 3.0f;
-    titleLabel.layer.borderWidth = 1.0f;
-    titleLabel.layer.borderColor = [UIColor HHOrange].CGColor;
-    titleLabel.text = title;
-    [titleLabel sizeToFit];
-    titleLabel.textColor = [UIColor HHOrange];
-    titleLabel.font = [UIFont systemFontOfSize:10.0f];
-    [view addSubview:titleLabel];
-    [titleLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(view.left).offset(15.0f);
-        make.centerY.equalTo(view.centerY);
-        make.height.mas_equalTo(16.0f);
-        make.width.mas_equalTo(35.0f);
-    }];
-    
-    UILabel *subTitleLabel = [[UILabel alloc] init];
-    subTitleLabel.text = subTitle;
-    [subTitleLabel sizeToFit];
-    subTitleLabel.textColor = [UIColor HHLightTextGray];
-    subTitleLabel.font = [UIFont systemFontOfSize:15.0f];
-    [view addSubview:subTitleLabel];
-    [subTitleLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(view.left).offset(60.0f);
-        make.centerY.equalTo(view.centerY);
-    }];
-    
-    UIImageView *arrowView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_coachmsg_more_arrow"]];
-    [view addSubview:arrowView];
-    [arrowView makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(view.right).offset(-15.0f);
-        make.centerY.equalTo(view.centerY);
-    }];
-    
-    UILabel *priceLabel = [[UILabel alloc] init];
-    priceLabel.attributedText = [self generatePriceStringWithPrice:[price generateMoneyString]];
-    [view addSubview:priceLabel];
-    [priceLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(arrowView.left).offset(-5.0f);
-        make.centerY.equalTo(view.centerY);
-    }];
-    
-    if (showLine) {
-        UIView *line = [[UIView alloc] init];
-        line.backgroundColor = [UIColor HHLightLineGray];
-        [view addSubview:line];
-        [line makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(view.left).offset(15.0f);
-            make.right.equalTo(view.right);
-            make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
-            make.bottom.equalTo(view.bottom);
-        }];
-    }
-    
-    UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(priceTapped:)];
-    [view addGestureRecognizer:tapRec];
-    
-    return view;
-}
 
 - (NSAttributedString *)generatePriceStringWithPrice:(NSString *)price {
     
@@ -202,8 +150,9 @@
 }
 
 - (void)priceTapped:(UITapGestureRecognizer *)rec {
+    HHCoachPriceInfoView *view = (HHCoachPriceInfoView *)rec.view;
     if (self.priceBlock) {
-        self.priceBlock(rec.view.tag);
+        self.priceBlock(view.type);
     }
 }
 

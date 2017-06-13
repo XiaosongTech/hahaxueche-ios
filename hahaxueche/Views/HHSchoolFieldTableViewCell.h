@@ -20,6 +20,7 @@ typedef void (^HHFieldBlock)(HHField *field);
 @property (nonatomic, strong) UIView *mainView;
 @property (nonatomic, strong) HHFieldBlock fieldBlock;
 @property (nonatomic, strong) HHFieldBlock checkFieldBlock;
+@property (nonatomic, strong) HHFieldBlock sendAddressBlock;
 @property (nonatomic, strong) HHDrivingSchool *school;
 
 - (void)setupCellWithSchool:(HHDrivingSchool *)school;

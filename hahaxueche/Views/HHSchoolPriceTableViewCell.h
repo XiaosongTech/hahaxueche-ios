@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "HHDrivingSchool.h"
 
+
 typedef void (^HHSchoolPriceBlock)(NSInteger index);
+typedef void (^HHSchoolGenericBlock)();
 
 @interface HHSchoolPriceTableViewCell : UITableViewCell
 
@@ -19,6 +21,8 @@ typedef void (^HHSchoolPriceBlock)(NSInteger index);
 @property (nonatomic, strong) NSMutableArray *viewArray;
 
 @property (nonatomic, strong) HHSchoolPriceBlock priceBlock;
+@property (nonatomic, strong) HHSchoolGenericBlock callBlock;
+@property (nonatomic, strong) HHSchoolGenericBlock notifPriceBlock;
 
 - (void)setupCellWithSchool:(HHDrivingSchool *)school;
 

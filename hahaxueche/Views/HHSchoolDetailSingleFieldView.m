@@ -49,7 +49,7 @@
         }];
         
         self.checkFieldButton = [[HHGradientButton alloc] initWithType:0];
-        [self.checkFieldButton setAttributedTitle:[self generateButtonString] forState:UIControlStateNormal];
+        [self.checkFieldButton setAttributedTitle:[self generateButtonStringWithString:@"去现场看看"] forState:UIControlStateNormal];
         [self.checkFieldButton addTarget:self action:@selector(checkButtonTapped) forControlEvents:UIControlEventTouchUpInside];
         self.checkFieldButton.titleLabel.font = [UIFont systemFontOfSize:12.0f];
         self.checkFieldButton.layer.masksToBounds = YES;
@@ -60,6 +60,15 @@
             make.width.mas_equalTo(70.0f);
             make.height.mas_equalTo(25.0f);
             make.right.lessThanOrEqualTo(self.right).offset(-15.0f);
+        }];
+        
+        self.sendAddressButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.sendAddressButton setAttributedTitle:[self generateSendAddressButtonString] forState:UIControlStateNormal];
+        [self.sendAddressButton addTarget:self action:@selector(sendAddressButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:self.sendAddressButton];
+        [self.sendAddressButton makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.subTitleLabel.centerY);
+            make.right.lessThanOrEqualTo(self.checkFieldButton.right);
         }];
         
         UIView *line = [[UIView alloc] init];
@@ -90,8 +99,8 @@
 }
 
 
-- (NSMutableAttributedString *)generateButtonString {
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@"去现场看看" attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}];
+- (NSMutableAttributedString *)generateButtonStringWithString:(NSString *)baseString {
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:baseString attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}];
     
     NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
     textAttachment.image = [UIImage imageNamed:@"schoollist_ic_arrow"];
@@ -102,10 +111,22 @@
     return attrString;
 }
 
+- (NSMutableAttributedString *)generateSendAddressButtonString {
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@"发我定位" attributes:@{NSForegroundColorAttributeName:[UIColor HHLinkBlue], NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSUnderlineStyleAttributeName:[NSNumber numberWithInt:1]}];
+    
+    return attrString;
+}
+
 
 - (void)checkButtonTapped {
     if (self.checkFieldBlock) {
         self.checkFieldBlock(self.field);
+    }
+}
+
+- (void)sendAddressButtonTapped {
+    if (self.sendAddressBlock) {
+        self.sendAddressBlock(self.field);
     }
 }
 

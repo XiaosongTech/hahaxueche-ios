@@ -292,19 +292,27 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
                 [weakSelf.tableView reloadData];
             };
             
-            cell.purchaseBlock = ^(CoachProductType type) {
-                HHPurchaseConfirmViewController *vc = [[HHPurchaseConfirmViewController alloc] initWithCoach:weakSelf.coach selectedType:type];
-                [weakSelf.navigationController pushViewController:vc animated:YES];
-                [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_purchase_tapped attributes:nil];
-
+            cell.callBlock = ^{
+                [[HHSupportUtility sharedManager] callSupportWithNumber:weakSelf.coach.consultPhone];
             };
             
-            cell.depositBlock = ^{
-                [weakSelf deposit];
+            cell.notifPriceBlock = ^{
+                HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"我们将为您保密个人信息!" placeHolder:@"填写手机号, 立即订阅降价通知" buttonTitle:@"立即订阅"];
+                view.buttonAction = ^(NSString *number) {
+                    [[HHStudentService sharedInstance] getPhoneNumber:number coachId:weakSelf.coach.coachId schoolId:nil fieldId:nil eventType:nil eventData:nil completion:^(NSError *error) {
+                        if (error) {
+                            [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
+                        } else {
+                            [HHPopupUtility dismissPopup:weakSelf.popup];
+                            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:school_detail_price_notification_confirmed attributes:nil];
+                        }
+                    }];
+                };
+                weakSelf.popup = [HHPopupUtility createPopupWithContentView:view];
+                [HHPopupUtility showPopup:weakSelf.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
             };
-            
             cell.priceDetailBlock = ^(CoachProductType type) {
-                HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:weakSelf.coach productType:type];
+                HHCoachPriceDetailViewController *vc = [[HHCoachPriceDetailViewController alloc] initWithCoach:weakSelf.coach productType:type rightButtonTitle:@"联系教练"];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_price_detail_tapped attributes:nil];
             };
@@ -314,11 +322,28 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
             
         case CoachCellField: {
             HHCoachFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:kFiledCellID forIndexPath:indexPath];
-            cell.fieldBlock = ^() {
+            cell.fieldBlock = ^(HHField *field) {
                 HHFieldsMapViewController *vc = [[HHFieldsMapViewController alloc] initWithFields:[HHConstantsStore sharedInstance].fields selectedField:[weakSelf.coach getCoachField]];
                 [weakSelf.navigationController pushViewController:vc animated:YES];
                 [[HHEventTrackingManager sharedManager] eventTriggeredWithId:coach_detail_page_field_tapped attributes:@{@"coach_id":weakSelf.coach.coachId}];
 
+            };
+            
+            cell.sendAddressBlock = ^(HHField *field) {
+                HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"轻松定位训练场" placeHolder:@"输入手机号, 立即接收详细地址" buttonTitle:@"发我定位"];
+                view.buttonAction = ^(NSString *number) {
+                    NSString *link = [NSString stringWithFormat:@"https://m.hahaxueche.com/ditu?field_id=%@", field.fieldId];
+                    [[HHStudentService sharedInstance] getPhoneNumber:number coachId:weakSelf.coach.coachId schoolId:nil fieldId:field.fieldId eventType:@(1) eventData:@{@"field_id":field.fieldId, @"link":link} completion:^(NSError *error) {
+                        if (error) {
+                            [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试!"];
+                        } else {
+                            [HHPopupUtility dismissPopup:self.popup];
+                            [[HHEventTrackingManager sharedManager] eventTriggeredWithId:map_view_page_locate_confirmed attributes:nil];
+                        }
+                    }];
+                };
+                self.popup = [HHPopupUtility createPopupWithContentView:view];
+                [HHPopupUtility showPopup:self.popup layout:KLCPopupLayoutMake(KLCPopupHorizontalLayoutCenter, KLCPopupVerticalLayoutAboveCenter)];
             };
             [cell setupCellWithField:[self.coach getCoachField]];
             return cell;
@@ -377,7 +402,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
             CGFloat height = 136.0f;
             if (self.selecteLicenseType == 1) {
                 if ([self.coach.price floatValue] > 0) {
-                    height = height + 85.0f * 2;
+                    height = height + 85.0f;
                 }
                 
                 if ([self.coach.VIPPrice floatValue] > 0) {
@@ -389,7 +414,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
                 }
             } else {
                 if ([self.coach.c2Price floatValue] > 0) {
-                    height = height + 85.0f * 2;
+                    height = height + 85.0f;
                 }
                 
                 if ([self.coach.c2VIPPrice floatValue] > 0) {

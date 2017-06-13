@@ -37,7 +37,6 @@ typedef void (^HHSchooCallBlock)();
 @property (nonatomic, strong) UILabel *priceTitleLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
 @property (nonatomic, strong) UIImageView *priceArrow;
-@property (nonatomic, strong) UIView *grouponView;
 
 @property (nonatomic, strong) HHDrivingSchool *school;
 

@@ -215,7 +215,7 @@
                         [aView hideCalloutView];
                     } else {
                         CLLocationCoordinate2D fieldLocationCoordinate = CLLocationCoordinate2DMake([field.latitude doubleValue], [field.longitude doubleValue]);
-                        MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(fieldLocationCoordinate, 15000, 15000);
+                        MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(fieldLocationCoordinate, 1500, 1500);
                         [weakSelf.mapView setRegion:mapRegion animated:YES];
                         [weakSelf.mapView bringSubviewToFront:aView];
 

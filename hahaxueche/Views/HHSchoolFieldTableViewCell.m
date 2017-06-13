@@ -87,6 +87,12 @@
                 self.checkFieldBlock(field);
             }
         };
+        
+        view.sendAddressBlock = ^(HHField *field) {
+            if (self.sendAddressBlock) {
+                self.sendAddressBlock(field);
+            }
+        };
         view.tag = i;
         [self.mainView addSubview:view];
         [view makeConstraints:^(MASConstraintMaker *make) {

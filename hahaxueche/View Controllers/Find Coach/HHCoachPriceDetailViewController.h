@@ -12,6 +12,6 @@
 
 @interface HHCoachPriceDetailViewController : UIViewController
 
-- (instancetype)initWithCoach:(HHCoach *)coach productType:(CoachProductType)type;
+- (instancetype)initWithCoach:(HHCoach *)coach productType:(CoachProductType)type rightButtonTitle:(NSString *)rightButtonTitle;
 
 @end
