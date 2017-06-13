@@ -12,6 +12,7 @@
 
 @property (nonatomic, copy) NSNumber *distance;
 @property (nonatomic, copy) NSString *zone;
+@property (nonatomic, copy) NSString *businessArea;
 @property (nonatomic, copy) NSNumber *priceStart;
 @property (nonatomic, copy) NSNumber *priceEnd;
 

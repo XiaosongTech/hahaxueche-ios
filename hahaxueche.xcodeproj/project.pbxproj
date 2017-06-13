@@ -285,6 +285,7 @@
 		5CDE14861C3852E30004778C /* HHCitySelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE14851C3852E30004778C /* HHCitySelectView.m */; };
 		5CDE14891C3859290004778C /* HHPopupUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE14881C3859290004778C /* HHPopupUtility.m */; };
 		5CDE148C1C3A00AB0004778C /* HHLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE148B1C3A00AB0004778C /* HHLoginViewController.m */; };
+		6D0545131EE9605C0085B517 /* HHCityZone.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0545121EE9605C0085B517 /* HHCityZone.m */; };
 		6D088D4D1D88E80B00A4C2F9 /* arrow_h.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D088D4A1D88E80B00A4C2F9 /* arrow_h.png */; };
 		6D088D4E1D88E80B00A4C2F9 /* arrow_h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D088D4B1D88E80B00A4C2F9 /* arrow_h@2x.png */; };
 		6D088D4F1D88E80B00A4C2F9 /* arrow_h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D088D4C1D88E80B00A4C2F9 /* arrow_h@3x.png */; };
@@ -1564,6 +1565,8 @@
 		5CDE14881C3859290004778C /* HHPopupUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPopupUtility.m; sourceTree = "<group>"; };
 		5CDE148A1C3A00AB0004778C /* HHLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHLoginViewController.h; sourceTree = "<group>"; };
 		5CDE148B1C3A00AB0004778C /* HHLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHLoginViewController.m; sourceTree = "<group>"; };
+		6D0545111EE9605C0085B517 /* HHCityZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCityZone.h; sourceTree = "<group>"; };
+		6D0545121EE9605C0085B517 /* HHCityZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCityZone.m; sourceTree = "<group>"; };
 		6D088D4A1D88E80B00A4C2F9 /* arrow_h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_h.png; sourceTree = "<group>"; };
 		6D088D4B1D88E80B00A4C2F9 /* arrow_h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_h@2x.png"; sourceTree = "<group>"; };
 		6D088D4C1D88E80B00A4C2F9 /* arrow_h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_h@3x.png"; sourceTree = "<group>"; };
@@ -3200,6 +3203,8 @@
 				6D1459F41DF5093C009D4AA7 /* HHTestScore.m */,
 				6DF23FFE1EB2209200722CB6 /* HHFilters.h */,
 				6DF23FFF1EB2209200722CB6 /* HHFilters.m */,
+				6D0545111EE9605C0085B517 /* HHCityZone.h */,
+				6D0545121EE9605C0085B517 /* HHCityZone.m */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -5713,6 +5718,7 @@
 				143778EF1C6125C300339D20 /* HHLaunchImageViewController.m in Sources */,
 				6D63F84E1DD579C800DB1ADC /* HHVoucherView.m in Sources */,
 				6D5D1F731EC01B9C0006217E /* HHSchoolReviewTableViewCell.m in Sources */,
+				6D0545131EE9605C0085B517 /* HHCityZone.m in Sources */,
 				6DF53EB21D9DFE210081EF50 /* HHAdvisorView.m in Sources */,
 				6DE24BC51D5B127B0078A21E /* HHQuestion.m in Sources */,
 				6DF934F31D91418B00018BE9 /* HHTestStartViewController.m in Sources */,

@@ -25,12 +25,12 @@
 #import "HHToastManager.h"
 #import "HHEventTrackingManager.h"
 #import "iCarousel.h"
-#import "HHLoadingViewUtility.h"
 #import "UIBarButtonItem+HHCustomButton.h"
 #import "HHSearchViewController.h"
 #import "DOPDropDownMenu.h"
 #import "UIColor+HHColor.h"
 #import "HHClusterAnnotionView.h"
+#import "HHCityZone.h"
 
 @interface HHMapViewController () <UIScrollViewDelegate, iCarouselDelegate, iCarouselDataSource, DOPDropDownMenuDelegate, DOPDropDownMenuDataSource>
 
@@ -51,10 +51,13 @@
 
 @property (nonatomic, strong) HHDrivingSchool *selectedSchool;
 @property (nonatomic, strong) NSString *selectedZone;
+@property (nonatomic, strong) NSString *selectedBusinessArea;
 @property (nonatomic, strong) NSNumber *selectedDistance;
 
 @property (nonatomic) BOOL showCluster;
 @property (nonatomic) BOOL shouldCheckRegionChange;
+
+@property (nonatomic, strong) NSNumber *selectedRow;
 
 @end
 
@@ -107,6 +110,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.showCluster = YES;
+    self.selectedRow = @(0);
     self.title = @"地图找驾校";
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem buttonItemWithImage:[UIImage imageNamed:@"ic_arrow_back"] action:@selector(dismissVC) target:self];
     
@@ -117,8 +121,6 @@
         self.mapView.mapType = MKMapTypeHybrid;
         self.mapView.mapType = MKMapTypeStandard;
     }];
-    
-    [[HHLoadingViewUtility sharedInstance] showLoadingView];
     
 }
 
@@ -178,6 +180,7 @@
 }
 
 - (void)initFilterMenu {
+    __weak HHMapViewController *weakSelf = self;
     [[HHConstantsStore sharedInstance] getCityWithCityId:[HHStudentStore sharedInstance].selectedCityId completion:^(HHCity *city) {
         if (!city) {
             return ;
@@ -189,7 +192,7 @@
         }
         
         self.areas = [NSMutableArray arrayWithObject:@"附近"];
-        [self.areas addObjectsFromArray:self.userCity.zones];
+        [self.areas addObjectsFromArray:[self.userCity getZoneNames]];
         
         self.distances = [NSMutableArray array];
         for (NSNumber *num in self.userCity.distanceRanges) {
@@ -203,6 +206,15 @@
         self.filterMenu.tintColor = [UIColor HHOrange];
         self.filterMenu.textSelectedColor = [UIColor HHOrange];
         self.filterMenu.indicatorColor = [UIColor HHLightestTextGray];
+        self.filterMenu.finishedBlock = ^(DOPIndexPath *indexPath) {
+            if (indexPath.column == 0) {
+                if (indexPath.item == -1) {
+                    weakSelf.filterMenu.currentSelectRowArray[0] = weakSelf.selectedRow;
+                } else {
+                    weakSelf.selectedRow = weakSelf.filterMenu.currentSelectRowArray[0];
+                }
+            }
+        };
         [self.view addSubview:self.filterMenu];
         [self.filterMenu selectIndexPath:[DOPIndexPath indexPathWithCol:0 row:0 item:self.distances.count-1]];
         if(self.selectedSchool) {
@@ -416,7 +428,6 @@
 }
 
 - (void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered  {
-    [[HHLoadingViewUtility sharedInstance] dismissLoadingView];
     self.shouldCheckRegionChange = YES;
     
 }
@@ -452,10 +463,15 @@
 
 - (NSInteger)menu:(DOPDropDownMenu *)menu numberOfItemsInRow:(NSInteger)row column:(NSInteger)column {
     if (column == 0) {
+        menu.isClickHaveItemValid = NO;
         if (row == 0) {
             return self.distances.count;
+        } else {
+            HHCityZone *zone = self.userCity.zoneObjects[row-1];
+            return [self.userCity getZoneAreasWithName:zone.zoneName].count;
         }
     }
+    menu.isClickHaveItemValid = YES;
     return 0;
 }
 
@@ -463,6 +479,9 @@
     if (indexPath.column == 0) {
         if (indexPath.row == 0) {
             return self.distances[indexPath.item];
+        } else {
+            HHCityZone *zone = self.userCity.zoneObjects[indexPath.row-1];
+            return [self.userCity getZoneAreasWithName:zone.zoneName][indexPath.item];
         }
     }
     return nil;
@@ -485,10 +504,16 @@
     
     if (self.selectedZone) {
         for (HHField *field in schoolArray) {
-            if ([field.district isEqualToString:self.selectedZone]) {
-                [zoneArray addObject:field];
+            if (!self.selectedBusinessArea) {
+                if ([field.district isEqualToString:self.selectedZone]) {
+                    [zoneArray addObject:field];
+                }
+            } else {
+                if ([field.businessAreas containsObject:self.selectedBusinessArea]) {
+                    [zoneArray addObject:field];
+                }
             }
-            
+
         }
         return zoneArray;
     } else if (self.selectedDistance) {
@@ -584,23 +609,23 @@
 }
 
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath {
-    if (indexPath.column == 0 && indexPath.row == 0 && indexPath.item == -1) {
-        return;
-    }
     if (indexPath.column == 0) {
         if (indexPath.row == 0) {
             if (indexPath.item >= self.userCity.distanceRanges.count) {
                 self.selectedZone = nil;
-                self.selectedDistance = nil;
-                
             } else {
                 self.selectedDistance = self.userCity.distanceRanges[indexPath.item];
-                self.selectedZone = nil;
-                
             }
-        } else {
-            self.selectedZone = self.userCity.zones[indexPath.row -1];
             self.selectedDistance = nil;
+            self.selectedBusinessArea = nil;
+        } else {
+            self.selectedDistance = nil;
+            self.selectedZone = [self.userCity getZoneNames][indexPath.row -1];
+            if (indexPath.item <= 0) {
+                self.selectedBusinessArea = nil;
+            } else {
+                self.selectedBusinessArea = [self.userCity getZoneAreasWithName:self.selectedZone][indexPath.item];
+            }
             
         }
     }  else {

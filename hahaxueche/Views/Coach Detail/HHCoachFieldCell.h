@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HHField.h"
 
-typedef void (^HHFieldBlock)();
+typedef void (^HHCoachFieldBlock)(HHField *feild);
 
 @interface HHCoachFieldCell : UITableViewCell
 
@@ -19,7 +19,11 @@ typedef void (^HHFieldBlock)();
 @property (nonatomic, strong) UIView *mainView;
 @property (nonatomic, strong) UIView *botView;
 @property (nonatomic, strong) UIImageView *arrowView;
-@property (nonatomic, strong) HHFieldBlock fieldBlock;
+@property (nonatomic, strong) UIButton *sendAddressButton;
+@property (nonatomic, strong) HHCoachFieldBlock fieldBlock;
+@property (nonatomic, strong) HHCoachFieldBlock sendAddressBlock;
+
+@property (nonatomic, strong) HHField *field;
 
 - (void)setupCellWithField:(HHField *)field;
 

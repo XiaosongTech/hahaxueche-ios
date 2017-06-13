@@ -155,32 +155,6 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    __weak HHHomePageViewController *weakSelf = self;
-    if ([HHStudentStore sharedInstance].currentStudent.vouchers.count > 0 && ![[HHStudentStore sharedInstance].currentStudent isPurchased]) {
-        if (self.popupVoucherShowed) {
-            return;
-        }
-        [[HHStudentService sharedInstance] getVouchersWithType:@(0) coachId:nil completion:^(NSArray *vouchers) {
-            HHVoucher *biggestVoucher = [vouchers firstObject];
-            for (HHVoucher *voucher in vouchers) {
-                if (biggestVoucher.amount < voucher.amount) {
-                    biggestVoucher = voucher;
-                }
-            }
-            HHVoucherPopupView *popupView = [[HHVoucherPopupView alloc] initWithVoucher:biggestVoucher];
-            popupView.dismissBlock = ^() {
-                [HHPopupUtility dismissPopup:weakSelf.popup];
-            };
-            popupView.shareBlock = ^() {
-                [HHPopupUtility dismissPopup:weakSelf.popup];
-                [weakSelf showShareView];
-            };
-            self.popup = [HHPopupUtility createPopupWithContentView:popupView];
-            [HHPopupUtility showPopup:self.popup];
-            self.popupVoucherShowed = YES;
-        }];
-        
-    }
 #ifdef DEBUG
     [Appirater setDebug:YES];
 #endif
@@ -195,7 +169,6 @@ static NSString *const kHomePageVoucherPopupKey = @"kHomePageVoucherPopupKey";
     
     
     [[HHEventTrackingManager sharedManager] eventTriggeredWithId:home_page_viewed attributes:nil];
-    
     
 }
 

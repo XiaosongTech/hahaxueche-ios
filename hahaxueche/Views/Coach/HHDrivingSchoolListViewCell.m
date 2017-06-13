@@ -32,6 +32,8 @@
     [self.contentView addSubview:self.avatarView];
     
     self.nameLabel = [self createLabelWithFont:[UIFont systemFontOfSize:20.0f] textColor:[UIColor HHTextDarkGray]];
+    self.nameLabel.adjustsFontSizeToFitWidth = YES;
+    self.nameLabel.minimumScaleFactor = 0.5;
     [self.nameLabel sizeToFit];
     [self.contentView addSubview:self.nameLabel];
     
@@ -86,9 +88,6 @@
     self.fieldRightLabel = [[UILabel alloc] init];
     [self.fieldContainerView addSubview:self.fieldRightLabel];
     
-    self.grouponView = [self buildGrouponView];
-    [self.contentView addSubview:self.grouponView];
-    
     [self makeConstraints];
 }
 
@@ -112,11 +111,12 @@
     [self.nameLabel makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.avatarView.right).offset(15.0f);
         make.top.equalTo(self.top).offset(16.0f);
+        make.right.lessThanOrEqualTo(self.priceTitleLabel.left).offset(-5.0f);
     }];
     
     [self.starRatingView makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.nameLabel.left);
-        make.top.equalTo(self.nameLabel.bottom).offset(5.0f);
+        make.top.equalTo(self.nameLabel.bottom).offset(10.0f);
         make.height.mas_equalTo(20.0f);
         make.width.mas_equalTo(80.0f);
     }];
@@ -128,9 +128,9 @@
     
     [self.fieldContainerView makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.nameLabel.left);
-        make.top.equalTo(self.starRatingView.bottom);
+        make.top.equalTo(self.starRatingView.bottom).offset(10.0f);
         make.right.equalTo(self.contentView.right);
-        make.height.mas_equalTo(30.0f);
+        make.height.mas_equalTo(40.0f);
     }];
     
     [self.fieldLeftLabel makeConstraints:^(MASConstraintMaker *make) {
@@ -145,7 +145,7 @@
     
     [self.fieldContainerLine makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.fieldContainerView.left);
-        make.bottom.equalTo(self.fieldContainerView.bottom);
+        make.top.equalTo(self.fieldContainerView.top);
         make.width.equalTo(self.fieldContainerView.width);
         make.height.mas_equalTo(1.0f/[UIScreen mainScreen].scale);
     }];
@@ -175,16 +175,9 @@
     }];
     
     [self.consultNumLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.avatarView.centerX);
-        make.top.equalTo(self.callButton.bottom).offset(3.0f);
+        make.right.equalTo(self.priceLabel.right);
+        make.centerY.equalTo(self.ratingLabel.centerY);
         make.width.lessThanOrEqualTo(self.avatarView.width).offset(20.0f);
-    }];
-    
-    [self.grouponView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.fieldContainerView.left);
-        make.top.equalTo(self.fieldContainerView.bottom);
-        make.width.equalTo(self.fieldContainerView.width);
-        make.bottom.equalTo(self.contentView.bottom);
     }];
     
     
@@ -271,6 +264,12 @@
             
             NSMutableAttributedString *attString3 = [[NSMutableAttributedString alloc] initWithString:@"km" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
             [attString appendAttributedString:attString3];
+            NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+            textAttachment.image = [UIImage imageNamed:@"ic_list_local_btn"];
+            textAttachment.bounds = CGRectMake(-2, -2, textAttachment.image.size.width, textAttachment.image.size.height);
+            
+            NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+            [attString insertAttributedString:attrStringWithImage atIndex:0];
             return attString;
         } else {
             NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:@"共有" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
@@ -279,8 +278,16 @@
             
             NSMutableAttributedString *attString3 = [[NSMutableAttributedString alloc] initWithString:@"个训练场" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
             [attString appendAttributedString:attString3];
+            
+            NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+            textAttachment.image = [UIImage imageNamed:@"ic_list_local_btn"];
+            textAttachment.bounds = CGRectMake(-2, -2, textAttachment.image.size.width, textAttachment.image.size.height);
+            
+            NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+            [attString insertAttributedString:attrStringWithImage atIndex:0];
             return attString;
         }
+        
         
     } else {
         if ([school.distance floatValue] > 0) {
@@ -316,34 +323,6 @@
             return attString;
         }
     }
-}
-
-- (UIView *)buildGrouponView {
-    UIView *view = [[UIView alloc] init];
-    UILabel *label = [[UILabel alloc] init];
-    [view addSubview:label];
-    [label makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(view.left);
-        make.centerY.equalTo(view.centerY);
-    }];
-    NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
-    textAttachment.image = [UIImage imageNamed:@"schoollist_ic_tuan"];
-    textAttachment.bounds = CGRectMake(0, -3, textAttachment.image.size.width, textAttachment.image.size.height);
-    NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
-    
-    NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:@" 八校联名降价 组团立减¥200" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
-    [attString insertAttributedString:attrStringWithImage atIndex:0];
-    label.attributedText = attString;
-    
-    UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_homepage_knowmore_arrow"]];
-    [view addSubview:imgView];
-    [imgView makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(view.right).offset(-15.0f);
-        make.centerY.equalTo(view.centerY);
-    }];
-    
-    
-    return view;
 }
 
 - (void)callSchool {

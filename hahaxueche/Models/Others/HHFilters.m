@@ -16,6 +16,7 @@
     newObject.priceEnd = self.priceEnd;
     newObject.distance = self.distance;
     newObject.licenseType = self.licenseType;
+    newObject.businessArea = self.businessArea;
     return newObject;
 }
 

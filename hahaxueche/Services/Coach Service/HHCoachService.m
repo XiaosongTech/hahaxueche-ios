@@ -74,6 +74,10 @@
         param[@"student_id"] = [HHStudentStore sharedInstance].currentStudent.studentId;
     }
     
+    if (filters.businessArea) {
+        param[@"business_area"] = filters.businessArea;
+    }
+    
     [APIClient getWithParameters:param completion:^(NSDictionary *response, NSError *error) {
         if (!error) {
             HHCoaches *coaches = [MTLJSONAdapter modelOfClass:[HHCoaches class] fromJSONDictionary:response error:nil];
@@ -334,7 +338,11 @@
     }
     if (filters.licenseType) {
         param[@"license_type"] = filters.licenseType;
-    } 
+    }
+    
+    if (filters.businessArea) {
+        param[@"business_area"] = filters.businessArea;
+    }
     
     [APIClient getWithParameters:param completion:^(NSDictionary *response, NSError *error) {
         if (!error) {

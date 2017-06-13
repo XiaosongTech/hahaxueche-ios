@@ -13,6 +13,7 @@
 @property(nonatomic, copy) NSString *fieldId;
 @property(nonatomic, copy) NSString *name;
 @property(nonatomic, copy) NSString *district;
+@property(nonatomic, copy) NSArray *businessAreas;
 @property(nonatomic, copy) NSString *address;
 @property(nonatomic, copy) NSNumber *longitude;
 @property(nonatomic, copy) NSNumber *latitude;
