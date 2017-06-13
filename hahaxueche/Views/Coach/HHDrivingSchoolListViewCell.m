@@ -32,6 +32,8 @@
     [self.contentView addSubview:self.avatarView];
     
     self.nameLabel = [self createLabelWithFont:[UIFont systemFontOfSize:20.0f] textColor:[UIColor HHTextDarkGray]];
+    self.nameLabel.adjustsFontSizeToFitWidth = YES;
+    self.nameLabel.minimumScaleFactor = 0.5;
     [self.nameLabel sizeToFit];
     [self.contentView addSubview:self.nameLabel];
     
@@ -109,6 +111,7 @@
     [self.nameLabel makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.avatarView.right).offset(15.0f);
         make.top.equalTo(self.top).offset(16.0f);
+        make.right.lessThanOrEqualTo(self.priceTitleLabel.left).offset(-5.0f);
     }];
     
     [self.starRatingView makeConstraints:^(MASConstraintMaker *make) {
