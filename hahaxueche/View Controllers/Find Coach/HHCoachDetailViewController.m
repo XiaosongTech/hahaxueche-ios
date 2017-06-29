@@ -190,7 +190,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
     self.bottomBar.tryCoachAction = ^(){
         HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"看过训练场才放心" placeHolder:@"输入手机号, 教练立即带你看训练场" buttonTitle:@"预约看场地"];
         view.buttonAction = ^(NSString *number) {
-            [[HHStudentService sharedInstance] getPhoneNumber:number coachId:weakSelf.coach.coachId schoolId:[weakSelf.coach getCoachDrivingSchool].schoolId fieldId:[weakSelf.coach getCoachField].fieldId eventType:nil eventData:nil completion:^(NSError *error) {
+            [[HHStudentService sharedInstance] getPhoneNumber:number coachId:weakSelf.coach.coachId schoolId:[weakSelf.coach getCoachDrivingSchool].schoolId fieldId:[weakSelf.coach getCoachField].fieldId eventType:@(3) eventData:@{@"driving_school_id":[weakSelf.coach getCoachDrivingSchool].schoolId, @"coach_id":weakSelf.coach.coachId, @"field_id":[weakSelf.coach getCoachField].fieldId} completion:^(NSError *error) {
                 if (error) {
                     [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
                 } else {
@@ -299,7 +299,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
             cell.notifPriceBlock = ^{
                 HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"我们将为您保密个人信息!" placeHolder:@"填写手机号, 立即订阅降价通知" buttonTitle:@"立即订阅"];
                 view.buttonAction = ^(NSString *number) {
-                    [[HHStudentService sharedInstance] getPhoneNumber:number coachId:weakSelf.coach.coachId schoolId:nil fieldId:nil eventType:nil eventData:nil completion:^(NSError *error) {
+                    [[HHStudentService sharedInstance] getPhoneNumber:number coachId:weakSelf.coach.coachId schoolId:nil fieldId:nil eventType:@(6) eventData:@{@"driving_school_id":[weakSelf.coach getCoachDrivingSchool].schoolId, @"field_id":[weakSelf.coach getCoachField].fieldId, @"coach_id":weakSelf.coach.coachId} completion:^(NSError *error) {
                         if (error) {
                             [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
                         } else {
@@ -332,8 +332,7 @@ static NSString *const kInsuranceText = @"赔付宝是一款由平安财险承�
             cell.sendAddressBlock = ^(HHField *field) {
                 HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"轻松定位训练场" placeHolder:@"输入手机号, 立即接收详细地址" buttonTitle:@"发我定位"];
                 view.buttonAction = ^(NSString *number) {
-                    NSString *link = [NSString stringWithFormat:@"https://m.hahaxueche.com/ditu?field_id=%@", field.fieldId];
-                    [[HHStudentService sharedInstance] getPhoneNumber:number coachId:weakSelf.coach.coachId schoolId:nil fieldId:field.fieldId eventType:@(1) eventData:@{@"field_id":field.fieldId, @"link":link} completion:^(NSError *error) {
+                    [[HHStudentService sharedInstance] getPhoneNumber:number coachId:weakSelf.coach.coachId schoolId:nil fieldId:field.fieldId eventType:@(5) eventData:@{@"driving_school_id":[weakSelf.coach getCoachDrivingSchool].schoolId, @"field_id":field.fieldId, @"coach_id":weakSelf.coach.coachId} completion:^(NSError *error) {
                         if (error) {
                             [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试!"];
                         } else {

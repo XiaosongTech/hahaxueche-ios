@@ -141,7 +141,7 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
     self.bottomBar.tryCoachAction = ^(){
         HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"看过训练场才放心" placeHolder:@"输入手机号, 教练立即带你看训练场" buttonTitle:@"预约看场地"];
         view.buttonAction = ^(NSString *number) {
-            [[HHStudentService sharedInstance] getPhoneNumber:number coachId:nil schoolId:weakSelf.school.schoolId fieldId:nil eventType:nil eventData:nil completion:^(NSError *error) {
+            [[HHStudentService sharedInstance] getPhoneNumber:number coachId:nil schoolId:weakSelf.school.schoolId fieldId:nil eventType:@(3) eventData:@{@"driving_school_id":weakSelf.school.schoolId} completion:^(NSError *error) {
                 if (error) {
                     [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
                 } else {
@@ -214,7 +214,7 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
             cell.priceNotifBlock = ^(){
                 HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"我们将为您保密个人信息!" placeHolder:@"填写手机号, 立即订阅降价通知" buttonTitle:@"立即订阅"];
                 view.buttonAction = ^(NSString *number) {
-                    [[HHStudentService sharedInstance] getPhoneNumber:number coachId:nil schoolId:weakSelf.school.schoolId fieldId:nil eventType:nil eventData:nil completion:^(NSError *error) {
+                    [[HHStudentService sharedInstance] getPhoneNumber:number coachId:nil schoolId:weakSelf.school.schoolId fieldId:nil eventType:@(6) eventData:@{@"driving_school_id":weakSelf.school.schoolId} completion:^(NSError *error) {
                         if (error) {
                             [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
                         } else {
@@ -249,7 +249,7 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
             cell.notifPriceBlock = ^{
                 HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"我们将为您保密个人信息!" placeHolder:@"填写手机号, 立即订阅降价通知" buttonTitle:@"立即订阅"];
                 view.buttonAction = ^(NSString *number) {
-                    [[HHStudentService sharedInstance] getPhoneNumber:number coachId:nil schoolId:weakSelf.school.schoolId fieldId:nil eventType:nil eventData:nil completion:^(NSError *error) {
+                    [[HHStudentService sharedInstance] getPhoneNumber:number coachId:nil schoolId:weakSelf.school.schoolId fieldId:nil eventType:@(6) eventData:@{@"driving_school_id":weakSelf.school.schoolId} completion:^(NSError *error) {
                         if (error) {
                             [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
                         } else {
@@ -274,7 +274,7 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
             cell.checkFieldBlock = ^(HHField *field) {
                 HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"看过训练场才放心" placeHolder:@"输入手机号, 教练立即带你看训练场" buttonTitle:@"预约看场地"];
                 view.buttonAction = ^(NSString *number) {
-                    [[HHStudentService sharedInstance] getPhoneNumber:number coachId:nil schoolId:weakSelf.school.schoolId fieldId:field.fieldId eventType:nil eventData:nil completion:^(NSError *error) {
+                    [[HHStudentService sharedInstance] getPhoneNumber:number coachId:nil schoolId:weakSelf.school.schoolId fieldId:field.fieldId eventType:@(4) eventData:@{@"driving_school_id":weakSelf.school.schoolId, @"field_id":field.fieldId} completion:^(NSError *error) {
                         if (error) {
                             [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
                         } else {
@@ -293,8 +293,7 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
             cell.sendAddressBlock = ^(HHField *field) {
                 HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"轻松定位训练场" placeHolder:@"输入手机号, 立即接收详细地址" buttonTitle:@"发我定位"];
                 view.buttonAction = ^(NSString *number) {
-                    NSString *link = [NSString stringWithFormat:@"https://m.hahaxueche.com/ditu?field_id=%@", field.fieldId];
-                    [[HHStudentService sharedInstance] getPhoneNumber:number coachId:nil schoolId:weakSelf.school.schoolId fieldId:field.fieldId eventType:@(1) eventData:@{@"field_id":field.fieldId, @"link":link} completion:^(NSError *error) {
+                    [[HHStudentService sharedInstance] getPhoneNumber:number coachId:nil schoolId:weakSelf.school.schoolId fieldId:field.fieldId eventType:@(5) eventData:@{@"driving_school_id":weakSelf.school.schoolId, @"field_id":field.fieldId} completion:^(NSError *error) {
                         if (error) {
                             [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试!"];
                         } else {

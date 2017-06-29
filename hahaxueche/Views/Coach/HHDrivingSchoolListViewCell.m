@@ -272,6 +272,9 @@
             [attString insertAttributedString:attrStringWithImage atIndex:0];
             return attString;
         } else {
+            if (!school.fieldCount) {
+                return nil;
+            }
             NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:@"共有" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHLightTextGray]}];
             NSMutableAttributedString *attString2 = [[NSMutableAttributedString alloc] initWithString:[school.fieldCount stringValue] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName:[UIColor HHOrange]}];
             [attString appendAttributedString:attString2];
