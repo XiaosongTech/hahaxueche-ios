@@ -585,7 +585,7 @@
     __weak HHCoachPriceDetailViewController *weakSelf = self;
     HHGenericPhoneView *view = [[HHGenericPhoneView alloc] initWithTitle:@"我们将为您保密个人信息!" placeHolder:@"填写手机号, 立即订阅降价通知" buttonTitle:@"立即订阅"];
     view.buttonAction = ^(NSString *number) {
-        [[HHStudentService sharedInstance] getPhoneNumber:number coachId:weakSelf.coach.coachId schoolId:nil fieldId:nil eventType:nil eventData:nil completion:^(NSError *error) {
+        [[HHStudentService sharedInstance] getPhoneNumber:number coachId:weakSelf.coach.coachId schoolId:nil fieldId:nil eventType:@(6) eventData:@{@"driving_school_id":[weakSelf.coach getCoachDrivingSchool].schoolId, @"field_id":[weakSelf.coach getCoachField].fieldId, @"coach_id":weakSelf.coach.coachId} completion:^(NSError *error) {
             if (error) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
             } else {
