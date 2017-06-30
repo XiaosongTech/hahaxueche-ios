@@ -323,7 +323,7 @@ static NSString *const kHotSchoolCellId = @"kHotSchoolCellId";
         case SchoolCellGetNumber: {
             HHGetNumberTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kGetNumCellId forIndexPath:indexPath];
             cell.confirmBlock = ^(NSString *phoneNum) {
-                [[HHStudentService sharedInstance] getPhoneNumber:phoneNum coachId:nil schoolId:weakSelf.school.schoolId fieldId:nil eventType:nil eventData:nil completion:^(NSError *error) {
+                [[HHStudentService sharedInstance] getPhoneNumber:phoneNum coachId:nil schoolId:weakSelf.school.schoolId fieldId:nil eventType:@(7) eventData:@{@"driving_school_id":weakSelf.school.schoolId} completion:^(NSError *error) {
                     if (error) {
                         [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试"];
                     } else {

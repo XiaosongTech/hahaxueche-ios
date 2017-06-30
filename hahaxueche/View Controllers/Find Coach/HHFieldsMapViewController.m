@@ -339,7 +339,15 @@
         coachId = coach.coachId;
     }
     view.buttonAction = ^(NSString *number) {
-        [[HHStudentService sharedInstance] getPhoneNumber:number coachId:coachId schoolId:nil fieldId:field.fieldId eventType:@(5) eventData:@{@"driving_school_id":[coach getCoachDrivingSchool].schoolId, @"field_id":field.fieldId, @"coach_id":coach.coachId} completion:^(NSError *error) {
+        NSMutableDictionary *eventData = [NSMutableDictionary dictionary];
+        NSNumber *schoolId;
+        if (coach) {
+            schoolId = [coach getCoachDrivingSchool].schoolId;
+            eventData[@"driving_school_id"] = schoolId;
+            eventData[@"coach_id"] = coach.coachId;
+        }
+        eventData[@"field_id"] = field.fieldId;
+        [[HHStudentService sharedInstance] getPhoneNumber:number coachId:coachId schoolId:nil fieldId:field.fieldId eventType:@(5) eventData:eventData completion:^(NSError *error) {
             if (error) {
                 [[HHToastManager sharedManager] showErrorToastWithText:@"提交失败, 请重试!"];
             } else {
